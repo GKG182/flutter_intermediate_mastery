@@ -1,0 +1,1414 @@
+<!-- project-counter-app-pro.html -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project: Counter App Pro – Module 1 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a professional counter app with Riverpod state management. Learn StatefulWidget, setState, and Riverpod basics." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== PROJECT-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .project-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .project-header .project-type {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .project-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .project-header .project-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .requirement-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1.25rem 0;
+    }
+    .requirement-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #F59E0B;
+    }
+    .requirement-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .requirement-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .solution-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1.25rem 0;
+    }
+    .solution-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #10B981;
+    }
+    .solution-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .solution-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .explanation-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .explanation-item .exp-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .explanation-item .exp-text {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .explanation-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+    }
+    /* ===== COPY BUTTON STYLES ===== */
+    .code-block {
+        position: relative;
+    }
+    .copy-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 0.3rem 0.6rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Inter', sans-serif;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+    }
+    .copy-btn.copied {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.3);
+        color: #10B981;
+    }
+    .copy-btn i {
+        font-size: 0.7rem;
+    }
+    .code-block .code-label {
+        position: absolute;
+        top: -0.5rem;
+        right: 5rem; /* Make room for copy button */
+        background: #1e1e2e;
+        padding: 0 0.5rem;
+        font-size: var(--font-xs);
+        color: rgba(255, 255, 255, 0.4);
+        font-family: 'Inter', sans-serif;
+        z-index: 5;
+    }
+    /* Dark mode adjustments */
+    [data-theme="dark"] .copy-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+    [data-theme="dark"] .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this project as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== PROJECT CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../../module1-topic1-why-state-management.html">Module 1</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project 1</span>
+</div>
+<span class="module-badge"><i class="fas fa-code"></i> Project</span>
+</div>
+<!-- Project Header -->
+<div class="project-header">
+<div class="project-type">📱 Project 1</div>
+<h1>Counter App Pro</h1>
+<p class="project-subtitle">
+            Build a professional counter app with increment, decrement, reset, and step control using Riverpod state management.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/interactivity" target="_blank">
+<i class="fas fa-book"></i> Flutter Docs – Interactivity
+            </a>
+<a class="doc-badge" href="https://riverpod.dev" target="_blank">
+<i class="fas fa-globe"></i> Riverpod
+            </a>
+</div>
+</div>
+<!-- ===== REQUIREMENTS ===== -->
+<div class="section-divider">
+<span class="divider-label">📋 Requirements</span>
+<span class="divider-line"></span>
+</div>
+<div class="requirement-box">
+<h4>What You'll Build</h4>
+<ul>
+<li>A counter app with <strong>increment</strong> and <strong>decrement</strong> buttons</li>
+<li>A <strong>reset</strong> button to set the counter to zero</li>
+<li>A <strong>step size</strong> controller (increase/decrease by 1, 5, or 10)</li>
+<li><strong>Min/Max limits</strong> – counter cannot go below 0 or above 100</li>
+<li><strong>History tracking</strong> – show the last 5 values</li>
+<li>A <strong>visual progress bar</strong> showing the counter value</li>
+</ul>
+</div>
+<div class="requirement-box" style="border-left-color: #3B82F6;">
+<h4>Learning Objectives</h4>
+<ul>
+<li>Understand <code>StatefulWidget</code> and <code>setState()</code></li>
+<li>Learn <code>StateProvider</code> in Riverpod</li>
+<li>Practice reading and updating state</li>
+<li>Handle user input and validation</li>
+<li>Build a clean, responsive UI</li>
+</ul>
+</div>
+<!-- ===== SOLUTION ===== -->
+<div class="section-divider">
+<span class="divider-label">💻 Complete Solution</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block collapsed" style="padding-top: 2.5rem !important;">
+<span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">lib/main.dart – Complete Counter App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 1. PROVIDERS</span>
+<span class="comment">// ==========================================</span>
+<span class="comment">// Counter state provider</span>
+<span class="keyword">final</span> counterProvider = StateProvider&lt;int&gt;((ref) =&gt; <span class="number">0</span>);
+
+<span class="comment">// Step size provider</span>
+<span class="keyword">final</span> stepProvider = StateProvider&lt;int&gt;((ref) =&gt; <span class="number">1</span>);
+
+<span class="comment">// History provider (list of last 5 values)</span>
+<span class="keyword">final</span> historyProvider = StateProvider&lt;List&lt;int&gt;&gt;((ref) =&gt; []);
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 2. NOTIFIER CLASS WITH BUSINESS LOGIC</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">CounterNotifier</span> {
+  <span class="keyword">final</span> WidgetRef ref;
+
+  CounterNotifier(<span class="keyword">this</span>.ref);
+
+  <span class="comment">// Constants</span>
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> minValue = <span class="number">0</span>;
+  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> maxValue = <span class="number">100</span>;
+  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> maxHistory = <span class="number">5</span>;
+
+  <span class="comment">// Increment</span>
+<span class="keyword">void</span> <span class="function">increment</span>() {
+    <span class="keyword">final</span> current = ref.read(counterProvider);
+    <span class="keyword">final</span> step = ref.read(stepProvider);
+
+    <span class="keyword">if</span> (current + step &lt;= maxValue) {
+      <span class="keyword">final</span> newValue = current + step;
+      ref.read(counterProvider.notifier).state = newValue;
+      _addToHistory(newValue);
+    }
+  }
+
+  <span class="comment">// Decrement</span>
+<span class="keyword">void</span> <span class="function">decrement</span>() {
+    <span class="keyword">final</span> current = ref.read(counterProvider);
+    <span class="keyword">final</span> step = ref.read(stepProvider);
+
+    <span class="keyword">if</span> (current - step &gt;= minValue) {
+      <span class="keyword">final</span> newValue = current - step;
+      ref.read(counterProvider.notifier).state = newValue;
+      _addToHistory(newValue);
+    }
+  }
+
+  <span class="comment">// Reset</span>
+<span class="keyword">void</span> <span class="function">reset</span>() {
+    ref.read(counterProvider.notifier).state = <span class="number">0</span>;
+    _addToHistory(<span class="number">0</span>);
+  }
+
+  <span class="comment">// Set step</span>
+<span class="keyword">void</span> <span class="function">setStep</span>(<span class="keyword">int</span> step) {
+    ref.read(stepProvider.notifier).state = step;
+  }
+
+  <span class="comment">// Add to history</span>
+<span class="keyword">void</span> <span class="function">_addToHistory</span>(<span class="keyword">int</span> value) {
+    <span class="keyword">final</span> history = ref.read(historyProvider);
+    <span class="keyword">final</span> newHistory = [value, ...history];
+    <span class="keyword">if</span> (newHistory.length &gt; maxHistory) {
+      newHistory.removeLast();
+    }
+    ref.read(historyProvider.notifier).state = newHistory;
+  }
+
+  <span class="comment">// Get progress percentage</span>
+<span class="keyword">double</span> <span class="function">getProgress</span>(<span class="keyword">int</span> value) {
+    <span class="keyword">return</span> value / maxValue;
+  }
+}
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 3. UI WIDGETS</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">void</span> <span class="function">main</span>() {
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+<span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">return</span> MaterialApp(
+      title: <span class="string">'Counter App Pro'</span>,
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        useMaterial3: <span class="keyword">true</span>,
+      ),
+      home: CounterScreen(),
+    );
+  }
+}
+
+<span class="keyword">class</span> <span class="function">CounterScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+  @override
+  Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+    <span class="keyword">final</span> counter = ref.watch(counterProvider);
+    <span class="keyword">final</span> step = ref.watch(stepProvider);
+    <span class="keyword">final</span> history = ref.watch(historyProvider);
+    <span class="keyword">final</span> notifier = CounterNotifier(ref);
+
+    <span class="keyword">return</span> Scaffold(
+      appBar: AppBar(
+        title: Text(<span class="string">'Counter App Pro'</span>),
+        centerTitle: <span class="keyword">true</span>,
+        elevation: <span class="number">0</span>,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(<span class="number">24</span>),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            <span class="comment">// Counter Display</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">32</span>),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.purple.shade400, Colors.purple.shade700],
+                ),
+                borderRadius: BorderRadius.circular(<span class="number">16</span>),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    <span class="string">'$counter'</span>,
+                    style: TextStyle(
+                      fontSize: <span class="number">72</span>,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: <span class="number">8</span>),
+                  Text(
+                    <span class="string">'Min: ${CounterNotifier.minValue}  |  Max: ${CounterNotifier.maxValue}'</span>,
+                    style: TextStyle(color: Colors.white70, fontSize: <span class="number">14</span>),
+                  ),
+                  SizedBox(height: <span class="number">12</span>),
+                  <span class="comment">// Progress Bar</span>
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                    child: LinearProgressIndicator(
+                      value: notifier.getProgress(counter),
+                      minHeight: <span class="number">8</span>,
+                      backgroundColor: Colors.white24,
+                      valueColor: AlwaysStoppedAnimation&lt;Color&gt;(Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: <span class="number">24</span>),
+
+            <span class="comment">// Step Selector</span>
+            Text(
+              <span class="string">'Step Size: $step'</span>,
+              style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: <span class="number">8</span>),
+            Row(
+              children: [
+                _StepButton(label: <span class="string">'1'</span>, value: <span class="number">1</span>, current: step, onTap: notifier.setStep),
+                _StepButton(label: <span class="string">'5'</span>, value: <span class="number">5</span>, current: step, onTap: notifier.setStep),
+                _StepButton(label: <span class="string">'10'</span>, value: <span class="number">10</span>, current: step, onTap: notifier.setStep),
+              ],
+            ),
+
+            SizedBox(height: <span class="number">24</span>),
+
+            <span class="comment">// Control Buttons</span>
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: notifier.decrement,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                      backgroundColor: Colors.red.shade400,
+                    ),
+                    child: Icon(Icons.remove, size: <span class="number">32</span>),
+                  ),
+                ),
+                SizedBox(width: <span class="number">12</span>),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: notifier.reset,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                      backgroundColor: Colors.grey.shade600,
+                    ),
+                    child: Icon(Icons.refresh, size: <span class="number">28</span>),
+                  ),
+                ),
+                SizedBox(width: <span class="number">12</span>),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: notifier.increment,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                      backgroundColor: Colors.green.shade400,
+                    ),
+                    child: Icon(Icons.add, size: <span class="number">32</span>),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: <span class="number">24</span>),
+
+            <span class="comment">// History</span>
+<text( <span="" class="string">'📊 History',
+              style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: <span class="number">8</span>),
+            Container(
+              padding: EdgeInsets.all(<span class="number">12</span>),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(<span class="number">8</span>),
+              ),
+              child: history.isEmpty
+                  ? Text(
+                      <span class="string">'No history yet'</span>,
+                      style: TextStyle(color: Colors.grey.shade500),
+                    )
+                  : Wrap(
+                      spacing: <span class="number">8</span>,
+                      runSpacing: <span class="number">4</span>,
+                      children: history.map((value) {
+                        <span class="keyword">return</span> Chip(
+                          label: Text(<span class="string">'$value'</span>),
+                          backgroundColor: Colors.purple.shade50,
+                        );
+                      }).toList(),
+                    ),
+            ),
+
+            SizedBox(height: <span class="number">16</span>),
+
+            <span class="comment">// Status Info</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">12</span>),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(<span class="number">8</span>),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _StatusItem(
+                    label: <span class="string">'Current'</span>,
+                    value: counter.toString(),
+                  ),
+                  _StatusItem(
+                    label: <span class="string">'Step'</span>,
+                    value: step.toString(),
+                  ),
+                  _StatusItem(
+                    label: <span class="string">'History'</span>,
+                    value: history.length.toString(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 4. HELPER WIDGETS</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">_StepButton</span> <span class="keyword">extends</span> StatelessWidget {
+  <span class="keyword">final</span> String label;
+  <span class="keyword">final</span> <span class="keyword">int</span> value;
+  <span class="keyword">final</span> <span class="keyword">int</span> current;
+  <span class="keyword">final</span> <span class="keyword">void</span> Function(<span class="keyword">int</span>) onTap;
+
+  <span class="keyword">const</span> _StepButton({
+    <span class="keyword">required</span> <span class="keyword">this</span>.label,
+    <span class="keyword">required</span> <span class="keyword">this</span>.value,
+    <span class="keyword">required</span> <span class="keyword">this</span>.current,
+    <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
+  });
+
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">final</span> isSelected = value == current;
+    <span class="keyword">return</span> Expanded(
+      child: GestureDetector(
+        onTap: () =&gt; onTap(value),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: <span class="number">12</span>),
+          margin: EdgeInsets.only(right: <span class="number">8</span>),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.purple : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(<span class="number">8</span>),
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: isSelected ? Colors.white : Colors.black87,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+<span class="keyword">class</span> <span class="function">_StatusItem</span> <span class="keyword">extends</span> StatelessWidget {
+  <span class="keyword">final</span> String label;
+  <span class="keyword">final</span> String value;
+
+  <span class="keyword">const</span> _StatusItem({<span class="keyword">required</span> <span class="keyword">this</span>.label, <span class="keyword">required</span> <span class="keyword">this</span>.value});
+
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">return</span> Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey.shade600),
+        ),
+      ],
+    );
+  }
+}
+          </text(></code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<!-- ===== EXPLANATION ===== -->
+<div class="section-divider">
+<span class="divider-label">📖 How This Solution Works</span>
+<span class="divider-line"></span>
+</div>
+<div class="solution-box">
+<h4>Step-by-Step Explanation</h4>
+<ul>
+<li><strong>1. Providers</strong> – Three providers manage the counter value, step size, and history list.</li>
+<li><strong>2. CounterNotifier</strong> – Contains all business logic: increment, decrement, reset, and history management.</li>
+<li><strong>3. Min/Max Limits</strong> – Counter is constrained between 0 and 100 with validation.</li>
+<li><strong>4. Step Control</strong> – Users can change the step size (1, 5, or 10) which affects increment/decrement.</li>
+<li><strong>5. History</strong> – The last 5 values are tracked and displayed as chips.</li>
+<li><strong>6. Progress Bar</strong> – Visual indicator showing how close the counter is to the maximum value.</li>
+<li><strong>7. UI Layout</strong> – Clean, responsive design with a gradient counter display and status indicators.</li>
+</ul>
+</div>
+<div class="explanation-grid">
+<div class="explanation-item">
+<div class="exp-number">Provider</div>
+<div class="exp-text">Three StateProviders manage counter, step, and history. This keeps the state separate from the UI.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Notifier Pattern</div>
+<div class="exp-text">The CounterNotifier class contains all business logic, making it easy to test and maintain.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Immutability</div>
+<div class="exp-text">Each state update creates a new value. History is created as a new list with the spread operator.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Validation</div>
+<div class="exp-text">Min/max limits are enforced before updating the counter, preventing invalid states.</div>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway" style="background: var(--primary-gradient); color: white; border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0; text-align: center;">
+<h3 style="color: white; margin-bottom: 0.25rem; font-size: var(--font-xl);">🎯 Key Takeaway</h3>
+<p style="color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto; font-size: var(--font-sm);">
+            This project demonstrates how to use <code>StateProvider</code> with a separate notifier class
+            to manage complex state logic. The separation of concerns makes the code testable,
+            maintainable, and easy to extend.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="../../module1-topic1-why-state-management.html">
+<i class="fas fa-arrow-left"></i> Back to Module 1
+          </a>
+<a class="btn btn-primary btn-sm" href="project-task-manager.html">
+            Next: Task Manager <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../module1-topic1-why-state-management.html">Module 1</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/interactivity" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a> &amp; <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">Riverpod</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-counter-app-pro';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  
+    
+    // Copy button functionality
+
+    // ==========================================
+    // COPY BUTTON FUNCTIONALITY
+    // ==========================================
+    
+    function setupCopyButtons() {
+        document.querySelectorAll('.code-block').forEach(function(block) {
+            // Check if copy button already exists
+            if (block.querySelector('.copy-btn')) return;
+            
+            // Get the code element
+            var code = block.querySelector('code');
+            if (!code) return;
+            
+            // Ensure code has proper padding
+            code.style.display = 'block';
+            code.style.paddingTop = '0.5rem';
+            
+            // Create copy button
+            var btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.setAttribute('type', 'button');
+            
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var text = code.textContent;
+                
+                // Use modern clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        showCopiedFeedback(btn);
+                    }).catch(function() {
+                        fallbackCopy(text, btn);
+                    });
+                } else {
+                    fallbackCopy(text, btn);
+                }
+            });
+            
+            block.appendChild(btn);
+            
+            // Fix code label visibility
+            var label = block.querySelector('.code-label');
+            if (label) {
+                label.style.position = 'absolute';
+                label.style.top = '0.4rem';
+                label.style.left = '0.75rem';
+                label.style.background = 'rgba(255, 255, 255, 0.06)';
+                label.style.padding = '0.2rem 0.75rem';
+                label.style.fontSize = '0.7rem';
+                label.style.color = 'rgba(255, 255, 255, 0.5)';
+                label.style.fontFamily = "'Inter', sans-serif";
+                label.style.borderRadius = '4px';
+                label.style.border = '1px solid rgba(255, 255, 255, 0.06)';
+                label.style.zIndex = '5';
+                label.style.letterSpacing = '0.02em';
+            }
+        });
+    }
+    
+    function fallbackCopy(text, btn) {
+        // Fallback for older browsers
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showCopiedFeedback(btn);
+        } catch (e) {
+            console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+    }
+    
+    function showCopiedFeedback(btn) {
+        var originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+    
+    // Run on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupCopyButtons);
+    } else {
+        setupCopyButtons();
+    }
+    
+    // Also run after sidebar loads (if applicable)
+    if (window.courseSidebar) {
+        var observer = new MutationObserver(function() {
+            setupCopyButtons();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

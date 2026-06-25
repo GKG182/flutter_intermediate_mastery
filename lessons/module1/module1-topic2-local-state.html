@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Local State – Module 1 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to manage local (ephemeral) state in Flutter using StatefulWidget and setState(). Understand when to use local state vs app state." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    /* Lesson Navigation */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    /* Topic Header */
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    /* Doc Badge */
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    /* Section Dividers */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    /* Concept Cards */
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    /* Code Blocks - VS Code Theme */
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    /* VS Code-inspired syntax colors */
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .variable { color: #cdd6f4; }
+    .code-block .class { color: #f9e2af; }
+    /* Comparison Grid */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    /* Lifecycle Grid */
+    .lifecycle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .lifecycle-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .lifecycle-item:hover {
+      border-color: var(--primary-light);
+    }
+    .lifecycle-item .lifecycle-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+    .lifecycle-item .lifecycle-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .lifecycle-item .lifecycle-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    /* Key Takeaway */
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    /* Mistake / Good Boxes */
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    /* Mark Complete Button */
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    /* Section spacing */
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    /* Step explanation */
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+      .lifecycle-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .lifecycle-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a module1-topic1-why-state-management.html"="">Module 1</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 2</span>
+</div>
+<span class="module-badge"><i class="fas fa-book-open"></i> Module 1</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 2</div>
+<h1>Local State</h1>
+<p class="topic-subtitle">
+            Managing ephemeral state with StatefulWidget and setState() — the foundation of interactive Flutter apps.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/interactivity" target="_blank">
+<i class="fas fa-book"></i> Flutter Docs – Interactivity &amp; State
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/ephemeral-vs-app" target="_blank">
+<i class="fas fa-book"></i> Ephemeral vs App State
+            </a>
+<a class="doc-badge" href="https://www.youtube.com/@flutterdev" target="_blank">
+<i class="fab fa-youtube"></i> Flutter Dev – Widget State Explained
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: RECAP ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Recap: What Is Local State?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            In the previous topic, we learned that state can be split into two types: <strong>ephemeral state</strong>
+            (also called local or UI state) and <strong>app state</strong>.
+          </p>
+<div class="concept-card">
+<h4>📦 Local (Ephemeral) State</h4>
+<p>
+<strong>Local state</strong> is state that is <em>neatly contained in a single widget</em> and doesn't
+              need to be shared with other parts of your app. It's temporary, local to a specific widget subtree,
+              and doesn't need to be persisted across app restarts.
+            </p>
+<ul>
+<li>✓ Managed with <code>StatefulWidget</code> and <code>setState()</code></li>
+<li>✓ Perfect for UI interactions like toggles, animations, and form inputs</li>
+<li>✓ No need for complex state management solutions</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: STATEFULWIDGET ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">StatefulWidget: The Container for Local State</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A <code>StatefulWidget</code> is a widget that can <strong>change its appearance</strong> in response to
+            events triggered by user interactions or data changes. It does this by maintaining a separate
+            <code>State</code> object that holds the mutable state.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">The Anatomy of a StatefulWidget</span>
+<code>
+<span class="comment">// 1. The StatefulWidget class (immutable)</span>
+<span class="keyword">class</span> <span class="function">CounterWidget</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">const</span> CounterWidget({super.key});
+
+    @override
+    State&lt;CounterWidget&gt; <span class="function">createState</span>() =&gt; _CounterWidgetState();
+  }
+
+  <span class="comment">// 2. The State class (mutable — holds the state)</span>
+<span class="keyword">class</span> _CounterWidgetState <span class="keyword">extends</span> State&lt;CounterWidget&gt; {
+    <span class="keyword">int</span> _count = <span class="number">0</span>; <span class="comment">// 👈 This is the local state</span>
+<span class="keyword">void</span> <span class="function">_increment</span>() {
+      setState(() {
+        _count++; <span class="comment">// 👈 Changing state inside setState</span>
+      });
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Row(
+        children: [
+          Text(<span class="string">'$_count'</span>),
+          ElevatedButton(
+            onPressed: _increment,
+            child: Text(<span class="string">'Add'</span>),
+          ),
+        ],
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Two Classes, One Purpose</h4>
+<p>
+              Every <code>StatefulWidget</code> comes in two parts: the <strong>widget class</strong> (immutable, defines
+              the configuration) and the <strong>state class</strong> (mutable, holds the state and builds the UI).
+              The framework manages the state object and calls <code>build()</code> whenever the state changes.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 3: SETSTATE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">setState(): The Heart of Local State</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>setState()</code> is the method you call to tell the framework that the state of your widget has changed.
+            When you call <code>setState()</code>, two things happen:
+          </p>
+<ul>
+<li><strong>1.</strong> The code inside the callback runs (where you update your state variables)</li>
+<li><strong>2.</strong> The framework schedules a rebuild of the widget (calls <code>build()</code> again)</li>
+</ul>
+<div class="concept-card warning">
+<h4>⚠️ Critical Rule</h4>
+<p>
+<strong>Only call <code>setState()</code> inside the State class.</strong> Never call it from outside the State class.
+              Also, <strong>never call <code>setState()</code> in <code>initState()</code> or <code>build()</code></strong>
+              — this will cause infinite rebuild loops.
+            </p>
+</div>
+<h3>How setState() Works</h3>
+<div class="concept-card info">
+<h4>🔄 The Rebuild Flow</h4>
+<ul>
+<li><strong>User interaction</strong> triggers an event (e.g., button tap)</li>
+<li>Event handler calls <code>setState()</code> with a callback</li>
+<li><strong>Inside the callback:</strong> you update the state variables</li>
+<li><strong>After the callback:</strong> the framework marks the widget as "dirty"</li>
+<li><strong>Next frame:</strong> the framework calls <code>build()</code> to rebuild the widget with the new state</li>
+<li><strong>UI updates</strong> to reflect the new state</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 4: FULL EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complete Example: A Simple Counter</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Let's look at a complete, runnable example of a counter app that uses local state.
+            This is the classic "Hello World" of state management.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Full Counter App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() =&gt; runApp(<span class="function">MyApp</span>());
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        home: <span class="function">CounterScreen</span>(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">CounterScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;CounterScreen&gt; <span class="function">createState</span>() =&gt; _CounterScreenState();
+  }
+
+  <span class="keyword">class</span> _CounterScreenState <span class="keyword">extends</span> State&lt;CounterScreen&gt; {
+    <span class="keyword">int</span> _counter = <span class="number">0</span>; <span class="comment">// 👈 Local state</span>
+<span class="keyword">void</span> <span class="function">_incrementCounter</span>() {
+      setState(() {
+        _counter++; <span class="comment">// Update the state</span>
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_decrementCounter</span>() {
+      setState(() {
+        <span class="keyword">if</span> (_counter &gt; <span class="number">0</span>) _counter--;
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_resetCounter</span>() {
+      setState(() {
+        _counter = <span class="number">0</span>;
+      });
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Counter App Pro'</span>)),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(<span class="string">'You have pushed the button:'</span>),
+              Text(
+                <span class="string">'$_counter'</span>,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: _incrementCounter,
+                    child: Text(<span class="string">'Increment'</span>),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  ElevatedButton(
+                    onPressed: _decrementCounter,
+                    child: Text(<span class="string">'Decrement'</span>),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  ElevatedButton(
+                    onPressed: _resetCounter,
+                    child: Text(<span class="string">'Reset'</span>),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>The StatefulWidget class</strong> – <code>CounterScreen</code> extends <code>StatefulWidget</code>.
+                It's the immutable configuration of the widget.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>createState()</strong> – This method returns the state object (<code>_CounterScreenState</code>)
+                that will manage the mutable state for this widget.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>The State class</strong> – <code>_CounterScreenState</code> holds the mutable state.
+                The underscore (<code>_</code>) makes it private to the library.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>State field</strong> – <code>_counter</code> is the local state. It's initialized to 0 and
+                changed only inside <code>setState()</code> callbacks.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Event handlers</strong> – <code>_incrementCounter</code>, <code>_decrementCounter</code>,
+                and <code>_resetCounter</code> wrap their state changes in <code>setState()</code>.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>build() method</strong> – Uses <code>_counter</code> to display the current count.
+                When <code>setState()</code> is called, this method is re‑executed with the updated <code>_counter</code> value.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 6: LIFECYCLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">The Lifecycle of a StatefulWidget</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Understanding the lifecycle of a <code>StatefulWidget</code> is crucial for managing resources
+            and avoiding bugs. Here are the most important lifecycle methods:
+          </p>
+<div class="lifecycle-grid">
+<div class="lifecycle-item">
+<div class="lifecycle-icon">🔄</div>
+<div class="lifecycle-name">createState()</div>
+<div class="lifecycle-desc">Called when the widget is inserted into the tree</div>
+</div>
+<div class="lifecycle-item">
+<div class="lifecycle-icon">🚀</div>
+<div class="lifecycle-name">initState()</div>
+<div class="lifecycle-desc">Called once when the state object is created</div>
+</div>
+<div class="lifecycle-item">
+<div class="lifecycle-icon">📦</div>
+<div class="lifecycle-name">didChangeDependencies()</div>
+<div class="lifecycle-desc">Called when dependencies change</div>
+</div>
+<div class="lifecycle-item">
+<div class="lifecycle-icon">🖌️</div>
+<div class="lifecycle-name">build()</div>
+<div class="lifecycle-desc">Called every time the widget needs to rebuild</div>
+</div>
+<div class="lifecycle-item">
+<div class="lifecycle-icon">♻️</div>
+<div class="lifecycle-name">didUpdateWidget()</div>
+<div class="lifecycle-desc">Called when parent widget rebuilds with new config</div>
+</div>
+<div class="lifecycle-item">
+<div class="lifecycle-icon">🗑️</div>
+<div class="lifecycle-name">dispose()</div>
+<div class="lifecycle-desc">Called when the state object is removed from the tree</div>
+</div>
+</div>
+<div class="concept-card warning">
+<h4>⚠️ Important: initState() and dispose()</h4>
+<p>
+<strong>Always override <code>initState()</code> and <code>dispose()</code> in pairs.</strong>
+              Use <code>initState()</code> to initialize controllers, listeners, or animations.
+              Use <code>dispose()</code> to clean them up and prevent memory leaks.
+              <strong>Never call <code>setState()</code> in <code>initState()</code></strong> — the widget hasn't been built yet.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Calling setState() outside the State class</div>
+<p>
+              You cannot call <code>setState()</code> from outside the State class. Keep all state logic inside the State class.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Call setState() inside the State class</div>
+<p>
+              All state changes should be triggered from within the State class, typically in event handlers.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Using setState() for app-wide state</div>
+<p>
+              If multiple widgets need access to the same data, that's <strong>app state</strong>, not local state.
+              Using <code>setState()</code> for app state leads to prop drilling and hard-to-maintain code.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use state management for app state</div>
+<p>
+              For state that needs to be shared across widgets, use a state management solution like Riverpod,
+              Provider, or BLoC. We'll cover this in later topics.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Calling setState() in initState() or build()</div>
+<p>
+              This causes an infinite rebuild loop. The widget rebuilds, which triggers <code>setState()</code>,
+              which triggers another rebuild, and so on.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use initState() for initialization, not state changes</div>
+<p>
+              Use <code>initState()</code> to initialize controllers, streams, or animations. Use event handlers
+              (like button callbacks) to call <code>setState()</code>.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 8: WHEN TO USE LOCAL STATE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">When to Use Local State vs App State</span>
+<span class="divider-line"></span>
+</div>
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: var(--primary);">✅ Use Local State When</h4>
+<ul>
+<li>The state is only needed within a single widget</li>
+<li>No other widget needs to know about the state</li>
+<li>The state is temporary (e.g., animation progress, toggle state)</li>
+<li>You don't need to persist the state between sessions</li>
+</ul>
+<p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
+<strong>Example:</strong> Checkbox state, TabController index, TextField input
+              </p>
+</div>
+<div class="compare-item">
+<h4 style="color: var(--secondary);">🔀 Use App State When</h4>
+<ul>
+<li>Multiple widgets need access to the same data</li>
+<li>State needs to be persisted across sessions</li>
+<li>State changes need to update multiple parts of the UI</li>
+<li>The state is complex and requires structured management</li>
+</ul>
+<p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
+<strong>Example:</strong> User authentication, shopping cart, app settings
+              </p>
+</div>
+</div>
+<div class="concept-card success">
+<h4>💡 Pro Tip: Start with Local State, Evolve When Needed</h4>
+<p>
+              It's perfectly fine to start with <code>StatefulWidget</code> and <code>setState()</code>.
+              When you find yourself passing callbacks down multiple levels or duplicating state, it's time to
+              consider a state management solution. <strong>Don't over-engineer prematurely.</strong>
+</p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Local state is managed with <code>StatefulWidget</code> and <code>setState()</code>.
+            It's perfect for UI interactions that don't need to be shared across widgets.
+            Use it for what it's good for, and reach for a state management solution when your app grows.
+            <strong>When in doubt, ask: "Does another widget need to know about this state?"</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module1-topic1-why-state-management.html">
+<i class="fas fa-arrow-left"></i> Previous: Why State Management
+          </a>
+<a class="btn btn-primary btn-sm" href="module1-topic3-global-state.html">
+            Next: Global State <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a module1-topic1-why-state-management.html"="">Getting Started</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/interactivity" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module1-topic2-local-state';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+
+        // Update sidebar if available
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

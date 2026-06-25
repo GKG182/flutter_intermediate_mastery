@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Location Tracker – Module 4 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a Live Location Tracker using Supabase Realtime and Google Maps in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.hard {
+      background: rgba(239, 68, 68, 0.12);
+      color: #EF4444;
+    }
+    .difficulty-badge .supabase-tag {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.12);
+      color: #3B82F6;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 8000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+    .code-block .built-in { color: #f9e2af; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 4 · Challenge 4
+            </span>
+</div>
+<div class="challenge-header">
+<h1>Live Location Tracker</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge hard">Hard</span></span>
+<span class="meta-item"><strong>Module:</strong> Supabase</span>
+<span class="meta-item"><strong>Concepts:</strong> Geolocation, Google Maps, Supabase Realtime, Privacy Controls</span>
+<span class="meta-item"><strong>Est. Time:</strong> 60-75 min</span>
+<span class="meta-item"><span class="supabase-tag">🗄️ Supabase</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build a <strong>Live Location Tracker</strong> app where users can share their
+              real-time location with friends and see live updates on a map. This challenge
+              combines Google Maps integration, Supabase Realtime, and privacy controls.
+            </p>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Use <strong>Supabase Auth</strong> for user authentication</li>
+<li>Use <strong>Google Maps Flutter</strong> for map display</li>
+<li>Use <strong>Geolocator</strong> for device location</li>
+<li>Create a <strong>locations</strong> table with <code>user_id</code>, <code>latitude</code>, <code>longitude</code>, <code>timestamp</code>, <code>is_sharing</code></li>
+<li>Enable <strong>Realtime</strong> on the locations table</li>
+<li>Show <strong>all active users</strong> on the map with custom markers</li>
+<li>Update locations <strong>in real-time</strong> as users move</li>
+<li>Add <strong>privacy controls</strong> to toggle location sharing on/off</li>
+<li>Show <strong>user avatars</strong> on markers with online status</li>
+<li>Display <strong>distance</strong> between users</li>
+<li>Add <strong>friend list</strong> showing who is online and sharing</li>
+<li>Handle <strong>permissions</strong> gracefully</li>
+</ul>
+</div>
+<div class="api-box">
+<h4>🗄️ Supabase Setup</h4>
+<p><strong>Tables needed:</strong></p>
+<ul style="color: var(--text-secondary); font-size: var(--font-sm);">
+<li><code>locations</code> (user_id, latitude, longitude, timestamp, is_sharing, last_updated)</li>
+<li><code>friends</code> (user_id, friend_id, status, created_at)</li>
+</ul>
+<div class="api-note">
+                💡 <strong>Note:</strong> Enable Realtime on the locations table and set up RLS policies.
+              </div>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://pub.dev/packages/google_maps_flutter" target="_blank">Google Maps Flutter</a></li>
+<li><a href="https://pub.dev/packages/geolocator" target="_blank">Geolocator</a></li>
+<li><a href="https://supabase.com/docs/guides/realtime" target="_blank">Supabase Realtime Docs</a></li>
+<li><a href="https://supabase.com/docs/guides/auth/row-level-security" target="_blank">Row Level Security</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Use <code>Geolocator.getPositionStream()</code> to listen to location updates.
+                  Use <code>supabase.from('locations').upsert()</code> to update the user's location.
+                  Create a marker for each user with a custom icon showing their avatar.
+                  Use <code>computeDistanceBetween()</code> from the maps package to calculate distances.
+                  Handle location permissions with <code>Geolocator.requestPermission()</code>.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    supabase_flutter: ^2.14.0
+    google_maps_flutter: ^2.5.0
+    geolocator: ^10.1.0
+    intl: ^0.18.1
+
+  dev_dependencies:
+    flutter_test:
+      sdk: flutter
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. SQL Schema (supabase/migrations/location_tracker.sql)</h4>
+<div class="code-block">
+<span class="code-label">supabase/migrations/location_tracker.sql</span>
+<code>
+<span class="comment">-- Create locations table</span>
+  CREATE TABLE locations (
+    user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    timestamp TIMESTAMPTZ DEFAULT NOW(),
+    is_sharing BOOLEAN DEFAULT true,
+    last_updated TIMESTAMPTZ DEFAULT NOW()
+  );
+
+  <span class="comment">-- Create friends table</span>
+  CREATE TABLE friends (
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    friend_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (user_id, friend_id)
+  );
+
+  <span class="comment">-- Enable Row Level Security</span>
+  ALTER TABLE locations ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE friends ENABLE ROW LEVEL SECURITY;
+
+  <span class="comment">-- Locations policies</span>
+  CREATE POLICY "Users can see all locations"
+    ON locations FOR SELECT
+    USING (true);
+
+  CREATE POLICY "Users can update their own location"
+    ON locations FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+  CREATE POLICY "Users can update their own location"
+    ON locations FOR UPDATE
+    USING (auth.uid() = user_id);
+
+  <span class="comment">-- Friends policies</span>
+  CREATE POLICY "Users can see their friends"
+    ON friends FOR SELECT
+    USING (auth.uid() = user_id OR auth.uid() = friend_id);
+
+  CREATE POLICY "Users can add friends"
+    ON friends FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+  <span class="comment">-- Enable Realtime</span>
+  ALTER TABLE locations REPLICA IDENTITY FULL;
+  ALTER PUBLICATION supabase_realtime ADD TABLE locations;
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. Location Model (lib/models/location.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/location.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">UserLocation</span> {
+    <span class="keyword">final</span> String userId;
+    <span class="keyword">final</span> <span class="keyword">double</span> latitude;
+    <span class="keyword">final</span> <span class="keyword">double</span> longitude;
+    <span class="keyword">final</span> DateTime timestamp;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isSharing;
+    <span class="keyword">final</span> DateTime lastUpdated;
+    <span class="keyword">final</span> String? username;
+
+    <span class="function">UserLocation</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.userId,
+      <span class="keyword">required</span> <span class="keyword">this</span>.latitude,
+      <span class="keyword">required</span> <span class="keyword">this</span>.longitude,
+      <span class="keyword">required</span> <span class="keyword">this</span>.timestamp,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isSharing,
+      <span class="keyword">required</span> <span class="keyword">this</span>.lastUpdated,
+      <span class="keyword">this</span>.username,
+    });
+
+    <span class="keyword">factory</span> UserLocation.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json, {String? username}) {
+      <span class="keyword">return</span> UserLocation(
+        userId: json[<span class="string">'user_id'</span>],
+        latitude: json[<span class="string">'latitude'</span>],
+        longitude: json[<span class="string">'longitude'</span>],
+        timestamp: DateTime.<span class="function">parse</span>(json[<span class="string">'timestamp'</span>]),
+        isSharing: json[<span class="string">'is_sharing'</span>],
+        lastUpdated: DateTime.<span class="function">parse</span>(json[<span class="string">'last_updated'</span>]),
+        username: username,
+      );
+    }
+
+    Map&lt;String, dynamic&gt; <span class="function">toInsertJson</span>() {
+      <span class="keyword">return</span> {
+        <span class="string">'user_id'</span>: userId,
+        <span class="string">'latitude'</span>: latitude,
+        <span class="string">'longitude'</span>: longitude,
+        <span class="string">'timestamp'</span>: timestamp.<span class="function">toIso8601String</span>(),
+        <span class="string">'is_sharing'</span>: isSharing,
+        <span class="string">'last_updated'</span>: lastUpdated.<span class="function">toIso8601String</span>(),
+      };
+    }
+
+    Map&lt;String, dynamic&gt; <span class="function">toUpdateJson</span>() {
+      <span class="keyword">return</span> {
+        <span class="string">'latitude'</span>: latitude,
+        <span class="string">'longitude'</span>: longitude,
+        <span class="string">'timestamp'</span>: timestamp.<span class="function">toIso8601String</span>(),
+        <span class="string">'is_sharing'</span>: isSharing,
+        <span class="string">'last_updated'</span>: lastUpdated.<span class="function">toIso8601String</span>(),
+      };
+    }
+
+    <span class="keyword">bool</span> <span class="function">isActive</span>() {
+      <span class="keyword">return</span> isSharing &amp;&amp; DateTime.<span class="function">now</span>().<span class="function">difference</span>(lastUpdated).inMinutes &lt; <span class="number">5</span>;
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Location Provider (lib/providers/location_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/location_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:async'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:geolocator/geolocator.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/location.dart'</span>;
+
+  <span class="keyword">final</span> supabase = Supabase.instance.client;
+
+  <span class="comment">// Location sharing toggle</span>
+<span class="keyword">final</span> isSharingProvider = StateProvider&lt;bool&gt;((ref) =&gt; <span class="keyword">true</span>);
+
+  <span class="comment">// Current user location</span>
+<span class="keyword">final</span> currentLocationProvider = StateProvider&lt;Position?&gt;((ref) =&gt; <span class="keyword">null</span>);
+
+  <span class="comment">// All locations stream</span>
+<span class="keyword">final</span> locationsProvider = StreamProvider&lt;List&lt;UserLocation&gt;&gt;((ref) {
+    <span class="keyword">return</span> <span class="function">_getLocationsStream</span>(ref);
+  });
+
+  Stream&lt;List&lt;UserLocation&gt;&gt; <span class="function">_getLocationsStream</span>(Ref ref) <span class="keyword">async</span>* {
+    <span class="comment">// Load initial locations with usernames</span>
+<span class="keyword">final</span> initialResponse = <span class="keyword">await</span> supabase
+        .<span class="function">from</span>(<span class="string">'locations'</span>)
+        .<span class="function">select</span>(<span class="string">'*, users:auth.users(username)'</span>);
+
+    List&lt;UserLocation&gt; locations = (initialResponse <span class="keyword">as</span> List)
+        .<span class="function">map</span>((json) {
+          <span class="keyword">final</span> username = json[<span class="string">'users'</span>]?[<span class="string">'username'</span>] <span class="keyword">as</span> String?;
+          <span class="keyword">return</span> UserLocation.<span class="function">fromJson</span>(json, username: username);
+        })
+        .<span class="function">toList</span>();
+
+    <span class="keyword">final</span> controller = StreamController&lt;List&lt;UserLocation&gt;&gt;();
+    controller.<span class="function">add</span>(locations);
+
+    <span class="comment">// Subscribe to realtime updates</span>
+<span class="keyword">final</span> channel = supabase.<span class="function">channel</span>(<span class="string">'public:locations'</span>);
+
+    channel.<span class="function">on</span>(
+      RealtimeListenTypes.<span class="function">postgresChanges</span>,
+      ChannelFilter(
+        event: <span class="string">'*'</span>,
+        schema: <span class="string">'public'</span>,
+        table: <span class="string">'locations'</span>,
+      ),
+      (payload, [ref]) {
+        <span class="keyword">final</span> event = payload[<span class="string">'event_type'</span>];
+
+        <span class="keyword">if</span> (event == <span class="string">'INSERT'</span> || event == <span class="string">'UPDATE'</span>) {
+          <span class="keyword">final</span> newLocation = UserLocation.<span class="function">fromJson</span>(
+            payload[<span class="string">'new'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;,
+          );
+          <span class="keyword">final</span> index = locations.<span class="function">indexWhere</span>((l) =&gt; l.userId == newLocation.userId);
+          <span class="keyword">if</span> (index != -<span class="number">1</span>) {
+            locations[index] = newLocation;
+          } <span class="keyword">else</span> {
+            locations.<span class="function">add</span>(newLocation);
+          }
+          controller.<span class="function">add</span>(locations);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (event == <span class="string">'DELETE'</span>) {
+          <span class="keyword">final</span> deletedId = payload[<span class="string">'old'</span>][<span class="string">'user_id'</span>];
+          locations.<span class="function">removeWhere</span>((l) =&gt; l.userId == deletedId);
+          controller.<span class="function">add</span>(locations);
+        }
+      },
+    );
+
+    <span class="keyword">await</span> channel.<span class="function">subscribe</span>();
+
+    <span class="keyword">await</span> <span class="keyword">for</span> (<span class="keyword">final</span> _ <span class="keyword">in</span> controller.stream) {
+      <span class="keyword">yield</span> locations;
+    }
+  });
+
+  <span class="comment">// Location service</span>
+<span class="keyword">final</span> locationServiceProvider = Provider&lt;LocationService&gt;((ref) {
+    <span class="keyword">return</span> <span class="function">LocationService</span>(ref);
+  });
+
+  <span class="keyword">class</span> <span class="function">LocationService</span> {
+    <span class="keyword">final</span> Ref ref;
+    StreamSubscription&lt;Position&gt;? _positionSubscription;
+    Timer? _updateTimer;
+
+    <span class="function">LocationService</span>(<span class="keyword">this</span>.ref);
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">checkPermissions</span>() <span class="keyword">async</span> {
+      <span class="keyword">bool</span> serviceEnabled = <span class="keyword">await</span> Geolocator.<span class="function">isLocationServiceEnabled</span>();
+      <span class="keyword">if</span> (!serviceEnabled) {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+      }
+
+      LocationPermission permission = <span class="keyword">await</span> Geolocator.<span class="function">checkPermission</span>();
+      <span class="keyword">if</span> (permission == LocationPermission.denied) {
+        permission = <span class="keyword">await</span> Geolocator.<span class="function">requestPermission</span>();
+        <span class="keyword">if</span> (permission == LocationPermission.denied) {
+          <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+      }
+
+      <span class="keyword">if</span> (permission == LocationPermission.deniedForever) {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+      }
+
+      <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="keyword">Future</span>&lt;Position?&gt; <span class="function">getCurrentLocation</span>() <span class="keyword">async</span> {
+      <span class="keyword">final</span> hasPermission = <span class="keyword">await</span> <span class="function">checkPermissions</span>();
+      <span class="keyword">if</span> (!hasPermission) {
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+      }
+
+      <span class="keyword">return</span> <span class="keyword">await</span> Geolocator.<span class="function">getCurrentPosition</span>(
+        desiredAccuracy: LocationAccuracy.<span class="function">high</span>,
+      );
+    }
+
+    <span class="keyword">void</span> <span class="function">startLocationUpdates</span>() {
+      <span class="function">_positionSubscription</span>?.<span class="function">cancel</span>();
+      <span class="function">_updateTimer</span>?.<span class="function">cancel</span>();
+
+      <span class="keyword">final</span> locationSettings = LocationSettings(
+        accuracy: LocationAccuracy.<span class="function">high</span>,
+        distanceFilter: <span class="number">10</span>,
+      );
+
+      _positionSubscription = Geolocator.<span class="function">getPositionStream</span>(
+        locationSettings: locationSettings,
+      ).<span class="function">listen</span>((Position position) {
+        ref.<span class="function">read</span>(currentLocationProvider.notifier).state = position;
+        <span class="function">_updateLocation</span>(position);
+      });
+
+      <span class="comment">// Also update every 30 seconds as a fallback</span>
+      _updateTimer = Timer.<span class="function">periodic</span>(
+        Duration(seconds: <span class="number">30</span>),
+        (_) <span class="keyword">async</span> {
+          <span class="keyword">final</span> position = ref.<span class="function">read</span>(currentLocationProvider);
+          <span class="keyword">if</span> (position != <span class="keyword">null</span>) {
+            <span class="keyword">await</span> <span class="function">_updateLocation</span>(position);
+          }
+        },
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_updateLocation</span>(Position position) <span class="keyword">async</span> {
+      <span class="keyword">final</span> user = supabase.auth.<span class="function">currentUser</span>;
+      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> isSharing = ref.<span class="function">read</span>(isSharingProvider);
+
+      <span class="keyword">final</span> location = UserLocation(
+        userId: user.id,
+        latitude: position.latitude,
+        longitude: position.longitude,
+        timestamp: DateTime.<span class="function">now</span>(),
+        isSharing: isSharing,
+        lastUpdated: DateTime.<span class="function">now</span>(),
+      );
+
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> supabase
+            .<span class="function">from</span>(<span class="string">'locations'</span>)
+            .<span class="function">upsert</span>(location.<span class="function">toInsertJson</span>());
+      } <span class="function">catch</span> (e) {
+        <span class="comment">// Handle error silently</span>
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">toggleSharing</span>(<span class="keyword">bool</span> isSharing) <span class="keyword">async</span> {
+      ref.<span class="function">read</span>(isSharingProvider.notifier).state = isSharing;
+      <span class="keyword">final</span> user = supabase.auth.<span class="function">currentUser</span>;
+      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> position = ref.<span class="function">read</span>(currentLocationProvider);
+      <span class="keyword">if</span> (position == <span class="keyword">null</span>) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> location = UserLocation(
+        userId: user.id,
+        latitude: position.latitude,
+        longitude: position.longitude,
+        timestamp: DateTime.<span class="function">now</span>(),
+        isSharing: isSharing,
+        lastUpdated: DateTime.<span class="function">now</span>(),
+      );
+
+      <span class="keyword">await</span> supabase
+          .<span class="function">from</span>(<span class="string">'locations'</span>)
+          .<span class="function">upsert</span>(location.<span class="function">toInsertJson</span>());
+    }
+
+    <span class="keyword">void</span> <span class="function">stopLocationUpdates</span>() {
+      _positionSubscription?.<span class="function">cancel</span>();
+      _updateTimer?.<span class="function">cancel</span>();
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Main App (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:google_maps_flutter/google_maps_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers/auth_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/map_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/auth_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
+    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
+
+    <span class="keyword">await</span> Supabase.<span class="function">initialize</span>(
+      url: <span class="string">'YOUR_SUPABASE_URL'</span>,
+      anonKey: <span class="string">'YOUR_SUPABASE_ANON_KEY'</span>,
+    );
+
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> authState = ref.<span class="function">watch</span>(authStateProvider);
+
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Location Tracker'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: authState.<span class="function">when</span>(
+          data: (user) {
+            <span class="keyword">if</span> (user != <span class="keyword">null</span>) {
+              <span class="keyword">return</span> <span class="keyword">const</span> MapScreen();
+            }
+            <span class="keyword">return</span> <span class="keyword">const</span> AuthScreen();
+          },
+          loading: () =&gt; <span class="keyword">const</span> Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          ),
+          error: (error, stack) =&gt; Scaffold(
+            body: Center(
+              child: Text(<span class="string">'Error: </span><span class="string">$error</span><span class="string">'</span>),
+            ),
+          ),
+        ),
+        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">6. Map Screen (lib/screens/map_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/screens/map_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:google_maps_flutter/google_maps_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:geolocator/geolocator.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../providers/location_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../providers/auth_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'widgets/location_toggle.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'widgets/user_list.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">MapScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">MapScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;MapScreen&gt; <span class="function">createState</span>() =&gt; _MapScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_MapScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;MapScreen&gt; {
+    GoogleMapController? _mapController;
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
+    <span class="keyword">bool</span> _showUserList = <span class="keyword">false</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      <span class="function">_initializeLocation</span>();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_initializeLocation</span>() <span class="keyword">async</span> {
+      <span class="keyword">final</span> locationService = ref.<span class="function">read</span>(locationServiceProvider);
+      <span class="keyword">final</span> position = <span class="keyword">await</span> locationService.<span class="function">getCurrentLocation</span>();
+
+      <span class="keyword">if</span> (position != <span class="keyword">null</span>) {
+        ref.<span class="function">read</span>(currentLocationProvider.notifier).state = position;
+        locationService.<span class="function">startLocationUpdates</span>();
+      }
+
+      <span class="keyword">if</span> (mounted) {
+        <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
+      }
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      ref.<span class="function">read</span>(locationServiceProvider).<span class="function">stopLocationUpdates</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleSignOut</span>() <span class="keyword">async</span> {
+      <span class="keyword">final</span> confirmed = <span class="keyword">await</span> showDialog(
+        context: context,
+        builder: (context) =&gt; AlertDialog(
+          title: Text(<span class="string">'Sign Out'</span>),
+          content: Text(<span class="string">'Are you sure you want to sign out?'</span>),
+          actions: [
+            TextButton(
+              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context, <span class="keyword">false</span>),
+              child: Text(<span class="string">'Cancel'</span>),
+            ),
+            TextButton(
+              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context, <span class="keyword">true</span>),
+              child: Text(<span class="string">'Sign Out'</span>, style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      );
+
+      <span class="keyword">if</span> (confirmed) {
+        <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
+        <span class="keyword">try</span> {
+          <span class="keyword">await</span> notifier.<span class="function">signOut</span>();
+        } <span class="function">catch</span> (e) {
+          ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
+            SnackBar(content: Text(<span class="string">'Error signing out: </span><span class="string">$e</span><span class="string">'</span>)),
+          );
+        }
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> locationsAsync = ref.<span class="function">watch</span>(locationsProvider);
+      <span class="keyword">final</span> currentPosition = ref.<span class="function">watch</span>(currentLocationProvider);
+      <span class="keyword">final</span> user = ref.<span class="function">watch</span>(currentUserProvider);
+
+      <span class="keyword">if</span> (_isLoading) {
+        <span class="keyword">return</span> Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: <span class="number">16</span>),
+                Text(<span class="string">'Getting your location...'</span>),
+              ],
+            ),
+          ),
+        );
+      }
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Icon(Icons.location_on, color: Colors.white),
+              SizedBox(width: <span class="number">8</span>),
+              Text(<span class="string">'Live Tracker'</span>),
+            ],
+          ),
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () =&gt; <span class="function">setState</span>(() =&gt; _showUserList = !_showUserList),
+              icon: Icon(_showUserList ? Icons.map : Icons.people),
+              tooltip: <span class="string">'Toggle Users'</span>,
+            ),
+            IconButton(
+              onPressed: _handleSignOut,
+              icon: Icon(Icons.logout),
+              tooltip: <span class="string">'Sign Out'</span>,
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            locationsAsync.<span class="function">when</span>(
+              data: (locations) {
+                <span class="keyword">final</span> current = locations.<span class="function">firstWhere</span>(
+                  (l) =&gt; l.userId == user?.id,
+                  orElse: () =&gt; <span class="function">UserLocation</span>(
+                    userId: user?.id ?? <span class="string">''</span>,
+                    latitude: <span class="number">0</span>,
+                    longitude: <span class="number">0</span>,
+                    timestamp: DateTime.<span class="function">now</span>(),
+                    isSharing: <span class="keyword">true</span>,
+                    lastUpdated: DateTime.<span class="function">now</span>(),
+                  ),
+                );
+
+                <span class="keyword">final</span> markers = <span class="function">_buildMarkers</span>(locations, user?.id);
+
+                <span class="keyword">return</span> GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: currentPosition != <span class="keyword">null</span>
+                        ? LatLng(currentPosition.latitude, currentPosition.longitude)
+                        : LatLng(<span class="number">0</span>, <span class="number">0</span>),
+                    zoom: <span class="number">15</span>,
+                  ),
+                  onMapCreated: (controller) {
+                    _mapController = controller;
+                  },
+                  markers: markers,
+                  myLocationEnabled: <span class="keyword">true</span>,
+                  myLocationButtonEnabled: <span class="keyword">true</span>,
+                  zoomControlsEnabled: <span class="keyword">true</span>,
+                  zoomGesturesEnabled: <span class="keyword">true</span>,
+                  scrollGesturesEnabled: <span class="keyword">true</span>,
+                  rotateGesturesEnabled: <span class="keyword">true</span>,
+                  tiltGesturesEnabled: <span class="keyword">true</span>,
+                );
+              },
+              loading: () =&gt; GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: currentPosition != <span class="keyword">null</span>
+                      ? LatLng(currentPosition.latitude, currentPosition.longitude)
+                      : LatLng(<span class="number">0</span>, <span class="number">0</span>),
+                  zoom: <span class="number">15</span>,
+                ),
+                markers: {},
+                myLocationEnabled: <span class="keyword">true</span>,
+                myLocationButtonEnabled: <span class="keyword">true</span>,
+              ),
+              error: (error, stack) =&gt; Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
+                    SizedBox(height: <span class="number">16</span>),
+                    Text(<span class="string">'Error loading locations'</span>),
+                    SizedBox(height: <span class="number">8</span>),
+                    Text(error.<span class="function">toString</span>(), textAlign: TextAlign.center),
+                  ],
+                ),
+              ),
+            ),
+            <span class="comment">// User List Overlay</span>
+<span class="keyword">if</span> (_showUserList)
+              Positioned(
+                top: <span class="number">16</span>,
+                right: <span class="number">16</span>,
+                child: UserList(
+                  onClose: () =&gt; <span class="function">setState</span>(() =&gt; _showUserList = <span class="keyword">false</span>),
+                ),
+              ),
+            <span class="comment">// Location Toggle</span>
+            Positioned(
+              bottom: <span class="number">32</span>,
+              left: <span class="number">16</span>,
+              right: <span class="number">16</span>,
+              child: LocationToggle(),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Set&lt;Marker&gt; <span class="function">_buildMarkers</span>(List&lt;UserLocation&gt; locations, String? currentUserId) {
+      <span class="keyword">final</span> markers = &lt;Marker&gt;{};
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> location <span class="keyword">in</span> locations) {
+        <span class="keyword">if</span> (!location.<span class="function">isActive</span>()) <span class="keyword">continue</span>;
+
+        <span class="keyword">final</span> isCurrent = location.userId == currentUserId;
+        <span class="keyword">final</span> color = isCurrent ? Colors.green : Colors.blue;
+
+        <span class="keyword">final</span> marker = Marker(
+          markerId: MarkerId(location.userId),
+          position: LatLng(location.latitude, location.longitude),
+          infoWindow: InfoWindow(
+            title: isCurrent ? <span class="string">'You'</span> : (location.username ?? <span class="string">'User'</span>),
+            snippet: <span class="string">'Last updated: ${_getTimeAgo(location.lastUpdated)}'</span>,
+          ),
+          icon: BitmapDescriptor.<span class="function">defaultMarkerWithHue</span>(
+            isCurrent ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueBlue,
+          ),
+        );
+
+        markers.<span class="function">add</span>(marker);
+      }
+
+      <span class="keyword">return</span> markers;
+    }
+
+    String <span class="function">_getTimeAgo</span>(DateTime date) {
+      <span class="keyword">final</span> difference = DateTime.<span class="function">now</span>().<span class="function">difference</span>(date);
+
+      <span class="keyword">if</span> (difference.inMinutes &lt; <span class="number">1</span>) {
+        <span class="keyword">return</span> <span class="string">'Just now'</span>;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (difference.inMinutes &lt; <span class="number">60</span>) {
+        <span class="keyword">return</span> <span class="string">'${difference.inMinutes}m ago'</span>;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (difference.inHours &lt; <span class="number">24</span>) {
+        <span class="keyword">return</span> <span class="string">'${difference.inHours}h ago'</span>;
+      } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="string">'${difference.inDays}d ago'</span>;
+      }
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">7. Location Toggle Widget (lib/screens/widgets/location_toggle.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/screens/widgets/location_toggle.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../providers/location_provider.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">LocationToggle</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">LocationToggle</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;LocationToggle&gt; <span class="function">createState</span>() =&gt; _LocationToggleState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_LocationToggleState</span> <span class="keyword">extends</span> ConsumerState&lt;LocationToggle&gt; {
+    <span class="keyword">bool</span> _isUpdating = <span class="keyword">false</span>;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> isSharing = ref.<span class="function">watch</span>(isSharingProvider);
+
+      <span class="keyword">return</span> Card(
+        elevation: <span class="number">4</span>,
+        margin: EdgeInsets.<span class="function">zero</span>,
+        child: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          child: Row(
+            children: [
+              Icon(
+                isSharing ? Icons.location_on : Icons.location_off,
+                color: isSharing ? Colors.green : Colors.red,
+              ),
+              SizedBox(width: <span class="number">12</span>),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+                  children: [
+                    Text(
+                      isSharing ? <span class="string">'Sharing Location'</span> : <span class="string">'Location Off'</span>,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: isSharing ? Colors.green : Colors.red,
+                      ),
+                    ),
+                    Text(
+                      isSharing
+                          ? <span class="string">'Your friends can see you'</span>
+                          : <span class="string">'Your location is private'</span>,
+                      style: TextStyle(
+                        fontSize: <span class="number">12</span>,
+                        color: Colors.grey[<span class="number">600</span>],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Switch(
+                value: isSharing,
+                onChanged: _isUpdating
+                    ? <span class="keyword">null</span>
+                    : (value) <span class="keyword">async</span> {
+                        <span class="function">setState</span>(() =&gt; _isUpdating = <span class="keyword">true</span>);
+                        <span class="keyword">await</span> ref
+                            .<span class="function">read</span>(locationServiceProvider)
+                            .<span class="function">toggleSharing</span>(value);
+                        <span class="keyword">if</span> (mounted) {
+                          <span class="function">setState</span>(() =&gt; _isUpdating = <span class="keyword">false</span>);
+                        }
+                      },
+                activeColor: Colors.green,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">8. User List Widget (lib/screens/widgets/user_list.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/screens/widgets/user_list.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:google_maps_flutter/google_maps_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../providers/location_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../providers/auth_provider.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">UserList</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> <span class="keyword">void</span> Function() onClose;
+
+    <span class="keyword">const</span> <span class="function">UserList</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.onClose,
+      <span class="keyword">super</span>.key,
+    });
+
+    <span class="keyword">double</span> <span class="function">_calculateDistance</span>(UserLocation a, UserLocation b) {
+      <span class="keyword">return</span> Geolocator.<span class="function">distanceBetween</span>(
+        a.latitude, a.longitude,
+        b.latitude, b.longitude,
+      );
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> locationsAsync = ref.<span class="function">watch</span>(locationsProvider);
+      <span class="keyword">final</span> currentUser = ref.<span class="function">watch</span>(currentUserProvider);
+
+      <span class="keyword">return</span> locationsAsync.<span class="function">when</span>(
+        data: (locations) {
+          <span class="keyword">final</span> activeLocations = locations
+              .<span class="function">where</span>((l) =&gt; l.<span class="function">isActive</span>())
+              .<span class="function">toList</span>();
+
+          <span class="keyword">final</span> currentLocation = activeLocations
+              .<span class="function">firstWhere</span>(
+                (l) =&gt; l.userId == currentUser?.id,
+                orElse: () =&gt; <span class="function">UserLocation</span>(
+                  userId: <span class="string">''</span>,
+                  latitude: <span class="number">0</span>,
+                  longitude: <span class="number">0</span>,
+                  timestamp: DateTime.<span class="function">now</span>(),
+                  isSharing: <span class="keyword">false</span>,
+                  lastUpdated: DateTime.<span class="function">now</span>(),
+                ),
+              );
+
+          <span class="keyword">return</span> Container(
+            width: <span class="number">280</span>,
+            constraints: BoxConstraints(maxHeight: <span class="number">400</span>),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                  blurRadius: <span class="number">10</span>,
+                  offset: Offset(<span class="number">0</span>, <span class="number">2</span>),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+              children: [
+                <span class="comment">// Header</span>
+                Padding(
+                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                  child: Row(
+                    children: [
+                      Text(
+                        <span class="string">'Active Users (${activeLocations.length})'</span>,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: <span class="number">16</span>,
+                        ),
+                      ),
+                      Spacer(),
+                      IconButton(
+                        onPressed: onClose,
+                        icon: Icon(Icons.close, size: <span class="number">20</span>),
+                        constraints: BoxConstraints(),
+                        padding: EdgeInsets.<span class="function">zero</span>,
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(height: <span class="number">1</span>),
+                <span class="comment">// List</span>
+                Expanded(
+                  child: ListView.<span class="function">builder</span>(
+                    shrinkWrap: <span class="keyword">true</span>,
+                    itemCount: activeLocations.<span class="function">length</span>,
+                    itemBuilder: (context, index) {
+                      <span class="keyword">final</span> location = activeLocations[index];
+                      <span class="keyword">final</span> isCurrent = location.userId == currentUser?.id;
+
+                      <span class="keyword">final</span> distance = currentLocation.userId.<span class="function">isNotEmpty</span>
+                          ? _calculateDistance(currentLocation, location)
+                          : <span class="number">0</span>;
+
+                      <span class="keyword">return</span> ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: isCurrent ? Colors.green : Colors.blue,
+                          child: Text(
+                            isCurrent
+                                ? <span class="string">'Y'</span>
+                                : (location.username?.<span class="function">isNotEmpty</span> == <span class="keyword">true</span>
+                                    ? location.username![<span class="number">0</span>].<span class="function">toUpperCase</span>()
+                                    : <span class="string">'?'</span>),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        title: Text(
+                          isCurrent ? <span class="string">'You'</span> : (location.username ?? <span class="string">'Unknown'</span>),
+                          style: TextStyle(fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal),
+                        ),
+                        subtitle: Text(
+                          distance &gt; <span class="number">0</span>
+                              ? distance &lt; <span class="number">1000</span>
+                                  ? <span class="string">'${distance.toStringAsFixed(0)}m away'</span>
+                                  : <span class="string">'${(distance / 1000).toStringAsFixed(1)}km away'</span>
+                              : <span class="string">'Active now'</span>,
+                          style: TextStyle(fontSize: <span class="number">12</span>),
+                        ),
+                        trailing: Container(
+                          width: <span class="number">8</span>,
+                          height: <span class="number">8</span>,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.<span class="function">circle</span>,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        loading: () =&gt; Container(
+          width: <span class="number">280</span>,
+          height: <span class="number">200</span>,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+          ),
+          child: Center(child: CircularProgressIndicator()),
+        ),
+        error: (error, stack) =&gt; Container(
+          width: <span class="number">280</span>,
+          height: <span class="number">200</span>,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+          ),
+          child: Center(child: Text(<span class="string">'Error loading users'</span>)),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>Google Maps Integration</strong> – Displaying live locations on a map</li>
+<li><strong>Geolocation</strong> – Getting device location with permission handling</li>
+<li><strong>Supabase Realtime</strong> – Live location updates from all users</li>
+<li><strong>Privacy Controls</strong> – Toggle location sharing on/off</li>
+<li><strong>Distance Calculation</strong> – Showing distance between users</li>
+<li><strong>Custom Markers</strong> – Differentiating users with color-coded markers</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="challenge3-task-management.html">
+<i class="fas fa-arrow-left"></i> Previous Challenge
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="../module5/challenge1-clean-notes-app.html">
+              Next Module <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://supabase.com" rel="noopener" target="_blank">Supabase</a></li>
+<li><a href="https://pub.dev/packages/google_maps_flutter" rel="noopener" target="_blank">Google Maps Flutter</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm4-c4';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project: Notes App – Module 3 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a complete notes app with Hive and SharedPreferences. Learn local storage, CRUD operations, and offline-first patterns in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== PROJECT-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .project-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .project-header .project-type {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .project-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .project-header .project-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .requirement-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1.25rem 0;
+    }
+    .requirement-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #F59E0B;
+    }
+    .requirement-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .requirement-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1.25rem 0;
+    }
+    .api-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #3B82F6;
+    }
+    .api-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .api-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .solution-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1.25rem 0;
+    }
+    .solution-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #10B981;
+    }
+    .solution-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .solution-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .annotation { color: #f5c2e7; }
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .explanation-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .explanation-item .exp-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .explanation-item .exp-text {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .explanation-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+    }
+    /* ===== COPY BUTTON STYLES ===== */
+    .code-block {
+        position: relative;
+    }
+    .copy-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 0.3rem 0.6rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Inter', sans-serif;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+    }
+    .copy-btn.copied {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.3);
+        color: #10B981;
+    }
+    .copy-btn i {
+        font-size: 0.7rem;
+    }
+    .code-block .code-label {
+        position: absolute;
+        top: -0.5rem;
+        right: 5rem; /* Make room for copy button */
+        background: #1e1e2e;
+        padding: 0 0.5rem;
+        font-size: var(--font-xs);
+        color: rgba(255, 255, 255, 0.4);
+        font-family: 'Inter', sans-serif;
+        z-index: 5;
+    }
+    /* Dark mode adjustments */
+    [data-theme="dark"] .copy-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+    [data-theme="dark"] .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this project as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== PROJECT CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module3-state-management.html">Module 3</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project 1</span>
+</div>
+<span class="module-badge"><i class="fas fa-code"></i> Project</span>
+</div>
+<!-- Project Header -->
+<div class="project-header">
+<div class="project-type">📝 Project 1</div>
+<h1>Notes App</h1>
+<p class="project-subtitle">
+            Build a complete notes app with Hive for local storage, SharedPreferences for settings, and offline-first functionality.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://pub.dev/packages/hive" target="_blank">
+<i class="fas fa-box"></i> Hive package
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/shared_preferences" target="_blank">
+<i class="fas fa-box"></i> shared_preferences
+            </a>
+</div>
+</div>
+<!-- ===== REQUIREMENTS ===== -->
+<div class="section-divider">
+<span class="divider-label">📋 Requirements</span>
+<span class="divider-line"></span>
+</div>
+<div class="requirement-box">
+<h4>What You'll Build</h4>
+<ul>
+<li>A notes app with <strong>full CRUD operations</strong> (Create, Read, Update, Delete)</li>
+<li><strong>Hive</strong> for persistent storage of notes</li>
+<li><strong>SharedPreferences</strong> for app settings (theme preference)</li>
+<li><strong>Search functionality</strong> – Search notes by title or content</li>
+<li><strong>Filter by color</strong> – Organize notes with color categories</li>
+<li><strong>Dark mode support</strong> – Persisted with SharedPreferences</li>
+<li><strong>Real-time updates</strong> – Using Hive's ValueListenableBuilder</li>
+<li><strong>Note details</strong> – View full note content</li>
+</ul>
+</div>
+<div class="requirement-box" style="border-left-color: #3B82F6;">
+<h4>Learning Objectives</h4>
+<ul>
+<li>Implement <strong>Hive</strong> with custom type adapters</li>
+<li>Use <strong>SharedPreferences</strong> for app settings</li>
+<li>Master <strong>ValueListenableBuilder</strong> for real-time UI</li>
+<li>Build a <strong>search and filter</strong> system</li>
+<li>Handle <strong>CRUD operations</strong> with local storage</li>
+</ul>
+</div>
+<!-- ===== SOLUTION ===== -->
+<div class="section-divider">
+<span class="divider-label">💻 Complete Solution</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block collapsed" style="padding-top: 2.5rem !important;">
+<span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">lib/models/note.dart – Note Model with Hive</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:hive/hive.dart'</span>;
+
+  <span class="keyword">enum</span> NoteColor { red, orange, yellow, green, blue, purple, pink, grey }
+
+  <span class="annotation">@HiveType</span>(typeId: <span class="number">0</span>)
+  <span class="keyword">class</span> <span class="function">Note</span> <span class="keyword">extends</span> HiveObject {
+    <span class="annotation">@HiveField</span>(<span class="number">0</span>)
+    <span class="keyword">final</span> String id;
+
+    <span class="annotation">@HiveField</span>(<span class="number">1</span>)
+    String title;
+
+    <span class="annotation">@HiveField</span>(<span class="number">2</span>)
+    String content;
+
+    <span class="annotation">@HiveField</span>(<span class="number">3</span>)
+    DateTime createdAt;
+
+    <span class="annotation">@HiveField</span>(<span class="number">4</span>)
+    DateTime updatedAt;
+
+    <span class="annotation">@HiveField</span>(<span class="number">5</span>)
+    NoteColor color;
+
+    <span class="annotation">@HiveField</span>(<span class="number">6</span>)
+    List&lt;String&gt; tags;
+
+    <span class="annotation">@HiveField</span>(<span class="number">7</span>)
+    <span class="keyword">bool</span> isPinned;
+
+    <span class="function">Note</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.content,
+      <span class="keyword">DateTime</span>? createdAt,
+      <span class="keyword">DateTime</span>? updatedAt,
+      <span class="keyword">this</span>.color = NoteColor.grey,
+      <span class="keyword">this</span>.tags = <span class="keyword">const</span> [],
+      <span class="keyword">this</span>.isPinned = <span class="keyword">false</span>,
+    })  : <span class="keyword">this</span>.createdAt = createdAt ?? DateTime.now(),
+          <span class="keyword">this</span>.updatedAt = updatedAt ?? DateTime.now();
+
+    Note <span class="function">copyWith</span>({
+      String? title,
+      String? content,
+      DateTime? updatedAt,
+      NoteColor? color,
+      List&lt;String&gt;? tags,
+      bool? isPinned,
+    }) {
+      <span class="keyword">return</span> Note(
+        id: <span class="keyword">this</span>.id,
+        title: title ?? <span class="keyword">this</span>.title,
+        content: content ?? <span class="keyword">this</span>.content,
+        createdAt: createdAt,
+        updatedAt: updatedAt ?? DateTime.now(),
+        color: color ?? <span class="keyword">this</span>.color,
+        tags: tags ?? <span class="keyword">this</span>.tags,
+        isPinned: isPinned ?? <span class="keyword">this</span>.isPinned,
+      );
+    }
+
+    String <span class="function">getExcerpt</span>({<span class="keyword">int</span> maxLength = <span class="number">80</span>}) {
+      <span class="keyword">if</span> (content.length &lt;= maxLength) <span class="keyword">return</span> content;
+      <span class="keyword">return</span> content.substring(<span class="number">0</span>, maxLength) + <span class="string">'...'</span>;
+    }
+
+    <span class="keyword">static</span> Map&lt;NoteColor, Color&gt; <span class="function">getColorMap</span>() {
+      <span class="keyword">return</span> {
+        NoteColor.red: Colors.red.shade100,
+        NoteColor.orange: Colors.orange.shade100,
+        NoteColor.yellow: Colors.yellow.shade100,
+        NoteColor.green: Colors.green.shade100,
+        NoteColor.blue: Colors.blue.shade100,
+        NoteColor.purple: Colors.purple.shade100,
+        NoteColor.pink: Colors.pink.shade100,
+        NoteColor.grey: Colors.grey.shade100,
+      };
+    }
+
+    <span class="keyword">static</span> Map&lt;NoteColor, Color&gt; <span class="function">getBorderColorMap</span>() {
+      <span class="keyword">return</span> {
+        NoteColor.red: Colors.red.shade400,
+        NoteColor.orange: Colors.orange.shade400,
+        NoteColor.yellow: Colors.yellow.shade700,
+        NoteColor.green: Colors.green.shade400,
+        NoteColor.blue: Colors.blue.shade400,
+        NoteColor.purple: Colors.purple.shade400,
+        NoteColor.pink: Colors.pink.shade400,
+        NoteColor.grey: Colors.grey.shade400,
+      };
+    }
+  }
+          </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed" style="padding-top: 2.5rem !important;">
+<span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">lib/main.dart – Complete Notes App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:shared_preferences/shared_preferences.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'models/note.dart'</span>;
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 1. REGISTER ADAPTERS &amp; INIT</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">void</span> <span class="function">main</span>() async {
+    <span class="keyword">await</span> Hive.initFlutter();
+
+    <span class="comment">// Register the Note adapter</span>
+    Hive.registerAdapter(NoteAdapter());
+    Hive.registerAdapter(NoteColorAdapter());
+
+    <span class="comment">// Open the note box</span>
+<span class="keyword">await</span> Hive.openBox&lt;Note&gt;(<span class="string">'notes'</span>);
+
+    runApp(<span class="function">MyApp</span>());
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 2. THEME PROVIDER</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">ThemeProvider</span> <span class="keyword">extends</span> ChangeNotifier {
+    <span class="keyword">bool</span> _isDarkMode = <span class="keyword">false</span>;
+
+    <span class="function">ThemeProvider</span>() {
+      _loadTheme();
+    }
+
+    <span class="keyword">bool</span> <span class="function">get</span> isDarkMode =&gt; _isDarkMode;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadTheme</span>() async {
+      <span class="keyword">final</span> prefs = await SharedPreferences.getInstance();
+      _isDarkMode = prefs.getBool(<span class="string">'dark_mode'</span>) ?? <span class="keyword">false</span>;
+      notifyListeners();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">toggleTheme</span>() async {
+      _isDarkMode = !_isDarkMode;
+      <span class="keyword">final</span> prefs = await SharedPreferences.getInstance();
+      <span class="keyword">await</span> prefs.setBool(<span class="string">'dark_mode'</span>, _isDarkMode);
+      notifyListeners();
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 3. APP WIDGET</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> ChangeNotifierProvider(
+        create: (_) =&gt; ThemeProvider(),
+        child: Consumer&lt;ThemeProvider&gt;(
+          builder: (context, themeProvider, child) {
+            <span class="keyword">return</span> MaterialApp(
+              title: <span class="string">'Notes App'</span>,
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                brightness: Brightness.light,
+                useMaterial3: <span class="keyword">true</span>,
+              ),
+              darkTheme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.deepPurple,
+                  brightness: Brightness.dark,
+                ),
+                brightness: Brightness.dark,
+                useMaterial3: <span class="keyword">true</span>,
+              ),
+              themeMode: themeProvider.isDarkMode
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+              home: NotesScreen(),
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 4. NOTES SCREEN</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">NotesScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;NotesScreen&gt; <span class="function">createState</span>() =&gt; _NotesScreenState();
+  }
+
+  <span class="keyword">class</span> _NotesScreenState <span class="keyword">extends</span> State&lt;NotesScreen&gt; {
+    <span class="keyword">late</span> Box&lt;Note&gt; _noteBox;
+    <span class="keyword">final</span> TextEditingController _searchController = TextEditingController();
+    String _searchQuery = <span class="string">''</span>;
+    NoteColor? _selectedColorFilter;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _initBox();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_initBox</span>() async {
+      _noteBox = await Hive.openBox&lt;Note&gt;(<span class="string">'notes'</span>);
+      setState(() {});
+    }
+
+    List&lt;Note&gt; <span class="function">_getFilteredNotes</span>() {
+      <span class="keyword">if</span> (_noteBox == <span class="keyword">null</span>) <span class="keyword">return</span> [];
+
+      <span class="keyword">final</span> notes = _noteBox.values.toList();
+
+      <span class="keyword">return</span> notes.where((note) {
+        <span class="comment">// Search filter</span>
+<span class="keyword">bool</span> matchesSearch = <span class="keyword">true</span>;
+        <span class="keyword">if</span> (_searchQuery.isNotEmpty) {
+          <span class="keyword">final</span> query = _searchQuery.toLowerCase();
+          matchesSearch = note.title.toLowerCase().contains(query) ||
+              note.content.toLowerCase().contains(query) ||
+              note.tags.any((tag) =&gt; tag.toLowerCase().contains(query));
+        }
+
+        <span class="comment">// Color filter</span>
+<span class="keyword">bool</span> matchesColor = <span class="keyword">true</span>;
+        <span class="keyword">if</span> (_selectedColorFilter != <span class="keyword">null</span>) {
+          matchesColor = note.color == _selectedColorFilter;
+        }
+
+        <span class="keyword">return</span> matchesSearch &amp;&amp; matchesColor;
+      }).toList()
+        ..sort((a, b) {
+          <span class="comment">// Pinned notes first, then by updated date</span>
+<span class="keyword">if</span> (a.isPinned &amp;&amp; !b.isPinned) <span class="keyword">return</span> -<span class="number">1</span>;
+          <span class="keyword">if</span> (!a.isPinned &amp;&amp; b.isPinned) <span class="keyword">return</span> <span class="number">1</span>;
+          <span class="keyword">return</span> b.updatedAt.compareTo(a.updatedAt);
+        });
+    }
+
+    <span class="keyword">void</span> <span class="function">_clearFilters</span>() {
+      setState(() {
+        _searchQuery = <span class="string">''</span>;
+        _searchController.clear();
+        _selectedColorFilter = <span class="keyword">null</span>;
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_showAddNoteDialog</span>({Note? note}) async {
+      <span class="keyword">final</span> isEditing = note != <span class="keyword">null</span>;
+      <span class="keyword">final</span> titleController = TextEditingController(text: note?.title ?? <span class="string">''</span>);
+      <span class="keyword">final</span> contentController = TextEditingController(text: note?.content ?? <span class="string">''</span>);
+      NoteColor selectedColor = note?.color ?? NoteColor.grey;
+      List&lt;String&gt; tags = note?.tags ?? [];
+
+      <span class="keyword">await</span> showDialog(
+        context: context,
+        builder: (context) =&gt; StatefulBuilder(
+          builder: (context, setStateDialog) {
+            <span class="keyword">return</span> AlertDialog(
+              title: Text(isEditing ? <span class="string">'Edit Note'</span> : <span class="string">'New Note'</span>),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Title...'</span>,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    TextField(
+                      controller: contentController,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Content...'</span>,
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: <span class="number">5</span>,
+                    ),
+                    SizedBox(height: <span class="number">12</span>),
+                    <span class="comment">// Color picker</span>
+                    Wrap(
+                      spacing: <span class="number">8</span>,
+                      children: NoteColor.values.map((color) {
+                        <span class="keyword">final</span> isSelected = color == selectedColor;
+                        <span class="keyword">return</span> GestureDetector(
+                          onTap: () {
+                            setStateDialog(() {
+                              selectedColor = color;
+                            });
+                          },
+                          child: Container(
+                            width: <span class="number">32</span>,
+                            height: <span class="number">32</span>,
+                            decoration: BoxDecoration(
+                              color: Note.getColorMap()[color],
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isSelected
+                                    ? Colors.deepPurple
+                                    : Colors.transparent,
+                                width: <span class="number">3</span>,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    <span class="comment">// Tags input</span>
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Add tags (comma separated)...'</span>,
+                        border: OutlineInputBorder(),
+                      ),
+                      onSubmitted: (value) {
+                        <span class="keyword">if</span> (value.isNotEmpty) {
+                          setStateDialog(() {
+                            tags = value.split(<span class="string">','</span>)
+                                .map((t) =&gt; t.trim())
+                                .where((t) =&gt; t.isNotEmpty)
+                                .toList();
+                          });
+                        }
+                      },
+                    ),
+                    <span class="keyword">if</span> (tags.isNotEmpty)
+                      Padding(
+                        padding: EdgeInsets.only(top: <span class="number">8</span>),
+                        child: Wrap(
+                          spacing: <span class="number">4</span>,
+                          children: tags.map((tag) {
+                            <span class="keyword">return</span> Chip(
+                              label: Text(tag),
+                              onDeleted: () {
+                                setStateDialog(() {
+                                  tags.remove(tag);
+                                });
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () =&gt; Navigator.pop(context),
+                  child: Text(<span class="string">'Cancel'</span>),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    <span class="keyword">if</span> (titleController.text.trim().isNotEmpty) {
+                      <span class="keyword">if</span> (isEditing) {
+                        <span class="comment">// Update existing note</span>
+<span class="keyword">final</span> updatedNote = note.copyWith(
+                          title: titleController.text.trim(),
+                          content: contentController.text.trim(),
+                          color: selectedColor,
+                          tags: tags,
+                        );
+                        <span class="keyword">await</span> _noteBox.put(updatedNote.id, updatedNote);
+                      } <span class="keyword">else</span> {
+                        <span class="comment">// Create new note</span>
+<span class="keyword">final</span> newNote = Note(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          title: titleController.text.trim(),
+                          content: contentController.text.trim(),
+                          color: selectedColor,
+                          tags: tags,
+                        );
+                        <span class="keyword">await</span> _noteBox.put(newNote.id, newNote);
+                      }
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text(isEditing ? <span class="string">'Update'</span> : <span class="string">'Create'</span>),
+                ),
+              ],
+            );
+          },
+        ),
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_deleteNote</span>(String id) async {
+      showDialog(
+        context: context,
+        builder: (context) =&gt; AlertDialog(
+          title: Text(<span class="string">'Delete Note'</span>),
+          content: Text(<span class="string">'Are you sure you want to delete this note?'</span>),
+          actions: [
+            TextButton(
+              onPressed: () =&gt; Navigator.pop(context),
+              child: Text(<span class="string">'Cancel'</span>),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _noteBox.delete(id);
+                Navigator.pop(context);
+              },
+              child: Text(<span class="string">'Delete'</span>),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    <span class="keyword">void</span> <span class="function">_togglePin</span>(String id) {
+      <span class="keyword">final</span> note = _noteBox.get(id);
+      <span class="keyword">if</span> (note != <span class="keyword">null</span>) {
+        <span class="keyword">final</span> updated = note.copyWith(isPinned: !note.isPinned);
+        _noteBox.put(id, updated);
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> themeProvider = Provider.of&lt;ThemeProvider&gt;(context);
+      <span class="keyword">final</span> filteredNotes = _getFilteredNotes();
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'📝 Notes'</span>),
+          centerTitle: <span class="keyword">true</span>,
+          actions: [
+            <span class="comment">// Theme toggle</span>
+            IconButton(
+              icon: Icon(themeProvider.isDarkMode
+                  ? Icons.light_mode
+                  : Icons.dark_mode),
+              onPressed: themeProvider.toggleTheme,
+              tooltip: <span class="string">'Toggle theme'</span>,
+            ),
+            <span class="comment">// Filter indicator</span>
+<span class="keyword">if</span> (_searchQuery.isNotEmpty || _selectedColorFilter != <span class="keyword">null</span>)
+              IconButton(
+                icon: Icon(Icons.clear_all),
+                onPressed: _clearFilters,
+                tooltip: <span class="string">'Clear filters'</span>,
+              ),
+          ],
+        ),
+        body: Column(
+          children: [
+            <span class="comment">// Search bar</span>
+            Padding(
+              padding: EdgeInsets.all(<span class="number">12</span>),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: <span class="string">'Search notes...'</span>,
+                  prefixIcon: Icon(Icons.search),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              _searchQuery = <span class="string">''</span>;
+                              _searchController.clear();
+                            });
+                          },
+                        )
+                      : <span class="keyword">null</span>,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                  ),
+                  filled: <span class="keyword">true</span>,
+                  fillColor: Colors.grey.shade50,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              ),
+            ),
+
+            <span class="comment">// Color filter chips</span>
+            Container(
+              height: <span class="number">50</span>,
+              padding: EdgeInsets.symmetric(horizontal: <span class="number">8</span>),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: NoteColor.values.length + <span class="number">1</span>,
+                itemBuilder: (context, index) {
+                  <span class="keyword">if</span> (index == <span class="number">0</span>) {
+                    <span class="keyword">return</span> Padding(
+                      padding: EdgeInsets.symmetric(horizontal: <span class="number">4</span>),
+                      child: FilterChip(
+                        label: Text(<span class="string">'All'</span>),
+                        selected: _selectedColorFilter == <span class="keyword">null</span>,
+                        onSelected: (_) =&gt; setState(() {
+                          _selectedColorFilter = <span class="keyword">null</span>;
+                        }),
+                      ),
+                    );
+                  }
+
+                  <span class="keyword">final</span> color = NoteColor.values[index - <span class="number">1</span>];
+                  <span class="keyword">final</span> isSelected = _selectedColorFilter == color;
+
+                  <span class="keyword">return</span> Padding(
+                    padding: EdgeInsets.symmetric(horizontal: <span class="number">4</span>),
+                    child: FilterChip(
+                      label: Container(
+                        width: <span class="number">16</span>,
+                        height: <span class="number">16</span>,
+                        decoration: BoxDecoration(
+                          color: Note.getColorMap()[color],
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Note.getBorderColorMap()[color]!,
+                          ),
+                        ),
+                      ),
+                      selected: isSelected,
+                      onSelected: (_) =&gt; setState(() {
+                        _selectedColorFilter = isSelected ? <span class="keyword">null</span> : color;
+                      }),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            <span class="comment">// Notes list</span>
+            Expanded(
+              child: _noteBox == <span class="keyword">null</span>
+                  ? Center(child: CircularProgressIndicator())
+                  : ValueListenableBuilder(
+                      valueListenable: _noteBox.listenable(),
+                      builder: (context, Box&lt;Note&gt; box, _) {
+                        <span class="keyword">final</span> notes = _getFilteredNotes();
+
+                        <span class="keyword">if</span> (notes.isEmpty) {
+                          <span class="keyword">return</span> Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.note_add_outlined,
+                                  size: <span class="number">80</span>,
+                                  color: Colors.grey.shade400,
+                                ),
+                                SizedBox(height: <span class="number">16</span>),
+                                Text(
+                                  <span class="string">'No notes yet'</span>,
+                                  style: TextStyle(
+                                    fontSize: <span class="number">20</span>,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                                SizedBox(height: <span class="number">8</span>),
+                                Text(
+                                  <span class="string">'Tap the + button to create one'</span>,
+                                  style: TextStyle(color: Colors.grey.shade400),
+                                ),
+                                <span class="keyword">if</span> (_searchQuery.isNotEmpty ||
+                                    _selectedColorFilter != <span class="keyword">null</span>)
+                                  Column(
+                                    children: [
+                                      SizedBox(height: <span class="number">16</span>),
+                                      ElevatedButton(
+                                        onPressed: _clearFilters,
+                                        child: Text(<span class="string">'Clear Filters'</span>),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        <span class="keyword">return</span> GridView.builder(
+                          padding: EdgeInsets.all(<span class="number">8</span>),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: <span class="number">2</span>,
+                            childAspectRatio: <span class="number">0.8</span>,
+                            crossAxisSpacing: <span class="number">8</span>,
+                            mainAxisSpacing: <span class="number">8</span>,
+                          ),
+                          itemCount: notes.length,
+                          itemBuilder: (context, index) {
+                            <span class="keyword">final</span> note = notes[index];
+                            <span class="keyword">final</span> color = Note.getColorMap()[note.color]!;
+                            <span class="keyword">final</span> borderColor = Note.getBorderColorMap()[note.color]!;
+
+                            <span class="keyword">return</span> GestureDetector(
+                              onTap: () =&gt; _showAddNoteDialog(note: note),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: color,
+                                  borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                                  border: Border.all(color: borderColor, width: <span class="number">1</span>),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(<span class="number">12</span>),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          <span class="keyword">if</span> (note.isPinned)
+                                            Icon(
+                                              Icons.push_pin,
+                                              size: <span class="number">16</span>,
+                                              color: Colors.grey.shade700,
+                                            ),
+                                          <span class="keyword">if</span> (note.isPinned)
+                                            SizedBox(width: <span class="number">4</span>),
+                                          Expanded(
+                                            child: Text(
+                                              note.title,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: <span class="number">14</span>,
+                                              ),
+                                              maxLines: <span class="number">1</span>,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          PopupMenuButton(
+                                            itemBuilder: (context) =&gt; [
+                                              PopupMenuItem(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(note.isPinned
+                                                        ? Icons.push_pin_outlined
+                                                        : Icons.push_pin),
+                                                    SizedBox(width: <span class="number">8</span>),
+                                                    Text(note.isPinned
+                                                        ? <span class="string">'Unpin'</span>
+                                                        : <span class="string">'Pin'</span>),
+                                                  ],
+                                                ),
+                                                onTap: () =&gt; _togglePin(note.id),
+                                              ),
+                                              PopupMenuItem(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.delete, color: Colors.red),
+                                                    SizedBox(width: <span class="number">8</span>),
+                                                    Text(<span class="string">'Delete'</span>),
+                                                  ],
+                                                ),
+                                                onTap: () =&gt; _deleteNote(note.id),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: <span class="number">4</span>),
+                                      Text(
+                                        note.getExcerpt(),
+                                        style: TextStyle(
+                                          fontSize: <span class="number">12</span>,
+                                          color: Colors.grey.shade700,
+                                        ),
+                                        maxLines: <span class="number">3</span>,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Spacer(),
+                                      <span class="keyword">if</span> (note.tags.isNotEmpty)
+                                        Wrap(
+                                          spacing: <span class="number">4</span>,
+                                          runSpacing: <span class="number">2</span>,
+                                          children: note.tags.map((tag) {
+                                            <span class="keyword">return</span> Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: <span class="number">6</span>,
+                                                vertical: <span class="number">2</span>,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white.withOpacity(<span class="number">0.5</span>),
+                                                borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                                              ),
+                                              child: Text(
+                                                tag,
+                                                style: TextStyle(
+                                                  fontSize: <span class="number">9</span>,
+                                                  color: Colors.grey.shade700,
+                                                ),
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      SizedBox(height: <span class="number">4</span>),
+                                      Text(
+                                        _formatDate(note.updatedAt),
+                                        style: TextStyle(
+                                          fontSize: <span class="number">10</span>,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () =&gt; _showAddNoteDialog(),
+          child: Icon(Icons.add),
+        ),
+      );
+    }
+
+    String <span class="function">_formatDate</span>(DateTime date) {
+      <span class="keyword">final</span> now = DateTime.now();
+      <span class="keyword">final</span> difference = now.difference(date);
+
+      <span class="keyword">if</span> (difference.inDays &gt; <span class="number">7</span>) {
+        <span class="keyword">return</span> <span class="string">'${date.day}/${date.month}/${date.year}'</span>;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (difference.inDays &gt; <span class="number">0</span>) {
+        <span class="keyword">return</span> <span class="string">'${difference.inDays}d ago'</span>;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (difference.inHours &gt; <span class="number">0</span>) {
+        <span class="keyword">return</span> <span class="string">'${difference.inHours}h ago'</span>;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (difference.inMinutes &gt; <span class="number">0</span>) {
+        <span class="keyword">return</span> <span class="string">'${difference.inMinutes}m ago'</span>;
+      } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="string">'Just now'</span>;
+      }
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 5. PROVIDER HELPERS (if not using riverpod)</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">Provider</span>&lt;T <span class="keyword">extends</span> ChangeNotifier&gt; <span class="keyword">extends</span> InheritedWidget {
+    <span class="keyword">final</span> T notifier;
+
+    <span class="function">Provider</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.notifier,
+      <span class="keyword">required</span> Widget child,
+    }) : <span class="keyword">super</span>(child: child);
+
+    <span class="keyword">static</span> T <span class="function">of</span>&lt;T <span class="keyword">extends</span> ChangeNotifier&gt;(BuildContext context) {
+      <span class="keyword">final</span> provider = context.dependOnInheritedWidgetOfExactType&lt;Provider&lt;T&gt;&gt;();
+      <span class="keyword">return</span> provider!.notifier;
+    }
+
+    @override
+    <span class="keyword">bool</span> <span class="function">updateShouldNotify</span>(Provider oldWidget) {
+      <span class="keyword">return</span> notifier != oldWidget.notifier;
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">ChangeNotifierProvider</span>&lt;T <span class="keyword">extends</span> ChangeNotifier&gt; <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> T Function() create;
+    <span class="keyword">final</span> Widget child;
+
+    <span class="keyword">const</span> ChangeNotifierProvider({
+      <span class="keyword">required</span> <span class="keyword">this</span>.create,
+      <span class="keyword">required</span> <span class="keyword">this</span>.child,
+    });
+
+    @override
+    State&lt;ChangeNotifierProvider&lt;T&gt;&gt; <span class="function">createState</span>() =&gt; _ChangeNotifierProviderState&lt;T&gt;();
+  }
+
+  <span class="keyword">class</span> _ChangeNotifierProviderState&lt;T <span class="keyword">extends</span> ChangeNotifier&gt;
+      <span class="keyword">extends</span> State&lt;ChangeNotifierProvider&lt;T&gt;&gt; {
+    <span class="keyword">late</span> T notifier;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      notifier = widget.create();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Provider&lt;T&gt;(
+        notifier: notifier,
+        child: widget.child,
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">Consumer</span>&lt;T <span class="keyword">extends</span> ChangeNotifier&gt; <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Widget Function(BuildContext context, T notifier, Widget? child) builder;
+    <span class="keyword">final</span> Widget? child;
+
+    <span class="keyword">const</span> Consumer({
+      <span class="keyword">required</span> <span class="keyword">this</span>.builder,
+      <span class="keyword">this</span>.child,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> notifier = Provider.of&lt;T&gt;(context);
+      <span class="keyword">return</span> AnimatedBuilder(
+        animation: notifier,
+        builder: (context, _) {
+          <span class="keyword">return</span> builder(context, notifier, child);
+        },
+      );
+    }
+  }
+          </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<!-- ===== EXPLANATION ===== -->
+<div class="section-divider">
+<span class="divider-label">📖 How This Solution Works</span>
+<span class="divider-line"></span>
+</div>
+<div class="solution-box">
+<h4>Step-by-Step Explanation</h4>
+<ul>
+<li><strong>1. Models</strong> – The <code>Note</code> class uses Hive annotations with 8 fields including color, tags, and pin status.</li>
+<li><strong>2. Hive Setup</strong> – <code>Hive.initFlutter()</code>, adapter registration, and box opening.</li>
+<li><strong>3. Theme Provider</strong> – <code>ThemeProvider</code> with SharedPreferences for dark mode persistence.</li>
+<li><strong>4. Notes Screen</strong> – Main UI with search, color filters, and grid layout.</li>
+<li><strong>5. CRUD Operations</strong> – Create, Read, Update, and Delete notes with real-time UI updates.</li>
+<li><strong>6. ValueListenableBuilder</strong> – Automatically updates UI when notes change.</li>
+<li><strong>7. Pin &amp; Tags</strong> – Pinned notes appear first; tags provide quick categorization.</li>
+</ul>
+</div>
+<div class="explanation-grid">
+<div class="explanation-item">
+<div class="exp-number">Hive Storage</div>
+<div class="exp-text">All notes are stored locally in a Hive box with type-safe adapters for custom objects.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Real-time UI</div>
+<div class="exp-text">ValueListenableBuilder listens to Hive box changes and rebuilds the UI automatically.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Search &amp; Filter</div>
+<div class="exp-text">Search by title, content, or tags. Filter notes by color with visual color chips.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Theme Persistence</div>
+<div class="exp-text">Dark mode preference is saved to SharedPreferences and applied at app startup.</div>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            This project demonstrates how to build a <strong>complete notes app</strong> using <strong>Hive</strong>
+            for local storage and <strong>SharedPreferences</strong> for settings. You've learned to implement
+            <strong>CRUD operations</strong>, <strong>search and filter</strong>, and <strong>real-time UI updates</strong>
+            with <strong>ValueListenableBuilder</strong>. <strong>Hive makes local storage fast and enjoyable!</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="../module3-state-management.html">
+<i class="fas fa-arrow-left"></i> Back to Module 3
+          </a>
+<a class="btn btn-primary btn-sm" href="project-expense-tracker.html">
+            Next: Expense Tracker <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module3-state-management.html">Module 3</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://pub.dev/packages/hive" rel="noopener" target="_blank">Hive</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://pub.dev/packages/hive" style="color: var(--text-muted);" target="_blank">Hive Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-notes-app';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  
+    
+    // Copy button functionality
+
+    // ==========================================
+    // COPY BUTTON FUNCTIONALITY
+    // ==========================================
+    
+    function setupCopyButtons() {
+        document.querySelectorAll('.code-block').forEach(function(block) {
+            // Check if copy button already exists
+            if (block.querySelector('.copy-btn')) return;
+            
+            // Get the code element
+            var code = block.querySelector('code');
+            if (!code) return;
+            
+            // Ensure code has proper padding
+            code.style.display = 'block';
+            code.style.paddingTop = '0.5rem';
+            
+            // Create copy button
+            var btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.setAttribute('type', 'button');
+            
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var text = code.textContent;
+                
+                // Use modern clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        showCopiedFeedback(btn);
+                    }).catch(function() {
+                        fallbackCopy(text, btn);
+                    });
+                } else {
+                    fallbackCopy(text, btn);
+                }
+            });
+            
+            block.appendChild(btn);
+            
+            // Fix code label visibility
+            var label = block.querySelector('.code-label');
+            if (label) {
+                label.style.position = 'absolute';
+                label.style.top = '0.4rem';
+                label.style.left = '0.75rem';
+                label.style.background = 'rgba(255, 255, 255, 0.06)';
+                label.style.padding = '0.2rem 0.75rem';
+                label.style.fontSize = '0.7rem';
+                label.style.color = 'rgba(255, 255, 255, 0.5)';
+                label.style.fontFamily = "'Inter', sans-serif";
+                label.style.borderRadius = '4px';
+                label.style.border = '1px solid rgba(255, 255, 255, 0.06)';
+                label.style.zIndex = '5';
+                label.style.letterSpacing = '0.02em';
+            }
+        });
+    }
+    
+    function fallbackCopy(text, btn) {
+        // Fallback for older browsers
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showCopiedFeedback(btn);
+        } catch (e) {
+            console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+    }
+    
+    function showCopiedFeedback(btn) {
+        var originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+    
+    // Run on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupCopyButtons);
+    } else {
+        setupCopyButtons();
+    }
+    
+    // Also run after sidebar loads (if applicable)
+    if (window.courseSidebar) {
+        var observer = new MutationObserver(function() {
+            setupCopyButtons();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

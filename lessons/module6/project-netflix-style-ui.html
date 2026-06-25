@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Netflix Style UI – Module 6 Project | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a Netflix-style UI in Flutter. Apply slivers, custom scroll views, and hero animations to create a stunning streaming app interface." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .project-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .architecture-layer {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+    .architecture-layer:hover {
+      transform: translateX(4px);
+    }
+    .architecture-layer .layer-title {
+      font-weight: 700;
+      font-size: var(--font-base);
+      color: var(--text);
+    }
+    .architecture-layer .layer-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .architecture-layer .layer-components {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .architecture-layer .layer-components span {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.15rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 500;
+    }
+
+    .layer-arrow {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .checklist li {
+      padding: 0.5rem 0;
+      padding-left: 2rem;
+      position: relative;
+      font-size: var(--font-sm);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: var(--font-base);
+    }
+    .checklist li.completed::before {
+      content: '☑';
+      color: #10B981;
+    }
+
+    .prereq-box {
+      background: rgba(59, 130, 246, 0.06);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin: 1.25rem 0;
+    }
+    .prereq-box h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+    .prereq-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .prereq-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .prereq-box ul li a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .prereq-box ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .feature-section {
+      margin-bottom: 2rem;
+    }
+    .feature-section .feature-title {
+      font-size: var(--font-lg);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module6-advanced-flutter.html">Module 6</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project</span>
+</div>
+<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Project</div>
+<h1>Netflix Style UI</h1>
+<p class="topic-subtitle">
+            Build a stunning Netflix-inspired streaming app interface with slivers, custom scroll views, and hero animations.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<span class="project-badge"><i class="fas fa-project-diagram"></i> UI Project</span>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
+<i class="fas fa-book"></i> Slivers Docs
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<i class="fas fa-book"></i> Hero Docs
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: PROJECT OVERVIEW ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Overview</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            In this project, you'll build a <strong>Netflix Style UI</strong> — a stunning streaming
+            app interface with a collapsing header, horizontal scrolling rows, and smooth hero
+            transitions. You'll master <strong>slivers</strong>, <strong>custom scroll views</strong>,
+            and <strong>hero animations</strong> to create a polished, professional streaming experience.
+          </p>
+<div class="prereq-box">
+<h4>📚 Prerequisites</h4>
+<ul>
+<li>Understanding of <a href="module6-topic4-slivers.html">Slivers</a></li>
+<li>Understanding of <a href="module6-topic3-hero-animations.html">Hero Animations</a></li>
+<li>Understanding of <a href="module6-topic1-custom-widgets.html">Custom Widgets</a></li>
+<li>Familiarity with <a href="module6-topic2-animations.html">Animations</a></li>
+</ul>
+</div>
+<div class="concept-card info">
+<h4>🎯 Learning Objectives</h4>
+<ul>
+<li>Master slivers for complex scrolling layouts</li>
+<li>Build collapsing headers with SliverAppBar</li>
+<li>Create horizontal scrolling content rows</li>
+<li>Implement hero animations for content transitions</li>
+<li>Build a Netflix-style UI with custom scroll views</li>
+<li>Combine multiple sliver types for a polished experience</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: APP STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">App Structure</span>
+<span class="divider-line"></span>
+</div>
+<div class="architecture-layer">
+<div class="layer-title">📱 Screens</div>
+<div class="layer-desc">Main app screens</div>
+<div class="layer-components">
+<span>HomeScreen</span>
+<span>MovieDetailScreen</span>
+<span>SearchScreen</span>
+<span>MyListScreen</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #8B5CF6;">
+<div class="layer-title">🎨 Sliver Components</div>
+<div class="layer-desc">Custom scrollable UI elements</div>
+<div class="layer-components">
+<span>SliverAppBar</span>
+<span>SliverList</span>
+<span>SliverGrid</span>
+<span>SliverPersistentHeader</span>
+<span>SliverToBoxAdapter</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #3B82F6;">
+<div class="layer-title">📊 UI Components</div>
+<div class="layer-desc">Reusable UI widgets</div>
+<div class="layer-components">
+<span>ContentRow</span>
+<span>MovieCard</span>
+<span>HeroImage</span>
+<span>CategoryPill</span>
+<span>AppLogo</span>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: DATA MODELS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Data Models</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block">
+<span class="code-label">lib/models/movie.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">Movie</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String title;
+    <span class="keyword">final</span> String description;
+    <span class="keyword">final</span> String imageUrl;
+    <span class="keyword">final</span> String backdropUrl;
+    <span class="keyword">final</span> String genre;
+    <span class="keyword">final</span> <span class="keyword">int</span> year;
+    <span class="keyword">final</span> <span class="keyword">double</span> rating;
+    <span class="keyword">final</span> <span class="keyword">int</span> duration; <span class="comment">// in minutes</span>
+<span class="keyword">final</span> String director;
+    <span class="keyword">final</span> List&lt;String&gt; cast;
+
+    <span class="function">Movie</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.description,
+      <span class="keyword">required</span> <span class="keyword">this</span>.imageUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.backdropUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.genre,
+      <span class="keyword">required</span> <span class="keyword">this</span>.year,
+      <span class="keyword">required</span> <span class="keyword">this</span>.rating,
+      <span class="keyword">required</span> <span class="keyword">this</span>.duration,
+      <span class="keyword">required</span> <span class="keyword">this</span>.director,
+      <span class="keyword">required</span> <span class="keyword">this</span>.cast,
+    });
+  }
+
+  <span class="keyword">class</span> <span class="function">ContentRow</span> {
+    <span class="keyword">final</span> String title;
+    <span class="keyword">final</span> List&lt;Movie&gt; movies;
+
+    <span class="function">ContentRow</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.movies,
+    });
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+<div class="code-block">
+<span class="code-label">lib/data/movie_data.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'../models/movie.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">MovieData</span> {
+    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Movie&gt; trending = [
+      Movie(
+        id: <span class="string">'1'</span>,
+        title: <span class="string">'Stranger Things'</span>,
+        description: <span class="string">'A group of kids uncover supernatural mysteries in their small town.'</span>,
+        imageUrl: <span class="string">'https://image.tmdb.org/t/p/w500/stranger_things.jpg'</span>,
+        backdropUrl: <span class="string">'https://image.tmdb.org/t/p/w1280/stranger_things_backdrop.jpg'</span>,
+        genre: <span class="string">'Sci-Fi'</span>,
+        year: <span class="number">2016</span>,
+        rating: <span class="number">8.7</span>,
+        duration: <span class="number">51</span>,
+        director: <span class="string">'The Duffer Brothers'</span>,
+        cast: [<span class="string">'Winona Ryder'</span>, <span class="string">'David Harbour'</span>, <span class="string">'Millie Bobby Brown'</span>],
+      ),
+      <span class="comment">// Add more movies...</span>
+    ];
+
+    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Movie&gt; popular = [
+      <span class="comment">// Add popular movies...</span>
+    ];
+
+    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Movie&gt; netflixOriginals = [
+      <span class="comment">// Add Netflix originals...</span>
+    ];
+
+    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;ContentRow&gt; rows = [
+      ContentRow(title: <span class="string">'Trending Now'</span>, movies: trending),
+      ContentRow(title: <span class="string">'Popular'</span>, movies: popular),
+      ContentRow(title: <span class="string">'Netflix Originals'</span>, movies: netflixOriginals),
+    ];
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+</div>
+<!-- ===== SECTION 4: SLIVER COMPONENTS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Sliver Components</span>
+<span class="divider-line"></span>
+</div>
+<h3>1. Content Row (SliverList)</h3>
+<div class="code-block">
+<span class="code-label">lib/widgets/content_row.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">ContentRow</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> String title;
+    <span class="keyword">final</span> List&lt;Movie&gt; movies;
+
+    <span class="keyword">const</span> <span class="function">ContentRow</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.movies,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: <span class="number">20</span>,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: <span class="number">220</span>,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>),
+              itemCount: movies.<span class="function">length</span>,
+              itemBuilder: (context, index) {
+                <span class="keyword">return</span> Padding(
+                  padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>),
+                  child: MovieCard(movie: movies[index]),
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    }
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+<h3>2. Movie Card with Hero</h3>
+<div class="code-block">
+<span class="code-label">lib/widgets/movie_card.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">MovieCard</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Movie movie;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLarge;
+
+    <span class="keyword">const</span> <span class="function">MovieCard</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.movie,
+      <span class="keyword">this</span>.isLarge = <span class="keyword">false</span>,
+      <span class="keyword">super</span>.key,
+    });
+
+    <span class="keyword">double</span> get cardWidth =&gt; isLarge ? <span class="number">200</span> : <span class="number">140</span>;
+    <span class="keyword">double</span> get cardHeight =&gt; isLarge ? <span class="number">280</span> : <span class="number">200</span>;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> GestureDetector(
+        onTap: () {
+          Navigator.<span class="function">push</span>(
+            context,
+            MaterialPageRoute(
+              builder: (context) =&gt; MovieDetailScreen(movie: movie),
+            ),
+          );
+        },
+        child: Hero(
+          tag: <span class="string">'movie_${movie.id}'</span>,
+          child: ClipRRect(
+            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+            child: Container(
+              width: cardWidth,
+              height: cardHeight,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(movie.imageUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black54,
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: EdgeInsets.<span class="function">all</span>(<span class="number">8</span>),
+                    child: Text(
+                      movie.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: <span class="number">12</span>,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: <span class="number">2</span>,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+<h3>3. Hero Image for Detail Screen</h3>
+<div class="code-block">
+<span class="code-label">lib/widgets/hero_image.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">HeroImage</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> String imageUrl;
+    <span class="keyword">final</span> String tag;
+    <span class="keyword">final</span> <span class="keyword">double</span> height;
+
+    <span class="keyword">const</span> <span class="function">HeroImage</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.imageUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.tag,
+      <span class="keyword">this</span>.height = <span class="number">300</span>,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Hero(
+        tag: tag,
+        child: Container(
+          height: height,
+          width: <span class="keyword">double</span>.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(imageUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Colors.black87,
+                  Colors.transparent,
+                ],
+                stops: [<span class="number">0.0</span>, <span class="number">0.4</span>],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+</div>
+<!-- ===== SECTION 5: HOME SCREEN ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Home Screen</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The Home Screen uses a <strong>CustomScrollView</strong> with multiple sliver types:
+          </p>
+<div class="code-block">
+<span class="code-label">lib/screens/home_screen.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> List&lt;ContentRow&gt; rows = MovieData.rows;
+    <span class="keyword">final</span> Movie featured = MovieData.trending.first;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        backgroundColor: Colors.black,
+        body: CustomScrollView(
+          slivers: [
+            <span class="comment">// Collapsible App Bar</span>
+            SliverAppBar(
+              expandedHeight: <span class="number">500</span>,
+              collapsedHeight: <span class="number">80</span>,
+              floating: <span class="keyword">true</span>,
+              pinned: <span class="keyword">true</span>,
+              backgroundColor: Colors.black,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Row(
+                  children: [
+                    Icon(Icons.play_circle_filled, color: Colors.red, size: <span class="number">28</span>),
+                    SizedBox(width: <span class="number">4</span>),
+                    Text(
+                      <span class="string">'NETFLIX'</span>,
+                      style: TextStyle(
+                        fontSize: <span class="number">20</span>,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                        letterSpacing: <span class="number">2</span>,
+                      ),
+                    ),
+                  ],
+                ),
+                centerTitle: <span class="keyword">false</span>,
+                titlePadding: EdgeInsets.<span class="function">only</span>(left: <span class="number">16</span>, bottom: <span class="number">16</span>),
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    HeroImage(
+                      imageUrl: featured.backdropUrl,
+                      tag: <span class="string">'movie_${featured.id}'</span>,
+                      height: <span class="number">500</span>,
+                    ),
+                    <span class="comment">// Featured content overlay</span>
+                    Positioned(
+                      bottom: <span class="number">80</span>,
+                      left: <span class="number">16</span>,
+                      right: <span class="number">16</span>,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            featured.title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: <span class="number">32</span>,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: <span class="number">8</span>),
+                          Row(
+                            children: [
+                              _buildBadge(<span class="string">'${featured.year}'</span>),
+                              _buildBadge(<span class="string">'${featured.duration} min'</span>),
+                              _buildBadge(<span class="string">'${featured.rating} ⭐'</span>),
+                            ],
+                          ),
+                          SizedBox(height: <span class="number">12</span>),
+                          Row(
+                            children: [
+                              _buildActionButton(Icons.play_arrow, <span class="string">'Play'</span>, Colors.white),
+                              SizedBox(width: <span class="number">12</span>),
+                              _buildActionButton(Icons.add, <span class="string">'My List'</span>, Colors.grey[<span class="number">700</span>]!),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            <span class="comment">// Content rows using SliverList</span>
+            ...rows.<span class="function">map</span>((row) =&gt; SliverToBoxAdapter(
+              child: ContentRow(title: row.title, movies: row.movies),
+            )),
+          ],
+        ),
+        <span class="comment">// Bottom Navigation</span>
+        bottomNavigationBar: Container(
+          color: Colors.black,
+          child: Padding(
+            padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">8</span>),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(Icons.home, <span class="string">'Home'</span>, <span class="keyword">true</span>),
+                _buildNavItem(Icons.search, <span class="string">'Search'</span>, <span class="keyword">false</span>),
+                _buildNavItem(Icons.video_library, <span class="string">'My List'</span>, <span class="keyword">false</span>),
+                _buildNavItem(Icons.person, <span class="string">'Profile'</span>, <span class="keyword">false</span>),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget <span class="function">_buildBadge</span>(String text) {
+      <span class="keyword">return</span> Container(
+        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>, vertical: <span class="number">2</span>),
+        margin: EdgeInsets.<span class="function">only</span>(right: <span class="number">8</span>),
+        decoration: BoxDecoration(
+          border: Border.<span class="function">all</span>(color: Colors.white54),
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: <span class="number">12</span>,
+          ),
+        ),
+      );
+    }
+
+    Widget <span class="function">_buildActionButton</span>(IconData icon, String label, Color bgColor) {
+      <span class="keyword">return</span> ElevatedButton.icon(
+        onPressed: () {},
+        icon: Icon(icon, color: bgColor == Colors.white ? Colors.black : Colors.white),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: bgColor == Colors.white ? Colors.black : Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: bgColor,
+          foregroundColor: Colors.black,
+          padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">24</span>, vertical: <span class="number">10</span>),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+          ),
+        ),
+      );
+    }
+
+    Widget <span class="function">_buildNavItem</span>(IconData icon, String label, <span class="keyword">bool</span> isActive) {
+      <span class="keyword">return</span> Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: isActive ? Colors.white : Colors.grey[<span class="number">600</span>],
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              color: isActive ? Colors.white : Colors.grey[<span class="number">600</span>],
+              fontSize: <span class="number">10</span>,
+            ),
+          ),
+        ],
+      );
+    }
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+</div>
+<!-- ===== SECTION 6: MOVIE DETAIL SCREEN ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Movie Detail Screen</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The Detail Screen uses a <strong>hero animation</strong> for the backdrop image:
+          </p>
+<div class="code-block">
+<span class="code-label">lib/screens/movie_detail_screen.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">MovieDetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Movie movie;
+
+    <span class="keyword">const</span> <span class="function">MovieDetailScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.movie, <span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        backgroundColor: Colors.black,
+        body: CustomScrollView(
+          slivers: [
+            <span class="comment">// Hero image with SliverAppBar</span>
+            SliverAppBar(
+              expandedHeight: <span class="number">400</span>,
+              floating: <span class="keyword">false</span>,
+              pinned: <span class="keyword">true</span>,
+              backgroundColor: Colors.black,
+              flexibleSpace: FlexibleSpaceBar(
+                background: HeroImage(
+                  imageUrl: movie.backdropUrl,
+                  tag: <span class="string">'movie_${movie.id}'</span>,
+                  height: <span class="number">400</span>,
+                ),
+              ),
+              leading: IconButton(
+                onPressed: () =&gt; Navigator.<span class="function">pop</span>(context),
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+              ),
+            ),
+
+            <span class="comment">// Movie details</span>
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    <span class="comment">// Title and rating</span>
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            movie.title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: <span class="number">28</span>,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">6</span>),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                          ),
+                          child: Text(
+                            movie.rating.<span class="function">toStringAsFixed</span>(<span class="number">1</span>),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    Text(
+                      movie.genre,
+                      style: TextStyle(
+                        color: Colors.grey[<span class="number">400</span>],
+                        fontSize: <span class="number">16</span>,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    Row(
+                      children: [
+                        Text(
+                          <span class="string">'${movie.year}'</span>,
+                          style: TextStyle(color: Colors.grey[<span class="number">400</span>]),
+                        ),
+                        Text(
+                          <span class="string">' • '</span>,
+                          style: TextStyle(color: Colors.grey[<span class="number">400</span>]),
+                        ),
+                        Text(
+                          <span class="string">'${movie.duration} min'</span>,
+                          style: TextStyle(color: Colors.grey[<span class="number">400</span>]),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    Text(
+                      movie.description,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: <span class="number">16</span>,
+                        height: <span class="number">1.5</span>,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">24</span>),
+                    <span class="comment">// Action buttons</span>
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.play_arrow, color: Colors.black),
+                            label: Text(
+                              <span class="string">'Play'</span>,
+                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: <span class="number">12</span>),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.add, color: Colors.white),
+                            label: Text(
+                              <span class="string">'My List'</span>,
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[<span class="number">800</span>],
+                              padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: <span class="number">24</span>),
+                    <span class="comment">// Director</span>
+                    Text(
+                      <span class="string">'Director'</span>,
+                      style: TextStyle(
+                        color: Colors.grey[<span class="number">400</span>],
+                        fontSize: <span class="number">14</span>,
+                      ),
+                    ),
+                    Text(
+                      movie.director,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: <span class="number">16</span>,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    <span class="comment">// Cast</span>
+                    Text(
+                      <span class="string">'Cast'</span>,
+                      style: TextStyle(
+                        color: Colors.grey[<span class="number">400</span>],
+                        fontSize: <span class="number">14</span>,
+                      ),
+                    ),
+                    Wrap(
+                      spacing: <span class="number">8</span>,
+                      runSpacing: <span class="number">4</span>,
+                      children: movie.cast
+                          .<span class="function">map</span>((actor) =&gt; Chip(
+                                label: Text(
+                                  actor,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: Colors.grey[<span class="number">800</span>],
+                              ))
+                          .<span class="function">toList</span>(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+</div>
+<!-- ===== SECTION 7: PROJECT CHECKLIST ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Checklist</span>
+<span class="divider-line"></span>
+</div>
+<ul class="checklist">
+<li>Define data models (Movie, ContentRow)</li>
+<li>Create movie data with categories</li>
+<li>Build ContentRow widget with horizontal scrolling</li>
+<li>Create MovieCard with Hero animation</li>
+<li>Build HeroImage widget for hero transitions</li>
+<li>Create HomeScreen with CustomScrollView</li>
+<li>Implement SliverAppBar with collapsing header</li>
+<li>Add featured content with action buttons</li>
+<li>Build MovieDetailScreen with hero backdrop</li>
+<li>Test scrolling, transitions, and hero animations</li>
+</ul>
+</div>
+<!-- ===== SECTION 8: TESTING ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Testing the App</span>
+<span class="divider-line"></span>
+</div>
+<div class="concept-card info">
+<h4>🧪 Test Scenarios</h4>
+<ul>
+<li><strong>Scroll behavior</strong> – Scroll up/down to see the app bar collapse</li>
+<li><strong>Content rows</strong> – Scroll horizontally through each row</li>
+<li><strong>Hero animation</strong> – Tap a movie card to see the hero transition</li>
+<li><strong>Detail screen</strong> – Check all movie details are displayed</li>
+<li><strong>Back navigation</strong> – Pop back to home with reverse hero animation</li>
+<li><strong>Performance</strong> – Ensure smooth scrolling with many images</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 9: RESOURCES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Resources</span>
+<span class="divider-line"></span>
+</div>
+<div class="resources-box">
+<h4>📚 Learning Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">Slivers Docs</a> – Official sliver documentation</li>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">Hero Docs</a> – Shared element transitions</li>
+<li><a href="https://docs.flutter.dev/ui/layout/scrolling" target="_blank">Scrollable Layouts</a> – Scrolling patterns</li>
+<li><a href="https://docs.flutter.dev/ui/animations" target="_blank">Animations</a> – Animation fundamentals</li>
+</ul>
+</div>
+<div class="resources-box" style="margin-top: 1rem;">
+<h4>🔗 Related Lessons</h4>
+<ul>
+<li><a href="module6-topic4-slivers.html">Slivers</a> – Master sliver components</li>
+<li><a href="module6-topic3-hero-animations.html">Hero Animations</a> – Shared element transitions</li>
+<li><a href="module6-topic2-animations.html">Animations</a> – Animation fundamentals</li>
+</ul>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Project Summary</h3>
+<p>
+            You've built a stunning <strong>Netflix Style UI</strong> with advanced scrolling and
+            animation techniques! You've mastered <strong>slivers</strong> to create a collapsing
+            header with <code>SliverAppBar</code>, used <strong>custom scroll views</strong> with
+            <code>CustomScrollView</code> to combine multiple sliver types, and implemented
+            <strong>hero animations</strong> for seamless movie transitions. The result is a
+            polished, professional streaming app interface that feels responsive and engaging
+            — just like the real Netflix experience.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="project-ecommerce-ui.html">
+<i class="fas fa-arrow-left"></i> Previous: E-Commerce UI
+          </a>
+<a class="btn btn-primary btn-sm" href="../module6-advanced-flutter.html">
+            Back to Module 6 <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" rel="noopener" target="_blank">Slivers Docs</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">Hero Docs</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-netflix-ui';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

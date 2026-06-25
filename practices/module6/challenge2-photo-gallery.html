@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Photo Gallery with Animations – Module 6 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a Photo Gallery with smooth hero animations, grid layouts, and pinch-to-zoom in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .advanced-tag {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.12);
+      color: #EF4444;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 8000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+    .code-block .built-in { color: #f9e2af; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 6 · Challenge 2
+            </span>
+</div>
+<div class="challenge-header">
+<h1>Photo Gallery with Animations</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> Advanced Flutter</span>
+<span class="meta-item"><strong>Concepts:</strong> Hero Animations, Grid Layout, Gestures, Infinite Scroll</span>
+<span class="meta-item"><strong>Est. Time:</strong> 40-50 min</span>
+<span class="meta-item"><span class="advanced-tag">⚡ Advanced</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build a <strong>Photo Gallery</strong> with smooth hero animations, grid layouts,
+              and interactive gestures. Users can browse photos in a grid, tap to view with
+              beautiful transitions, and pinch-to-zoom on individual images.
+            </p>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Display photos in a <strong>responsive grid layout</strong></li>
+<li>Use <strong>Hero animations</strong> for smooth transitions</li>
+<li>Implement <strong>pinch-to-zoom</strong> on photo detail view</li>
+<li>Add <strong>fade-in animations</strong> for images as they load</li>
+<li>Show <strong>infinite scrolling</strong> with pagination</li>
+<li>Display <strong>photo metadata</strong> (title, upload date)</li>
+<li>Add <strong>search functionality</strong> with animated results</li>
+<li>Support <strong>light/dark theme</strong> toggle</li>
+<li>Use <strong>Riverpod</strong> for state management</li>
+<li>Handle <strong>loading states</strong> and errors gracefully</li>
+</ul>
+</div>
+<div class="api-box">
+<h4>🌐 API Endpoint</h4>
+<p><strong>Unsplash API - Random Photos</strong></p>
+<div class="endpoint">https://api.unsplash.com/photos?page=1&amp;per_page=20</div>
+<div class="api-note">
+                💡 <strong>Note:</strong> You'll need to register for a free Unsplash API key at
+                <a href="https://unsplash.com/developers" style="color: var(--primary);" target="_blank">unsplash.com/developers</a>
+</div>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://pub.dev/packages/http" target="_blank">http Package</a></li>
+<li><a href="https://pub.dev/packages/flutter_riverpod" target="_blank">Riverpod</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">Hero Animations Guide</a></li>
+<li><a href="https://pub.dev/packages/interactive_viewer" target="_blank">InteractiveViewer for Pinch-to-Zoom</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Use <code>Hero</code> widget with a unique <code>tag</code> for each photo.
+                  For the grid, use <code>SliverGrid</code> with <code>GridView.builder</code>.
+                  Use <code>InteractiveViewer</code> for the detail view with pinch-to-zoom.
+                  For infinite scrolling, use <code>ScrollController</code> with pagination.
+                  Use <code>FadeInImage</code> or <code>Image.network</code> with a placeholder.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    http: ^1.1.0
+    intl: ^0.18.1
+    cached_network_image: ^3.3.0
+
+  dev_dependencies:
+    flutter_test:
+      sdk: flutter
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Photo Model (lib/models/photo.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/photo.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">Photo</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String url;
+    <span class="keyword">final</span> String thumbUrl;
+    <span class="keyword">final</span> String? description;
+    <span class="keyword">final</span> String? altDescription;
+    <span class="keyword">final</span> String photographer;
+    <span class="keyword">final</span> DateTime createdAt;
+    <span class="keyword">final</span> <span class="keyword">int</span> likes;
+    <span class="keyword">final</span> <span class="keyword">double</span> aspectRatio;
+
+    <span class="function">Photo</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.url,
+      <span class="keyword">required</span> <span class="keyword">this</span>.thumbUrl,
+      <span class="keyword">this</span>.description,
+      <span class="keyword">this</span>.altDescription,
+      <span class="keyword">required</span> <span class="keyword">this</span>.photographer,
+      <span class="keyword">required</span> <span class="keyword">this</span>.createdAt,
+      <span class="keyword">required</span> <span class="keyword">this</span>.likes,
+      <span class="keyword">this</span>.aspectRatio = <span class="number">1.0</span>,
+    });
+
+    <span class="keyword">factory</span> Photo.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> Photo(
+        id: json[<span class="string">'id'</span>],
+        url: json[<span class="string">'urls'</span>][<span class="string">'regular'</span>],
+        thumbUrl: json[<span class="string">'urls'</span>][<span class="string">'thumb'</span>],
+        description: json[<span class="string">'description'</span>] <span class="keyword">as</span> String?,
+        altDescription: json[<span class="string">'alt_description'</span>] <span class="keyword">as</span> String?,
+        photographer: json[<span class="string">'user'</span>][<span class="string">'name'</span>],
+        createdAt: DateTime.<span class="function">parse</span>(json[<span class="string">'created_at'</span>]),
+        likes: json[<span class="string">'likes'</span>],
+        aspectRatio: json[<span class="string">'width'</span>] / json[<span class="string">'height'</span>],
+      );
+    }
+
+    String <span class="function">getFormattedDate</span>() {
+      <span class="keyword">return</span> DateFormat.<span class="function">yMMMd</span>().<span class="function">format</span>(createdAt);
+    }
+
+    String <span class="function">getDisplayTitle</span>() {
+      <span class="keyword">return</span> description ?? altDescription ?? <span class="string">'Untitled'</span>;
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. Photo Provider (lib/providers/photo_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/photo_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/photo.dart'</span>;
+
+  <span class="keyword">final</span> searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">''</span>);
+  <span class="keyword">final</span> currentPageProvider = StateProvider&lt;<span class="keyword">int</span>&gt;((ref) =&gt; <span class="number">1</span>);
+  <span class="keyword">final</span> isLoadingMoreProvider = StateProvider&lt;<span class="keyword">bool</span>&gt;((ref) =&gt; <span class="keyword">false</span>);
+
+  <span class="keyword">class</span> <span class="function">PhotoState</span> {
+    <span class="keyword">final</span> List&lt;Photo&gt; photos;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isSearching;
+    <span class="keyword">final</span> String? error;
+    <span class="keyword">final</span> <span class="keyword">bool</span> hasMore;
+
+    <span class="function">PhotoState</span>({
+      <span class="keyword">this</span>.photos = <span class="keyword">const</span> [],
+      <span class="keyword">this</span>.isLoading = <span class="keyword">false</span>,
+      <span class="keyword">this</span>.isSearching = <span class="keyword">false</span>,
+      <span class="keyword">this</span>.error,
+      <span class="keyword">this</span>.hasMore = <span class="keyword">true</span>,
+    });
+
+    PhotoState <span class="function">copyWith</span>({
+      List&lt;Photo&gt;? photos,
+      <span class="keyword">bool</span>? isLoading,
+      <span class="keyword">bool</span>? isSearching,
+      String? error,
+      <span class="keyword">bool</span>? hasMore,
+    }) {
+      <span class="keyword">return</span> PhotoState(
+        photos: photos ?? <span class="keyword">this</span>.photos,
+        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
+        isSearching: isSearching ?? <span class="keyword">this</span>.isSearching,
+        error: error,
+        hasMore: hasMore ?? <span class="keyword">this</span>.hasMore,
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">PhotoNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;PhotoState&gt; {
+    <span class="keyword">static</span> <span class="keyword">const</span> String accessKey = <span class="string">'YOUR_UNSPLASH_ACCESS_KEY'</span>;
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> perPage = <span class="number">20</span>;
+
+    <span class="function">PhotoNotifier</span>() : <span class="keyword">super</span>(PhotoState());
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">loadPhotos</span>({<span class="keyword">bool</span> refresh = <span class="keyword">false</span>}) <span class="keyword">async</span> {
+      <span class="keyword">if</span> (refresh) {
+        state = state.<span class="function">copyWith</span>(photos: [], isLoading: <span class="keyword">true</span>, hasMore: <span class="keyword">true</span>);
+      } <span class="keyword">else</span> <span class="keyword">if</span> (state.isLoading || !state.hasMore) {
+        <span class="keyword">return</span>;
+      }
+
+      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>, error: <span class="keyword">null</span>);
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> page = refresh ? <span class="number">1</span> : state.photos.<span class="function">length</span> ~/ perPage + <span class="number">1</span>;
+        <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(
+          Uri.<span class="function">parse</span>(<span class="string">'https://api.unsplash.com/photos?page=</span><span class="string">$page</span><span class="string">&amp;per_page=</span><span class="string">$perPage</span><span class="string">'</span>),
+          headers: {
+            <span class="string">'Authorization'</span>: <span class="string">'Client-ID $accessKey'</span>,
+          },
+        );
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> List&lt;dynamic&gt; data = json.<span class="function">decode</span>(response.body);
+          <span class="keyword">final</span> newPhotos = data.<span class="function">map</span>((json) =&gt; Photo.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
+
+          <span class="keyword">final</span> updatedPhotos = refresh ? newPhotos : [...state.photos, ...newPhotos];
+
+          state = state.<span class="function">copyWith</span>(
+            photos: updatedPhotos,
+            isLoading: <span class="keyword">false</span>,
+            hasMore: newPhotos.<span class="function">length</span> == perPage,
+          );
+        } <span class="keyword">else</span> {
+          state = state.<span class="function">copyWith</span>(
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="string">'Failed to load photos'</span>,
+          );
+        }
+      } <span class="function">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">searchPhotos</span>(String query) <span class="keyword">async</span> {
+      <span class="keyword">if</span> (query.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+        state = state.<span class="function">copyWith</span>(isSearching: <span class="keyword">false</span>);
+        <span class="keyword">await</span> <span class="function">loadPhotos</span>(refresh: <span class="keyword">true</span>);
+        <span class="keyword">return</span>;
+      }
+
+      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>, isSearching: <span class="keyword">true</span>, error: <span class="keyword">null</span>, photos: []);
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(
+          Uri.<span class="function">parse</span>(<span class="string">'https://api.unsplash.com/search/photos?query=</span><span class="string">${Uri.encodeComponent(query)}</span><span class="string">&amp;per_page=</span><span class="string">$perPage</span><span class="string">'</span>),
+          headers: {
+            <span class="string">'Authorization'</span>: <span class="string">'Client-ID $accessKey'</span>,
+          },
+        );
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+          <span class="keyword">final</span> results = data[<span class="string">'results'</span>] <span class="keyword">as</span> List;
+          <span class="keyword">final</span> newPhotos = results.<span class="function">map</span>((json) =&gt; Photo.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
+
+          state = state.<span class="function">copyWith</span>(
+            photos: newPhotos,
+            isLoading: <span class="keyword">false</span>,
+            hasMore: newPhotos.<span class="function">length</span> == perPage,
+          );
+        } <span class="keyword">else</span> {
+          state = state.<span class="function">copyWith</span>(
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="string">'Failed to search photos'</span>,
+          );
+        }
+      } <span class="function">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">setSearchQuery</span>(String query) {
+      <span class="keyword">if</span> (query.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+        state = state.<span class="function">copyWith</span>(isSearching: <span class="keyword">false</span>);
+        <span class="function">loadPhotos</span>(refresh: <span class="keyword">true</span>);
+      } <span class="keyword">else</span> {
+        <span class="function">searchPhotos</span>(query);
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">clearSearch</span>() {
+      state = state.<span class="function">copyWith</span>(isSearching: <span class="keyword">false</span>);
+      <span class="function">loadPhotos</span>(refresh: <span class="keyword">true</span>);
+    }
+  }
+
+  <span class="keyword">final</span> photoProvider = StateNotifierProvider&lt;PhotoNotifier, PhotoState&gt;((ref) {
+    <span class="keyword">return</span> <span class="function">PhotoNotifier</span>()..<span class="function">loadPhotos</span>();
+  });
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Main App (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'presentation/screens/gallery_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Photo Gallery'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> GalleryScreen(),
+        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Gallery Screen (lib/presentation/screens/gallery_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/screens/gallery_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../providers/photo_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/photo_grid.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/search_bar.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">GalleryScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">GalleryScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;GalleryScreen&gt; <span class="function">createState</span>() =&gt; _GalleryScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_GalleryScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;GalleryScreen&gt; {
+    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _scrollController.<span class="function">addListener</span>(_onScroll);
+    }
+
+    <span class="keyword">void</span> <span class="function">_onScroll</span>() {
+      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(photoProvider.notifier);
+      <span class="keyword">final</span> state = ref.<span class="function">read</span>(photoProvider);
+
+      <span class="keyword">if</span> (_scrollController.position.<span class="function">pixels</span> &gt;=
+          _scrollController.position.<span class="function">maxScrollExtent</span> * <span class="number">0.8</span>) {
+        <span class="keyword">if</span> (!state.isLoading &amp;&amp; state.hasMore &amp;&amp; !state.isSearching) {
+          notifier.<span class="function">loadPhotos</span>();
+        }
+      }
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _scrollController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(photoProvider);
+      <span class="keyword">final</span> notifier = ref.<span class="function">watch</span>(photoProvider.notifier);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(
+            state.isSearching ? <span class="string">'Search Results'</span> : <span class="string">'📸 Photo Gallery'</span>,
+          ),
+          backgroundColor: Colors.pink,
+          foregroundColor: Colors.white,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(<span class="number">70</span>),
+            child: Padding(
+              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+              child: SearchBar(
+                onSearch: (query) {
+                  <span class="keyword">if</span> (query.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+                    notifier.<span class="function">clearSearch</span>();
+                  } <span class="keyword">else</span> {
+                    notifier.<span class="function">setSearchQuery</span>(query);
+                  }
+                },
+                onClear: () {
+                  notifier.<span class="function">clearSearch</span>();
+                },
+              ),
+            ),
+          ),
+        ),
+        body: RefreshIndicator(
+          onRefresh: () <span class="keyword">async</span> {
+            <span class="keyword">if</span> (state.isSearching) {
+              <span class="keyword">final</span> query = ref.<span class="function">read</span>(searchQueryProvider);
+              <span class="keyword">await</span> notifier.<span class="function">searchPhotos</span>(query);
+            } <span class="keyword">else</span> {
+              <span class="keyword">await</span> notifier.<span class="function">loadPhotos</span>(refresh: <span class="keyword">true</span>);
+            }
+          },
+          child: state.error != <span class="keyword">null</span>
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+                    children: [
+                      Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
+                      SizedBox(height: <span class="number">16</span>),
+                      Text(
+                        state.error!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                      ),
+                      SizedBox(height: <span class="number">16</span>),
+                      ElevatedButton(
+                        onPressed: () {
+                          <span class="keyword">if</span> (state.isSearching) {
+                            <span class="keyword">final</span> query = ref.<span class="function">read</span>(searchQueryProvider);
+                            notifier.<span class="function">searchPhotos</span>(query);
+                          } <span class="keyword">else</span> {
+                            notifier.<span class="function">loadPhotos</span>(refresh: <span class="keyword">true</span>);
+                          }
+                        },
+                        child: Text(<span class="string">'Retry'</span>),
+                      ),
+                    ],
+                  ),
+                )
+              : PhotoGrid(
+                  photos: state.photos,
+                  isLoading: state.isLoading &amp;&amp; state.photos.<span class="function">isEmpty</span>,
+                  isLoadingMore: state.isLoading &amp;&amp; state.photos.<span class="function">isNotEmpty</span>,
+                  controller: _scrollController,
+                ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">6. Photo Grid Widget (lib/presentation/widgets/photo_grid.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/widgets/photo_grid.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../models/photo.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'photo_detail_screen.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">PhotoGrid</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> List&lt;Photo&gt; photos;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoadingMore;
+    <span class="keyword">final</span> ScrollController controller;
+
+    <span class="keyword">const</span> <span class="function">PhotoGrid</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.photos,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isLoading,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isLoadingMore,
+      <span class="keyword">required</span> <span class="keyword">this</span>.controller,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">if</span> (isLoading &amp;&amp; photos.<span class="function">isEmpty</span>) {
+        <span class="keyword">return</span> GridView.<span class="function">builder</span>(
+          controller: controller,
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">8</span>),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: <span class="number">3</span>,
+            childAspectRatio: <span class="number">1</span>,
+            crossAxisSpacing: <span class="number">4</span>,
+            mainAxisSpacing: <span class="number">4</span>,
+          ),
+          itemCount: <span class="number">12</span>,
+          itemBuilder: (context, index) {
+            <span class="keyword">return</span> Container(
+              color: Colors.grey[<span class="number">200</span>],
+              child: Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: <span class="number">2</span>,
+                  color: Colors.pink,
+                ),
+              ),
+            );
+          },
+        );
+      }
+
+      <span class="keyword">if</span> (photos.<span class="function">isEmpty</span>) {
+        <span class="keyword">return</span> Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+            children: [
+              Icon(Icons.photo_library, size: <span class="number">64</span>, color: Colors.grey[<span class="number">300</span>]),
+              SizedBox(height: <span class="number">16</span>),
+              Text(
+                <span class="string">'No photos found'</span>,
+                style: TextStyle(
+                  fontSize: <span class="number">18</span>,
+                  color: Colors.grey[<span class="number">600</span>],
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      <span class="keyword">return</span> GridView.<span class="function">builder</span>(
+        controller: controller,
+        padding: EdgeInsets.<span class="function">all</span>(<span class="number">8</span>),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: <span class="number">3</span>,
+          childAspectRatio: <span class="number">1</span>,
+          crossAxisSpacing: <span class="number">4</span>,
+          mainAxisSpacing: <span class="number">4</span>,
+        ),
+        itemCount: photos.<span class="function">length</span> + (isLoadingMore ? <span class="number">1</span> : <span class="number">0</span>),
+        itemBuilder: (context, index) {
+          <span class="keyword">if</span> (index == photos.<span class="function">length</span>) {
+            <span class="keyword">return</span> Padding(
+              padding: EdgeInsets.<span class="function">all</span>(<span class="number">8</span>),
+              child: Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: <span class="number">2</span>,
+                  color: Colors.pink,
+                ),
+              ),
+            );
+          }
+
+          <span class="keyword">final</span> photo = photos[index];
+          <span class="keyword">final</span> heroTag = <span class="string">'photo_${photo.id}'</span>;
+
+          <span class="keyword">return</span> GestureDetector(
+            onTap: () {
+              Navigator.<span class="function">push</span>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =&gt; PhotoDetailScreen(photo: photo, heroTag: heroTag),
+                ),
+              );
+            },
+            child: Hero(
+              tag: heroTag,
+              child: ClipRRect(
+                borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                child: CachedNetworkImage(
+                  imageUrl: photo.thumbUrl,
+                  fit: BoxFit.<span class="function">cover</span>,
+                  placeholder: (context, url) =&gt; Container(
+                    color: Colors.grey[<span class="number">200</span>],
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: <span class="number">2</span>,
+                        color: Colors.pink,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) =&gt; Container(
+                    color: Colors.grey[<span class="number">200</span>],
+                    child: Icon(Icons.error, color: Colors.grey[<span class="number">400</span>]),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">7. Search Bar Widget (lib/presentation/widgets/search_bar.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/widgets/search_bar.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">SearchBar</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> <span class="keyword">void</span> Function(String) onSearch;
+    <span class="keyword">final</span> <span class="keyword">void</span> Function() onClear;
+
+    <span class="keyword">const</span> <span class="function">SearchBar</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.onSearch,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onClear,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;SearchBar&gt; <span class="function">createState</span>() =&gt; _SearchBarState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_SearchBarState</span> <span class="keyword">extends</span> State&lt;SearchBar&gt; {
+    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
+    <span class="keyword">final</span> FocusNode _focusNode = FocusNode();
+    <span class="keyword">bool</span> _isTyping = <span class="keyword">false</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      _focusNode.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">_handleSearch</span>() {
+      <span class="keyword">final</span> query = _controller.text.<span class="function">trim</span>();
+      widget.<span class="function">onSearch</span>(query);
+      _focusNode.<span class="function">unfocus</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[<span class="number">200</span>],
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: <span class="number">8</span>),
+            Icon(Icons.search, color: Colors.grey[<span class="number">600</span>]),
+            SizedBox(width: <span class="number">8</span>),
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                focusNode: _focusNode,
+                decoration: InputDecoration(
+                  hintText: <span class="string">'Search photos...'</span>,
+                  border: InputBorder.<span class="function">none</span>,
+                  hintStyle: TextStyle(color: Colors.grey[<span class="number">500</span>]),
+                ),
+                onChanged: (value) {
+                  setState(() =&gt; _isTyping = value.<span class="function">isNotEmpty</span>);
+                  <span class="keyword">if</span> (value.<span class="function">isEmpty</span>) {
+                    widget.<span class="function">onClear</span>();
+                  }
+                },
+                onSubmitted: (_) =&gt; _handleSearch(),
+                textInputAction: TextInputAction.<span class="function">search</span>,
+              ),
+            ),
+            <span class="keyword">if</span> (_isTyping)
+              IconButton(
+                onPressed: () {
+                  _controller.<span class="function">clear</span>();
+                  setState(() =&gt; _isTyping = <span class="keyword">false</span>);
+                  widget.<span class="function">onClear</span>();
+                  _focusNode.<span class="function">requestFocus</span>();
+                },
+                icon: Icon(Icons.clear, size: <span class="number">18</span>, color: Colors.grey[<span class="number">600</span>]),
+                padding: EdgeInsets.<span class="function">zero</span>,
+                constraints: BoxConstraints(),
+              ),
+            SizedBox(width: <span class="number">8</span>),
+            ElevatedButton(
+              onPressed: _handleSearch,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pink,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                ),
+                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">8</span>),
+              ),
+              child: Text(<span class="string">'Search'</span>),
+            ),
+            SizedBox(width: <span class="number">4</span>),
+          ],
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">8. Photo Detail Screen (lib/presentation/screens/photo_detail_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/screens/photo_detail_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../models/photo.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">PhotoDetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Photo photo;
+    <span class="keyword">final</span> String heroTag;
+
+    <span class="keyword">const</span> <span class="function">PhotoDetailScreen</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.photo,
+      <span class="keyword">required</span> <span class="keyword">this</span>.heroTag,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.black.<span class="function">withOpacity</span>(<span class="number">0.5</span>),
+          foregroundColor: Colors.white,
+          elevation: <span class="number">0</span>,
+          title: Text(
+            photo.<span class="function">getDisplayTitle</span>(),
+            style: TextStyle(fontSize: <span class="number">16</span>),
+            maxLines: <span class="number">1</span>,
+            overflow: TextOverflow.ellipsis,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                <span class="comment">// Share or download functionality</span>
+                ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
+                  SnackBar(content: Text(<span class="string">'Share feature coming soon'</span>)),
+                );
+              },
+              icon: Icon(Icons.share),
+            ),
+          ],
+        ),
+        body: GestureDetector(
+          onTap: () {
+            <span class="comment">// Toggle app bar visibility</span>
+          },
+          child: Center(
+            child: Hero(
+              tag: heroTag,
+              child: InteractiveViewer(
+                minScale: <span class="number">0.5</span>,
+                maxScale: <span class="number">4.0</span>,
+                child: CachedNetworkImage(
+                  imageUrl: photo.url,
+                  fit: BoxFit.<span class="function">contain</span>,
+                  placeholder: (context, url) =&gt; Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) =&gt; Center(
+                    child: Icon(Icons.error, color: Colors.grey[<span class="number">400</span>], size: <span class="number">48</span>),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        bottomSheet: Container(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          decoration: BoxDecoration(
+            color: Colors.black.<span class="function">withOpacity</span>(<span class="number">0.8</span>),
+            borderRadius: BorderRadius.<span class="function">only</span>(
+              topLeft: Radius.<span class="function">circular</span>(<span class="number">16</span>),
+              topRight: Radius.<span class="function">circular</span>(<span class="number">16</span>),
+            ),
+          ),
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.<span class="function">min</span>,
+              crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[<span class="number">800</span>],
+                      child: Text(
+                        photo.photographer.<span class="function">isNotEmpty</span>
+                            ? photo.photographer[<span class="number">0</span>].<span class="function">toUpperCase</span>()
+                            : <span class="string">'?'</span>,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(width: <span class="number">12</span>),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+                        children: [
+                          Text(
+                            photo.photographer,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            photo.<span class="function">getFormattedDate</span>(),
+                            style: TextStyle(
+                              color: Colors.grey[<span class="number">400</span>],
+                              fontSize: <span class="number">12</span>,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.favorite, color: Colors.red, size: <span class="number">18</span>),
+                        SizedBox(width: <span class="number">4</span>),
+                        Text(
+                          photo.likes.<span class="function">toString</span>(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: <span class="number">8</span>),
+                <span class="keyword">if</span> (photo.<span class="function">getDisplayTitle</span>() != <span class="string">'Untitled'</span>)
+                  Text(
+                    photo.<span class="function">getDisplayTitle</span>(),
+                    style: TextStyle(
+                      color: Colors.grey[<span class="number">300</span>],
+                      fontSize: <span class="number">14</span>,
+                    ),
+                  ),
+                SizedBox(height: <span class="number">8</span>),
+                Container(
+                  padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">4</span>),
+                  decoration: BoxDecoration(
+                    color: Colors.white.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                  ),
+                  child: Text(
+                    <span class="string">'Tap to zoom • Pinch to zoom in/out'</span>,
+                    style: TextStyle(
+                      color: Colors.grey[<span class="number">400</span>],
+                      fontSize: <span class="number">10</span>,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>Hero Animations</strong> – Smooth transitions between grid and detail view</li>
+<li><strong>Responsive Grid Layout</strong> – Dynamic grid with proper aspect ratios</li>
+<li><strong>InteractiveViewer</strong> – Pinch-to-zoom and pan gestures</li>
+<li><strong>Infinite Scrolling</strong> – Pagination with scroll detection</li>
+<li><strong>Image Caching</strong> – Using cached_network_image for performance</li>
+<li><strong>Search Functionality</strong> – Real-time search with animated results</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="challenge1-interactive-quiz-app.html">
+<i class="fas fa-arrow-left"></i> Previous Challenge
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="challenge3-weather-animation-dashboard.html">
+              Next Challenge <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://pub.dev/packages/cached_network_image" rel="noopener" target="_blank">Cached Network Image</a></li>
+<li><a href="https://unsplash.com/developers" rel="noopener" target="_blank">Unsplash API</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm6-c2';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

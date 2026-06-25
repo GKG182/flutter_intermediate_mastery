@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>News Reader App – Module 2 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a News Reader App that fetches articles from NewsAPI with categories, search, and pagination." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .api-tag {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.12);
+      color: #3B82F6;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 5000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 2 · Challenge 3
+            </span>
+</div>
+<div class="challenge-header">
+<h1>News Reader App</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> API Integration</span>
+<span class="meta-item"><strong>Concepts:</strong> HTTP GET, Categories, Search, Pagination</span>
+<span class="meta-item"><strong>Est. Time:</strong> 60-75 min</span>
+<span class="meta-item"><span class="api-tag">📰 NewsAPI</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build a <strong>News Reader App</strong> that fetches and displays news articles from
+              the NewsAPI. Users should be able to browse news by categories, search for specific
+              topics, and load more articles with pagination.
+            </p>
+<div class="api-box">
+<h4>🌐 API Endpoints</h4>
+<p><strong>NewsAPI - Top Headlines</strong></p>
+<div class="endpoint">https://newsapi.org/v2/top-headlines?country=us&amp;category={category}&amp;apiKey={API_KEY}&amp;page={page}</div>
+<p style="margin-top: 0.5rem;"><strong>NewsAPI - Everything (Search)</strong></p>
+<div class="endpoint">https://newsapi.org/v2/everything?q={query}&amp;apiKey={API_KEY}&amp;page={page}</div>
+<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+                Returns news articles with title, description, image, source, and published date.
+              </p>
+<div class="api-note">
+                ⚠️ <strong>Note:</strong> You'll need a free API key from <a href="https://newsapi.org" target="_blank">NewsAPI</a>.
+                The free tier allows 100 requests per day.
+              </div>
+</div>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Display <strong>top headlines</strong> on app start</li>
+<li><strong>Category filtering</strong> (Business, Technology, Sports, Health, Entertainment)</li>
+<li><strong>Search</strong> for news articles by keyword</li>
+<li><strong>Pagination</strong> (load more articles)</li>
+<li>Show article <strong>image</strong>, <strong>title</strong>, <strong>source</strong>, and <strong>time</strong></li>
+<li>Tap an article to <strong>open</strong> in browser</li>
+<li>Handle <strong>loading</strong> and <strong>error</strong> states</li>
+<li>Use <strong>http</strong> package for API calls</li>
+<li>Use <strong>StateNotifier</strong> for state management</li>
+</ul>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://newsapi.org/docs" target="_blank">NewsAPI Documentation</a></li>
+<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
+<li><a href="https://pub.dev/packages/url_launcher" target="_blank">url_launcher package</a></li>
+<li><a href="https://riverpod.dev/docs/concepts/state_notifier_provider" target="_blank">StateNotifierProvider</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Use <code>StateNotifier</code> to manage the news state
+                  with properties like <code>articles</code>, <code>category</code>, <code>page</code>,
+                  and <code>hasMore</code>. For pagination, use a <code>ScrollController</code> to
+                  detect when the user reaches the bottom of the list. Use <code>url_launcher</code>
+                  to open articles in the browser.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    http: ^1.1.0
+    url_launcher: ^6.2.0
+    cached_network_image: ^3.3.0
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Article Model (lib/models/article.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/article.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">Article</span> {
+    <span class="keyword">final</span> String? title;
+    <span class="keyword">final</span> String? description;
+    <span class="keyword">final</span> String? url;
+    <span class="keyword">final</span> String? urlToImage;
+    <span class="keyword">final</span> String? sourceName;
+    <span class="keyword">final</span> DateTime? publishedAt;
+
+    <span class="function">Article</span>({
+      <span class="keyword">this</span>.title,
+      <span class="keyword">this</span>.description,
+      <span class="keyword">this</span>.url,
+      <span class="keyword">this</span>.urlToImage,
+      <span class="keyword">this</span>.sourceName,
+      <span class="keyword">this</span>.publishedAt,
+    });
+
+    <span class="keyword">factory</span> Article.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> Article(
+        title: json[<span class="string">'title'</span>] <span class="keyword">as</span> String?,
+        description: json[<span class="string">'description'</span>] <span class="keyword">as</span> String?,
+        url: json[<span class="string">'url'</span>] <span class="keyword">as</span> String?,
+        urlToImage: json[<span class="string">'urlToImage'</span>] <span class="keyword">as</span> String?,
+        sourceName: json[<span class="string">'source'</span>][<span class="string">'name'</span>] <span class="keyword">as</span> String?,
+        publishedAt: json[<span class="string">'publishedAt'</span>] != <span class="keyword">null</span>
+            ? DateTime.<span class="function">parse</span>(json[<span class="string">'publishedAt'</span>] <span class="keyword">as</span> String)
+            : <span class="keyword">null</span>,
+      );
+    }
+
+    String get timeAgo {
+      <span class="keyword">if</span> (publishedAt == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="string">''</span>;
+      <span class="keyword">final</span> diff = DateTime.<span class="function">now</span>().<span class="function">difference</span>(publishedAt!);
+      <span class="keyword">if</span> (diff.<span class="function">inDays</span> &gt; <span class="number">0</span>) <span class="keyword">return</span> <span class="string">'${diff.inDays}d ago'</span>;
+      <span class="keyword">if</span> (diff.<span class="function">inHours</span> &gt; <span class="number">0</span>) <span class="keyword">return</span> <span class="string">'${diff.inHours}h ago'</span>;
+      <span class="keyword">if</span> (diff.<span class="function">inMinutes</span> &gt; <span class="number">0</span>) <span class="keyword">return</span> <span class="string">'${diff.inMinutes}m ago'</span>;
+      <span class="keyword">return</span> <span class="string">'Just now'</span>;
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. News Notifier (lib/providers/news_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/news_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/article.dart'</span>;
+
+  <span class="keyword">const</span> String apiKey = <span class="string">'YOUR_API_KEY_HERE'</span>; <span class="comment">// Replace with your NewsAPI key</span>
+<span class="keyword">class</span> <span class="function">NewsState</span> {
+    <span class="keyword">final</span> List&lt;Article&gt; articles;
+    <span class="keyword">final</span> String category;
+    <span class="keyword">final</span> <span class="keyword">int</span> page;
+    <span class="keyword">final</span> <span class="keyword">bool</span> hasMore;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
+    <span class="keyword">final</span> String? error;
+    <span class="keyword">final</span> String searchQuery;
+
+    <span class="function">NewsState</span>({
+      <span class="keyword">this</span>.articles = <span class="keyword">const</span> [],
+      <span class="keyword">this</span>.category = <span class="string">'general'</span>,
+      <span class="keyword">this</span>.page = <span class="number">1</span>,
+      <span class="keyword">this</span>.hasMore = <span class="keyword">true</span>,
+      <span class="keyword">this</span>.isLoading = <span class="keyword">false</span>,
+      <span class="keyword">this</span>.error,
+      <span class="keyword">this</span>.searchQuery = <span class="string">''</span>,
+    });
+
+    <span class="function">NewsState copyWith</span>({
+      List&lt;Article&gt;? articles,
+      String? category,
+      <span class="keyword">int</span>? page,
+      <span class="keyword">bool</span>? hasMore,
+      <span class="keyword">bool</span>? isLoading,
+      String? error,
+      String? searchQuery,
+    }) {
+      <span class="keyword">return</span> NewsState(
+        articles: articles ?? <span class="keyword">this</span>.articles,
+        category: category ?? <span class="keyword">this</span>.category,
+        page: page ?? <span class="keyword">this</span>.page,
+        hasMore: hasMore ?? <span class="keyword">this</span>.hasMore,
+        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
+        error: error ?? <span class="keyword">this</span>.error,
+        searchQuery: searchQuery ?? <span class="keyword">this</span>.searchQuery,
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">NewsNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;NewsState&gt; {
+    <span class="function">NewsNotifier</span>() : <span class="keyword">super</span>(NewsState()) {
+      <span class="function">_fetchArticles</span>();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_fetchArticles</span>({<span class="keyword">bool</span> loadMore = <span class="keyword">false</span>}) async {
+      <span class="keyword">if</span> (state.isLoading) <span class="keyword">return</span>;
+      <span class="keyword">if</span> (loadMore &amp;&amp; !state.hasMore) <span class="keyword">return</span>;
+
+      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>, error: <span class="keyword">null</span>);
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> page = loadMore ? state.page + <span class="number">1</span> : <span class="number">1</span>;
+        <span class="keyword">final</span> isSearch = state.searchQuery.<span class="function">isNotEmpty</span>;
+
+        <span class="keyword">final</span> url = isSearch
+            ? Uri.parse(
+                <span class="string">'https://newsapi.org/v2/everything?q=${state.searchQuery}&amp;apiKey=$apiKey&amp;page=$page&amp;pageSize=20'</span>,
+              )
+            : Uri.parse(
+                <span class="string">'https://newsapi.org/v2/top-headlines?country=us&amp;category=${state.category}&amp;apiKey=$apiKey&amp;page=$page&amp;pageSize=20'</span>,
+              );
+
+        <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+          <span class="keyword">final</span> List&lt;dynamic&gt; results = data[<span class="string">'articles'</span>];
+          <span class="keyword">final</span> newArticles = results
+              .<span class="function">map</span>((json) =&gt; Article.<span class="function">fromJson</span>(json))
+              .<span class="function">where</span>((article) =&gt; article.title != <span class="keyword">null</span> &amp;&amp; article.title!.<span class="function">isNotEmpty</span>)
+              .<span class="function">toList</span>();
+
+          state = state.<span class="function">copyWith</span>(
+            articles: loadMore ? [...state.articles, ...newArticles] : newArticles,
+            page: page,
+            hasMore: newArticles.<span class="function">isNotEmpty</span>,
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="keyword">null</span>,
+          );
+        } <span class="keyword">else</span> {
+          state = state.<span class="function">copyWith</span>(
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="string">'Failed to load news: ${response.statusCode}'</span>,
+          );
+        }
+      } <span class="keyword">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">loadMore</span>() {
+      <span class="function">_fetchArticles</span>(loadMore: <span class="keyword">true</span>);
+    }
+
+    <span class="keyword">void</span> <span class="function">changeCategory</span>(String category) {
+      state = state.<span class="function">copyWith</span>(
+        category: category,
+        searchQuery: <span class="string">''</span>,
+        articles: [],
+        page: <span class="number">1</span>,
+        hasMore: <span class="keyword">true</span>,
+      );
+      <span class="function">_fetchArticles</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">search</span>(String query) {
+      <span class="keyword">if</span> (query.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+        state = state.<span class="function">copyWith</span>(searchQuery: <span class="string">''</span>);
+        <span class="function">changeCategory</span>(state.category);
+        <span class="keyword">return</span>;
+      }
+      state = state.<span class="function">copyWith</span>(
+        searchQuery: query,
+        articles: [],
+        page: <span class="number">1</span>,
+        hasMore: <span class="keyword">true</span>,
+      );
+      <span class="function">_fetchArticles</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">refresh</span>() {
+      <span class="function">_fetchArticles</span>();
+    }
+  }
+
+  <span class="keyword">final</span> newsProvider = StateNotifierProvider&lt;NewsNotifier, NewsState&gt;((ref) {
+    <span class="keyword">return</span> NewsNotifier();
+  });
+
+  <span class="keyword">final</span> categories = [
+    <span class="string">'general'</span>,
+    <span class="string">'business'</span>,
+    <span class="string">'technology'</span>,
+    <span class="string">'sports'</span>,
+    <span class="string">'health'</span>,
+    <span class="string">'entertainment'</span>,
+    <span class="string">'science'</span>,
+  ];
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Article Card Widget (lib/widgets/article_card.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/widgets/article_card.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:url_launcher/url_launcher.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/article.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">ArticleCard</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Article article;
+
+    <span class="keyword">const</span> <span class="function">ArticleCard</span>({<span class="keyword">required</span> <span class="keyword">this</span>.article, <span class="keyword">super</span>.key});
+
+    <span class="keyword">void</span> <span class="function">_openArticle</span>() async {
+      <span class="keyword">if</span> (article.url != <span class="keyword">null</span>) {
+        <span class="keyword">final</span> url = Uri.parse(article.url!);
+        <span class="keyword">if</span> (<span class="keyword">await</span> <span class="function">canLaunchUrl</span>(url)) {
+          <span class="keyword">await</span> <span class="function">launchUrl</span>(url);
+        }
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Card(
+        elevation: <span class="number">2</span>,
+        margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">6</span>),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+        ),
+        child: InkWell(
+          onTap: _openArticle,
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          child: Padding(
+            padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                <span class="comment">// Image</span>
+                ClipRRect(
+                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  child: article.urlToImage != <span class="keyword">null</span>
+                      ? CachedNetworkImage(
+                          imageUrl: article.urlToImage!,
+                          width: <span class="number">100</span>,
+                          height: <span class="number">80</span>,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =&gt; Container(
+                            width: <span class="number">100</span>,
+                            height: <span class="number">80</span>,
+                            color: Colors.grey[<span class="number">300</span>],
+                            child: Icon(Icons.image, color: Colors.grey[<span class="number">500</span>]),
+                          ),
+                          errorWidget: (context, url, error) =&gt; Container(
+                            width: <span class="number">100</span>,
+                            height: <span class="number">80</span>,
+                            color: Colors.grey[<span class="number">300</span>],
+                            child: Icon(Icons.broken_image, color: Colors.grey[<span class="number">500</span>]),
+                          ),
+                        )
+                      : Container(
+                          width: <span class="number">100</span>,
+                          height: <span class="number">80</span>,
+                          color: Colors.grey[<span class="number">300</span>],
+                          child: Icon(Icons.image, color: Colors.grey[<span class="number">500</span>]),
+                        ),
+                ),
+                SizedBox(width: <span class="number">12</span>),
+                <span class="comment">// Article info</span>
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        article.title ?? <span class="string">'No title'</span>,
+                        style: TextStyle(
+                          fontSize: <span class="number">14</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: <span class="number">3</span>,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: <span class="number">4</span>),
+                      <span class="keyword">if</span> (article.description != <span class="keyword">null</span>)
+                        Text(
+                          article.description!,
+                          style: TextStyle(
+                            fontSize: <span class="number">12</span>,
+                            color: Colors.grey[<span class="number">600</span>],
+                          ),
+                          maxLines: <span class="number">2</span>,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      SizedBox(height: <span class="number">6</span>),
+                      Row(
+                        children: [
+                          Text(
+                            article.sourceName ?? <span class="string">'Unknown'</span>,
+                            style: TextStyle(
+                              fontSize: <span class="number">10</span>,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blue[<span class="number">700</span>],
+                            ),
+                          ),
+                          SizedBox(width: <span class="number">8</span>),
+                          Text(
+                            article.timeAgo,
+                            style: TextStyle(
+                              fontSize: <span class="number">10</span>,
+                              color: Colors.grey[<span class="number">500</span>],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Main Screen (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers/news_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'widgets/article_card.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'News Reader'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> HomeScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
+    <span class="keyword">final</span> TextEditingController _searchController = TextEditingController();
+    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+
+    <span class="keyword">bool</span> _isSearching = <span class="keyword">false</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _scrollController.<span class="function">addListener</span>(() {
+        <span class="keyword">if</span> (_scrollController.position.pixels &gt;=
+            _scrollController.position.maxScrollExtent - <span class="number">200</span>) {
+          ref.<span class="function">read</span>(newsProvider.notifier).<span class="function">loadMore</span>();
+        }
+      });
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _searchController.<span class="function">dispose</span>();
+      _scrollController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(newsProvider);
+      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(newsProvider.notifier);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: _isSearching
+              ? TextField(
+                  controller: _searchController,
+                  autofocus: <span class="keyword">true</span>,
+                  decoration: InputDecoration(
+                    hintText: <span class="string">'Search news...'</span>,
+                    border: InputBorder.<span class="keyword">none</span>,
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                  onSubmitted: (value) {
+                    notifier.<span class="function">search</span>(value);
+                    <span class="function">setState</span>(() =&gt; _isSearching = <span class="keyword">false</span>);
+                  },
+                )
+              : Text(<span class="string">'📰 News Reader'</span>),
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () {
+                <span class="function">setState</span>(() {
+                  _isSearching = !_isSearching;
+                  <span class="keyword">if</span> (!_isSearching) {
+                    _searchController.<span class="function">clear</span>();
+                    notifier.<span class="function">search</span>(<span class="string">''</span>);
+                  }
+                });
+              },
+              icon: Icon(_isSearching ? Icons.close : Icons.search),
+            ),
+            IconButton(
+              onPressed: () =&gt; notifier.<span class="function">refresh</span>(),
+              icon: Icon(Icons.refresh),
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            <span class="comment">// Category chips</span>
+<span class="keyword">if</span> (!_isSearching &amp;&amp; state.searchQuery.<span class="function">isEmpty</span>)
+              Container(
+                height: <span class="number">50</span>,
+                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.<span class="function">length</span>,
+                  itemBuilder: (context, index) {
+                    <span class="keyword">final</span> category = categories[index];
+                    <span class="keyword">final</span> isSelected = category == state.category;
+                    <span class="keyword">return</span> Padding(
+                      padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">4</span>),
+                      child: FilterChip(
+                        label: Text(
+                          category.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">1</span>).<span class="function">toUpperCase</span>() +
+                              category.<span class="function">substring</span>(<span class="number">1</span>),
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontSize: <span class="number">12</span>,
+                          ),
+                        ),
+                        selected: isSelected,
+                        onSelected: (_) {
+                          notifier.<span class="function">changeCategory</span>(category);
+                        },
+                        backgroundColor: Colors.grey[<span class="number">200</span>],
+                        selectedColor: Colors.blue,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            <span class="comment">// News list</span>
+            Expanded(
+              child: state.error != <span class="keyword">null</span>
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
+                          SizedBox(height: <span class="number">16</span>),
+                          Text(
+                            <span class="string">'Something went wrong'</span>,
+                            style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: <span class="number">8</span>),
+                          Text(
+                            state.error!,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                          ),
+                          SizedBox(height: <span class="number">16</span>),
+                          ElevatedButton(
+                            onPressed: () =&gt; notifier.<span class="function">refresh</span>(),
+                            child: Text(<span class="string">'Retry'</span>),
+                          ),
+                        ],
+                      ),
+                    )
+                  : state.articles.<span class="function">isEmpty</span> &amp;&amp; state.isLoading
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(),
+                              SizedBox(height: <span class="number">16</span>),
+                              Text(
+                                <span class="string">'Loading news...'</span>,
+                                style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                              ),
+                            ],
+                          ),
+                        )
+                      : state.articles.<span class="function">isEmpty</span>
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.newspaper, size: <span class="number">64</span>, color: Colors.grey[<span class="number">400</span>]),
+                                  SizedBox(height: <span class="number">16</span>),
+                                  Text(
+                                    <span class="string">'No articles found'</span>,
+                                    style: TextStyle(fontSize: <span class="number">16</span>, color: Colors.grey[<span class="number">500</span>]),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              controller: _scrollController,
+                              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">8</span>),
+                              itemCount: state.articles.<span class="function">length</span> + (state.hasMore ? <span class="number">1</span> : <span class="number">0</span>),
+                              itemBuilder: (context, index) {
+                                <span class="keyword">if</span> (index == state.articles.<span class="function">length</span>) {
+                                  <span class="keyword">return</span> Padding(
+                                    padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                                    child: Center(
+                                      child: SizedBox(
+                                        height: <span class="number">24</span>,
+                                        width: <span class="number">24</span>,
+                                        child: CircularProgressIndicator(strokeWidth: <span class="number">2</span>),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                <span class="keyword">return</span> ArticleCard(article: state.articles[index]);
+                              },
+                            ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>StateNotifier</strong> – Managing complex news state</li>
+<li><strong>Pagination</strong> – Loading more articles with ScrollController</li>
+<li><strong>Category Filtering</strong> – Filtering news by category</li>
+<li><strong>Search</strong> – Searching articles by keyword</li>
+<li><strong>url_launcher</strong> – Opening articles in browser</li>
+<li><strong>Image Caching</strong> – Using cached_network_image</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="challenge2-movie-explorer.html">
+<i class="fas fa-arrow-left"></i> Previous Challenge
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="challenge4-github-viewer.html">
+              Next Challenge <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+<li><a href="https://newsapi.org" rel="noopener" target="_blank">NewsAPI</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm2-c3';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

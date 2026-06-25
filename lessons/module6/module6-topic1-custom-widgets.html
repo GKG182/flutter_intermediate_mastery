@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Custom Widgets – Module 6 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to create custom widgets in Flutter. Understand StatelessWidget, StatefulWidget, composition, and when to use each approach." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .widget-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .widget-type {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 2px solid var(--border);
+      text-align: center;
+      transition: var(--transition);
+    }
+    .widget-type:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .widget-type .type-icon {
+      font-size: 2.5rem;
+    }
+    .widget-type .type-name {
+      font-weight: 700;
+      font-size: var(--font-base);
+      margin-top: 0.25rem;
+    }
+    .widget-type .type-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    .widget-type .type-when {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: rgba(124, 58, 237, 0.06);
+      border-radius: var(--radius-sm);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid,
+      .widget-types {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module6-advanced-flutter.html">Module 6</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 1</span>
+</div>
+<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 1</div>
+<h1>Custom Widgets</h1>
+<p class="topic-subtitle">
+            Building reusable, composable widgets in Flutter — the foundation of every great Flutter app.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/widgets" target="_blank">
+<i class="fas fa-globe"></i> Flutter Widget Catalog
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/widgets" target="_blank">
+<i class="fas fa-book"></i> Widget Docs
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT ARE CUSTOM WIDGETS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Are Custom Widgets?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Custom widgets</strong> are the building blocks of Flutter applications. While Flutter
+            provides a rich set of built-in widgets (like <code>Container</code>, <code>Row</code>,
+            <code>Column</code>, <code>Text</code>, etc.), you'll quickly find that you need to create
+            your own widgets to encapsulate reusable UI components and business logic.
+          </p>
+<div class="concept-card info">
+<h4>💡 Key Concept</h4>
+<p>
+              In Flutter, <strong>everything is a widget</strong>. Custom widgets allow you to
+              <strong>compose</strong> existing widgets into new, reusable components. This is the
+              core philosophy of Flutter — building UIs by composing widgets.
+            </p>
+</div>
+<div class="widget-types">
+<div class="widget-type" style="border-color: #3B82F6;">
+<div class="type-icon">📄</div>
+<div class="type-name">StatelessWidget</div>
+<div class="type-desc">Widgets that don't change state</div>
+<div class="type-when">Use when the UI depends only on constructor parameters</div>
+</div>
+<div class="widget-type" style="border-color: #8B5CF6;">
+<div class="type-icon">🔄</div>
+<div class="type-name">StatefulWidget</div>
+<div class="type-desc">Widgets that can change state</div>
+<div class="type-when">Use when the UI needs to update dynamically</div>
+</div>
+<div class="widget-type" style="border-color: #10B981;">
+<div class="type-icon">🔧</div>
+<div class="type-name">Composition</div>
+<div class="type-desc">Building widgets from other widgets</div>
+<div class="type-when">Always prefer composition over inheritance</div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: STATELESS VS STATEFUL ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Stateless vs Stateful</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Understanding when to use <strong>StatelessWidget</strong> vs <strong>StatefulWidget</strong>
+            is crucial for building efficient Flutter apps.
+          </p>
+<div class="comparison-grid">
+<div class="compare-item" style="border-left: 4px solid #3B82F6;">
+<h4 style="color: #3B82F6;">StatelessWidget</h4>
+<ul>
+<li>Immutable — properties can't change</li>
+<li>Build method runs once unless parent rebuilds</li>
+<li>Perfect for presentation-only widgets</li>
+<li>More performant</li>
+<li>Example: <code>Text</code>, <code>Icon</code>, <code>Container</code></li>
+</ul>
+</div>
+<div class="compare-item" style="border-left: 4px solid #8B5CF6;">
+<h4 style="color: #8B5CF6;">StatefulWidget</h4>
+<ul>
+<li>Mutable — can change over time</li>
+<li>Has a separate State object</li>
+<li>Can call <code>setState()</code> to rebuild</li>
+<li>More complex lifecycle</li>
+<li>Example: <code>Checkbox</code>, <code>TextField</code>, animations</li>
+</ul>
+</div>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">Stateless Widget Example</span>
+<code>
+<span class="keyword">class</span> <span class="function">CustomButton</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> String text;
+    <span class="keyword">final</span> VoidCallback onPressed;
+    <span class="keyword">final</span> Color color;
+
+    <span class="function">CustomButton</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.text,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onPressed,
+      <span class="keyword">this</span>.color = Colors.blue,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> ElevatedButton(
+        style: ElevatedButton.styleFrom(backgroundColor: color),
+        onPressed: onPressed,
+        child: Text(text),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">Stateful Widget Example</span>
+<code>
+<span class="keyword">class</span> <span class="function">CounterWidget</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> String label;
+
+    <span class="function">CounterWidget</span>({<span class="keyword">required</span> <span class="keyword">this</span>.label});
+
+    @override
+    _CounterWidgetState <span class="function">createState</span>() =&gt; _CounterWidgetState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_CounterWidgetState</span> <span class="keyword">extends</span> State&lt;CounterWidget&gt; {
+    <span class="keyword">int</span> _count = <span class="number">0</span>;
+
+    <span class="keyword">void</span> <span class="function">_increment</span>() {
+      <span class="function">setState</span>(() {
+        _count++;
+      });
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Column(
+        children: [
+          Text(<span class="string">'${widget.label}: $_count'</span>),
+          ElevatedButton(
+            onPressed: _increment,
+            child: Text(<span class="string">'Increment'</span>),
+          ),
+        ],
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Best Practice: Prefer Stateless</h4>
+<p>
+              Always start with a <strong>StatelessWidget</strong>. Only switch to StatefulWidget
+              when you need to manage local state that changes over time. This keeps your code
+              simpler and more performant.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 3: COMPOSITION OVER INHERITANCE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Composition Over Inheritance</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            In Flutter, <strong>composition</strong> is preferred over inheritance. Instead of
+            extending a widget to customize it, you <strong>compose</strong> it with other widgets.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">❌ Bad: Inheritance (Don't do this)</span>
+<code>
+<span class="comment">// DON'T extend a widget to customize it</span>
+<span class="keyword">class</span> <span class="function">MyCustomButton</span> <span class="keyword">extends</span> ElevatedButton {
+    <span class="function">MyCustomButton</span>({
+      <span class="keyword">required</span> VoidCallback onPressed,
+      <span class="keyword">required</span> Widget child,
+    }) : <span class="keyword">super</span>(
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">✅ Good: Composition (Do this)</span>
+<code>
+<span class="comment">// Compose widgets to build new ones</span>
+<span class="keyword">class</span> <span class="function">MyCustomButton</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> VoidCallback onPressed;
+    <span class="keyword">final</span> String text;
+
+    <span class="function">MyCustomButton</span>({<span class="keyword">required</span> <span class="keyword">this</span>.onPressed, <span class="keyword">required</span> <span class="keyword">this</span>.text});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.purple,
+          padding: EdgeInsets.<span class="function">symmetric</span>(
+            horizontal: <span class="number">32</span>,
+            vertical: <span class="number">16</span>,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+          ),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 Why Composition?</h4>
+<ul>
+<li><strong>Flexibility</strong> – You can combine widgets in any way</li>
+<li><strong>Reusability</strong> – Composed widgets can be used in many places</li>
+<li><strong>Testability</strong> – Smaller, focused widgets are easier to test</li>
+<li><strong>Maintainability</strong> – Changes are isolated to specific widgets</li>
+<li><strong>Performance</strong> – Composition is more efficient than deep inheritance</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 4: BUILDING COMPLEX UIs ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Building Complex UIs</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Custom widgets shine when building complex, reusable UI components. Here's how to
+            build a <strong>User Profile Card</strong> that can be reused across your app:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/profile_card.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">ProfileCard</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String email;
+    <span class="keyword">final</span> String avatarUrl;
+    <span class="keyword">final</span> VoidCallback onTap;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isOnline;
+
+    <span class="function">ProfileCard</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.name,
+      <span class="keyword">required</span> <span class="keyword">this</span>.email,
+      <span class="keyword">required</span> <span class="keyword">this</span>.avatarUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
+      <span class="keyword">this</span>.isOnline = <span class="keyword">false</span>,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Card(
+        elevation: <span class="number">4</span>,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+          child: Padding(
+            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            child: Row(
+              children: [
+                <span class="comment">// Avatar with online indicator</span>
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: <span class="number">30</span>,
+                      backgroundImage: NetworkImage(avatarUrl),
+                    ),
+                    <span class="keyword">if</span> (isOnline)
+                      Positioned(
+                        bottom: <span class="number">0</span>,
+                        right: <span class="number">0</span>,
+                        child: Container(
+                          width: <span class="number">14</span>,
+                          height: <span class="number">14</span>,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.circle,
+                            border: Border.<span class="function">all</span>(
+                              color: Colors.white,
+                              width: <span class="number">2</span>,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                SizedBox(width: <span class="number">16</span>),
+                <span class="comment">// User info</span>
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: <span class="number">18</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        email,
+                        style: TextStyle(
+                          fontSize: <span class="number">14</span>,
+                          color: Colors.grey[<span class="number">600</span>],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: Colors.grey[<span class="number">400</span>],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">Using the Profile Card</span>
+<code>
+<span class="comment">// Usage in any screen</span>
+  ProfileCard(
+    name: <span class="string">'John Doe'</span>,
+    email: <span class="string">'john@example.com'</span>,
+    avatarUrl: <span class="string">'https://i.pravatar.cc/150?img=1'</span>,
+    isOnline: <span class="keyword">true</span>,
+    onTap: () {
+      <span class="comment">// Navigate to user profile</span>
+      Navigator.<span class="function">push</span>(context, MaterialPageRoute(
+        builder: (context) =&gt; UserProfileScreen(userId: <span class="string">'123'</span>),
+      ));
+    },
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: CUSTOM WIDGET DESIGN PATTERNS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Custom Widget Design Patterns</span>
+<span class="divider-line"></span>
+</div>
+<h3>1. The "Container" Pattern</h3>
+<p>
+            Create widgets that accept a <code>child</code> and wrap it with styling, layout, or behavior.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/card_container.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">CardContainer</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Widget child;
+    <span class="keyword">final</span> EdgeInsets padding;
+    <span class="keyword">final</span> <span class="keyword">double</span> elevation;
+
+    <span class="function">CardContainer</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.child,
+      <span class="keyword">this</span>.padding = <span class="keyword">const</span> EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+      <span class="keyword">this</span>.elevation = <span class="number">2</span>,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Card(
+        elevation: elevation,
+        child: Padding(
+          padding: padding,
+          child: child,
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>2. The "List View" Pattern</h3>
+<p>
+            Create reusable list builders for consistent data display.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/user_list.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">UserList</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> List&lt;User&gt; users;
+    <span class="keyword">final</span> <span class="keyword">void</span> Function(User) onUserTap;
+
+    <span class="function">UserList</span>({<span class="keyword">required</span> <span class="keyword">this</span>.users, <span class="keyword">required</span> <span class="keyword">this</span>.onUserTap});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> ListView.builder(
+        itemCount: users.<span class="function">length</span>,
+        itemBuilder: (context, index) {
+          <span class="keyword">final</span> user = users[index];
+          <span class="keyword">return</span> ProfileCard(
+            name: user.name,
+            email: user.email,
+            avatarUrl: user.avatarUrl,
+            isOnline: user.isOnline,
+            onTap: () =&gt; onUserTap(user),
+          );
+        },
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>3. The "Loading State" Pattern</h3>
+<p>
+            Build widgets that handle loading, error, and success states.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/async_content.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">AsyncContent</span>&lt;T&gt; <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> AsyncSnapshot&lt;T&gt; snapshot;
+    <span class="keyword">final</span> Widget Function(T data) onSuccess;
+    <span class="keyword">final</span> Widget Function(String error)? onError;
+    <span class="keyword">final</span> Widget? onLoading;
+
+    <span class="function">AsyncContent</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.snapshot,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onSuccess,
+      <span class="keyword">this</span>.onError,
+      <span class="keyword">this</span>.onLoading,
+    });
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">if</span> (snapshot.connectionState == ConnectionState.waiting) {
+        <span class="keyword">return</span> onLoading ?? Center(child: CircularProgressIndicator());
+      }
+
+      <span class="keyword">if</span> (snapshot.hasError) {
+        <span class="keyword">return</span> onError?.<span class="function">call</span>(snapshot.error.<span class="function">toString</span>()) ??
+            Center(child: Text(<span class="string">'Error: ${snapshot.error}'</span>));
+      }
+
+      <span class="keyword">if</span> (snapshot.hasData) {
+        <span class="keyword">return</span> onSuccess.<span class="function">call</span>(snapshot.data!);
+      }
+
+      <span class="keyword">return</span> SizedBox.shrink();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: WIDGET OF THE WEEK ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Widget of the Week</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The Flutter team produces <strong>Widget of the Week</strong> videos — short, 1-minute
+            explainer videos covering individual widgets. These are excellent resources for learning
+            about specific widgets and how to use them.
+          </p>
+<div class="concept-card info">
+<h4>🎥 Popular Widget Videos</h4>
+<ul>
+<li><strong>Container</strong> – The most common layout widget</li>
+<li><strong>Row &amp; Column</strong> – Flexible layout in one dimension</li>
+<li><strong>Stack</strong> – Overlapping widgets</li>
+<li><strong>ListView</strong> – Scrollable list of widgets</li>
+<li><strong>GridView</strong> – Scrollable grid of widgets</li>
+<li><strong>FutureBuilder</strong> – Async data handling</li>
+<li><strong>StreamBuilder</strong> – Real-time data handling</li>
+<li><strong>Hero</strong> – Shared element transitions</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 7: STEP-BY-STEP IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Implementation</span>
+<span class="divider-line"></span>
+</div>
+<p>Follow these steps to create your own custom widgets:</p>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Identify reusable UI patterns</strong> – Look for UI elements that repeat across your app
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Design the widget interface</strong> – Define required and optional parameters
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Start with StatelessWidget</strong> – Use StatelessWidget unless you need local state
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Compose existing widgets</strong> – Build your widget using Flutter's built-in widgets
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Use const constructors</strong> – Make your widget <code>const</code> when possible for performance
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>Add documentation</strong> – Document your widget's purpose and parameters
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">7.</span>
+<div class="step-text">
+<strong>Test in isolation</strong> – Test your widget in a separate screen or storybook
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Using StatefulWidget when Stateless is enough</div>
+<p>
+              Not every widget that accepts data needs to be Stateful. If the widget doesn't change
+              its own state, use StatelessWidget.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Start with StatelessWidget</div>
+<p>
+              Always start with StatelessWidget. Only switch to StatefulWidget when you need to manage
+              local state that changes over time.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Using inheritance instead of composition</div>
+<p>
+              Extending widgets to customize them leads to brittle code and makes it harder to change
+              the implementation.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Compose widgets</div>
+<p>
+              Build custom widgets by combining existing widgets. This is more flexible and maintainable.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not making widgets const</div>
+<p>
+              Non-const widgets are rebuilt every frame, even when nothing changes, hurting performance.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use const constructors</div>
+<p>
+              Make your widget's constructor <code>const</code> when possible. This allows Flutter to
+              optimize rebuilds.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 4: Mixing business logic with UI</div>
+<p>
+              Putting business logic inside widgets makes them harder to test and reuse.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Separate concerns</div>
+<p>
+              Use ViewModels, BLoCs, or providers for business logic. Keep widgets focused on
+              presentation.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+<strong>Custom widgets</strong> are the foundation of Flutter development. By
+            <strong>composing</strong> existing widgets into new ones, you can build reusable,
+            maintainable, and performant UIs. Always <strong>prefer StatelessWidget</strong> over
+            StatefulWidget and <strong>composition over inheritance</strong>. Use <code>const</code>
+            constructors for performance and keep your widgets focused on presentation.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="../module6-advanced-flutter.html">
+<i class="fas fa-arrow-left"></i> Back to Module 6
+          </a>
+<a class="btn btn-primary btn-sm" href="module6-topic2-animations.html">
+            Next: Animations <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/widgets" rel="noopener" target="_blank">Flutter Widget Catalog</a></li>
+<li><a href="https://docs.flutter.dev/ui" rel="noopener" target="_blank">Flutter UI Docs</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/widgets" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module6-topic1-custom-widgets';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

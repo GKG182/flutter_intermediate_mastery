@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Recipe Finder – Module 2 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a Recipe Finder App that searches for recipes and displays details using The Meal DB API." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .api-tag {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.12);
+      color: #3B82F6;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 5000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 2 · Challenge 8
+            </span>
+</div>
+<div class="challenge-header">
+<h1>Recipe Finder App</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> API Integration</span>
+<span class="meta-item"><strong>Concepts:</strong> HTTP GET, JSON Parsing, Search, Detail View</span>
+<span class="meta-item"><strong>Est. Time:</strong> 45-60 min</span>
+<span class="meta-item"><span class="api-tag">🍳 The Meal DB API</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build a <strong>Recipe Finder App</strong> that allows users to search for recipes
+              by name, browse recipes by category, and view detailed recipe information including
+              ingredients and instructions. Use the <strong>The Meal DB API</strong> to fetch
+              recipe data.
+            </p>
+<div class="api-box">
+<h4>🌐 API Endpoints</h4>
+<p><strong>Search by Name</strong></p>
+<div class="endpoint">https://www.themealdb.com/api/json/v1/1/search.php?s={query}</div>
+<p style="margin-top: 0.5rem;"><strong>List Categories</strong></p>
+<div class="endpoint">https://www.themealdb.com/api/json/v1/1/categories.php</div>
+<p style="margin-top: 0.5rem;"><strong>Filter by Category</strong></p>
+<div class="endpoint">https://www.themealdb.com/api/json/v1/1/filter.php?c={category}</div>
+<p style="margin-top: 0.5rem;"><strong>Lookup by ID</strong></p>
+<div class="endpoint">https://www.themealdb.com/api/json/v1/1/lookup.php?i={id}</div>
+<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+                Returns recipe details including ingredients, instructions, and images.
+              </p>
+<div class="api-note">
+                💡 <strong>Note:</strong> No API key required! Free to use for learning.
+              </div>
+</div>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li><strong>Search</strong> for recipes by name</li>
+<li>Browse recipes by <strong>category</strong></li>
+<li>Display recipe <strong>list</strong> with images and names</li>
+<li>Tap a recipe to see <strong>details</strong> (ingredients, instructions)</li>
+<li>Show <strong>loading indicator</strong> while searching</li>
+<li>Handle <strong>empty results</strong> and <strong>errors</strong></li>
+<li>Use <strong>http</strong> package for API calls</li>
+<li>Use <strong>StateNotifier</strong> for state management</li>
+</ul>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://www.themealdb.com/api.php" target="_blank">The Meal DB API</a></li>
+<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
+<li><a href="https://pub.dev/packages/cached_network_image" target="_blank">cached_network_image</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Create three models: <code>Recipe</code> (list view),
+                  <code>RecipeDetail</code> (full details), and <code>Category</code>.
+                  Use <code>StateNotifier</code> to manage search results, selected category,
+                  and selected recipe. For ingredients, the API returns them as <code>strIngredient1</code>
+                  through <code>strIngredient20</code>.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    http: ^1.1.0
+    cached_network_image: ^3.3.0
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Models (lib/models/recipe.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/recipe.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">Recipe</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String? imageUrl;
+    <span class="keyword">final</span> String? category;
+    <span class="keyword">final</span> String? area;
+
+    <span class="function">Recipe</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.name,
+      <span class="keyword">this</span>.imageUrl,
+      <span class="keyword">this</span>.category,
+      <span class="keyword">this</span>.area,
+    });
+
+    <span class="keyword">factory</span> Recipe.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> Recipe(
+        id: json[<span class="string">'idMeal'</span>] <span class="keyword">as</span> String,
+        name: json[<span class="string">'strMeal'</span>] <span class="keyword">as</span> String,
+        imageUrl: json[<span class="string">'strMealThumb'</span>] <span class="keyword">as</span> String?,
+        category: json[<span class="string">'strCategory'</span>] <span class="keyword">as</span> String?,
+        area: json[<span class="string">'strArea'</span>] <span class="keyword">as</span> String?,
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">RecipeDetail</span> <span class="keyword">extends</span> Recipe {
+    <span class="keyword">final</span> String? instructions;
+    <span class="keyword">final</span> List&lt;Ingredient&gt; ingredients;
+
+    <span class="function">RecipeDetail</span>({
+      <span class="keyword">required</span> String id,
+      <span class="keyword">required</span> String name,
+      String? imageUrl,
+      String? category,
+      String? area,
+      <span class="keyword">this</span>.instructions,
+      <span class="keyword">this</span>.ingredients = <span class="keyword">const</span> [],
+    }) : <span class="keyword">super</span>(
+            id: id,
+            name: name,
+            imageUrl: imageUrl,
+            category: category,
+            area: area,
+          );
+
+    <span class="keyword">factory</span> RecipeDetail.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">final</span> ingredients = &lt;Ingredient&gt;[];
+      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">20</span>; i++) {
+        <span class="keyword">final</span> name = json[<span class="string">'strIngredient$i'</span>] <span class="keyword">as</span> String?;
+        <span class="keyword">final</span> measure = json[<span class="string">'strMeasure$i'</span>] <span class="keyword">as</span> String?;
+        <span class="keyword">if</span> (name != <span class="keyword">null</span> &amp;&amp; name.<span class="function">isNotEmpty</span>) {
+          ingredients.<span class="function">add</span>(Ingredient(
+            name: name,
+            measure: measure ?? <span class="string">''</span>,
+          ));
+        }
+      }
+
+      <span class="keyword">return</span> RecipeDetail(
+        id: json[<span class="string">'idMeal'</span>] <span class="keyword">as</span> String,
+        name: json[<span class="string">'strMeal'</span>] <span class="keyword">as</span> String,
+        imageUrl: json[<span class="string">'strMealThumb'</span>] <span class="keyword">as</span> String?,
+        category: json[<span class="string">'strCategory'</span>] <span class="keyword">as</span> String?,
+        area: json[<span class="string">'strArea'</span>] <span class="keyword">as</span> String?,
+        instructions: json[<span class="string">'strInstructions'</span>] <span class="keyword">as</span> String?,
+        ingredients: ingredients,
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">Ingredient</span> {
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String measure;
+
+    <span class="function">Ingredient</span>({<span class="keyword">required</span> <span class="keyword">this</span>.name, <span class="keyword">required</span> <span class="keyword">this</span>.measure});
+  }
+
+  <span class="keyword">class</span> <span class="function">Category</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String? imageUrl;
+    <span class="keyword">final</span> String? description;
+
+    <span class="function">Category</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.name,
+      <span class="keyword">this</span>.imageUrl,
+      <span class="keyword">this</span>.description,
+    });
+
+    <span class="keyword">factory</span> Category.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> Category(
+        id: json[<span class="string">'idCategory'</span>] <span class="keyword">as</span> String,
+        name: json[<span class="string">'strCategory'</span>] <span class="keyword">as</span> String,
+        imageUrl: json[<span class="string">'strCategoryThumb'</span>] <span class="keyword">as</span> String?,
+        description: json[<span class="string">'strCategoryDescription'</span>] <span class="keyword">as</span> String?,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. Recipe Provider (lib/providers/recipe_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/recipe_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/recipe.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">RecipeState</span> {
+    <span class="keyword">final</span> List&lt;Recipe&gt; recipes;
+    <span class="keyword">final</span> String? selectedCategory;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
+    <span class="keyword">final</span> String? error;
+    <span class="keyword">final</span> String searchQuery;
+
+    <span class="function">RecipeState</span>({
+      <span class="keyword">this</span>.recipes = <span class="keyword">const</span> [],
+      <span class="keyword">this</span>.selectedCategory,
+      <span class="keyword">this</span>.isLoading = <span class="keyword">false</span>,
+      <span class="keyword">this</span>.error,
+      <span class="keyword">this</span>.searchQuery = <span class="string">''</span>,
+    });
+
+    <span class="function">RecipeState copyWith</span>({
+      List&lt;Recipe&gt;? recipes,
+      String? selectedCategory,
+      <span class="keyword">bool</span>? isLoading,
+      String? error,
+      String? searchQuery,
+    }) {
+      <span class="keyword">return</span> RecipeState(
+        recipes: recipes ?? <span class="keyword">this</span>.recipes,
+        selectedCategory: selectedCategory ?? <span class="keyword">this</span>.selectedCategory,
+        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
+        error: error ?? <span class="keyword">this</span>.error,
+        searchQuery: searchQuery ?? <span class="keyword">this</span>.searchQuery,
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">RecipeNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;RecipeState&gt; {
+    <span class="function">RecipeNotifier</span>() : <span class="keyword">super</span>(RecipeState());
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">searchRecipes</span>(String query) async {
+      <span class="keyword">if</span> (query.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+        state = state.<span class="function">copyWith</span>(
+          recipes: [],
+          searchQuery: <span class="string">''</span>,
+          error: <span class="keyword">null</span>,
+          isLoading: <span class="keyword">false</span>,
+        );
+        <span class="keyword">return</span>;
+      }
+
+      state = state.<span class="function">copyWith</span>(
+        isLoading: <span class="keyword">true</span>,
+        error: <span class="keyword">null</span>,
+        searchQuery: query,
+        selectedCategory: <span class="keyword">null</span>,
+      );
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> url = Uri.parse(
+          <span class="string">'https://www.themealdb.com/api/json/v1/1/search.php?s=$query'</span>,
+        );
+        <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+          <span class="keyword">final</span> meals = data[<span class="string">'meals'</span>] <span class="keyword">as</span> List&lt;dynamic&gt;?;
+          <span class="keyword">final</span> recipes = meals != <span class="keyword">null</span>
+              ? meals.<span class="function">map</span>((json) =&gt; Recipe.<span class="function">fromJson</span>(json)).<span class="function">toList</span>()
+              : [];
+          state = state.<span class="function">copyWith</span>(
+            recipes: recipes,
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="keyword">null</span>,
+          );
+        } <span class="keyword">else</span> {
+          state = state.<span class="function">copyWith</span>(
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="string">'Failed to search recipes'</span>,
+          );
+        }
+      } <span class="keyword">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">filterByCategory</span>(String category) async {
+      state = state.<span class="function">copyWith</span>(
+        isLoading: <span class="keyword">true</span>,
+        error: <span class="keyword">null</span>,
+        selectedCategory: category,
+        searchQuery: <span class="string">''</span>,
+      );
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> url = Uri.parse(
+          <span class="string">'https://www.themealdb.com/api/json/v1/1/filter.php?c=$category'</span>,
+        );
+        <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+          <span class="keyword">final</span> meals = data[<span class="string">'meals'</span>] <span class="keyword">as</span> List&lt;dynamic&gt;?;
+          <span class="keyword">final</span> recipes = meals != <span class="keyword">null</span>
+              ? meals.<span class="function">map</span>((json) =&gt; Recipe.<span class="function">fromJson</span>(json)).<span class="function">toList</span>()
+              : [];
+          state = state.<span class="function">copyWith</span>(
+            recipes: recipes,
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="keyword">null</span>,
+          );
+        } <span class="keyword">else</span> {
+          state = state.<span class="function">copyWith</span>(
+            isLoading: <span class="keyword">false</span>,
+            error: <span class="string">'Failed to load category'</span>,
+          );
+        }
+      } <span class="keyword">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;RecipeDetail?&gt; <span class="function">getRecipeDetail</span>(String id) async {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> url = Uri.parse(
+          <span class="string">'https://www.themealdb.com/api/json/v1/1/lookup.php?i=$id'</span>,
+        );
+        <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+          <span class="keyword">final</span> meals = data[<span class="string">'meals'</span>] <span class="keyword">as</span> List&lt;dynamic&gt;?;
+          <span class="keyword">if</span> (meals != <span class="keyword">null</span> &amp;&amp; meals.<span class="function">isNotEmpty</span>) {
+            <span class="keyword">return</span> RecipeDetail.<span class="function">fromJson</span>(meals[<span class="number">0</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;);
+          }
+        }
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+      } <span class="keyword">catch</span> (e) {
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">clearSearch</span>() {
+      state = state.<span class="function">copyWith</span>(
+        recipes: [],
+        searchQuery: <span class="string">''</span>,
+        selectedCategory: <span class="keyword">null</span>,
+        error: <span class="keyword">null</span>,
+      );
+    }
+  }
+
+  <span class="keyword">final</span> recipeProvider = StateNotifierProvider&lt;RecipeNotifier, RecipeState&gt;((ref) {
+    <span class="keyword">return</span> RecipeNotifier();
+  });
+
+  <span class="keyword">final</span> categoriesProvider = FutureProvider&lt;List&lt;Category&gt;&gt;((ref) async {
+    <span class="keyword">final</span> url = Uri.parse(<span class="string">'https://www.themealdb.com/api/json/v1/1/categories.php'</span>);
+    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
+
+    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+      <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+      <span class="keyword">final</span> categories = data[<span class="string">'categories'</span>] <span class="keyword">as</span> List&lt;dynamic&gt;;
+      <span class="keyword">return</span> categories.<span class="function">map</span>((json) =&gt; Category.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
+    } <span class="keyword">else</span> {
+      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load categories'</span>);
+    }
+  });
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Recipe Card Widget (lib/widgets/recipe_card.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/widgets/recipe_card.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/recipe.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">RecipeCard</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Recipe recipe;
+    <span class="keyword">final</span> <span class="keyword">void</span> Function(Recipe) onTap;
+
+    <span class="keyword">const</span> <span class="function">RecipeCard</span>({<span class="keyword">required</span> <span class="keyword">this</span>.recipe, <span class="keyword">required</span> <span class="keyword">this</span>.onTap, <span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Card(
+        elevation: <span class="number">2</span>,
+        margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">6</span>),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+        ),
+        child: InkWell(
+          onTap: () =&gt; onTap(recipe),
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          child: Row(
+            children: [
+              <span class="comment">// Image</span>
+              ClipRRect(
+                borderRadius: BorderRadius.<span class="function">horizontal</span>(
+                  left: Radius.<span class="function">circular</span>(<span class="number">8</span>),
+                ),
+                child: recipe.imageUrl != <span class="keyword">null</span>
+                    ? CachedNetworkImage(
+                        imageUrl: recipe.imageUrl!,
+                        width: <span class="number">100</span>,
+                        height: <span class="number">100</span>,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =&gt; Container(
+                          width: <span class="number">100</span>,
+                          height: <span class="number">100</span>,
+                          color: Colors.grey[<span class="number">300</span>],
+                          child: Icon(Icons.restaurant, color: Colors.grey[<span class="number">500</span>]),
+                        ),
+                        errorWidget: (context, url, error) =&gt; Container(
+                          width: <span class="number">100</span>,
+                          height: <span class="number">100</span>,
+                          color: Colors.grey[<span class="number">300</span>],
+                          child: Icon(Icons.broken_image, color: Colors.grey[<span class="number">500</span>]),
+                        ),
+                      )
+                    : Container(
+                        width: <span class="number">100</span>,
+                        height: <span class="number">100</span>,
+                        color: Colors.grey[<span class="number">300</span>],
+                        child: Icon(Icons.restaurant, color: Colors.grey[<span class="number">500</span>]),
+                      ),
+              ),
+              <span class="comment">// Info</span>
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        recipe.name,
+                        style: TextStyle(
+                          fontSize: <span class="number">16</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: <span class="number">2</span>,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: <span class="number">4</span>),
+                      <span class="keyword">if</span> (recipe.category != <span class="keyword">null</span>)
+                        Container(
+                          padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>, vertical: <span class="number">2</span>),
+                          decoration: BoxDecoration(
+                            color: Colors.orange[<span class="number">100</span>],
+                            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                          ),
+                          child: Text(
+                            recipe.category!,
+                            style: TextStyle(
+                              fontSize: <span class="number">11</span>,
+                              color: Colors.orange[<span class="number">800</span>],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      <span class="keyword">if</span> (recipe.area != <span class="keyword">null</span>) ...[
+                        SizedBox(height: <span class="number">4</span>),
+                        Text(
+                          <span class="string">'🌍 ${recipe.area}'</span>,
+                          style: TextStyle(
+                            fontSize: <span class="number">12</span>,
+                            color: Colors.grey[<span class="number">600</span>],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Recipe Detail Screen (lib/screens/recipe_detail_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/screens/recipe_detail_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/recipe.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">RecipeDetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> RecipeDetail recipe;
+
+    <span class="keyword">const</span> <span class="function">RecipeDetailScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.recipe, <span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(
+            recipe.name,
+            maxLines: <span class="number">1</span>,
+            overflow: TextOverflow.ellipsis,
+          ),
+          backgroundColor: Colors.orange,
+          foregroundColor: Colors.white,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              <span class="comment">// Image</span>
+              Container(
+                height: <span class="number">250</span>,
+                width: <span class="keyword">double</span>.infinity,
+                color: Colors.grey[<span class="number">900</span>],
+                child: recipe.imageUrl != <span class="keyword">null</span>
+                    ? CachedNetworkImage(
+                        imageUrl: recipe.imageUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =&gt; Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =&gt; Icon(
+                          Icons.restaurant,
+                          size: <span class="number">64</span>,
+                          color: Colors.grey[<span class="number">500</span>],
+                        ),
+                      )
+                    : Icon(Icons.restaurant, size: <span class="number">64</span>, color: Colors.grey[<span class="number">500</span>]),
+              ),
+              Padding(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    <span class="comment">// Title and info</span>
+                    Text(
+                      recipe.name,
+                      style: TextStyle(
+                        fontSize: <span class="number">24</span>,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    Row(
+                      children: [
+                        <span class="keyword">if</span> (recipe.category != <span class="keyword">null</span>)
+                          Container(
+                            padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">4</span>),
+                            decoration: BoxDecoration(
+                              color: Colors.orange[<span class="number">100</span>],
+                              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                            ),
+                            child: Text(
+                              recipe.category!,
+                              style: TextStyle(
+                                color: Colors.orange[<span class="number">800</span>],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        <span class="keyword">if</span> (recipe.area != <span class="keyword">null</span>) ...[
+                          SizedBox(width: <span class="number">8</span>),
+                          Text(
+                            <span class="string">'🌍 ${recipe.area}'</span>,
+                            style: TextStyle(
+                              color: Colors.grey[<span class="number">600</span>],
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    <span class="comment">// Ingredients</span>
+                    Text(
+                      <span class="string">'🛒 Ingredients'</span>,
+                      style: TextStyle(
+                        fontSize: <span class="number">18</span>,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    Card(
+                      color: Colors.grey[<span class="number">50</span>],
+                      child: Padding(
+                        padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                        child: Column(
+                          children: recipe.ingredients.<span class="function">map</span>((ingredient) {
+                            <span class="keyword">return</span> Padding(
+                              padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    <span class="string">'• '</span>,
+                                    style: TextStyle(
+                                      color: Colors.orange[<span class="number">400</span>],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(ingredient.name),
+                                  ),
+                                  Text(
+                                    ingredient.measure,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[<span class="number">600</span>],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).<span class="function">toList</span>(),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    <span class="comment">// Instructions</span>
+                    Text(
+                      <span class="string">'📖 Instructions'</span>,
+                      style: TextStyle(
+                        fontSize: <span class="number">18</span>,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    Text(
+                      recipe.instructions ?? <span class="string">'No instructions available.'</span>,
+                      style: TextStyle(
+                        fontSize: <span class="number">15</span>,
+                        height: <span class="number">1.8</span>,
+                        color: Colors.grey[<span class="number">800</span>],
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">6. Main Screen (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers/recipe_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'widgets/recipe_card.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/recipe_detail_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Recipe Finder'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> HomeScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
+    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
+    <span class="keyword">bool</span> _showCategories = <span class="keyword">true</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      <span class="comment">// Load recipes on start</span>
+      WidgetsBinding.instance.<span class="function">addPostFrameCallback</span>((_) {
+        ref.<span class="function">read</span>(recipeProvider.notifier).<span class="function">filterByCategory</span>(<span class="string">'Beef'</span>);
+      });
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">_searchRecipes</span>() {
+      <span class="keyword">final</span> query = _controller.text.<span class="function">trim</span>();
+      <span class="keyword">if</span> (query.<span class="function">isNotEmpty</span>) {
+        ref.<span class="function">read</span>(recipeProvider.notifier).<span class="function">searchRecipes</span>(query);
+        <span class="function">setState</span>(() =&gt; _showCategories = <span class="keyword">false</span>);
+        FocusScope.<span class="function">of</span>(context).<span class="function">unfocus</span>();
+      } <span class="keyword">else</span> {
+        ref.<span class="function">read</span>(recipeProvider.notifier).<span class="function">clearSearch</span>();
+        <span class="function">setState</span>(() =&gt; _showCategories = <span class="keyword">true</span>);
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> recipeState = ref.<span class="function">watch</span>(recipeProvider);
+      <span class="keyword">final</span> categoriesAsync = ref.<span class="function">watch</span>(categoriesProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'🍳 Recipe Finder'</span>),
+          backgroundColor: Colors.orange,
+          foregroundColor: Colors.white,
+          actions: [
+            <span class="keyword">if</span> (recipeState.searchQuery.<span class="function">isNotEmpty</span> || recipeState.selectedCategory != <span class="keyword">null</span>)
+              IconButton(
+                onPressed: () {
+                  ref.<span class="function">read</span>(recipeProvider.notifier).<span class="function">clearSearch</span>();
+                  _controller.<span class="function">clear</span>();
+                  <span class="function">setState</span>(() =&gt; _showCategories = <span class="keyword">true</span>);
+                },
+                icon: Icon(Icons.clear),
+              ),
+          ],
+        ),
+        body: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          child: Column(
+            children: [
+              <span class="comment">// Search Bar</span>
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Search recipes...'</span>,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        ),
+                        prefixIcon: Icon(Icons.search),
+                        contentPadding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                      ),
+                      onSubmitted: (_) =&gt; _searchRecipes(),
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  ElevatedButton(
+                    onPressed: _searchRecipes,
+                    child: Text(<span class="string">'Search'</span>),
+                  ),
+                ],
+              ),
+              SizedBox(height: <span class="number">12</span>),
+              <span class="comment">// Categories or Results</span>
+              Expanded(
+                child: _showCategories
+                    ? categoriesAsync.<span class="function">when</span>(
+                        loading: () =&gt; Center(child: CircularProgressIndicator()),
+                        error: (error, stack) =&gt; Center(
+                          child: Text(
+                            <span class="string">'Error loading categories'</span>,
+                            style: TextStyle(color: Colors.red[<span class="number">400</span>]),
+                          ),
+                        ),
+                        data: (categories) =&gt; GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: <span class="number">3</span>,
+                            crossAxisSpacing: <span class="number">8</span>,
+                            mainAxisSpacing: <span class="number">8</span>,
+                            childAspectRatio: <span class="number">0.9</span>,
+                          ),
+                          itemCount: categories.<span class="function">length</span>,
+                          itemBuilder: (context, index) {
+                            <span class="keyword">final</span> category = categories[index];
+                            <span class="keyword">return</span> InkWell(
+                              onTap: () {
+                                ref.<span class="function">read</span>(recipeProvider.notifier)
+                                    .<span class="function">filterByCategory</span>(category.name);
+                                <span class="function">setState</span>(() =&gt; _showCategories = <span class="keyword">false</span>);
+                              },
+                              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.orange[<span class="number">50</span>],
+                                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                                  border: Border.<span class="function">all</span>(color: Colors.orange[<span class="number">200</span>]!),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      _getCategoryIcon(category.name),
+                                      size: <span class="number">32</span>,
+                                      color: Colors.orange[<span class="number">700</span>],
+                                    ),
+                                    SizedBox(height: <span class="number">4</span>),
+                                    Text(
+                                      category.name,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: <span class="number">12</span>,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : recipeState.isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : recipeState.error != <span class="keyword">null</span>
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
+                                    SizedBox(height: <span class="number">16</span>),
+                                    Text(
+                                      <span class="string">'Error loading recipes'</span>,
+                                      style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: <span class="number">8</span>),
+                                    Text(
+                                      recipeState.error!,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : recipeState.recipes.<span class="function">isEmpty</span>
+                                ? Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.restaurant, size: <span class="number">64</span>, color: Colors.grey[<span class="number">400</span>]),
+                                        SizedBox(height: <span class="number">16</span>),
+                                        Text(
+                                          <span class="string">'No recipes found'</span>,
+                                          style: TextStyle(fontSize: <span class="number">16</span>, color: Colors.grey[<span class="number">500</span>]),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: recipeState.recipes.<span class="function">length</span>,
+                                    itemBuilder: (context, index) {
+                                      <span class="keyword">final</span> recipe = recipeState.recipes[index];
+                                      <span class="keyword">return</span> RecipeCard(
+                                        recipe: recipe,
+                                        onTap: (recipe) async {
+                                          <span class="keyword">final</span> detail = await ref
+                                              .<span class="function">read</span>(recipeProvider.notifier)
+                                              .<span class="function">getRecipeDetail</span>(recipe.id);
+                                          <span class="keyword">if</span> (detail != <span class="keyword">null</span> &amp;&amp; mounted) {
+                                            Navigator.<span class="function">push</span>(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =&gt; RecipeDetailScreen(recipe: detail),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    IconData <span class="function">_getCategoryIcon</span>(String category) {
+      <span class="keyword">switch</span> (category.<span class="function">toLowerCase</span>()) {
+        <span class="keyword">case</span> <span class="string">'beef'</span>:
+        <span class="keyword">case</span> <span class="string">'chicken'</span>:
+          <span class="keyword">return</span> Icons.emoji_food_beverage;
+        <span class="keyword">case</span> <span class="string">'dessert'</span>:
+          <span class="keyword">return</span> Icons.cake;
+        <span class="keyword">case</span> <span class="string">'lamb'</span>:
+          <span class="keyword">return</span> Icons.ramen_dining;
+        <span class="keyword">case</span> <span class="string">'pasta'</span>:
+          <span class="keyword">return</span> Icons.lunch_dining;
+        <span class="keyword">case</span> <span class="string">'pork'</span>:
+          <span class="keyword">return</span> Icons.restaurant;
+        <span class="keyword">case</span> <span class="string">'seafood'</span>:
+          <span class="keyword">return</span> Icons.set_meal;
+        <span class="keyword">case</span> <span class="string">'side'</span>:
+          <span class="keyword">return</span> Icons.food_bank;
+        <span class="keyword">case</span> <span class="string">'starter'</span>:
+          <span class="keyword">return</span> Icons.soup_kitchen;
+        <span class="keyword">case</span> <span class="string">'vegan'</span>:
+          <span class="keyword">return</span> Icons.eco;
+        <span class="keyword">default</span>:
+          <span class="keyword">return</span> Icons.restaurant_menu;
+      }
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>HTTP GET</strong> – Fetching recipes, categories, and details</li>
+<li><strong>JSON Parsing</strong> – Converting API responses to Dart objects</li>
+<li><strong>StateNotifier</strong> – Managing complex recipe state</li>
+<li><strong>Image Caching</strong> – Using cached_network_image</li>
+<li><strong>Navigation</strong> – Passing data to detail screen</li>
+<li><strong>Category Browsing</strong> – Filtering by category</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="challenge7-currency-converter.html">
+<i class="fas fa-arrow-left"></i> Previous Challenge
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="../../challenges.html">
+              Back to All Challenges <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+<li><a href="https://www.themealdb.com/api.php" rel="noopener" target="_blank">The Meal DB API</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm2-c8';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

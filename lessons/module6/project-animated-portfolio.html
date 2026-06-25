@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Animated Portfolio App – Module 6 Project | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build an Animated Portfolio App in Flutter. Apply animations, custom widgets, and hero transitions to create a stunning developer portfolio." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .project-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .architecture-layer {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+    .architecture-layer:hover {
+      transform: translateX(4px);
+    }
+    .architecture-layer .layer-title {
+      font-weight: 700;
+      font-size: var(--font-base);
+      color: var(--text);
+    }
+    .architecture-layer .layer-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .architecture-layer .layer-components {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .architecture-layer .layer-components span {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.15rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 500;
+    }
+
+    .layer-arrow {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .checklist li {
+      padding: 0.5rem 0;
+      padding-left: 2rem;
+      position: relative;
+      font-size: var(--font-sm);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: var(--font-base);
+    }
+    .checklist li.completed::before {
+      content: '☑';
+      color: #10B981;
+    }
+
+    .prereq-box {
+      background: rgba(59, 130, 246, 0.06);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin: 1.25rem 0;
+    }
+    .prereq-box h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+    .prereq-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .prereq-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .prereq-box ul li a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .prereq-box ul li a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module6-advanced-flutter.html">Module 6</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project</span>
+</div>
+<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Project</div>
+<h1>Animated Portfolio App</h1>
+<p class="topic-subtitle">
+            Build a stunning developer portfolio with smooth animations, custom widgets, and hero transitions.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<span class="project-badge"><i class="fas fa-project-diagram"></i> Animation Project</span>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
+<i class="fas fa-book"></i> Flutter Animation Docs
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<i class="fas fa-book"></i> Hero Animations
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: PROJECT OVERVIEW ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Overview</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            In this project, you'll build an <strong>Animated Portfolio App</strong> — a stunning,
+            interactive portfolio that showcases your skills, projects, and experience using
+            Flutter's animation capabilities. You'll apply <strong>implicit animations</strong>,
+            <strong>explicit animations</strong>, and <strong>hero transitions</strong> to create
+            a polished, professional portfolio.
+          </p>
+<div class="prereq-box">
+<h4>📚 Prerequisites</h4>
+<ul>
+<li>Understanding of <a href="module6-topic1-custom-widgets.html">Custom Widgets</a></li>
+<li>Understanding of <a href="module6-topic2-animations.html">Animations</a></li>
+<li>Understanding of <a href="module6-topic3-hero-animations.html">Hero Animations</a></li>
+<li>Familiarity with <a href="module6-topic8-responsive-design.html">Responsive Design</a></li>
+</ul>
+</div>
+<div class="concept-card info">
+<h4>🎯 Learning Objectives</h4>
+<ul>
+<li>Create custom animated widgets</li>
+<li>Implement implicit animations for smooth UI transitions</li>
+<li>Build explicit animations with AnimationController</li>
+<li>Use Hero animations for shared element transitions</li>
+<li>Combine multiple animations for a polished experience</li>
+<li>Build a responsive, professional portfolio UI</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: APP STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">App Structure</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The Animated Portfolio App will have the following structure:
+          </p>
+<div class="architecture-layer">
+<div class="layer-title">📱 Screens</div>
+<div class="layer-desc">Main app screens</div>
+<div class="layer-components">
+<span>HomeScreen</span>
+<span>ProjectsScreen</span>
+<span>ProjectDetailScreen</span>
+<span>AboutScreen</span>
+<span>ContactScreen</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #8B5CF6;">
+<div class="layer-title">🎨 Animated Widgets</div>
+<div class="layer-desc">Custom animated UI components</div>
+<div class="layer-components">
+<span>AnimatedProjectCard</span>
+<span>FadeInSection</span>
+<span>AnimatedSkillBar</span>
+<span>PulseAnimation</span>
+<span>HeroImage</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #3B82F6;">
+<div class="layer-title">📊 Data Models</div>
+<div class="layer-desc">Portfolio data</div>
+<div class="layer-components">
+<span>Project</span>
+<span>Skill</span>
+<span>Experience</span>
+<span>SocialLink</span>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: DATA MODELS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Data Models</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            First, define the data models for your portfolio:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/models/project.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">Project</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String title;
+    <span class="keyword">final</span> String description;
+    <span class="keyword">final</span> String imageUrl;
+    <span class="keyword">final</span> List&lt;String&gt; technologies;
+    <span class="keyword">final</span> String githubUrl;
+    <span class="keyword">final</span> String? liveUrl;
+    <span class="keyword">final</span> String category;
+
+    <span class="function">Project</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.description,
+      <span class="keyword">required</span> <span class="keyword">this</span>.imageUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.technologies,
+      <span class="keyword">required</span> <span class="keyword">this</span>.githubUrl,
+      <span class="keyword">this</span>.liveUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.category,
+    });
+  }
+
+  <span class="keyword">class</span> <span class="function">Skill</span> {
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> <span class="keyword">double</span> proficiency; <span class="comment">// 0.0 - 1.0</span>
+<span class="keyword">final</span> String icon;
+
+    <span class="function">Skill</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.name,
+      <span class="keyword">required</span> <span class="keyword">this</span>.proficiency,
+      <span class="keyword">required</span> <span class="keyword">this</span>.icon,
+    });
+  }
+
+  <span class="keyword">class</span> <span class="function">Experience</span> {
+    <span class="keyword">final</span> String company;
+    <span class="keyword">final</span> String role;
+    <span class="keyword">final</span> String period;
+    <span class="keyword">final</span> List&lt;String&gt; achievements;
+
+    <span class="function">Experience</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.company,
+      <span class="keyword">required</span> <span class="keyword">this</span>.role,
+      <span class="keyword">required</span> <span class="keyword">this</span>.period,
+      <span class="keyword">required</span> <span class="keyword">this</span>.achievements,
+    });
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/data/portfolio_data.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'../models/project.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">PortfolioData</span> {
+    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Project&gt; projects = [
+      Project(
+        id: <span class="string">'1'</span>,
+        title: <span class="string">'Weather App'</span>,
+        description: <span class="string">'A beautiful weather app with real-time data and 7-day forecast.'</span>,
+        imageUrl: <span class="string">'assets/images/weather_app.jpg'</span>,
+        technologies: [<span class="string">'Flutter'</span>, <span class="string">'Riverpod'</span>, <span class="string">'REST API'</span>],
+        githubUrl: <span class="string">'https://github.com/username/weather_app'</span>,
+        liveUrl: <span class="string">'https://weather-app.example.com'</span>,
+        category: <span class="string">'Mobile'</span>,
+      ),
+      <span class="comment">// Add more projects...</span>
+    ];
+
+    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Skill&gt; skills = [
+      Skill(name: <span class="string">'Flutter'</span>, proficiency: <span class="number">0.9</span>, icon: <span class="string">'💙'</span>),
+      Skill(name: <span class="string">'Dart'</span>, proficiency: <span class="number">0.85</span>, icon: <span class="string">'🎯'</span>),
+      Skill(name: <span class="string">'Supabase'</span>, proficiency: <span class="number">0.8</span>, icon: <span class="string">'🔥'</span>),
+      <span class="comment">// Add more skills...</span>
+    ];
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: ANIMATED WIDGETS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Animated Widgets</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Create reusable animated widgets that bring your portfolio to life:
+          </p>
+<h3>1. Animated Project Card</h3>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/animated_project_card.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">AnimatedProjectCard</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> Project project;
+    <span class="keyword">final</span> <span class="keyword">void</span> Function(Project) onTap;
+
+    <span class="keyword">const</span> <span class="function">AnimatedProjectCard</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.project,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;AnimatedProjectCard&gt; <span class="function">createState</span>() =&gt; _AnimatedProjectCardState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_AnimatedProjectCardState</span> <span class="keyword">extends</span> State&lt;AnimatedProjectCard&gt;
+      <span class="keyword">with</span> SingleTickerProviderStateMixin {
+    <span class="keyword">late</span> AnimationController _controller;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _scaleAnimation;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _fadeAnimation;
+
+    <span class="keyword">bool</span> _isHovered = <span class="keyword">false</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _controller = AnimationController(
+        duration: Duration(milliseconds: <span class="number">300</span>),
+        vsync: <span class="keyword">this</span>,
+      );
+
+      _scaleAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">1.0</span>, end: <span class="number">1.05</span>)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ));
+
+      _fadeAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0.0</span>, end: <span class="number">1.0</span>)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ));
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MouseRegion(
+        onEnter: (_) {
+          <span class="function">setState</span>(() =&gt; _isHovered = <span class="keyword">true</span>);
+          _controller.<span class="function">forward</span>();
+        },
+        onExit: (_) {
+          <span class="function">setState</span>(() =&gt; _isHovered = <span class="keyword">false</span>);
+          _controller.<span class="function">reverse</span>();
+        },
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            <span class="keyword">return</span> Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Opacity(
+                opacity: _fadeAnimation.value,
+                child: Card(
+                  elevation: _isHovered ? <span class="number">8</span> : <span class="number">2</span>,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                  ),
+                  child: InkWell(
+                    onTap: () =&gt; widget.onTap(widget.project),
+                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        <span class="comment">// Project image with Hero</span>
+                        Hero(
+                          tag: <span class="string">'project_${widget.project.id}'</span>,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.<span class="function">vertical</span>(
+                              top: Radius.<span class="function">circular</span>(<span class="number">12</span>),
+                            ),
+                            child: Image.asset(
+                              widget.project.imageUrl,
+                              height: <span class="number">200</span>,
+                              width: <span class="keyword">double</span>.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.project.title,
+                                style: TextStyle(
+                                  fontSize: <span class="number">18</span>,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: <span class="number">4</span>),
+                              Text(
+                                widget.project.category,
+                                style: TextStyle(
+                                  color: Colors.grey[<span class="number">600</span>],
+                                  fontSize: <span class="number">14</span>,
+                                ),
+                              ),
+                              SizedBox(height: <span class="number">8</span>),
+                              <span class="comment">// Technology chips</span>
+                              Wrap(
+                                spacing: <span class="number">4</span>,
+                                children: widget.project.technologies
+                                    .<span class="function">map</span>((tech) =&gt; Chip(
+                                          label: Text(
+                                            tech,
+                                            style: TextStyle(fontSize: <span class="number">12</span>),
+                                          ),
+                                          backgroundColor: Colors.primaries[
+                                              widget.project.technologies.<span class="function">indexOf</span>(tech) %
+                                                  Colors.primaries.<span class="function">length</span>
+                                          ]<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                                        ))
+                                    .<span class="function">toList</span>(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>2. Fade-In Section</h3>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/fade_in_section.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">FadeInSection</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> Widget child;
+    <span class="keyword">final</span> Duration delay;
+
+    <span class="keyword">const</span> <span class="function">FadeInSection</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.child,
+      <span class="keyword">this</span>.delay = <span class="keyword">const</span> Duration(milliseconds: <span class="number">300</span>),
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;FadeInSection&gt; <span class="function">createState</span>() =&gt; _FadeInSectionState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_FadeInSectionState</span> <span class="keyword">extends</span> State&lt;FadeInSection&gt;
+      <span class="keyword">with</span> SingleTickerProviderStateMixin {
+    <span class="keyword">late</span> AnimationController _controller;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _fadeAnimation;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _slideAnimation;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _controller = AnimationController(
+        duration: Duration(milliseconds: <span class="number">800</span>),
+        vsync: <span class="keyword">this</span>,
+      );
+
+      _fadeAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0.0</span>, end: <span class="number">1.0</span>)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ));
+
+      _slideAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">30.0</span>, end: <span class="number">0.0</span>)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ));
+
+      <span class="comment">// Start animation after delay</span>
+      Future.<span class="function">delayed</span>(widget.delay, () {
+        <span class="keyword">if</span> (mounted) _controller.<span class="function">forward</span>();
+      });
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          <span class="keyword">return</span> Opacity(
+            opacity: _fadeAnimation.value,
+            child: Transform.translate(
+              offset: Offset(<span class="number">0</span>, _slideAnimation.value),
+              child: widget.child,
+            ),
+          );
+        },
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>3. Animated Skill Bar</h3>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/animated_skill_bar.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">AnimatedSkillBar</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> Skill skill;
+
+    <span class="keyword">const</span> <span class="function">AnimatedSkillBar</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.skill,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;AnimatedSkillBar&gt; <span class="function">createState</span>() =&gt; _AnimatedSkillBarState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_AnimatedSkillBarState</span> <span class="keyword">extends</span> State&lt;AnimatedSkillBar&gt;
+      <span class="keyword">with</span> SingleTickerProviderStateMixin {
+    <span class="keyword">late</span> AnimationController _controller;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _widthAnimation;
+
+    <span class="keyword">bool</span> _isVisible = <span class="keyword">false</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _controller = AnimationController(
+        duration: Duration(seconds: <span class="number">1</span>),
+        vsync: <span class="keyword">this</span>,
+      );
+
+      _widthAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0</span>, end: widget.skill.proficiency)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ));
+    }
+
+    <span class="keyword">void</span> <span class="function">_animate</span>() {
+      <span class="keyword">if</span> (!_isVisible) {
+        _isVisible = <span class="keyword">true</span>;
+        _controller.<span class="function">forward</span>();
+      }
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="comment">// Trigger animation when widget becomes visible</span>
+      WidgetsBinding.instance.<span class="function">addPostFrameCallback</span>((_) {
+        <span class="keyword">if</span> (mounted) _animate();
+      });
+
+      <span class="keyword">return</span> Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(widget.skill.icon, style: TextStyle(fontSize: <span class="number">20</span>)),
+                  SizedBox(width: <span class="number">8</span>),
+                  Text(
+                    widget.skill.name,
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Text(
+                <span class="string">'${(widget.skill.proficiency * 100).round()}%'</span>,
+                style: TextStyle(
+                  fontSize: <span class="number">14</span>,
+                  color: Colors.grey[<span class="number">600</span>],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: <span class="number">4</span>),
+          Container(
+            height: <span class="number">8</span>,
+            decoration: BoxDecoration(
+              color: Colors.grey[<span class="number">200</span>],
+              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+            ),
+            child: AnimatedBuilder(
+              animation: _widthAnimation,
+              builder: (context, child) {
+                <span class="keyword">return</span> FractionallySizedBox(
+                  widthFactor: _widthAnimation.value,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.blue, Colors.purple],
+                      ),
+                      borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: <span class="number">16</span>),
+        ],
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>4. Pulse Animation</h3>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/pulse_animation.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">PulseAnimation</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> Widget child;
+    <span class="keyword">final</span> Duration duration;
+
+    <span class="keyword">const</span> <span class="function">PulseAnimation</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.child,
+      <span class="keyword">this</span>.duration = <span class="keyword">const</span> Duration(seconds: <span class="number">2</span>),
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;PulseAnimation&gt; <span class="function">createState</span>() =&gt; _PulseAnimationState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_PulseAnimationState</span> <span class="keyword">extends</span> State&lt;PulseAnimation&gt;
+      <span class="keyword">with</span> SingleTickerProviderStateMixin {
+    <span class="keyword">late</span> AnimationController _controller;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _scaleAnimation;
+    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _opacityAnimation;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _controller = AnimationController(
+        duration: widget.duration,
+        vsync: <span class="keyword">this</span>,
+      )..<span class="function">repeat</span>();
+
+      _scaleAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">1.0</span>, end: <span class="number">1.1</span>)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ));
+
+      _opacityAnimation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">1.0</span>, end: <span class="number">0.7</span>)
+          .<span class="function">animate</span>(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ));
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          <span class="keyword">return</span> Transform.scale(
+            scale: _scaleAnimation.value,
+            child: Opacity(
+              opacity: _opacityAnimation.value,
+              child: widget.child,
+            ),
+          );
+        },
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: PROJECT DETAIL SCREEN ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Detail Screen</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The detail screen uses a <strong>Hero animation</strong> for the project image:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/project_detail_screen.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">ProjectDetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> Project project;
+
+    <span class="keyword">const</span> <span class="function">ProjectDetailScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.project, <span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            <span class="comment">// Hero image with hero animation</span>
+            SliverAppBar(
+              expandedHeight: <span class="number">300</span>,
+              floating: <span class="keyword">false</span>,
+              pinned: <span class="keyword">true</span>,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Hero(
+                  tag: <span class="string">'project_${project.id}'</span>,
+                  child: Image.asset(
+                    project.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            <span class="comment">// Project details</span>
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeInSection(
+                      delay: Duration(milliseconds: <span class="number">200</span>),
+                      child: Text(
+                        project.title,
+                        style: TextStyle(
+                          fontSize: <span class="number">28</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    FadeInSection(
+                      delay: Duration(milliseconds: <span class="number">400</span>),
+                      child: Text(
+                        project.description,
+                        style: TextStyle(
+                          fontSize: <span class="number">16</span>,
+                          color: Colors.grey[<span class="number">600</span>],
+                          height: <span class="number">1.5</span>,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">24</span>),
+                    FadeInSection(
+                      delay: Duration(milliseconds: <span class="number">600</span>),
+                      child: Text(
+                        <span class="string">'Technologies'</span>,
+                        style: TextStyle(
+                          fontSize: <span class="number">20</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    FadeInSection(
+                      delay: Duration(milliseconds: <span class="number">800</span>),
+                      child: Wrap(
+                        spacing: <span class="number">8</span>,
+                        children: project.technologies
+                            .<span class="function">map</span>((tech) =&gt; Chip(
+                                  label: Text(tech),
+                                  backgroundColor: Colors.primaries[
+                                      project.technologies.<span class="function">indexOf</span>(tech) %
+                                          Colors.primaries.<span class="function">length</span>
+                                  ]<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                                ))
+                            .<span class="function">toList</span>(),
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">24</span>),
+                    FadeInSection(
+                      delay: Duration(milliseconds: <span class="number">1000</span>),
+                      child: Row(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              <span class="comment">// Open GitHub URL</span>
+                            },
+                            icon: Icon(Icons.code),
+                            label: Text(<span class="string">'View Code'</span>),
+                          ),
+                          SizedBox(width: <span class="number">16</span>),
+                          <span class="keyword">if</span> (project.liveUrl != <span class="keyword">null</span>)
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                <span class="comment">// Open live URL</span>
+                              },
+                              icon: Icon(Icons.open_in_browser),
+                              label: Text(<span class="string">'Live Demo'</span>),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () =&gt; Navigator.<span class="function">pop</span>(context),
+          child: Icon(Icons.close),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: HOME SCREEN ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Home Screen</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/home_screen.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> List&lt;Project&gt; projects = PortfolioData.projects;
+    <span class="keyword">final</span> List&lt;Skill&gt; skills = PortfolioData.skills;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            <span class="comment">// App Bar</span>
+            SliverAppBar(
+              expandedHeight: <span class="number">400</span>,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(<span class="string">'My Portfolio'</span>),
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.blue, Colors.purple],
+                    ),
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: <span class="number">60</span>,
+                          backgroundImage: AssetImage(<span class="string">'assets/images/profile.jpg'</span>),
+                        ),
+                        SizedBox(height: <span class="number">16</span>),
+                        Text(
+                          <span class="string">'John Developer'</span>,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: <span class="number">28</span>,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          <span class="string">'Flutter Developer &amp; UI/UX Enthusiast'</span>,
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: <span class="number">16</span>,
+                          ),
+                        ),
+                        SizedBox(height: <span class="number">16</span>),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildSocialIcon(Icons.github),
+                            SizedBox(width: <span class="number">16</span>),
+                            _buildSocialIcon(Icons.linkedin),
+                            SizedBox(width: <span class="number">16</span>),
+                            _buildSocialIcon(Icons.twitter),
+                            SizedBox(width: <span class="number">16</span>),
+                            _buildSocialIcon(Icons.mail),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            <span class="comment">// About Section</span>
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+                child: FadeInSection(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        <span class="string">'About Me'</span>,
+                        style: TextStyle(
+                          fontSize: <span class="number">24</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: <span class="number">8</span>),
+                      Text(
+                        <span class="string">'I am a passionate Flutter developer with experience building cross-platform mobile apps. I love creating beautiful, performant, and user-friendly applications.'</span>,
+                        style: TextStyle(
+                          fontSize: <span class="number">16</span>,
+                          color: Colors.grey[<span class="number">600</span>],
+                          height: <span class="number">1.5</span>,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            <span class="comment">// Skills Section</span>
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">24</span>),
+                child: FadeInSection(
+                  delay: Duration(milliseconds: <span class="number">300</span>),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        <span class="string">'Skills'</span>,
+                        style: TextStyle(
+                          fontSize: <span class="number">24</span>,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: <span class="number">16</span>),
+                      ...skills.<span class="function">map</span>((skill) =&gt; AnimatedSkillBar(skill: skill)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            <span class="comment">// Projects Section</span>
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">24</span>, vertical: <span class="number">16</span>),
+                child: FadeInSection(
+                  delay: Duration(milliseconds: <span class="number">600</span>),
+                  child: Text(
+                    <span class="string">'My Projects'</span>,
+                    style: TextStyle(
+                      fontSize: <span class="number">24</span>,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            <span class="comment">// Project Grid</span>
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: <span class="number">350</span>,
+                mainAxisSpacing: <span class="number">16</span>,
+                crossAxisSpacing: <span class="number">16</span>,
+                childAspectRatio: <span class="number">0.75</span>,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  <span class="keyword">return</span> FadeInSection(
+                    delay: Duration(milliseconds: <span class="number">800</span> + (index * <span class="number">100</span>)),
+                    child: AnimatedProjectCard(
+                      project: projects[index],
+                      onTap: (project) {
+                        Navigator.<span class="function">push</span>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =&gt; ProjectDetailScreen(project: project),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                childCount: projects.<span class="function">length</span>,
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: PulseAnimation(
+          child: FloatingActionButton(
+            onPressed: () {
+              <span class="comment">// Scroll to top</span>
+            },
+            child: Icon(Icons.arrow_upward),
+          ),
+        ),
+      );
+    }
+
+    Widget <span class="function">_buildSocialIcon</span>(IconData icon) {
+      <span class="keyword">return</span> InkWell(
+        onTap: () {},
+        child: Container(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">8</span>),
+          decoration: BoxDecoration(
+            color: Colors.white24,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: Colors.white),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 7: PROJECT CHECKLIST ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Checklist</span>
+<span class="divider-line"></span>
+</div>
+<p>Complete these tasks to successfully build the Animated Portfolio App:</p>
+<ul class="checklist">
+<li>Define data models (Project, Skill, Experience)</li>
+<li>Create portfolio data (projects, skills)</li>
+<li>Build AnimatedProjectCard with hover and fade effects</li>
+<li>Create FadeInSection for scroll-triggered animations</li>
+<li>Build AnimatedSkillBar with progress animation</li>
+<li>Create PulseAnimation for floating action button</li>
+<li>Build ProjectDetailScreen with Hero animation</li>
+<li>Build HomeScreen with all sections</li>
+<li>Add responsive layout for different screen sizes</li>
+<li>Test all animations and transitions</li>
+</ul>
+</div>
+<!-- ===== SECTION 8: TESTING ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Testing the App</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Test your animated portfolio thoroughly:
+          </p>
+<div class="concept-card info">
+<h4>🧪 Test Scenarios</h4>
+<ul>
+<li><strong>Hover effects</strong> – Hover over project cards to see scale animation</li>
+<li><strong>Scroll animations</strong> – Scroll through the page to see FadeInSection triggers</li>
+<li><strong>Skill bars</strong> – Watch skill bars animate to their proficiency level</li>
+<li><strong>Hero transitions</strong> – Tap a project to see the Hero animation to detail screen</li>
+<li><strong>Pulse animation</strong> – Observe the floating action button pulsing</li>
+<li><strong>Responsive layout</strong> – Test on different screen sizes</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 9: RESOURCES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Resources</span>
+<span class="divider-line"></span>
+</div>
+<div class="resources-box">
+<h4>📚 Learning Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/animations" target="_blank">Flutter Animation Docs</a> – Official animation guide</li>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">Hero Animations</a> – Shared element transitions</li>
+<li><a href="https://docs.flutter.dev/ui/animations/staggered-animations" target="_blank">Staggered Animations</a> – Complex animation sequences</li>
+<li><a href="https://docs.flutter.dev/ui/adaptive-responsive" target="_blank">Responsive Design</a> – Making your portfolio responsive</li>
+</ul>
+</div>
+<div class="resources-box" style="margin-top: 1rem;">
+<h4>🔗 Related Lessons</h4>
+<ul>
+<li><a href="module6-topic1-custom-widgets.html">Custom Widgets</a> – Building reusable components</li>
+<li><a href="module6-topic2-animations.html">Animations</a> – Animation fundamentals</li>
+<li><a href="module6-topic3-hero-animations.html">Hero Animations</a> – Shared element transitions</li>
+<li><a href="module6-topic8-responsive-design.html">Responsive Design</a> – Making it work on all screens</li>
+</ul>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Project Summary</h3>
+<p>
+            You've built a stunning <strong>Animated Portfolio App</strong> that showcases your skills
+            and projects with smooth, professional animations! You've used <strong>implicit animations</strong>
+            for hover effects, <strong>explicit animations</strong> with <code>AnimationController</code>
+            for skill bars and fade-in sections, and <strong>Hero animations</strong> for seamless project
+            transitions. Your portfolio now feels polished, interactive, and responsive — a true reflection
+            of your development capabilities.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module6-topic9-adaptive-design.html">
+<i class="fas fa-arrow-left"></i> Previous: Adaptive Design
+          </a>
+<a class="btn btn-primary btn-sm" href="project-ecommerce-ui.html">
+            Next: E-Commerce UI <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">Animation Docs</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">Hero Animations</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/animations" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-animated-portfolio';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html><!-- project-animated-portfolio.html -->

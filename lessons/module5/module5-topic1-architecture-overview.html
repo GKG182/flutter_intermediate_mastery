@@ -1,0 +1,1458 @@
+<!-- /lessons/module5/module5-topic1-architecture-overview.html -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architecture Overview – Module 5 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn about app architecture principles for Flutter. Understand MVVM, separation of concerns, and how to structure scalable Flutter applications." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .architecture-layer {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+    .architecture-layer:hover {
+      transform: translateX(4px);
+    }
+    .architecture-layer .layer-title {
+      font-weight: 700;
+      font-size: var(--font-base);
+      color: var(--text);
+    }
+    .architecture-layer .layer-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .architecture-layer .layer-components {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .architecture-layer .layer-components span {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.15rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 500;
+    }
+
+    .layer-arrow {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      margin: 0.25rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="module5-topic1-architecture-overview.html">Module 5</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 1</span>
+</div>
+<span class="module-badge"><i class="fas fa-archway"></i> Module 5</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 1</div>
+<h1>Architecture Overview</h1>
+<p class="topic-subtitle">
+            Understanding the foundation of building scalable, maintainable Flutter applications.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+<i class="fas fa-globe"></i> Flutter Architecture Guide
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
+<i class="fas fa-box"></i> GetIt Package
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS APP ARCHITECTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is App Architecture?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>App architecture</strong> refers to how we structure, organize, and design our applications
+            to scale as project requirements and teams grow. It's the blueprint that defines how different
+            parts of your app interact with each other.
+          </p>
+<div class="concept-card info">
+<h4>💡 Key Insight</h4>
+<p>
+              Architecture is not about picking the "right" tools or patterns—it's about making
+              <strong>intentional decisions</strong> that lead to maintainable, testable, and scalable code.
+            </p>
+</div>
+<h3>Why Architecture Matters</h3>
+<p>Without intentional architecture, Flutter apps often become difficult to maintain as they grow.</p>
+<div class="features-grid">
+<div class="feature-item" style="border-left: 3px solid #10B981;">
+<div class="feature-icon">🔧</div>
+<div class="feature-name">Maintainability</div>
+<div class="feature-desc">Easier to modify, update, and fix issues over time</div>
+</div>
+<div class="feature-item" style="border-left: 3px solid #3B82F6;">
+<div class="feature-icon">📈</div>
+<div class="feature-name">Scalability</div>
+<div class="feature-desc">Allows more people to contribute with minimal code conflicts</div>
+</div>
+<div class="feature-item" style="border-left: 3px solid #8B5CF6;">
+<div class="feature-icon">🧪</div>
+<div class="feature-name">Testability</div>
+<div class="feature-desc">Simpler classes with well-defined inputs and outputs</div>
+</div>
+<div class="feature-item" style="border-left: 3px solid #F59E0B;">
+<div class="feature-icon">🧠</div>
+<div class="feature-name">Lower Cognitive Load</div>
+<div class="feature-desc">New developers are productive faster, code reviews are easier</div>
+</div>
+<div class="feature-item" style="border-left: 3px solid #EF4444;">
+<div class="feature-icon">👥</div>
+<div class="feature-name">Better UX</div>
+<div class="feature-desc">Features ship faster and with fewer bugs</div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: COMMON ARCHITECTURAL PRINCIPLES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Architectural Principles</span>
+<span class="divider-line"></span>
+</div>
+<h3>Separation of Concerns</h3>
+<p>
+            This principle states that a software system should be divided into distinct sections,
+            each addressing a separate concern. In Flutter apps, this typically means separating:
+          </p>
+<ul>
+<li><strong>UI/Presentation</strong> – What the user sees and interacts with</li>
+<li><strong>Business Logic</strong> – The rules and operations of your app</li>
+<li><strong>Data Access</strong> – How your app stores and retrieves data</li>
+</ul>
+<h3>Single Responsibility Principle</h3>
+<p>
+            Every class, module, or function should have only one reason to change. This makes your
+            code easier to understand, test, and maintain.
+          </p>
+<h3>Dependency Inversion</h3>
+<p>
+            High-level modules should not depend on low-level modules. Both should depend on
+            abstractions (interfaces). This reduces coupling and makes your code more flexible.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">Bad: Tight Coupling</span>
+<code>
+<span class="keyword">class</span> <span class="function">WeatherService</span> {
+    <span class="comment">// Direct dependency on a concrete implementation</span>
+<span class="keyword">final</span> ApiClient apiClient = <span class="function">ApiClient</span>();
+
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">getWeather</span>() async {
+      <span class="keyword">return</span> <span class="keyword">await</span> apiClient.<span class="function">fetchWeather</span>();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">Good: Dependency Inversion</span>
+<code>
+<span class="keyword">abstract</span> <span class="keyword">class</span> <span class="function">WeatherDataSource</span> {
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">fetchWeather</span>();
+  }
+
+  <span class="keyword">class</span> <span class="function">ApiWeatherDataSource</span> <span class="keyword">implements</span> WeatherDataSource {
+    <span class="keyword">final</span> ApiClient apiClient;
+
+    <span class="function">ApiWeatherDataSource</span>(<span class="keyword">this</span>.apiClient);
+
+    @override
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">fetchWeather</span>() async {
+      <span class="keyword">return</span> <span class="keyword">await</span> apiClient.<span class="function">fetchWeather</span>();
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">WeatherService</span> {
+    <span class="keyword">final</span> WeatherDataSource dataSource;
+
+    <span class="function">WeatherService</span>(<span class="keyword">this</span>.dataSource);
+
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">getWeather</span>() async {
+      <span class="keyword">return</span> <span class="keyword">await</span> dataSource.<span class="function">fetchWeather</span>();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 3: FLUTTER'S RECOMMENDED ARCHITECTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Flutter's Recommended Architecture</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The Flutter team recommends an architecture that follows <strong>MVVM</strong> (Model-View-ViewModel)
+            principles with a clear separation of concerns. Here's the high-level structure:
+          </p>
+<div class="architecture-layer">
+<div class="layer-title">🎨 Presentation Layer</div>
+<div class="layer-desc">Widgets (UI components) that display data and capture user input</div>
+<div class="layer-components">
+<span>Widgets</span>
+<span>Screens</span>
+<span>Dialogs</span>
+<span>Pages</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #8B5CF6;">
+<div class="layer-title">🧠 Business Logic Layer</div>
+<div class="layer-desc">ViewModels, BLoCs, or Providers that handle app logic and state</div>
+<div class="layer-components">
+<span>ViewModels</span>
+<span>BLoCs</span>
+<span>Services</span>
+<span>UseCases</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #10B981;">
+<div class="layer-title">📊 Data Layer</div>
+<div class="layer-desc">Repositories, data sources, and models that manage data</div>
+<div class="layer-components">
+<span>Repositories</span>
+<span>API Clients</span>
+<span>Local Storage</span>
+<span>DTOs</span>
+</div>
+</div>
+<h3>Key Components</h3>
+<ul>
+<li><strong>View (Widgets)</strong> – Renders UI and sends user events to ViewModels</li>
+<li><strong>ViewModel (State Management)</strong> – Holds state, processes events, and updates the View</li>
+<li><strong>Repository</strong> – Provides a clean API for data access, abstracts data sources</li>
+<li><strong>Data Sources</strong> – Handle specific data operations (API calls, database queries)</li>
+<li><strong>Models</strong> – Define the structure of your data</li>
+<li><strong>Services</strong> – Handle business operations, coordinate between repositories</li>
+</ul>
+<div class="concept-card warning">
+<h4>⚠️ Important</h4>
+<p>
+              This architecture is flexible—you don't have to implement every layer exactly as shown.
+              The goal is to maintain <strong>separation of concerns</strong> and clear responsibilities.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 4: MVVM WITH STATE MANAGEMENT ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">MVVM with State Management</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The Flutter team recommends using <strong>MVVM</strong> (Model-View-ViewModel) pattern with
+            your preferred state management solution. Here's how it works:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">ViewModel with Riverpod</span>
+<code>
+<span class="comment">// 1. Define the ViewModel (State Notifier)</span>
+<span class="keyword">class</span> <span class="function">WeatherViewModel</span> <span class="keyword">extends</span> StateNotifier&lt;WeatherState&gt; {
+    <span class="keyword">final</span> WeatherService weatherService;
+
+    <span class="function">WeatherViewModel</span>(<span class="keyword">this</span>.weatherService) : <span class="keyword">super</span>(WeatherState.<span class="function">initial</span>());
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">loadWeather</span>() async {
+      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>);
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> weather = <span class="keyword">await</span> weatherService.<span class="function">getWeather</span>();
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          weather: weather,
+          error: <span class="keyword">null</span>,
+        );
+      } <span class="keyword">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+  }
+
+  <span class="comment">// 2. Define the State</span>
+<span class="keyword">class</span> <span class="function">WeatherState</span> {
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
+    <span class="keyword">final</span> Weather? weather;
+    <span class="keyword">final</span> String? error;
+
+    <span class="function">WeatherState</span>({<span class="keyword">this</span>.isLoading = <span class="keyword">false</span>, <span class="keyword">this</span>.weather, <span class="keyword">this</span>.error});
+
+    WeatherState <span class="function">copyWith</span>({<span class="keyword">bool</span>? isLoading, Weather? weather, String? error}) {
+      <span class="keyword">return</span> WeatherState(
+        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
+        weather: weather ?? <span class="keyword">this</span>.weather,
+        error: error ?? <span class="keyword">this</span>.error,
+      );
+    }
+
+    <span class="keyword">factory</span> WeatherState.<span class="function">initial</span>() =&gt; WeatherState();
+  }
+
+  <span class="comment">// 3. Create Provider</span>
+<span class="keyword">final</span> weatherViewModelProvider = StateNotifierProvider&lt;WeatherViewModel, WeatherState&gt;((ref) {
+    <span class="keyword">return</span> WeatherViewModel(ref.<span class="function">watch</span>(weatherServiceProvider));
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">View (UI Component)</span>
+<code>
+<span class="keyword">class</span> <span class="function">WeatherPage</span> <span class="keyword">extends</span> ConsumerWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(weatherViewModelProvider);
+      <span class="keyword">final</span> viewModel = ref.<span class="function">read</span>(weatherViewModelProvider.notifier);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Weather'</span>)),
+        body: state.isLoading
+            ? CircularProgressIndicator()
+            : state.error != <span class="keyword">null</span>
+                ? Text(<span class="string">'Error: ${state.error}'</span>)
+                : state.weather != <span class="keyword">null</span>
+                    ? WeatherDisplay(weather: state.weather!)
+                    : ElevatedButton(
+                        onPressed: () =&gt; viewModel.<span class="function">loadWeather</span>(),
+                        child: Text(<span class="string">'Load Weather'</span>),
+                      ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: PRACTICAL DIRECTORY STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Practical Directory Structure</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's how you might organize a Flutter app following these architectural principles:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">Project Structure</span>
+<code>
+  lib/
+  ├── main.dart
+  ├── presentation/          <span class="comment"># Presentation Layer</span>
+  │   ├── screens/
+  │   │   ├── home_screen.dart
+  │   │   └── weather_screen.dart
+  │   ├── widgets/
+  │   │   ├── weather_card.dart
+  │   │   └── loading_indicator.dart
+  │   └── viewmodels/
+  │       ├── home_viewmodel.dart
+  │       └── weather_viewmodel.dart
+  ├── domain/                <span class="comment"># Business Logic Layer</span>
+  │   ├── models/
+  │   │   └── weather.dart
+  │   ├── repositories/
+  │   │   ├── weather_repository.dart
+  │   │   └── user_repository.dart
+  │   ├── services/
+  │   │   └── weather_service.dart
+  │   └── usecases/
+  │       └── get_weather_usecase.dart
+  └── data/                  <span class="comment"># Data Layer</span>
+      ├── datasources/
+      │   ├── remote/
+      │   │   └── weather_api_datasource.dart
+      │   └── local/
+      │       └── weather_local_datasource.dart
+      ├── repositories_impl/
+      │   └── weather_repository_impl.dart
+      └── models/
+          └── weather_dto.dart
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Key Insight</h4>
+<p>
+              This structure separates concerns at the folder level. Each layer has a clear responsibility,
+              making it easy for teams to work in parallel and maintain the codebase over time.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 6: GETTING STARTED ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Getting Started with Architecture</span>
+<span class="divider-line"></span>
+</div>
+<p>Here are practical steps to start implementing good architecture in your Flutter apps:</p>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Start Simple</strong> – Begin with a basic separation between UI and business logic
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Introduce ViewModels</strong> – Move state management logic out of widgets
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Add Repositories</strong> – Abstract data access behind clean interfaces
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Use Dependency Injection</strong> – Make dependencies explicit and testable
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Refactor Incrementally</strong> – Improve architecture as your app grows
+              </div>
+</div>
+</div>
+<div class="concept-card info">
+<h4>💡 Pro Tip</h4>
+<p>
+              Don't try to implement perfect architecture from day one. Start with a reasonable structure
+              and refine it as you learn more about your app's requirements and team dynamics.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Over-engineering from the start</div>
+<p>
+              Adding too many layers and patterns before you understand the requirements leads to
+              unnecessary complexity and slower development.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Start simple, refactor as needed</div>
+<p>
+              Begin with a minimal architecture that separates UI from business logic, then add
+              complexity only when the codebase demands it.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Tight coupling between layers</div>
+<p>
+              When UI components directly depend on data sources, changing one requires changing the other.
+              This breaks the Single Responsibility Principle.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use dependency injection and abstractions</div>
+<p>
+              Each layer should depend on abstractions, not concrete implementations. This makes
+              your code flexible and testable.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Neglecting testability</div>
+<p>
+              If your architecture makes it hard to write tests, you'll skip testing and end up
+              with a buggy, fragile codebase.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Design for testability</div>
+<p>
+              Write your code so that you can easily mock dependencies and test each component in
+              isolation. This leads to higher quality software.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Good app architecture is about <strong>intentional design decisions</strong> that lead to
+            maintainable, testable, and scalable code. Start with the principles of Separation of Concerns,
+            Single Responsibility, and Dependency Inversion. Use MVVM to separate UI from business logic,
+            and organize your code into <strong>Presentation, Business Logic, and Data layers</strong>.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a btn="" btn-outline="" btn-sm"="" href="module5-topic1-architecture-overview.html class=">
+<i class="fas fa-arrow-left"></i> Back to Module 5
+          </a>
+<a class="btn btn-primary btn-sm" href="module5-topic2-repository-pattern.html">
+            Next: Repository Pattern <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="module5-topic1-architecture-overview.html">Module 5</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">Flutter Architecture</a></li>
+<li><a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">GetIt Package</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">Flutter Official Architecture Guide</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module5-topic1-architecture-overview';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

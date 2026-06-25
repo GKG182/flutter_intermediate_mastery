@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hero Animations – Module 6 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn Hero animations in Flutter. Create shared element transitions between screens with the Hero widget for stunning, fluid navigation experiences." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .hero-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .hero-type {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 2px solid var(--border);
+      text-align: center;
+    }
+    .hero-type .type-icon {
+      font-size: 2.5rem;
+    }
+    .hero-type .type-name {
+      font-weight: 700;
+      font-size: var(--font-base);
+      margin-top: 0.25rem;
+    }
+    .hero-type .type-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    .flight-diagram {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .flight-diagram .step {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      background: var(--background);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: var(--font-sm);
+    }
+    .flight-diagram .arrow {
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin: 0 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid,
+      .hero-types {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+      .flight-diagram .step {
+        display: block;
+        margin: 0.5rem 0;
+      }
+      .flight-diagram .arrow {
+        display: block;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module6-advanced-flutter.html">Module 6</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 3</span>
+</div>
+<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 3</div>
+<h1>Hero Animations</h1>
+<p class="topic-subtitle">
+            Creating seamless shared element transitions between screens using Flutter's Hero widget.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<i class="fas fa-globe"></i> Flutter Hero Docs
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<i class="fas fa-book"></i> Hero Animation Guide
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT ARE HERO ANIMATIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Are Hero Animations?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Hero animations</strong> (also called <strong>shared element transitions</strong>)
+            are a type of animation where a widget appears to "fly" from one screen to another.
+            You've probably seen this many times — for example, tapping a product image in a list,
+            and watching it smoothly transition to a larger version on the details screen.
+          </p>
+<div class="concept-card info">
+<h4>💡 Key Concept</h4>
+<p>
+              A Hero animation creates the illusion that a widget is <strong>shared</strong> between
+              two screens. In reality, there are two separate <code>Hero</code> widgets with matching
+              <strong>tags</strong>. Flutter handles the animation between them automatically.
+            </p>
+</div>
+<div class="hero-types">
+<div class="hero-type" style="border-color: #3B82F6;">
+<div class="type-icon">🔄</div>
+<div class="type-name">Standard Hero</div>
+<div class="type-desc">
+                Widget flies from one route to another, changing position and size. The most common type.
+              </div>
+</div>
+<div class="hero-type" style="border-color: #8B5CF6;">
+<div class="type-icon">⭕➡️⬛</div>
+<div class="type-name">Radial Hero</div>
+<div class="type-desc">
+                Widget transforms shape during flight (e.g., circle to square) using clipping.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: BASIC STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Basic Structure</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Hero animations are implemented using two <code>Hero</code> widgets — one on the source route
+            and one on the destination route. Both must have the <strong>same tag</strong>.
+          </p>
+<div class="flight-diagram">
+<div class="step">🏠 Source Route</div>
+<span class="arrow">→</span>
+<div class="step">🚀 Hero Flies</div>
+<span class="arrow">→</span>
+<div class="step">📍 Destination Route</div>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">Basic Hero Structure</span>
+<code>
+<span class="comment">// SOURCE ROUTE (List Screen)</span>
+  Hero(
+    tag: <span class="string">'product_123'</span>, <span class="comment">// Unique tag</span>
+    child: Container(
+      width: <span class="number">100</span>,
+      height: <span class="number">100</span>,
+      child: Image.network(<span class="string">'https://example.com/product.jpg'</span>),
+    ),
+  )
+
+  <span class="comment">// DESTINATION ROUTE (Detail Screen)</span>
+  Hero(
+    tag: <span class="string">'product_123'</span>, <span class="comment">// SAME tag!</span>
+    child: Container(
+      width: <span class="number">300</span>,
+      height: <span class="number">300</span>,
+      child: Image.network(<span class="string">'https://example.com/product.jpg'</span>),
+    ),
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Key Requirements</h4>
+<ul>
+<li><strong>Same tag</strong> – Both Hero widgets must have identical tags</li>
+<li><strong>Similar child widgets</strong> – The widgets should be visually similar</li>
+<li><strong>Navigation triggers</strong> – The animation starts when you push/pop a route</li>
+<li><strong>Unique tags</strong> – Each pair of heroes should have a unique tag</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 3: STANDARD HERO ANIMATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Standard Hero Animation</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A <strong>standard hero animation</strong> flies a widget from one route to another,
+            usually changing position and size. Here's a complete example:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/photo_hero.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">PhotoHero</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">PhotoHero</span>({
+      <span class="keyword">super</span>.key,
+      <span class="keyword">required</span> <span class="keyword">this</span>.photo,
+      <span class="keyword">this</span>.onTap,
+      <span class="keyword">required</span> <span class="keyword">this</span>.width,
+    });
+
+    <span class="keyword">final</span> String photo;
+    <span class="keyword">final</span> VoidCallback? onTap;
+    <span class="keyword">final</span> <span class="keyword">double</span> width;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> SizedBox(
+        width: width,
+        child: Hero(
+          tag: photo, <span class="comment">// Use the photo path as the tag</span>
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              child: Image.asset(
+                photo,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/home_screen.dart – Source Route</span>
+<code>
+<span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Hero Animation'</span>)),
+        body: Center(
+          child: PhotoHero(
+            photo: <span class="string">'assets/flippers.png'</span>,
+            width: <span class="number">300.0</span>,
+            onTap: () {
+              Navigator.<span class="function">of</span>(context).<span class="function">push</span>(
+                MaterialPageRoute&lt;<span class="keyword">void</span>&gt;(
+                  builder: (context) {
+                    <span class="keyword">return</span> DetailScreen(photo: <span class="string">'assets/flippers.png'</span>);
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/detail_screen.dart – Destination Route</span>
+<code>
+<span class="keyword">class</span> <span class="function">DetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> String photo;
+
+    <span class="function">DetailScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.photo});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Detail'</span>)),
+        body: Container(
+          color: Colors.lightBlueAccent,
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          alignment: Alignment.topLeft,
+          child: PhotoHero(
+            photo: photo,
+            width: <span class="number">100.0</span>,
+            onTap: () {
+              Navigator.<span class="function">of</span>(context).<span class="function">pop</span>();
+            },
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 Debugging Tip</h4>
+<p>
+              Use <code>timeDilation = 5.0</code> to slow down animations during development.
+              This makes it easier to see what's happening during the transition.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 4: HOW HERO ANIMATIONS WORK ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">How Hero Animations Work</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Understanding what happens behind the scenes helps you debug and optimize hero animations.
+          </p>
+<div class="flight-diagram">
+<div class="step">1️⃣ Source hero in widget tree</div>
+<span class="arrow">⬇️</span>
+<div class="step">2️⃣ Push new route → Animation starts</div>
+<span class="arrow">⬇️</span>
+<div class="step">3️⃣ Flutter calculates flight path</div>
+<span class="arrow">⬇️</span>
+<div class="step">4️⃣ Destination hero placed in overlay</div>
+<span class="arrow">⬇️</span>
+<div class="step">5️⃣ Source hero moved offscreen</div>
+<span class="arrow">⬇️</span>
+<div class="step">6️⃣ Hero flies to destination</div>
+<span class="arrow">⬇️</span>
+<div class="step">7️⃣ Hero moved to destination route</div>
+<span class="arrow">⬇️</span>
+<div class="step">8️⃣ Animation complete ✅</div>
+</div>
+<div class="concept-card info">
+<h4>🧠 Behind the Scenes</h4>
+<ul>
+<li>Flutter calculates the <strong>flight path</strong> using <code>Tween&lt;Rect&gt;</code></li>
+<li>By default, uses <code>MaterialRectArcTween</code> for curved motion</li>
+<li>The hero is rendered in an <strong>overlay</strong> during the animation</li>
+<li>Both source and destination widgets remain in their routes</li>
+<li>The animation is <strong>reversible</strong> when you pop the route</li>
+</ul>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">Customizing the Flight Path</span>
+<code>
+<span class="comment">// Custom RectTween for different flight behavior</span>
+<span class="keyword">static</span> RectTween <span class="function">_createRectTween</span>(Rect? begin, Rect? end) {
+    <span class="keyword">return</span> MaterialRectCenterArcTween(begin: begin, end: end);
+  }
+
+  <span class="comment">// Using in Hero widget</span>
+  Hero(
+    tag: photo,
+    createRectTween: _createRectTween, <span class="comment">// Custom flight path</span>
+    child: <span class="comment">// ...</span>
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: RADIAL HERO ANIMATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Radial Hero Animation</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A <strong>radial hero animation</strong> transforms the shape of the hero during flight —
+            for example, from a <strong>circle to a square</strong>. This creates a more dramatic,
+            polished transition.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/radial_expansion.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:math'</span> <span class="keyword">as</span> math;
+
+  <span class="keyword">class</span> <span class="function">RadialExpansion</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">RadialExpansion</span>({
+      <span class="keyword">super</span>.key,
+      <span class="keyword">required</span> <span class="keyword">this</span>.maxRadius,
+      <span class="keyword">this</span>.child,
+    }) : clipRectSize = <span class="number">2.0</span> * (maxRadius / math.<span class="function">sqrt</span>(<span class="number">2</span>));
+
+    <span class="keyword">final</span> <span class="keyword">double</span> maxRadius;
+    <span class="keyword">final</span> <span class="keyword">double</span> clipRectSize;
+    <span class="keyword">final</span> Widget? child;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> ClipOval(
+        child: Center(
+          child: SizedBox(
+            width: clipRectSize,
+            height: clipRectSize,
+            child: ClipRect(
+              child: child,
+            ),
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/photo.dart – For Radial Hero</span>
+<code>
+<span class="keyword">class</span> <span class="function">Photo</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">Photo</span>({
+      <span class="keyword">super</span>.key,
+      <span class="keyword">required</span> <span class="keyword">this</span>.photo,
+      <span class="keyword">this</span>.color,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
+    });
+
+    <span class="keyword">final</span> String photo;
+    <span class="keyword">final</span> Color? color;
+    <span class="keyword">final</span> VoidCallback onTap;
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Material(
+        <span class="comment">// Slightly opaque for transparency areas</span>
+        color: Theme.<span class="function">of</span>(context).primaryColor.<span class="function">withValues</span>(alpha: <span class="number">0.25</span>),
+        child: InkWell(
+          onTap: onTap,
+          child: Image.asset(
+            photo,
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/radial_hero_screen.dart – Using Radial Hero</span>
+<code>
+<span class="keyword">class</span> <span class="function">RadialHeroScreen</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">static</span> RectTween <span class="function">_createRectTween</span>(Rect? begin, Rect? end) {
+      <span class="keyword">return</span> MaterialRectCenterArcTween(begin: begin, end: end);
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Radial Hero'</span>)),
+        body: Center(
+          child: Hero(
+            tag: <span class="string">'hero_photo'</span>,
+            createRectTween: _createRectTween,
+            child: RadialExpansion(
+              maxRadius: <span class="number">150</span>,
+              child: Photo(
+                photo: <span class="string">'assets/photo.jpg'</span>,
+                onTap: () {
+                  Navigator.<span class="function">of</span>(context).<span class="function">pop</span>();
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 How Radial Heroes Work</h4>
+<ul>
+<li>Uses <strong>ClipOval</strong> and <strong>ClipRect</strong> together</li>
+<li>The intersection of the two clips creates the shape change</li>
+<li><strong>ClipOval</strong> scales from minRadius to maxRadius</li>
+<li><strong>ClipRect</strong> maintains constant size</li>
+<li>The result is a circle that "grows" into a square</li>
+<li>Use <code>MaterialRectCenterArcTween</code> to maintain aspect ratio</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Implementation</span>
+<span class="divider-line"></span>
+</div>
+<p>Follow these steps to add hero animations to your app:</p>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Identify the shared element</strong> – Find a widget that appears on both screens
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Create a reusable widget</strong> – Build a widget that can be used on both screens
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Wrap with Hero</strong> – Wrap the widget with <code>Hero</code> on the source screen
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Add matching Hero</strong> – Wrap the same widget with <code>Hero</code> on the destination screen
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Use the same tag</strong> – Both heroes must have identical tags
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>Set up navigation</strong> – Push the destination route to trigger the animation
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">7.</span>
+<div class="step-text">
+<strong>Test and refine</strong> – Use <code>timeDilation</code> to debug and adjust
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Different tags on source and destination</div>
+<p>
+              If the tags don't match exactly, the hero animation won't work. The hero will just pop in/out.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use identical tags</div>
+<p>
+              Always use the <strong>exact same</strong> tag on both Hero widgets. Use a unique identifier
+              from your data model (e.g., product ID).
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Different widget trees</div>
+<p>
+              If the hero's child widgets are too different, the transition can look jarring.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Similar widgets</div>
+<p>
+              The heroes should have <strong>virtually identical</strong> widget trees for the smoothest
+              animation. The same image with different sizes works well.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not disposing controllers</div>
+<p>
+              If you're using custom animations with controllers, forgetting to dispose them causes memory leaks.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Dispose controllers</div>
+<p>
+              Always call <code>dispose()</code> on any animation controllers in your stateful widgets.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 4: Using non-unique tags</div>
+<p>
+              If multiple heroes on the same screen share the same tag, Flutter doesn't know which one to animate.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Unique tags per hero pair</div>
+<p>
+              Each pair of heroes should have a <strong>unique tag</strong>. Use the item's ID or a unique string.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 8: RESOURCES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Resources</span>
+<span class="divider-line"></span>
+</div>
+<div class="resources-box">
+<h4>📚 Learning Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">Flutter Hero Animations Guide</a> – Official documentation</li>
+<li><a href="https://docs.flutter.dev/ui/animations" target="_blank">Flutter Animation Docs</a> – Complete animation guide</li>
+<li><a href="https://api.flutter.dev/flutter/widgets/Hero-class.html" target="_blank">Hero API Reference</a> – Detailed API documentation</li>
+</ul>
+</div>
+<div class="resources-box" style="margin-top: 1rem;">
+<h4>🔗 Related Lessons</h4>
+<ul>
+<li><a href="module6-topic2-animations.html">Animations</a> – Foundation of Flutter animations</li>
+<li><a href="module6-topic1-custom-widgets.html">Custom Widgets</a> – Building reusable widgets</li>
+<li><a href="../module6-advanced-flutter.html">Module 6 Overview</a> – All advanced topics</li>
+</ul>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+<strong>Hero animations</strong> are a powerful way to create seamless transitions between
+            screens in Flutter. By using two <code>Hero</code> widgets with <strong>matching tags</strong>,
+            you can create the illusion of a shared element flying between routes. Use
+            <strong>standard heroes</strong> for simple position/size changes and <strong>radial heroes</strong>
+            for shape transformations. Always use <strong>unique tags</strong> and keep the widget trees
+            similar for the best results.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module6-topic2-animations.html">
+<i class="fas fa-arrow-left"></i> Previous: Animations
+          </a>
+<a class="btn btn-primary btn-sm" href="module6-topic4-slivers.html">
+            Next: Slivers <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">Hero Animations</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">Flutter Animations</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/animations/hero-animations" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module6-topic3-hero-animations';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

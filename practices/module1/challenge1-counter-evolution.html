@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Counter Evolution System – Module 1 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a counter app with multiple counters, reset per counter, and a global total counter using Riverpod." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== CHALLENGE-SPECIFIC STYLES ===== */
+    .challenge-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header .challenge-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .challenge-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong {
+      color: var(--text);
+    }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.easy {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge.hard {
+      background: rgba(239, 68, 68, 0.12);
+      color: #EF4444;
+    }
+
+    .challenge-section {
+      margin-bottom: 2.5rem;
+    }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p,
+    .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul {
+      margin: 0.5rem 0 0.5rem 1.5rem;
+      padding-left: 0;
+    }
+    .challenge-section ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+    .requirements-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .requirements-box ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 {
+      color: #10B981;
+      margin-bottom: 0.5rem;
+    }
+    .resources-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .resources-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .resources-box ul li a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .resources-box ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hint Box */
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover {
+      background: rgba(245, 158, 11, 0.1);
+    }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Solution Box */
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover {
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open {
+      transform: rotate(180deg);
+    }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 5000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block {
+      margin: 0;
+      border-radius: var(--radius-sm);
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover {
+      transform: scale(1.05);
+    }
+    .btn-complete-challenge.completed {
+      background: #10B981;
+    }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== CHALLENGE CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<!-- Challenge Header -->
+<div class="challenge-header">
+<div class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 1 · Challenge 1
+            </div>
+<h1>Counter Evolution System</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge easy">Easy</span></span>
+<span class="meta-item"><strong>Module:</strong> State Management</span>
+<span class="meta-item"><strong>Concepts:</strong> StateProvider, Riverpod</span>
+<span class="meta-item"><strong>Est. Time:</strong> 30-45 min</span>
+</div>
+</div>
+<!-- ===== CHALLENGE DESCRIPTION ===== -->
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build a <strong>Counter Evolution System</strong> — a multi-counter app that demonstrates
+              the power of Riverpod's StateProvider. Users should be able to create multiple independent
+              counters, increment/decrement each one, reset individual counters, and see a global total
+              that updates automatically.
+            </p>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Users can <strong>add</strong> new counters with a "+" button</li>
+<li>Each counter has <strong>increment</strong> (+) and <strong>decrement</strong> (-) buttons</li>
+<li>Each counter has a <strong>reset</strong> button to set it back to 0</li>
+<li>Display a <strong>global total</strong> that sums all counters</li>
+<li>Counters should be <strong>removable</strong> with a delete button</li>
+<li>Use <strong>StateProvider</strong> from Riverpod for state management</li>
+<li>Clean, responsive UI with proper styling</li>
+</ul>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://riverpod.dev" target="_blank">Riverpod Documentation</a></li>
+<li><a href="https://docs.flutter.dev/ui/interactivity" target="_blank">Flutter Interactivity</a></li>
+<li><a href="https://pub.dev/packages/flutter_riverpod" target="_blank">flutter_riverpod package</a></li>
+</ul>
+</div>
+</div>
+<!-- ===== HINT ===== -->
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Use a <code>List&lt;int&gt;</code> to store all counter values.
+                  Each counter is an index in the list. Use <code>StateProvider&lt;List&lt;int&gt;&gt;</code>
+                  to manage the list. For the global total, use a <code>Provider</code> that watches
+                  the counter list and calculates the sum using <code>.fold()</code>.
+                </p>
+</div>
+</div>
+</div>
+<!-- ===== SOLUTION ===== -->
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Counter Provider (lib/providers/counter_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/counter_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+  <span class="comment">// StateProvider for the list of counters</span>
+<span class="keyword">final</span> countersProvider = StateProvider&lt;List&lt;<span class="keyword">int</span>&gt;&gt;((ref) {
+    <span class="keyword">return</span> [<span class="number">0</span>]; <span class="comment">// Start with one counter at 0</span>
+  });
+
+  <span class="comment">// Provider for the global total (auto-updates)</span>
+<span class="keyword">final</span> totalProvider = Provider&lt;<span class="keyword">int</span>&gt;((ref) {
+    <span class="keyword">final</span> counters = ref.<span class="function">watch</span>(countersProvider);
+    <span class="keyword">return</span> counters.<span class="function">fold</span>(<span class="number">0</span>, (sum, count) =&gt; sum + count);
+  });
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. Counter Widget (lib/widgets/counter_item.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/widgets/counter_item.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../providers/counter_provider.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">CounterItem</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> <span class="keyword">int</span> index;
+
+    <span class="keyword">const</span> <span class="function">CounterItem</span>({<span class="keyword">required</span> <span class="keyword">this</span>.index, <span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> counters = ref.<span class="function">watch</span>(countersProvider);
+      <span class="keyword">final</span> count = counters[index];
+
+      <span class="keyword">return</span> Card(
+        margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
+        child: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              <span class="comment">// Counter number</span>
+              Text(
+                <span class="string">'Counter #${index + 1}'</span>,
+                style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.w500),
+              ),
+              Row(
+                children: [
+                  <span class="comment">// Decrement button</span>
+                  IconButton(
+                    onPressed: () {
+                      <span class="keyword">final</span> newCounters = List&lt;<span class="keyword">int</span>&gt;.from(counters);
+                      newCounters[index]--;
+                      ref.<span class="function">read</span>(countersProvider.notifier).state = newCounters;
+                    },
+                    icon: Icon(Icons.remove, color: Colors.red),
+                  ),
+                  <span class="comment">// Count display</span>
+                  Container(
+                    width: <span class="number">40</span>,
+                    alignment: Alignment.center,
+                    child: Text(
+                      count.<span class="function">toString</span>(),
+                      style: TextStyle(
+                        fontSize: <span class="number">24</span>,
+                        fontWeight: FontWeight.bold,
+                        color: count &gt; <span class="number">0</span> ? Colors.green : count &lt; <span class="number">0</span> ? Colors.red : Colors.grey,
+                      ),
+                    ),
+                  ),
+                  <span class="comment">// Increment button</span>
+                  IconButton(
+                    onPressed: () {
+                      <span class="keyword">final</span> newCounters = List&lt;<span class="keyword">int</span>&gt;.from(counters);
+                      newCounters[index]++;
+                      ref.<span class="function">read</span>(countersProvider.notifier).state = newCounters;
+                    },
+                    icon: Icon(Icons.add, color: Colors.green),
+                  ),
+                  <span class="comment">// Reset button</span>
+                  IconButton(
+                    onPressed: () {
+                      <span class="keyword">final</span> newCounters = List&lt;<span class="keyword">int</span>&gt;.from(counters);
+                      newCounters[index] = <span class="number">0</span>;
+                      ref.<span class="function">read</span>(countersProvider.notifier).state = newCounters;
+                    },
+                    icon: Icon(Icons.refresh, size: <span class="number">20</span>),
+                  ),
+                  <span class="comment">// Delete button</span>
+                  IconButton(
+                    onPressed: () {
+                      <span class="keyword">final</span> newCounters = List&lt;<span class="keyword">int</span>&gt;.from(counters);
+                      newCounters.<span class="function">removeAt</span>(index);
+                      ref.<span class="function">read</span>(countersProvider.notifier).state = newCounters;
+                    },
+                    icon: Icon(Icons.delete_outline, color: Colors.red),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Main Screen (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers/counter_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'widgets/counter_item.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Counter Evolution'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> HomeScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> counters = ref.<span class="function">watch</span>(countersProvider);
+      <span class="keyword">final</span> total = ref.<span class="function">watch</span>(totalProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Counter Evolution'</span>),
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.white,
+        ),
+        body: Column(
+          children: [
+            <span class="comment">// Global Total Display</span>
+            Container(
+              padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+              color: Colors.purple[<span class="number">50</span>],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    <span class="string">'🌍 Global Total: '</span>,
+                    style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    total.<span class="function">toString</span>(),
+                    style: TextStyle(
+                      fontSize: <span class="number">28</span>,
+                      fontWeight: FontWeight.bold,
+                      color: total &gt; <span class="number">0</span> ? Colors.green : total &lt; <span class="number">0</span> ? Colors.red : Colors.grey,
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">16</span>),
+                  Text(
+                    <span class="string">'(${counters.length} counters)'</span>,
+                    style: TextStyle(fontSize: <span class="number">14</span>, color: Colors.grey[<span class="number">600</span>]),
+                  ),
+                ],
+              ),
+            ),
+            <span class="comment">// Counter List</span>
+            Expanded(
+              child: counters.<span class="function">isEmpty</span>
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.sentiment_dissatisfied, size: <span class="number">64</span>, color: Colors.grey[<span class="number">400</span>]),
+                          SizedBox(height: <span class="number">16</span>),
+                          Text(
+                            <span class="string">'No counters yet!'</span>,
+                            style: TextStyle(fontSize: <span class="number">18</span>, color: Colors.grey[<span class="number">500</span>]),
+                          ),
+                          Text(
+                            <span class="string">'Tap the + button to add one'</span>,
+                            style: TextStyle(fontSize: <span class="number">14</span>, color: Colors.grey[<span class="number">400</span>]),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: counters.<span class="function">length</span>,
+                      itemBuilder: (context, index) =&gt; CounterItem(index: index),
+                    ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            <span class="keyword">final</span> current = ref.<span class="function">read</span>(countersProvider);
+            ref.<span class="function">read</span>(countersProvider.notifier).state = [...current, <span class="number">0</span>];
+          },
+          child: Icon(Icons.add),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>StateProvider</strong> – Managing a list of integers</li>
+<li><strong>Provider</strong> – Derived state (global total)</li>
+<li><strong>Immutability</strong> – Creating new lists when updating state</li>
+<li><strong>ConsumerWidget</strong> – Watching providers in the UI</li>
+<li><strong>ref.read()</strong> – Updating state without rebuilding</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== NAVIGATION ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="challenge2-todo-manager.html">
+              Next Challenge <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // ==========================================
+      // HINT TOGGLE
+      // ==========================================
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      // ==========================================
+      // SOLUTION TOGGLE
+      // ==========================================
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      // ==========================================
+      // MARK COMPLETE
+      // ==========================================
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm1-c1';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // ==========================================
+      // COPY BUTTONS
+      // ==========================================
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project: Realtime Chat App – Module 4 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a complete realtime chat app with Supabase. Learn authentication, PostgreSQL tables, realtime updates, streams, and online users." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== PROJECT-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .project-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .project-header .project-type {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .project-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .project-header .project-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .requirement-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1.25rem 0;
+    }
+    .requirement-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #F59E0B;
+    }
+    .requirement-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .requirement-box ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .solution-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1.25rem 0;
+    }
+    .solution-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #10B981;
+    }
+    .solution-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .solution-box ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .explanation-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .explanation-item .exp-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .explanation-item .exp-text {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .explanation-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this project as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== PROJECT CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module4-state-management.html">Module 4</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project 2</span>
+</div>
+<span class="module-badge"><i class="fas fa-code"></i> Project</span>
+</div>
+<!-- Project Header -->
+<div class="project-header">
+<div class="project-type">💬 Project 2</div>
+<h1>Realtime Chat App</h1>
+<p class="project-subtitle">
+            Build a complete realtime chat app with Supabase — authentication, PostgreSQL tables, realtime updates, streams, and online users.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://supabase.com/docs/guides/realtime" target="_blank">
+<i class="fas fa-globe"></i> Supabase Realtime
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/supabase_flutter" target="_blank">
+<i class="fas fa-box"></i> supabase_flutter
+            </a>
+</div>
+</div>
+<!-- ===== REQUIREMENTS ===== -->
+<div class="section-divider">
+<span class="divider-label">📋 Requirements</span>
+<span class="divider-line"></span>
+</div>
+<div class="requirement-box">
+<h4>What You'll Build</h4>
+<ul>
+<li>A complete realtime chat app with <strong>Supabase</strong></li>
+<li><strong>Authentication</strong> – Login/signup with Supabase Auth</li>
+<li><strong>PostgreSQL Tables</strong> – Users, messages, and chat rooms</li>
+<li><strong>Realtime Updates</strong> – Instant message delivery with Realtime</li>
+<li><strong>Streams</strong> – Dart streams for reactive UI</li>
+<li><strong>Online Users</strong> – Presence system for active users</li>
+<li><strong>Sending Messages</strong> – Send and receive messages in realtime</li>
+<li><strong>Chat Rooms</strong> – Multiple rooms/channels</li>
+</ul>
+</div>
+<div class="requirement-box" style="border-left-color: #3B82F6;">
+<h4>Learning Objectives</h4>
+<ul>
+<li>Implement <strong>Realtime subscriptions</strong> with Supabase</li>
+<li>Use <strong>PostgreSQL</strong> for chat data</li>
+<li>Handle <strong>presence</strong> for online users</li>
+<li>Build <strong>reactive UI</strong> with streams</li>
+<li>Manage <strong>user sessions</strong> and authentication</li>
+</ul>
+</div>
+<!-- ===== DATABASE SETUP ===== -->
+<div class="section-divider">
+<span class="divider-label">🗄️ Database Setup</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">SQL – Create Chat Tables</span>
+<code>
+<span class="comment">-- 1. Profiles table (extends auth.users)</span>
+  CREATE TABLE public.profiles (
+    id UUID REFERENCES auth.users(id) PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    avatar_url TEXT,
+    last_seen TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+  );
+
+  <span class="comment">-- 2. Rooms table</span>
+  CREATE TABLE public.rooms (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    created_by UUID REFERENCES public.profiles(id),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    is_private BOOLEAN DEFAULT FALSE
+  );
+
+  <span class="comment">-- 3. Messages table</span>
+  CREATE TABLE public.messages (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    room_id UUID REFERENCES public.rooms(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+  );
+
+  <span class="comment">-- 4. Room members (for private rooms)</span>
+  CREATE TABLE public.room_members (
+    room_id UUID REFERENCES public.rooms(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+    joined_at TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (room_id, user_id)
+  );
+
+  <span class="comment">-- 5. Enable RLS</span>
+  ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE public.rooms ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE public.room_members ENABLE ROW LEVEL SECURITY;
+
+  <span class="comment">-- 6. RLS Policies</span>
+<span class="comment">-- Profiles: users can read all profiles, update their own</span>
+  CREATE POLICY "Users can read all profiles" ON public.profiles FOR SELECT USING (true);
+  CREATE POLICY "Users can update own profile" ON public.profiles FOR UPDATE USING (auth.uid() = id);
+
+  <span class="comment">-- Rooms: users can read public rooms and rooms they're members of</span>
+  CREATE POLICY "Users can read public rooms" ON public.rooms FOR SELECT USING (is_private = false);
+  CREATE POLICY "Users can read their private rooms" ON public.rooms FOR SELECT USING (
+    is_private = true AND EXISTS (
+      SELECT 1 FROM public.room_members WHERE room_members.room_id = rooms.id AND room_members.user_id = auth.uid()
+    )
+  );
+
+  <span class="comment">-- Messages: users can read messages in rooms they can access</span>
+  CREATE POLICY "Users can read messages" ON public.messages FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM public.rooms WHERE rooms.id = messages.room_id
+      AND (rooms.is_private = false OR EXISTS (
+        SELECT 1 FROM public.room_members WHERE room_members.room_id = rooms.id AND room_members.user_id = auth.uid()
+      ))
+    )
+  );
+
+  <span class="comment">-- Messages: users can insert messages</span>
+  CREATE POLICY "Users can insert messages" ON public.messages FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+  <span class="comment">-- 7. Insert default rooms</span>
+  INSERT INTO public.rooms (name, description, is_private) VALUES
+    ('general', 'General chat for everyone', false),
+    ('random', 'Random discussions', false),
+    ('help', 'Get help and support', false);
+
+  <span class="comment">-- 8. Enable Realtime for messages table</span>
+<span class="comment">-- Run in SQL Editor: ALTER TABLE public.messages REPLICA IDENTITY FULL;</span>
+<span class="comment">-- Then enable Realtime in Dashboard → Database → Replication</span>
+</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<!-- ===== SOLUTION ===== -->
+<div class="section-divider">
+<span class="divider-label">💻 Complete Solution</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Complete Chat App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/auth_gate.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/login_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/signup_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/chat_room_list_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/chat_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() async {
+    <span class="keyword">await</span> Supabase.initialize(
+      url: <span class="string">'https://your-project.supabase.co'</span>,
+      anonKey: <span class="string">'your-anon-key'</span>,
+    );
+
+    runApp(<span class="function">MyApp</span>());
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Chat App'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: AuthGate(),
+        routes: {
+          <span class="string">'/login'</span>: (_) =&gt; LoginScreen(),
+          <span class="string">'/signup'</span>: (_) =&gt; SignUpScreen(),
+          <span class="string">'/rooms'</span>: (_) =&gt; ChatRoomListScreen(),
+          <span class="string">'/chat'</span>: (_) =&gt; ChatScreen(),
+        },
+        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 1. AUTH GATE</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">AuthGate</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;AuthGate&gt; <span class="function">createState</span>() =&gt; _AuthGateState();
+  }
+
+  <span class="keyword">class</span> _AuthGateState <span class="keyword">extends</span> State&lt;AuthGate&gt; {
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
+    <span class="keyword">bool</span> _isLoggedIn = <span class="keyword">false</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _checkAuth();
+    }
+
+    <span class="keyword">void</span> <span class="function">_checkAuth</span>() {
+      <span class="keyword">final</span> session = Supabase.instance.client.auth.currentSession;
+      setState(() {
+        _isLoggedIn = session != <span class="keyword">null</span>;
+        _isLoading = <span class="keyword">false</span>;
+      });
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">if</span> (_isLoading) {
+        <span class="keyword">return</span> Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      <span class="keyword">if</span> (_isLoggedIn) {
+        <span class="keyword">return</span> ChatRoomListScreen();
+      }
+
+      <span class="keyword">return</span> LoginScreen();
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 2. AUTH SERVICE</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">AuthService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+
+    <span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signUp</span>({
+      <span class="keyword">required</span> String email,
+      <span class="keyword">required</span> String password,
+      <span class="keyword">required</span> String username,
+    }) async {
+      <span class="keyword">return</span> <span class="keyword">await</span> client.auth.signUp(
+        email: email,
+        password: password,
+        data: {<span class="string">'username'</span>: username},
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signIn</span>({
+      <span class="keyword">required</span> String email,
+      <span class="keyword">required</span> String password,
+    }) async {
+      <span class="keyword">return</span> <span class="keyword">await</span> client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signOut</span>() async {
+      <span class="keyword">await</span> client.auth.signOut();
+    }
+
+    <span class="keyword">User</span>? <span class="function">getCurrentUser</span>() {
+      <span class="keyword">return</span> client.auth.currentSession?.user;
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 3. CHAT SERVICE (with Realtime)</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">ChatService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+    RealtimeChannel? _messagesChannel;
+    RealtimeChannel? _presenceChannel;
+
+    <span class="comment">// Get all rooms</span>
+<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getRooms</span>() async {
+      <span class="keyword">return</span> <span class="keyword">await</span> client
+          .from(<span class="string">'rooms'</span>)
+          .select(<span class="string">'*, profiles(username)'</span>)
+          .order(<span class="string">'name'</span>, ascending: <span class="keyword">true</span>);
+    }
+
+    <span class="comment">// Get messages for a room with realtime subscription</span>
+<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getMessages</span>(String roomId) async {
+      <span class="keyword">return</span> <span class="keyword">await</span> client
+          .from(<span class="string">'messages'</span>)
+          .select(<span class="string">'*, profiles(username)'</span>)
+          .eq(<span class="string">'room_id'</span>, roomId)
+          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">true</span>);
+    }
+
+    <span class="comment">// Send a message</span>
+<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">sendMessage</span>({
+      <span class="keyword">required</span> String roomId,
+      <span class="keyword">required</span> String userId,
+      <span class="keyword">required</span> String content,
+    }) async {
+      <span class="keyword">final</span> response = <span class="keyword">await</span> client
+          .from(<span class="string">'messages'</span>)
+          .insert({
+            <span class="string">'room_id'</span>: roomId,
+            <span class="string">'user_id'</span>: userId,
+            <span class="string">'content'</span>: content.trim(),
+          })
+          .select(<span class="string">'*, profiles(username)'</span>)
+          .single();
+
+      <span class="keyword">return</span> response;
+    }
+
+    <span class="comment">// Subscribe to realtime messages</span>
+<span class="keyword">void</span> <span class="function">subscribeToMessages</span>({
+      <span class="keyword">required</span> String roomId,
+      <span class="keyword">required</span> <span class="keyword">void</span> Function(Map&lt;String, dynamic&gt;) onNewMessage,
+    }) {
+      <span class="comment">// Unsubscribe from previous channel if any</span>
+      _messagesChannel?.unsubscribe();
+
+      <span class="keyword">final</span> channel = client.channel(<span class="string">'public:messages:room_id=eq.$roomId'</span>);
+
+      channel.onPostgresChange(
+        PostgresChangeEvent.insert,
+        (payload) {
+          <span class="keyword">final</span> newRecord = payload.newRecord <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+          <span class="comment">// Fetch the full message with profile</span>
+          client
+              .from(<span class="string">'messages'</span>)
+              .select(<span class="string">'*, profiles(username)'</span>)
+              .eq(<span class="string">'id'</span>, newRecord[<span class="string">'id'</span>])
+              .single()
+              .then((message) {
+            onNewMessage(message);
+          });
+        },
+      );
+
+      channel.subscribe();
+      _messagesChannel = channel;
+    }
+
+    <span class="comment">// Presence: Track online users</span>
+<span class="keyword">void</span> <span class="function">trackPresence</span>({
+      <span class="keyword">required</span> String roomId,
+      <span class="keyword">required</span> String userId,
+      <span class="keyword">required</span> String username,
+    }) {
+      _presenceChannel = client.channel(<span class="string">'presence:$roomId'</span>);
+
+      _presenceChannel!.onPresenceSync((payload) {
+        <span class="comment">// Presence state updated</span>
+      });
+
+      _presenceChannel!.subscribe((status) async {
+        <span class="keyword">if</span> (status == <span class="string">'SUBSCRIBED'</span>) {
+          <span class="keyword">await</span> _presenceChannel!.track({
+            <span class="string">'user_id'</span>: userId,
+            <span class="string">'username'</span>: username,
+            <span class="string">'online_at'</span>: DateTime.now().toIso8601String(),
+          });
+        }
+      });
+    }
+
+    <span class="keyword">Map</span>&lt;String, dynamic&gt; <span class="function">getOnlineUsers</span>() {
+      <span class="keyword">return</span> _presenceChannel?.presenceState() ?? {};
+    }
+
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _messagesChannel?.unsubscribe();
+      _presenceChannel?.unsubscribe();
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 4. LOGIN SCREEN</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">LoginScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;LoginScreen&gt; <span class="function">createState</span>() =&gt; _LoginScreenState();
+  }
+
+  <span class="keyword">class</span> _LoginScreenState <span class="keyword">extends</span> State&lt;LoginScreen&gt; {
+    <span class="keyword">final</span> AuthService _authService = AuthService();
+    <span class="keyword">final</span> TextEditingController _emailController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _passwordController = TextEditingController();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    String? _errorMessage;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_login</span>() async {
+      <span class="keyword">final</span> email = _emailController.text.trim();
+      <span class="keyword">final</span> password = _passwordController.text.trim();
+
+      <span class="keyword">if</span> (email.isEmpty || password.isEmpty) {
+        setState(() =&gt; _errorMessage = <span class="string">'Please enter your email and password'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> _authService.signIn(email: email, password: password);
+        Navigator.pushReplacementNamed(context, <span class="string">'/rooms'</span>);
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _errorMessage = e.toString().replaceAll(<span class="string">'Exception: '</span>, <span class="string">''</span>);
+        });
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(<span class="number">24</span>),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  <span class="string">'💬 Welcome Back!'</span>,
+                  style: TextStyle(fontSize: <span class="number">28</span>, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: <span class="number">8</span>),
+                Text(
+                  <span class="string">'Sign in to continue chatting'</span>,
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+                SizedBox(height: <span class="number">32</span>),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: <span class="string">'Email'</span>,
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: <span class="number">16</span>),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: <span class="string">'Password'</span>,
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
+                  ),
+                  obscureText: <span class="keyword">true</span>,
+                  onSubmitted: (_) =&gt; _login(),
+                ),
+                <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                  Padding(
+                    padding: EdgeInsets.only(top: <span class="number">16</span>),
+                    child: Text(
+                      _errorMessage!,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                SizedBox(height: <span class="number">24</span>),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? <span class="keyword">null</span> : _login,
+                    child: _isLoading
+                        ? CircularProgressIndicator(strokeWidth: <span class="number">2</span>, color: Colors.white)
+                        : Text(<span class="string">'Sign In'</span>),
+                    style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>)),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(<span class="string">'Don\'t have an account?'</span>),
+                    TextButton(
+                      onPressed: () =&gt; Navigator.pushReplacementNamed(context, <span class="string">'/signup'</span>),
+                      child: Text(<span class="string">'Sign Up'</span>),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 5. SIGN UP SCREEN</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">SignUpScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;SignUpScreen&gt; <span class="function">createState</span>() =&gt; _SignUpScreenState();
+  }
+
+  <span class="keyword">class</span> _SignUpScreenState <span class="keyword">extends</span> State&lt;SignUpScreen&gt; {
+    <span class="keyword">final</span> AuthService _authService = AuthService();
+    <span class="keyword">final</span> TextEditingController _emailController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _passwordController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _usernameController = TextEditingController();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    String? _errorMessage;
+    <span class="keyword">bool</span> _isSuccess = <span class="keyword">false</span>;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_signUp</span>() async {
+      <span class="keyword">final</span> email = _emailController.text.trim();
+      <span class="keyword">final</span> password = _passwordController.text.trim();
+      <span class="keyword">final</span> username = _usernameController.text.trim();
+
+      <span class="keyword">if</span> (email.isEmpty || password.isEmpty || username.isEmpty) {
+        setState(() =&gt; _errorMessage = <span class="string">'Please fill in all fields'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> (password.length &lt; <span class="number">6</span>) {
+        setState(() =&gt; _errorMessage = <span class="string">'Password must be at least 6 characters'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _errorMessage = <span class="keyword">null</span>;
+        _isSuccess = <span class="keyword">false</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> _authService.signUp(
+          email: email,
+          password: password,
+          username: username,
+        );
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _isSuccess = <span class="keyword">true</span>;
+        });
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _errorMessage = e.toString().replaceAll(<span class="string">'Exception: '</span>, <span class="string">''</span>);
+        });
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(<span class="number">24</span>),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    <span class="string">'🚀 Create Account'</span>,
+                    style: TextStyle(fontSize: <span class="number">28</span>, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: <span class="number">8</span>),
+                  Text(
+                    <span class="string">'Join the chat community'</span>,
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                  SizedBox(height: <span class="number">32</span>),
+                  <span class="keyword">if</span> (_isSuccess)
+                    Container(
+                      padding: EdgeInsets.all(<span class="number">16</span>),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                        border: Border.all(color: Colors.green.shade200),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.check_circle, color: Colors.green, size: <span class="number">48</span>),
+                          SizedBox(height: <span class="number">8</span>),
+                          Text(
+                            <span class="string">'Account created successfully!'</span>,
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green.shade700),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            <span class="string">'Please check your email to verify your account.'</span>,
+                            style: TextStyle(color: Colors.green.shade600),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: <span class="number">16</span>),
+                          ElevatedButton(
+                            onPressed: () =&gt; Navigator.pushReplacementNamed(context, <span class="string">'/login'</span>),
+                            child: Text(<span class="string">'Go to Login'</span>),
+                          ),
+                        ],
+                      ),
+                    )
+                  <span class="keyword">else</span>
+                    Column(
+                      children: [
+                        TextField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: <span class="string">'Email'</span>,
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        SizedBox(height: <span class="number">12</span>),
+                        TextField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: <span class="string">'Password'</span>,
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.lock),
+                          ),
+                          obscureText: <span class="keyword">true</span>,
+                        ),
+                        SizedBox(height: <span class="number">12</span>),
+                        TextField(
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            labelText: <span class="string">'Username'</span>,
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                          Padding(
+                            padding: EdgeInsets.only(top: <span class="number">16</span>),
+                            child: Text(
+                              _errorMessage!,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        SizedBox(height: <span class="number">24</span>),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? <span class="keyword">null</span> : _signUp,
+                            child: _isLoading
+                                ? CircularProgressIndicator(strokeWidth: <span class="number">2</span>, color: Colors.white)
+                                : Text(<span class="string">'Create Account'</span>),
+                            style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>)),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(<span class="string">'Already have an account?'</span>),
+                            TextButton(
+                              onPressed: () =&gt; Navigator.pushReplacementNamed(context, <span class="string">'/login'</span>),
+                              child: Text(<span class="string">'Sign In'</span>),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 6. CHAT ROOM LIST SCREEN</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">ChatRoomListScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;ChatRoomListScreen&gt; <span class="function">createState</span>() =&gt; _ChatRoomListScreenState();
+  }
+
+  <span class="keyword">class</span> _ChatRoomListScreenState <span class="keyword">extends</span> State&lt;ChatRoomListScreen&gt; {
+    <span class="keyword">final</span> ChatService _chatService = ChatService();
+    <span class="keyword">final</span> AuthService _authService = AuthService();
+    List&lt;Map&lt;String, dynamic&gt;&gt; _rooms = [];
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _loadRooms();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadRooms</span>() async {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> rooms = <span class="keyword">await</span> _chatService.getRooms();
+        setState(() {
+          _rooms = rooms;
+          _isLoading = <span class="keyword">false</span>;
+        });
+      } <span class="keyword">catch</span> (e) {
+        setState(() =&gt; _isLoading = <span class="keyword">false</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_logout</span>() async {
+      <span class="keyword">await</span> _authService.signOut();
+      Navigator.pushReplacementNamed(context, <span class="string">'/login'</span>);
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> user = _authService.getCurrentUser();
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'💬 Chat Rooms'</span>),
+          centerTitle: <span class="keyword">true</span>,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: _logout,
+              tooltip: <span class="string">'Logout'</span>,
+            ),
+          ],
+        ),
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : _rooms.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.chat_bubble_outline, size: <span class="number">80</span>, color: Colors.grey.shade400),
+                        SizedBox(height: <span class="number">16</span>),
+                        Text(
+                          <span class="string">'No rooms available'</span>,
+                          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          <span class="string">'Check back later'</span>,
+                          style: TextStyle(color: Colors.grey.shade400),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: EdgeInsets.all(<span class="number">8</span>),
+                    itemCount: _rooms.length,
+                    itemBuilder: (context, index) {
+                      <span class="keyword">final</span> room = _rooms[index];
+                      <span class="keyword">final</span> profile = room[<span class="string">'profiles'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;?;
+                      <span class="keyword">final</span> createdBy = profile?[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>;
+
+                      <span class="keyword">return</span> Card(
+                        margin: EdgeInsets.symmetric(horizontal: <span class="number">8</span>, vertical: <span class="number">4</span>),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.deepPurple.shade100,
+                            child: Text(
+                              room[<span class="string">'name'</span>][<span class="number">0</span>].toUpperCase(),
+                              style: TextStyle(color: Colors.deepPurple.shade700),
+                            ),
+                          ),
+                          title: Text(
+                            room[<span class="string">'name'</span>],
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            room[<span class="string">'description'</span>] ?? <span class="string">'No description'</span>,
+                            maxLines: <span class="number">1</span>,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios, size: <span class="number">16</span>),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =&gt; ChatScreen(
+                                  roomId: room[<span class="string">'id'</span>],
+                                  roomName: room[<span class="string">'name'</span>],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 7. CHAT SCREEN (with Realtime)</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">ChatScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> String roomId;
+    <span class="keyword">final</span> String roomName;
+
+    <span class="keyword">const</span> ChatScreen({
+      <span class="keyword">required</span> <span class="keyword">this</span>.roomId,
+      <span class="keyword">required</span> <span class="keyword">this</span>.roomName,
+      super.key,
+    });
+
+    @override
+    State&lt;ChatScreen&gt; <span class="function">createState</span>() =&gt; _ChatScreenState();
+  }
+
+  <span class="keyword">class</span> _ChatScreenState <span class="keyword">extends</span> State&lt;ChatScreen&gt; {
+    <span class="keyword">final</span> ChatService _chatService = ChatService();
+    <span class="keyword">final</span> TextEditingController _messageController = TextEditingController();
+    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+
+    List&lt;Map&lt;String, dynamic&gt;&gt; _messages = [];
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
+    Map&lt;String, dynamic&gt; _onlineUsers = {};
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _loadMessages();
+      _subscribeToMessages();
+      _trackPresence();
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _chatService.dispose();
+      _messageController.dispose();
+      _scrollController.dispose();
+      <span class="keyword">super</span>.dispose();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadMessages</span>() async {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> messages = <span class="keyword">await</span> _chatService.getMessages(widget.roomId);
+        setState(() {
+          _messages = messages;
+          _isLoading = <span class="keyword">false</span>;
+        });
+        _scrollToBottom();
+      } <span class="keyword">catch</span> (e) {
+        setState(() =&gt; _isLoading = <span class="keyword">false</span>);
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">_subscribeToMessages</span>() {
+      _chatService.subscribeToMessages(
+        roomId: widget.roomId,
+        onNewMessage: (message) {
+          setState(() {
+            _messages.add(message);
+          });
+          _scrollToBottom();
+        },
+      );
+    }
+
+    <span class="keyword">void</span> <span class="function">_trackPresence</span>() {
+      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
+      <span class="keyword">final</span> username = user?.userMetadata?[<span class="string">'username'</span>] <span class="keyword">as</span> String? ?? <span class="string">'Unknown'</span>;
+
+      _chatService.trackPresence(
+        roomId: widget.roomId,
+        userId: user?.id ?? <span class="string">''</span>,
+        username: username,
+      );
+
+      <span class="comment">// Update online users periodically</span>
+      Future.delayed(Duration(seconds: <span class="number">2</span>), () {
+        setState(() {
+          _onlineUsers = _chatService.getOnlineUsers();
+        });
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_scrollToBottom</span>() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        <span class="keyword">if</span> (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: <span class="number">300</span>),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_sendMessage</span>() async {
+      <span class="keyword">final</span> content = _messageController.text.trim();
+      <span class="keyword">if</span> (content.isEmpty) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
+      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
+
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> _chatService.sendMessage(
+          roomId: widget.roomId,
+          userId: user.id,
+          content: content,
+        );
+        _messageController.clear();
+      } <span class="keyword">catch</span> (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(<span class="string">'Failed to send message: $e'</span>),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
+      <span class="keyword">final</span> onlineCount = _onlineUsers.length;
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Container(
+                width: <span class="number">10</span>,
+                height: <span class="number">10</span>,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: onlineCount &gt; <span class="number">0</span> ? Colors.green : Colors.grey,
+                ),
+              ),
+              SizedBox(width: <span class="number">8</span>),
+              Text(widget.roomName),
+              SizedBox(width: <span class="number">4</span>),
+              Text(
+                <span class="string">'($onlineCount online)'</span>,
+                style: TextStyle(fontSize: <span class="number">12</span>, fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
+          centerTitle: <span class="keyword">true</span>,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: _loadMessages,
+              tooltip: <span class="string">'Refresh'</span>,
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : _messages.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.chat_bubble_outline, size: <span class="number">80</span>, color: Colors.grey.shade400),
+                              SizedBox(height: <span class="number">16</span>),
+                              Text(
+                                <span class="string">'No messages yet'</span>,
+                                style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                <span class="string">'Be the first to send a message!'</span>,
+                                style: TextStyle(color: Colors.grey.shade400),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.all(<span class="number">12</span>),
+                          itemCount: _messages.length,
+                          itemBuilder: (context, index) {
+                            <span class="keyword">final</span> message = _messages[index];
+                            <span class="keyword">final</span> profile = message[<span class="string">'profiles'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;?;
+                            <span class="keyword">final</span> username = profile?[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>;
+                            <span class="keyword">final</span> isMe = message[<span class="string">'user_id'</span>] == user?.id;
+                            <span class="keyword">final</span> createdAt = DateTime.parse(message[<span class="string">'created_at'</span>]);
+
+                            <span class="keyword">return</span> Align(
+                              alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: <span class="number">8</span>),
+                                constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width * <span class="number">0.75</span>,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        <span class="keyword">if</span> (!isMe)
+                                          CircleAvatar(
+                                            radius: <span class="number">12</span>,
+                                            child: Text(
+                                              username.isNotEmpty ? username[<span class="number">0</span>].toUpperCase() : <span class="string">'?'</span>,
+                                              style: TextStyle(fontSize: <span class="number">10</span>),
+                                            ),
+                                          ),
+                                        SizedBox(width: <span class="number">4</span>),
+                                        Text(
+                                          isMe ? <span class="string">'You'</span> : username,
+                                          style: TextStyle(
+                                            fontSize: <span class="number">12</span>,
+                                            fontWeight: FontWeight.w600,
+                                            color: isMe ? Colors.deepPurple : Colors.grey.shade700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(<span class="number">12</span>),
+                                      decoration: BoxDecoration(
+                                        color: isMe
+                                            ? Colors.deepPurple.shade50
+                                            : Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                                      ),
+                                      child: Text(message[<span class="string">'content'</span>]),
+                                    ),
+                                    Text(
+                                      '${createdAt.hour.toString().padLeft(2, '0')}:${createdAt.minute.toString().padLeft(2, '0')}',
+                                      style: TextStyle(
+                                        fontSize: <span class="number">10</span>,
+                                        color: Colors.grey.shade500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+            ),
+            <span class="comment">// Input bar</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">12</span>),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                border: Border(top: BorderSide(color: Colors.grey.shade200)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _messageController,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Type a message...'</span>,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(<span class="number">24</span>),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+                      ),
+                      onSubmitted: (_) =&gt; _sendMessage(),
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  IconButton(
+                    icon: Icon(Icons.send, color: Colors.deepPurple),
+                    onPressed: _sendMessage,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+          </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<!-- ===== EXPLANATION ===== -->
+<div class="section-divider">
+<span class="divider-label">📖 How This Solution Works</span>
+<span class="divider-line"></span>
+</div>
+<div class="solution-box">
+<h4>Step-by-Step Explanation</h4>
+<ul>
+<li><strong>1. Database Setup</strong> – Four tables: profiles, rooms, messages, room_members with proper RLS policies.</li>
+<li><strong>2. Auth Service</strong> – Handles signup, login, and logout with Supabase Auth.</li>
+<li><strong>3. Chat Service</strong> – CRUD operations for rooms and messages with realtime subscriptions.</li>
+<li><strong>4. Realtime Subscriptions</strong> – Uses <code>onPostgresChange</code> to listen for new messages.</li>
+<li><strong>5. Presence System</strong> – Tracks online users in each room using Realtime Presence.</li>
+<li><strong>6. Chat UI</strong> – Message list with auto-scroll, online user count, and send message input.</li>
+</ul>
+</div>
+<div class="explanation-grid">
+<div class="explanation-item">
+<div class="exp-number">Realtime Subscriptions</div>
+<div class="exp-text">The <code>subscribeToMessages</code> method listens to INSERT events on the messages table and updates the UI in real-time.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Presence System</div>
+<div class="exp-text">Tracks online users using Realtime Presence. Users are automatically added when they join a room and removed when they leave.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">RLS Policies</div>
+<div class="exp-text">Row Level Security ensures users can only access rooms they're members of and messages in those rooms.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Auto-Scroll</div>
+<div class="exp-text">The chat automatically scrolls to the bottom when a new message arrives, providing a seamless chat experience.</div>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            This project demonstrates a <strong>complete realtime chat app</strong> with Supabase.
+            You've learned to implement <strong>authentication</strong>, <strong>PostgreSQL tables</strong>,
+            <strong>realtime subscriptions</strong>, <strong>presence systems</strong>, and <strong>streams</strong>.
+            <strong>Supabase Realtime makes building live features simple and powerful!</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="project-auth-app.html">
+<i class="fas fa-arrow-left"></i> Previous: Authentication App
+          </a>
+<a class="btn btn-primary btn-sm" href="project-instagram-clone.html">
+            Next: Instagram Mini Clone <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module4-state-management.html">Module 4</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://supabase.com/docs/guides/realtime" rel="noopener" target="_blank">Supabase Realtime</a></li>
+<li><a href="https://supabase.com/docs/guides/database" rel="noopener" target="_blank">Supabase Database</a></li>
+<li><a href="https://pub.dev/packages/supabase_flutter" rel="noopener" target="_blank">supabase_flutter</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-chat-app';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

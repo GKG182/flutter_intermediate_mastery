@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Offline Notes App – Module 3 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build an Offline Notes App using Hive for local storage in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .storage-tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 8000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+    .code-block .built-in { color: #f9e2af; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 3 · Challenge 1
+            </span>
+</div>
+<div class="challenge-header">
+<h1>Offline Notes App</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> Local Storage</span>
+<span class="meta-item"><strong>Concepts:</strong> Hive, CRUD Operations, Riverpod</span>
+<span class="meta-item"><strong>Est. Time:</strong> 30-40 min</span>
+<span class="meta-item"><span class="storage-tag">📦 Hive</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build an <strong>Offline Notes App</strong> that allows users to create,
+              read, update, and delete notes. All notes should be stored locally on
+              the device using <strong>Hive</strong> as the local database.
+            </p>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Create a <strong>Note</strong> model with <code>id</code>, <code>title</code>, <code>content</code>, <code>timestamp</code></li>
+<li>Implement <strong>CRUD operations</strong> (Create, Read, Update, Delete)</li>
+<li>Use <strong>Hive</strong> for local storage with custom adapter</li>
+<li>Use <strong>Riverpod</strong> for state management</li>
+<li>Show a <strong>list of notes</strong> on the home screen</li>
+<li>Navigate to <strong>add/edit</strong> note screen</li>
+<li>Add <strong>delete</strong> functionality (swipe or button)</li>
+<li>Display <strong>timestamps</strong> for each note</li>
+<li>Handle <strong>empty state</strong> when no notes exist</li>
+</ul>
+</div>
+<div class="api-box">
+<h4>📦 Hive Setup</h4>
+<p><strong>Hive</strong> is a lightweight, fast key-value database for Flutter.</p>
+<div class="endpoint">flutter pub add hive_flutter hive_generator build_runner</div>
+<div class="api-note">
+                💡 <strong>Note:</strong> Hive runs entirely on the device - no internet required!
+              </div>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://pub.dev/packages/hive" target="_blank">Hive Package</a></li>
+<li><a href="https://pub.dev/packages/hive_flutter" target="_blank">Hive Flutter</a></li>
+<li><a href="https://docs.hivedb.dev/" target="_blank">Hive Documentation</a></li>
+<li><a href="https://riverpod.dev/" target="_blank">Riverpod Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Create a <code>Note</code> class with <code>@HiveType</code> annotation and <code>@HiveField</code> for each field.
+                  Use <code>Hive.box&lt;Note&gt;('notes')</code> to access the database. Wrap your app with <code>HiveProvider</code>.
+                  For Riverpod, create a <code>StateNotifier</code> that manages the list of notes and provides CRUD methods.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    hive_flutter: ^1.1.0
+    intl: ^0.18.1
+    uuid: ^4.3.3
+
+  dev_dependencies:
+    flutter_test:
+      sdk: flutter
+    build_runner: ^2.4.0
+    hive_generator: ^2.0.1
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Note Model (lib/models/note.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/note.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:uuid/uuid.dart'</span>;
+
+  <span class="annotation">@HiveType(typeId: 0)</span>
+<span class="keyword">class</span> <span class="function">Note</span> {
+    <span class="annotation">@HiveField(0)</span>
+<span class="keyword">final</span> String id;
+
+    <span class="annotation">@HiveField(1)</span>
+<span class="keyword">final</span> String title;
+
+    <span class="annotation">@HiveField(2)</span>
+<span class="keyword">final</span> String content;
+
+    <span class="annotation">@HiveField(3)</span>
+<span class="keyword">final</span> DateTime timestamp;
+
+    <span class="function">Note</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.content,
+      <span class="keyword">required</span> <span class="keyword">this</span>.timestamp,
+    });
+
+    <span class="function">Note.create</span>({
+      <span class="keyword">required</span> String title,
+      <span class="keyword">required</span> String content,
+    }) : <span class="keyword">this</span>(
+      id: <span class="function">Uuid</span>().<span class="function">v4</span>(),
+      title: title,
+      content: content,
+      timestamp: DateTime.<span class="function">now</span>(),
+    );
+
+    Note <span class="function">copyWith</span>({
+      String? title,
+      String? content,
+      DateTime? timestamp,
+    }) {
+      <span class="keyword">return</span> Note(
+        id: <span class="keyword">this</span>.id,
+        title: title ?? <span class="keyword">this</span>.title,
+        content: content ?? <span class="keyword">this</span>.content,
+        timestamp: timestamp ?? <span class="keyword">this</span>.timestamp,
+      );
+    }
+
+    @override
+    String <span class="function">toString</span>() =&gt; <span class="string">'Note(id: $id, title: $title, content: $content, timestamp: $timestamp)'</span>;
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. Hive Adapter (lib/models/note.g.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/note.g.dart (Generated)</span>
+<code>
+<span class="comment">// GENERATED CODE - DO NOT MODIFY BY HAND</span>
+<span class="keyword">part of</span> <span class="string">'note.dart'</span>;
+
+  <span class="comment">// **************************************************************************</span>
+<span class="comment">// TypeAdapterGenerator</span>
+<span class="comment">// **************************************************************************</span>
+<span class="keyword">class</span> <span class="function">NoteAdapter</span> <span class="keyword">extends</span> TypeAdapter&lt;Note&gt; {
+    @override
+    <span class="keyword">final</span> <span class="keyword">int</span> typeId = <span class="number">0</span>;
+
+    @override
+    Note <span class="function">read</span>(BinaryReader reader) {
+      <span class="keyword">final</span> numOfFields = reader.<span class="function">readByte</span>();
+      <span class="keyword">final</span> fields = &lt;<span class="keyword">int</span>, dynamic&gt;{};
+      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numOfFields; i++) {
+        <span class="keyword">final</span> index = reader.<span class="function">readByte</span>();
+        <span class="keyword">final</span> value = reader.<span class="function">read</span>();
+        fields[index] = value;
+      }
+      <span class="keyword">return</span> Note(
+        id: fields[<span class="number">0</span>] <span class="keyword">as</span> String,
+        title: fields[<span class="number">1</span>] <span class="keyword">as</span> String,
+        content: fields[<span class="number">2</span>] <span class="keyword">as</span> String,
+        timestamp: fields[<span class="number">3</span>] <span class="keyword">as</span> DateTime,
+      );
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">write</span>(BinaryWriter writer, Note obj) {
+      writer
+        ..<span class="function">writeByte</span>(<span class="number">4</span>)
+        ..<span class="function">writeByte</span>(<span class="number">0</span>)
+        ..<span class="function">write</span>(obj.id)
+        ..<span class="function">writeByte</span>(<span class="number">1</span>)
+        ..<span class="function">write</span>(obj.title)
+        ..<span class="function">writeByte</span>(<span class="number">2</span>)
+        ..<span class="function">write</span>(obj.content)
+        ..<span class="function">writeByte</span>(<span class="number">3</span>)
+        ..<span class="function">write</span>(obj.timestamp);
+    }
+
+    @override
+    <span class="keyword">int</span> get hashCode =&gt; typeId.hashCode;
+
+    @override
+    <span class="keyword">bool</span> <span class="function">operator ==</span>(Object other) =&gt;
+        other <span class="keyword">is</span> NoteAdapter &amp;&amp; other.typeId == typeId;
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Note Provider (lib/providers/note_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/note_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/note.dart'</span>;
+
+  <span class="keyword">final</span> noteBoxProvider = Provider&lt;Box&lt;Note&gt;&gt;((ref) {
+    <span class="keyword">return</span> Hive.<span class="function">box</span>&lt;Note&gt;(<span class="string">'notes'</span>);
+  });
+
+  <span class="keyword">class</span> <span class="function">NoteNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;List&lt;Note&gt;&gt; {
+    <span class="keyword">final</span> Box&lt;Note&gt; _box;
+
+    <span class="function">NoteNotifier</span>(<span class="keyword">this</span>._box) : <span class="keyword">super</span>(<span class="keyword">const</span> []) {
+      <span class="function">_loadNotes</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">_loadNotes</span>() {
+      state = _box.values.<span class="function">toList</span>()
+        ..<span class="function">sort</span>((a, b) =&gt; b.timestamp.<span class="function">compareTo</span>(a.timestamp));
+    }
+
+    <span class="keyword">void</span> <span class="function">addNote</span>(String title, String content) {
+      <span class="keyword">final</span> note = Note.<span class="function">create</span>(
+        title: title.trim(),
+        content: content.trim(),
+      );
+      _box.<span class="function">add</span>(note);
+      <span class="function">_loadNotes</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">updateNote</span>(Note note, {String? title, String? content}) {
+      <span class="keyword">final</span> updatedNote = note.<span class="function">copyWith</span>(
+        title: title?.<span class="function">trim</span>(),
+        content: content?.<span class="function">trim</span>(),
+        timestamp: DateTime.<span class="function">now</span>(),
+      );
+      <span class="keyword">final</span> index = _box.values.<span class="function">toList</span>().<span class="function">indexOf</span>(note);
+      <span class="keyword">if</span> (index != -<span class="number">1</span>) {
+        _box.<span class="function">putAt</span>(index, updatedNote);
+        <span class="function">_loadNotes</span>();
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">deleteNote</span>(Note note) {
+      <span class="keyword">final</span> index = _box.values.<span class="function">toList</span>().<span class="function">indexOf</span>(note);
+      <span class="keyword">if</span> (index != -<span class="number">1</span>) {
+        _box.<span class="function">deleteAt</span>(index);
+        <span class="function">_loadNotes</span>();
+      }
+    }
+  }
+
+  <span class="keyword">final</span> noteProvider = StateNotifierProvider&lt;NoteNotifier, List&lt;Note&gt;&gt;((ref) {
+    <span class="keyword">final</span> box = ref.<span class="function">watch</span>(noteBoxProvider);
+    <span class="keyword">return</span> <span class="function">NoteNotifier</span>(box);
+  });
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Main App (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'models/note.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'screens/home_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
+    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
+    <span class="keyword">await</span> Hive.<span class="function">initFlutter</span>();
+    Hive.<span class="function">registerAdapter</span>(NoteAdapter());
+    <span class="keyword">await</span> Hive.<span class="function">openBox</span>&lt;Note&gt;(<span class="string">'notes'</span>);
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Offline Notes'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> HomeScreen(),
+        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">6. Home Screen (lib/screens/home_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/screens/home_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/note.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../providers/note_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'add_edit_note_screen.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> notes = ref.<span class="function">watch</span>(noteProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'📝 My Notes'</span>),
+          backgroundColor: Colors.indigo,
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () =&gt; ref.<span class="function">invalidate</span>(noteProvider),
+              icon: Icon(Icons.refresh),
+              tooltip: <span class="string">'Refresh'</span>,
+            ),
+          ],
+        ),
+        body: notes.<span class="function">isEmpty</span>
+            ? _buildEmptyState()
+            : ListView.<span class="function">builder</span>(
+                itemCount: notes.<span class="function">length</span>,
+                itemBuilder: (context, index) {
+                  <span class="keyword">final</span> note = notes[index];
+                  <span class="keyword">return</span> _buildNoteTile(context, ref, note);
+                },
+              ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () =&gt; _navigateToAddNote(context, ref),
+          backgroundColor: Colors.indigo,
+          foregroundColor: Colors.white,
+          child: Icon(Icons.add),
+        ),
+      );
+    }
+
+    Widget _buildEmptyState() {
+      <span class="keyword">return</span> Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.note_add,
+              size: <span class="number">80</span>,
+              color: Colors.grey[<span class="number">300</span>],
+            ),
+            SizedBox(height: <span class="number">16</span>),
+            Text(
+              <span class="string">'No notes yet'</span>,
+              style: TextStyle(
+                fontSize: <span class="number">20</span>,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[<span class="number">600</span>],
+              ),
+            ),
+            SizedBox(height: <span class="number">8</span>),
+            Text(
+              <span class="string">'Tap the + button to create one'</span>,
+              style: TextStyle(
+                color: Colors.grey[<span class="number">500</span>],
+                fontSize: <span class="number">14</span>,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget _buildNoteTile(BuildContext context, WidgetRef ref, Note note) {
+      <span class="keyword">final</span> dateFormat = DateFormat.<span class="function">yMMMd</span>().<span class="function">add_jm</span>();
+
+      <span class="keyword">return</span> Dismissible(
+        key: Key(note.id),
+        direction: DismissDirection.<span class="function">endToStart</span>,
+        background: Container(
+          color: Colors.red,
+          alignment: Alignment.<span class="function">centerRight</span>,
+          padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">20</span>),
+          child: Icon(Icons.delete, color: Colors.white),
+        ),
+        onDismissed: (_) {
+          ref.<span class="function">read</span>(noteProvider.notifier).<span class="function">deleteNote</span>(note);
+          ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
+            SnackBar(content: Text(<span class="string">'Note deleted'</span>)),
+          );
+        },
+        child: Card(
+          margin: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+          child: ListTile(
+            contentPadding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            title: Text(
+              note.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: <span class="number">18</span>,
+              ),
+              maxLines: <span class="number">1</span>,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: <span class="number">4</span>),
+                Text(
+                  note.content,
+                  maxLines: <span class="number">2</span>,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                ),
+                SizedBox(height: <span class="number">4</span>),
+                Text(
+                  dateFormat.<span class="function">format</span>(note.timestamp),
+                  style: TextStyle(
+                    fontSize: <span class="number">12</span>,
+                    color: Colors.grey[<span class="number">500</span>],
+                  ),
+                ),
+              ],
+            ),
+            trailing: Icon(
+              Icons.chevron_right,
+              color: Colors.grey[<span class="number">400</span>],
+            ),
+            onTap: () =&gt; _navigateToEditNote(context, ref, note),
+          ),
+        ),
+      );
+    }
+
+    <span class="keyword">void</span> _navigateToAddNote(BuildContext context, WidgetRef ref) {
+      Navigator.<span class="function">push</span>(
+        context,
+        MaterialPageRoute(
+          builder: (_) =&gt; AddEditNoteScreen(),
+        ),
+      );
+    }
+
+    <span class="keyword">void</span> _navigateToEditNote(BuildContext context, WidgetRef ref, Note note) {
+      Navigator.<span class="function">push</span>(
+        context,
+        MaterialPageRoute(
+          builder: (_) =&gt; AddEditNoteScreen(note: note),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">7. Add/Edit Note Screen (lib/screens/add_edit_note_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/screens/add_edit_note_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/note.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../providers/note_provider.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AddEditNoteScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">final</span> Note? note;
+
+    <span class="keyword">const</span> <span class="function">AddEditNoteScreen</span>({<span class="keyword">this</span>.note, <span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;AddEditNoteScreen&gt; <span class="function">createState</span>() =&gt; _AddEditNoteScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_AddEditNoteScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;AddEditNoteScreen&gt; {
+    <span class="keyword">final</span> _titleController = TextEditingController();
+    <span class="keyword">final</span> _contentController = TextEditingController();
+    <span class="keyword">final</span> _formKey = GlobalKey&lt;FormState&gt;();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+
+    <span class="keyword">bool</span> get isEditing =&gt; widget.note != <span class="keyword">null</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      <span class="keyword">if</span> (isEditing) {
+        _titleController.text = widget.note!.title;
+        _contentController.text = widget.note!.content;
+      }
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _titleController.<span class="function">dispose</span>();
+      _contentController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(isEditing ? <span class="string">'Edit Note'</span> : <span class="string">'New Note'</span>),
+          backgroundColor: Colors.indigo,
+          foregroundColor: Colors.white,
+        ),
+        body: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    labelText: <span class="string">'Title'</span>,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                    ),
+                    prefixIcon: Icon(Icons.title),
+                  ),
+                  validator: (value) {
+                    <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+                      <span class="keyword">return</span> <span class="string">'Please enter a title'</span>;
+                    }
+                    <span class="keyword">return</span> <span class="keyword">null</span>;
+                  },
+                  autofocus: !isEditing,
+                  textInputAction: TextInputAction.next,
+                ),
+                SizedBox(height: <span class="number">16</span>),
+                Expanded(
+                  child: TextFormField(
+                    controller: _contentController,
+                    decoration: InputDecoration(
+                      labelText: <span class="string">'Content'</span>,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                      ),
+                      prefixIcon: Icon(Icons.note),
+                    ),
+                    validator: (value) {
+                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
+                        <span class="keyword">return</span> <span class="string">'Please enter content'</span>;
+                      }
+                      <span class="keyword">return</span> <span class="keyword">null</span>;
+                    },
+                    maxLines: <span class="keyword">null</span>,
+                    expands: <span class="keyword">true</span>,
+                    textAlignVertical: TextAlignVertical.<span class="function">top</span>,
+                  ),
+                ),
+                SizedBox(height: <span class="number">16</span>),
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : ElevatedButton(
+                        onPressed: () =&gt; _saveNote(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">16</span>),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                          ),
+                        ),
+                        child: Text(
+                          isEditing ? <span class="string">'Update Note'</span> : <span class="string">'Save Note'</span>,
+                          style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    <span class="keyword">void</span> <span class="function">_saveNote</span>(BuildContext context) {
+      <span class="keyword">if</span> (!_formKey.<span class="function">currentState</span>()!.<span class="function">validate</span>()) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> title = _titleController.text;
+      <span class="keyword">final</span> content = _contentController.text;
+
+      <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">true</span>);
+
+      Future.<span class="function">delayed</span>(Duration(milliseconds: <span class="number">500</span>), () {
+        <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(noteProvider.notifier);
+        <span class="keyword">if</span> (isEditing) {
+          notifier.<span class="function">updateNote</span>(
+            widget.note!,
+            title: title,
+            content: content,
+          );
+        } <span class="keyword">else</span> {
+          notifier.<span class="function">addNote</span>(title, content);
+        }
+        Navigator.<span class="function">pop</span>(context);
+      });
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>Hive Local Storage</strong> – Type-safe, lightweight NoSQL database</li>
+<li><strong>CRUD Operations</strong> – Create, Read, Update, Delete notes</li>
+<li><strong>Riverpod State Management</strong> – StateNotifier for managing note list</li>
+<li><strong>Hive Adapters</strong> – Custom type adapters for Note model</li>
+<li><strong>Form Validation</strong> – Input validation with form state</li>
+<li><strong>Dismissible</strong> – Swipe to delete with visual feedback</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="challenge2-expense-tracker.html">
+              Next Challenge <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+<li><a href="https://pub.dev/packages/hive" rel="noopener" target="_blank">Hive Package</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm3-c1';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

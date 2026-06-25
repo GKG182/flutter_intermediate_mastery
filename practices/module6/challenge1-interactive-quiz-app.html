@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interactive Quiz App – Module 6 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build an Interactive Quiz App with animated transitions, score tracking, and progress indicators in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .advanced-tag {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.12);
+      color: #EF4444;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 8000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+    .code-block .built-in { color: #f9e2af; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 6 · Challenge 1
+            </span>
+</div>
+<div class="challenge-header">
+<h1>Interactive Quiz App</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> Advanced Flutter</span>
+<span class="meta-item"><strong>Concepts:</strong> Animations, State Management, Timer, Score Tracking</span>
+<span class="meta-item"><strong>Est. Time:</strong> 40-50 min</span>
+<span class="meta-item"><span class="advanced-tag">⚡ Advanced</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build an <strong>Interactive Quiz App</strong> with animated transitions,
+              score tracking, progress indicators, and timed questions. The app should
+              provide a fun and engaging quiz experience with smooth animations.
+            </p>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Display <strong>multiple-choice questions</strong> with 4 options</li>
+<li>Show <strong>animated progress indicator</strong> for quiz progress</li>
+<li>Add <strong>question transition animations</strong> (slide/fade)</li>
+<li>Implement <strong>score tracking</strong> with correct/incorrect answers</li>
+<li>Show <strong>feedback animations</strong> for correct/incorrect answers</li>
+<li>Add a <strong>timer</strong> for each question (15-30 seconds)</li>
+<li>Display <strong>results screen</strong> with final score and statistics</li>
+<li>Include <strong>restart functionality</strong> with animation</li>
+<li>Use <strong>Riverpod</strong> for state management</li>
+<li>Support <strong>multiple categories</strong> or question sets</li>
+</ul>
+</div>
+<div class="api-box">
+<h4>📦 Sample Quiz Data</h4>
+<ul style="color: var(--text-secondary); font-size: var(--font-sm);">
+<li><strong>Category:</strong> Flutter, Dart, Programming, General Knowledge</li>
+<li><strong>Questions:</strong> 10 questions per quiz</li>
+<li><strong>Time per question:</strong> 20 seconds</li>
+<li><strong>Scoring:</strong> +10 for correct, 0 for incorrect</li>
+</ul>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/animations" target="_blank">Flutter Animations Guide</a></li>
+<li><a href="https://pub.dev/packages/flutter_riverpod" target="_blank">Riverpod</a></li>
+<li><a href="https://docs.flutter.dev/cookbook/design/tabs" target="_blank">Flutter Tabs &amp; Pages</a></li>
+<li><a href="https://docs.flutter.dev/cookbook/animation/hero-animations" target="_blank">Hero Animations</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Use <code>AnimatedContainer</code> or <code>AnimatedSwitcher</code> for question transitions.
+                  For the timer, use <code>Timer.periodic()</code> with a state variable.
+                  For feedback animations, use <code>AnimatedScale</code> or <code>AnimatedOpacity</code> with a delay.
+                  Store quiz data as a list of <code>Question</code> objects with <code>id</code>, <code>text</code>, <code>options</code>, and <code>correctAnswerIndex</code>.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    intl: ^0.18.1
+
+  dev_dependencies:
+    flutter_test:
+      sdk: flutter
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Quiz Models (lib/models/question.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/question.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">Question</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String text;
+    <span class="keyword">final</span> List&lt;String&gt; options;
+    <span class="keyword">final</span> <span class="keyword">int</span> correctAnswerIndex;
+    <span class="keyword">final</span> String category;
+
+    <span class="function">Question</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.text,
+      <span class="keyword">required</span> <span class="keyword">this</span>.options,
+      <span class="keyword">required</span> <span class="keyword">this</span>.correctAnswerIndex,
+      <span class="keyword">required</span> <span class="keyword">this</span>.category,
+    });
+
+    <span class="keyword">factory</span> Question.<span class="function">flutterQuestion</span>({
+      <span class="keyword">required</span> String text,
+      <span class="keyword">required</span> List&lt;String&gt; options,
+      <span class="keyword">required</span> <span class="keyword">int</span> correctIndex,
+    }) {
+      <span class="keyword">return</span> Question(
+        id: DateTime.<span class="function">now</span>().<span class="function">millisecondsSinceEpoch</span>.<span class="function">toString</span>(),
+        text: text,
+        options: options,
+        correctAnswerIndex: correctIndex,
+        category: <span class="string">'Flutter'</span>,
+      );
+    }
+
+    <span class="keyword">static</span> List&lt;Question&gt; get sampleQuestions =&gt; [
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'What is the main language used in Flutter?'</span>,
+        options: [<span class="string">'Java'</span>, <span class="string">'Dart'</span>, <span class="string">'Python'</span>, <span class="string">'JavaScript'</span>],
+        correctIndex: <span class="number">1</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'Which widget is used for creating a scrollable list?'</span>,
+        options: [<span class="string">'Container'</span>, <span class="string">'Column'</span>, <span class="string">'ListView'</span>, <span class="string">'Row'</span>],
+        correctIndex: <span class="number">2</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'What is the default orientation of a Row widget?'</span>,
+        options: [<span class="string">'Horizontal'</span>, <span class="string">'Vertical'</span>, <span class="string">'Diagonal'</span>, <span class="string">'Circular'</span>],
+        correctIndex: <span class="number">0</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'Which method is used to navigate to a new screen?'</span>,
+        options: [
+          <span class="string">'Navigator.push()'</span>,
+          <span class="string">'Navigator.go()'</span>,
+          <span class="string">'Navigator.next()'</span>,
+          <span class="string">'Navigator.forward()'</span>
+        ],
+        correctIndex: <span class="number">0</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'What is the main purpose of a StatefulWidget?'</span>,
+        options: [
+          <span class="string">'Display static content'</span>,
+          <span class="string">'Manage mutable state'</span>,
+          <span class="string">'Handle API requests'</span>,
+          <span class="string">'Create animations'</span>
+        ],
+        correctIndex: <span class="number">1</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'Which package is used for state management with Riverpod?'</span>,
+        options: [
+          <span class="string">'flutter_bloc'</span>,
+          <span class="string">'provider'</span>,
+          <span class="string">'flutter_riverpod'</span>,
+          <span class="string">'get_it'</span>
+        ],
+        correctIndex: <span class="number">2</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'What is a StatelessWidget?'</span>,
+        options: [
+          <span class="string">'A widget with mutable state'</span>,
+          <span class="string">'A widget without mutable state'</span>,
+          <span class="string">'A widget with animations'</span>,
+          <span class="string">'A widget with network calls'</span>
+        ],
+        correctIndex: <span class="number">1</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'Which widget is used to add padding around a widget?'</span>,
+        options: [<span class="string">'Container'</span>, <span class="string">'SizedBox'</span>, <span class="string">'Padding'</span>, <span class="string">'Margin'</span>],
+        correctIndex: <span class="number">2</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'What is the purpose of the BuildContext?'</span>,
+        options: [
+          <span class="string">'To store app state'</span>,
+          <span class="string">'To navigate between widgets'</span>,
+          <span class="string">'To locate the widget in the tree'</span>,
+          <span class="string">'To handle user input'</span>
+        ],
+        correctIndex: <span class="number">2</span>,
+      ),
+      Question.<span class="function">flutterQuestion</span>(
+        text: <span class="string">'Which file contains the entry point of a Flutter app?'</span>,
+        options: [
+          <span class="string">'pubspec.yaml'</span>,
+          <span class="string">'main.dart'</span>,
+          <span class="string">'app.dart'</span>,
+          <span class="string">'index.dart'</span>
+        ],
+        correctIndex: <span class="number">1</span>,
+      ),
+    ];
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. Quiz Provider (lib/providers/quiz_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/quiz_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:async'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/question.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">QuizState</span> {
+    <span class="keyword">final</span> List&lt;Question&gt; questions;
+    <span class="keyword">final</span> <span class="keyword">int</span> currentQuestionIndex;
+    <span class="keyword">final</span> <span class="keyword">int</span> score;
+    <span class="keyword">final</span> List&lt;<span class="keyword">bool</span>&gt; answers;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isAnswered;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isQuizComplete;
+    <span class="keyword">final</span> <span class="keyword">int</span> selectedOption;
+    <span class="keyword">final</span> <span class="keyword">int</span> timeRemaining;
+    <span class="keyword">final</span> <span class="keyword">bool</span> showFeedback;
+
+    <span class="function">QuizState</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.questions,
+      <span class="keyword">required</span> <span class="keyword">this</span>.currentQuestionIndex,
+      <span class="keyword">required</span> <span class="keyword">this</span>.score,
+      <span class="keyword">required</span> <span class="keyword">this</span>.answers,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isAnswered,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isQuizComplete,
+      <span class="keyword">required</span> <span class="keyword">this</span>.selectedOption,
+      <span class="keyword">required</span> <span class="keyword">this</span>.timeRemaining,
+      <span class="keyword">required</span> <span class="keyword">this</span>.showFeedback,
+    });
+
+    <span class="keyword">factory</span> QuizState.<span class="function">initial</span>({List&lt;Question&gt;? questions}) {
+      <span class="keyword">return</span> QuizState(
+        questions: questions ?? Question.sampleQuestions,
+        currentQuestionIndex: <span class="number">0</span>,
+        score: <span class="number">0</span>,
+        answers: [],
+        isAnswered: <span class="keyword">false</span>,
+        isQuizComplete: <span class="keyword">false</span>,
+        selectedOption: -<span class="number">1</span>,
+        timeRemaining: <span class="number">20</span>,
+        showFeedback: <span class="keyword">false</span>,
+      );
+    }
+
+    QuizState <span class="function">copyWith</span>({
+      List&lt;Question&gt;? questions,
+      <span class="keyword">int</span>? currentQuestionIndex,
+      <span class="keyword">int</span>? score,
+      List&lt;<span class="keyword">bool</span>&gt;? answers,
+      <span class="keyword">bool</span>? isAnswered,
+      <span class="keyword">bool</span>? isQuizComplete,
+      <span class="keyword">int</span>? selectedOption,
+      <span class="keyword">int</span>? timeRemaining,
+      <span class="keyword">bool</span>? showFeedback,
+    }) {
+      <span class="keyword">return</span> QuizState(
+        questions: questions ?? <span class="keyword">this</span>.questions,
+        currentQuestionIndex: currentQuestionIndex ?? <span class="keyword">this</span>.currentQuestionIndex,
+        score: score ?? <span class="keyword">this</span>.score,
+        answers: answers ?? <span class="keyword">this</span>.answers,
+        isAnswered: isAnswered ?? <span class="keyword">this</span>.isAnswered,
+        isQuizComplete: isQuizComplete ?? <span class="keyword">this</span>.isQuizComplete,
+        selectedOption: selectedOption ?? <span class="keyword">this</span>.selectedOption,
+        timeRemaining: timeRemaining ?? <span class="keyword">this</span>.timeRemaining,
+        showFeedback: showFeedback ?? <span class="keyword">this</span>.showFeedback,
+      );
+    }
+
+    <span class="keyword">int</span> get totalQuestions =&gt; questions.<span class="function">length</span>;
+    <span class="keyword">int</span> get correctAnswers =&gt; answers.<span class="function">where</span>((a) =&gt; a).<span class="function">length</span>;
+    <span class="keyword">double</span> get progress =&gt; totalQuestions &gt; <span class="number">0</span>
+        ? (currentQuestionIndex + (isAnswered ? <span class="number">1</span> : <span class="number">0</span>)) / totalQuestions
+        : <span class="number">0.0</span>;
+  }
+
+  <span class="keyword">class</span> <span class="function">QuizNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;QuizState&gt; {
+    Timer? _timer;
+
+    <span class="function">QuizNotifier</span>() : <span class="keyword">super</span>(QuizState.<span class="function">initial</span>()) {
+      <span class="function">_startTimer</span>();
+    }
+
+    <span class="keyword">void</span> <span class="function">_startTimer</span>() {
+      _timer?.<span class="function">cancel</span>();
+      state = state.<span class="function">copyWith</span>(timeRemaining: <span class="number">20</span>);
+      _timer = Timer.<span class="function">periodic</span>(Duration(seconds: <span class="number">1</span>), (timer) {
+        <span class="keyword">if</span> (state.isAnswered || state.isQuizComplete) {
+          <span class="keyword">return</span>;
+        }
+        <span class="keyword">if</span> (state.timeRemaining &gt; <span class="number">0</span>) {
+          state = state.<span class="function">copyWith</span>(timeRemaining: state.timeRemaining - <span class="number">1</span>);
+        } <span class="keyword">else</span> {
+          <span class="comment">// Time's up - mark as incorrect</span>
+<span class="function">_handleTimeUp</span>();
+        }
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_handleTimeUp</span>() {
+      <span class="keyword">if</span> (state.isAnswered) <span class="keyword">return</span>;
+      
+      <span class="comment">// Mark as answered with no selection</span>
+      state = state.<span class="function">copyWith</span>(
+        isAnswered: <span class="keyword">true</span>,
+        showFeedback: <span class="keyword">true</span>,
+        selectedOption: -<span class="number">1</span>,
+        answers: [...state.answers, <span class="keyword">false</span>],
+      );
+
+      <span class="comment">// Auto advance after delay</span>
+      Future.<span class="function">delayed</span>(Duration(seconds: <span class="number">1</span>), () {
+        <span class="keyword">if</span> (!state.isQuizComplete &amp;&amp; state.currentQuestionIndex &lt; state.totalQuestions - <span class="number">1</span>) {
+          <span class="function">_nextQuestion</span>();
+        }
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">selectAnswer</span>(<span class="keyword">int</span> selectedIndex) {
+      <span class="keyword">if</span> (state.isAnswered || state.isQuizComplete) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> question = state.questions[state.currentQuestionIndex];
+      <span class="keyword">final</span> isCorrect = selectedIndex == question.correctAnswerIndex;
+
+      <span class="comment">// Show feedback immediately</span>
+      state = state.<span class="function">copyWith</span>(
+        isAnswered: <span class="keyword">true</span>,
+        showFeedback: <span class="keyword">true</span>,
+        selectedOption: selectedIndex,
+        score: isCorrect ? state.score + <span class="number">10</span> : state.score,
+        answers: [...state.answers, isCorrect],
+        timeRemaining: <span class="number">0</span>,
+      );
+
+      _timer?.<span class="function">cancel</span>();
+
+      <span class="comment">// Auto advance after delay</span>
+      Future.<span class="function">delayed</span>(Duration(milliseconds: <span class="number">800</span>), () {
+        <span class="keyword">if</span> (!state.isQuizComplete &amp;&amp; state.currentQuestionIndex &lt; state.totalQuestions - <span class="number">1</span>) {
+          <span class="function">_nextQuestion</span>();
+        }
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_nextQuestion</span>() {
+      <span class="keyword">if</span> (state.currentQuestionIndex &lt; state.totalQuestions - <span class="number">1</span>) {
+        state = state.<span class="function">copyWith</span>(
+          currentQuestionIndex: state.currentQuestionIndex + <span class="number">1</span>,
+          isAnswered: <span class="keyword">false</span>,
+          selectedOption: -<span class="number">1</span>,
+          timeRemaining: <span class="number">20</span>,
+          showFeedback: <span class="keyword">false</span>,
+        );
+        <span class="function">_startTimer</span>();
+      } <span class="keyword">else</span> {
+        state = state.<span class="function">copyWith</span>(isQuizComplete: <span class="keyword">true</span>);
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">restartQuiz</span>() {
+      _timer?.<span class="function">cancel</span>();
+      state = QuizState.<span class="function">initial</span>(questions: state.questions);
+      <span class="function">_startTimer</span>();
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _timer?.<span class="function">cancel</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+  }
+
+  <span class="keyword">final</span> quizProvider = StateNotifierProvider&lt;QuizNotifier, QuizState&gt;((ref) {
+    <span class="keyword">return</span> <span class="function">QuizNotifier</span>();
+  });
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Main App (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'presentation/screens/quiz_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Interactive Quiz'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> QuizScreen(),
+        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Quiz Screen (lib/presentation/screens/quiz_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/screens/quiz_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../providers/quiz_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/question_card.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/progress_bar.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/timer_widget.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'result_screen.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">QuizScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">QuizScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;QuizScreen&gt; <span class="function">createState</span>() =&gt; _QuizScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_QuizScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;QuizScreen&gt; {
+    <span class="keyword">final</span> PageController _pageController = PageController();
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _pageController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(quizProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'🧠 Interactive Quiz'</span>),
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+          actions: [
+            <span class="keyword">if</span> (!state.isQuizComplete)
+              Padding(
+                padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">16</span>),
+                child: Center(
+                  child: Text(
+                    <span class="string">'${state.currentQuestionIndex + 1}/${state.totalQuestions}'</span>,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: <span class="number">16</span>,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+        body: state.isQuizComplete
+            ? ResultScreen(
+                score: state.score,
+                totalQuestions: state.totalQuestions,
+                correctAnswers: state.correctAnswers,
+                onRestart: () {
+                  ref.<span class="function">read</span>(quizProvider.notifier).<span class="function">restartQuiz</span>();
+                },
+              )
+            : SafeArea(
+                child: Column(
+                  children: [
+                    <span class="comment">// Progress bar with animation</span>
+                    AnimatedProgressBar(progress: state.progress),
+                    SizedBox(height: <span class="number">8</span>),
+                    <span class="comment">// Timer</span>
+                    Padding(
+                      padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                      child: TimerWidget(
+                        timeRemaining: state.timeRemaining,
+                        isAnswered: state.isAnswered,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    <span class="comment">// Score display</span>
+                    Padding(
+                      padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                      child: Row(
+                        children: [
+                          Icon(Icons.star, color: Colors.amber, size: <span class="number">20</span>),
+                          SizedBox(width: <span class="number">4</span>),
+                          Text(
+                            <span class="string">'Score: ${state.score}'</span>,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: <span class="number">14</span>,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            <span class="string">'${state.correctAnswers}/${state.totalQuestions} correct'</span>,
+                            style: TextStyle(
+                              color: Colors.grey[<span class="number">600</span>],
+                              fontSize: <span class="number">12</span>,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                    <span class="comment">// Questions with animation</span>
+                    Expanded(
+                      child: PageView.builder(
+                        controller: _pageController,
+                        physics: <span class="keyword">const</span> NeverScrollableScrollPhysics(),
+                        itemCount: state.questions.<span class="function">length</span>,
+                        itemBuilder: (context, index) {
+                          <span class="keyword">return</span> QuestionCard(
+                            question: state.questions[index],
+                            isAnswered: state.isAnswered,
+                            selectedOption: state.selectedOption,
+                            onAnswerSelected: (selectedIndex) {
+                              ref.<span class="function">read</span>(quizProvider.notifier).<span class="function">selectAnswer</span>(selectedIndex);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">8</span>),
+                  ],
+                ),
+              ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">6. Question Card Widget (lib/presentation/widgets/question_card.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/widgets/question_card.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../models/question.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">QuestionCard</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">final</span> Question question;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isAnswered;
+    <span class="keyword">final</span> <span class="keyword">int</span> selectedOption;
+    <span class="keyword">final</span> <span class="keyword">void</span> Function(<span class="keyword">int</span>) onAnswerSelected;
+
+    <span class="keyword">const</span> <span class="function">QuestionCard</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.question,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isAnswered,
+      <span class="keyword">required</span> <span class="keyword">this</span>.selectedOption,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onAnswerSelected,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    ConsumerState&lt;QuestionCard&gt; <span class="function">createState</span>() =&gt; _QuestionCardState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_QuestionCardState</span> <span class="keyword">extends</span> ConsumerState&lt;QuestionCard&gt;
+      with SingleTickerProviderStateMixin {
+    late AnimationController _animationController;
+    late Animation&lt;double&gt; _fadeAnimation;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _animationController = AnimationController(
+        vsync: <span class="keyword">this</span>,
+        duration: Duration(milliseconds: <span class="number">400</span>),
+      )..<span class="function">forward</span>();
+
+      _fadeAnimation = CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.<span class="function">easeOut</span>,
+      );
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _animationController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> colors = [
+        Colors.blue,
+        Colors.green,
+        Colors.orange,
+        Colors.purple,
+      ];
+
+      <span class="keyword">return</span> FadeTransition(
+        opacity: _fadeAnimation,
+        child: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+            children: [
+              <span class="comment">// Category badge</span>
+              Container(
+                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">4</span>),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                ),
+                child: Text(
+                  widget.question.category,
+                  style: TextStyle(
+                    fontSize: <span class="number">12</span>,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.deepPurple,
+                  ),
+                ),
+              ),
+              SizedBox(height: <span class="number">12</span>),
+              <span class="comment">// Question text</span>
+              Text(
+                widget.question.text,
+                style: TextStyle(
+                  fontSize: <span class="number">20</span>,
+                  fontWeight: FontWeight.w600,
+                  height: <span class="number">1.3</span>,
+                ),
+              ),
+              SizedBox(height: <span class="number">20</span>),
+              <span class="comment">// Options</span>
+              Expanded(
+                child: ListView.<span class="function">builder</span>(
+                  itemCount: widget.question.options.<span class="function">length</span>,
+                  itemBuilder: (context, index) {
+                    <span class="keyword">final</span> option = widget.question.options[index];
+                    <span class="keyword">final</span> isSelected = widget.selectedOption == index;
+                    <span class="keyword">final</span> isCorrect = index == widget.question.correctAnswerIndex;
+                    <span class="keyword">final</span> showCorrect = widget.isAnswered &amp;&amp; isCorrect;
+                    <span class="keyword">final</span> showWrong = widget.isAnswered &amp;&amp; isSelected &amp;&amp; !isCorrect;
+
+                    Color backgroundColor;
+                    Color borderColor;
+
+                    <span class="keyword">if</span> (showCorrect) {
+                      backgroundColor = Colors.green.<span class="function">withOpacity</span>(<span class="number">0.15</span>);
+                      borderColor = Colors.green;
+                    } <span class="keyword">else</span> <span class="keyword">if</span> (showWrong) {
+                      backgroundColor = Colors.red.<span class="function">withOpacity</span>(<span class="number">0.15</span>);
+                      borderColor = Colors.red;
+                    } <span class="keyword">else</span> <span class="keyword">if</span> (isSelected &amp;&amp; !widget.isAnswered) {
+                      backgroundColor = Colors.deepPurple.<span class="function">withOpacity</span>(<span class="number">0.1</span>);
+                      borderColor = Colors.deepPurple;
+                    } <span class="keyword">else</span> {
+                      backgroundColor = Colors.grey[<span class="number">50</span>]!;
+                      borderColor = Colors.grey[<span class="number">300</span>]!;
+                    }
+
+                    <span class="keyword">return</span> AnimatedContainer(
+                      duration: Duration(milliseconds: <span class="number">300</span>),
+                      margin: EdgeInsets.<span class="function">only</span>(bottom: <span class="number">12</span>),
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                        border: Border.<span class="function">all</span>(
+                          color: borderColor,
+                          width: widget.isAnswered &amp;&amp; (showCorrect || showWrong) ? <span class="number">2</span> : <span class="number">1</span>,
+                        ),
+                      ),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.<span class="function">all</span>(<span class="number">14</span>),
+                        leading: CircleAvatar(
+                          backgroundColor: widget.isAnswered &amp;&amp; (showCorrect || showWrong)
+                              ? borderColor
+                              : colors[index % colors.<span class="function">length</span>],
+                          radius: <span class="number">14</span>,
+                          child: Text(
+                            String.<span class="function">fromCharCode</span>(<span class="number">65</span> + index),
+                            style: TextStyle(
+                              fontSize: <span class="number">12</span>,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          option,
+                          style: TextStyle(
+                            fontSize: <span class="number">15</span>,
+                            fontWeight: widget.isAnswered &amp;&amp; (showCorrect || showWrong)
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
+                        ),
+                        trailing: widget.isAnswered
+                            ? showCorrect
+                                ? Icon(Icons.check_circle, color: Colors.green)
+                                : showWrong
+                                    ? Icon(Icons.cancel, color: Colors.red)
+                                    : <span class="keyword">null</span>
+                            : <span class="keyword">null</span>,
+                        onTap: widget.isAnswered
+                            ? <span class="keyword">null</span>
+                            : () =&gt; widget.<span class="function">onAnswerSelected</span>(index),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">7. Progress Bar Widget (lib/presentation/widgets/progress_bar.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/widgets/progress_bar.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AnimatedProgressBar</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> <span class="keyword">double</span> progress;
+
+    <span class="keyword">const</span> <span class="function">AnimatedProgressBar</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.progress,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;AnimatedProgressBar&gt; <span class="function">createState</span>() =&gt; _AnimatedProgressBarState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_AnimatedProgressBarState</span> <span class="keyword">extends</span> State&lt;AnimatedProgressBar&gt;
+      with SingleTickerProviderStateMixin {
+    late AnimationController _controller;
+    late Animation&lt;double&gt; _animation;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _controller = AnimationController(
+        vsync: <span class="keyword">this</span>,
+        duration: Duration(milliseconds: <span class="number">500</span>),
+      );
+      _animation = Tween&lt;double&gt;(begin: <span class="number">0</span>, end: widget.progress)
+          .<span class="function">animate</span>(_controller)
+        ..<span class="function">addListener</span>(() =&gt; setState(() {}));
+      _controller.<span class="function">forward</span>();
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">didUpdateWidget</span>(AnimatedProgressBar oldWidget) {
+      <span class="keyword">super</span>.<span class="function">didUpdateWidget</span>(oldWidget);
+      <span class="keyword">if</span> (widget.progress != oldWidget.progress) {
+        _animation = Tween&lt;double&gt;(begin: _animation.value, end: widget.progress)
+            .<span class="function">animate</span>(_controller)
+          ..<span class="function">addListener</span>(() =&gt; setState(() {}));
+        _controller.<span class="function">reset</span>();
+        _controller.<span class="function">forward</span>();
+      }
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Padding(
+        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+          children: [
+            Row(
+              children: [
+                Text(
+                  <span class="string">'Progress'</span>,
+                  style: TextStyle(
+                    fontSize: <span class="number">12</span>,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[<span class="number">600</span>],
+                  ),
+                ),
+                Spacer(),
+                Text(
+                  <span class="string">'${(_animation.value * 100).toInt()}%'</span>,
+                  style: TextStyle(
+                    fontSize: <span class="number">12</span>,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: <span class="number">4</span>),
+            ClipRRect(
+              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+              child: LinearProgressIndicator(
+                value: _animation.value,
+                minHeight: <span class="number">6</span>,
+                backgroundColor: Colors.grey[<span class="number">200</span>],
+                valueColor: AlwaysStoppedAnimation&lt;Color&gt;(
+                  Colors.deepPurple,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">8. Timer Widget (lib/presentation/widgets/timer_widget.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/widgets/timer_widget.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">TimerWidget</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> <span class="keyword">int</span> timeRemaining;
+    <span class="keyword">final</span> <span class="keyword">bool</span> isAnswered;
+
+    <span class="keyword">const</span> <span class="function">TimerWidget</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.timeRemaining,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isAnswered,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    State&lt;TimerWidget&gt; <span class="function">createState</span>() =&gt; _TimerWidgetState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_TimerWidgetState</span> <span class="keyword">extends</span> State&lt;TimerWidget&gt;
+      with SingleTickerProviderStateMixin {
+    late AnimationController _pulseController;
+    late Animation&lt;double&gt; _pulseAnimation;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _pulseController = AnimationController(
+        vsync: <span class="keyword">this</span>,
+        duration: Duration(milliseconds: <span class="number">800</span>),
+      )..<span class="function">repeat</span>(reverse: <span class="keyword">true</span>);
+
+      _pulseAnimation = Tween&lt;double&gt;(begin: <span class="number">1.0</span>, end: <span class="number">1.1</span>)
+          .<span class="function">animate</span>(_pulseController);
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _pulseController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> isWarning = widget.timeRemaining &lt;= <span class="number">5</span> &amp;&amp; !widget.isAnswered;
+      <span class="keyword">final</span> color = widget.isAnswered
+          ? Colors.grey[<span class="number">400</span>]
+          : isWarning
+              ? Colors.red
+              : Colors.deepPurple;
+
+      <span class="keyword">return</span> Container(
+        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+        decoration: BoxDecoration(
+          color: color.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          border: Border.<span class="function">all</span>(color: color.<span class="function">withOpacity</span>(<span class="number">0.3</span>)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.<span class="function">min</span>,
+          children: [
+            Icon(
+              Icons.timer,
+              color: color,
+              size: <span class="number">20</span>,
+            ),
+            SizedBox(width: <span class="number">8</span>),
+            <span class="keyword">if</span> (isWarning &amp;&amp; !widget.isAnswered)
+              ScaleTransition(
+                scale: _pulseAnimation,
+                child: Text(
+                  widget.timeRemaining.<span class="function">toString</span>(),
+                  style: TextStyle(
+                    fontSize: <span class="number">18</span>,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+              )
+            <span class="keyword">else</span>
+              Text(
+                widget.isAnswered ? <span class="string">'Answered'</span> : widget.timeRemaining.<span class="function">toString</span>(),
+                style: TextStyle(
+                  fontSize: <span class="number">18</span>,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
+            SizedBox(width: <span class="number">4</span>),
+            Text(
+              widget.isAnswered ? <span class="string">'✅'</span> : <span class="string">'seconds'</span>,
+              style: TextStyle(
+                fontSize: <span class="number">12</span>,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">9. Result Screen (lib/presentation/screens/result_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/presentation/screens/result_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">ResultScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">final</span> <span class="keyword">int</span> score;
+    <span class="keyword">final</span> <span class="keyword">int</span> totalQuestions;
+    <span class="keyword">final</span> <span class="keyword">int</span> correctAnswers;
+    <span class="keyword">final</span> <span class="keyword">void</span> Function() onRestart;
+
+    <span class="keyword">const</span> <span class="function">ResultScreen</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.score,
+      <span class="keyword">required</span> <span class="keyword">this</span>.totalQuestions,
+      <span class="keyword">required</span> <span class="keyword">this</span>.correctAnswers,
+      <span class="keyword">required</span> <span class="keyword">this</span>.onRestart,
+      <span class="keyword">super</span>.key,
+    });
+
+    @override
+    ConsumerState&lt;ResultScreen&gt; <span class="function">createState</span>() =&gt; _ResultScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_ResultScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;ResultScreen&gt;
+      with SingleTickerProviderStateMixin {
+    late AnimationController _animationController;
+    late Animation&lt;double&gt; _scaleAnimation;
+    late Animation&lt;double&gt; _fadeAnimation;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.<span class="function">initState</span>();
+      _animationController = AnimationController(
+        vsync: <span class="keyword">this</span>,
+        duration: Duration(milliseconds: <span class="number">800</span>),
+      )..<span class="function">forward</span>();
+
+      _scaleAnimation = CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.<span class="function">easeOutBack</span>,
+      );
+
+      _fadeAnimation = Tween&lt;double&gt;(begin: <span class="number">0</span>, end: <span class="number">1</span>)
+          .<span class="function">animate</span>(_animationController);
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _animationController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> percentage = widget.totalQuestions &gt; <span class="number">0</span>
+          ? (widget.correctAnswers / widget.totalQuestions) * <span class="number">100</span>
+          : <span class="number">0.0</span>;
+
+      String emoji;
+      String title;
+      Color color;
+
+      <span class="keyword">if</span> (percentage &gt;= <span class="number">80</span>) {
+        emoji = <span class="string">'🌟'</span>;
+        title = <span class="string">'Excellent!'</span>;
+        color = Colors.green;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (percentage &gt;= <span class="number">60</span>) {
+        emoji = <span class="string">'👏'</span>;
+        title = <span class="string">'Good Job!'</span>;
+        color = Colors.blue;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (percentage &gt;= <span class="number">40</span>) {
+        emoji = <span class="string">'💪'</span>;
+        title = <span class="string">'Keep Practicing!'</span>;
+        color = Colors.orange;
+      } <span class="keyword">else</span> {
+        emoji = <span class="string">'📚'</span>;
+        title = <span class="string">'Keep Learning!'</span>;
+        color = Colors.red;
+      }
+
+      <span class="keyword">return</span> Scaffold(
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+                children: [
+                  ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: Text(
+                      emoji,
+                      style: TextStyle(fontSize: <span class="number">72</span>),
+                    ),
+                  ),
+                  SizedBox(height: <span class="number">16</span>),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: <span class="number">28</span>,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                  SizedBox(height: <span class="number">8</span>),
+                  Text(
+                    <span class="string">'You got ${widget.correctAnswers} out of ${widget.totalQuestions} correct!'</span>,
+                    style: TextStyle(
+                      fontSize: <span class="number">16</span>,
+                      color: Colors.grey[<span class="number">600</span>],
+                    ),
+                  ),
+                  SizedBox(height: <span class="number">32</span>),
+                  Container(
+                    width: <span class="number">120</span>,
+                    height: <span class="number">120</span>,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.<span class="function">circle</span>,
+                      color: color.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                      border: Border.<span class="function">all</span>(
+                        color: color,
+                        width: <span class="number">4</span>,
+                      ),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+                        children: [
+                          Text(
+                            widget.score.<span class="function">toString</span>(),
+                            style: TextStyle(
+                              fontSize: <span class="number">36</span>,
+                              fontWeight: FontWeight.bold,
+                              color: color,
+                            ),
+                          ),
+                          Text(
+                            <span class="string">'points'</span>,
+                            style: TextStyle(
+                              fontSize: <span class="number">14</span>,
+                              color: color,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: <span class="number">32</span>),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          <span class="string">'Correct'</span>,
+                          widget.correctAnswers.<span class="function">toString</span>(),
+                          Colors.green,
+                          Icons.check_circle,
+                        ),
+                      ),
+                      SizedBox(width: <span class="number">12</span>),
+                      Expanded(
+                        child: _buildStatCard(
+                          <span class="string">'Incorrect'</span>,
+                          (widget.totalQuestions - widget.correctAnswers).<span class="function">toString</span>(),
+                          Colors.red,
+                          Icons.cancel,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: <span class="number">32</span>),
+                  SizedBox(
+                    width: <span class="keyword">double</span>.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: widget.onRestart,
+                      icon: Icon(Icons.refresh),
+                      label: Text(<span class="string">'Restart Quiz'</span>),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget _buildStatCard(String label, String value, Color color, IconData icon) {
+      <span class="keyword">return</span> Container(
+        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+        decoration: BoxDecoration(
+          color: color.<span class="function">withOpacity</span>(<span class="number">0.05</span>),
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          border: Border.<span class="function">all</span>(color: color.<span class="function">withOpacity</span>(<span class="number">0.2</span>)),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: <span class="number">24</span>),
+            SizedBox(height: <span class="number">4</span>),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: <span class="number">20</span>,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: <span class="number">12</span>,
+                color: Colors.grey[<span class="number">600</span>],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>Animations</strong> – Fade transitions, scale animations, and pulse effects</li>
+<li><strong>Timer Management</strong> – Using Timer.periodic() for countdown with auto-advance</li>
+<li><strong>State Management</strong> – Riverpod with StateNotifier for complex quiz state</li>
+<li><strong>Page Transitions</strong> – Smooth navigation between questions</li>
+<li><strong>Feedback Animations</strong> – Visual feedback for correct/incorrect answers</li>
+<li><strong>Progress Tracking</strong> – Animated progress bar and score display</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="../module5/challenge3-di-setup-app.html">
+<i class="fas fa-arrow-left"></i> Previous Module
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="challenge2-photo-gallery.html">
+              Next Challenge <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">Flutter Animations</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm6-c1';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

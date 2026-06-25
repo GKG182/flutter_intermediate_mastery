@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pagination – Module 2 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to implement pagination in Flutter. Master infinite scrolling, page-based navigation, and efficient data loading patterns." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    .pagination-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .pagination-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .pagination-item .pagination-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .pagination-item .pagination-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .pagination-item .pagination-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .pagination-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module2-state-management.html">Module 2</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 6</span>
+</div>
+<span class="module-badge"><i class="fas fa-globe"></i> Module 2</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 6</div>
+<h1>Pagination</h1>
+<p class="topic-subtitle">
+            Efficiently loading and displaying large datasets — from infinite scrolling to page-based navigation.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/cookbook" target="_blank">
+<i class="fas fa-book"></i> Flutter Cookbook
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS PAGINATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is Pagination?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Pagination</strong> is the process of dividing a large dataset into <strong>smaller chunks</strong>
+            (pages) that are loaded incrementally. It's essential for:
+          </p>
+<ul>
+<li><strong>Performance</strong> – Loading all data at once can be slow and memory-intensive</li>
+<li><strong>UX</strong> – Users don't want to wait for thousands of items to load</li>
+<li><strong>Bandwidth</strong> – Reduces data usage by loading only what's needed</li>
+<li><strong>Scalability</strong> – Works with APIs that have rate limits</li>
+</ul>
+<div class="concept-card success">
+<h4>🎯 The Problem Pagination Solves</h4>
+<p>
+              Imagine an API that returns 10,000 users. Loading all of them at once would take several seconds,
+              use lots of memory, and provide a poor user experience. Pagination solves this by loading
+              <strong>20 users at a time</strong>, with the option to load more when needed.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 2: PAGINATION STRATEGIES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Pagination Strategies</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            There are three main pagination strategies used in Flutter apps:
+          </p>
+<div class="pagination-grid">
+<div class="pagination-item" style="border-left: 3px solid #3B82F6;">
+<div class="pagination-icon">♾️</div>
+<div class="pagination-name">Infinite Scroll</div>
+<div class="pagination-desc">Load more data as the user scrolls down</div>
+</div>
+<div class="pagination-item" style="border-left: 3px solid #10B981;">
+<div class="pagination-icon">📄</div>
+<div class="pagination-name">Page-Based</div>
+<div class="pagination-desc">Navigate between pages (Next/Previous buttons)</div>
+</div>
+<div class="pagination-item" style="border-left: 3px solid #F59E0B;">
+<div class="pagination-icon">🔢</div>
+<div class="pagination-name">Load More</div>
+<div class="pagination-desc">Explicit "Load More" button at the bottom</div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: API PAGINATION PATTERNS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">API Pagination Patterns</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Different APIs use different pagination patterns. Here are the most common:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">Pattern 1: Page &amp; Limit (Query Parameters)</span>
+<code>
+<span class="comment">// Most common pattern</span>
+  GET /api/users?page=2&amp;limit=20
+
+  <span class="comment">// Response includes pagination metadata</span>
+  {
+    <span class="string">"data"</span>: [...],
+    <span class="string">"pagination"</span>: {
+      <span class="string">"currentPage"</span>: 2,
+      <span class="string">"totalPages"</span>: 10,
+      <span class="string">"totalItems"</span>: 200,
+      <span class="string">"itemsPerPage"</span>: 20
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">Pattern 2: Offset &amp; Limit</span>
+<code>
+<span class="comment">// Good for databases with offset support</span>
+  GET /api/users?offset=20&amp;limit=20
+
+  <span class="comment">// Response (similar to page-based)</span>
+  {
+    <span class="string">"data"</span>: [...],
+    <span class="string">"total"</span>: 200
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">Pattern 3: Cursor-Based (Keyset)</span>
+<code>
+<span class="comment">// More efficient for large datasets</span>
+  GET /api/users?after=abc123&amp;limit=20
+
+  <span class="comment">// Response includes cursor for next page</span>
+  {
+    <span class="string">"data"</span>: [...],
+    <span class="string">"nextCursor"</span>: "def456",
+    <span class="string">"hasMore"</span>: true
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: INFINITE SCROLL IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Implementing Infinite Scroll</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Infinite scroll is the most common pagination pattern in mobile apps. Here's how to implement it
+            using a <code>ScrollController</code> and <code>ListView.builder</code>.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/pagination_service.dart – API Service with Pagination</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+
+  <span class="keyword">class</span> <span class="function">PaginationService</span> {
+    <span class="keyword">final</span> http.Client client;
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> pageSize = <span class="number">20</span>;
+
+    <span class="function">PaginationService</span>({http.Client? client}) : client = client ?? http.Client();
+
+    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">fetchPage</span>(<span class="keyword">int</span> page) async {
+      <span class="keyword">final</span> response = await client.get(
+        Uri.parse(<span class="string">'https://jsonplaceholder.typicode.com/posts?_page=$page&amp;_limit=$pageSize'</span>),
+        headers: {<span class="string">'Accept'</span>: <span class="string">'application/json'</span>},
+      );
+
+      <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+        <span class="keyword">final</span> List&lt;dynamic&gt; data = jsonDecode(response.body);
+        <span class="comment">// Note: JSONPlaceholder doesn't return pagination metadata</span>
+<span class="comment">// In a real API, you'd parse the metadata from headers or body</span>
+<span class="keyword">return</span> {
+          <span class="string">'data'</span>: data,
+          <span class="string">'hasMore'</span>: data.length == pageSize, <span class="comment">// Simple heuristic</span>
+        };
+      } <span class="keyword">else</span> {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to load page $page'</span>);
+      }
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/infinite_scroll_screen.dart – Infinite Scroll UI</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'pagination_service.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">InfiniteScrollScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;InfiniteScrollScreen&gt; <span class="function">createState</span>() =&gt; _InfiniteScrollScreenState();
+  }
+
+  <span class="keyword">class</span> _InfiniteScrollScreenState <span class="keyword">extends</span> State&lt;InfiniteScrollScreen&gt; {
+    <span class="keyword">final</span> PaginationService _service = PaginationService();
+    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+
+    List&lt;dynamic&gt; _items = [];
+    <span class="keyword">int</span> _currentPage = <span class="number">1</span>;
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    <span class="keyword">bool</span> _hasMore = <span class="keyword">true</span>;
+    <span class="keyword">bool</span> _hasError = <span class="keyword">false</span>;
+    String? _errorMessage;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _loadMore();
+      _scrollController.addListener(_onScroll);
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _scrollController.dispose();
+      <span class="keyword">super</span>.dispose();
+    }
+
+    <span class="keyword">void</span> <span class="function">_onScroll</span>() {
+      <span class="keyword">if</span> (_scrollController.position.pixels &gt;=
+          _scrollController.position.maxScrollExtent - <span class="number">200</span>) {
+        _loadMore();
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadMore</span>() async {
+      <span class="keyword">if</span> (_isLoading || !_hasMore) <span class="keyword">return</span>;
+
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _hasError = <span class="keyword">false</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> result = await _service.fetchPage(_currentPage);
+        <span class="keyword">final</span> newItems = result[<span class="string">'data'</span>] <span class="keyword">as</span> List&lt;dynamic&gt;;
+        <span class="keyword">final</span> hasMore = result[<span class="string">'hasMore'</span>] <span class="keyword">as</span> <span class="keyword">bool</span>;
+
+        setState(() {
+          _items.addAll(newItems);
+          _hasMore = hasMore;
+          _currentPage++;
+          _isLoading = <span class="keyword">false</span>;
+        });
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _hasError = <span class="keyword">true</span>;
+          _errorMessage = e.toString();
+        });
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">_retry</span>() {
+      _loadMore();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Infinite Scroll'</span>),
+          centerTitle: <span class="keyword">true</span>,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: _items.isEmpty &amp;&amp; !_isLoading
+                  ? Center(
+                      child: _hasError
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
+                                SizedBox(height: <span class="number">16</span>),
+                                Text(_errorMessage ?? <span class="string">'Failed to load data'</span>),
+                                SizedBox(height: <span class="number">16</span>),
+                                ElevatedButton(
+                                  onPressed: _retry,
+                                  child: Text(<span class="string">'Retry'</span>),
+                                ),
+                              ],
+                            )
+                          : Text(<span class="string">'No items to display'</span>),
+                    )
+                  : ListView.builder(
+                      controller: _scrollController,
+                      itemCount: _items.length + (_hasMore ? <span class="number">1</span> : <span class="number">0</span>),
+                      itemBuilder: (context, index) {
+                        <span class="comment">// Show loading indicator at the end</span>
+<span class="keyword">if</span> (index == _items.length) {
+                          <span class="keyword">return</span> Padding(
+                            padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                        <span class="keyword">final</span> item = _items[index];
+                        <span class="keyword">return</span> Card(
+                          margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+                          child: ListTile(
+                            title: Text(item[<span class="string">'title'</span>] ?? <span class="string">'No title'</span>),
+                            subtitle: Text(item[<span class="string">'body'</span>] ?? <span class="string">'No body'</span>),
+                            leading: CircleAvatar(
+                              child: Text((index + <span class="number">1</span>).toString()),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            <span class="comment">// Error banner at bottom</span>
+<span class="keyword">if</span> (_hasError &amp;&amp; _items.isNotEmpty)
+              Container(
+                padding: EdgeInsets.all(<span class="number">12</span>),
+                color: Colors.red.shade50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.warning, color: Colors.red),
+                    SizedBox(width: <span class="number">8</span>),
+                    Expanded(
+                      child: Text(
+                        _errorMessage ?? <span class="string">'Failed to load more items'</span>,
+                        style: TextStyle(color: Colors.red.shade700),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: _retry,
+                      child: Text(<span class="string">'Retry'</span>),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Create the API Service</strong> – Define a service that fetches pages with
+                <code>page</code> and <code>limit</code> parameters.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Set up state variables</strong> – Track <code>_items</code>, <code>_currentPage</code>,
+                <code>_isLoading</code>, and <code>_hasMore</code>.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Add ScrollController</strong> – Listen for scroll events to detect when the user
+                reaches the bottom.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Implement load more logic</strong> – When the user scrolls to the bottom (within 200px),
+                fetch the next page.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Show loading indicator</strong> – Display a progress indicator at the bottom while
+                loading more items.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>Handle errors</strong> – Show error messages and provide a retry option.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 6: PAGE-BASED PAGINATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Page-Based Pagination</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Page-based pagination uses buttons to navigate between pages. This is common in web apps
+            and some mobile apps.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/page_based_screen.dart – Page-Based UI</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'pagination_service.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">PageBasedScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;PageBasedScreen&gt; <span class="function">createState</span>() =&gt; _PageBasedScreenState();
+  }
+
+  <span class="keyword">class</span> _PageBasedScreenState <span class="keyword">extends</span> State&lt;PageBasedScreen&gt; {
+    <span class="keyword">final</span> PaginationService _service = PaginationService();
+    <span class="keyword">int</span> _currentPage = <span class="number">1</span>;
+    <span class="keyword">int</span> _totalPages = <span class="number">0</span>;
+    List&lt;dynamic&gt; _items = [];
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    <span class="keyword">bool</span> _hasError = <span class="keyword">false</span>;
+    String? _errorMessage;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _loadPage(<span class="number">1</span>);
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadPage</span>(<span class="keyword">int</span> page) async {
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _hasError = <span class="keyword">false</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> result = await _service.fetchPage(page);
+        <span class="keyword">final</span> data = result[<span class="string">'data'</span>] <span class="keyword">as</span> List&lt;dynamic&gt;;
+        <span class="keyword">final</span> hasMore = result[<span class="string">'hasMore'</span>] <span class="keyword">as</span> <span class="keyword">bool</span>;
+
+        setState(() {
+          _items = data;
+          _currentPage = page;
+          _isLoading = <span class="keyword">false</span>;
+          <span class="comment">// In a real API, you'd get totalPages from the response</span>
+          _totalPages = hasMore ? page + <span class="number">1</span> : page;
+        });
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _hasError = <span class="keyword">true</span>;
+          _errorMessage = e.toString();
+        });
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">_goToPage</span>(<span class="keyword">int</span> page) {
+      <span class="keyword">if</span> (page &gt;= <span class="number">1</span> &amp;&amp; page &lt;= _totalPages) {
+        _loadPage(page);
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Page-Based Pagination'</span>),
+          centerTitle: <span class="keyword">true</span>,
+        ),
+        body: Column(
+          children: [
+            <span class="comment">// Page navigation controls</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">16</span>),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.chevron_left),
+                    onPressed: _currentPage &gt; <span class="number">1</span> &amp;&amp; !_isLoading
+                        ? () =&gt; _goToPage(_currentPage - <span class="number">1</span>)
+                        : <span class="keyword">null</span>,
+                  ),
+                  Text(
+                    <span class="string">'Page $_currentPage'</span>,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.chevron_right),
+                    onPressed: _currentPage &lt; _totalPages &amp;&amp; !_isLoading
+                        ? () =&gt; _goToPage(_currentPage + <span class="number">1</span>)
+                        : <span class="keyword">null</span>,
+                  ),
+                  SizedBox(width: <span class="number">16</span>),
+                  if (_totalPages &gt; <span class="number">0</span>)
+                    Text(
+                      <span class="string">'of $_totalPages'</span>,
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                ],
+              ),
+            ),
+
+            <span class="comment">// Content</span>
+            Expanded(
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : _hasError
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
+                              SizedBox(height: <span class="number">16</span>),
+                              Text(_errorMessage ?? <span class="string">'Failed to load data'</span>),
+                              SizedBox(height: <span class="number">16</span>),
+                              ElevatedButton(
+                                onPressed: () =&gt; _loadPage(_currentPage),
+                                child: Text(<span class="string">'Retry'</span>),
+                              ),
+                            ],
+                          ),
+                        )
+                      : _items.isEmpty
+                          ? Center(child: Text(<span class="string">'No items on this page'</span>))
+                          : ListView.builder(
+                              itemCount: _items.length,
+                              itemBuilder: (context, index) {
+                                <span class="keyword">final</span> item = _items[index];
+                                <span class="keyword">return</span> Card(
+                                  margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+                                  child: ListTile(
+                                    title: Text(item[<span class="string">'title'</span>] ?? <span class="string">'No title'</span>),
+                                    subtitle: Text(item[<span class="string">'body'</span>] ?? <span class="string">'No body'</span>),
+                                  ),
+                                );
+                              },
+                            ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 7: LOAD MORE BUTTON ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Load More Button Pattern</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The "Load More" button gives users explicit control over when to load more data.
+            This is great for users with limited data plans or slow connections.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/load_more_screen.dart – Load More Button</span>
+<code>
+<span class="comment">// Modify the infinite scroll screen to use a "Load More" button</span>
+<span class="comment">// instead of automatic scrolling.</span>
+<span class="comment">// Replace the ListView.builder itemCount with:</span>
+  itemCount: _items.length + <span class="number">1</span>, <span class="comment">// +1 for the load more button</span>
+<span class="comment">// In the itemBuilder:</span>
+<span class="keyword">if</span> (index == _items.length) {
+    <span class="keyword">return</span> Container(
+      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+      child: Center(
+        child: _isLoading
+            ? CircularProgressIndicator()
+            : _hasMore
+                ? ElevatedButton(
+                    onPressed: _loadMore,
+                    child: Text(<span class="string">'Load More'</span>),
+                  )
+                : Text(
+                    <span class="string">'No more items to load'</span>,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+      ),
+    );
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 8: BEST PRACTICES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Pagination Best Practices</span>
+<span class="divider-line"></span>
+</div>
+<div class="concept-card success">
+<h4>✅ Do's</h4>
+<ul>
+<li>Always show a loading indicator when fetching more data</li>
+<li>Handle and display errors with retry options</li>
+<li>Use a reasonable page size (10-50 items per page)</li>
+<li>Cache data locally to reduce API calls</li>
+<li>Use <code>ScrollController</code> for infinite scroll detection</li>
+<li>Prevent duplicate requests with loading state</li>
+</ul>
+</div>
+<div class="concept-card error">
+<h4>❌ Don'ts</h4>
+<ul>
+<li>Don't fetch the same page multiple times</li>
+<li>Don't ignore the loading state (avoid duplicate requests)</li>
+<li>Don't make the page size too large (hurts performance)</li>
+<li>Don't forget to handle the "no more items" state</li>
+<li>Don't show loading indicators for empty pages</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 9: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Not preventing duplicate requests</div>
+<p>
+              Without a loading state, users can trigger multiple requests by scrolling quickly or
+              clicking "Load More" multiple times.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use a loading flag</div>
+<p>
+              Track <code>_isLoading</code> and check it before making any new request.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Not handling "no more items"</div>
+<p>
+              If you don't indicate that there are no more items, users will keep trying to load more.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Show "No more items" message</div>
+<p>
+              When <code>_hasMore</code> is false, show a message instead of a loading indicator.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Hardcoding page size in multiple places</div>
+<p>
+              If the page size is used in multiple files, changing it becomes tedious and error-prone.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Define page size as a constant</div>
+<p>
+              Use a static constant like <code>static const int pageSize = 20;</code> in your service class.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Pagination is essential for handling large datasets efficiently. <strong>Infinite scroll</strong>
+            provides the best UX for mobile apps. Always handle <strong>loading states</strong>,
+            <strong>errors</strong>, and the <strong>"no more items"</strong> condition.
+            <strong>Never let users trigger duplicate requests.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module2-topic5-error-handling.html">
+<i class="fas fa-arrow-left"></i> Previous: Error Handling
+          </a>
+<a class="btn btn-primary btn-sm" href="module2-topic7-search.html">
+            Next: Search <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module2-state-management.html">Module 2</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/cookbook" style="color: var(--text-muted);" target="_blank">Flutter Cookbook</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module2-topic6-pagination';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

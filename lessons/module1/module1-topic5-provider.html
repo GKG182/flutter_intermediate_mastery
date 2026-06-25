@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Provider – Module 1 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn about Providers in Riverpod — the building blocks of state management. Understand different provider types and when to use each." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    /* Lesson Navigation */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    /* Topic Header */
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    /* Doc Badge */
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    /* Section Dividers */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    /* Concept Cards */
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    /* Code Blocks - VS Code Theme */
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    /* VS Code-inspired syntax colors */
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .variable { color: #cdd6f4; }
+    .code-block .class { color: #f9e2af; }
+    /* Provider Grid */
+    .provider-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .provider-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .provider-item:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .provider-item .provider-icon {
+      font-size: 1.75rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+    .provider-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .provider-item p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .provider-item .provider-use {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      background: var(--surface);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .provider-item .code-block {
+      margin-top: 0.5rem;
+      padding: 0.75rem;
+      font-size: var(--font-xs);
+    }
+    .provider-item .code-block code {
+      font-size: var(--font-xs);
+    }
+    /* Comparison Grid */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    /* Key Takeaway */
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    /* Mistake / Good Boxes */
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    /* Mark Complete Button */
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    /* Section spacing */
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    /* Step explanation */
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .provider-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a module1-topic1-why-state-management.html"="">Module 1</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 5</span>
+</div>
+<span class="module-badge"><i class="fas fa-book-open"></i> Module 1</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 5</div>
+<h1>Provider</h1>
+<p class="topic-subtitle">
+            Understanding the foundation of Riverpod — providers are the building blocks that hold and expose state.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://riverpod.dev/docs" target="_blank">
+<i class="fas fa-globe"></i> Riverpod Docs – Providers
+            </a>
+<a class="doc-badge" href="https://riverpod.dev/docs/concepts/providers" target="_blank">
+<i class="fas fa-book"></i> Riverpod – Provider Concepts
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS A PROVIDER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is a Provider?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            In Riverpod, a <strong>provider</strong> is a piece of logic that holds a value and can be listened to by widgets.
+            Providers are the fundamental building blocks of Riverpod. They are:
+          </p>
+<ul>
+<li><strong>Global</strong> — they can be accessed from anywhere in your app</li>
+<li><strong>Type-safe</strong> — they hold a specific type of value</li>
+<li><strong>Reactive</strong> — widgets can listen to them and rebuild when the value changes</li>
+<li><strong>Composable</strong> — providers can depend on other providers</li>
+</ul>
+<div class="concept-card success">
+<h4>✅ The Big Idea</h4>
+<p>
+              Think of a provider as a <strong>container for state</strong> that lives outside your widget tree.
+              You define providers globally, and then your widgets can <strong>watch</strong> them to get the current
+              value and rebuild when it changes.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 2: HOW PROVIDERS WORK ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">How Providers Work</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A provider is defined using a simple function that returns a value. Here's the basic structure:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/providers.dart – Defining a Provider</span>
+<code>
+<span class="keyword">final</span> myProvider = Provider&lt;String&gt;((ref) {
+    <span class="comment">// This function is called once when the provider is first read</span>
+<span class="keyword">return</span> <span class="string">'Hello, World!'</span>;
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div style="display: grid; gap: 0.75rem; margin: 1.25rem 0;">
+<div style="background: var(--background-secondary); border-radius: var(--radius-sm); padding: 0.75rem 1rem; border: 1px solid var(--border);">
+<h4 style="margin-bottom: 0.25rem; font-size: var(--font-sm);">1. <code>final myProvider</code></h4>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+                The provider is declared as a top-level final variable. This makes it globally accessible.
+              </p>
+</div>
+<div style="background: var(--background-secondary); border-radius: var(--radius-sm); padding: 0.75rem 1rem; border: 1px solid var(--border);">
+<h4 style="margin-bottom: 0.25rem; font-size: var(--font-sm);">2. <code>Provider&lt;String&gt;</code></h4>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+                The type parameter tells Riverpod what type of value this provider holds.
+              </p>
+</div>
+<div style="background: var(--background-secondary); border-radius: var(--radius-sm); padding: 0.75rem 1rem; border: 1px solid var(--border);">
+<h4 style="margin-bottom: 0.25rem; font-size: var(--font-sm);">3. <code>(ref) =&gt; ...</code></h4>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+                The creation function. It receives a <code>ref</code> object that can be used to read other providers.
+              </p>
+</div>
+<div style="background: var(--background-secondary); border-radius: var(--radius-sm); padding: 0.75rem 1rem; border: 1px solid var(--border);">
+<h4 style="margin-bottom: 0.25rem; font-size: var(--font-sm);">4. <code>return 'Hello, World!';</code></h4>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+                The value that the provider exposes. This can be any Dart object.
+              </p>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: READING PROVIDERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Reading Providers</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            There are three main ways to interact with providers in your widgets:
+          </p>
+<div class="provider-grid">
+<div class="provider-item">
+<div class="provider-icon">👀</div>
+<h4>ref.watch()</h4>
+<p>
+                Listens to a provider and rebuilds the widget when the provider's value changes.
+              </p>
+<span class="provider-use">Use in build() method</span>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> value = ref.watch(myProvider);</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item">
+<div class="provider-icon">📖</div>
+<h4>ref.read()</h4>
+<p>
+                Reads a provider once without listening for changes. The widget does not rebuild.
+              </p>
+<span class="provider-use">Use in callbacks, event handlers</span>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> value = ref.read(myProvider);</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item">
+<div class="provider-icon">🔔</div>
+<h4>ref.listen()</h4>
+<p>
+                Runs a callback when the provider's value changes. The widget does not rebuild.
+              </p>
+<span class="provider-use">Use for side effects (navigation, logging)</span>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code>ref.listen&lt;String&gt;(myProvider, (prev, next) {<br/>  print('Value changed to: $next');<br/>});</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item">
+<div class="provider-icon">🔗</div>
+<h4>ref.read().notifier</h4>
+<p>
+                Gets the notifier of a provider (for StateProvider, StateNotifierProvider) to update state.
+              </p>
+<span class="provider-use">Use to update state from callbacks</span>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code>ref.read(myProvider.notifier).state = newValue;</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 4: TYPES OF PROVIDERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Types of Providers</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Riverpod offers several provider types, each designed for a specific use case:
+          </p>
+<div class="provider-grid">
+<div class="provider-item" style="border-left: 4px solid var(--primary);">
+<div class="provider-icon">📦</div>
+<h4>Provider</h4>
+<p>
+                The simplest provider. Holds a value that never changes after initialization.
+                Good for dependencies, configuration, and services.
+              </p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> apiProvider = Provider&lt;ApiService&gt;((ref) =&gt; ApiService());</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item" style="border-left: 4px solid #3B82F6;">
+<div class="provider-icon">🔄</div>
+<h4>StateProvider</h4>
+<p>
+                Holds a mutable piece of state. Use for simple state like counters, booleans, or strings.
+              </p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> counterProvider = StateProvider&lt;int&gt;((ref) =&gt; 0);</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item" style="border-left: 4px solid #8B5CF6;">
+<div class="provider-icon">⚡</div>
+<h4>FutureProvider</h4>
+<p>
+                Holds a <code>Future</code>. Perfect for asynchronous data fetching like API calls.
+                Handles loading, data, and error states.
+              </p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> userProvider = FutureProvider&lt;User&gt;((ref) async {<br/>  <span class="keyword">return</span> await fetchUser();<br/>});</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item" style="border-left: 4px solid #10B981;">
+<div class="provider-icon">🌊</div>
+<h4>StreamProvider</h4>
+<p>
+                Holds a <code>Stream</code>. Ideal for real-time data like Firebase Firestore streams.
+              </p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> messagesProvider = StreamProvider&lt;Message&gt;((ref) {<br/>  <span class="keyword">return</span> chatService.messagesStream;<br/>});</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="provider-item" style="border-left: 4px solid #F59E0B; grid-column: 1 / -1;">
+<div class="provider-icon">🎯</div>
+<h4>StateNotifierProvider</h4>
+<p>
+                The most powerful provider. Holds a <code>StateNotifier</code> that manages complex state
+                with methods. Best for forms, lists, and complex business logic.
+              </p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> todoProvider = StateNotifierProvider&lt;TodoNotifier, TodoState&gt;((ref) {<br/>  <span class="keyword">return</span> TodoNotifier();<br/>});</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complete Example: Dependency Injection</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A common use case for the basic <code>Provider</code> is <strong>dependency injection</strong>.
+            You can use providers to make services, repositories, or configuration objects available throughout your app.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/providers.dart – Dependency Injection</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+  <span class="comment">// A simple service class</span>
+<span class="keyword">class</span> <span class="function">ApiService</span> {
+    <span class="keyword">Future</span>&lt;String&gt; <span class="function">fetchData</span>() async {
+      <span class="comment">// Simulate network request</span>
+      await Future.delayed(Duration(seconds: 1));
+      <span class="keyword">return</span> <span class="string">'Fetched data from API'</span>;
+    }
+  }
+
+  <span class="comment">// 1. Define a provider that holds the ApiService instance</span>
+<span class="keyword">final</span> apiServiceProvider = Provider&lt;ApiService&gt;((ref) {
+    <span class="keyword">return</span> ApiService(); <span class="comment">// The service is created once and reused</span>
+  });
+
+  <span class="comment">// 2. Another provider that depends on the first one</span>
+<span class="keyword">final</span> greetingProvider = Provider&lt;String&gt;((ref) {
+    <span class="comment">// Watch the apiServiceProvider to get the service</span>
+<span class="keyword">final</span> api = ref.watch(apiServiceProvider);
+    <span class="keyword">return</span> <span class="string">'Using API service: ${api.runtimeType}'</span>;
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Using Providers in Widgets</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(
+      ProviderScope(
+        child: MyApp(),
+      ),
+    );
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        home: HomeScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="comment">// 3. Watch the greeting provider to get the value</span>
+<span class="keyword">final</span> greeting = ref.watch(greetingProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Dependency Injection'</span>)),
+        body: Center(
+          child: Text(greeting),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Define ApiService</strong> – A simple Dart class that simulates an API service.
+                In a real app, this might make HTTP requests or interact with a database.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>apiServiceProvider</strong> – A <code>Provider</code> that creates and holds an <code>ApiService</code> instance.
+                This ensures the service is created once and reused throughout the app.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>greetingProvider</strong> – This provider <strong>depends</strong> on <code>apiServiceProvider</code>.
+                It uses <code>ref.watch()</code> to get the service and creates a greeting string.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>ProviderScope</strong> – The required root widget for Riverpod. It stores all provider states.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>ConsumerWidget</strong> – Instead of <code>StatelessWidget</code>, we use <code>ConsumerWidget</code>
+                to get access to <code>ref</code>. We watch <code>greetingProvider</code> and display its value.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: PROVIDER DEPENDENCIES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Provider Dependencies (Composition)</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            One of the most powerful features of Riverpod is that providers can depend on other providers.
+            This is called <strong>provider composition</strong>.
+          </p>
+<div class="concept-card info">
+<h4>🔗 How Provider Composition Works</h4>
+<p>
+              When a provider depends on another provider, it uses <code>ref.watch()</code> to read the value.
+              If the depended-upon provider changes, the dependent provider also updates.
+              This creates a <strong>reactive dependency graph</strong>.
+            </p>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">lib/providers.dart – Provider Composition</span>
+<code>
+<span class="comment">// Provider 1: Holds a counter value</span>
+<span class="keyword">final</span> counterProvider = StateProvider&lt;int&gt;((ref) =&gt; 0);
+
+  <span class="comment">// Provider 2: Depends on counterProvider</span>
+<span class="keyword">final</span> doubledCounterProvider = Provider&lt;int&gt;((ref) {
+    <span class="keyword">final</span> count = ref.watch(counterProvider); <span class="comment">// 👈 Watch the dependency</span>
+<span class="keyword">return</span> count * 2; <span class="comment">// 👈 Compute derived state</span>
+  });
+
+  <span class="comment">// Provider 3: Depends on doubledCounterProvider</span>
+<span class="keyword">final</span> messageProvider = Provider&lt;String&gt;((ref) {
+    <span class="keyword">final</span> doubled = ref.watch(doubledCounterProvider);
+    <span class="keyword">return</span> <span class="string">'The doubled value is: $doubled'</span>;
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Why This Is Powerful</h4>
+<ul>
+<li><strong>Reactive updates</strong> – When <code>counterProvider</code> changes, both <code>doubledCounterProvider</code> and <code>messageProvider</code> update automatically.</li>
+<li><strong>Clean separation</strong> – Each provider has a single responsibility.</li>
+<li><strong>Testability</strong> – Each provider can be tested in isolation.</li>
+<li><strong>Performance</strong> – Only the widgets that watch specific providers rebuild.</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Using ref.watch() inside event handlers</div>
+<p>
+<code>ref.watch()</code> is only valid inside the <code>build()</code> method of a <code>ConsumerWidget</code>
+              or inside a provider's creation function. Using it in callbacks will throw an error.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use ref.read() in event handlers</div>
+<p>
+              For buttons, taps, and other callbacks, use <code>ref.read()</code> to read the current value
+              without listening for changes.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Creating providers inside widgets</div>
+<p>
+              Providers should be declared as <strong>top-level final variables</strong>, not inside widgets.
+              Declaring them inside widgets breaks the global accessibility and can lead to unexpected behavior.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Declare providers at top level</div>
+<p>
+<code>final myProvider = Provider&lt;String&gt;((ref) =&gt; 'value');</code> should be at the top of your file,
+              outside any class.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not wrapping the app with ProviderScope</div>
+<p>
+              Without <code>ProviderScope</code>, Riverpod cannot store provider states. This will cause runtime errors.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Always use ProviderScope at the root</div>
+<p>
+<code>runApp(ProviderScope(child: MyApp()));</code> is the standard way to initialize Riverpod.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Providers are the <strong>building blocks</strong> of Riverpod. They hold state, services, or dependencies
+            and make them available throughout your app. Understanding the different types of providers and when to use
+            each is essential for effective state management. <strong>Start with Provider for dependencies and services,
+            and use StateProvider for simple state that changes.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module1-topic4-riverpod-basics.html">
+<i class="fas fa-arrow-left"></i> Previous: Riverpod Basics
+          </a>
+<a class="btn btn-primary btn-sm" href="module1-topic6-stateprovider.html">
+            Next: StateProvider <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a module1-topic1-why-state-management.html"="">Getting Started</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">Riverpod Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module1-topic5-provider';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+
+        // Update sidebar if available
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SQLite – Module 3 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to use SQLite in Flutter with the sqflite package. Master relational databases, CRUD operations, and complex queries." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .sql-keyword { color: #f5c2e7; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    .sql-keywords {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+      margin: 1.25rem 0;
+    }
+    .sql-keyword-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-xs);
+      color: var(--primary);
+    }
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .sql-keywords {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module3-state-management.html">Module 3</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 3</span>
+</div>
+<span class="module-badge"><i class="fas fa-database"></i> Module 3</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 3</div>
+<h1>SQLite</h1>
+<p class="topic-subtitle">
+            A self-contained, high-reliability, embedded SQL database engine — perfect for complex data and relationships.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://pub.dev/packages/sqflite" target="_blank">
+<i class="fas fa-box"></i> sqflite package
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/cookbook/persistence/sqlite" target="_blank">
+<i class="fas fa-book"></i> Flutter Docs – SQLite
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS SQLITE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is SQLite?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>SQLite</strong> is a self-contained, high-reliability, embedded, SQL database engine.
+            It's the most widely deployed database in the world and is perfect for Flutter apps that need:
+          </p>
+<ul>
+<li><strong>Complex data structures</strong> with multiple tables and relationships</li>
+<li><strong>Efficient queries</strong> with filtering, sorting, and joining</li>
+<li><strong>Large datasets</strong> that need to be queried quickly</li>
+<li><strong>Data integrity</strong> with constraints and transactions</li>
+</ul>
+<div class="concept-card success">
+<h4>✅ When to Use SQLite</h4>
+<ul>
+<li>Complex data with <strong>multiple related tables</strong></li>
+<li>Need for <strong>complex queries</strong> (JOIN, GROUP BY, ORDER BY)</li>
+<li><strong>Large datasets</strong> that need efficient searching</li>
+<li><strong>Data integrity</strong> with foreign keys and constraints</li>
+<li>When you need <strong>transactions</strong> for data consistency</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: SQLITE VS HIVE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">SQLite vs Hive</span>
+<span class="divider-line"></span>
+</div>
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: #10B981;">Hive</h4>
+<ul>
+<li>Key-value NoSQL database</li>
+<li>Simple API, like a Map</li>
+<li>No SQL required</li>
+<li>Great for objects and simple data</li>
+<li>Real-time updates with listenable</li>
+<li>Faster for simple operations</li>
+</ul>
+</div>
+<div class="compare-item">
+<h4 style="color: #3B82F6;">SQLite</h4>
+<ul>
+<li>Relational SQL database</li>
+<li>Complex queries with SQL</li>
+<li>Multiple tables with relationships</li>
+<li>Great for complex data and reports</li>
+<li>Transactions and data integrity</li>
+<li>Better for large datasets</li>
+</ul>
+</div>
+<div class="compare-item">
+<h4 style="color: var(--primary);">SharedPreferences</h4>
+<ul>
+<li>Simple key-value storage</li>
+<li>Primitive types only</li>
+<li>Small data only</li>
+<li>Best for app settings</li>
+</ul>
+</div>
+</div>
+<div class="concept-card info">
+<h4>💡 Which One to Choose?</h4>
+<ul>
+<li><strong>Use SQLite</strong> – for complex data, relationships, and complex queries</li>
+<li><strong>Use Hive</strong> – for simple object storage with real-time updates</li>
+<li><strong>Use SharedPreferences</strong> – for simple app settings and preferences</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 3: SETUP ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Setting Up SQLite</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            To use SQLite in Flutter, you need to add the <code>sqflite</code> and <code>path</code> packages.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">pubspec.yaml – Add Dependencies</span>
+<code>
+  dependencies:
+    sqflite: ^2.4.3
+    path: ^1.9.0
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/database/database_helper.dart – Database Helper</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:async'</span>;
+  <span class="keyword">import</span> <span class="string">'package:sqflite/sqflite.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:path/path.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">DatabaseHelper</span> {
+    <span class="keyword">static</span> <span class="keyword">final</span> DatabaseHelper _instance = DatabaseHelper._internal();
+    <span class="keyword">factory</span> DatabaseHelper() =&gt; _instance;
+    DatabaseHelper._internal();
+
+    <span class="keyword">static</span> Database? _database;
+
+    <span class="keyword">Future</span>&lt;Database&gt; <span class="function">get</span> database async {
+      <span class="keyword">if</span> (_database != <span class="keyword">null</span>) <span class="keyword">return</span> _database!;
+      _database = <span class="keyword">await</span> _initDatabase();
+      <span class="keyword">return</span> _database!;
+    }
+
+    <span class="keyword">Future</span>&lt;Database&gt; <span class="function">_initDatabase</span>() async {
+      <span class="keyword">final</span> databasesPath = await getDatabasesPath();
+      <span class="keyword">final</span> path = join(databasesPath, <span class="string">'app_database.db'</span>);
+
+      <span class="keyword">return</span> await openDatabase(
+        path,
+        version: <span class="number">1</span>,
+        onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_onCreate</span>(Database db, <span class="keyword">int</span> version) async {
+      <span class="comment">// Create tables here</span>
+<span class="keyword">await</span> db.execute(<span class="string">'''
+        CREATE TABLE users (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          email TEXT UNIQUE NOT NULL,
+          age INTEGER
+        )
+      '''</span>);
+
+      <span class="keyword">await</span> db.execute(<span class="string">'''
+        CREATE TABLE posts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
+          title TEXT NOT NULL,
+          content TEXT,
+          created_at TEXT NOT NULL,
+          FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        )
+      '''</span>);
+
+      <span class="comment">// Insert sample data</span>
+<span class="keyword">await</span> _insertSampleData(db);
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_onUpgrade</span>(Database db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion) async {
+      <span class="comment">// Handle database migrations</span>
+<span class="keyword">if</span> (oldVersion &lt; <span class="number">2</span>) {
+        <span class="keyword">await</span> db.execute(<span class="string">'ALTER TABLE users ADD COLUMN phone TEXT'</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_insertSampleData</span>(Database db) async {
+      <span class="comment">// Insert sample users</span>
+<span class="keyword">await</span> db.insert(<span class="string">'users'</span>, {
+        <span class="string">'name'</span>: <span class="string">'Alice Johnson'</span>,
+        <span class="string">'email'</span>: <span class="string">'alice@example.com'</span>,
+        <span class="string">'age'</span>: <span class="number">28</span>,
+      });
+
+      <span class="keyword">await</span> db.insert(<span class="string">'users'</span>, {
+        <span class="string">'name'</span>: <span class="string">'Bob Smith'</span>,
+        <span class="string">'email'</span>: <span class="string">'bob@example.com'</span>,
+        <span class="string">'age'</span>: <span class="number">34</span>,
+      });
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: CRUD OPERATIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">CRUD Operations</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here are the basic CRUD (Create, Read, Update, Delete) operations for SQLite in Flutter.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/models/user.dart – User Model</span>
+<code>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">final</span> <span class="keyword">int</span>? id;
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String email;
+    <span class="keyword">final</span> <span class="keyword">int</span>? age;
+
+    <span class="function">User</span>({<span class="keyword">this</span>.id, <span class="keyword">required</span> <span class="keyword">this</span>.name, <span class="keyword">required</span> <span class="keyword">this</span>.email, <span class="keyword">this</span>.age});
+
+    <span class="comment">// Convert to Map for database</span>
+    Map&lt;String, dynamic&gt; <span class="function">toMap</span>() {
+      <span class="keyword">return</span> {
+        <span class="string">'id'</span>: id,
+        <span class="string">'name'</span>: name,
+        <span class="string">'email'</span>: email,
+        <span class="string">'age'</span>: age,
+      };
+    }
+
+    <span class="comment">// Create from Map</span>
+    factory User.fromMap(Map&lt;String, dynamic&gt; map) {
+      <span class="keyword">return</span> User(
+        id: map[<span class="string">'id'</span>],
+        name: map[<span class="string">'name'</span>],
+        email: map[<span class="string">'email'</span>],
+        age: map[<span class="string">'age'</span>],
+      );
+    }
+
+    @override
+    String <span class="function">toString</span>() {
+      <span class="keyword">return</span> <span class="string">'User{id: $id, name: $name, email: $email, age: $age}'</span>;
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/database/user_dao.dart – DAO (Data Access Object)</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:sqflite/sqflite.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/user.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'database_helper.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">UserDao</span> {
+    <span class="keyword">final</span> DatabaseHelper _dbHelper = DatabaseHelper();
+
+    <span class="comment">// ----- CREATE -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">insertUser</span>(User user) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> await db.insert(<span class="string">'users'</span>, user.toMap());
+    }
+
+    <span class="comment">// ----- READ (All) -----</span>
+<span class="keyword">Future</span>&lt;List&lt;User&gt;&gt; <span class="function">getAllUsers</span>() async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = await db.query(<span class="string">'users'</span>);
+      <span class="keyword">return</span> maps.map((map) =&gt; User.fromMap(map)).toList();
+    }
+
+    <span class="comment">// ----- READ (Single) -----</span>
+<span class="keyword">Future</span>&lt;User?&gt; <span class="function">getUserById</span>(<span class="keyword">int</span> id) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.query(
+        <span class="string">'users'</span>,
+        where: <span class="string">'id = ?'</span>,
+        whereArgs: [id],
+      );
+      <span class="keyword">if</span> (maps.isNotEmpty) {
+        <span class="keyword">return</span> User.fromMap(maps.first);
+      }
+      <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+    <span class="comment">// ----- READ (Filtered) -----</span>
+<span class="keyword">Future</span>&lt;List&lt;User&gt;&gt; <span class="function">getUsersByName</span>(String name) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.query(
+        <span class="string">'users'</span>,
+        where: <span class="string">'name LIKE ?'</span>,
+        whereArgs: [<span class="string">'%$name%'</span>],
+      );
+      <span class="keyword">return</span> maps.map((map) =&gt; User.fromMap(map)).toList();
+    }
+
+    <span class="comment">// ----- UPDATE -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">updateUser</span>(User user) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> await db.update(
+        <span class="string">'users'</span>,
+        user.toMap(),
+        where: <span class="string">'id = ?'</span>,
+        whereArgs: [user.id],
+      );
+    }
+
+    <span class="comment">// ----- DELETE -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">deleteUser</span>(<span class="keyword">int</span> id) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> await db.delete(
+        <span class="string">'users'</span>,
+        where: <span class="string">'id = ?'</span>,
+        whereArgs: [id],
+      );
+    }
+
+    <span class="comment">// ----- BATCH INSERT -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">insertMultipleUsers</span>(List&lt;User&gt; users) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      Batch batch = db.batch();
+      <span class="keyword">for</span> (<span class="keyword">var</span> user <span class="keyword">in</span> users) {
+        batch.insert(<span class="string">'users'</span>, user.toMap());
+      }
+      <span class="keyword">await</span> batch.commit();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: COMPLEX QUERIES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complex Queries</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            SQLite supports complex queries with JOINs, GROUP BY, ORDER BY, and more.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/database/query_dao.dart – Complex Queries</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:sqflite/sqflite.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/user.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'database_helper.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">QueryDao</span> {
+    <span class="keyword">final</span> DatabaseHelper _dbHelper = DatabaseHelper();
+
+    <span class="comment">// ----- JOIN Query (Users with their posts) -----</span>
+<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getUsersWithPosts</span>() async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> <span class="keyword">await</span> db.rawQuery(<span class="string">'''
+        SELECT 
+          users.id as user_id,
+          users.name,
+          users.email,
+          posts.id as post_id,
+          posts.title,
+          posts.content,
+          posts.created_at
+        FROM users
+        LEFT JOIN posts ON users.id = posts.user_id
+        ORDER BY users.name, posts.created_at DESC
+      '''</span>);
+    }
+
+    <span class="comment">// ----- Aggregate Query (Count posts per user) -----</span>
+<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getPostCountPerUser</span>() async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> <span class="keyword">await</span> db.rawQuery(<span class="string">'''
+        SELECT 
+          users.id,
+          users.name,
+          COUNT(posts.id) as post_count
+        FROM users
+        LEFT JOIN posts ON users.id = posts.user_id
+        GROUP BY users.id
+        ORDER BY post_count DESC
+      '''</span>);
+    }
+
+    <span class="comment">// ----- Pagination -----</span>
+<span class="keyword">Future</span>&lt;List&lt;User&gt;&gt; <span class="function">getUsersPaginated</span>(<span class="keyword">int</span> page, <span class="keyword">int</span> limit) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">final</span> offset = (page - <span class="number">1</span>) * limit;
+      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.query(
+        <span class="string">'users'</span>,
+        limit: limit,
+        offset: offset,
+        orderBy: <span class="string">'name ASC'</span>,
+      );
+      <span class="keyword">return</span> maps.map((map) =&gt; User.fromMap(map)).toList();
+    }
+
+    <span class="comment">// ----- Search with multiple conditions -----</span>
+<span class="keyword">Future</span>&lt;List&lt;User&gt;&gt; <span class="function">searchUsers</span>({
+      String? name,
+      String? email,
+      <span class="keyword">int</span>? minAge,
+      <span class="keyword">int</span>? maxAge,
+    }) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      List&lt;String&gt; conditions = [];
+      List&lt;dynamic&gt; args = [];
+
+      <span class="keyword">if</span> (name != <span class="keyword">null</span> &amp;&amp; name.isNotEmpty) {
+        conditions.add(<span class="string">'name LIKE ?'</span>);
+        args.add(<span class="string">'%$name%'</span>);
+      }
+      <span class="keyword">if</span> (email != <span class="keyword">null</span> &amp;&amp; email.isNotEmpty) {
+        conditions.add(<span class="string">'email LIKE ?'</span>);
+        args.add(<span class="string">'%$email%'</span>);
+      }
+      <span class="keyword">if</span> (minAge != <span class="keyword">null</span>) {
+        conditions.add(<span class="string">'age &gt;= ?'</span>);
+        args.add(minAge);
+      }
+      <span class="keyword">if</span> (maxAge != <span class="keyword">null</span>) {
+        conditions.add(<span class="string">'age &lt;= ?'</span>);
+        args.add(maxAge);
+      }
+
+      <span class="keyword">final</span> whereClause = conditions.isNotEmpty ? conditions.join(<span class="string">' AND '</span>) : <span class="keyword">null</span>;
+      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.query(
+        <span class="string">'users'</span>,
+        where: whereClause,
+        whereArgs: args.isNotEmpty ? args : <span class="keyword">null</span>,
+      );
+      <span class="keyword">return</span> maps.map((map) =&gt; User.fromMap(map)).toList();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: TRANSACTIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Transactions</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Transactions ensure data consistency when performing multiple operations. If any operation fails,
+            all changes are rolled back.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/database/transaction_dao.dart – Transactions</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:sqflite/sqflite.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/user.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'database_helper.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">TransactionDao</span> {
+    <span class="keyword">final</span> DatabaseHelper _dbHelper = DatabaseHelper();
+
+    <span class="comment">// ----- Transaction: Delete user and all their posts -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deleteUserWithPosts</span>(<span class="keyword">int</span> userId) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">await</span> db.transaction((txn) async {
+        <span class="comment">// Delete posts first (due to foreign key)</span>
+<span class="keyword">await</span> txn.delete(
+          <span class="string">'posts'</span>,
+          where: <span class="string">'user_id = ?'</span>,
+          whereArgs: [userId],
+        );
+        <span class="comment">// Then delete the user</span>
+<span class="keyword">await</span> txn.delete(
+          <span class="string">'users'</span>,
+          where: <span class="string">'id = ?'</span>,
+          whereArgs: [userId],
+        );
+      });
+    }
+
+    <span class="comment">// ----- Transaction: Transfer user data to another user -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">transferUserData</span>(<span class="keyword">int</span> fromUserId, <span class="keyword">int</span> toUserId) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">await</span> db.transaction((txn) async {
+        <span class="comment">// Update posts to new user</span>
+<span class="keyword">await</span> txn.update(
+          <span class="string">'posts'</span>,
+          {<span class="string">'user_id'</span>: toUserId},
+          where: <span class="string">'user_id = ?'</span>,
+          whereArgs: [fromUserId],
+        );
+        <span class="comment">// Delete the old user</span>
+<span class="keyword">await</span> txn.delete(
+          <span class="string">'users'</span>,
+          where: <span class="string">'id = ?'</span>,
+          whereArgs: [fromUserId],
+        );
+      });
+    }
+
+    <span class="comment">// ----- Transaction with rollback on error -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">updateUserWithRollback</span>(User user) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> db.transaction((txn) async {
+          <span class="comment">// Update user</span>
+<span class="keyword">await</span> txn.update(
+            <span class="string">'users'</span>,
+            user.toMap(),
+            where: <span class="string">'id = ?'</span>,
+            whereArgs: [user.id],
+          );
+          <span class="comment">// If validation fails, throw an error to rollback</span>
+<span class="keyword">if</span> (user.name.isEmpty) {
+            <span class="keyword">throw</span> Exception(<span class="string">'Name cannot be empty'</span>);
+          }
+        });
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+      } <span class="keyword">catch</span> (e) {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+      }
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complete Example: User Management App</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's a complete Flutter app that uses SQLite for user management with CRUD operations.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – User Management App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:sqflite/sqflite.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:path/path.dart'</span>;
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 1. MODEL</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">final</span> <span class="keyword">int</span>? id;
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String email;
+    <span class="keyword">final</span> <span class="keyword">int</span>? age;
+
+    <span class="function">User</span>({<span class="keyword">this</span>.id, <span class="keyword">required</span> <span class="keyword">this</span>.name, <span class="keyword">required</span> <span class="keyword">this</span>.email, <span class="keyword">this</span>.age});
+
+    Map&lt;String, dynamic&gt; <span class="function">toMap</span>() {
+      <span class="keyword">return</span> {
+        <span class="string">'id'</span>: id,
+        <span class="string">'name'</span>: name,
+        <span class="string">'email'</span>: email,
+        <span class="string">'age'</span>: age,
+      };
+    }
+
+    factory User.fromMap(Map&lt;String, dynamic&gt; map) {
+      <span class="keyword">return</span> User(
+        id: map[<span class="string">'id'</span>],
+        name: map[<span class="string">'name'</span>],
+        email: map[<span class="string">'email'</span>],
+        age: map[<span class="string">'age'</span>],
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 2. DATABASE HELPER</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">DatabaseHelper</span> {
+    <span class="keyword">static</span> <span class="keyword">final</span> DatabaseHelper _instance = DatabaseHelper._internal();
+    <span class="keyword">factory</span> DatabaseHelper() =&gt; _instance;
+    DatabaseHelper._internal();
+
+    <span class="keyword">static</span> Database? _database;
+
+    <span class="keyword">Future</span>&lt;Database&gt; <span class="function">get</span> database async {
+      <span class="keyword">if</span> (_database != <span class="keyword">null</span>) <span class="keyword">return</span> _database!;
+      _database = <span class="keyword">await</span> _initDatabase();
+      <span class="keyword">return</span> _database!;
+    }
+
+    <span class="keyword">Future</span>&lt;Database&gt; <span class="function">_initDatabase</span>() async {
+      <span class="keyword">final</span> databasesPath = await getDatabasesPath();
+      <span class="keyword">final</span> path = join(databasesPath, <span class="string">'user_database.db'</span>);
+
+      <span class="keyword">return</span> await openDatabase(
+        path,
+        version: <span class="number">1</span>,
+        onCreate: (db, version) async {
+          <span class="keyword">await</span> db.execute(<span class="string">'''
+            CREATE TABLE users (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              name TEXT NOT NULL,
+              email TEXT UNIQUE NOT NULL,
+              age INTEGER
+            )
+          '''</span>);
+        },
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 3. USER DAO</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">UserDao</span> {
+    <span class="keyword">final</span> DatabaseHelper _dbHelper = DatabaseHelper();
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">insertUser</span>(User user) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> await db.insert(<span class="string">'users'</span>, user.toMap());
+    }
+
+    <span class="keyword">Future</span>&lt;List&lt;User&gt;&gt; <span class="function">getAllUsers</span>() async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.query(<span class="string">'users'</span>);
+      <span class="keyword">return</span> maps.map((map) =&gt; User.fromMap(map)).toList();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">updateUser</span>(User user) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> await db.update(
+        <span class="string">'users'</span>,
+        user.toMap(),
+        where: <span class="string">'id = ?'</span>,
+        whereArgs: [user.id],
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">deleteUser</span>(<span class="keyword">int</span> id) async {
+      <span class="keyword">final</span> db = await _dbHelper.database;
+      <span class="keyword">return</span> await db.delete(
+        <span class="string">'users'</span>,
+        where: <span class="string">'id = ?'</span>,
+        whereArgs: [id],
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 4. FLUTTER UI</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">void</span> <span class="function">main</span>() =&gt; runApp(<span class="function">MyApp</span>());
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'User Management'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: UserListScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">UserListScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;UserListScreen&gt; <span class="function">createState</span>() =&gt; _UserListScreenState();
+  }
+
+  <span class="keyword">class</span> _UserListScreenState <span class="keyword">extends</span> State&lt;UserListScreen&gt; {
+    <span class="keyword">final</span> UserDao _userDao = UserDao();
+    List&lt;User&gt; _users = [];
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
+
+    <span class="keyword">final</span> TextEditingController _nameController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _emailController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _ageController = TextEditingController();
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _loadUsers();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadUsers</span>() async {
+      setState(() =&gt; _isLoading = <span class="keyword">true</span>);
+      <span class="keyword">final</span> users = await _userDao.getAllUsers();
+      setState(() {
+        _users = users;
+        _isLoading = <span class="keyword">false</span>;
+      });
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_addUser</span>() async {
+      <span class="keyword">final</span> name = _nameController.text.trim();
+      <span class="keyword">final</span> email = _emailController.text.trim();
+      <span class="keyword">final</span> age = int.tryParse(_ageController.text.trim());
+
+      <span class="keyword">if</span> (name.isEmpty || email.isEmpty) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> user = User(name: name, email: email, age: age);
+      <span class="keyword">await</span> _userDao.insertUser(user);
+      _nameController.clear();
+      _emailController.clear();
+      _ageController.clear();
+      <span class="keyword">await</span> _loadUsers();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_deleteUser</span>(<span class="keyword">int</span> id) async {
+      <span class="keyword">await</span> _userDao.deleteUser(id);
+      <span class="keyword">await</span> _loadUsers();
+    }
+
+    <span class="keyword">void</span> <span class="function">_showAddDialog</span>() {
+      showDialog(
+        context: context,
+        builder: (context) =&gt; AlertDialog(
+          title: Text(<span class="string">'Add User'</span>),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  hintText: <span class="string">'Name'</span>,
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  hintText: <span class="string">'Email'</span>,
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              TextField(
+                controller: _ageController,
+                decoration: InputDecoration(
+                  hintText: <span class="string">'Age (optional)'</span>,
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () =&gt; Navigator.pop(context),
+              child: Text(<span class="string">'Cancel'</span>),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _addUser();
+                Navigator.pop(context);
+              },
+              child: Text(<span class="string">'Add'</span>),
+            ),
+          ],
+        ),
+      );
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'👥 Users'</span>),
+          centerTitle: <span class="keyword">true</span>,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: _loadUsers,
+            ),
+          ],
+        ),
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : _users.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.people_outline, size: <span class="number">80</span>, color: Colors.grey.shade400),
+                        SizedBox(height: <span class="number">16</span>),
+                        Text(
+                          <span class="string">'No users yet'</span>,
+                          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          <span class="string">'Tap the + button to add one'</span>,
+                          style: TextStyle(color: Colors.grey.shade400),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _users.length,
+                    itemBuilder: (context, index) {
+                      <span class="keyword">final</span> user = _users[index];
+                      <span class="keyword">return</span> Card(
+                        margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Text(user.name[<span class="number">0</span>].toUpperCase()),
+                          ),
+                          title: Text(user.name),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(user.email),
+                              <span class="keyword">if</span> (user.age != <span class="keyword">null</span>)
+                                Text(
+                                  <span class="string">'Age: ${user.age}'</span>,
+                                  style: TextStyle(color: Colors.grey.shade600),
+                                ),
+                            ],
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () =&gt; _deleteUser(user.id!),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _showAddDialog,
+          child: Icon(Icons.add),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 8: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Add dependencies</strong> – Add <code>sqflite</code> and <code>path</code> to your <code>pubspec.yaml</code>.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Create Database Helper</strong> – A singleton class that manages database initialization and migration.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Define the Model</strong> – Create a Dart class with <code>toMap()</code> and <code>fromMap()</code> methods for serialization.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Create DAO</strong> – Data Access Object with CRUD methods using SQL queries.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Build the UI</strong> – Use <code>FutureBuilder</code> or <code>setState</code> to display data from the database.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 9: BEST PRACTICES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Best Practices</span>
+<span class="divider-line"></span>
+</div>
+<div class="concept-card success">
+<h4>✅ Do's</h4>
+<ul>
+<li>Use a <strong>singleton</strong> database helper to avoid opening multiple connections</li>
+<li>Use <strong>transactions</strong> for multiple operations</li>
+<li>Use <strong>parameterized queries</strong> to prevent SQL injection</li>
+<li>Use <strong>migrations</strong> for database schema changes</li>
+<li>Close the database when the app is terminated</li>
+<li>Use <strong>indexes</strong> for frequently queried columns</li>
+</ul>
+</div>
+<div class="concept-card error">
+<h4>❌ Don'ts</h4>
+<ul>
+<li>Don't use raw SQL with <strong>string concatenation</strong> (use parameterized queries)</li>
+<li>Don't forget to <strong>handle exceptions</strong> in database operations</li>
+<li>Don't use SQLite for <strong>very simple data</strong> (use SharedPreferences)</li>
+<li>Don't open the database <strong>multiple times</strong></li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 10: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Forgetting to close the database</div>
+<p>
+              Not closing the database can cause memory leaks and connection issues.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Close database when done</div>
+<p>
+<code>await db.close();</code> when the app is terminated or the database is no longer needed.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Not using transactions for multiple operations</div>
+<p>
+              If you insert multiple related records without a transaction, partial failures can corrupt your data.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use transactions</div>
+<p>
+              Wrap multiple operations in <code>db.transaction()</code> to ensure atomicity.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not handling database upgrades</div>
+<p>
+              When you change the schema, users with existing databases need a migration path.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use onUpgrade</div>
+<p>
+              Use the <code>onUpgrade</code> callback in <code>openDatabase()</code> to handle schema migrations.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            SQLite is a <strong>powerful relational database</strong> for Flutter apps that need
+            <strong>complex data structures</strong>, <strong>relationships</strong>, and
+            <strong>efficient queries</strong>. Use <strong>transactions</strong> for data consistency,
+            <strong>parameterized queries</strong> for security, and <strong>migrations</strong> for
+            schema updates. <strong>SQLite is the best choice for complex, relational data.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module3-topic2-hive.html">
+<i class="fas fa-arrow-left"></i> Previous: Hive
+          </a>
+<a class="btn btn-primary btn-sm" href="../module3-state-management.html">
+<i class="fas fa-check"></i> Module 3 Complete!
+          </a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module3-state-management.html">Module 3</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://pub.dev/packages/sqflite" rel="noopener" target="_blank">sqflite</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/cookbook/persistence/sqlite" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module3-topic3-sqlite';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

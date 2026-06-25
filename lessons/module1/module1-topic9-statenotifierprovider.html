@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StateNotifierProvider – Module 1 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to use StateNotifierProvider in Riverpod for managing complex state with methods, immutability, and advanced business logic." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .architecture-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .architecture-item .arch-icon {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+    .architecture-item .arch-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .architecture-item .arch-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .architecture-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a module1-topic1-why-state-management.html"="">Module 1</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 9</span>
+</div>
+<span class="module-badge"><i class="fas fa-book-open"></i> Module 1</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 9</div>
+<h1>StateNotifierProvider</h1>
+<p class="topic-subtitle">
+            Managing complex state with methods, immutability, and advanced business logic in Riverpod.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://riverpod.dev/docs/concepts/providers" target="_blank">
+<i class="fas fa-globe"></i> Riverpod – StateNotifierProvider
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/state_notifier" target="_blank">
+<i class="fas fa-box"></i> state_notifier package
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS STATENOTIFIERPROVIDER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is StateNotifierProvider?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>StateNotifierProvider</code> is the most powerful provider type in Riverpod.
+            It's designed for managing <strong>complex state</strong> with <strong>methods</strong>,
+            <strong>business logic</strong>, and <strong>immutability</strong>.
+          </p>
+<div class="concept-card success">
+<h4>🎯 When to Use StateNotifierProvider</h4>
+<p>
+              Use <code>StateNotifierProvider</code> when you need:
+            </p>
+<ul>
+<li>Complex state with multiple fields</li>
+<li>Methods that modify state in specific ways</li>
+<li>Validation and business logic</li>
+<li>Immutable state updates</li>
+<li>Actions like adding, removing, updating items</li>
+<li>Working with lists, forms, or shopping carts</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: THE ARCHITECTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">The Architecture</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>StateNotifierProvider</code> follows a clear architecture with three main components:
+          </p>
+<div class="architecture-grid">
+<div class="architecture-item">
+<div class="arch-icon">📦</div>
+<div class="arch-name">State Class</div>
+<div class="arch-desc">Immutable data class that holds the state</div>
+</div>
+<div class="architecture-item">
+<div class="arch-icon">🎯</div>
+<div class="arch-name">StateNotifier</div>
+<div class="arch-desc">Class that manages state with methods</div>
+</div>
+<div class="architecture-item">
+<div class="arch-icon">🔗</div>
+<div class="arch-name">Provider</div>
+<div class="arch-desc">Exposes the notifier to the app</div>
+</div>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">The Pattern</span>
+<code>
+<span class="comment">// 1. Define the State (immutable)</span>
+<span class="keyword">class</span> <span class="function">TodoState</span> {
+    <span class="keyword">final</span> List&lt;Todo&gt; todos;
+    <span class="keyword">final</span> bool isLoading;
+
+    <span class="keyword">const</span> TodoState({<span class="keyword">required</span> <span class="keyword">this</span>.todos, <span class="keyword">required</span> <span class="keyword">this</span>.isLoading});
+  }
+
+  <span class="comment">// 2. Define the StateNotifier</span>
+<span class="keyword">class</span> <span class="function">TodoNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;TodoState&gt; {
+    TodoNotifier() : <span class="keyword">super</span>(TodoState(todos: [], isLoading: <span class="keyword">false</span>));
+
+    <span class="comment">// Methods to modify state</span>
+<span class="keyword">void</span> <span class="function">addTodo</span>(String title) {
+      <span class="keyword">final</span> newTodo = Todo(title: title);
+      state = state.copyWith(todos: [...state.todos, newTodo]);
+    }
+  }
+
+  <span class="comment">// 3. Define the Provider</span>
+<span class="keyword">final</span> todoProvider = StateNotifierProvider&lt;TodoNotifier, TodoState&gt;((ref) {
+    <span class="keyword">return</span> TodoNotifier();
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 3: DEFINITION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Defining StateNotifierProvider</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's a complete example of a todo list app using <code>StateNotifierProvider</code>.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/todo_provider.dart – Complete Definition</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:freezed_annotation/freezed_annotation.dart'</span>;
+
+  <span class="comment">// 1. Define the Todo model</span>
+<span class="keyword">class</span> <span class="function">Todo</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String title;
+    <span class="keyword">final</span> bool isCompleted;
+
+    Todo({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">this</span>.isCompleted = <span class="keyword">false</span>,
+    });
+
+    <span class="comment">// Copy method for immutability</span>
+    Todo <span class="function">copyWith</span>({String? id, String? title, bool? isCompleted}) {
+      <span class="keyword">return</span> Todo(
+        id: id ?? <span class="keyword">this</span>.id,
+        title: title ?? <span class="keyword">this</span>.title,
+        isCompleted: isCompleted ?? <span class="keyword">this</span>.isCompleted,
+      );
+    }
+  }
+
+  <span class="comment">// 2. Define the State</span>
+<span class="keyword">class</span> <span class="function">TodoState</span> {
+    <span class="keyword">final</span> List&lt;Todo&gt; todos;
+    <span class="keyword">final</span> bool isLoading;
+    <span class="keyword">final</span> String? error;
+
+    <span class="keyword">const</span> TodoState({
+      <span class="keyword">required</span> <span class="keyword">this</span>.todos,
+      <span class="keyword">required</span> <span class="keyword">this</span>.isLoading,
+      <span class="keyword">this</span>.error,
+    });
+
+    <span class="comment">// Factory for initial state</span>
+    factory TodoState.initial() {
+      <span class="keyword">return</span> TodoState(
+        todos: [],
+        isLoading: <span class="keyword">false</span>,
+        error: <span class="keyword">null</span>,
+      );
+    }
+
+    <span class="comment">// Copy method</span>
+    TodoState <span class="function">copyWith</span>({
+      List&lt;Todo&gt;? todos,
+      bool? isLoading,
+      String? error,
+    }) {
+      <span class="keyword">return</span> TodoState(
+        todos: todos ?? <span class="keyword">this</span>.todos,
+        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
+        error: error,
+      );
+    }
+  }
+
+  <span class="comment">// 3. Define the StateNotifier</span>
+<span class="keyword">class</span> <span class="function">TodoNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;TodoState&gt; {
+    TodoNotifier() : <span class="keyword">super</span>(TodoState.initial());
+
+    <span class="comment">// Add a todo</span>
+<span class="keyword">void</span> <span class="function">addTodo</span>(String title) {
+      <span class="keyword">if</span> (title.trim().isEmpty) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> newTodo = Todo(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        title: title.trim(),
+      );
+
+      state = state.copyWith(
+        todos: [...state.todos, newTodo],
+      );
+    }
+
+    <span class="comment">// Toggle completion</span>
+<span class="keyword">void</span> <span class="function">toggleTodo</span>(String id) {
+      state = state.copyWith(
+        todos: state.todos.map((todo) {
+          <span class="keyword">if</span> (todo.id == id) {
+            <span class="keyword">return</span> todo.copyWith(isCompleted: !todo.isCompleted);
+          }
+          <span class="keyword">return</span> todo;
+        }).toList(),
+      );
+    }
+
+    <span class="comment">// Remove a todo</span>
+<span class="keyword">void</span> <span class="function">removeTodo</span>(String id) {
+      state = state.copyWith(
+        todos: state.todos.where((todo) =&gt; todo.id != id).toList(),
+      );
+    }
+
+    <span class="comment">// Clear completed todos</span>
+<span class="keyword">void</span> <span class="function">clearCompleted</span>() {
+      state = state.copyWith(
+        todos: state.todos.where((todo) =&gt; !todo.isCompleted).toList(),
+      );
+    }
+
+    <span class="comment">// Set loading state</span>
+<span class="keyword">void</span> <span class="function">setLoading</span>(bool loading) {
+      state = state.copyWith(isLoading: loading);
+    }
+
+    <span class="comment">// Set error state</span>
+<span class="keyword">void</span> <span class="function">setError</span>(String error) {
+      state = state.copyWith(error: error);
+    }
+  }
+
+  <span class="comment">// 4. Define the Provider</span>
+<span class="keyword">final</span> todoProvider = StateNotifierProvider&lt;TodoNotifier, TodoState&gt;((ref) {
+    <span class="keyword">return</span> TodoNotifier();
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: USING IN WIDGETS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Using in Widgets</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's how to use the <code>StateNotifierProvider</code> in your widgets.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/todo_screen.dart – Using the Provider</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'todo_provider.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">TodoScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="comment">// Watch the provider to get the state</span>
+<span class="keyword">final</span> todoState = ref.watch(todoProvider);
+
+      <span class="comment">// Get the notifier to call methods</span>
+<span class="keyword">final</span> todoNotifier = ref.read(todoProvider.notifier);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Todo List'</span>),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.delete_sweep),
+              onPressed: todoState.todos.any((t) =&gt; t.isCompleted)
+                  ? () =&gt; todoNotifier.clearCompleted()
+                  : <span class="keyword">null</span>,
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            <span class="comment">// Input field</span>
+            Padding(
+              padding: EdgeInsets.all(<span class="number">16</span>),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Add a todo...'</span>,
+                        border: OutlineInputBorder(),
+                      ),
+                      onSubmitted: (value) {
+                        <span class="keyword">if</span> (value.isNotEmpty) {
+                          todoNotifier.addTodo(value);
+                          _controller.clear();
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  ElevatedButton(
+                    onPressed: () {
+                      <span class="keyword">if</span> (_controller.text.isNotEmpty) {
+                        todoNotifier.addTodo(_controller.text);
+                        _controller.clear();
+                      }
+                    },
+                    child: Text(<span class="string">'Add'</span>),
+                  ),
+                ],
+              ),
+            ),
+
+            <span class="comment">// Todo list</span>
+            Expanded(
+              child: todoState.isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : todoState.error != <span class="keyword">null</span>
+                      ? Center(child: Text(<span class="string">'Error: ${todoState.error}'</span>))
+                      : todoState.todos.isEmpty
+                          ? Center(child: Text(<span class="string">'No todos yet!'</span>))
+                          : ListView.builder(
+                              itemCount: todoState.todos.length,
+                              itemBuilder: (context, index) {
+                                <span class="keyword">final</span> todo = todoState.todos[index];
+                                <span class="keyword">return</span> ListTile(
+                                  leading: Checkbox(
+                                    value: todo.isCompleted,
+                                    onChanged: (_) =&gt; todoNotifier.toggleTodo(todo.id),
+                                  ),
+                                  title: Text(
+                                    todo.title,
+                                    style: TextStyle(
+                                      decoration: todo.isCompleted
+                                          ? TextDecoration.lineThrough
+                                          : <span class="keyword">null</span>,
+                                    ),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () =&gt; todoNotifier.removeTodo(todo.id),
+                                  ),
+                                );
+                              },
+                            ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Define the Model</strong> – <code>Todo</code> is an immutable data class that represents
+                a single todo item with an id, title, and completion status.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Define the State</strong> – <code>TodoState</code> holds the entire state of the feature:
+                the list of todos, loading state, and any error messages.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Define the Notifier</strong> – <code>TodoNotifier</code> extends <code>StateNotifier</code>
+                and holds methods like <code>addTodo</code>, <code>toggleTodo</code>, and <code>removeTodo</code>.
+                Each method updates the state immutably.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Define the Provider</strong> – <code>todoProvider</code> creates and exposes the
+                <code>TodoNotifier</code> to the app.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Use in Widgets</strong> – <code>ref.watch(todoProvider)</code> gives you the state for reading.
+                <code>ref.read(todoProvider.notifier)</code> gives you the notifier for calling methods.
+              </div>
+</div>
+</div>
+<div class="concept-card success">
+<h4>✅ Key Pattern</h4>
+<ul>
+<li><strong>State is immutable</strong> – Always create a new state object, never mutate the existing one</li>
+<li><strong>Methods are actions</strong> – Each method represents a user action or business operation</li>
+<li><strong>State updates are predictable</strong> – The state only changes through explicit methods</li>
+<li><strong>Separation of concerns</strong> – Business logic lives in the notifier, UI only displays</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 6: IMMUTABLE STATE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Why Immutable State?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Immutability</strong> is a key principle of <code>StateNotifierProvider</code>.
+            Instead of modifying the existing state, you create a <strong>new copy</strong> with the changes.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">Mutable vs Immutable State</span>
+<code>
+<span class="comment">// ❌ MUTABLE - Bad practice</span>
+<span class="keyword">class</span> <span class="function">BadTodoState</span> {
+    List&lt;Todo&gt; todos = []; <span class="comment">// Mutable! Can be modified directly</span>
+  }
+
+  <span class="comment">// Can be mutated from anywhere</span>
+  state.todos.add(newTodo);  <span class="comment">// ❌ Hard to track changes</span>
+<span class="comment">// ✅ IMMUTABLE - Good practice</span>
+<span class="keyword">class</span> <span class="function">GoodTodoState</span> {
+    <span class="keyword">final</span> List&lt;Todo&gt; todos; <span class="comment">// Immutable!</span>
+<span class="keyword">const</span> GoodTodoState({<span class="keyword">required</span> <span class="keyword">this</span>.todos});
+
+    GoodTodoState <span class="function">copyWith</span>({List&lt;Todo&gt;? todos}) {
+      <span class="keyword">return</span> GoodTodoState(
+        todos: todos ?? <span class="keyword">this</span>.todos,
+      );
+    }
+  }
+
+  <span class="comment">// Always create a new state</span>
+  state = state.copyWith(todos: [...state.todos, newTodo]); <span class="comment">// ✅ Predictable</span>
+</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 Benefits of Immutability</h4>
+<ul>
+<li><strong>Predictable</strong> – State changes are always explicit and traceable</li>
+<li><strong>Debug-friendly</strong> – You can see exactly what changed and when</li>
+<li><strong>Performance</strong> – Flutter can optimize rebuilds (using <code>const</code>)</li>
+<li><strong>Concurrency-safe</strong> – No race conditions from shared mutable state</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 7: COMPARISON ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">StateNotifierProvider vs StateProvider</span>
+<span class="divider-line"></span>
+</div>
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: #8B5CF6;">StateNotifierProvider</h4>
+<ul>
+<li>Complex state with multiple fields</li>
+<li>Methods with business logic</li>
+<li>Immutable state</li>
+<li>Validation and error handling</li>
+<li>Perfect for forms, lists, shopping carts</li>
+</ul>
+</div>
+<div class="compare-item">
+<h4 style="color: var(--primary);">StateProvider</h4>
+<ul>
+<li>Simple primitive state</li>
+<li>Direct state assignment</li>
+<li>Mutable state</li>
+<li>No business logic</li>
+<li>Perfect for counters, toggles, strings</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Mutating state directly</div>
+<p>
+              Don't do <code>state.todos.add(newTodo)</code>. This mutates the state without notifying listeners.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Always create a new state</div>
+<p>
+              Use <code>state = state.copyWith(todos: [...state.todos, newTodo])</code> to create a new state.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Not handling loading/error states</div>
+<p>
+              If your state has loading and error fields, make sure to set and reset them properly.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Always manage loading and error states</div>
+<p>
+              Set <code>isLoading = true</code> before async operations and reset it after.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Too much logic in the UI</div>
+<p>
+              Don't put business logic in your widgets. Keep the UI focused on rendering.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Business logic belongs in the notifier</div>
+<p>
+              All validation, transformation, and logic should be in the <code>StateNotifier</code> class.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 9: WITH ASYNC OPERATIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Async Operations with StateNotifierProvider</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>StateNotifierProvider</code> works great with async operations. Here's how to handle
+            fetching data from an API.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/todo_provider.dart – Async Fetch</span>
+<code>
+<span class="keyword">class</span> <span class="function">TodoNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;TodoState&gt; {
+    <span class="keyword">final</span> ApiService _api;
+
+    TodoNotifier(<span class="keyword">this</span>._api) : <span class="keyword">super</span>(TodoState.initial());
+
+    <span class="comment">// Fetch todos from API</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">fetchTodos</span>() async {
+      <span class="comment">// Set loading state</span>
+      state = state.copyWith(
+        isLoading: <span class="keyword">true</span>,
+        error: <span class="keyword">null</span>,
+      );
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> todos = await _api.getTodos();
+        state = state.copyWith(
+          todos: todos,
+          isLoading: <span class="keyword">false</span>,
+        );
+      } <span class="keyword">catch</span> (e) {
+        state = state.copyWith(
+          isLoading: <span class="keyword">false</span>,
+          error: e.toString(),
+        );
+      }
+    }
+
+    <span class="comment">// Add todo to API</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">addTodo</span>(String title) async {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> newTodo = await _api.createTodo(title);
+        state = state.copyWith(
+          todos: [...state.todos, newTodo],
+        );
+      } <span class="keyword">catch</span> (e) {
+        state = state.copyWith(error: e.toString());
+      }
+    }
+  }
+
+  <span class="comment">// Provider with dependency injection</span>
+<span class="keyword">final</span> todoProvider = StateNotifierProvider&lt;TodoNotifier, TodoState&gt;((ref) {
+    <span class="keyword">final</span> api = ref.watch(apiServiceProvider);
+    <span class="keyword">return</span> TodoNotifier(api);
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+<code>StateNotifierProvider</code> is the most powerful provider for complex state management.
+            It combines <strong>immutable state</strong> with <strong>clear methods</strong> for business logic.
+            Use it for any feature that requires multiple state fields, validation, or complex operations.
+            <strong>Remember: state is immutable, methods are actions, and the UI just renders.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module1-topic8-streamprovider.html">
+<i class="fas fa-arrow-left"></i> Previous: StreamProvider
+          </a>
+<a class="btn btn-primary btn-sm" href="module1-topic10-asyncvalue.html">
+            Next: AsyncValue <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a module1-topic1-why-state-management.html"="">Getting Started</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">Riverpod Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module1-topic9-statenotifierprovider';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

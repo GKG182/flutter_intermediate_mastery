@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Realtime – Module 4 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to implement real-time features in Flutter with Supabase Realtime. Master database subscriptions, presence tracking, and live UI updates." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module4-state-management.html">Module 4</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 5</span>
+</div>
+<span class="module-badge"><i class="fas fa-database"></i> Module 4</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 5</div>
+<h1>Realtime</h1>
+<p class="topic-subtitle">
+            Building live, collaborative features with Supabase Realtime — database subscriptions, presence, and streams.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://supabase.com/docs/guides/realtime" target="_blank">
+<i class="fas fa-globe"></i> Supabase Realtime Overview
+            </a>
+<a class="doc-badge" href="https://supabase.com/docs/guides/realtime/realtime-listeners" target="_blank">
+<i class="fas fa-book"></i> Realtime Listeners
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS REALTIME ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is Realtime?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Supabase Realtime</strong> is a feature that allows you to <strong>listen to database changes</strong>
+            in real-time and build <strong>live, collaborative features</strong> into your Flutter apps.
+            It's built on top of PostgreSQL and uses WebSockets for efficient communication.
+          </p>
+<div class="concept-card success">
+<h4>✅ What You Can Build with Realtime</h4>
+<ul>
+<li><strong>Live Chat</strong> – Real-time message updates without polling</li>
+<li><strong>Collaborative Editing</strong> – Multiple users editing the same document</li>
+<li><strong>Live Dashboards</strong> – Real-time data visualization</li>
+<li><strong>Presence Systems</strong> – See who's online and what they're doing</li>
+<li><strong>Live Feeds</strong> – Social media feeds that update in real-time</li>
+<li><strong>Game Leaderboards</strong> – Live score updates</li>
+</ul>
+</div>
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: var(--primary);">Polling (Traditional)</h4>
+<ul>
+<li>Repeated HTTP requests (every few seconds)</li>
+<li>Wastes bandwidth and battery</li>
+<li>High latency (up to the polling interval)</li>
+<li>More server load</li>
+<li>Simple to implement</li>
+</ul>
+</div>
+<div class="compare-item">
+<h4 style="color: #10B981;">WebSockets (Realtime)</h4>
+<ul>
+<li>Persistent connection</li>
+<li>Efficient — only sends when data changes</li>
+<li>Instant updates (milliseconds)</li>
+<li>Less server load</li>
+<li>More complex setup</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: REALTIME CHANNELS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Realtime Channels</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Realtime works through <strong>channels</strong> — logical groupings of subscriptions.
+            You can subscribe to changes on specific tables or even specific rows.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/realtime_service.dart – Realtime Channels</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">RealtimeService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+    RealtimeChannel? _channel;
+
+    <span class="comment">// Subscribe to all changes on the 'posts' table</span>
+<span class="keyword">void</span> <span class="function">subscribeToPosts</span>({
+      <span class="keyword">void</span> Function(PostgresChangePayload)? onInsert,
+      <span class="keyword">void</span> Function(PostgresChangePayload)? onUpdate,
+      <span class="keyword">void</span> Function(PostgresChangePayload)? onDelete,
+    }) {
+      _channel = client.channel(<span class="string">'public:posts'</span>)
+        .onPostgresChange(
+          PostgresChangeEvent.insert,
+          (payload) {
+            print(<span class="string">'Post inserted: ${payload.newRecord}'</span>);
+            onInsert?.call(payload);
+          },
+        )
+        .onPostgresChange(
+          PostgresChangeEvent.update,
+          (payload) {
+            print(<span class="string">'Post updated: ${payload.newRecord}'</span>);
+            onUpdate?.call(payload);
+          },
+        )
+        .onPostgresChange(
+          PostgresChangeEvent.delete,
+          (payload) {
+            print(<span class="string">'Post deleted: ${payload.oldRecord}'</span>);
+            onDelete?.call(payload);
+          },
+        )
+        .subscribe();
+    }
+
+    <span class="comment">// Subscribe to changes on a specific post</span>
+<span class="keyword">void</span> <span class="function">subscribeToPost</span>(String postId, {
+      <span class="keyword">void</span> Function(PostgresChangePayload)? onUpdate,
+    }) {
+      _channel = client.channel(<span class="string">'public:posts:id=eq.$postId'</span>)
+        .onPostgresChange(
+          PostgresChangeEvent.update,
+          (payload) {
+            print(<span class="string">'Post $postId updated: ${payload.newRecord}'</span>);
+            onUpdate?.call(payload);
+          },
+        )
+        .subscribe();
+    }
+
+    <span class="comment">// Subscribe to comments on a specific post</span>
+<span class="keyword">void</span> <span class="function">subscribeToPostComments</span>(String postId, {
+      <span class="keyword">void</span> Function(PostgresChangePayload)? onInsert,
+    }) {
+      _channel = client.channel(<span class="string">'public:comments:post_id=eq.$postId'</span>)
+        .onPostgresChange(
+          PostgresChangeEvent.insert,
+          (payload) {
+            print(<span class="string">'Comment added to post $postId: ${payload.newRecord}'</span>);
+            onInsert?.call(payload);
+          },
+        )
+        .subscribe();
+    }
+
+    <span class="comment">// Unsubscribe from all channels</span>
+<span class="keyword">void</span> <span class="function">unsubscribe</span>() {
+      _channel?.unsubscribe();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 3: PRESENCE SYSTEM ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Presence System (Online Users)</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Presence</strong> allows you to track who's online and what they're doing.
+            It's perfect for chat apps, collaborative tools, and social features.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/presence_service.dart – Presence Tracking</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">PresenceService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+    RealtimeChannel? _presenceChannel;
+    <span class="keyword">final</span> Map&lt;String, dynamic&gt; _onlineUsers = {};
+
+    <span class="keyword">Map</span>&lt;String, dynamic&gt; <span class="function">get</span> onlineUsers =&gt; _onlineUsers;
+
+    <span class="keyword">void</span> <span class="function">initializePresence</span>(String roomId, String userId, String username) {
+      _presenceChannel = client.channel(
+        <span class="string">'presence:$roomId'</span>,
+        opts: const RealtimeChannelOptions(
+          config: PresenceConfig(
+            key: <span class="string">'user_id'</span>,
+          ),
+        ),
+      );
+
+      <span class="comment">// Track when users join</span>
+      _presenceChannel!.onPresenceSync((payload) {
+        <span class="keyword">final</span> presenceState = payload.presenceState;
+        _onlineUsers.clear();
+        presenceState.forEach((key, value) {
+          <span class="keyword">final</span> user = value.first <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+          _onlineUsers[key] = user;
+        });
+      });
+
+      <span class="comment">// Track when users leave</span>
+      _presenceChannel!.onPresenceDiff((diff) {
+        diff.leaves.forEach((key, value) {
+          _onlineUsers.remove(key);
+        });
+      });
+
+      <span class="comment">// Join the presence channel</span>
+      _presenceChannel!.subscribe((status) async {
+        <span class="keyword">if</span> (status == <span class="string">'SUBSCRIBED'</span>) {
+          <span class="keyword">final</span> presenceData = {
+            <span class="string">'user_id'</span>: userId,
+            <span class="string">'username'</span>: username,
+            <span class="string">'online_at'</span>: DateTime.now().toIso8601String(),
+          };
+          <span class="keyword">await</span> _presenceChannel!.track(presenceData);
+        }
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">updatePresence</span>({
+      <span class="keyword">required</span> String status,
+      <span class="keyword">required</span> String userId,
+    }) {
+      <span class="keyword">final</span> presenceData = {
+        <span class="string">'user_id'</span>: userId,
+        <span class="string">'status'</span>: status,
+        <span class="string">'last_active'</span>: DateTime.now().toIso8601String(),
+      };
+      _presenceChannel?.track(presenceData);
+    }
+
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _presenceChannel?.unsubscribe();
+    }
+
+    <span class="keyword">bool</span> <span class="function">isUserOnline</span>(String userId) {
+      <span class="keyword">return</span> _onlineUsers.containsKey(userId);
+    }
+
+    <span class="keyword">int</span> <span class="function">getOnlineCount</span>() {
+      <span class="keyword">return</span> _onlineUsers.length;
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/online_users_widget.dart – Display Online Users</span>
+<code>
+<span class="keyword">class</span> <span class="function">OnlineUsersWidget</span> <span class="keyword">extends</span> StatefulWidget {
+    <span class="keyword">final</span> PresenceService presenceService;
+
+    <span class="keyword">const</span> OnlineUsersWidget({<span class="keyword">required</span> <span class="keyword">this</span>.presenceService, super.key});
+
+    @override
+    State&lt;OnlineUsersWidget&gt; <span class="function">createState</span>() =&gt; _OnlineUsersWidgetState();
+  }
+
+  <span class="keyword">class</span> _OnlineUsersWidgetState <span class="keyword">extends</span> State&lt;OnlineUsersWidget&gt; {
+    <span class="keyword">late</span> PresenceService _presenceService;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _presenceService = widget.presenceService;
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> users = _presenceService.onlineUsers;
+      <span class="keyword">final</span> count = _presenceService.getOnlineCount();
+
+      <span class="keyword">return</span> Container(
+        padding: EdgeInsets.all(<span class="number">16</span>),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              <span class="string">'🟢 $count online'</span>,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: <span class="number">8</span>),
+            Wrap(
+              spacing: <span class="number">8</span>,
+              runSpacing: <span class="number">8</span>,
+              children: users.entries.map((entry) {
+                <span class="keyword">final</span> user = entry.value <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+                <span class="keyword">return</span> Chip(
+                  avatar: CircleAvatar(
+                    radius: <span class="number">12</span>,
+                    child: Text(
+                      (user[<span class="string">'username'</span>] ?? <span class="string">'?'</span>)[<span class="number">0</span>].toUpperCase(),
+                      style: TextStyle(fontSize: <span class="number">10</span>),
+                    ),
+                  ),
+                  label: Text(user[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>),
+                  backgroundColor: Colors.green.shade50,
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: STREAMS AND SUBSCRIPTIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Streams and Subscriptions</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            You can convert Realtime subscriptions into <strong>Dart Streams</strong> for easy integration
+            with Flutter's reactive programming model.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/stream_service.dart – Realtime Streams</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:async'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">StreamService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+    RealtimeChannel? _channel;
+    <span class="keyword">final</span> StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; _messagesController =
+        StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;.broadcast();
+
+    Stream&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">get</span> messagesStream =&gt; _messagesController.stream;
+
+    <span class="keyword">void</span> <span class="function">subscribeToMessages</span>(String roomId) {
+      _channel = client.channel(<span class="string">'public:messages:room_id=eq.$roomId'</span>)
+        .onPostgresChange(
+          PostgresChangeEvent.insert,
+          (payload) {
+            <span class="comment">// Get current messages from the database</span>
+            _fetchCurrentMessages(roomId);
+          },
+        )
+        .onPostgresChange(
+          PostgresChangeEvent.update,
+          (payload) {
+            _fetchCurrentMessages(roomId);
+          },
+        )
+        .onPostgresChange(
+          PostgresChangeEvent.delete,
+          (payload) {
+            _fetchCurrentMessages(roomId);
+          },
+        )
+        .subscribe();
+
+      <span class="comment">// Initial fetch</span>
+      _fetchCurrentMessages(roomId);
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_fetchCurrentMessages</span>(String roomId) async {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> response = <span class="keyword">await</span> client
+            .from(<span class="string">'messages'</span>)
+            .select(<span class="string">'*, profiles(username)'</span>)
+            .eq(<span class="string">'room_id'</span>, roomId)
+            .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">true</span>);
+
+        _messagesController.add(response);
+      } <span class="keyword">catch</span> (e) {
+        print(<span class="string">'Error fetching messages: $e'</span>);
+      }
+    }
+
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _channel?.unsubscribe();
+      _messagesController.close();
+    }
+  }
+
+  <span class="comment">// Using the stream with Riverpod</span>
+<span class="keyword">final</span> messagesStreamProvider = StreamProvider&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;((ref) {
+    <span class="keyword">final</span> service = ref.watch(streamServiceProvider);
+    <span class="keyword">return</span> service.messagesStream;
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complete Example: Live Chat App</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's a complete live chat app using Supabase Realtime for instant message updates.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Complete Chat App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() async {
+    <span class="keyword">await</span> Supabase.initialize(
+      url: <span class="string">'https://your-project.supabase.co'</span>,
+      anonKey: <span class="string">'your-anon-key'</span>,
+    );
+    runApp(<span class="function">MyApp</span>());
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Live Chat'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: ChatRoomScreen(),
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 1. CHAT SERVICE</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">ChatService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+    RealtimeChannel? _channel;
+    <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; _messages = [];
+    <span class="keyword">final</span> List&lt;Function&gt; _listeners = [];
+
+    <span class="keyword">List</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">get</span> messages =&gt; _messages;
+
+    <span class="keyword">void</span> <span class="function">addListener</span>(Function listener) {
+      _listeners.add(listener);
+    }
+
+    <span class="keyword">void</span> <span class="function">removeListener</span>(Function listener) {
+      _listeners.remove(listener);
+    }
+
+    <span class="keyword">void</span> <span class="function">_notifyListeners</span>() {
+      <span class="keyword">for</span> (<span class="keyword">var</span> listener <span class="keyword">in</span> _listeners) {
+        listener();
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">connect</span>(String roomId) async {
+      <span class="comment">// Load initial messages</span>
+<span class="keyword">await</span> _loadMessages(roomId);
+
+      <span class="comment">// Subscribe to real-time updates</span>
+      _channel = client.channel(<span class="string">'public:messages:room_id=eq.$roomId'</span>)
+        .onPostgresChange(
+          PostgresChangeEvent.insert,
+          (payload) async {
+            <span class="comment">// Check if the new message belongs to this room</span>
+<span class="keyword">final</span> newRecord = payload.newRecord <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+            <span class="keyword">if</span> (newRecord[<span class="string">'room_id'</span>] == roomId) {
+              <span class="comment">// Fetch the full message with user profile</span>
+<span class="keyword">final</span> fullMessage = <span class="keyword">await</span> client
+                  .from(<span class="string">'messages'</span>)
+                  .select(<span class="string">'*, profiles(username)'</span>)
+                  .eq(<span class="string">'id'</span>, newRecord[<span class="string">'id'</span>])
+                  .single();
+
+              _messages.add(fullMessage);
+              _notifyListeners();
+            }
+          },
+        )
+        .subscribe();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadMessages</span>(String roomId) async {
+      <span class="keyword">final</span> response = <span class="keyword">await</span> client
+          .from(<span class="string">'messages'</span>)
+          .select(<span class="string">'*, profiles(username)'</span>)
+          .eq(<span class="string">'room_id'</span>, roomId)
+          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">true</span>);
+
+      _messages.clear();
+      _messages.addAll(response);
+      _notifyListeners();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">sendMessage</span>({
+      <span class="keyword">required</span> String roomId,
+      <span class="keyword">required</span> String userId,
+      <span class="keyword">required</span> String content,
+    }) async {
+      <span class="keyword">if</span> (content.trim().isEmpty) <span class="keyword">return</span>;
+
+      <span class="keyword">await</span> client.from(<span class="string">'messages'</span>).insert({
+        <span class="string">'room_id'</span>: roomId,
+        <span class="string">'user_id'</span>: userId,
+        <span class="string">'content'</span>: content.trim(),
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">disconnect</span>() {
+      _channel?.unsubscribe();
+      _listeners.clear();
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 2. CHAT UI</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">ChatRoomScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;ChatRoomScreen&gt; <span class="function">createState</span>() =&gt; _ChatRoomScreenState();
+  }
+
+  <span class="keyword">class</span> _ChatRoomScreenState <span class="keyword">extends</span> State&lt;ChatRoomScreen&gt; {
+    <span class="keyword">final</span> ChatService _chatService = ChatService();
+    <span class="keyword">final</span> TextEditingController _messageController = TextEditingController();
+    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+    String _roomId = <span class="string">'general'</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _chatService.addListener(_updateUI);
+      _connectToChat();
+    }
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _chatService.removeListener(_updateUI);
+      _chatService.disconnect();
+      _messageController.dispose();
+      _scrollController.dispose();
+      <span class="keyword">super</span>.dispose();
+    }
+
+    <span class="keyword">void</span> <span class="function">_updateUI</span>() {
+      setState(() {});
+      _scrollToBottom();
+    }
+
+    <span class="keyword">void</span> <span class="function">_scrollToBottom</span>() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        <span class="keyword">if</span> (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: <span class="number">300</span>),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_connectToChat</span>() async {
+      <span class="keyword">await</span> _chatService.connect(_roomId);
+      setState(() {});
+      _scrollToBottom();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_sendMessage</span>() async {
+      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
+      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
+
+      <span class="keyword">await</span> _chatService.sendMessage(
+        roomId: _roomId,
+        userId: user.id,
+        content: _messageController.text,
+      );
+
+      _messageController.clear();
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> messages = _chatService.messages;
+      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Container(
+                width: <span class="number">10</span>,
+                height: <span class="number">10</span>,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.green,
+                ),
+              ),
+              SizedBox(width: <span class="number">8</span>),
+              Text(<span class="string">'#$_roomId'</span>),
+            ],
+          ),
+          centerTitle: <span class="keyword">true</span>,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: messages.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.chat_bubble_outline, size: <span class="number">80</span>, color: Colors.grey.shade400),
+                          SizedBox(height: <span class="number">16</span>),
+                          Text(
+                            <span class="string">'No messages yet'</span>,
+                            style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            <span class="string">'Be the first to send a message!'</span>,
+                            style: TextStyle(color: Colors.grey.shade400),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      controller: _scrollController,
+                      padding: EdgeInsets.all(<span class="number">12</span>),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        <span class="keyword">final</span> message = messages[index];
+                        <span class="keyword">final</span> profile = message[<span class="string">'profiles'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;?;
+                        <span class="keyword">final</span> username = profile?[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>;
+                        <span class="keyword">final</span> isMe = message[<span class="string">'user_id'</span>] == user?.id;
+                        <span class="keyword">final</span> createdAt = DateTime.parse(message[<span class="string">'created_at'</span>]);
+
+                        <span class="keyword">return</span> Align(
+                          alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: <span class="number">8</span>),
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * <span class="number">0.75</span>,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    <span class="keyword">if</span> (!isMe)
+                                      CircleAvatar(
+                                        radius: <span class="number">12</span>,
+                                        child: Text(
+                                          username.isNotEmpty ? username[<span class="number">0</span>].toUpperCase() : <span class="string">'?'</span>,
+                                          style: TextStyle(fontSize: <span class="number">10</span>),
+                                        ),
+                                      ),
+                                    SizedBox(width: <span class="number">4</span>),
+                                    Text(
+                                      isMe ? <span class="string">'You'</span> : username,
+                                      style: TextStyle(
+                                        fontSize: <span class="number">12</span>,
+                                        fontWeight: FontWeight.w600,
+                                        color: isMe ? Colors.deepPurple : Colors.grey.shade700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(<span class="number">12</span>),
+                                  decoration: BoxDecoration(
+                                    color: isMe
+                                        ? Colors.deepPurple.shade50
+                                        : Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                                  ),
+                                  child: Text(message[<span class="string">'content'</span>]),
+                                ),
+                                Text(
+                                  DateFormat('h:mm a').format(createdAt),
+                                  style: TextStyle(
+                                    fontSize: <span class="number">10</span>,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            <span class="comment">// Input bar</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">12</span>),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                border: Border(top: BorderSide(color: Colors.grey.shade200)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _messageController,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Type a message...'</span>,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(<span class="number">24</span>),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+                      ),
+                      onSubmitted: (_) =&gt; _sendMessage(),
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  IconButton(
+                    icon: Icon(Icons.send, color: Colors.deepPurple),
+                    onPressed: _sendMessage,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Enable Realtime</strong> – In Supabase Dashboard, enable Realtime for the tables you want to listen to.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Create a channel</strong> – Use <code>client.channel('public:table_name')</code> to create a Realtime channel.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Listen to events</strong> – Use <code>.onPostgresChange()</code> to listen to INSERT, UPDATE, DELETE events.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Subscribe</strong> – Call <code>.subscribe()</code> to start receiving real-time updates.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Update UI</strong> – When a change is received, update your UI using setState or StreamBuilder.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: BEST PRACTICES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Best Practices</span>
+<span class="divider-line"></span>
+</div>
+<div class="concept-card success">
+<h4>✅ Do's</h4>
+<ul>
+<li>Always <strong>unsubscribe</strong> from channels when leaving a screen</li>
+<li>Use <strong>filters</strong> to only listen to relevant data (e.g., specific room)</li>
+<li>Handle <strong>reconnection</strong> logic for network interruptions</li>
+<li>Use <strong>StreamBuilder</strong> or <strong>ValueListenableBuilder</strong> for reactive UI</li>
+<li>Limit the <strong>number of channels</strong> to avoid performance issues</li>
+</ul>
+</div>
+<div class="concept-card error">
+<h4>❌ Don'ts</h4>
+<ul>
+<li>Don't forget to <strong>dispose</strong> streams and channels</li>
+<li>Don't listen to <strong>all tables</strong> — only subscribe to what you need</li>
+<li>Don't rely on Realtime for <strong>critical data consistency</strong> (use transactions)</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Not enabling Realtime in the dashboard</div>
+<p>
+              Realtime must be enabled for each table in the Supabase Dashboard. Without this, subscriptions won't work.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Enable Realtime for your tables</div>
+<p>
+              Go to Database → Replication and enable Realtime for the tables you need.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Not unsubscribing from channels</div>
+<p>
+              Leaving channels open can cause memory leaks and unnecessary network usage.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Always unsubscribe</div>
+<p>
+              Call <code>channel.unsubscribe()</code> in <code>dispose()</code> or when navigating away.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not handling connection errors</div>
+<p>
+              Network issues can cause Realtime connections to drop. Handle reconnection gracefully.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Handle reconnection</div>
+<p>
+              Use the <code>onReconnection</code> callback or listen to the connection status.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Supabase Realtime enables <strong>live, collaborative features</strong> in your Flutter apps.
+            Use <strong>channels</strong> to subscribe to database changes, <strong>presence</strong> to track
+            online users, and <strong>streams</strong> for reactive programming.
+            <strong>Always enable Realtime in the dashboard and unsubscribe from channels when done.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module4-topic4-storage.html">
+<i class="fas fa-arrow-left"></i> Previous: Storage
+          </a>
+<a class="btn btn-primary btn-sm" href="module4-topic6-rls.html">
+            Next: Row Level Security (RLS) <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module4-state-management.html">Module 4</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://supabase.com/docs/guides/realtime" rel="noopener" target="_blank">Supabase Realtime</a></li>
+<li><a href="https://supabase.com/docs/guides/realtime/realtime-listeners" rel="noopener" target="_blank">Realtime Listeners</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module4-topic5-realtime';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

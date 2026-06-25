@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Offline-First Architecture – Module 3 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn offline-first architecture in Flutter. Master data synchronization, conflict resolution, and building apps that work without internet." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .architecture-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .architecture-item .arch-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .architecture-item .arch-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .architecture-item .arch-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    .sync-strategies-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .sync-strategy-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+    }
+    .sync-strategy-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-sm);
+    }
+    .sync-strategy-item p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .architecture-grid,
+      .sync-strategies-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module3-state-management.html">Module 3</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 4</span>
+</div>
+<span class="module-badge"><i class="fas fa-database"></i> Module 3</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 4</div>
+<h1>Offline-First Architecture</h1>
+<p class="topic-subtitle">
+            Building resilient Flutter apps that work seamlessly with or without an internet connection.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+<i class="fas fa-book"></i> Flutter Docs – App Architecture
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS OFFLINE-FIRST ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is Offline-First?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Offline-first</strong> is an architectural approach where your app is designed to
+            <strong>work without an internet connection</strong> as the primary use case, rather than
+            treating offline as an edge case. This means:
+          </p>
+<ul>
+<li>Data is stored locally first (on the device)</li>
+<li>The app reads from and writes to local storage</li>
+<li>Background synchronization happens when the network is available</li>
+<li>The user experience remains consistent regardless of connectivity</li>
+</ul>
+<div class="concept-card success">
+<h4>✅ Benefits of Offline-First</h4>
+<ul>
+<li><strong>Reliability</strong> – Works anywhere, anytime</li>
+<li><strong>Speed</strong> – Local data access is instant</li>
+<li><strong>Data usage</strong> – Reduced network calls</li>
+<li><strong>User experience</strong> – No loading spinners or "no connection" errors</li>
+<li><strong>Scalability</strong> – Reduced server load</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: CORE PRINCIPLES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Core Principles</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Offline-first architecture is built on four core principles:
+          </p>
+<div class="architecture-grid">
+<div class="architecture-item" style="border-left: 3px solid #10B981;">
+<div class="arch-icon">💾</div>
+<div class="arch-name">Local First</div>
+<div class="arch-desc">Always read from and write to local storage first</div>
+</div>
+<div class="architecture-item" style="border-left: 3px solid #3B82F6;">
+<div class="arch-icon">🔄</div>
+<div class="arch-name">Sync in Background</div>
+<div class="arch-desc">Synchronize with the server when online</div>
+</div>
+<div class="architecture-item" style="border-left: 3px solid #F59E0B;">
+<div class="arch-icon">⚡</div>
+<div class="arch-name">Optimistic Updates</div>
+<div class="arch-desc">Update UI immediately, sync later</div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: SYNC STRATEGIES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Synchronization Strategies</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            There are three main strategies for synchronizing data between local storage and the server:
+          </p>
+<div class="sync-strategies-grid">
+<div class="sync-strategy-item" style="border-left: 3px solid #3B82F6;">
+<h4>🔄 Pull-based Sync</h4>
+<p>
+<strong>How it works:</strong> The app periodically checks the server for new data and downloads it.
+                <br/><br/>
+<strong>Best for:</strong> Reference data, read-only content
+                <br/><br/>
+<strong>Example:</strong> News app that refreshes every hour
+              </p>
+</div>
+<div class="sync-strategy-item" style="border-left: 3px solid #10B981;">
+<h4>📤 Push-based Sync</h4>
+<p>
+<strong>How it works:</strong> The app sends local changes to the server immediately when online.
+                <br/><br/>
+<strong>Best for:</strong> User-generated content, real-time updates
+                <br/><br/>
+<strong>Example:</strong> Notes app that syncs changes as you type
+              </p>
+</div>
+<div class="sync-strategy-item" style="border-left: 3px solid #F59E0B;">
+<h4>🔁 Bi-directional Sync</h4>
+<p>
+<strong>How it works:</strong> Both pull and push synchronization working together.
+                <br/><br/>
+<strong>Best for:</strong> Collaborative apps, two-way data flow
+                <br/><br/>
+<strong>Example:</strong> Task management app with team members
+              </p>
+</div>
+<div class="sync-strategy-item" style="border-left: 3px solid #8B5CF6;">
+<h4>📱 Conflict Resolution</h4>
+<p>
+<strong>How it works:</strong> Rules for handling conflicting changes from multiple sources.
+                <br/><br/>
+<strong>Strategies:</strong> Last write wins, merge changes, manual resolution
+                <br/><br/>
+<strong>Example:</strong> Git-like merge for collaborative editing
+              </p>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 4: IMPLEMENTATION PATTERNS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Implementation Patterns</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here are the key patterns for implementing offline-first architecture in Flutter.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/offline_service.dart – Offline Service</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:async'</span>;
+  <span class="keyword">import</span> <span class="string">'package:connectivity_plus/connectivity_plus.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+
+  <span class="keyword">class</span> <span class="function">SyncQueueItem</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String collection;
+    <span class="keyword">final</span> String operation; <span class="comment">// 'create', 'update', 'delete'</span>
+<span class="keyword">final</span> Map&lt;String, dynamic&gt; data;
+    <span class="keyword">final</span> DateTime timestamp;
+
+    <span class="function">SyncQueueItem</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.collection,
+      <span class="keyword">required</span> <span class="keyword">this</span>.operation,
+      <span class="keyword">required</span> <span class="keyword">this</span>.data,
+      <span class="keyword">DateTime</span>? timestamp,
+    }) : <span class="keyword">this</span>.timestamp = timestamp ?? DateTime.now();
+  }
+
+  <span class="keyword">class</span> <span class="function">OfflineService</span> {
+    <span class="keyword">final</span> http.Client client;
+    <span class="keyword">final</span> Box _syncQueue;
+    <span class="keyword">final</span> Connectivity _connectivity = Connectivity();
+
+    <span class="function">OfflineService</span>({
+      http.Client? client,
+      <span class="keyword">required</span> Box syncQueue,
+    })  : client = client ?? http.Client(),
+          _syncQueue = syncQueue;
+
+    <span class="comment">// ----- CHECK CONNECTIVITY -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">isOnline</span>() async {
+      <span class="keyword">final</span> result = await _connectivity.checkConnectivity();
+      <span class="keyword">return</span> result != ConnectivityResult.none;
+    }
+
+    <span class="comment">// ----- QUEUE OPERATIONS FOR SYNC -----</span>
+<span class="keyword">void</span> <span class="function">queueOperation</span>({
+      <span class="keyword">required</span> String collection,
+      <span class="keyword">required</span> String operation,
+      <span class="keyword">required</span> Map&lt;String, dynamic&gt; data,
+    }) {
+      <span class="keyword">final</span> id = DateTime.now().millisecondsSinceEpoch.toString();
+      <span class="keyword">final</span> item = SyncQueueItem(
+        id: id,
+        collection: collection,
+        operation: operation,
+        data: data,
+      );
+      _syncQueue.put(id, {
+        <span class="string">'collection'</span>: collection,
+        <span class="string">'operation'</span>: operation,
+        <span class="string">'data'</span>: data,
+        <span class="string">'timestamp'</span>: item.timestamp.toIso8601String(),
+      });
+      _attemptSync();
+    }
+
+    <span class="comment">// ----- SYNC WITH SERVER -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_attemptSync</span>() async {
+      <span class="keyword">if</span> (!<span class="keyword">await</span> isOnline()) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> queueItems = _syncQueue.values.toList();
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> item <span class="keyword">in</span> queueItems) {
+        <span class="keyword">try</span> {
+          <span class="keyword">final</span> collection = item[<span class="string">'collection'</span>] <span class="keyword">as</span> String;
+          <span class="keyword">final</span> operation = item[<span class="string">'operation'</span>] <span class="keyword">as</span> String;
+          <span class="keyword">final</span> data = item[<span class="string">'data'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+          <span class="keyword">final</span> key = _syncQueue.keyAt(_syncQueue.values.toList().indexOf(item));
+
+          <span class="keyword">switch</span> (operation) {
+            <span class="keyword">case</span> <span class="string">'create'</span>:
+              <span class="keyword">await</span> _syncCreate(collection, data);
+              <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">'update'</span>:
+              <span class="keyword">await</span> _syncUpdate(collection, data);
+              <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">'delete'</span>:
+              <span class="keyword">await</span> _syncDelete(collection, data);
+              <span class="keyword">break</span>;
+          }
+
+          <span class="comment">// Remove from queue after successful sync</span>
+<span class="keyword">await</span> _syncQueue.delete(key);
+        } <span class="keyword">catch</span> (e) {
+          <span class="comment">// If sync fails, keep in queue for later retry</span>
+          print(<span class="string">'Sync failed: $e'</span>);
+        }
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncCreate</span>(String collection, Map&lt;String, dynamic&gt; data) async {
+      <span class="comment">// Send POST request to server</span>
+<span class="keyword">final</span> response = await client.post(
+        Uri.parse(<span class="string">'https://api.example.com/api/$collection'</span>),
+        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        body: jsonEncode(data),
+      );
+      <span class="keyword">if</span> (response.statusCode != <span class="number">201</span>) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to create'</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncUpdate</span>(String collection, Map&lt;String, dynamic&gt; data) async {
+      <span class="keyword">final</span> id = data[<span class="string">'id'</span>];
+      <span class="keyword">final</span> response = await client.put(
+        Uri.parse(<span class="string">'https://api.example.com/api/$collection/$id'</span>),
+        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        body: jsonEncode(data),
+      );
+      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span>) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to update'</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncDelete</span>(String collection, Map&lt;String, dynamic&gt; data) async {
+      <span class="keyword">final</span> id = data[<span class="string">'id'</span>];
+      <span class="keyword">final</span> response = await client.delete(
+        Uri.parse(<span class="string">'https://api.example.com/api/$collection/$id'</span>),
+        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+      );
+      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span> &amp;&amp; response.statusCode != <span class="number">204</span>) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to delete'</span>);
+      }
+    }
+
+    <span class="comment">// ----- FORCE SYNC -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">forceSync</span>() async {
+      <span class="keyword">await</span> _attemptSync();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complete Example: Offline Notes App</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's a complete offline-first notes app that works seamlessly with or without internet.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Offline-First Notes App</span>
+<code>
+<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:connectivity_plus/connectivity_plus.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 1. MODELS</span>
+<span class="comment">// ==========================================</span>
+<span class="annotation">@HiveType</span>(typeId: <span class="number">0</span>)
+  <span class="keyword">class</span> <span class="function">Note</span> <span class="keyword">extends</span> HiveObject {
+    <span class="annotation">@HiveField</span>(<span class="number">0</span>)
+    <span class="keyword">final</span> String id;
+
+    <span class="annotation">@HiveField</span>(<span class="number">1</span>)
+    <span class="keyword">final</span> String title;
+
+    <span class="annotation">@HiveField</span>(<span class="number">2</span>)
+    <span class="keyword">final</span> String content;
+
+    <span class="annotation">@HiveField</span>(<span class="number">3</span>)
+    <span class="keyword">final</span> DateTime createdAt;
+
+    <span class="annotation">@HiveField</span>(<span class="number">4</span>)
+    <span class="keyword">final</span> DateTime updatedAt;
+
+    <span class="annotation">@HiveField</span>(<span class="number">5</span>)
+    <span class="keyword">final</span> <span class="keyword">bool</span> isSynced;
+
+    <span class="function">Note</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      <span class="keyword">required</span> <span class="keyword">this</span>.content,
+      <span class="keyword">DateTime</span>? createdAt,
+      <span class="keyword">DateTime</span>? updatedAt,
+      <span class="keyword">this</span>.isSynced = <span class="keyword">false</span>,
+    })  : <span class="keyword">this</span>.createdAt = createdAt ?? DateTime.now(),
+          <span class="keyword">this</span>.updatedAt = updatedAt ?? DateTime.now();
+
+    Note <span class="function">copyWith</span>({
+      String? title,
+      String? content,
+      DateTime? updatedAt,
+      bool? isSynced,
+    }) {
+      <span class="keyword">return</span> Note(
+        id: <span class="keyword">this</span>.id,
+        title: title ?? <span class="keyword">this</span>.title,
+        content: content ?? <span class="keyword">this</span>.content,
+        createdAt: createdAt,
+        updatedAt: updatedAt ?? DateTime.now(),
+        isSynced: isSynced ?? <span class="keyword">this</span>.isSynced,
+      );
+    }
+
+    Map&lt;String, dynamic&gt; <span class="function">toJson</span>() {
+      <span class="keyword">return</span> {
+        <span class="string">'id'</span>: id,
+        <span class="string">'title'</span>: title,
+        <span class="string">'content'</span>: content,
+        <span class="string">'createdAt'</span>: createdAt.toIso8601String(),
+        <span class="string">'updatedAt'</span>: updatedAt.toIso8601String(),
+      };
+    }
+
+    factory Note.fromJson(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> Note(
+        id: json[<span class="string">'id'</span>],
+        title: json[<span class="string">'title'</span>],
+        content: json[<span class="string">'content'</span>],
+        createdAt: DateTime.parse(json[<span class="string">'createdAt'</span>]),
+        updatedAt: DateTime.parse(json[<span class="string">'updatedAt'</span>]),
+        isSynced: <span class="keyword">true</span>,
+      );
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 2. OFFLINE SERVICE</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">OfflineNoteService</span> {
+    <span class="keyword">static</span> <span class="keyword">const</span> String apiBase = <span class="string">'https://api.example.com/api/notes'</span>;
+    <span class="keyword">final</span> http.Client client;
+    <span class="keyword">final</span> Connectivity connectivity = Connectivity();
+    <span class="keyword">final</span> Box _syncQueue;
+
+    <span class="function">OfflineNoteService</span>({
+      http.Client? client,
+      <span class="keyword">required</span> Box syncQueue,
+    })  : client = client ?? http.Client(),
+          _syncQueue = syncQueue;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">isOnline</span>() async {
+      <span class="keyword">final</span> result = await connectivity.checkConnectivity();
+      <span class="keyword">return</span> result != ConnectivityResult.none;
+    }
+
+    <span class="comment">// ----- CREATE NOTE (Offline-First) -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">createNote</span>({
+      <span class="keyword">required</span> String title,
+      <span class="keyword">required</span> String content,
+      <span class="keyword">required</span> Box&lt;Note&gt; noteBox,
+    }) async {
+      <span class="keyword">final</span> note = Note(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        title: title,
+        content: content,
+        isSynced: <span class="keyword">false</span>,
+      );
+
+      <span class="comment">// Save locally immediately</span>
+<span class="keyword">await</span> noteBox.put(note.id, note);
+
+      <span class="comment">// Queue for sync if online</span>
+<span class="keyword">if</span> (<span class="keyword">await</span> isOnline()) {
+        <span class="keyword">await</span> _syncCreateNote(note);
+        <span class="keyword">final</span> syncedNote = note.copyWith(isSynced: <span class="keyword">true</span>);
+        <span class="keyword">await</span> noteBox.put(note.id, syncedNote);
+      } <span class="keyword">else</span> {
+        <span class="comment">// Queue for later sync</span>
+<span class="keyword">await</span> _queueOperation(<span class="string">'create'</span>, note);
+      }
+    }
+
+    <span class="comment">// ----- UPDATE NOTE (Offline-First) -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">updateNote</span>({
+      <span class="keyword">required</span> Note note,
+      <span class="keyword">required</span> Box&lt;Note&gt; noteBox,
+    }) async {
+      <span class="keyword">final</span> updatedNote = note.copyWith(
+        updatedAt: DateTime.now(),
+        isSynced: <span class="keyword">false</span>,
+      );
+
+      <span class="comment">// Update locally immediately</span>
+<span class="keyword">await</span> noteBox.put(updatedNote.id, updatedNote);
+
+      <span class="comment">// Queue for sync if online</span>
+<span class="keyword">if</span> (<span class="keyword">await</span> isOnline()) {
+        <span class="keyword">await</span> _syncUpdateNote(updatedNote);
+        <span class="keyword">final</span> syncedNote = updatedNote.copyWith(isSynced: <span class="keyword">true</span>);
+        <span class="keyword">await</span> noteBox.put(updatedNote.id, syncedNote);
+      } <span class="keyword">else</span> {
+        <span class="comment">// Queue for later sync</span>
+<span class="keyword">await</span> _queueOperation(<span class="string">'update'</span>, updatedNote);
+      }
+    }
+
+    <span class="comment">// ----- DELETE NOTE (Offline-First) -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deleteNote</span>({
+      <span class="keyword">required</span> String noteId,
+      <span class="keyword">required</span> Box&lt;Note&gt; noteBox,
+    }) async {
+      <span class="keyword">final</span> note = noteBox.get(noteId);
+
+      <span class="comment">// Delete locally immediately</span>
+<span class="keyword">await</span> noteBox.delete(noteId);
+
+      <span class="comment">// Queue for sync if online</span>
+<span class="keyword">if</span> (note != <span class="keyword">null</span> &amp;&amp; <span class="keyword">await</span> isOnline()) {
+        <span class="keyword">await</span> _syncDeleteNote(noteId);
+      } <span class="keyword">else</span> <span class="keyword">if</span> (note != <span class="keyword">null</span>) {
+        <span class="comment">// Queue for later sync</span>
+<span class="keyword">await</span> _queueOperation(<span class="string">'delete'</span>, note);
+      }
+    }
+
+    <span class="comment">// ----- QUEUE OPERATION -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_queueOperation</span>(String operation, Note note) async {
+      <span class="keyword">final</span> key = DateTime.now().millisecondsSinceEpoch.toString();
+      <span class="keyword">await</span> _syncQueue.put(key, {
+        <span class="string">'operation'</span>: operation,
+        <span class="string">'note'</span>: note.toJson(),
+      });
+    }
+
+    <span class="comment">// ----- SYNC OPERATIONS -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncCreateNote</span>(Note note) async {
+      <span class="keyword">final</span> response = await client.post(
+        Uri.parse(apiBase),
+        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        body: jsonEncode(note.toJson()),
+      );
+      <span class="keyword">if</span> (response.statusCode != <span class="number">201</span>) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to create note'</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncUpdateNote</span>(Note note) async {
+      <span class="keyword">final</span> response = await client.put(
+        Uri.parse(<span class="string">'$apiBase/${note.id}'</span>),
+        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        body: jsonEncode(note.toJson()),
+      );
+      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span>) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to update note'</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncDeleteNote</span>(String id) async {
+      <span class="keyword">final</span> response = await client.delete(
+        Uri.parse(<span class="string">'$apiBase/$id'</span>),
+      );
+      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span> &amp;&amp; response.statusCode != <span class="number">204</span>) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to delete note'</span>);
+      }
+    }
+
+    <span class="comment">// ----- SYNC ALL QUEUED OPERATIONS -----</span>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">syncAll</span>(Box&lt;Note&gt; noteBox) async {
+      <span class="keyword">if</span> (!<span class="keyword">await</span> isOnline()) <span class="keyword">return</span>;
+
+      <span class="keyword">final</span> queueItems = _syncQueue.values.toList();
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> item <span class="keyword">in</span> queueItems) {
+        <span class="keyword">try</span> {
+          <span class="keyword">final</span> operation = item[<span class="string">'operation'</span>] <span class="keyword">as</span> String;
+          <span class="keyword">final</span> noteData = item[<span class="string">'note'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+          <span class="keyword">final</span> note = Note.fromJson(noteData);
+
+          <span class="keyword">switch</span> (operation) {
+            <span class="keyword">case</span> <span class="string">'create'</span>:
+              <span class="keyword">await</span> _syncCreateNote(note);
+              <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">'update'</span>:
+              <span class="keyword">await</span> _syncUpdateNote(note);
+              <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">'delete'</span>:
+              <span class="keyword">await</span> _syncDeleteNote(note.id);
+              <span class="keyword">break</span>;
+          }
+
+          <span class="comment">// Mark note as synced and remove from queue</span>
+<span class="keyword">final</span> key = _syncQueue.keyAt(_syncQueue.values.toList().indexOf(item));
+          <span class="keyword">await</span> _syncQueue.delete(key);
+
+          <span class="keyword">if</span> (operation != <span class="string">'delete'</span>) {
+            <span class="keyword">final</span> localNote = note.copyWith(isSynced: <span class="keyword">true</span>);
+            <span class="keyword">await</span> noteBox.put(localNote.id, localNote);
+          }
+        } <span class="keyword">catch</span> (e) {
+          print(<span class="string">'Sync failed for item: $e'</span>);
+        }
+      }
+    }
+  }
+
+  <span class="comment">// ==========================================</span>
+<span class="comment">// 3. FLUTTER UI</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">void</span> <span class="function">main</span>() async {
+    <span class="keyword">await</span> Hive.initFlutter();
+    Hive.registerAdapter(NoteAdapter());
+    <span class="keyword">await</span> Hive.openBox&lt;Note&gt;(<span class="string">'notes'</span>);
+    <span class="keyword">await</span> Hive.openBox(<span class="string">'syncQueue'</span>);
+    runApp(<span class="function">MyApp</span>());
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Offline Notes'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: NotesScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">NotesScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;NotesScreen&gt; <span class="function">createState</span>() =&gt; _NotesScreenState();
+  }
+
+  <span class="keyword">class</span> _NotesScreenState <span class="keyword">extends</span> State&lt;NotesScreen&gt; {
+    <span class="keyword">late</span> Box&lt;Note&gt; _noteBox;
+    <span class="keyword">late</span> Box _syncQueue;
+    <span class="keyword">late</span> OfflineNoteService _service;
+
+    <span class="keyword">final</span> TextEditingController _titleController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _contentController = TextEditingController();
+    Note? _editingNote;
+
+    <span class="keyword">bool</span> _isOnline = <span class="keyword">true</span>;
+
+    @override
+    <span class="keyword">void</span> <span class="function">initState</span>() {
+      <span class="keyword">super</span>.initState();
+      _initBoxes();
+      _checkConnectivity();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_initBoxes</span>() async {
+      _noteBox = await Hive.openBox&lt;Note&gt;(<span class="string">'notes'</span>);
+      _syncQueue = await Hive.openBox(<span class="string">'syncQueue'</span>);
+      _service = OfflineNoteService(syncQueue: _syncQueue);
+      setState(() {});
+    }
+
+    <span class="keyword">void</span> <span class="function">_checkConnectivity</span>() {
+      Connectivity().onConnectivityChanged.listen((result) {
+        setState(() {
+          _isOnline = result != ConnectivityResult.none;
+        });
+        <span class="keyword">if</span> (_isOnline) {
+          _syncAll();
+        }
+      });
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncAll</span>() async {
+      <span class="keyword">await</span> _service.syncAll(_noteBox);
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_saveNote</span>() async {
+      <span class="keyword">final</span> title = _titleController.text.trim();
+      <span class="keyword">final</span> content = _contentController.text.trim();
+
+      <span class="keyword">if</span> (title.isEmpty) <span class="keyword">return</span>;
+
+      <span class="keyword">if</span> (_editingNote == <span class="keyword">null</span>) {
+        <span class="comment">// Create new note</span>
+<span class="keyword">await</span> _service.createNote(
+          title: title,
+          content: content,
+          noteBox: _noteBox,
+        );
+      } <span class="keyword">else</span> {
+        <span class="comment">// Update existing note</span>
+<span class="keyword">final</span> updatedNote = _editingNote!.copyWith(
+          title: title,
+          content: content,
+        );
+        <span class="keyword">await</span> _service.updateNote(
+          note: updatedNote,
+          noteBox: _noteBox,
+        );
+      }
+
+      _titleController.clear();
+      _contentController.clear();
+      setState(() {
+        _editingNote = <span class="keyword">null</span>;
+      });
+    }
+
+    <span class="keyword">void</span> <span class="function">_editNote</span>(Note note) {
+      setState(() {
+        _editingNote = note;
+        _titleController.text = note.title;
+        _contentController.text = note.content;
+      });
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_deleteNote</span>(Note note) async {
+      <span class="keyword">await</span> _service.deleteNote(
+        noteId: note.id,
+        noteBox: _noteBox,
+      );
+    }
+
+    <span class="keyword">void</span> <span class="function">_cancelEdit</span>() {
+      setState(() {
+        _editingNote = <span class="keyword">null</span>;
+        _titleController.clear();
+        _contentController.clear();
+      });
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'📝 Offline Notes'</span>),
+          centerTitle: <span class="keyword">true</span>,
+          actions: [
+            <span class="comment">// Online/Offline indicator</span>
+            Container(
+              margin: EdgeInsets.only(right: <span class="number">16</span>),
+              child: Row(
+                children: [
+                  Container(
+                    width: <span class="number">10</span>,
+                    height: <span class="number">10</span>,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _isOnline ? Colors.green : Colors.red,
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">4</span>),
+                  Text(
+                    _isOnline ? <span class="string">'Online'</span> : <span class="string">'Offline'</span>,
+                    style: TextStyle(
+                      fontSize: <span class="number">12</span>,
+                      color: _isOnline ? Colors.green : Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.sync),
+              onPressed: _isOnline ? _syncAll : <span class="keyword">null</span>,
+              tooltip: <span class="string">'Sync Now'</span>,
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            <span class="comment">// Input Section</span>
+            Padding(
+              padding: EdgeInsets.all(<span class="number">16</span>),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      hintText: <span class="string">'Note title...'</span>,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: <span class="number">8</span>),
+                  TextField(
+                    controller: _contentController,
+                    decoration: InputDecoration(
+                      hintText: <span class="string">'Note content...'</span>,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                      ),
+                    ),
+                    maxLines: <span class="number">3</span>,
+                  ),
+                  SizedBox(height: <span class="number">8</span>),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: _saveNote,
+                          child: Text(_editingNote == <span class="keyword">null</span>
+                              ? <span class="string">'Add Note'</span>
+                              : <span class="string">'Update Note'</span>),
+                        ),
+                      ),
+                      <span class="keyword">if</span> (_editingNote != <span class="keyword">null</span>)
+                        Padding(
+                          padding: EdgeInsets.only(left: <span class="number">8</span>),
+                          child: TextButton(
+                            onPressed: _cancelEdit,
+                            child: Text(<span class="string">'Cancel'</span>),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            <span class="comment">// Notes List</span>
+            Expanded(
+              child: _noteBox == <span class="keyword">null</span>
+                  ? Center(child: CircularProgressIndicator())
+                  : ValueListenableBuilder(
+                      valueListenable: _noteBox.listenable(),
+                      builder: (context, Box&lt;Note&gt; box, _) {
+                        <span class="keyword">final</span> notes = box.values.toList()
+                          ..sort((a, b) =&gt; b.updatedAt.compareTo(a.updatedAt));
+
+                        <span class="keyword">if</span> (notes.isEmpty) {
+                          <span class="keyword">return</span> Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.note_add, size: <span class="number">80</span>, color: Colors.grey.shade400),
+                                SizedBox(height: <span class="number">16</span>),
+                                Text(
+                                  <span class="string">'No notes yet'</span>,
+                                  style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+                                ),
+                                Text(
+                                  <span class="string">'Add your first note above'</span>,
+                                  style: TextStyle(color: Colors.grey.shade400),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        <span class="keyword">return</span> ListView.builder(
+                          itemCount: notes.length,
+                          itemBuilder: (context, index) {
+                            <span class="keyword">final</span> note = notes[index];
+                            <span class="keyword">return</span> Card(
+                              margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+                              child: ListTile(
+                                leading: Icon(
+                                  note.isSynced ? Icons.cloud_done : Icons.cloud_off,
+                                  color: note.isSynced ? Colors.green : Colors.orange,
+                                ),
+                                title: Text(
+                                  note.title,
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      note.content,
+                                      maxLines: <span class="number">1</span>,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(color: Colors.grey.shade600),
+                                    ),
+                                    Text(
+                                      note.isSynced
+                                          ? <span class="string">'Synced'</span>
+                                          : <span class="string">'Pending sync...'</span>,
+                                      style: TextStyle(
+                                        fontSize: <span class="number">10</span>,
+                                        color: note.isSynced ? Colors.green : Colors.orange,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit, size: <span class="number">20</span>),
+                                      onPressed: () =&gt; _editNote(note),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete, size: <span class="number">20</span>, color: Colors.red),
+                                      onPressed: () =&gt; _deleteNote(note),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Local Storage First</strong> – Always write to local storage (Hive) first. This ensures the user sees their data immediately.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Check Connectivity</strong> – Use <code>connectivity_plus</code> to check if the device is online.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Sync if Online</strong> – If connected, send changes to the server immediately and mark as synced.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Queue if Offline</strong> – If offline, store operations in a sync queue for later processing.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Background Sync</strong> – When connectivity is restored, process all queued operations.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: BEST PRACTICES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Best Practices</span>
+<span class="divider-line"></span>
+</div>
+<div class="concept-card success">
+<h4>✅ Do's</h4>
+<ul>
+<li>Always <strong>read from local storage first</strong></li>
+<li>Use <strong>optimistic updates</strong> for better UX</li>
+<li>Store <strong>timestamps</strong> for conflict resolution</li>
+<li>Use a <strong>sync queue</strong> for offline operations</li>
+<li>Show <strong>sync status</strong> to users (synced/pending)</li>
+<li>Handle <strong>conflicts</strong> with clear rules</li>
+<li>Use <strong>background sync</strong> when connectivity is restored</li>
+</ul>
+</div>
+<div class="concept-card error">
+<h4>❌ Don'ts</h4>
+<ul>
+<li>Don't <strong>block the UI</strong> during sync operations</li>
+<li>Don't <strong>ignore conflicts</strong> – they will happen</li>
+<li>Don't <strong>sync large files</strong> in the background without user consent</li>
+<li>Don't <strong>lose data</strong> if sync fails – keep it in the queue</li>
+<li>Don't <strong>over-sync</strong> – use debouncing for frequent changes</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Not handling conflicts</div>
+<p>
+              When multiple devices edit the same data, conflicts can occur. Always have a conflict resolution strategy.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use conflict resolution</div>
+<p>
+              Strategies: Last Write Wins, Merge, or Manual Resolution with user input.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Syncing too frequently</div>
+<p>
+              Syncing on every keystroke or network change can drain battery and use data.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use debouncing</div>
+<p>
+              Wait for the user to stop typing (500ms-1s) before syncing changes.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not showing sync status</div>
+<p>
+              Users need to know if their data is synced or pending. Confusion leads to frustration.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Show sync status</div>
+<p>
+              Use icons, colors, or text to indicate sync status (Synced, Pending, Error).
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Offline-first architecture is about <strong>designing for resilience</strong>.
+            Always <strong>read from and write to local storage first</strong>, then sync
+            with the server when connected. Use a <strong>sync queue</strong> for offline
+            operations and <strong>conflict resolution</strong> for consistency.
+            <strong>Your users will thank you for a reliable, fast experience anywhere.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module3-topic3-sqlite.html">
+<i class="fas fa-arrow-left"></i> Previous: SQLite
+          </a>
+<a class="btn btn-primary btn-sm" href="../module3-state-management.html">
+<i class="fas fa-check"></i> Module 3 Complete!
+          </a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module3-state-management.html">Module 3</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">Flutter Architecture</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module3-topic4-offline-first';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

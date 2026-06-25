@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Refactor Weather App – Module 5 Project | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Refactor the Weather App using Clean Architecture principles. Apply Repository Pattern, Dependency Injection, and Feature-First Architecture to build a maintainable weather application." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .project-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .architecture-layer {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+    .architecture-layer:hover {
+      transform: translateX(4px);
+    }
+    .architecture-layer .layer-title {
+      font-weight: 700;
+      font-size: var(--font-base);
+      color: var(--text);
+    }
+    .architecture-layer .layer-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .architecture-layer .layer-components {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .architecture-layer .layer-components span {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.15rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 500;
+    }
+
+    .layer-arrow {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .checklist li {
+      padding: 0.5rem 0;
+      padding-left: 2rem;
+      position: relative;
+      font-size: var(--font-sm);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: var(--font-base);
+    }
+    .checklist li.completed::before {
+      content: '☑';
+      color: #10B981;
+    }
+
+    .prereq-box {
+      background: rgba(59, 130, 246, 0.06);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin: 1.25rem 0;
+    }
+    .prereq-box h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+    .prereq-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .prereq-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .prereq-box ul li a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .prereq-box ul li a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="module5-topic1-architecture-overview.html">Module 5</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project</span>
+</div>
+<span class="module-badge"><i class="fas fa-archway"></i> Module 5</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Project</div>
+<h1>Refactor Weather App</h1>
+<p class="topic-subtitle">
+            Apply Clean Architecture principles to refactor the Weather App into a maintainable, testable, and scalable Flutter application.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<span class="project-badge"><i class="fas fa-project-diagram"></i> Refactoring Project</span>
+<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+<i class="fas fa-globe"></i> Flutter Architecture Guide
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
+<i class="fas fa-box"></i> GetIt Package
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: PROJECT OVERVIEW ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Overview</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            In this project, you'll refactor the <strong>Weather App</strong> built in Module 2
+            (<a href="../module2/module2-project-weather-app.html" style="color: var(--primary);">Weather App Project</a>)
+            using Clean Architecture principles. The goal is to transform the existing code into a
+            <strong>maintainable</strong>, <strong>testable</strong>, and <strong>scalable</strong>
+            application following the patterns and principles learned in this module.
+          </p>
+<div class="prereq-box">
+<h4>📚 Prerequisites</h4>
+<ul>
+<li>Completed <a href="../module2/module2-project-weather-app.html">Weather App Project</a> from Module 2</li>
+<li>Understanding of <a href="module5-topic1-architecture-overview.html">Architecture Overview</a></li>
+<li>Understanding of <a href="module5-topic2-repository-pattern.html">Repository Pattern</a></li>
+<li>Understanding of <a href="module5-topic3-dependency-injection.html">Dependency Injection</a></li>
+<li>Understanding of <a href="module5-topic4-feature-first-architecture.html">Feature-First Architecture</a></li>
+</ul>
+</div>
+<div class="concept-card info">
+<h4>🎯 Learning Objectives</h4>
+<ul>
+<li>Apply Clean Architecture principles to an existing Flutter app</li>
+<li>Implement the Repository Pattern for data access</li>
+<li>Set up dependency injection with GetIt</li>
+<li>Organize code using Feature-First Architecture</li>
+<li>Separate concerns into data, domain, and presentation layers</li>
+<li>Make the app testable with mock dependencies</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: BEFORE VS AFTER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Before vs After</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Let's compare the original Weather App structure with the refactored version:
+          </p>
+<div class="comparison-grid">
+<div class="compare-item" style="border-left: 4px solid #EF4444;">
+<h4 style="color: #EF4444;">❌ Before (Module 2)</h4>
+<ul>
+<li>UI and logic tightly coupled</li>
+<li>API calls directly in widget code</li>
+<li>No clear separation of concerns</li>
+<li>Hard to test (can't mock dependencies)</li>
+<li>No caching strategy</li>
+<li>Code scattered across files</li>
+<li>Difficult to maintain</li>
+</ul>
+</div>
+<div class="compare-item" style="border-left: 4px solid #10B981;">
+<h4 style="color: #10B981;">✅ After (Clean Architecture)</h4>
+<ul>
+<li>UI separated from business logic</li>
+<li>API calls moved to data sources</li>
+<li>Clear separation: data/domain/presentation</li>
+<li>Easy to test with mock repositories</li>
+<li>Caching implemented in repository</li>
+<li>Feature-based organization</li>
+<li>Maintainable and scalable</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: NEW DIRECTORY STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">New Directory Structure</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The refactored Weather App follows Feature-First Architecture with a clear separation of
+            concerns within the feature:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/ – New Feature Structure</span>
+<code>
+  lib/features/weather/
+  ├── data/
+  │   ├── datasources/
+  │   │   ├── weather_remote_datasource.dart   <span class="comment">// API calls</span>
+  │   │   └── weather_local_datasource.dart    <span class="comment">// Local caching</span>
+  │   ├── models/
+  │   │   ├── weather_dto.dart                 <span class="comment">// Data transfer objects</span>
+  │   │   └── weather_response.dart            <span class="comment">// API response models</span>
+  │   └── repositories/
+  │       └── weather_repository_impl.dart     <span class="comment">// Repository implementation</span>
+  ├── domain/
+  │   ├── models/
+  │   │   └── weather.dart                     <span class="comment">// Domain model</span>
+  │   ├── repositories/
+  │   │   └── weather_repository.dart          <span class="comment">// Repository interface</span>
+  │   └── usecases/
+  │       ├── get_weather_usecase.dart         <span class="comment">// Business logic</span>
+  │       └── get_forecast_usecase.dart        <span class="comment">// Business logic</span>
+  ├── presentation/
+  │   ├── screens/
+  │   │   └── weather_screen.dart              <span class="comment">// Main UI screen</span>
+  │   ├── widgets/
+  │   │   ├── weather_card.dart                <span class="comment">// Weather display widget</span>
+  │   │   └── weather_loading.dart             <span class="comment">// Loading widget</span>
+  │   └── viewmodels/
+  │       └── weather_viewmodel.dart           <span class="comment">// State management</span>
+  └── weather_di.dart                          <span class="comment">// Feature dependencies</span>
+</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="architecture-layer">
+<div class="layer-title">📊 Data Layer</div>
+<div class="layer-desc">Handles API calls, caching, and data transformation</div>
+<div class="layer-components">
+<span>WeatherRemoteDataSource</span>
+<span>WeatherLocalDataSource</span>
+<span>WeatherRepositoryImpl</span>
+<span>WeatherDTO</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #8B5CF6;">
+<div class="layer-title">🧠 Domain Layer</div>
+<div class="layer-desc">Contains business logic and use cases</div>
+<div class="layer-components">
+<span>Weather (Model)</span>
+<span>WeatherRepository (Interface)</span>
+<span>GetWeatherUseCase</span>
+<span>GetForecastUseCase</span>
+</div>
+</div>
+<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
+<div class="architecture-layer" style="border-left-color: #3B82F6;">
+<div class="layer-title">🎨 Presentation Layer</div>
+<div class="layer-desc">UI components and state management</div>
+<div class="layer-components">
+<span>WeatherScreen</span>
+<span>WeatherCard</span>
+<span>WeatherViewModel</span>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 4: STEP-BY-STEP REFACTORING ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Refactoring</span>
+<span class="divider-line"></span>
+</div>
+<h3>Step 1: Create Feature Structure</h3>
+<p>Create the new folder structure under <code>lib/features/weather/</code></p>
+<div class="code-block collapsed">
+<span class="code-label">Terminal – Create folders</span>
+<code>
+  mkdir -p lib/features/weather/data/datasources
+  mkdir -p lib/features/weather/data/models
+  mkdir -p lib/features/weather/data/repositories
+  mkdir -p lib/features/weather/domain/models
+  mkdir -p lib/features/weather/domain/repositories
+  mkdir -p lib/features/weather/domain/usecases
+  mkdir -p lib/features/weather/presentation/screens
+  mkdir -p lib/features/weather/presentation/widgets
+  mkdir -p lib/features/weather/presentation/viewmodels
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 2: Define Domain Models</h3>
+<p>Create the domain model that will be used across the app:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/domain/models/weather.dart</span>
+<code>
+<span class="comment">/// Domain model for weather data</span>
+<span class="keyword">class</span> <span class="function">Weather</span> {
+    <span class="keyword">final</span> String city;
+    <span class="keyword">final</span> <span class="keyword">double</span> temperature;
+    <span class="keyword">final</span> <span class="keyword">double</span> feelsLike;
+    <span class="keyword">final</span> String description;
+    <span class="keyword">final</span> String icon;
+    <span class="keyword">final</span> <span class="keyword">int</span> humidity;
+    <span class="keyword">final</span> <span class="keyword">double</span> windSpeed;
+
+    <span class="function">Weather</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.city,
+      <span class="keyword">required</span> <span class="keyword">this</span>.temperature,
+      <span class="keyword">required</span> <span class="keyword">this</span>.feelsLike,
+      <span class="keyword">required</span> <span class="keyword">this</span>.description,
+      <span class="keyword">required</span> <span class="keyword">this</span>.icon,
+      <span class="keyword">required</span> <span class="keyword">this</span>.humidity,
+      <span class="keyword">required</span> <span class="keyword">this</span>.windSpeed,
+    });
+
+    <span class="comment">/// Factory method to create from JSON</span>
+<span class="keyword">factory</span> Weather.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> Weather(
+        city: json[<span class="string">'name'</span>] <span class="keyword">as</span> String,
+        temperature: (json[<span class="string">'main'</span>][<span class="string">'temp'</span>] <span class="keyword">as</span> <span class="keyword">num</span>).<span class="function">toDouble</span>(),
+        feelsLike: (json[<span class="string">'main'</span>][<span class="string">'feels_like'</span>] <span class="keyword">as</span> <span class="keyword">num</span>).<span class="function">toDouble</span>(),
+        description: json[<span class="string">'weather'</span>][<span class="number">0</span>][<span class="string">'description'</span>] <span class="keyword">as</span> String,
+        icon: json[<span class="string">'weather'</span>][<span class="number">0</span>][<span class="string">'icon'</span>] <span class="keyword">as</span> String,
+        humidity: json[<span class="string">'main'</span>][<span class="string">'humidity'</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
+        windSpeed: (json[<span class="string">'wind'</span>][<span class="string">'speed'</span>] <span class="keyword">as</span> <span class="keyword">num</span>).<span class="function">toDouble</span>(),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 3: Create Data Sources</h3>
+<p>Move API calls to remote data source and add caching:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/data/datasources/weather_remote_datasource.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+
+  <span class="keyword">class</span> <span class="function">WeatherRemoteDataSource</span> {
+    <span class="keyword">final</span> http.Client client;
+    <span class="keyword">final</span> String baseUrl;
+    <span class="keyword">final</span> String apiKey;
+
+    <span class="function">WeatherRemoteDataSource</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.client,
+      <span class="keyword">required</span> <span class="keyword">this</span>.baseUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.apiKey,
+    });
+
+    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">fetchWeather</span>(String city) async {
+      <span class="keyword">final</span> url = Uri.parse(<span class="string">'$baseUrl/weather?q=$city&amp;appid=$apiKey'</span>);
+      <span class="keyword">final</span> response = <span class="keyword">await</span> client.<span class="function">get</span>(url);
+
+      <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+        <span class="keyword">return</span> json.<span class="function">decode</span>(response.body);
+      } <span class="keyword">else</span> {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to fetch weather: ${response.statusCode}'</span>);
+      }
+    }
+
+    <span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">fetchForecast</span>(String city) async {
+      <span class="keyword">final</span> url = Uri.parse(<span class="string">'$baseUrl/forecast?q=$city&amp;appid=$apiKey'</span>);
+      <span class="keyword">final</span> response = <span class="keyword">await</span> client.<span class="function">get</span>(url);
+
+      <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+        <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
+        <span class="keyword">return</span> List&lt;Map&lt;String, dynamic&gt;&gt;.from(data[<span class="string">'list'</span>]);
+      } <span class="keyword">else</span> {
+        <span class="keyword">throw</span> Exception(<span class="string">'Failed to fetch forecast: ${response.statusCode}'</span>);
+      }
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/data/datasources/weather_local_datasource.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:hive/hive.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+
+  <span class="keyword">class</span> <span class="function">WeatherLocalDataSource</span> {
+    <span class="keyword">static</span> <span class="keyword">const</span> String boxKey = <span class="string">'weather_cache'</span>;
+    <span class="keyword">static</span> <span class="keyword">const</span> Duration cacheDuration = Duration(minutes: <span class="number">30</span>);
+
+    <span class="keyword">Future</span>&lt;Box&lt;String&gt;&gt; <span class="function">_getBox</span>() async {
+      <span class="keyword">return</span> <span class="keyword">await</span> Hive.<span class="function">openBox</span>&lt;String&gt;(boxKey);
+    }
+
+    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;?&gt; <span class="function">getCachedWeather</span>(String city) async {
+      <span class="keyword">final</span> box = <span class="keyword">await</span> <span class="function">_getBox</span>();
+      <span class="keyword">final</span> key = <span class="string">'weather_$city'</span>;
+      <span class="keyword">final</span> cached = box.<span class="function">get</span>(key);
+
+      <span class="keyword">if</span> (cached != <span class="keyword">null</span>) {
+        <span class="keyword">final</span> data = json.<span class="function">decode</span>(cached);
+        <span class="keyword">final</span> timestamp = DateTime.<span class="function">parse</span>(data[<span class="string">'_timestamp'</span>]);
+
+        <span class="keyword">if</span> (DateTime.now().<span class="function">difference</span>(timestamp) &lt; cacheDuration) {
+          data.<span class="function">remove</span>(<span class="string">'_timestamp'</span>);
+          <span class="keyword">return</span> data;
+        }
+      }
+      <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">cacheWeather</span>(String city, Map&lt;String, dynamic&gt; weatherData) async {
+      <span class="keyword">final</span> box = <span class="keyword">await</span> <span class="function">_getBox</span>();
+      <span class="keyword">final</span> key = <span class="string">'weather_$city'</span>;
+      <span class="keyword">final</span> dataWithTimestamp = {...weatherData, <span class="string">'_timestamp'</span>: DateTime.now().<span class="function">toIso8601String</span>()};
+      <span class="keyword">await</span> box.<span class="function">put</span>(key, json.<span class="function">encode</span>(dataWithTimestamp));
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">clearCache</span>() async {
+      <span class="keyword">final</span> box = <span class="keyword">await</span> <span class="function">_getBox</span>();
+      <span class="keyword">await</span> box.<span class="function">clear</span>();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 4: Implement Repository</h3>
+<p>Create the repository interface and implementation:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/domain/repositories/weather_repository.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'../models/weather.dart'</span>;
+
+  <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="function">WeatherRepository</span> {
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">getWeather</span>(String city);
+    <span class="keyword">Future</span>&lt;List&lt;Weather&gt;&gt; <span class="function">getForecast</span>(String city);
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">clearCache</span>();
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/data/repositories/weather_repository_impl.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../domain/repositories/weather_repository.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../domain/models/weather.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../datasources/weather_remote_datasource.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../datasources/weather_local_datasource.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">WeatherRepositoryImpl</span> <span class="keyword">implements</span> WeatherRepository {
+    <span class="keyword">final</span> WeatherRemoteDataSource remoteDataSource;
+    <span class="keyword">final</span> WeatherLocalDataSource localDataSource;
+
+    <span class="function">WeatherRepositoryImpl</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.remoteDataSource,
+      <span class="keyword">required</span> <span class="keyword">this</span>.localDataSource,
+    });
+
+    @override
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">getWeather</span>(String city) async {
+      <span class="comment">// 1. Check cache</span>
+<span class="keyword">final</span> cached = <span class="keyword">await</span> localDataSource.<span class="function">getCachedWeather</span>(city);
+      <span class="keyword">if</span> (cached != <span class="keyword">null</span>) {
+        <span class="keyword">return</span> Weather.<span class="function">fromJson</span>(cached);
+      }
+
+      <span class="comment">// 2. Fetch from remote</span>
+<span class="keyword">try</span> {
+        <span class="keyword">final</span> remoteData = <span class="keyword">await</span> remoteDataSource.<span class="function">fetchWeather</span>(city);
+        <span class="keyword">await</span> localDataSource.<span class="function">cacheWeather</span>(city, remoteData);
+        <span class="keyword">return</span> Weather.<span class="function">fromJson</span>(remoteData);
+      } <span class="keyword">catch</span> (e) {
+        <span class="comment">// 3. Fallback to expired cache</span>
+<span class="keyword">final</span> expiredCache = <span class="keyword">await</span> localDataSource.<span class="function">getCachedWeather</span>(city);
+        <span class="keyword">if</span> (expiredCache != <span class="keyword">null</span>) {
+          <span class="keyword">return</span> Weather.<span class="function">fromJson</span>(expiredCache);
+        }
+        <span class="keyword">rethrow</span>;
+      }
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;List&lt;Weather&gt;&gt; <span class="function">getForecast</span>(String city) async {
+      <span class="keyword">final</span> remoteData = <span class="keyword">await</span> remoteDataSource.<span class="function">fetchForecast</span>(city);
+      <span class="keyword">return</span> remoteData
+          .<span class="function">map</span>((data) =&gt; Weather.<span class="function">fromJson</span>(data))
+          .<span class="function">toList</span>();
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">clearCache</span>() async {
+      <span class="keyword">await</span> localDataSource.<span class="function">clearCache</span>();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 5: Create Use Cases</h3>
+<p>Move business logic into use cases:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/domain/usecases/get_weather_usecase.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'../repositories/weather_repository.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/weather.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">GetWeatherUseCase</span> {
+    <span class="keyword">final</span> WeatherRepository repository;
+
+    <span class="function">GetWeatherUseCase</span>(<span class="keyword">this</span>.repository);
+
+    <span class="keyword">Future</span>&lt;Weather&gt; <span class="function">execute</span>(String city) async {
+      <span class="keyword">if</span> (city.<span class="function">isEmpty</span>) {
+        <span class="keyword">throw</span> ArgumentError(<span class="string">'City cannot be empty'</span>);
+      }
+      <span class="keyword">return</span> <span class="keyword">await</span> repository.<span class="function">getWeather</span>(city);
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 6: Create ViewModel</h3>
+<p>Manage state and interact with use cases:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/presentation/viewmodels/weather_viewmodel.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../domain/usecases/get_weather_usecase.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../domain/models/weather.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">WeatherViewModel</span> <span class="keyword">extends</span> StateNotifier&lt;WeatherState&gt; {
+    <span class="keyword">final</span> GetWeatherUseCase getWeatherUseCase;
+
+    <span class="function">WeatherViewModel</span>(<span class="keyword">this</span>.getWeatherUseCase) : <span class="keyword">super</span>(WeatherState.<span class="function">initial</span>());
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">loadWeather</span>(String city) async {
+      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>);
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> weather = <span class="keyword">await</span> getWeatherUseCase.<span class="function">execute</span>(city);
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          weather: weather,
+          error: <span class="keyword">null</span>,
+        );
+      } <span class="keyword">catch</span> (e) {
+        state = state.<span class="function">copyWith</span>(
+          isLoading: <span class="keyword">false</span>,
+          error: e.<span class="function">toString</span>(),
+        );
+      }
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">WeatherState</span> {
+    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
+    <span class="keyword">final</span> Weather? weather;
+    <span class="keyword">final</span> String? error;
+
+    <span class="function">WeatherState</span>({<span class="keyword">this</span>.isLoading = <span class="keyword">false</span>, <span class="keyword">this</span>.weather, <span class="keyword">this</span>.error});
+
+    WeatherState <span class="function">copyWith</span>({<span class="keyword">bool</span>? isLoading, Weather? weather, String? error}) {
+      <span class="keyword">return</span> WeatherState(
+        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
+        weather: weather ?? <span class="keyword">this</span>.weather,
+        error: error ?? <span class="keyword">this</span>.error,
+      );
+    }
+
+    <span class="keyword">factory</span> WeatherState.<span class="function">initial</span>() =&gt; WeatherState();
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 7: Create UI Components</h3>
+<p>Refactor the UI to use the ViewModel:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/presentation/screens/weather_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../viewmodels/weather_viewmodel.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/weather_card.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../widgets/weather_loading.dart'</span>;
+
+  <span class="keyword">final</span> weatherViewModelProvider = StateNotifierProvider&lt;WeatherViewModel, WeatherState&gt;((ref) {
+    <span class="keyword">return</span> WeatherViewModel(getIt&lt;GetWeatherUseCase&gt;());
+  });
+
+  <span class="keyword">class</span> <span class="function">WeatherScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> TextEditingController _cityController = TextEditingController();
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(weatherViewModelProvider);
+      <span class="keyword">final</span> viewModel = ref.<span class="function">read</span>(weatherViewModelProvider.notifier);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Weather'</span>),
+          centerTitle: <span class="keyword">true</span>,
+        ),
+        body: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16.0</span>),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _cityController,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Enter city name'</span>,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: <span class="number">8</span>),
+                  ElevatedButton(
+                    onPressed: () =&gt; viewModel.<span class="function">loadWeather</span>(_cityController.text),
+                    child: Text(<span class="string">'Search'</span>),
+                  ),
+                ],
+              ),
+              SizedBox(height: <span class="number">16</span>),
+              Expanded(
+                child: state.isLoading
+                    ? WeatherLoading()
+                    : state.error != <span class="keyword">null</span>
+                        ? Center(child: Text(<span class="string">'Error: ${state.error}'</span>))
+                        : state.weather != <span class="keyword">null</span>
+                            ? WeatherCard(weather: state.weather!)
+                            : Center(child: Text(<span class="string">'Search for a city'</span>)),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h3>Step 8: Set Up Dependency Injection</h3>
+<p>Register all dependencies with GetIt:</p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/weather_di.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'data/datasources/weather_remote_datasource.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'data/datasources/weather_local_datasource.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'data/repositories/weather_repository_impl.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'domain/repositories/weather_repository.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'domain/usecases/get_weather_usecase.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'presentation/viewmodels/weather_viewmodel.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">WeatherFeatureModule</span> {
+    <span class="keyword">final</span> GetIt getIt;
+
+    <span class="function">WeatherFeatureModule</span>(<span class="keyword">this</span>.getIt);
+
+    <span class="keyword">void</span> <span class="function">register</span>() {
+      <span class="comment">// Data Sources</span>
+      getIt.<span class="function">registerSingleton</span>&lt;WeatherRemoteDataSource&gt;(
+        WeatherRemoteDataSource(
+          client: http.Client(),
+          baseUrl: <span class="string">'https://api.openweathermap.org/data/2.5'</span>,
+          apiKey: <span class="string">'your-api-key'</span>, <span class="comment">// Replace with your API key</span>
+        ),
+      );
+
+      getIt.<span class="function">registerSingleton</span>&lt;WeatherLocalDataSource&gt;(
+        WeatherLocalDataSource(),
+      );
+
+      <span class="comment">// Repository</span>
+      getIt.<span class="function">registerLazySingleton</span>&lt;WeatherRepository&gt;(<span class="function">()</span> {
+        <span class="keyword">return</span> WeatherRepositoryImpl(
+          remoteDataSource: getIt&lt;WeatherRemoteDataSource&gt;(),
+          localDataSource: getIt&lt;WeatherLocalDataSource&gt;(),
+        );
+      });
+
+      <span class="comment">// Use Cases</span>
+      getIt.<span class="function">registerFactory</span>&lt;GetWeatherUseCase&gt;(<span class="function">()</span> {
+        <span class="keyword">return</span> GetWeatherUseCase(getIt&lt;WeatherRepository&gt;());
+      });
+
+      <span class="comment">// ViewModels</span>
+      getIt.<span class="function">registerFactory</span>&lt;WeatherViewModel&gt;(<span class="function">()</span> {
+        <span class="keyword">return</span> WeatherViewModel(getIt&lt;GetWeatherUseCase&gt;());
+      });
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: PROJECT CHECKLIST ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Project Checklist</span>
+<span class="divider-line"></span>
+</div>
+<p>Complete these tasks to successfully refactor the Weather App:</p>
+<ul class="checklist">
+<li>Create the feature folder structure</li>
+<li>Define domain models (Weather)</li>
+<li>Implement remote data source (API calls)</li>
+<li>Implement local data source (caching)</li>
+<li>Create repository interface</li>
+<li>Implement repository with caching logic</li>
+<li>Create use cases (GetWeatherUseCase)</li>
+<li>Create ViewModel with state management</li>
+<li>Refactor UI to use ViewModel</li>
+<li>Set up dependency injection with GetIt</li>
+<li>Test the app functionality</li>
+<li>Verify caching works correctly</li>
+</ul>
+</div>
+<!-- ===== SECTION 6: TESTING THE REFACTORED APP ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Testing the Refactored App</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            One of the biggest benefits of Clean Architecture is <strong>testability</strong>.
+            Here's how to test the refactored Weather App:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">test/features/weather/domain/usecases/get_weather_usecase_test.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:test/test.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:mockito/mockito.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../lib/features/weather/domain/usecases/get_weather_usecase.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../lib/features/weather/domain/repositories/weather_repository.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../lib/features/weather/domain/models/weather.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">MockWeatherRepository</span> <span class="keyword">extends</span> Mock <span class="keyword">implements</span> WeatherRepository {}
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    <span class="keyword">late</span> MockWeatherRepository mockRepository;
+    <span class="keyword">late</span> GetWeatherUseCase useCase;
+
+    <span class="function">setUp</span>(() {
+      mockRepository = MockWeatherRepository();
+      useCase = GetWeatherUseCase(mockRepository);
+    });
+
+    <span class="function">test</span>(<span class="string">'returns weather data when repository succeeds'</span>, () async {
+      <span class="comment">// Arrange</span>
+<span class="keyword">final</span> expectedWeather = Weather(
+        city: <span class="string">'London'</span>,
+        temperature: <span class="number">20.0</span>,
+        feelsLike: <span class="number">18.0</span>,
+        description: <span class="string">'Clear sky'</span>,
+        icon: <span class="string">'01d'</span>,
+        humidity: <span class="number">65</span>,
+        windSpeed: <span class="number">5.0</span>,
+      );
+      when(mockRepository.<span class="function">getWeather</span>(<span class="string">'London'</span>))
+          .thenAnswer((_) async =&gt; expectedWeather);
+
+      <span class="comment">// Act</span>
+<span class="keyword">final</span> result = <span class="keyword">await</span> useCase.<span class="function">execute</span>(<span class="string">'London'</span>);
+
+      <span class="comment">// Assert</span>
+      expect(result, expectedWeather);
+      verify(mockRepository.<span class="function">getWeather</span>(<span class="string">'London'</span>)).<span class="function">called</span>(<span class="number">1</span>);
+    });
+
+    <span class="function">test</span>(<span class="string">'throws ArgumentError when city is empty'</span>, () async {
+      expect(
+        () =&gt; useCase.<span class="function">execute</span>(<span class="string">''</span>),
+        throwsA(isA&lt;ArgumentError&gt;()),
+      );
+    });
+
+    <span class="function">test</span>(<span class="string">'throws exception when repository fails'</span>, () async {
+      when(mockRepository.<span class="function">getWeather</span>(<span class="string">'London'</span>))
+          .thenThrow(Exception(<span class="string">'Network error'</span>));
+
+      expect(
+        () =&gt; useCase.<span class="function">execute</span>(<span class="string">'London'</span>),
+        throwsA(isA&lt;Exception&gt;()),
+      );
+    });
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Testing Benefits Achieved</h4>
+<ul>
+<li><strong>Mock dependencies</strong> – Repository can be mocked for testing</li>
+<li><strong>Isolated tests</strong> – Use cases tested independently</li>
+<li><strong>Edge cases</strong> – Easy to test error conditions</li>
+<li><strong>Business logic</strong> – Tested without UI or network calls</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 7: RESOURCES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Resources</span>
+<span class="divider-line"></span>
+</div>
+<div class="resources-box">
+<h4>📚 Learning Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/app-architecture" target="_blank">Flutter Architecture Guide</a> – Official Flutter documentation</li>
+<li><a href="https://pub.dev/packages/get_it" target="_blank">GetIt Package</a> – Service locator for dependency injection</li>
+<li><a href="https://riverpod.dev" target="_blank">Riverpod</a> – Reactive state management</li>
+<li><a href="https://pub.dev/packages/hive" target="_blank">Hive</a> – Lightweight local storage</li>
+</ul>
+</div>
+<div class="resources-box" style="margin-top: 1rem;">
+<h4>🔗 Related Lessons</h4>
+<ul>
+<li><a href="../module2/module2-project-weather-app.html">Original Weather App Project</a> – The app you're refactoring</li>
+<li><a href="module5-topic1-architecture-overview.html">Architecture Overview</a> – Clean Architecture principles</li>
+<li><a href="module5-topic2-repository-pattern.html">Repository Pattern</a> – Data access abstraction</li>
+<li><a href="module5-topic3-dependency-injection.html">Dependency Injection</a> – Managing dependencies with GetIt</li>
+<li><a href="module5-topic4-feature-first-architecture.html">Feature-First Architecture</a> – Organizing by features</li>
+</ul>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Project Summary</h3>
+<p>
+            You've successfully refactored the Weather App using <strong>Clean Architecture</strong> principles!
+            The app now has clear separation between <strong>data</strong>, <strong>domain</strong>, and
+            <strong>presentation</strong> layers. With the <strong>Repository Pattern</strong>, caching is
+            handled seamlessly. <strong>Dependency Injection</strong> with GetIt makes the app testable and
+            maintainable. The <strong>Feature-First</strong> structure keeps code organized and scalable.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module5-topic4-feature-first-architecture.html">
+<i class="fas fa-arrow-left"></i> Previous: Feature-First Architecture
+          </a>
+<a class="btn btn-primary btn-sm" href="project-refactor-chat-app.html">
+            Next: Refactor Chat App <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="module5-topic1-architecture-overview.html">Module 5</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">Flutter Architecture</a></li>
+<li><a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">GetIt Package</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">Flutter Official Architecture Guide</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-refactor-weather-app';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

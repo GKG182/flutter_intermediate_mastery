@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Async User Loader – Module 1 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build an Async User Loader that fetches users from JSONPlaceholder API using Riverpod FutureProvider and AsyncValue." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== CHALLENGE-SPECIFIC STYLES ===== */
+    .challenge-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover {
+      color: var(--primary);
+    }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong {
+      color: var(--text);
+    }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .api-tag {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.12);
+      color: #3B82F6;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section {
+      margin-bottom: 2.5rem;
+    }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p,
+    .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul {
+      margin: 0.5rem 0 0.5rem 1.5rem;
+      padding-left: 0;
+    }
+    .challenge-section ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+    .requirements-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .requirements-box ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 {
+      color: #F59E0B;
+      margin-bottom: 0.5rem;
+    }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 {
+      color: #10B981;
+      margin-bottom: 0.5rem;
+    }
+    .resources-box ul {
+      margin: 0 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .resources-box ul li a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .resources-box ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover {
+      background: rgba(245, 158, 11, 0.1);
+    }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover {
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open {
+      transform: rotate(180deg);
+    }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 5000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block {
+      margin: 0;
+      border-radius: var(--radius-sm);
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover {
+      transform: scale(1.05);
+    }
+    .btn-complete-challenge.completed {
+      background: #10B981;
+    }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .top-nav {
+        flex-wrap: wrap;
+      }
+      .top-nav .challenge-badge {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .api-box .endpoint {
+        font-size: var(--font-xs);
+        word-break: break-all;
+      }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== CHALLENGE CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<!-- Top Navigation with Back Button -->
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 1 · Challenge 5
+            </span>
+</div>
+<!-- Challenge Header -->
+<div class="challenge-header">
+<h1>Async User Loader</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> State Management</span>
+<span class="meta-item"><strong>Concepts:</strong> FutureProvider, AsyncValue, HTTP</span>
+<span class="meta-item"><strong>Est. Time:</strong> 45-60 min</span>
+</div>
+</div>
+<!-- ===== CHALLENGE DESCRIPTION ===== -->
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build an <strong>Async User Loader</strong> — a Flutter app that fetches and displays
+              a list of users from the JSONPlaceholder API. Use <strong>FutureProvider</strong> to
+              manage the async data loading and <strong>AsyncValue</strong> to handle loading,
+              error, and success states elegantly.
+            </p>
+<div class="api-box">
+<h4>🌐 API Endpoint</h4>
+<p><strong>JSONPlaceholder - Users API</strong></p>
+<div class="endpoint">https://jsonplaceholder.typicode.com/users</div>
+<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+                Returns a list of 10 users with id, name, username, email, address, phone, and website.
+              </p>
+</div>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Fetch users from <strong>JSONPlaceholder API</strong> using <code>http</code> package</li>
+<li>Use <strong>FutureProvider</strong> to manage the async data</li>
+<li>Handle <strong>loading</strong>, <strong>error</strong>, and <strong>data</strong> states with <strong>AsyncValue</strong></li>
+<li>Display users in a <strong>ListView</strong> with name, email, and username</li>
+<li>Add a <strong>refresh button</strong> to reload the data</li>
+<li>Show a <strong>loading indicator</strong> while fetching</li>
+<li>Show a <strong>user-friendly error message</strong> if the request fails</li>
+<li>Use <strong>FutureProvider.autoDispose</strong> for automatic cleanup</li>
+</ul>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://riverpod.dev/docs/concepts/future_provider" target="_blank">FutureProvider Documentation</a></li>
+<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
+<li><a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder API</a></li>
+<li><a href="https://riverpod.dev/docs/concepts/async_value" target="_blank">AsyncValue Guide</a></li>
+</ul>
+</div>
+</div>
+<!-- ===== HINT ===== -->
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Create a <code>User</code> model class with <code>fromJson</code> factory.
+                  Use <code>FutureProvider&lt;List&lt;User&gt;&gt;</code> with an async function that makes the HTTP request.
+                  In the UI, use <code>ref.watch(userProvider)</code> and handle the <code>AsyncValue</code> with
+                  <code>.when()</code> or <code>.whenData()</code> to handle loading, error, and data states.
+                </p>
+</div>
+</div>
+</div>
+<!-- ===== SOLUTION ===== -->
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    flutter_riverpod: ^2.5.1
+    http: ^1.1.0
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. User Model (lib/models/user.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/models/user.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">final</span> <span class="keyword">int</span> id;
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String username;
+    <span class="keyword">final</span> String email;
+    <span class="keyword">final</span> String phone;
+    <span class="keyword">final</span> String website;
+
+    <span class="function">User</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.name,
+      <span class="keyword">required</span> <span class="keyword">this</span>.username,
+      <span class="keyword">required</span> <span class="keyword">this</span>.email,
+      <span class="keyword">required</span> <span class="keyword">this</span>.phone,
+      <span class="keyword">required</span> <span class="keyword">this</span>.website,
+    });
+
+    <span class="keyword">factory</span> User.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
+      <span class="keyword">return</span> User(
+        id: json[<span class="string">'id'</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
+        name: json[<span class="string">'name'</span>] <span class="keyword">as</span> String,
+        username: json[<span class="string">'username'</span>] <span class="keyword">as</span> String,
+        email: json[<span class="string">'email'</span>] <span class="keyword">as</span> String,
+        phone: json[<span class="string">'phone'</span>] <span class="keyword">as</span> String,
+        website: json[<span class="string">'website'</span>] <span class="keyword">as</span> String,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. User Provider (lib/providers/user_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/providers/user_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/user.dart'</span>;
+
+  <span class="keyword">final</span> userProvider = FutureProvider&lt;List&lt;User&gt;&gt;((ref) async {
+    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(
+      Uri.parse(<span class="string">'https://jsonplaceholder.typicode.com/users'</span>),
+    );
+
+    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+      <span class="keyword">final</span> List&lt;dynamic&gt; data = json.<span class="function">decode</span>(response.body);
+      <span class="keyword">return</span> data.<span class="function">map</span>((json) =&gt; User.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
+    } <span class="keyword">else</span> {
+      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load users: ${response.statusCode}'</span>);
+    }
+  });
+
+  <span class="comment">// Auto-dispose version for better performance</span>
+<span class="keyword">final</span> userProviderAutoDispose = FutureProvider&lt;List&lt;User&gt;&gt;.autoDispose((ref) async {
+    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(
+      Uri.parse(<span class="string">'https://jsonplaceholder.typicode.com/users'</span>),
+    );
+
+    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+      <span class="keyword">final</span> List&lt;dynamic&gt; data = json.<span class="function">decode</span>(response.body);
+      <span class="keyword">return</span> data.<span class="function">map</span>((json) =&gt; User.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
+    } <span class="keyword">else</span> {
+      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load users: ${response.statusCode}'</span>);
+    }
+  });
+
+  <span class="comment">// Refresh notifier</span>
+<span class="keyword">final</span> refreshProvider = StateProvider&lt;<span class="keyword">int</span>&gt;((ref) =&gt; <span class="number">0</span>);
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. User Card Widget (lib/widgets/user_card.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/widgets/user_card.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../models/user.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">UserCard</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">final</span> User user;
+
+    <span class="keyword">const</span> <span class="function">UserCard</span>({<span class="keyword">required</span> <span class="keyword">this</span>.user, <span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Card(
+        margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
+        elevation: <span class="number">2</span>,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+        ),
+        child: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          child: Row(
+            children: [
+              <span class="comment">// Avatar</span>
+              CircleAvatar(
+                radius: <span class="number">28</span>,
+                backgroundColor: Colors.primaries[user.id % Colors.primaries.<span class="function">length</span>],
+                child: Text(
+                  user.name.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">1</span>).<span class="function">toUpperCase</span>(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: <span class="number">20</span>,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(width: <span class="number">16</span>),
+              <span class="comment">// User info</span>
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.name,
+                      style: TextStyle(
+                        fontSize: <span class="number">16</span>,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      <span class="string">'@${user.username}'</span>,
+                      style: TextStyle(
+                        fontSize: <span class="number">12</span>,
+                        color: Colors.grey[<span class="number">600</span>],
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">4</span>),
+                    Row(
+                      children: [
+                        Icon(Icons.email, size: <span class="number">14</span>, color: Colors.grey[<span class="number">500</span>]),
+                        SizedBox(width: <span class="number">4</span>),
+                        Text(
+                          user.email,
+                          style: TextStyle(
+                            fontSize: <span class="number">12</span>,
+                            color: Colors.grey[<span class="number">600</span>],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.phone, size: <span class="number">14</span>, color: Colors.grey[<span class="number">500</span>]),
+                        SizedBox(width: <span class="number">4</span>),
+                        Text(
+                          user.phone,
+                          style: TextStyle(
+                            fontSize: <span class="number">12</span>,
+                            color: Colors.grey[<span class="number">600</span>],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              <span class="comment">// Website link</span>
+              Container(
+                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>, vertical: <span class="number">4</span>),
+                decoration: BoxDecoration(
+                  color: Colors.blue[<span class="number">50</span>],
+                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">4</span>),
+                ),
+                child: Text(
+                  user.website,
+                  style: TextStyle(
+                    fontSize: <span class="number">10</span>,
+                    color: Colors.blue[<span class="number">800</span>],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Main Screen (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers/user_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'widgets/user_card.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() {
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'Async User Loader'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: <span class="keyword">const</span> HomeScreen(),
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> usersAsync = ref.<span class="function">watch</span>(userProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Async User Loader'</span>),
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () {
+                <span class="comment">// Refresh by invalidating the provider</span>
+                ref.<span class="function">invalidate</span>(userProvider);
+              },
+              icon: Icon(Icons.refresh),
+              tooltip: <span class="string">'Refresh'</span>,
+            ),
+          ],
+        ),
+        body: usersAsync.<span class="function">when</span>(
+          loading: () =&gt; Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: <span class="number">16</span>),
+                Text(
+                  <span class="string">'Loading users...'</span>,
+                  style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                ),
+              ],
+            ),
+          ),
+          error: (error, stack) =&gt; Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  size: <span class="number">64</span>,
+                  color: Colors.red[<span class="number">300</span>],
+                ),
+                SizedBox(height: <span class="number">16</span>),
+                Text(
+                  <span class="string">'Something went wrong'</span>,
+                  style: TextStyle(
+                    fontSize: <span class="number">18</span>,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: <span class="number">8</span>),
+                Text(
+                  error.<span class="function">toString</span>(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                ),
+                SizedBox(height: <span class="number">16</span>),
+                ElevatedButton(
+                  onPressed: () {
+                    ref.<span class="function">invalidate</span>(userProvider);
+                  },
+                  child: Text(<span class="string">'Try Again'</span>),
+                ),
+              ],
+            ),
+          ),
+          data: (users) {
+            <span class="keyword">return</span> ListView.builder(
+              padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+              itemCount: users.<span class="function">length</span>,
+              itemBuilder: (context, index) {
+                <span class="keyword">return</span> UserCard(user: users[index]);
+              },
+            );
+          },
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>FutureProvider</strong> – Managing async data loading</li>
+<li><strong>AsyncValue</strong> – Handling loading, error, and data states</li>
+<li><strong>HTTP Requests</strong> – Fetching data from an API</li>
+<li><strong>JSON Parsing</strong> – Converting JSON to Dart objects</li>
+<li><strong>Provider Invalidation</strong> – Refreshing data</li>
+<li><strong>.when()</strong> – Elegant state handling with AsyncValue</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== NAVIGATION ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="challenge4-theme-switcher.html">
+<i class="fas fa-arrow-left"></i> Previous Challenge
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="challenge6-live-counter-stream.html">
+              Next Challenge <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://jsonplaceholder.typicode.com" rel="noopener" target="_blank">JSONPlaceholder</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Hint toggle
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      // Solution toggle
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      // Mark Complete
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm1-c5';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      // Copy buttons
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

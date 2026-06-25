@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Feature-First Architecture – Module 5 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn Feature-First Architecture in Flutter. Organize code by features instead of layers for better scalability, maintainability, and team collaboration." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .feature-structure {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.25rem 0;
+    }
+    .feature-structure .structure-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border: 2px solid var(--border);
+    }
+    .feature-structure .structure-box h4 {
+      margin-bottom: 0.5rem;
+      font-size: var(--font-base);
+    }
+    .feature-structure .structure-box .folder {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      padding: 0.25rem 0;
+    }
+    .feature-structure .structure-box .folder .folder-icon {
+      color: #F59E0B;
+      margin-right: 0.3rem;
+    }
+    .feature-structure .structure-box .folder .file {
+      color: #89b4fa;
+    }
+    .feature-structure .structure-box .folder .indent {
+      padding-left: 1.5rem;
+    }
+
+    .cross-feature {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-left: 4px solid #8B5CF6;
+    }
+    .cross-feature .feature-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .cross-feature .feature-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid,
+      .feature-structure {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="module5-topic1-architecture-overview.html">Module 5</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 4</span>
+</div>
+<span class="module-badge"><i class="fas fa-archway"></i> Module 5</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 4</div>
+<h1>Feature-First Architecture</h1>
+<p class="topic-subtitle">
+            Organizing your Flutter app by features instead of layers for better scalability, maintainability, and team collaboration.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+<i class="fas fa-globe"></i> Flutter Architecture Guide
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
+<i class="fas fa-box"></i> GetIt Package
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS FEATURE-FIRST ARCHITECTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is Feature-First Architecture?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<strong>Feature-First Architecture</strong> (also known as Feature-Based or Feature-Driven
+            Architecture) organizes your code by <strong>features</strong> rather than by layers.
+            Each feature contains all the code it needs — from UI to data — making it a self-contained
+            module that can be developed, tested, and maintained independently.
+          </p>
+<div class="concept-card info">
+<h4>💡 Key Concept</h4>
+<p>
+              Instead of organizing by technical layers (presentation, business logic, data), you
+              organize by <strong>business capabilities</strong>. Each feature represents a user-facing
+              functionality like "Login," "Dashboard," or "Shopping Cart."
+            </p>
+</div>
+<div class="comparison-grid">
+<div class="compare-item" style="border-left: 4px solid #EF4444;">
+<h4 style="color: #EF4444;">❌ Layer-First Structure</h4>
+<ul>
+<li>Organized by technical concerns</li>
+<li>Scatters feature code across folders</li>
+<li>Harder to find related code</li>
+<li>More conflicts in teams</li>
+<li>Difficult to extract features</li>
+</ul>
+</div>
+<div class="compare-item" style="border-left: 4px solid #10B981;">
+<h4 style="color: #10B981;">✅ Feature-First Structure</h4>
+<ul>
+<li>Organized by business capabilities</li>
+<li>Feature code is colocated</li>
+<li>Easier to find related code</li>
+<li>Fewer team conflicts</li>
+<li>Features can be extracted as packages</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: FEATURE STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Feature Structure</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Each feature typically follows the same internal structure, maintaining clean architecture
+            principles within the feature boundary:
+          </p>
+<div class="feature-structure">
+<div class="structure-box" style="border-color: #3B82F6;">
+<h4 style="color: #3B82F6;">📁 Feature: <strong>weather</strong></h4>
+<div class="folder">
+<span class="folder-icon">📁</span> data/
+                <div class="indent">
+<span class="folder-icon">📁</span> datasources/<br/>
+<span class="indent"><span class="file">weather_remote_datasource.dart</span></span><br/>
+<span class="indent"><span class="file">weather_local_datasource.dart</span></span><br/>
+<span class="folder-icon">📁</span> models/<br/>
+<span class="indent"><span class="file">weather_dto.dart</span></span><br/>
+<span class="folder-icon">📁</span> repositories/<br/>
+<span class="indent"><span class="file">weather_repository_impl.dart</span></span>
+</div>
+<span class="folder-icon">📁</span> domain/
+                <div class="indent">
+<span class="folder-icon">📁</span> models/<br/>
+<span class="indent"><span class="file">weather.dart</span></span><br/>
+<span class="folder-icon">📁</span> repositories/<br/>
+<span class="indent"><span class="file">weather_repository.dart</span></span><br/>
+<span class="folder-icon">📁</span> usecases/<br/>
+<span class="indent"><span class="file">get_weather_usecase.dart</span></span>
+</div>
+<span class="folder-icon">📁</span> presentation/
+                <div class="indent">
+<span class="folder-icon">📁</span> screens/<br/>
+<span class="indent"><span class="file">weather_screen.dart</span></span><br/>
+<span class="folder-icon">📁</span> widgets/<br/>
+<span class="indent"><span class="file">weather_card.dart</span></span><br/>
+<span class="folder-icon">📁</span> viewmodels/<br/>
+<span class="indent"><span class="file">weather_viewmodel.dart</span></span>
+</div>
+<span class="file"><span class="folder-icon">📄</span> weather_di.dart</span>
+</div>
+</div>
+<div class="structure-box" style="border-color: #10B981;">
+<h4 style="color: #10B981;">📁 Feature: <strong>auth</strong></h4>
+<div class="folder">
+<span class="folder-icon">📁</span> data/
+                <div class="indent">
+<span class="folder-icon">📁</span> datasources/<br/>
+<span class="indent"><span class="file">auth_remote_datasource.dart</span></span><br/>
+<span class="folder-icon">📁</span> models/<br/>
+<span class="indent"><span class="file">user_dto.dart</span></span><br/>
+<span class="folder-icon">📁</span> repositories/<br/>
+<span class="indent"><span class="file">auth_repository_impl.dart</span></span>
+</div>
+<span class="folder-icon">📁</span> domain/
+                <div class="indent">
+<span class="folder-icon">📁</span> models/<br/>
+<span class="indent"><span class="file">user.dart</span></span><br/>
+<span class="folder-icon">📁</span> repositories/<br/>
+<span class="indent"><span class="file">auth_repository.dart</span></span><br/>
+<span class="folder-icon">📁</span> usecases/<br/>
+<span class="indent"><span class="file">login_usecase.dart</span></span>
+</div>
+<span class="folder-icon">📁</span> presentation/
+                <div class="indent">
+<span class="folder-icon">📁</span> screens/<br/>
+<span class="indent"><span class="file">login_screen.dart</span></span><br/>
+<span class="indent"><span class="file">register_screen.dart</span></span><br/>
+<span class="folder-icon">📁</span> viewmodels/<br/>
+<span class="indent"><span class="file">auth_viewmodel.dart</span></span>
+</div>
+<span class="file"><span class="folder-icon">📄</span> auth_di.dart</span>
+</div>
+</div>
+</div>
+<div class="concept-card success">
+<h4>✅ Benefits of This Structure</h4>
+<ul>
+<li><strong>Colocation</strong> – All code for a feature is in one place</li>
+<li><strong>Clear boundaries</strong> – Features are explicitly defined</li>
+<li><strong>Independent development</strong> – Teams can work on different features</li>
+<li><strong>Scalability</strong> – Add new features without affecting existing ones</li>
+<li><strong>Modularity</strong> – Features can become separate packages</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 3: FEATURE MODULES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Feature Modules</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Each feature module should be <strong>self-contained</strong> and expose only what's necessary
+            to other parts of the app:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/weather/weather_di.dart – Feature Dependencies</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+  <span class="keyword">import</span> <span class="string">'data/datasources/weather_remote_datasource.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'data/datasources/weather_local_datasource.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'data/repositories/weather_repository_impl.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'domain/repositories/weather_repository.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'domain/usecases/get_weather_usecase.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'presentation/viewmodels/weather_viewmodel.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">WeatherFeatureModule</span> {
+    <span class="keyword">final</span> GetIt getIt;
+
+    <span class="function">WeatherFeatureModule</span>(<span class="keyword">this</span>.getIt);
+
+    <span class="keyword">void</span> <span class="function">register</span>() {
+      <span class="comment">// Data Sources</span>
+      getIt.<span class="function">registerSingleton</span>&lt;WeatherRemoteDataSource&gt;(
+        WeatherRemoteDataSource(
+          client: http.Client(),
+          baseUrl: <span class="string">'https://api.openweathermap.org/data/2.5'</span>,
+          apiKey: <span class="string">'your-api-key'</span>,
+        ),
+      );
+
+      getIt.<span class="function">registerSingleton</span>&lt;WeatherLocalDataSource&gt;(
+        WeatherLocalDataSource(),
+      );
+
+      <span class="comment">// Repository</span>
+      getIt.<span class="function">registerLazySingleton</span>&lt;WeatherRepository&gt;(<span class="function">()</span> {
+        <span class="keyword">return</span> WeatherRepositoryImpl(
+          remoteDataSource: getIt&lt;WeatherRemoteDataSource&gt;(),
+          localDataSource: getIt&lt;WeatherLocalDataSource&gt;(),
+        );
+      });
+
+      <span class="comment">// Use Cases</span>
+      getIt.<span class="function">registerFactory</span>&lt;GetWeatherUseCase&gt;(<span class="function">()</span> {
+        <span class="keyword">return</span> GetWeatherUseCase(getIt&lt;WeatherRepository&gt;());
+      });
+
+      <span class="comment">// ViewModels</span>
+      getIt.<span class="function">registerFactory</span>&lt;WeatherViewModel&gt;(<span class="function">()</span> {
+        <span class="keyword">return</span> WeatherViewModel(getIt&lt;GetWeatherUseCase&gt;());
+      });
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/di/service_locator.dart – Register All Features</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../features/weather/weather_di.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../features/auth/auth_di.dart'</span>;
+
+  <span class="keyword">final</span> getIt = GetIt.instance;
+
+  <span class="keyword">void</span> <span class="function">setupServiceLocator</span>() {
+    <span class="comment">// Register core services that all features need</span>
+    getIt.<span class="function">registerSingleton</span>&lt;HttpClient&gt;(<span class="function">HttpClient</span>());
+
+    <span class="comment">// Register each feature module</span>
+    WeatherFeatureModule(getIt).<span class="function">register</span>();
+    AuthFeatureModule(getIt).<span class="function">register</span>();
+    <span class="comment">// ... more features</span>
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: CROSS-FEATURE DEPENDENCIES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Cross-Feature Dependencies</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Features often need to communicate with each other. Here's how to handle cross-feature
+            dependencies while maintaining feature independence:
+          </p>
+<div class="cross-feature">
+<div class="feature-name">🔗 Shared Data Models</div>
+<div class="feature-desc">
+              Create a <code>shared</code> or <code>core</code> folder for models used across features.
+              Each feature should depend on these shared models.
+            </div>
+</div>
+<div class="cross-feature" style="border-left-color: #3B82F6;">
+<div class="feature-name">🔗 Shared Services</div>
+<div class="feature-desc">
+              Services like <code>AnalyticsService</code>, <code>LoggerService</code>, and
+              <code>AuthService</code> should be registered in the core DI and injected into features.
+            </div>
+</div>
+<div class="cross-feature" style="border-left-color: #10B981;">
+<div class="feature-name">🔗 Feature Communication</div>
+<div class="feature-desc">
+              Use <strong>events</strong> or <strong>callbacks</strong> for features to communicate.
+              Avoid direct dependencies between features — use interfaces and dependency injection.
+            </div>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">lib/core/shared/models.dart – Shared Models</span>
+<code>
+<span class="comment">// Shared models used across features</span>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String name;
+    <span class="keyword">final</span> String email;
+
+    <span class="function">User</span>({<span class="keyword">required</span> <span class="keyword">this</span>.id, <span class="keyword">required</span> <span class="keyword">this</span>.name, <span class="keyword">required</span> <span class="keyword">this</span>.email});
+  }
+
+  <span class="keyword">class</span> <span class="function">Coordinate</span> {
+    <span class="keyword">final</span> <span class="keyword">double</span> latitude;
+    <span class="keyword">final</span> <span class="keyword">double</span> longitude;
+
+    <span class="function">Coordinate</span>({<span class="keyword">required</span> <span class="keyword">this</span>.latitude, <span class="keyword">required</span> <span class="keyword">this</span>.longitude});
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/features/auth/domain/repositories/auth_repository.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'../../../../core/shared/models.dart'</span>;
+
+  <span class="comment">/// Auth repository interface - depends on shared models</span>
+<span class="keyword">abstract</span> <span class="keyword">class</span> <span class="function">AuthRepository</span> {
+    <span class="keyword">Future</span>&lt;User&gt; <span class="function">login</span>(String email, String password);
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">logout</span>();
+    <span class="keyword">Future</span>&lt;User?&gt; <span class="function">getCurrentUser</span>();
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: FEATURE COORDINATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Feature Coordination</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A central <strong>AppCoordinator</strong> or <strong>Router</strong> can orchestrate
+            navigation and communication between features:
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/core/navigation/app_router.dart – Feature Coordination</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:go_router/go_router.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../features/auth/presentation/screens/login_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../features/weather/presentation/screens/weather_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../features/settings/presentation/screens/settings_screen.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AppRouter</span> {
+    <span class="keyword">static</span> <span class="keyword">final</span> router = GoRouter(
+      routes: [
+        <span class="function">GoRoute</span>(
+          path: <span class="string">'/'</span>,
+          builder: (context, state) =&gt; LoginScreen(),
+        ),
+        <span class="function">GoRoute</span>(
+          path: <span class="string">'/weather'</span>,
+          builder: (context, state) =&gt; WeatherScreen(),
+        ),
+        <span class="function">GoRoute</span>(
+          path: <span class="string">'/settings'</span>,
+          builder: (context, state) =&gt; SettingsScreen(),
+        ),
+      ],
+    );
+
+    <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">navigateToWeather</span>(BuildContext context) {
+      context.<span class="function">push</span>(<span class="string">'/weather'</span>);
+    }
+
+    <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">navigateToSettings</span>(BuildContext context) {
+      context.<span class="function">push</span>(<span class="string">'/settings'</span>);
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Using Feature Coordination</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'core/navigation/app_router.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'di/service_locator.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    <span class="comment">// Setup all feature dependencies</span>
+<span class="keyword">await</span> <span class="function">setupServiceLocator</span>();
+
+    runApp(MyApp());
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> MaterialApp.router(
+        title: <span class="string">'Feature-First App'</span>,
+        theme: ThemeData(useMaterial3: <span class="keyword">true</span>),
+        routerConfig: AppRouter.router,
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Implementation</span>
+<span class="divider-line"></span>
+</div>
+<p>Follow these steps to migrate to Feature-First Architecture:</p>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Identify features</strong> – List all user-facing features in your app (e.g., Auth, Weather, Settings)
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Create feature folders</strong> – Create <code>lib/features/feature_name/</code> for each feature
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Move code by feature</strong> – Move related code into each feature folder, maintaining clean architecture internally
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Create feature DI modules</strong> – Each feature should register its own dependencies
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Set up core/shared</strong> – Move shared models, utilities, and core services to <code>core/</code> or <code>shared/</code>
+</div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>Configure navigation</strong> – Use a central router to coordinate between features
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">7.</span>
+<div class="step-text">
+<strong>Test features independently</strong> – Each feature can be developed and tested in isolation
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Tight coupling between features</div>
+<p>
+              Creating direct dependencies between features makes them hard to test and maintain independently.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use interfaces and dependency injection</div>
+<p>
+              Features should depend on interfaces (abstractions) that are injected, not concrete implementations.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Mixing feature responsibilities</div>
+<p>
+              A feature should have a single, clear responsibility. Don't put unrelated code in a feature.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: One responsibility per feature</div>
+<p>
+              Each feature should represent a single user-facing capability (e.g., "Weather" not "Data").
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not organizing features internally</div>
+<p>
+              Putting all feature code in a single folder without internal structure defeats the purpose.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Maintain clean architecture within features</div>
+<p>
+              Each feature should have data, domain, and presentation folders with clear separation of concerns.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 4: Breaking encapsulation</div>
+<p>
+              Exposing internal implementation details of a feature to other features creates coupling.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Encapsulate feature internals</div>
+<p>
+              Each feature should only expose what's necessary through well-defined public interfaces.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+<strong>Feature-First Architecture</strong> organizes your Flutter app by business capabilities,
+            not technical layers. Each feature is self-contained with its own data, domain, and presentation
+            layers. This approach <strong>scales</strong> with your team and codebase, makes features
+            <strong>testable</strong> in isolation, and <strong>reduces conflicts</strong> in team development.
+            Use a central router for coordination and shared models for cross-feature communication.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module5-topic3-dependency-injection.html">
+<i class="fas fa-arrow-left"></i> Previous: Dependency Injection
+          </a>
+<a btn="" btn-primary="" btn-sm"="" href="module5-topic1-architecture-overview.html class=">
+            Back to Module 5 <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="module5-topic1-architecture-overview.html">Module 5</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">Flutter Architecture</a></li>
+<li><a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">GetIt Package</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">Flutter Official Architecture Guide</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module5-topic4-feature-first-architecture';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

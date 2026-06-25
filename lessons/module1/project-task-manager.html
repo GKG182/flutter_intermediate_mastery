@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project: Task Manager – Module 1 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a task manager app with Riverpod. Learn lists, providers, and CRUD operations." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* Same styles as project 1 plus project-specific overrides */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .project-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .project-header .project-type {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .project-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .project-header .project-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .requirement-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1.25rem 0;
+    }
+    .requirement-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #F59E0B;
+    }
+    .requirement-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .requirement-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .solution-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1.25rem 0;
+    }
+    .solution-box h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+      color: #10B981;
+    }
+    .solution-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .solution-box ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .explanation-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .explanation-item .exp-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .explanation-item .exp-text {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .explanation-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+    }
+    /* ===== COPY BUTTON STYLES ===== */
+    .code-block {
+        position: relative;
+    }
+    .copy-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 0.3rem 0.6rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Inter', sans-serif;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+    }
+    .copy-btn.copied {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.3);
+        color: #10B981;
+    }
+    .copy-btn i {
+        font-size: 0.7rem;
+    }
+    .code-block .code-label {
+        position: absolute;
+        top: -0.5rem;
+        right: 5rem; /* Make room for copy button */
+        background: #1e1e2e;
+        padding: 0 0.5rem;
+        font-size: var(--font-xs);
+        color: rgba(255, 255, 255, 0.4);
+        font-family: 'Inter', sans-serif;
+        z-index: 5;
+    }
+    /* Dark mode adjustments */
+    [data-theme="dark"] .copy-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+    [data-theme="dark"] .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this project as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== PROJECT CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../../module1-topic1-why-state-management.html">Module 1</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Project 2</span>
+</div>
+<span class="module-badge"><i class="fas fa-code"></i> Project</span>
+</div>
+<!-- Project Header -->
+<div class="project-header">
+<div class="project-type">📋 Project 2</div>
+<h1>Task Manager</h1>
+<p class="project-subtitle">
+            Build a full-featured task management app with CRUD operations using Riverpod StateNotifierProvider.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/cookbook" target="_blank">
+<i class="fas fa-book"></i> Flutter Cookbook
+            </a>
+<a class="doc-badge" href="https://riverpod.dev" target="_blank">
+<i class="fas fa-globe"></i> Riverpod
+            </a>
+</div>
+</div>
+<!-- ===== REQUIREMENTS ===== -->
+<div class="section-divider">
+<span class="divider-label">📋 Requirements</span>
+<span class="divider-line"></span>
+</div>
+<div class="requirement-box">
+<h4>What You'll Build</h4>
+<ul>
+<li><strong>Add tasks</strong> – Create new tasks with a title and optional description</li>
+<li><strong>View tasks</strong> – Display all tasks in a list with their status</li>
+<li><strong>Toggle completion</strong> – Mark tasks as complete/incomplete with a checkbox</li>
+<li><strong>Delete tasks</strong> – Remove individual tasks with a delete button</li>
+<li><strong>Filter tasks</strong> – Filter by All, Active, or Completed</li>
+<li><strong>Task statistics</strong> – Show total, active, and completed counts</li>
+<li><strong>Clear completed</strong> – Remove all completed tasks at once</li>
+<li><strong>Edit tasks</strong> – Update task titles</li>
+</ul>
+</div>
+<div class="requirement-box" style="border-left-color: #3B82F6;">
+<h4>Learning Objectives</h4>
+<ul>
+<li>Use <code>StateNotifierProvider</code> for complex state</li>
+<li>Implement CRUD operations (Create, Read, Update, Delete)</li>
+<li>Work with immutable state and copyWith</li>
+<li>Filter and transform lists</li>
+<li>Build a multi-screen UI flow</li>
+</ul>
+</div>
+<!-- ===== SOLUTION ===== -->
+<div class="section-divider">
+<span class="divider-label">💻 Complete Solution</span>
+<span class="divider-line"></span>
+</div>
+<div class="code-block collapsed" style="padding-top: 2.5rem !important;">
+<span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">lib/main.dart – Complete Task Manager</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 1. MODELS</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">enum</span> TaskFilter { all, active, completed }
+
+<span class="keyword">class</span> <span class="function">Task</span> {
+  <span class="keyword">final</span> String id;
+  <span class="keyword">final</span> String title;
+  <span class="keyword">final</span> String? description;
+  <span class="keyword">final</span> bool isCompleted;
+  <span class="keyword">final</span> DateTime createdAt;
+
+  Task({
+    <span class="keyword">required</span> <span class="keyword">this</span>.id,
+    <span class="keyword">required</span> <span class="keyword">this</span>.title,
+    <span class="keyword">this</span>.description,
+    <span class="keyword">this</span>.isCompleted = <span class="keyword">false</span>,
+    <span class="keyword">DateTime</span>? createdAt,
+  }) : <span class="keyword">this</span>.createdAt = createdAt ?? DateTime.now();
+
+  Task <span class="function">copyWith</span>({
+    String? id,
+    String? title,
+    String? description,
+    bool? isCompleted,
+    DateTime? createdAt,
+  }) {
+    <span class="keyword">return</span> Task(
+      id: id ?? <span class="keyword">this</span>.id,
+      title: title ?? <span class="keyword">this</span>.title,
+      description: description ?? <span class="keyword">this</span>.description,
+      isCompleted: isCompleted ?? <span class="keyword">this</span>.isCompleted,
+      createdAt: createdAt ?? <span class="keyword">this</span>.createdAt,
+    );
+  }
+}
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 2. STATE</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">TaskState</span> {
+  <span class="keyword">final</span> List&lt;Task&gt; tasks;
+  <span class="keyword">final</span> TaskFilter filter;
+
+  <span class="keyword">const</span> TaskState({
+    <span class="keyword">required</span> <span class="keyword">this</span>.tasks,
+    <span class="keyword">required</span> <span class="keyword">this</span>.filter,
+  });
+
+  <span class="comment">// Factory for initial state</span>
+  factory TaskState.initial() {
+    <span class="keyword">return</span> TaskState(
+      tasks: [],
+      filter: TaskFilter.all,
+    );
+  }
+
+  <span class="comment">// Copy method</span>
+  TaskState <span class="function">copyWith</span>({
+    List&lt;Task&gt;? tasks,
+    TaskFilter? filter,
+  }) {
+    <span class="keyword">return</span> TaskState(
+      tasks: tasks ?? <span class="keyword">this</span>.tasks,
+      filter: filter ?? <span class="keyword">this</span>.filter,
+    );
+  }
+
+  <span class="comment">// Get filtered tasks</span>
+  List&lt;Task&gt; <span class="function">getFilteredTasks</span>() {
+    <span class="keyword">switch</span> (filter) {
+      <span class="keyword">case</span> TaskFilter.all:
+        <span class="keyword">return</span> tasks;
+      <span class="keyword">case</span> TaskFilter.active:
+        <span class="keyword">return</span> tasks.where((t) =&gt; !t.isCompleted).toList();
+      <span class="keyword">case</span> TaskFilter.completed:
+        <span class="keyword">return</span> tasks.where((t) =&gt; t.isCompleted).toList();
+    }
+  }
+
+  <span class="comment">// Statistics</span>
+<span class="keyword">int</span> <span class="function">get</span> totalCount =&gt; tasks.length;
+  <span class="keyword">int</span> <span class="function">get</span> activeCount =&gt; tasks.where((t) =&gt; !t.isCompleted).length;
+  <span class="keyword">int</span> <span class="function">get</span> completedCount =&gt; tasks.where((t) =&gt; t.isCompleted).length;
+}
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 3. NOTIFIER</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">TaskNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;TaskState&gt; {
+  TaskNotifier() : <span class="keyword">super</span>(TaskState.initial());
+
+  <span class="comment">// Add task</span>
+<span class="keyword">void</span> <span class="function">addTask</span>(String title, {String? description}) {
+    <span class="keyword">if</span> (title.trim().isEmpty) <span class="keyword">return</span>;
+
+    <span class="keyword">final</span> task = Task(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: title.trim(),
+      description: description?.trim(),
+    );
+
+    state = state.copyWith(
+      tasks: [...state.tasks, task],
+    );
+  }
+
+  <span class="comment">// Toggle completion</span>
+<span class="keyword">void</span> <span class="function">toggleTask</span>(String id) {
+    state = state.copyWith(
+      tasks: state.tasks.map((task) {
+        <span class="keyword">if</span> (task.id == id) {
+          <span class="keyword">return</span> task.copyWith(isCompleted: !task.isCompleted);
+        }
+        <span class="keyword">return</span> task;
+      }).toList(),
+    );
+  }
+
+  <span class="comment">// Delete task</span>
+<span class="keyword">void</span> <span class="function">deleteTask</span>(String id) {
+    state = state.copyWith(
+      tasks: state.tasks.where((task) =&gt; task.id != id).toList(),
+    );
+  }
+
+  <span class="comment">// Update task</span>
+<span class="keyword">void</span> <span class="function">updateTask</span>(String id, String newTitle) {
+    <span class="keyword">if</span> (newTitle.trim().isEmpty) <span class="keyword">return</span>;
+
+    state = state.copyWith(
+      tasks: state.tasks.map((task) {
+        <span class="keyword">if</span> (task.id == id) {
+          <span class="keyword">return</span> task.copyWith(title: newTitle.trim());
+        }
+        <span class="keyword">return</span> task;
+      }).toList(),
+    );
+  }
+
+  <span class="comment">// Clear completed</span>
+<span class="keyword">void</span> <span class="function">clearCompleted</span>() {
+    state = state.copyWith(
+      tasks: state.tasks.where((task) =&gt; !task.isCompleted).toList(),
+    );
+  }
+
+  <span class="comment">// Set filter</span>
+<span class="keyword">void</span> <span class="function">setFilter</span>(TaskFilter filter) {
+    state = state.copyWith(filter: filter);
+  }
+}
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 4. PROVIDER</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">final</span> taskProvider = StateNotifierProvider&lt;TaskNotifier, TaskState&gt;((ref) {
+  <span class="keyword">return</span> TaskNotifier();
+});
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 5. UI</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">void</span> <span class="function">main</span>() {
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+<span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">return</span> MaterialApp(
+      title: <span class="string">'Task Manager'</span>,
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        useMaterial3: <span class="keyword">true</span>,
+      ),
+      home: TaskScreen(),
+    );
+  }
+}
+
+<span class="keyword">class</span> <span class="function">TaskScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+  @override
+  ConsumerState&lt;TaskScreen&gt; <span class="function">createState</span>() =&gt; _TaskScreenState();
+}
+
+<span class="keyword">class</span> _TaskScreenState <span class="keyword">extends</span> ConsumerState&lt;TaskScreen&gt; {
+  <span class="keyword">final</span> TextEditingController _titleController = TextEditingController();
+  <span class="keyword">final</span> TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  <span class="keyword">void</span> <span class="function">dispose</span>() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    <span class="keyword">super</span>.dispose();
+  }
+
+  <span class="keyword">void</span> <span class="function">_showAddDialog</span>() {
+    _titleController.clear();
+    _descriptionController.clear();
+
+    showDialog(
+      context: context,
+      builder: (context) =&gt; AlertDialog(
+        title: Text(<span class="string">'Add Task'</span>),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                hintText: <span class="string">'Task title...'</span>,
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: <span class="number">8</span>),
+            TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                hintText: <span class="string">'Description (optional)...'</span>,
+                border: OutlineInputBorder(),
+              ),
+              maxLines: <span class="number">3</span>,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () =&gt; Navigator.pop(context),
+            child: Text(<span class="string">'Cancel'</span>),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              <span class="keyword">if</span> (_titleController.text.isNotEmpty) {
+                ref.read(taskProvider.notifier).addTask(
+                  _titleController.text,
+                  description: _descriptionController.text,
+                );
+                Navigator.pop(context);
+              }
+            },
+            child: Text(<span class="string">'Add'</span>),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">final</span> taskState = ref.watch(taskProvider);
+    <span class="keyword">final</span> notifier = ref.read(taskProvider.notifier);
+    <span class="keyword">final</span> filteredTasks = taskState.getFilteredTasks();
+
+    <span class="keyword">return</span> Scaffold(
+      appBar: AppBar(
+        title: Text(<span class="string">'Task Manager'</span>),
+        centerTitle: <span class="keyword">true</span>,
+        elevation: <span class="number">0</span>,
+        actions: [
+          <span class="keyword">if</span> (taskState.completedCount &gt; <span class="number">0</span>)
+            IconButton(
+              icon: Icon(Icons.delete_sweep),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) =&gt; AlertDialog(
+                    title: Text(<span class="string">'Clear Completed'</span>),
+                    content: Text(<span class="string">'Remove all completed tasks?'</span>),
+                    actions: [
+                      TextButton(
+                        onPressed: () =&gt; Navigator.pop(context),
+                        child: Text(<span class="string">'Cancel'</span>),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          notifier.clearCompleted();
+                          Navigator.pop(context);
+                        },
+                        child: Text(<span class="string">'Clear'</span>),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+        ],
+      ),
+      body: Column(
+        children: [
+          <span class="comment">// Stats bar</span>
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">12</span>),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _StatChip(
+                  label: <span class="string">'Total'</span>,
+                  count: taskState.totalCount,
+                  color: Colors.grey,
+                ),
+                _StatChip(
+                  label: <span class="string">'Active'</span>,
+                  count: taskState.activeCount,
+                  color: Colors.blue,
+                ),
+                _StatChip(
+                  label: <span class="string">'Done'</span>,
+                  count: taskState.completedCount,
+                  color: Colors.green,
+                ),
+              ],
+            ),
+          ),
+
+          <span class="comment">// Filter tabs</span>
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+            child: Row(
+              children: [
+                _FilterChip(
+                  label: <span class="string">'All'</span>,
+                  filter: TaskFilter.all,
+                  currentFilter: taskState.filter,
+                  onTap: notifier.setFilter,
+                ),
+                _FilterChip(
+                  label: <span class="string">'Active'</span>,
+                  filter: TaskFilter.active,
+                  currentFilter: taskState.filter,
+                  onTap: notifier.setFilter,
+                ),
+                _FilterChip(
+                  label: <span class="string">'Completed'</span>,
+                  filter: TaskFilter.completed,
+                  currentFilter: taskState.filter,
+                  onTap: notifier.setFilter,
+                ),
+              ],
+            ),
+          ),
+
+          <span class="comment">// Task list</span>
+          Expanded(
+            child: filteredTasks.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.check_circle_outline,
+                          size: <span class="number">64</span>,
+                          color: Colors.grey.shade400,
+                        ),
+                        SizedBox(height: <span class="number">16</span>),
+                        Text(
+                          <span class="string">'No tasks yet'</span>,
+                          style: TextStyle(
+                            fontSize: <span class="number">18</span>,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        SizedBox(height: <span class="number">8</span>),
+                        Text(
+                          <span class="string">'Tap the + button to add one'</span>,
+                          style: TextStyle(
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: filteredTasks.length,
+                    itemBuilder: (context, index) {
+                      <span class="keyword">final</span> task = filteredTasks[index];
+                      <span class="keyword">return</span> Card(
+                        margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+                        child: ListTile(
+                          leading: Checkbox(
+                            value: task.isCompleted,
+                            onChanged: (_) =&gt; notifier.toggleTask(task.id),
+                          ),
+                          title: Text(
+                            task.title,
+                            style: TextStyle(
+                              decoration: task.isCompleted
+                                  ? TextDecoration.lineThrough
+                                  : <span class="keyword">null</span>,
+                              color: task.isCompleted
+                                  ? Colors.grey.shade600
+                                  : <span class="keyword">null</span>,
+                            ),
+                          ),
+                          subtitle: task.description != <span class="keyword">null</span>
+                              ? Text(
+                                  task.description!,
+                                  style: TextStyle(
+                                    decoration: task.isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : <span class="keyword">null</span>,
+                                  ),
+                                )
+                              : <span class="keyword">null</span>,
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, size: <span class="number">20</span>),
+                                onPressed: () {
+                                  _titleController.text = task.title;
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =&gt; AlertDialog(
+                                      title: Text(<span class="string">'Edit Task'</span>),
+                                      content: TextField(
+                                        controller: _titleController,
+                                        decoration: InputDecoration(
+                                          hintText: <span class="string">'Task title...'</span>,
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =&gt; Navigator.pop(context),
+                                          child: Text(<span class="string">'Cancel'</span>),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            <span class="keyword">if</span> (_titleController.text.isNotEmpty) {
+                                              notifier.updateTask(
+                                                task.id,
+                                                _titleController.text,
+                                              );
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                          child: Text(<span class="string">'Save'</span>),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, size: <span class="number">20</span>, color: Colors.red),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =&gt; AlertDialog(
+                                      title: Text(<span class="string">'Delete Task'</span>),
+                                      content: Text(<span class="string">'Are you sure you want to delete this task?'</span>),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =&gt; Navigator.pop(context),
+                                          child: Text(<span class="string">'Cancel'</span>),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            notifier.deleteTask(task.id);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(<span class="string">'Delete'</span>),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddDialog,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 6. HELPER WIDGETS</span>
+<span class="comment">// ==========================================</span>
+<span class="keyword">class</span> <span class="function">_StatChip</span> <span class="keyword">extends</span> StatelessWidget {
+  <span class="keyword">final</span> String label;
+  <span class="keyword">final</span> <span class="keyword">int</span> count;
+  <span class="keyword">final</span> Color color;
+
+  <span class="keyword">const</span> _StatChip({
+    <span class="keyword">required</span> <span class="keyword">this</span>.label,
+    <span class="keyword">required</span> <span class="keyword">this</span>.count,
+    <span class="keyword">required</span> <span class="keyword">this</span>.color,
+  });
+
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">return</span> Container(
+      padding: EdgeInsets.symmetric(horizontal: <span class="number">12</span>, vertical: <span class="number">4</span>),
+      decoration: BoxDecoration(
+        color: color.withOpacity(<span class="number">0.1</span>),
+        borderRadius: BorderRadius.circular(<span class="number">12</span>),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: <span class="number">8</span>,
+            height: <span class="number">8</span>,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
+          ),
+          SizedBox(width: <span class="number">6</span>),
+          Text(
+            <span class="string">'$label: $count'</span>,
+            style: TextStyle(
+              fontSize: <span class="number">14</span>,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+<span class="keyword">class</span> <span class="function">_FilterChip</span> <span class="keyword">extends</span> StatelessWidget {
+  <span class="keyword">final</span> String label;
+  <span class="keyword">final</span> TaskFilter filter;
+  <span class="keyword">final</span> TaskFilter currentFilter;
+  <span class="keyword">final</span> <span class="keyword">void</span> Function(TaskFilter) onTap;
+
+  <span class="keyword">const</span> _FilterChip({
+    <span class="keyword">required</span> <span class="keyword">this</span>.label,
+    <span class="keyword">required</span> <span class="keyword">this</span>.filter,
+    <span class="keyword">required</span> <span class="keyword">this</span>.currentFilter,
+    <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
+  });
+
+  @override
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">final</span> isSelected = filter == currentFilter;
+    <span class="keyword">return</span> Padding(
+      padding: EdgeInsets.only(right: <span class="number">8</span>),
+      child: GestureDetector(
+        onTap: () =&gt; onTap(filter),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.purple : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(<span class="number">20</span>),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : Colors.black87,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+          </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<!-- ===== EXPLANATION ===== -->
+<div class="section-divider">
+<span class="divider-label">📖 How This Solution Works</span>
+<span class="divider-line"></span>
+</div>
+<div class="solution-box">
+<h4>Step-by-Step Explanation</h4>
+<ul>
+<li><strong>1. Models</strong> – The <code>Task</code> class represents a task with id, title, description, and completion status.</li>
+<li><strong>2. State</strong> – <code>TaskState</code> holds the list of tasks and the current filter.</li>
+<li><strong>3. Notifier</strong> – <code>TaskNotifier</code> contains all CRUD operations: add, toggle, delete, update, and clear completed.</li>
+<li><strong>4. Filtering</strong> – Tasks can be filtered by All, Active, or Completed using the filter enum.</li>
+<li><strong>5. UI</strong> – The task list displays tasks with checkboxes, edit/delete buttons, and statistics.</li>
+<li><strong>6. Dialog Flow</strong> – Add, edit, and delete operations use dialogs for user confirmation.</li>
+</ul>
+</div>
+<div class="explanation-grid">
+<div class="explanation-item">
+<div class="exp-number">Immutable State</div>
+<div class="exp-text">All state updates create new copies using copyWith, ensuring predictable state changes.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">CRUD Operations</div>
+<div class="exp-text">The notifier provides methods for Create, Read, Update, and Delete operations.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Filter Logic</div>
+<div class="exp-text">The filter determines which tasks are displayed without modifying the underlying list.</div>
+</div>
+<div class="explanation-item">
+<div class="exp-number">Statistics</div>
+<div class="exp-text">Computed properties show total, active, and completed task counts.</div>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            This project demonstrates how to use <code>StateNotifierProvider</code> to build a full-featured CRUD app.
+            The combination of immutable state, clear methods, and a separation of concerns makes the code
+            maintainable and easy to extend with new features.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="project-counter-app-pro.html">
+<i class="fas fa-arrow-left"></i> Previous: Counter App Pro
+          </a>
+<a class="btn btn-primary btn-sm" href="project-shopping-cart-system.html">
+            Next: Shopping Cart <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../module1-topic1-why-state-management.html">Module 1</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/cookbook" style="color: var(--text-muted);" target="_blank">Flutter Cookbook</a> &amp; <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">Riverpod</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('../../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'project-task-manager';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  
+    
+    // Copy button functionality
+
+    // ==========================================
+    // COPY BUTTON FUNCTIONALITY
+    // ==========================================
+    
+    function setupCopyButtons() {
+        document.querySelectorAll('.code-block').forEach(function(block) {
+            // Check if copy button already exists
+            if (block.querySelector('.copy-btn')) return;
+            
+            // Get the code element
+            var code = block.querySelector('code');
+            if (!code) return;
+            
+            // Ensure code has proper padding
+            code.style.display = 'block';
+            code.style.paddingTop = '0.5rem';
+            
+            // Create copy button
+            var btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.setAttribute('type', 'button');
+            
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var text = code.textContent;
+                
+                // Use modern clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        showCopiedFeedback(btn);
+                    }).catch(function() {
+                        fallbackCopy(text, btn);
+                    });
+                } else {
+                    fallbackCopy(text, btn);
+                }
+            });
+            
+            block.appendChild(btn);
+            
+            // Fix code label visibility
+            var label = block.querySelector('.code-label');
+            if (label) {
+                label.style.position = 'absolute';
+                label.style.top = '0.4rem';
+                label.style.left = '0.75rem';
+                label.style.background = 'rgba(255, 255, 255, 0.06)';
+                label.style.padding = '0.2rem 0.75rem';
+                label.style.fontSize = '0.7rem';
+                label.style.color = 'rgba(255, 255, 255, 0.5)';
+                label.style.fontFamily = "'Inter', sans-serif";
+                label.style.borderRadius = '4px';
+                label.style.border = '1px solid rgba(255, 255, 255, 0.06)';
+                label.style.zIndex = '5';
+                label.style.letterSpacing = '0.02em';
+            }
+        });
+    }
+    
+    function fallbackCopy(text, btn) {
+        // Fallback for older browsers
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showCopiedFeedback(btn);
+        } catch (e) {
+            console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+    }
+    
+    function showCopiedFeedback(btn) {
+        var originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+    
+    // Run on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupCopyButtons);
+    } else {
+        setupCopyButtons();
+    }
+    
+    // Also run after sidebar loads (if applicable)
+    if (window.courseSidebar) {
+        var observer = new MutationObserver(function() {
+            setupCopyButtons();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

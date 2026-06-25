@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StreamProvider – Module 1 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to use StreamProvider in Riverpod for handling real-time data streams, WebSockets, and continuous data updates in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+    .doc-badge i {
+      font-size: var(--font-sm);
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+      position: relative;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: -0.5rem;
+      right: 0.75rem;
+      background: #1e1e2e;
+      padding: 0 0.5rem;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: 'Inter', sans-serif;
+    }
+    .code-block code {
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+    .stream-types-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .stream-type-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .stream-type-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-sm);
+    }
+    .stream-type-item p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .stream-type-item .code-block {
+      margin-top: 0.5rem;
+      padding: 0.75rem;
+    }
+    .stream-type-item .code-block code {
+      font-size: var(--font-xs);
+    }
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .stream-types-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+/* High default limit for fully expanded blocks */
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+
+
+    /* ===== FIXED CODE BLOCK OVERRIDES ===== */
+    .code-block {
+        position: relative !important;
+        padding-top: 2.5rem !important; /* Adds clear spacing for labels and buttons */
+        margin: 1.5rem 0 !important;
+    }
+    .code-block .code-label {
+        position: absolute !important;
+        top: 0.5rem !important;
+        left: 0.75rem !important; /* Moves label to top-left to avoid button collisions */
+        right: auto !important;
+        background: #282a36 !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        font-size: var(--font-xs) !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .toggle-expand-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 5.5rem !important; /* Positioned clearly left of copy button */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .copy-btn {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.75rem !important; /* Cleanly snapped to the top-right corner */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.25rem 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .toggle-expand-btn:hover, .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+    }
+    
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a module1-topic1-why-state-management.html"="">Module 1</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 8</span>
+</div>
+<span class="module-badge"><i class="fas fa-book-open"></i> Module 1</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 8</div>
+<h1>StreamProvider</h1>
+<p class="topic-subtitle">
+            Handling real-time data in Riverpod — working with streams, WebSockets, and continuous data updates.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://riverpod.dev/docs/concepts/providers" target="_blank">
+<i class="fas fa-globe"></i> Riverpod – StreamProvider Guide
+            </a>
+<a class="doc-badge" href="https://dart.dev/tutorials/language/streams" target="_blank">
+<i class="fas fa-book"></i> Dart – Streams Tutorial
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS STREAMPROVIDER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Is StreamProvider?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>StreamProvider</code> is a type of provider in Riverpod that holds a <strong>Stream</strong>.
+            It's designed for real-time, continuous data flows like:
+          </p>
+<ul>
+<li>Firebase Firestore real-time updates</li>
+<li>WebSocket connections</li>
+<li>Sensor data (GPS, accelerometer)</li>
+<li>Chat messages</li>
+<li>Live stock prices</li>
+<li>User presence status</li>
+</ul>
+<div class="concept-card success">
+<h4>✅ When to Use StreamProvider</h4>
+<p>
+              Use <code>StreamProvider</code> when you need to <strong>listen to a continuous stream of data</strong>
+              that updates over time. Unlike <code>FutureProvider</code> which returns a single value,
+              <code>StreamProvider</code> emits multiple values over time.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 2: STREAMS IN DART ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Understanding Streams in Dart</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A <strong>Stream</strong> is a sequence of asynchronous events. It's like a pipe that delivers data
+            over time. There are two types of streams in Dart:
+          </p>
+<div class="stream-types-grid">
+<div class="stream-type-item" style="border-left: 3px solid #3B82F6;">
+<h4>📡 Single-Subscription Stream</h4>
+<p>
+                Can only be listened to once. The listener receives all events from the stream.
+                <strong>Most common type.</strong>
+</p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> stream = Stream.fromIterable([1, 2, 3]);</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<div class="stream-type-item" style="border-left: 3px solid #10B981;">
+<h4>📢 Broadcast Stream</h4>
+<p>
+                Can be listened to by multiple listeners. Each listener receives the same events.
+                Used for events that multiple parts of the app need to hear.
+              </p>
+<div class="code-block collapsed"><span class="code-label">Source Code</span>
+<code><span class="keyword">final</span> stream = StreamController.broadcast().stream;</code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+</div>
+<div class="concept-card info">
+<h4>💡 Stream vs Future</h4>
+<ul>
+<li><strong>Future</strong> – Emits a single value or error once</li>
+<li><strong>Stream</strong> – Emits multiple values over time</li>
+<li><strong>StreamProvider</strong> handles streams with loading and error states</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 3: DEFINING A STREAMPROVIDER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Defining a StreamProvider</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Defining a <code>StreamProvider</code> is similar to other providers, but the creation function
+            returns a <code>Stream</code>.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/providers.dart – Defining a StreamProvider</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+  <span class="comment">// A StreamProvider that emits messages from a chat service</span>
+<span class="keyword">final</span> messagesProvider = StreamProvider&lt;Message&gt;((ref) {
+    <span class="comment">// Return a stream of messages</span>
+<span class="keyword">return</span> chatService.messagesStream;
+  });
+
+  <span class="comment">// A StreamProvider with a broadcast stream</span>
+<span class="keyword">final</span> notificationsProvider = StreamProvider&lt;Notification&gt;((ref) {
+    <span class="keyword">final</span> controller = StreamController&lt;Notification&gt;.broadcast();
+    <span class="comment">// ... setup notification listener ...</span>
+<span class="keyword">return</span> controller.stream;
+  });
+
+  <span class="comment">// A StreamProvider that uses a timer</span>
+<span class="keyword">final</span> timerProvider = StreamProvider&lt;int&gt;((ref) {
+    <span class="keyword">return</span> Stream.periodic(Duration(seconds: 1), (i) =&gt; i + 1);
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: READING A STREAMPROVIDER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Reading a StreamProvider</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            When you <code>watch</code> a <code>StreamProvider</code>, you get an <code>AsyncValue</code> that
+            updates every time the stream emits a new value.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Using StreamProvider in a Widget</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'providers.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">MessagesScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="comment">// 👀 Watch the messages provider</span>
+<span class="keyword">final</span> messagesAsync = ref.watch(messagesProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Chat Messages'</span>)),
+        body: messagesAsync.when(
+          loading: () =&gt; Center(child: CircularProgressIndicator()),
+          error: (error, stack) =&gt; Center(child: Text(<span class="string">'Error: $error'</span>)),
+          data: (messages) {
+            <span class="comment">// messages is the latest value from the stream</span>
+<span class="keyword">return</span> ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) =&gt; ListTile(
+                title: Text(messages[index].text),
+                subtitle: Text(messages[index].sender),
+              ),
+            );
+          },
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Define the Provider</strong> – <code>messagesProvider</code> is a <code>StreamProvider</code>
+                that returns a stream of messages from a chat service.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Watch the Provider</strong> – <code>ref.watch(messagesProvider)</code> returns an
+                <code>AsyncValue</code> that updates with each new value from the stream.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Handle States</strong> – The <code>.when()</code> method handles loading, error, and data states.
+                The data state receives the latest value from the stream.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Automatic Updates</strong> – Whenever the stream emits a new value, the widget rebuilds
+                with the new data.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 6: STREAM PROVIDER WITH CONTROLLER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">StreamProvider with a Controller</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Sometimes you need to control the stream manually, like sending data to a WebSocket or
+            adding events to a stream. Here's how to use a <code>StreamController</code> with
+            <code>StreamProvider</code>.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/chat_provider.dart – With Controller</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+  <span class="comment">// Define a class to hold the controller</span>
+<span class="keyword">class</span> <span class="function">ChatNotifier</span> {
+    <span class="keyword">final</span> StreamController&lt;String&gt; _controller = StreamController&lt;String&gt;.broadcast();
+
+    <span class="comment">// Expose the stream</span>
+    Stream&lt;String&gt; <span class="function">get</span> messages =&gt; _controller.stream;
+
+    <span class="comment">// Method to send a message</span>
+<span class="keyword">void</span> <span class="function">sendMessage</span>(String message) {
+      _controller.add(message);
+    }
+
+    <span class="comment">// Clean up</span>
+<span class="keyword">void</span> <span class="function">dispose</span>() {
+      _controller.close();
+    }
+  }
+
+  <span class="comment">// Create the provider</span>
+<span class="keyword">final</span> chatProvider = Provider&lt;ChatNotifier&gt;((ref) {
+    <span class="keyword">return</span> ChatNotifier();
+  });
+
+  <span class="comment">// StreamProvider that uses the chat notifier</span>
+<span class="keyword">final</span> messagesStreamProvider = StreamProvider&lt;String&gt;((ref) {
+    <span class="keyword">final</span> chat = ref.watch(chatProvider);
+    <span class="keyword">return</span> chat.messages;
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Using the Chat Provider</span>
+<code>
+<span class="keyword">class</span> <span class="function">ChatScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> TextEditingController _textController = TextEditingController();
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> messagesAsync = ref.watch(messagesStreamProvider);
+      <span class="keyword">final</span> chat = ref.watch(chatProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Chat'</span>)),
+        body: Column(
+          children: [
+            Expanded(
+              child: messagesAsync.when(
+                loading: () =&gt; Center(child: CircularProgressIndicator()),
+                error: (error, stack) =&gt; Center(child: Text(<span class="string">'Error: $error'</span>)),
+                data: (messages) =&gt; ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) =&gt; ListTile(
+                    title: Text(messages[index]),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(<span class="number">8</span>),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _textController,
+                      decoration: InputDecoration(
+                        hintText: <span class="string">'Type a message...'</span>,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: () {
+                      <span class="keyword">if</span> (_textController.text.isNotEmpty) {
+                        chat.sendMessage(_textController.text);
+                        _textController.clear();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ Key Pattern</h4>
+<ul>
+<li><strong>Provider</strong> holds the <code>ChatNotifier</code> instance</li>
+<li><strong>StreamProvider</strong> exposes the stream from the notifier</li>
+<li><strong>ref.watch(chatProvider)</strong> gives access to the notifier to send messages</li>
+<li><strong>ref.watch(messagesStreamProvider)</strong> listens for new messages</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Complete Example: Timer App</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Here's a complete example of a real-time timer app that uses <code>StreamProvider</code>
+            with a periodic stream.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/timer_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+  <span class="comment">// A StreamProvider that emits the current time every second</span>
+<span class="keyword">final</span> timerProvider = StreamProvider&lt;DateTime&gt;((ref) {
+    <span class="keyword">return</span> Stream.periodic(Duration(seconds: 1), (_) =&gt; DateTime.now());
+  });
+
+  <span class="comment">// A Provider that holds the timer state</span>
+<span class="keyword">class</span> <span class="function">TimerNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;bool&gt; {
+    TimerNotifier() : <span class="keyword">super</span>(<span class="keyword">false</span>); <span class="comment">// false = stopped, true = running</span>
+<span class="keyword">void</span> <span class="function">toggle</span>() =&gt; state = !state;
+  }
+
+  <span class="keyword">final</span> timerStateProvider = StateNotifierProvider&lt;TimerNotifier, bool&gt;((ref) {
+    <span class="keyword">return</span> TimerNotifier();
+  });
+
+  <span class="comment">// A Provider that controls the timer stream based on the state</span>
+<span class="keyword">final</span> controlledTimerProvider = StreamProvider&lt;DateTime&gt;((ref) {
+    <span class="keyword">final</span> isRunning = ref.watch(timerStateProvider);
+
+    <span class="comment">// If not running, return an empty stream</span>
+<span class="keyword">if</span> (!isRunning) {
+      <span class="keyword">return</span> Stream.empty();
+    }
+
+    <span class="comment">// If running, emit the time every second</span>
+<span class="keyword">return</span> Stream.periodic(Duration(seconds: 1), (_) =&gt; DateTime.now());
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/timer_screen.dart</span>
+<code>
+<span class="keyword">class</span> <span class="function">TimerScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> timerAsync = ref.watch(controlledTimerProvider);
+      <span class="keyword">final</span> isRunning = ref.watch(timerStateProvider);
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Real-Time Timer'</span>)),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              timerAsync.when(
+                loading: () =&gt; CircularProgressIndicator(),
+                error: (error, stack) =&gt; Text(<span class="string">'Error: $error'</span>),
+                data: (time) =&gt; Text(
+                  <span class="string">'${time.hour.toString().padLeft(2, '0')}:'
+                    '${time.minute.toString().padLeft(2, '0')}:'
+                    '${time.second.toString().padLeft(2, '0')}'</span>,
+                  style: TextStyle(fontSize: <span class="number">48</span>, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: <span class="number">32</span>),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: isRunning
+                        ? null
+                        : () =&gt; ref.read(timerStateProvider.notifier).toggle(),
+                    child: Text(<span class="string">'Start'</span>),
+                  ),
+                  SizedBox(width: <span class="number">16</span>),
+                  ElevatedButton(
+                    onPressed: isRunning
+                        ? () =&gt; ref.read(timerStateProvider.notifier).toggle()
+                        : null,
+                    child: Text(<span class="string">'Stop'</span>),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 8: COMPARISON ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">StreamProvider vs FutureProvider</span>
+<span class="divider-line"></span>
+</div>
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: #10B981;">StreamProvider</h4>
+<ul>
+<li>Multiple values over time</li>
+<li>Real-time data updates</li>
+<li>Continuous connection</li>
+<li>Perfect for chat, sensors, notifications</li>
+<li>Can be controlled with StreamController</li>
+</ul>
+</div>
+<div class="compare-item">
+<h4 style="color: #3B82F6;">FutureProvider</h4>
+<ul>
+<li>Single value once</li>
+<li>One-time data fetch</li>
+<li>Disconnected after completion</li>
+<li>Perfect for API calls, database reads</li>
+<li>Can be refreshed with ref.refresh()</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 9: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Forgetting to dispose StreamController</div>
+<p>
+              If you create a <code>StreamController</code>, you must close it when it's no longer needed
+              to prevent memory leaks.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Dispose controllers properly</div>
+<p>
+              Use <code>ref.onDispose</code> or call <code>dispose()</code> in a <code>StateNotifier</code>
+              to clean up controllers.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Using a single-subscription stream with multiple listeners</div>
+<p>
+              Single-subscription streams can only be listened to once. If multiple widgets try to listen,
+              you'll get an error.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use broadcast streams for multiple listeners</div>
+<p>
+              Use <code>StreamController.broadcast()</code> when multiple widgets need to listen to the same stream.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not handling the loading state</div>
+<p>
+              Like <code>FutureProvider</code>, <code>StreamProvider</code> has a loading state before the
+              first value is emitted. Always handle it.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Always handle loading, error, and data states</div>
+<p>
+              Use <code>.when()</code> or <code>.maybeWhen()</code> to handle all three states explicitly.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+<code>StreamProvider</code> is the go-to solution for real-time data in Riverpod.
+            It handles streams with loading and error states, automatically updates the UI when new data arrives,
+            and works seamlessly with <code>StreamController</code> for manual control.
+            <strong>Use it for any continuous data flow in your app.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module1-topic7-futureprovider.html">
+<i class="fas fa-arrow-left"></i> Previous: FutureProvider
+          </a>
+<a class="btn btn-primary btn-sm" href="module1-topic9-statenotifierprovider.html">
+            Next: StateNotifierProvider <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a module1-topic1-why-state-management.html"="">Getting Started</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">Riverpod Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module1-topic8-streamprovider';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

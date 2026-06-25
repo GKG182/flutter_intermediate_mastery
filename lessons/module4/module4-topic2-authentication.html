@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authentication – Module 4 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn how to implement authentication in Flutter with Supabase. Email/password login, signup, session management, magic links, and OAuth providers." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .oauth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .oauth-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .oauth-item .oauth-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .oauth-item .oauth-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .oauth-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module4-state-management.html">Module 4</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 2</span>
+</div>
+<span class="module-badge"><i class="fas fa-database"></i> Module 4</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 2</div>
+<h1>Authentication</h1>
+<p class="topic-subtitle">
+            Implementing email/password login, signup, session management, and OAuth providers with Supabase.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://supabase.com/docs/guides/auth" target="_blank">
+<i class="fas fa-globe"></i> Supabase Auth Overview
+            </a>
+<a class="doc-badge" href="https://supabase.com/docs/guides/auth/quickstarts/flutter" target="_blank">
+<i class="fas fa-book"></i> Flutter Auth Quickstart
+            </a>
+<a class="doc-badge" href="https://pub.dev/packages/supabase_flutter" target="_blank">
+<i class="fas fa-box"></i> supabase_flutter package
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: SUPABASE AUTH OVERVIEW ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Supabase Auth Overview</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Supabase provides a <strong>complete authentication system</strong> that supports:
+          </p>
+<ul>
+<li><strong>Email/Password</strong> – Traditional email and password login</li>
+<li><strong>Magic Links</strong> – Passwordless login via email</li>
+<li><strong>OAuth Providers</strong> – Google, GitHub, Apple, Facebook, and more</li>
+<li><strong>Session Management</strong> – Automatic session handling with refresh tokens</li>
+<li><strong>Password Reset</strong> – Secure password reset flow</li>
+<li><strong>User Profiles</strong> – Store user data in PostgreSQL tables</li>
+</ul>
+<div class="concept-card success">
+<h4>🔐 Supabase Auth vs Firebase Auth</h4>
+<ul>
+<li><strong>Same features</strong> – Email, OAuth, magic links, password reset</li>
+<li><strong>PostgreSQL integration</strong> – User data stored in <code>auth.users</code> table</li>
+<li><strong>RLS integration</strong> – Row Level Security policies work with auth</li>
+<li><strong>Simpler pricing</strong> – 50,000 monthly active users on free tier</li>
+<li><strong>Open source</strong> – Can self-host if needed</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: SETUP ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Setting Up Authentication</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            To use authentication in your Flutter app, you need to configure your Supabase project and initialize the client.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">pubspec.yaml – Add Dependencies</span>
+<code>
+  dependencies:
+    supabase_flutter: ^2.8.0
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/main.dart – Initialize with Auth</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() async {
+    <span class="keyword">await</span> Supabase.initialize(
+      url: <span class="string">'https://your-project.supabase.co'</span>,
+      anonKey: <span class="string">'your-anon-key'</span>,
+      <span class="comment">// Optional: Set up auth redirects for deep linking</span>
+      authOptions: FlutterAuthClientOptions(
+        authFlowType: AuthFlowType.pkce,
+      ),
+    );
+
+    runApp(<span class="function">MyApp</span>());
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 Auth Flow Types</h4>
+<ul>
+<li><strong>pkce</strong> – Proof Key for Code Exchange (recommended for mobile apps)</li>
+<li><strong>implicit</strong> – Implicit flow (simpler but less secure)</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 3: SIGN UP ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Sign Up</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            To create a new user account, use the <code>signUp()</code> method with email and password.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/auth_service.dart – Sign Up</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AuthService</span> {
+    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+
+    <span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signUp</span>({
+      <span class="keyword">required</span> String email,
+      <span class="keyword">required</span> String password,
+      <span class="keyword">String</span>? username,
+    }) async {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> response = <span class="keyword">await</span> client.auth.signUp(
+          email: email,
+          password: password,
+          data: {
+            <span class="string">'username'</span>: username ?? email.split(<span class="string">'@'</span>)[<span class="number">0</span>],
+            <span class="string">'created_at'</span>: DateTime.now().toIso8601String(),
+          },
+        );
+
+        <span class="keyword">return</span> response;
+      } <span class="keyword">catch</span> (e) {
+        <span class="keyword">throw</span> Exception(<span class="string">'Sign up failed: $e'</span>);
+      }
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/signup_screen.dart – Sign Up UI</span>
+<code>
+<span class="keyword">class</span> <span class="function">SignUpScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;SignUpScreen&gt; <span class="function">createState</span>() =&gt; _SignUpScreenState();
+  }
+
+  <span class="keyword">class</span> _SignUpScreenState <span class="keyword">extends</span> State&lt;SignUpScreen&gt; {
+    <span class="keyword">final</span> TextEditingController _emailController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _passwordController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _usernameController = TextEditingController();
+    <span class="keyword">final</span> AuthService _authService = AuthService();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    String? _errorMessage;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_signUp</span>() async {
+      <span class="keyword">final</span> email = _emailController.text.trim();
+      <span class="keyword">final</span> password = _passwordController.text.trim();
+      <span class="keyword">final</span> username = _usernameController.text.trim();
+
+      <span class="keyword">if</span> (email.isEmpty || password.isEmpty) {
+        setState(() =&gt; _errorMessage = <span class="string">'Please fill in all fields'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> (password.length &lt; <span class="number">6</span>) {
+        setState(() =&gt; _errorMessage = <span class="string">'Password must be at least 6 characters'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> response = <span class="keyword">await</span> _authService.signUp(
+          email: email,
+          password: password,
+          username: username.isNotEmpty ? username : <span class="keyword">null</span>,
+        );
+
+        <span class="keyword">if</span> (response.user != <span class="keyword">null</span>) {
+          <span class="comment">// Show success message</span>
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(<span class="string">'Account created! Please check your email for verification.'</span>),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context);
+        }
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _errorMessage = e.toString().replaceAll(<span class="string">'Exception: '</span>, <span class="string">''</span>);
+        });
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Sign Up'</span>)),
+        body: Padding(
+          padding: EdgeInsets.all(<span class="number">24</span>),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Email'</span>,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: <span class="keyword">false</span>,
+              ),
+              SizedBox(height: <span class="number">16</span>),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Password'</span>,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock),
+                ),
+                obscureText: <span class="keyword">true</span>,
+              ),
+              SizedBox(height: <span class="number">16</span>),
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Username (optional)'</span>,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                ),
+              ),
+              <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                Padding(
+                  padding: EdgeInsets.only(top: <span class="number">16</span>),
+                  child: Text(
+                    _errorMessage!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              SizedBox(height: <span class="number">24</span>),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? <span class="keyword">null</span> : _signUp,
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          strokeWidth: <span class="number">2</span>,
+                          color: Colors.white,
+                        )
+                      : Text(<span class="string">'Sign Up'</span>),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () =&gt; Navigator.pop(context),
+                child: Text(<span class="string">'Already have an account? Log in'</span>),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 4: SIGN IN ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Sign In</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            To log in an existing user, use the <code>signInWithPassword()</code> method.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/auth_service.dart – Sign In</span>
+<code>
+<span class="comment">// Add to AuthService class</span>
+<span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signIn</span>({
+    <span class="keyword">required</span> String email,
+    <span class="keyword">required</span> String password,
+  }) async {
+    <span class="keyword">try</span> {
+      <span class="keyword">final</span> response = <span class="keyword">await</span> client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      <span class="keyword">return</span> response;
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Sign in failed: $e'</span>);
+    }
+  }
+
+  <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signOut</span>() async {
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> client.auth.signOut();
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Sign out failed: $e'</span>);
+    }
+  }
+
+  <span class="keyword">Future</span>&lt;User?&gt; <span class="function">getCurrentUser</span>() {
+    <span class="keyword">return</span> Future.value(client.auth.currentSession?.user);
+  }
+
+  <span class="keyword">bool</span> <span class="function">isLoggedIn</span>() {
+    <span class="keyword">return</span> client.auth.currentSession != <span class="keyword">null</span>;
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/login_screen.dart – Sign In UI</span>
+<code>
+<span class="keyword">class</span> <span class="function">LoginScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;LoginScreen&gt; <span class="function">createState</span>() =&gt; _LoginScreenState();
+  }
+
+  <span class="keyword">class</span> _LoginScreenState <span class="keyword">extends</span> State&lt;LoginScreen&gt; {
+    <span class="keyword">final</span> TextEditingController _emailController = TextEditingController();
+    <span class="keyword">final</span> TextEditingController _passwordController = TextEditingController();
+    <span class="keyword">final</span> AuthService _authService = AuthService();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    String? _errorMessage;
+    <span class="keyword">bool</span> _obscurePassword = <span class="keyword">true</span>;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_signIn</span>() async {
+      <span class="keyword">final</span> email = _emailController.text.trim();
+      <span class="keyword">final</span> password = _passwordController.text.trim();
+
+      <span class="keyword">if</span> (email.isEmpty || password.isEmpty) {
+        setState(() =&gt; _errorMessage = <span class="string">'Please enter your email and password'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> response = <span class="keyword">await</span> _authService.signIn(
+          email: email,
+          password: password,
+        );
+
+        <span class="keyword">if</span> (response.user != <span class="keyword">null</span>) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) =&gt; HomeScreen()),
+          );
+        }
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _errorMessage = e.toString().replaceAll(<span class="string">'Exception: '</span>, <span class="string">''</span>);
+        });
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Log In'</span>)),
+        body: Padding(
+          padding: EdgeInsets.all(<span class="number">24</span>),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                <span class="string">'Welcome Back!'</span>,
+                style: TextStyle(
+                  fontSize: <span class="number">24</span>,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              Text(
+                <span class="string">'Sign in to continue'</span>,
+                style: TextStyle(color: Colors.grey.shade600),
+              ),
+              SizedBox(height: <span class="number">32</span>),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Email'</span>,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: <span class="keyword">false</span>,
+              ),
+              SizedBox(height: <span class="number">16</span>),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Password'</span>,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
+                obscureText: _obscurePassword,
+                onSubmitted: (_) =&gt; _signIn(),
+              ),
+              <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                Padding(
+                  padding: EdgeInsets.only(top: <span class="number">16</span>),
+                  child: Text(
+                    _errorMessage!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              SizedBox(height: <span class="number">24</span>),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? <span class="keyword">null</span> : _signIn,
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          strokeWidth: <span class="number">2</span>,
+                          color: Colors.white,
+                        )
+                      : Text(<span class="string">'Log In'</span>),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  <span class="comment">// Navigate to sign up</span>
+                },
+                child: Text(<span class="string">'Don\'t have an account? Sign up'</span>),
+              ),
+              TextButton(
+                onPressed: () {
+                  <span class="comment">// Navigate to password reset</span>
+                },
+                child: Text(
+                  <span class="string">'Forgot password?'</span>,
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 5: MAGIC LINKS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Magic Links (Passwordless Login)</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Magic links allow users to log in without a password by sending a one-time link to their email.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/auth_service.dart – Magic Link</span>
+<code>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">sendMagicLink</span>(String email) async {
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> client.auth.signInWithOtp(
+        email: email,
+        emailRedirectTo: <span class="string">'com.example.app://auth-callback'</span>,
+      );
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Failed to send magic link: $e'</span>);
+    }
+  }
+
+  <span class="comment">// Handle deep link for magic link callback</span>
+<span class="keyword">void</span> <span class="function">handleMagicLink</span>(Uri uri) async {
+    <span class="keyword">try</span> {
+      <span class="keyword">final</span> session = <span class="keyword">await</span> client.auth.getSessionFromUrl(uri);
+      <span class="keyword">if</span> (session != <span class="keyword">null</span>) {
+        <span class="comment">// User is now logged in</span>
+      }
+    } <span class="keyword">catch</span> (e) {
+      print(<span class="string">'Error handling magic link: $e'</span>);
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/screens/magic_link_screen.dart – Magic Link UI</span>
+<code>
+<span class="keyword">class</span> <span class="function">MagicLinkScreen</span> <span class="keyword">extends</span> StatefulWidget {
+    @override
+    State&lt;MagicLinkScreen&gt; <span class="function">createState</span>() =&gt; _MagicLinkScreenState();
+  }
+
+  <span class="keyword">class</span> _MagicLinkScreenState <span class="keyword">extends</span> State&lt;MagicLinkScreen&gt; {
+    <span class="keyword">final</span> TextEditingController _emailController = TextEditingController();
+    <span class="keyword">final</span> AuthService _authService = AuthService();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    <span class="keyword">bool</span> _isSent = <span class="keyword">false</span>;
+    String? _errorMessage;
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_sendMagicLink</span>() async {
+      <span class="keyword">final</span> email = _emailController.text.trim();
+
+      <span class="keyword">if</span> (email.isEmpty) {
+        setState(() =&gt; _errorMessage = <span class="string">'Please enter your email'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      setState(() {
+        _isLoading = <span class="keyword">true</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> _authService.sendMagicLink(email);
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _isSent = <span class="keyword">true</span>;
+        });
+      } <span class="keyword">catch</span> (e) {
+        setState(() {
+          _isLoading = <span class="keyword">false</span>;
+          _errorMessage = e.toString().replaceAll(<span class="string">'Exception: '</span>, <span class="string">''</span>);
+        });
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(title: Text(<span class="string">'Magic Link'</span>)),
+        body: Padding(
+          padding: EdgeInsets.all(<span class="number">24</span>),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                <span class="string">'🔗'</span>,
+                style: TextStyle(fontSize: <span class="number">48</span>),
+              ),
+              SizedBox(height: <span class="number">16</span>),
+              Text(
+                <span class="string">'Get a Magic Link'</span>,
+                style: TextStyle(fontSize: <span class="number">24</span>, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              Text(
+                <span class="string">'We\'ll send you a one-time link to log in instantly'</span>,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey.shade600),
+              ),
+              SizedBox(height: <span class="number">32</span>),
+              <span class="keyword">if</span> (_isSent)
+                Column(
+                  children: [
+                    Icon(Icons.check_circle, color: Colors.green, size: <span class="number">64</span>),
+                    SizedBox(height: <span class="number">16</span>),
+                    Text(
+                      <span class="string">'Check your email!'</span>,
+                      style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      <span class="string">'Click the link in your email to log in'</span>,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    TextButton(
+                      onPressed: () {
+                        setState(() =&gt; _isSent = <span class="keyword">false</span>);
+                      },
+                      child: Text(<span class="string">'Send again'</span>),
+                    ),
+                  ],
+                )
+              <span class="keyword">else</span>
+                Column(
+                  children: [
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: <span class="string">'Email Address'</span>,
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: <span class="keyword">false</span>,
+                    ),
+                    <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                      Padding(
+                        padding: EdgeInsets.only(top: <span class="number">16</span>),
+                        child: Text(
+                          _errorMessage!,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    SizedBox(height: <span class="number">24</span>),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? <span class="keyword">null</span> : _sendMagicLink,
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                strokeWidth: <span class="number">2</span>,
+                                color: Colors.white,
+                              )
+                            : Text(<span class="string">'Send Magic Link'</span>),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () =&gt; Navigator.pop(context),
+                      child: Text(<span class="string">'Back to log in'</span>),
+                    ),
+                  ],
+                ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 6: OAUTH PROVIDERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">OAuth Providers</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Supabase supports multiple OAuth providers for social login:
+          </p>
+<div class="oauth-grid">
+<div class="oauth-item" style="border-left: 3px solid #4285F4;">
+<div class="oauth-icon">🔵</div>
+<div class="oauth-name">Google</div>
+</div>
+<div class="oauth-item" style="border-left: 3px solid #181717;">
+<div class="oauth-icon">⚫</div>
+<div class="oauth-name">GitHub</div>
+</div>
+<div class="oauth-item" style="border-left: 3px solid #000000;">
+<div class="oauth-icon">🍎</div>
+<div class="oauth-name">Apple</div>
+</div>
+<div class="oauth-item" style="border-left: 3px solid #1877F2;">
+<div class="oauth-icon">🔷</div>
+<div class="oauth-name">Facebook</div>
+</div>
+<div class="oauth-item" style="border-left: 3px solid #1DA1F2;">
+<div class="oauth-icon">🐦</div>
+<div class="oauth-name">Twitter</div>
+</div>
+<div class="oauth-item" style="border-left: 3px solid #0A66C2;">
+<div class="oauth-icon">🔗</div>
+<div class="oauth-name">LinkedIn</div>
+</div>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/auth_service.dart – OAuth Login</span>
+<code>
+<span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signInWithGoogle</span>() async {
+    <span class="keyword">try</span> {
+      <span class="keyword">return</span> <span class="keyword">await</span> client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: <span class="string">'com.example.app://auth-callback'</span>,
+      );
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Google sign in failed: $e'</span>);
+    }
+  }
+
+  <span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signInWithGitHub</span>() async {
+    <span class="keyword">try</span> {
+      <span class="keyword">return</span> <span class="keyword">await</span> client.auth.signInWithOAuth(
+        OAuthProvider.github,
+        redirectTo: <span class="string">'com.example.app://auth-callback'</span>,
+      );
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'GitHub sign in failed: $e'</span>);
+    }
+  }
+
+  <span class="keyword">Future</span>&lt;AuthResponse&gt; <span class="function">signInWithApple</span>() async {
+    <span class="keyword">try</span> {
+      <span class="keyword">return</span> <span class="keyword">await</span> client.auth.signInWithOAuth(
+        OAuthProvider.apple,
+        redirectTo: <span class="string">'com.example.app://auth-callback'</span>,
+      );
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Apple sign in failed: $e'</span>);
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card warning">
+<h4>⚠️ OAuth Setup Required</h4>
+<ul>
+<li>Configure OAuth providers in Supabase Dashboard → Authentication → Providers</li>
+<li>Add <strong>redirect URIs</strong> for your app (e.g., <code>com.example.app://auth-callback</code>)</li>
+<li>For Android: Add <code>intent-filter</code> in <code>AndroidManifest.xml</code></li>
+<li>For iOS: Add <code>URL Types</code> in <code>Info.plist</code></li>
+<li>For web: Add the redirect URL in your Supabase project settings</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 7: PASSWORD RESET ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Password Reset</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            To allow users to reset their password, use the <code>resetPasswordForEmail()</code> method.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/services/auth_service.dart – Password Reset</span>
+<code>
+<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">resetPassword</span>(String email) async {
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> client.auth.resetPasswordForEmail(
+        email,
+        redirectTo: <span class="string">'com.example.app://reset-password'</span>,
+      );
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Password reset failed: $e'</span>);
+    }
+  }
+
+  <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">updatePassword</span>(String newPassword) async {
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> client.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">throw</span> Exception(<span class="string">'Password update failed: $e'</span>);
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 8: SESSION MANAGEMENT ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Session Management</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            Supabase handles session management automatically with refresh tokens. Here's how to check the auth state.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">lib/providers/auth_provider.dart – Auth State Provider</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+
+  <span class="keyword">final</span> authStateProvider = StreamProvider&lt;AuthState&gt;((ref) {
+    <span class="keyword">return</span> Supabase.instance.client.auth.onAuthStateChange.map((event) {
+      <span class="keyword">return</span> event.data;
+    });
+  });
+
+  <span class="keyword">final</span> currentUserProvider = Provider&lt;User?&gt;((ref) {
+    <span class="keyword">return</span> Supabase.instance.client.auth.currentSession?.user;
+  });
+
+  <span class="keyword">final</span> isLoggedInProvider = Provider&lt;<span class="keyword">bool</span>&gt;((ref) {
+    <span class="keyword">return</span> Supabase.instance.client.auth.currentSession != <span class="keyword">null</span>;
+  });
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">lib/widgets/auth_guard.dart – Protected Routes</span>
+<code>
+<span class="keyword">class</span> <span class="function">AuthGuard</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">final</span> Widget child;
+
+    <span class="keyword">const</span> AuthGuard({<span class="keyword">required</span> <span class="keyword">this</span>.child, super.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> isLoggedIn = ref.watch(isLoggedInProvider);
+
+      <span class="keyword">if</span> (isLoggedIn) {
+        <span class="keyword">return</span> child;
+      }
+
+      <span class="comment">// Redirect to login</span>
+<span class="keyword">return</span> LoginScreen();
+    }
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 9: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Explanation</span>
+<span class="divider-line"></span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Initialize Supabase</strong> – Add the <code>supabase_flutter</code> package and initialize the client with your project credentials.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Create Auth Service</strong> – Build a service class that wraps Supabase auth methods.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Sign Up</strong> – Use <code>signUp()</code> with email and password, storing additional user data in the <code>data</code> parameter.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Sign In</strong> – Use <code>signInWithPassword()</code> to log in existing users.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Magic Links</strong> – Use <code>signInWithOtp()</code> for passwordless login via email.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>OAuth</strong> – Use <code>signInWithOAuth()</code> for social login with Google, GitHub, Apple, etc.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">7.</span>
+<div class="step-text">
+<strong>Password Reset</strong> – Use <code>resetPasswordForEmail()</code> and <code>updateUser()</code> for password changes.
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">8.</span>
+<div class="step-text">
+<strong>Session Management</strong> – Listen to auth state changes with <code>onAuthStateChange</code>.
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 10: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Not handling email verification</div>
+<p>
+              By default, Supabase requires email verification. Users must verify their email before they can log in.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Handle verification flow</div>
+<p>
+              Show a verification message after sign up. Use the <code>confirmEmail()</code> method to handle the verification link.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Using the wrong redirect URL</div>
+<p>
+              OAuth and magic link redirects must match exactly what's configured in your Supabase dashboard.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Configure redirect URLs correctly</div>
+<p>
+              For mobile apps, use a custom URL scheme like <code>com.example.app://auth-callback</code>.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Not handling session expiration</div>
+<p>
+              Sessions expire after a certain time. If you don't handle this, users will see errors.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use onAuthStateChange</div>
+<p>
+              Listen to auth state changes to react to session expiration and update your UI accordingly.
+            </p>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+            Supabase provides a <strong>complete authentication system</strong> with email/password, magic links,
+            and OAuth providers. The <strong>session management is automatic</strong> with refresh tokens.
+            <strong>Always handle verification flows and use Row Level Security to protect user data.</strong>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module4-topic1-supabase-setup.html">
+<i class="fas fa-arrow-left"></i> Previous: Supabase Setup
+          </a>
+<a class="btn btn-primary btn-sm" href="module4-topic3-database.html">
+            Next: Database (PostgreSQL) <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module4-state-management.html">Module 4</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://supabase.com/docs/guides/auth" rel="noopener" target="_blank">Supabase Auth</a></li>
+<li><a href="https://supabase.com/docs/guides/auth/quickstarts/flutter" rel="noopener" target="_blank">Flutter Auth Quickstart</a></li>
+<li><a href="https://pub.dev/packages/supabase_flutter" rel="noopener" target="_blank">supabase_flutter</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module4-topic2-authentication';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

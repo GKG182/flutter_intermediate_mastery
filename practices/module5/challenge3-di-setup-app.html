@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DI Setup App – Module 5 Challenge | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Build a Dependency Injection Setup App using get_it with multiple modules and environment configurations in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    .challenge-container { max-width: 900px; margin: 0 auto; }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-nav .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: var(--font-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .top-nav .back-link:hover { color: var(--primary); }
+    .top-nav .challenge-badge {
+      margin-left: auto;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .challenge-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .challenge-header h1 { font-size: var(--font-4xl); font-weight: 900; margin: 0.25rem 0; }
+    .challenge-header .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .challenge-header .challenge-meta .meta-item {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenge-header .challenge-meta .meta-item strong { color: var(--text); }
+    .challenge-header .challenge-meta .difficulty-badge {
+      padding: 0.1rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+    .difficulty-badge.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .difficulty-badge .clean-tag {
+      display: inline-block;
+      background: rgba(236, 72, 153, 0.12);
+      color: #EC4899;
+      padding: 0.05rem 0.5rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .challenge-section { margin-bottom: 2.5rem; }
+    .challenge-section h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-section p, .challenge-section li {
+      font-size: var(--font-sm);
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .challenge-section ul { margin: 0.5rem 0 0.5rem 1.5rem; padding-left: 0; }
+    .challenge-section ul li { margin-bottom: 0.25rem; }
+
+    .requirements-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #3B82F6;
+      margin: 1rem 0;
+    }
+    .requirements-box h4 { color: #3B82F6; margin-bottom: 0.5rem; }
+    .requirements-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .requirements-box ul li { margin-bottom: 0.25rem; }
+
+    .api-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      margin: 1rem 0;
+    }
+    .api-box h4 { color: #F59E0B; margin-bottom: 0.5rem; }
+    .api-box code {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: var(--font-sm);
+    }
+    .api-box .endpoint {
+      background: #1e1e2e;
+      color: #a6e3a1;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--font-sm);
+      display: inline-block;
+      margin: 0.25rem 0;
+      word-break: break-all;
+    }
+    .api-box .api-note {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .resources-box {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid #10B981;
+      margin: 1rem 0;
+    }
+    .resources-box h4 { color: #10B981; margin-bottom: 0.5rem; }
+    .resources-box ul { margin: 0 0 0 1.25rem; color: var(--text-secondary); font-size: var(--font-sm); }
+    .resources-box ul li a { color: var(--primary); text-decoration: none; }
+    .resources-box ul li a:hover { text-decoration: underline; }
+
+    .hint-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hint-box:hover { background: rgba(245, 158, 11, 0.1); }
+    .hint-box .hint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #F59E0B;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .hint-box .hint-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0 0 1.5rem;
+    }
+    .hint-box .hint-content.open {
+      max-height: 500px;
+      padding: 0.75rem 0 0 1.5rem;
+    }
+    .hint-box .hint-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.04);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius);
+      padding: 0;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .solution-box .solution-header {
+      padding: 0.75rem 1rem;
+      background: rgba(16, 185, 129, 0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .solution-box .solution-header:hover { background: rgba(16, 185, 129, 0.1); }
+    .solution-box .solution-header .solution-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #10B981;
+    }
+    .solution-box .solution-header .solution-toggle {
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .solution-box .solution-header .solution-toggle.open { transform: rotate(180deg); }
+    .solution-box .solution-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 0 1rem;
+    }
+    .solution-box .solution-body.open {
+      max-height: 8000px;
+      padding: 1rem;
+    }
+    .solution-box .solution-body .code-block { margin: 0; border-radius: var(--radius-sm); }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+    .code-block .built-in { color: #f9e2af; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i { font-size: 0.65rem; }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .btn-complete-challenge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: var(--font-sm);
+    }
+    .btn-complete-challenge:hover { transform: scale(1.05); }
+    .btn-complete-challenge.completed { background: #10B981; }
+
+    @media (max-width: 768px) {
+      .challenge-header h1 { font-size: var(--font-3xl); }
+      .code-block code { font-size: var(--font-sm); }
+      .top-nav { flex-wrap: wrap; }
+      .top-nav .challenge-badge { margin-left: 0; }
+      .api-box .endpoint { font-size: var(--font-xs); word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      .challenge-header h1 { font-size: var(--font-2xl); }
+      .code-block { padding: 0.75rem; }
+      .code-block code { font-size: var(--font-sm); }
+    }
+  </style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== NO SIDEBAR ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<main>
+<section class="page-section">
+<div class="container">
+<div class="challenge-container">
+<div class="top-nav">
+<a class="back-link" href="../../challenges.html">
+<i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+<span class="challenge-badge">
+<i class="fas fa-puzzle-piece"></i>
+              Module 5 · Challenge 3
+            </span>
+</div>
+<div class="challenge-header">
+<h1>Dependency Injection Setup App</h1>
+<div class="challenge-meta">
+<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
+<span class="meta-item"><strong>Module:</strong> Clean Architecture</span>
+<span class="meta-item"><strong>Concepts:</strong> Dependency Injection, get_it, Modular Architecture, Environment Config</span>
+<span class="meta-item"><strong>Est. Time:</strong> 35-45 min</span>
+<span class="meta-item"><span class="clean-tag">🏗️ DI</span></span>
+</div>
+</div>
+<div class="challenge-section">
+<h2>📋 Challenge Description</h2>
+<p>
+              Build a <strong>Dependency Injection Setup App</strong> that demonstrates
+              proper use of <strong>get_it</strong> for dependency injection with
+              modular architecture and environment-based configurations.
+            </p>
+<div class="requirements-box">
+<h4>✅ Requirements</h4>
+<ul>
+<li>Use <strong>get_it</strong> for dependency injection</li>
+<li>Create <strong>separate modules</strong> for different app features</li>
+<li>Implement <strong>environment-based configuration</strong> (dev, staging, prod)</li>
+<li>Use <strong>factory and singleton</strong> registrations appropriately</li>
+<li>Implement <strong>lazy loading</strong> for non-critical dependencies</li>
+<li>Create <strong>abstract interfaces</strong> with multiple implementations</li>
+<li>Use <strong>environment variables</strong> for API keys and URLs</li>
+<li>Show <strong>dependency injection in action</strong> with a simple UI</li>
+<li>Implement <strong>testing mocks</strong> using get_it</li>
+<li>Handle <strong>service registration</strong> with proper order</li>
+</ul>
+</div>
+<div class="api-box">
+<h4>📁 Module Structure</h4>
+<ul style="color: var(--text-secondary); font-size: var(--font-sm);">
+<li><code>lib/</code></li>
+<li>├── <code>core/</code></li>
+<li>│   ├── <code>di/</code> (injection.dart, modules/)</li>
+<li>│   ├── <code>config/</code> (environment.dart)</li>
+<li>│   └── <code>network/</code> (api_client.dart)</li>
+<li>├── <code>features/</code></li>
+<li>│   ├── <code>auth/</code> (data/, domain/, presentation/)</li>
+<li>│   └── <code>dashboard/</code> (data/, domain/, presentation/)</li>
+<li>└── <code>main.dart</code></li>
+</ul>
+</div>
+<div class="resources-box">
+<h4>📚 Resources</h4>
+<ul>
+<li><a href="https://pub.dev/packages/get_it" target="_blank">get_it Package</a></li>
+<li><a href="https://pub.dev/packages/flutter_dotenv" target="_blank">flutter_dotenv</a></li>
+<li><a href="https://pub.dev/packages/injectable" target="_blank">injectable (Code Generation)</a></li>
+<li><a href="https://pub.dev/packages/mockito" target="_blank">mockito for testing</a></li>
+</ul>
+</div>
+</div>
+<div class="challenge-section">
+<div class="hint-box" id="hintBox">
+<div class="hint-header">
+<i class="fas fa-lightbulb"></i>
+<span>Need a hint? Click here</span>
+</div>
+<div class="hint-content" id="hintContent">
+<p>
+                  💡 <strong>Hint:</strong> Create separate modules for each feature (e.g., AuthModule, DashboardModule).
+                  Use <code>registerFactory()</code> for transient dependencies and <code>registerSingleton()</code> for shared services.
+                  Create an <code>Environment</code> class with <code>dev</code>, <code>staging</code>, and <code>prod</code> configs.
+                  Use <code>registerLazySingleton()</code> for services that shouldn't be created at startup.
+                </p>
+</div>
+</div>
+</div>
+<div class="challenge-section">
+<h2>💡 Solution</h2>
+<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+              👇 Click the button below to reveal the full solution code.
+            </p>
+<div class="solution-box" id="solutionBox">
+<div class="solution-header" id="solutionToggle">
+<span class="solution-title">
+<i class="fas fa-code"></i>
+                  Show Solution
+                </span>
+<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="solution-body" id="solutionBody">
+<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
+<div class="code-block">
+<span class="code-label">pubspec.yaml</span>
+<code>
+  dependencies:
+    flutter:
+      sdk: flutter
+    get_it: ^7.6.4
+    flutter_dotenv: ^5.1.0
+    flutter_riverpod: ^2.5.1
+    dio: ^5.3.3
+    shared_preferences: ^2.2.2
+
+  dev_dependencies:
+    flutter_test:
+      sdk: flutter
+    mockito: ^5.4.0
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">2. Environment Configuration (lib/core/config/environment.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/core/config/environment.dart</span>
+<code>
+<span class="keyword">enum</span> EnvironmentType {
+    dev,
+    staging,
+    production,
+  }
+
+  <span class="keyword">class</span> <span class="function">AppConfig</span> {
+    <span class="keyword">final</span> EnvironmentType environment;
+    <span class="keyword">final</span> String baseUrl;
+    <span class="keyword">final</span> String apiKey;
+    <span class="keyword">final</span> <span class="keyword">bool</span> enableLogging;
+    <span class="keyword">final</span> <span class="keyword">bool</span> enableMock;
+
+    <span class="function">AppConfig</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.environment,
+      <span class="keyword">required</span> <span class="keyword">this</span>.baseUrl,
+      <span class="keyword">required</span> <span class="keyword">this</span>.apiKey,
+      <span class="keyword">required</span> <span class="keyword">this</span>.enableLogging,
+      <span class="keyword">required</span> <span class="keyword">this</span>.enableMock,
+    });
+
+    <span class="keyword">factory</span> AppConfig.<span class="function">dev</span>() {
+      <span class="keyword">return</span> AppConfig(
+        environment: EnvironmentType.dev,
+        baseUrl: <span class="string">'https://dev-api.example.com'</span>,
+        apiKey: <span class="string">'dev-api-key-123'</span>,
+        enableLogging: <span class="keyword">true</span>,
+        enableMock: <span class="keyword">true</span>,
+      );
+    }
+
+    <span class="keyword">factory</span> AppConfig.<span class="function">staging</span>() {
+      <span class="keyword">return</span> AppConfig(
+        environment: EnvironmentType.staging,
+        baseUrl: <span class="string">'https://staging-api.example.com'</span>,
+        apiKey: <span class="string">'staging-api-key-456'</span>,
+        enableLogging: <span class="keyword">true</span>,
+        enableMock: <span class="keyword">false</span>,
+      );
+    }
+
+    <span class="keyword">factory</span> AppConfig.<span class="function">production</span>() {
+      <span class="keyword">return</span> AppConfig(
+        environment: EnvironmentType.production,
+        baseUrl: <span class="string">'https://api.example.com'</span>,
+        apiKey: <span class="string">'prod-api-key-789'</span>,
+        enableLogging: <span class="keyword">false</span>,
+        enableMock: <span class="keyword">false</span>,
+      );
+    }
+
+    String <span class="function">getEnvName</span>() {
+      <span class="keyword">switch</span> (environment) {
+        <span class="keyword">case</span> EnvironmentType.dev:
+          <span class="keyword">return</span> <span class="string">'DEV'</span>;
+        <span class="keyword">case</span> EnvironmentType.staging:
+          <span class="keyword">return</span> <span class="string">'STAGING'</span>;
+        <span class="keyword">case</span> EnvironmentType.production:
+          <span class="keyword">return</span> <span class="string">'PROD'</span>;
+      }
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">3. API Client (lib/core/network/api_client.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/core/network/api_client.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:dio/dio.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../config/environment.dart'</span>;
+
+  <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="function">ApiClient</span> {
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">get</span>(String path);
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">post</span>(String path, {dynamic data});
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">put</span>(String path, {dynamic data});
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">delete</span>(String path);
+  }
+
+  <span class="keyword">class</span> <span class="function">DioApiClient</span> <span class="keyword">implements</span> ApiClient {
+    <span class="keyword">final</span> Dio dio;
+    <span class="keyword">final</span> AppConfig config;
+
+    <span class="function">DioApiClient</span>(<span class="keyword">this</span>.dio, <span class="keyword">this</span>.config) {
+      dio.<span class="function">options</span> = BaseOptions(
+        baseUrl: config.baseUrl,
+        connectTimeout: Duration(seconds: <span class="number">30</span>),
+        receiveTimeout: Duration(seconds: <span class="number">30</span>),
+        headers: {
+          <span class="string">'Authorization'</span>: <span class="string">'Bearer ${config.apiKey}'</span>,
+          <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+        },
+      );
+
+      <span class="keyword">if</span> (config.enableLogging) {
+        dio.<span class="function">interceptors</span>.<span class="function">add</span>(LogInterceptor(
+          requestBody: <span class="keyword">true</span>,
+          responseBody: <span class="keyword">true</span>,
+        ));
+      }
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">get</span>(String path) {
+      <span class="keyword">return</span> dio.<span class="function">get</span>(path);
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">post</span>(String path, {dynamic data}) {
+      <span class="keyword">return</span> dio.<span class="function">post</span>(path, data: data);
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">put</span>(String path, {dynamic data}) {
+      <span class="keyword">return</span> dio.<span class="function">put</span>(path, data: data);
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">delete</span>(String path) {
+      <span class="keyword">return</span> dio.<span class="function">delete</span>(path);
+    }
+  }
+
+  <span class="comment">// Mock implementation for testing</span>
+<span class="keyword">class</span> <span class="function">MockApiClient</span> <span class="keyword">implements</span> ApiClient {
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">get</span>(String path) {
+      <span class="keyword">return</span> Future.<span class="function">value</span>(Response(
+        requestOptions: RequestOptions(path: path),
+        statusCode: <span class="number">200</span>,
+        data: {<span class="string">'message'</span>: <span class="string">'Mock response'</span>},
+      ));
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">post</span>(String path, {dynamic data}) {
+      <span class="keyword">return</span> Future.<span class="function">value</span>(Response(
+        requestOptions: RequestOptions(path: path),
+        statusCode: <span class="number">200</span>,
+        data: {<span class="string">'message'</span>: <span class="string">'Mock response'</span>},
+      ));
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">put</span>(String path, {dynamic data}) {
+      <span class="keyword">return</span> Future.<span class="function">value</span>(Response(
+        requestOptions: RequestOptions(path: path),
+        statusCode: <span class="number">200</span>,
+        data: {<span class="string">'message'</span>: <span class="string">'Mock response'</span>},
+      ));
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Response&gt; <span class="function">delete</span>(String path) {
+      <span class="keyword">return</span> Future.<span class="function">value</span>(Response(
+        requestOptions: RequestOptions(path: path),
+        statusCode: <span class="number">200</span>,
+        data: {<span class="string">'message'</span>: <span class="string">'Mock response'</span>},
+      ));
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">4. Base Repository (lib/features/auth/domain/repositories/auth_repository.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/features/auth/domain/repositories/auth_repository.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:dartz/dartz.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AuthFailure</span> {
+    <span class="keyword">final</span> String message;
+    <span class="function">AuthFailure</span>(<span class="keyword">this</span>.message);
+  }
+
+  <span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">final</span> String id;
+    <span class="keyword">final</span> String email;
+    <span class="keyword">final</span> String name;
+
+    <span class="function">User</span>({
+      <span class="keyword">required</span> <span class="keyword">this</span>.id,
+      <span class="keyword">required</span> <span class="keyword">this</span>.email,
+      <span class="keyword">required</span> <span class="keyword">this</span>.name,
+    });
+  }
+
+  <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="function">AuthRepository</span> {
+    <span class="keyword">Future</span>&lt;Either&lt;AuthFailure, User&gt;&gt; <span class="function">login</span>(String email, String password);
+    <span class="keyword">Future</span>&lt;Either&lt;AuthFailure, <span class="keyword">void</span>&gt;&gt; <span class="function">logout</span>();
+    <span class="keyword">Future</span>&lt;Either&lt;AuthFailure, User&gt;&gt; <span class="function">getCurrentUser</span>();
+    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">isAuthenticated</span>();
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">5. Auth Repository Implementation (lib/features/auth/data/repositories/auth_repository_impl.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/features/auth/data/repositories/auth_repository_impl.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:dartz/dartz.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:shared_preferences/shared_preferences.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../core/network/api_client.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../domain/repositories/auth_repository.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AuthRepositoryImpl</span> <span class="keyword">implements</span> AuthRepository {
+    <span class="keyword">final</span> ApiClient apiClient;
+    <span class="keyword">final</span> SharedPreferences prefs;
+    <span class="keyword">static</span> <span class="keyword">const</span> String _tokenKey = <span class="string">'auth_token'</span>;
+
+    <span class="function">AuthRepositoryImpl</span>(<span class="keyword">this</span>.apiClient, <span class="keyword">this</span>.prefs);
+
+    @override
+    <span class="keyword">Future</span>&lt;Either&lt;AuthFailure, User&gt;&gt; <span class="function">login</span>(String email, String password) <span class="keyword">async</span> {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> response = <span class="keyword">await</span> apiClient.<span class="function">post</span>(
+          <span class="string">'/auth/login'</span>,
+          data: {<span class="string">'email'</span>: email, <span class="string">'password'</span>: password},
+        );
+
+        <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
+          <span class="keyword">final</span> data = response.data <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+          <span class="keyword">final</span> user = User(
+            id: data[<span class="string">'id'</span>],
+            email: data[<span class="string">'email'</span>],
+            name: data[<span class="string">'name'</span>],
+          );
+          <span class="keyword">await</span> prefs.<span class="function">setString</span>(_tokenKey, data[<span class="string">'token'</span>]);
+          <span class="keyword">return</span> Right(user);
+        }
+        <span class="keyword">return</span> Left(AuthFailure(<span class="string">'Invalid credentials'</span>));
+      } <span class="function">catch</span> (e) {
+        <span class="keyword">return</span> Left(AuthFailure(e.<span class="function">toString</span>()));
+      }
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Either&lt;AuthFailure, <span class="keyword">void</span>&gt;&gt; <span class="function">logout</span>() <span class="keyword">async</span> {
+      <span class="keyword">try</span> {
+        <span class="keyword">await</span> prefs.<span class="function">remove</span>(_tokenKey);
+        <span class="keyword">return</span> <span class="keyword">const</span> Right(<span class="keyword">null</span>);
+      } <span class="function">catch</span> (e) {
+        <span class="keyword">return</span> Left(AuthFailure(e.<span class="function">toString</span>()));
+      }
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;Either&lt;AuthFailure, User&gt;&gt; <span class="function">getCurrentUser</span>() <span class="keyword">async</span> {
+      <span class="keyword">try</span> {
+        <span class="keyword">final</span> token = prefs.<span class="function">getString</span>(_tokenKey);
+        <span class="keyword">if</span> (token == <span class="keyword">null</span>) {
+          <span class="keyword">return</span> Left(AuthFailure(<span class="string">'No user logged in'</span>));
+        }
+        <span class="keyword">final</span> response = <span class="keyword">await</span> apiClient.<span class="function">get</span>(<span class="string">'/auth/me'</span>);
+        <span class="keyword">final</span> data = response.data <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+        <span class="keyword">return</span> Right(User(
+          id: data[<span class="string">'id'</span>],
+          email: data[<span class="string">'email'</span>],
+          name: data[<span class="string">'name'</span>],
+        ));
+      } <span class="function">catch</span> (e) {
+        <span class="keyword">return</span> Left(AuthFailure(e.<span class="function">toString</span>()));
+      }
+    }
+
+    @override
+    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">isAuthenticated</span>() <span class="keyword">async</span> {
+      <span class="keyword">return</span> prefs.<span class="function">getString</span>(_tokenKey) != <span class="keyword">null</span>;
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">6. DI Modules (lib/core/di/modules/)</h4>
+<div class="code-block">
+<span class="code-label">lib/core/di/modules/network_module.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:dio/dio.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../config/environment.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../network/api_client.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">NetworkModule</span> {
+    <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">register</span>(GetIt sl, AppConfig config) {
+      <span class="comment">// Register Dio as a factory (new instance each time)</span>
+      sl.<span class="function">registerFactory</span>(() =&gt; Dio());
+
+      <span class="comment">// Register ApiClient based on environment</span>
+<span class="keyword">if</span> (config.enableMock) {
+        sl.<span class="function">registerLazySingleton</span>&lt;ApiClient&gt;(() =&gt; MockApiClient());
+      } <span class="keyword">else</span> {
+        sl.<span class="function">registerLazySingleton</span>&lt;ApiClient&gt;(() =&gt; DioApiClient(sl(), config));
+      }
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block">
+<span class="code-label">lib/core/di/modules/storage_module.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:shared_preferences/shared_preferences.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">StorageModule</span> {
+    <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">register</span>(GetIt sl) {
+      <span class="comment">// Register SharedPreferences as a singleton (one instance)</span>
+      sl.<span class="function">registerSingletonAsync</span>(() <span class="keyword">async</span> {
+        <span class="keyword">return</span> <span class="keyword">await</span> SharedPreferences.<span class="function">getInstance</span>();
+      });
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block">
+<span class="code-label">lib/core/di/modules/auth_module.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../features/auth/data/repositories/auth_repository_impl.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../features/auth/domain/repositories/auth_repository.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">AuthModule</span> {
+    <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">register</span>(GetIt sl) {
+      <span class="comment">// Register repository as a lazy singleton</span>
+      sl.<span class="function">registerLazySingleton</span>&lt;AuthRepository&gt;(() =&gt; AuthRepositoryImpl(sl(), sl()));
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">7. Main DI Setup (lib/core/di/injection.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/core/di/injection.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../config/environment.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'modules/network_module.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'modules/storage_module.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'modules/auth_module.dart'</span>;
+
+  <span class="keyword">final</span> sl = GetIt.instance;
+
+  <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">initDependencyInjection</span>(AppConfig config) <span class="keyword">async</span> {
+    <span class="comment">// 1. Register config (singleton - always available)</span>
+    sl.<span class="function">registerSingleton</span>&lt;AppConfig&gt;(config);
+
+    <span class="comment">// 2. Register storage (async - wait for completion)</span>
+<span class="keyword">await</span> StorageModule.<span class="function">register</span>(sl);
+
+    <span class="comment">// 3. Register network (depends on config)</span>
+    NetworkModule.<span class="function">register</span>(sl, config);
+
+    <span class="comment">// 4. Register features (depends on network and storage)</span>
+    AuthModule.<span class="function">register</span>(sl);
+
+    <span class="comment">// 5. Additional modules can be added here</span>
+<span class="comment">// DashboardModule.register(sl);</span>
+  }
+
+  <span class="comment">// Helper function to reset DI (for testing)</span>
+<span class="keyword">void</span> <span class="function">resetDependencyInjection</span>() {
+    sl.<span class="function">reset</span>();
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">8. Main App with DI (lib/main.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/main.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'core/config/environment.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'core/di/injection.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'features/auth/presentation/providers/auth_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'features/auth/presentation/screens/login_screen.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'features/dashboard/presentation/screens/dashboard_screen.dart'</span>;
+
+  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
+    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
+
+    <span class="comment">// Choose environment based on build configuration</span>
+<span class="comment">// In a real app, you'd use flavor or env variables</span>
+<span class="keyword">final</span> config = AppConfig.<span class="function">dev</span>(); <span class="comment">// or staging(), production()</span>
+<span class="comment">// Initialize dependency injection</span>
+<span class="keyword">await</span> <span class="function">initDependencyInjection</span>(config);
+
+    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+  }
+
+  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> authState = ref.<span class="function">watch</span>(authStateProvider);
+
+      <span class="keyword">return</span> MaterialApp(
+        title: <span class="string">'DI Setup App'</span>,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+          useMaterial3: <span class="keyword">true</span>,
+        ),
+        home: authState.<span class="function">when</span>(
+          data: (user) {
+            <span class="keyword">if</span> (user != <span class="keyword">null</span>) {
+              <span class="keyword">return</span> <span class="keyword">const</span> DashboardScreen();
+            }
+            <span class="keyword">return</span> <span class="keyword">const</span> LoginScreen();
+          },
+          loading: () =&gt; <span class="keyword">const</span> Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          ),
+          error: (error, stack) =&gt; Scaffold(
+            body: Center(child: Text(<span class="string">'Error: </span><span class="string">$error</span><span class="string">'</span>)),
+          ),
+        ),
+        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">9. Auth Provider (lib/features/auth/presentation/providers/auth_provider.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/features/auth/presentation/providers/auth_provider.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:dartz/dartz.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../domain/repositories/auth_repository.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../core/di/injection.dart'</span>;
+
+  <span class="keyword">final</span> authStateProvider = StreamProvider&lt;User?&gt;((ref) {
+    <span class="keyword">return</span> <span class="function">_getAuthStream</span>();
+  });
+
+  Stream&lt;User?&gt; <span class="function">_getAuthStream</span>() <span class="keyword">async</span>* {
+    <span class="keyword">final</span> repository = sl&lt;AuthRepository&gt;();
+    <span class="keyword">final</span> result = <span class="keyword">await</span> repository.<span class="function">getCurrentUser</span>();
+    <span class="keyword">yield</span> result.<span class="function">fold</span>((_) =&gt; <span class="keyword">null</span>, (user) =&gt; user);
+  }
+
+  <span class="keyword">class</span> <span class="function">AuthNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;AsyncValue&lt;User?&gt;&gt; {
+    <span class="keyword">final</span> AuthRepository repository;
+
+    <span class="function">AuthNotifier</span>(<span class="keyword">this</span>.repository) : <span class="keyword">super</span>(<span class="keyword">const</span> AsyncValue.loading()) {
+      <span class="function">_loadCurrentUser</span>();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadCurrentUser</span>() <span class="keyword">async</span> {
+      <span class="keyword">final</span> result = <span class="keyword">await</span> repository.<span class="function">getCurrentUser</span>();
+      result.<span class="function">fold</span>(
+        (_) =&gt; state = <span class="keyword">const</span> AsyncValue.<span class="function">data</span>(<span class="keyword">null</span>),
+        (user) =&gt; state = AsyncValue.<span class="function">data</span>(user),
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">login</span>(String email, String password) <span class="keyword">async</span> {
+      state = <span class="keyword">const</span> AsyncValue.loading();
+      <span class="keyword">final</span> result = <span class="keyword">await</span> repository.<span class="function">login</span>(email, password);
+      <span class="keyword">return</span> result.<span class="function">fold</span>(
+        (failure) {
+          state = AsyncValue.<span class="function">error</span>(failure.message, StackTrace.<span class="function">current</span>);
+          <span class="keyword">return</span> <span class="keyword">false</span>;
+        },
+        (user) {
+          state = AsyncValue.<span class="function">data</span>(user);
+          <span class="keyword">return</span> <span class="keyword">true</span>;
+        },
+      );
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">logout</span>() <span class="keyword">async</span> {
+      state = <span class="keyword">const</span> AsyncValue.loading();
+      <span class="keyword">await</span> repository.<span class="function">logout</span>();
+      state = <span class="keyword">const</span> AsyncValue.<span class="function">data</span>(<span class="keyword">null</span>);
+    }
+  }
+
+  <span class="keyword">final</span> authNotifierProvider = StateNotifierProvider&lt;AuthNotifier, AsyncValue&lt;User?&gt;&gt;((ref) {
+    <span class="keyword">return</span> <span class="function">AuthNotifier</span>(sl());
+  });
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">10. Login Screen (lib/features/auth/presentation/screens/login_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/features/auth/presentation/screens/login_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../providers/auth_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../core/di/injection.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../core/config/environment.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">LoginScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
+    <span class="keyword">const</span> <span class="function">LoginScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    ConsumerState&lt;LoginScreen&gt; <span class="function">createState</span>() =&gt; _LoginScreenState();
+  }
+
+  <span class="keyword">class</span> <span class="function">_LoginScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;LoginScreen&gt; {
+    <span class="keyword">final</span> _emailController = TextEditingController();
+    <span class="keyword">final</span> _passwordController = TextEditingController();
+    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+    <span class="keyword">String</span>? _errorMessage;
+
+    @override
+    <span class="keyword">void</span> <span class="function">dispose</span>() {
+      _emailController.<span class="function">dispose</span>();
+      _passwordController.<span class="function">dispose</span>();
+      <span class="keyword">super</span>.<span class="function">dispose</span>();
+    }
+
+    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_login</span>() <span class="keyword">async</span> {
+      <span class="keyword">final</span> email = _emailController.text.<span class="function">trim</span>();
+      <span class="keyword">final</span> password = _passwordController.text.<span class="function">trim</span>();
+
+      <span class="keyword">if</span> (email.<span class="function">isEmpty</span> || password.<span class="function">isEmpty</span>) {
+        <span class="function">setState</span>(() =&gt; _errorMessage = <span class="string">'Please fill in all fields'</span>);
+        <span class="keyword">return</span>;
+      }
+
+      <span class="function">setState</span>(() {
+        _isLoading = <span class="keyword">true</span>;
+        _errorMessage = <span class="keyword">null</span>;
+      });
+
+      <span class="keyword">final</span> success = <span class="keyword">await</span> ref
+          .<span class="function">read</span>(authNotifierProvider.notifier)
+          .<span class="function">login</span>(email, password);
+
+      <span class="keyword">if</span> (!success &amp;&amp; mounted) {
+        <span class="function">setState</span>(() {
+          _isLoading = <span class="keyword">false</span>;
+          _errorMessage = <span class="string">'Invalid credentials'</span>;
+        });
+      }
+    }
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">final</span> config = sl&lt;AppConfig&gt;();
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'DI Setup Demo'</span>),
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.white,
+          actions: [
+            Container(
+              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">6</span>),
+              margin: EdgeInsets.<span class="function">only</span>(right: <span class="number">16</span>),
+              decoration: BoxDecoration(
+                color: Colors.white.<span class="function">withOpacity</span>(<span class="number">0.2</span>),
+                borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+              ),
+              child: Text(
+                config.<span class="function">getEnvName</span>(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: <span class="number">12</span>,
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.lock_outline,
+                size: <span class="number">64</span>,
+                color: Colors.purple,
+              ),
+              SizedBox(height: <span class="number">24</span>),
+              Text(
+                <span class="string">'Dependency Injection Demo'</span>,
+                style: TextStyle(
+                  fontSize: <span class="number">20</span>,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              Text(
+                <span class="string">'Using get_it with modular architecture'</span>,
+                style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+              ),
+              SizedBox(height: <span class="number">32</span>),
+              <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                Container(
+                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                  decoration: BoxDecoration(
+                    color: Colors.red.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  ),
+                  child: Text(
+                    _errorMessage!,
+                    style: TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              SizedBox(height: <span class="number">16</span>),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Email'</span>,
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  ),
+                  hintText: <span class="string">'demo@example.com'</span>,
+                ),
+                enabled: !_isLoading,
+              ),
+              SizedBox(height: <span class="number">12</span>),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: <span class="string">'Password'</span>,
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  ),
+                  hintText: <span class="string">'password'</span>,
+                ),
+                obscureText: <span class="keyword">true</span>,
+                enabled: !_isLoading,
+                onSubmitted: (_) =&gt; _login(),
+              ),
+              SizedBox(height: <span class="number">24</span>),
+              SizedBox(
+                width: <span class="keyword">double</span>.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? <span class="keyword">null</span> : _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                    ),
+                  ),
+                  child: _isLoading
+                      ? SizedBox(
+                          height: <span class="number">20</span>,
+                          width: <span class="number">20</span>,
+                          child: CircularProgressIndicator(
+                            strokeWidth: <span class="number">2</span>,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          <span class="string">'Login'</span>,
+                          style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+                        ),
+                ),
+              ),
+              SizedBox(height: <span class="number">16</span>),
+              Container(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                decoration: BoxDecoration(
+                  color: Colors.grey[<span class="number">50</span>],
+                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  border: Border.<span class="function">all</span>(color: Colors.grey[<span class="number">200</span>]!),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      <span class="string">'💡 DI Status'</span>,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: <span class="number">12</span>,
+                      ),
+                    ),
+                    SizedBox(height: <span class="number">4</span>),
+                    Text(
+                      <span class="string">'Base URL: ${config.baseUrl}'</span>,
+                      style: TextStyle(fontSize: <span class="number">11</span>, color: Colors.grey[<span class="number">600</span>]),
+                    ),
+                    Text(
+                      <span class="string">'Mock Mode: ${config.enableMock ? '✅' : '❌'}'</span>,
+                      style: TextStyle(fontSize: <span class="number">11</span>, color: Colors.grey[<span class="number">600</span>]),
+                    ),
+                    Text(
+                      <span class="string">'Logging: ${config.enableLogging ? '✅' : '❌'}'</span>,
+                      style: TextStyle(fontSize: <span class="number">11</span>, color: Colors.grey[<span class="number">600</span>]),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">11. Dashboard Screen (lib/features/dashboard/presentation/screens/dashboard_screen.dart)</h4>
+<div class="code-block">
+<span class="code-label">lib/features/dashboard/presentation/screens/dashboard_screen.dart</span>
+<code>
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../auth/presentation/providers/auth_provider.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../core/di/injection.dart'</span>;
+  <span class="keyword">import</span> <span class="string">'../../../../core/config/environment.dart'</span>;
+
+  <span class="keyword">class</span> <span class="function">DashboardScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+    <span class="keyword">const</span> <span class="function">DashboardScreen</span>({<span class="keyword">super</span>.key});
+
+    @override
+    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+      <span class="keyword">final</span> config = sl&lt;AppConfig&gt;();
+
+      <span class="keyword">return</span> Scaffold(
+        appBar: AppBar(
+          title: Text(<span class="string">'Dashboard'</span>),
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.white,
+          actions: [
+            Container(
+              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">6</span>),
+              margin: EdgeInsets.<span class="function">only</span>(right: <span class="number">16</span>),
+              decoration: BoxDecoration(
+                color: Colors.white.<span class="function">withOpacity</span>(<span class="number">0.2</span>),
+                borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+              ),
+              child: Text(
+                config.<span class="function">getEnvName</span>(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: <span class="number">12</span>,
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                ref.<span class="function">read</span>(authNotifierProvider.notifier).<span class="function">logout</span>();
+              },
+              icon: Icon(Icons.logout),
+              tooltip: <span class="string">'Logout'</span>,
+            ),
+          ],
+        ),
+        body: Padding(
+          padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+            children: [
+              Text(
+                <span class="string">'Welcome! 🎉'</span>,
+                style: TextStyle(
+                  fontSize: <span class="number">24</span>,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              Text(
+                <span class="string">'You are logged in with DI working properly.'</span>,
+                style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+              ),
+              SizedBox(height: <span class="number">32</span>),
+              Card(
+                elevation: <span class="number">4</span>,
+                child: Padding(
+                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+                    children: [
+                      Text(
+                        <span class="string">'📦 Dependency Injection Status'</span>,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: <span class="number">16</span>,
+                        ),
+                      ),
+                      SizedBox(height: <span class="number">12</span>),
+                      _buildStatusItem(<span class="string">'get_it'</span>, <span class="string">'✅ Registered'</span>),
+                      _buildStatusItem(<span class="string">'SharedPreferences'</span>, <span class="string">'✅ Singleton'</span>),
+                      _buildStatusItem(<span class="string">'ApiClient'</span>, config.enableMock ? <span class="string">'✅ Mock'</span> : <span class="string">'✅ Dio'</span>),
+                      _buildStatusItem(<span class="string">'AuthRepository'</span>, <span class="string">'✅ Lazy Singleton'</span>),
+                      _buildStatusItem(<span class="string">'Environment'</span>, config.<span class="function">getEnvName</span>()),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: <span class="number">24</span>),
+              Text(
+                <span class="string">'🔧 How DI is configured:'</span>,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: <span class="number">16</span>,
+                ),
+              ),
+              SizedBox(height: <span class="number">8</span>),
+              Text(
+                <span class="string">'• NetworkModule - Registers ApiClient (factory)'</span>,
+                style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>]),
+              ),
+              Text(
+                <span class="string">'• StorageModule - Registers SharedPreferences (singleton)'</span>,
+                style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>]),
+              ),
+              Text(
+                <span class="string">'• AuthModule - Registers AuthRepository (lazy singleton)'</span>,
+                style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>]),
+              ),
+              Spacer(),
+              Container(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                decoration: BoxDecoration(
+                  color: Colors.purple.<span class="function">withOpacity</span>(<span class="number">0.05</span>),
+                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  border: Border.<span class="function">all</span>(color: Colors.purple.<span class="function">withOpacity</span>(<span class="number">0.2</span>)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.purple),
+                    SizedBox(width: <span class="number">8</span>),
+                    Expanded(
+                      child: Text(
+                        <span class="string">'Switch environment by changing AppConfig in main.dart'</span>,
+                        style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.purple),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget _buildStatusItem(String label, String value) {
+      <span class="keyword">return</span> Padding(
+        padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.<span class="function">spaceBetween</span>,
+          children: [
+            Text(label, style: TextStyle(color: Colors.grey[<span class="number">600</span>])),
+            Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: value.<span class="function">contains</span>(<span class="string">'✅'</span>) ? Colors.green : Colors.purple,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+                  </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
+<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+<li><strong>get_it Dependency Injection</strong> – Service locator pattern for DI</li>
+<li><strong>Modular Architecture</strong> – Separate DI modules for each feature</li>
+<li><strong>Environment Configuration</strong> – Dev, Staging, Prod environments</li>
+<li><strong>Singleton vs Factory</strong> – Different registration types for different use cases</li>
+<li><strong>Lazy Initialization</strong> – Registering services that load on demand</li>
+<li><strong>Abstract Interfaces</strong> – Multiple implementations (Dio/Mock)</li>
+<li><strong>Async Registration</strong> – Handling async dependencies like SharedPreferences</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="challenge1-clean-notes-app.html">
+<i class="fas fa-arrow-left"></i> Previous Challenge
+            </a>
+<button class="btn-complete-challenge" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+            </button>
+<a class="btn btn-primary btn-sm" href="../module6/challenge1-interactive-quiz-app.html">
+              Next Module <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../../challenges.html">Challenges</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+<li><a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">get_it</a></li>
+<li><a href="https://pub.dev/packages/flutter_dotenv" rel="noopener" target="_blank">flutter_dotenv</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+</div>
+</div>
+</footer>
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      const hintBox = document.getElementById('hintBox');
+      const hintContent = document.getElementById('hintContent');
+      hintBox.addEventListener('click', function() {
+        hintContent.classList.toggle('open');
+      });
+
+      const solutionToggle = document.getElementById('solutionToggle');
+      const solutionBody = document.getElementById('solutionBody');
+      solutionToggle.addEventListener('click', function() {
+        const isOpen = solutionBody.classList.toggle('open');
+        const icon = this.querySelector('.solution-toggle i');
+        const text = this.querySelector('.solution-title');
+        if (isOpen) {
+          icon.className = 'fas fa-chevron-up';
+          text.innerHTML = '<i class="fas fa-code"></i> Hide Solution';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+          text.innerHTML = '<i class="fas fa-code"></i> Show Solution';
+        }
+      });
+
+      const markBtn = document.getElementById('markCompleteBtn');
+      const challengeId = 'm5-c3';
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed!';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+      }
+      checkCompletion();
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[challengeId]) {
+          delete progress[challengeId];
+        } else {
+          progress[challengeId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+      });
+
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>

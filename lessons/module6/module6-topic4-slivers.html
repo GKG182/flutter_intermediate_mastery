@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Slivers – Module 6 | Flutter Intermediate Mastery</title>
+<!-- SEO -->
+<meta content="Learn about Slivers in Flutter. Create fancy scrolling effects like elastic scrolling, collapsing headers, and custom scroll behaviors with slivers." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* ===== LESSON-SPECIFIC STYLES ===== */
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 0 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .lesson-nav .breadcrumb {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .lesson-nav .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lesson-nav .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .lesson-nav .module-badge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+    }
+
+    .topic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+    .topic-header .topic-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .topic-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin: 0.25rem 0;
+    }
+    .topic-header .topic-subtitle {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .doc-badge:hover {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem 0;
+    }
+    .section-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider .divider-label {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .concept-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-left: 4px solid var(--primary);
+      margin: 1.25rem 0;
+    }
+    .concept-card.warning {
+      border-left-color: #F59E0B;
+    }
+    .concept-card.success {
+      border-left-color: #10B981;
+    }
+    .concept-card.info {
+      border-left-color: #3B82F6;
+    }
+    .concept-card h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .concept-card p {
+      margin-bottom: 0;
+      font-size: var(--font-sm);
+    }
+    .concept-card ul {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .concept-card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e1e2e;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      padding-top: 2.5rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: var(--font-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 1rem 0;
+    }
+    .code-block .code-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Inter', sans-serif;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 5;
+      letter-spacing: 0.02em;
+    }
+    .code-block code {
+      display: block;
+      padding-top: 0.5rem;
+      color: #cdd6f4;
+      line-height: 1.8;
+      white-space: pre;
+      font-size: var(--font-sm);
+      font-family: inherit;
+    }
+    .code-block .comment { color: #6c7086; font-style: italic; }
+    .code-block .keyword { color: #cba6f7; }
+    .code-block .string { color: #a6e3a1; }
+    .code-block .number { color: #fab387; }
+    .code-block .function { color: #89b4fa; }
+    .code-block .type { color: #f9e2af; }
+    .code-block .operator { color: #89b4fa; }
+    .code-block .annotation { color: #f5c2e7; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .copy-btn i {
+      font-size: 0.65rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .comparison-grid .compare-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .comparison-grid .compare-item h4 {
+      margin-bottom: 0.25rem;
+      font-size: var(--font-base);
+    }
+    .comparison-grid .compare-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-grid .compare-item ul li {
+      padding: 0.2rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+    }
+    .comparison-grid .compare-item ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .key-takeaway {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .key-takeaway h3 {
+      color: white;
+      margin-bottom: 0.25rem;
+      font-size: var(--font-xl);
+    }
+    .key-takeaway p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--font-sm);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .mistake-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .mistake-box .mistake-title {
+      color: #EF4444;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .mistake-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .good-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+    }
+    .good-box .good-title {
+      color: #10B981;
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .good-box p {
+      margin: 0.25rem 0 0 0;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .mark-complete-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      background: var(--primary-gradient);
+      color: white;
+    }
+    .mark-complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    .mark-complete-btn.completed {
+      background: #10B981;
+    }
+    .mark-complete-btn i {
+      margin-right: 0.5rem;
+    }
+
+    .topic-section {
+      margin-bottom: 2.5rem;
+    }
+    .topic-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-2xl);
+    }
+    .topic-section p {
+      margin-bottom: 0.75rem;
+      font-size: var(--font-sm);
+      line-height: 1.7;
+    }
+    .topic-section ul {
+      margin: 0.75rem 0 0.75rem 1.5rem;
+      padding-left: 0;
+    }
+    .topic-section ul li {
+      margin-bottom: 0.35rem;
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    .step-grid {
+      margin: 1.25rem 0;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-number {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: var(--font-sm);
+    }
+    .step-text {
+      font-size: var(--font-sm);
+    }
+    .step-text strong {
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .feature-item {
+      background: var(--background-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .feature-item .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .feature-item .feature-name {
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+    .feature-item .feature-desc {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .sliver-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .sliver-type {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 2px solid var(--border);
+      text-align: center;
+    }
+    .sliver-type .type-icon {
+      font-size: 2rem;
+    }
+    .sliver-type .type-name {
+      font-weight: 700;
+      font-size: var(--font-base);
+      margin-top: 0.25rem;
+    }
+    .sliver-type .type-desc {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    .sliver-type .type-example {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: rgba(124, 58, 237, 0.06);
+      border-radius: var(--radius-sm);
+    }
+
+    .structure-diagram {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+    }
+    .structure-diagram .box {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      margin: 0.25rem;
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius-sm);
+      font-size: var(--font-sm);
+      font-weight: 600;
+    }
+    .structure-diagram .box .indent {
+      margin-left: 1.5rem;
+    }
+    .structure-diagram .arrow {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      margin: 0 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .features-grid,
+      .sliver-types {
+        grid-template-columns: 1fr;
+      }
+      .topic-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .lesson-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mark-complete-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1.2rem;
+        font-size: var(--font-xs);
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+      .topic-section h2 {
+        font-size: var(--font-xl);
+      }
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-header h1 {
+        font-size: var(--font-2xl);
+      }
+      .code-block {
+        padding: 0.75rem;
+      }
+      .code-block code {
+        font-size: var(--font-sm);
+      }
+    }
+  
+/* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
+.code-block {
+    position: relative !important;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    max-height: 6000px; /* High default limit for fully expanded blocks */
+}
+
+/* Collapsed state with clean layout limits */
+.code-block.collapsed {
+    max-height: 170px !important;
+    overflow: hidden !important;
+}
+
+/* Elegant visual fade out wash indicating content continues below */
+.code-block.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #1e1e2e 25%, transparent 100%);
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for the modern Expand/Collapse Trigger Button */
+.toggle-expand-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
+}
+
+.toggle-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: var(--primary-light, #8B5CF6);
+}
+
+/* Ultra-responsive micro adjustments */
+@media (max-width: 520px) {
+    .code-block .code-label {
+        display: none !important; /* Prevents text colliding on mobile viewports */
+    }
+    .toggle-expand-btn {
+        right: 4.8rem;
+    }
+}
+</style>
+<style id="dynamic-code-block-styles">
+    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+    .code-block {
+      position: relative;
+      transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      overflow: hidden;
+    }
+    .code-block.collapsed {
+      max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
+      padding-bottom: 0.5rem !important;
+    }
+    .collapse-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 6.2rem; /* Positioned carefully to the left of the copy button */
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    /* Fallback styles for copy button if completely absent from stylesheet */
+    .copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      line-height: 1.4;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    </style></head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer"></div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">Flutter Intermediate</span>
+</a>
+<ul class="nav-links">
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">🌙</span>
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger"></span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li><a class="nav-link" href="../../index.html">Home</a></li>
+<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
+<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
+<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle"></i> Mark Complete
+  </button>
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">Home</a>
+<span style="color: var(--text-muted);"> / </span>
+<a href="../module6-advanced-flutter.html">Module 6</a>
+<span style="color: var(--text-muted);"> / </span>
+<span style="color: var(--text-secondary);">Topic 4</span>
+</div>
+<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">Topic 4</div>
+<h1>Slivers</h1>
+<p class="topic-subtitle">
+            Building fancy scrolling effects — from collapsing headers to elastic scrolling — using Flutter's sliver system.
+          </p>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
+<i class="fas fa-globe"></i> Flutter Slivers Docs
+            </a>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
+<i class="fas fa-book"></i> Slivers Guide
+            </a>
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT ARE SLIVERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">What Are Slivers?</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            A <strong>sliver</strong> is a portion of a scrollable area that you can define to behave in a
+            special way. Slivers are the building blocks of custom scrolling in Flutter — they give you
+            <strong>fine-grained control</strong> over how your scrollable content behaves.
+          </p>
+<div class="concept-card info">
+<h4>💡 Key Concept</h4>
+<p>
+              Think of slivers as <strong>"scrollable pieces"</strong> that can be combined to create
+              complex scrolling effects. Unlike <code>ListView</code> or <code>GridView</code> which
+              are self-contained, slivers are <strong>components</strong> that can be arranged in a
+              <code>CustomScrollView</code> to create custom scroll experiences.
+            </p>
+</div>
+<div class="sliver-types">
+<div class="sliver-type" style="border-color: #3B82F6;">
+<div class="type-icon">📱</div>
+<div class="type-name">SliverAppBar</div>
+<div class="type-desc">Collapsible app bar that expands/contracts</div>
+<div class="type-example">Medium-style profile headers</div>
+</div>
+<div class="sliver-type" style="border-color: #10B981;">
+<div class="type-icon">📋</div>
+<div class="type-name">SliverList</div>
+<div class="type-desc">Scrollable list of items</div>
+<div class="type-example">Standard list with custom headers</div>
+</div>
+<div class="sliver-type" style="border-color: #8B5CF6;">
+<div class="type-icon">📊</div>
+<div class="type-name">SliverGrid</div>
+<div class="type-desc">Scrollable grid of items</div>
+<div class="type-example">Pinterest-style layout</div>
+</div>
+<div class="sliver-type" style="border-color: #F59E0B;">
+<div class="type-icon">📌</div>
+<div class="type-name">SliverPersistentHeader</div>
+<div class="type-desc">Header that stays visible while scrolling</div>
+<div class="type-example">Sticky section headers</div>
+</div>
+<div class="sliver-type" style="border-color: #EF4444;">
+<div class="type-icon">🔄</div>
+<div class="type-name">SliverToBoxAdapter</div>
+<div class="type-desc">Wrap a regular widget as a sliver</div>
+<div class="type-example">Mix static content with scrollable content</div>
+</div>
+<div class="sliver-type" style="border-color: #10B981;">
+<div class="type-icon">📐</div>
+<div class="type-name">SliverPadding</div>
+<div class="type-desc">Add padding around slivers</div>
+<div class="type-example">Add spacing between slivers</div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: CUSTOM SCROLL VIEW ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">CustomScrollView</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>CustomScrollView</code> is the container that holds your slivers. It's the
+            <strong>root</strong> of any sliver-based scrolling implementation.
+          </p>
+<div class="structure-diagram">
+<span class="box">CustomScrollView</span>
+<span class="arrow">→</span>
+<span class="box">slivers: [</span>
+<br/>
+<span class="box" style="background: #3B82F6; margin-left: 1.5rem;">SliverAppBar</span>
+<span class="box" style="background: #10B981;">SliverList</span>
+<span class="box" style="background: #8B5CF6;">SliverGrid</span>
+<span class="box" style="background: #F59E0B;">SliverPersistentHeader</span>
+<br/>
+<span class="box">]</span>
+</div>
+<div class="code-block collapsed">
+<span class="code-label">Basic CustomScrollView Structure</span>
+<code>
+<span class="keyword">return</span> Scaffold(
+    body: CustomScrollView(
+      slivers: [
+        <span class="comment">// 1. App Bar (collapsible)</span>
+        SliverAppBar(
+          title: Text(<span class="string">'My Page'</span>),
+          floating: <span class="keyword">true</span>,
+          expandedHeight: <span class="number">200</span>,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text(<span class="string">'Collapsing Header'</span>),
+            background: Image.network(<span class="string">'https://example.com/header.jpg'</span>),
+          ),
+        ),
+
+        <span class="comment">// 2. A regular widget (non-scrollable)</span>
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            child: Text(<span class="string">'Section Header'</span>),
+          ),
+        ),
+
+        <span class="comment">// 3. Scrollable list of items</span>
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) =&gt; ListTile(
+              title: Text(<span class="string">'Item $index'</span>),
+            ),
+            childCount: <span class="number">100</span>,
+          ),
+        ),
+
+        <span class="comment">// 4. Another regular widget</span>
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text(<span class="string">'Load More'</span>),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 3: SLIVER APP BAR ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">SliverAppBar</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>SliverAppBar</code> is one of the most commonly used slivers. It creates a
+            <strong>collapsible app bar</strong> that can expand and contract as the user scrolls.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">Advanced SliverAppBar Example</span>
+<code>
+  SliverAppBar(
+    <span class="comment">// Basic configuration</span>
+    title: Text(<span class="string">'Profile'</span>),
+    centerTitle: <span class="keyword">true</span>,
+
+    <span class="comment">// Expand/collapse behavior</span>
+    expandedHeight: <span class="number">300</span>,
+    collapsedHeight: <span class="number">80</span>,
+    floating: <span class="keyword">true</span>,
+    pinned: <span class="keyword">true</span>,
+    snap: <span class="keyword">false</span>,
+
+    <span class="comment">// Background</span>
+    flexibleSpace: FlexibleSpaceBar(
+      title: Text(<span class="string">'John Doe'</span>),
+      centerTitle: <span class="keyword">true</span>,
+      background: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.blue, Colors.purple],
+          ),
+        ),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: CircleAvatar(
+            radius: <span class="number">50</span>,
+            backgroundImage: NetworkImage(<span class="string">'https://i.pravatar.cc/150?img=1'</span>),
+          ),
+        ),
+      ),
+    ),
+
+    <span class="comment">// Actions</span>
+    actions: [
+      IconButton(
+        icon: Icon(Icons.settings),
+        onPressed: () {},
+      ),
+    ],
+
+    <span class="comment">// Bottom widget</span>
+    bottom: PreferredSize(
+      preferredSize: Size.fromHeight(<span class="number">50</span>),
+      child: Container(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(<span class="string">'Posts: 42'</span>),
+            Text(<span class="string">'Followers: 1.2K'</span>),
+            Text(<span class="string">'Following: 89'</span>),
+          ],
+        ),
+      ),
+    ),
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 SliverAppBar Properties</h4>
+<ul>
+<li><strong>floating</strong> – App bar reappears when scrolling up</li>
+<li><strong>pinned</strong> – App bar stays at the top when collapsed</li>
+<li><strong>snap</strong> – App bar snaps open when partially scrolled</li>
+<li><strong>expandedHeight</strong> – Height when fully expanded</li>
+<li><strong>collapsedHeight</strong> – Height when fully collapsed</li>
+<li><strong>flexibleSpace</strong> – Content that scales with the app bar</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 4: SLIVER LIST AND GRID ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">SliverList and SliverGrid</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>SliverList</code> and <code>SliverGrid</code> are the scrollable content slivers
+            that display collections of items.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">SliverList with Delegate</span>
+<code>
+  SliverList(
+    delegate: SliverChildBuilderDelegate(
+      (context, index) {
+        <span class="keyword">return</span> Container(
+          height: <span class="number">60</span>,
+          margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
+          color: Colors.primaries[index % Colors.primaries.<span class="function">length</span>],
+          child: Center(
+            child: Text(
+              <span class="string">'Item $index'</span>,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+      childCount: <span class="number">50</span>,
+    ),
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="code-block collapsed">
+<span class="code-label">SliverGrid with Delegate</span>
+<code>
+  SliverGrid(
+    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: <span class="number">200</span>,
+      mainAxisSpacing: <span class="number">10</span>,
+      crossAxisSpacing: <span class="number">10</span>,
+      childAspectRatio: <span class="number">1.0</span>,
+    ),
+    delegate: SliverChildBuilderDelegate(
+      (context, index) {
+        <span class="keyword">return</span> Container(
+          decoration: BoxDecoration(
+            color: Colors.primaries[index % Colors.primaries.<span class="function">length</span>],
+            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          ),
+          child: Center(
+            child: Text(
+              <span class="string">'$index'</span>,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: <span class="number">24</span>,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      },
+      childCount: <span class="number">30</span>,
+    ),
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card info">
+<h4>💡 Delegate Options</h4>
+<ul>
+<li><strong>SliverChildBuilderDelegate</strong> – Build items lazily (recommended)</li>
+<li><strong>SliverChildListDelegate</strong> – Provide a pre-built list of children</li>
+<li><strong>SliverChildBuilderDelegate</strong> – Better for large lists (lazy loading)</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 5: STICKY HEADERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">SliverPersistentHeader</span>
+<span class="divider-line"></span>
+</div>
+<p>
+<code>SliverPersistentHeader</code> creates a header that <strong>sticks</strong> to the top
+            of the scroll view as you scroll past it. This is perfect for section headers, sticky tabs,
+            or any content that should remain visible.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">SliverPersistentHeader with Sticky Tabs</span>
+<code>
+<span class="keyword">class</span> <span class="function">StickyHeaderDelegate</span> <span class="keyword">extends</span> SliverPersistentHeaderDelegate {
+    <span class="keyword">final</span> String title;
+
+    <span class="function">StickyHeaderDelegate</span>(<span class="keyword">this</span>.title);
+
+    @override
+    Widget <span class="function">build</span>(
+      BuildContext context,
+      <span class="keyword">double</span> shrinkOffset,
+      <span class="keyword">bool</span> overlapsContent,
+    ) {
+      <span class="keyword">return</span> Container(
+        color: Colors.blue,
+        padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">12</span>, horizontal: <span class="number">16</span>),
+        child: Row(
+          children: [
+            Icon(Icons.label, color: Colors.white),
+            SizedBox(width: <span class="number">8</span>),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: <span class="number">18</span>,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    @override
+    <span class="keyword">double</span> get maxExtent =&gt; <span class="number">60</span>;
+
+    @override
+    <span class="keyword">double</span> get minExtent =&gt; <span class="number">60</span>;
+
+    @override
+    <span class="keyword">bool</span> shouldRebuild(StickyHeaderDelegate oldDelegate) {
+      <span class="keyword">return</span> title != oldDelegate.title;
+    }
+  }
+
+  <span class="comment">// Usage in CustomScrollView</span>
+  CustomScrollView(
+    slivers: [
+      SliverToBoxAdapter(
+        child: Text(<span class="string">'Section 1'</span>),
+      ),
+      SliverPersistentHeader(
+        delegate: StickyHeaderDelegate(<span class="string">'Category A'</span>),
+      ),
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) =&gt; ListTile(title: Text(<span class="string">'Item $index'</span>)),
+          childCount: <span class="number">10</span>,
+        ),
+      ),
+      SliverPersistentHeader(
+        delegate: StickyHeaderDelegate(<span class="string">'Category B'</span>),
+      ),
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) =&gt; ListTile(title: Text(<span class="string">'Item $index'</span>)),
+          childCount: <span class="number">10</span>,
+        ),
+      ),
+    ],
+  )
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+<div class="concept-card success">
+<h4>✅ When to Use SliverPersistentHeader</h4>
+<ul>
+<li><strong>Sticky section headers</strong> – Like a contacts list (A, B, C...)</li>
+<li><strong>Sticky tabs</strong> – Tab bar that stays at the top</li>
+<li><strong>Sticky search bars</strong> – Search field that scrolls with content</li>
+<li><strong>Sticky filters</strong> – Filter options that remain accessible</li>
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 6: MIXING SLIVERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Mixing Slivers</span>
+<span class="divider-line"></span>
+</div>
+<p>
+            The real power of slivers comes from <strong>combining</strong> different types to create
+            complex, polished scrolling experiences.
+          </p>
+<div class="code-block collapsed">
+<span class="code-label">Complete Example: Profile Page</span>
+<code>
+<span class="keyword">class</span> <span class="function">ProfilePage</span> <span class="keyword">extends</span> StatelessWidget {
+    @override
+    Widget <span class="function">build</span>(BuildContext context) {
+      <span class="keyword">return</span> Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            <span class="comment">// 1. Collapsible App Bar</span>
+            SliverAppBar(
+              expandedHeight: <span class="number">250</span>,
+              floating: <span class="keyword">true</span>,
+              pinned: <span class="keyword">true</span>,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(<span class="string">'Profile'</span>),
+                background: Image.network(
+                  <span class="string">'https://example.com/cover.jpg'</span>,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+
+            <span class="comment">// 2. Profile Info (static)</span>
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                child: Column(
+                  children: [
+                    Text(
+                      <span class="string">'John Doe'</span>,
+                      style: TextStyle(fontSize: <span class="number">24</span>, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      <span class="string">'Flutter Developer'</span>,
+                      style: TextStyle(fontSize: <span class="number">16</span>, color: Colors.grey[<span class="number">600</span>]),
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildStat(<span class="string">'Posts'</span>, <span class="string">'42'</span>),
+                        _buildStat(<span class="string">'Followers'</span>, <span class="string">'1.2K'</span>),
+                        _buildStat(<span class="string">'Following'</span>, <span class="string">'89'</span>),
+                      ],
+                    ),
+                    SizedBox(height: <span class="number">16</span>),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text(<span class="string">'Follow'</span>),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            <span class="comment">// 3. Sticky Tab Bar</span>
+            SliverPersistentHeader(
+              delegate: _TabHeaderDelegate(),
+              pinned: <span class="keyword">true</span>,
+            ),
+
+            <span class="comment">// 4. Content (Grid view)</span>
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: <span class="number">150</span>,
+                mainAxisSpacing: <span class="number">2</span>,
+                crossAxisSpacing: <span class="number">2</span>,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  <span class="keyword">return</span> Container(
+                    color: Colors.primaries[index % Colors.primaries.<span class="function">length</span>],
+                    child: Center(
+                      child: Text(
+                        <span class="string">'${index + 1}'</span>,
+                        style: TextStyle(color: Colors.white, fontSize: <span class="number">20</span>),
+                      ),
+                    ),
+                  );
+                },
+                childCount: <span class="number">50</span>,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget <span class="function">_buildStat</span>(String label, String value) {
+      <span class="keyword">return</span> Column(
+        children: [
+          Text(
+            value,
+            style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold),
+          ),
+          Text(label, style: TextStyle(color: Colors.grey[<span class="number">600</span>])),
+        ],
+      );
+    }
+  }
+
+  <span class="keyword">class</span> <span class="function">_TabHeaderDelegate</span> <span class="keyword">extends</span> SliverPersistentHeaderDelegate {
+    @override
+    Widget <span class="function">build</span>(BuildContext context, <span class="keyword">double</span> shrinkOffset, <span class="keyword">bool</span> overlapsContent) {
+      <span class="keyword">return</span> Container(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildTab(<span class="string">'Posts'</span>, <span class="keyword">true</span>),
+            _buildTab(<span class="string">'Photos'</span>, <span class="keyword">false</span>),
+            _buildTab(<span class="string">'Videos'</span>, <span class="keyword">false</span>),
+          ],
+        ),
+      );
+    }
+
+    Widget <span class="function">_buildTab</span>(String text, <span class="keyword">bool</span> isActive) {
+      <span class="keyword">return</span> Padding(
+        padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">12</span>),
+        child: Column(
+          children: [
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: <span class="number">16</span>,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+                color: isActive ? Colors.blue : Colors.grey,
+              ),
+            ),
+            <span class="keyword">if</span> (isActive)
+              Container(
+                height: <span class="number">2</span>,
+                width: <span class="number">30</span>,
+                color: Colors.blue,
+              ),
+          ],
+        ),
+      );
+    }
+
+    @override
+    <span class="keyword">double</span> get maxExtent =&gt; <span class="number">50</span>;
+
+    @override
+    <span class="keyword">double</span> get minExtent =&gt; <span class="number">50</span>;
+
+    @override
+    <span class="keyword">bool</span> shouldRebuild(_TabHeaderDelegate oldDelegate) =&gt; <span class="keyword">false</span>;
+  }
+            </code>
+<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
+</div>
+<!-- ===== SECTION 7: STEP-BY-STEP IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Step-by-Step Implementation</span>
+<span class="divider-line"></span>
+</div>
+<p>Follow these steps to implement slivers in your Flutter app:</p>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">1.</span>
+<div class="step-text">
+<strong>Start with CustomScrollView</strong> – Replace <code>ListView</code> with <code>CustomScrollView</code>
+</div>
+</div>
+<div class="step-item">
+<span class="step-number">2.</span>
+<div class="step-text">
+<strong>Add SliverAppBar</strong> – Create a collapsible app bar at the top
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">3.</span>
+<div class="step-text">
+<strong>Add static content</strong> – Use <code>SliverToBoxAdapter</code> for non-scrollable widgets
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">4.</span>
+<div class="step-text">
+<strong>Add scrollable content</strong> – Use <code>SliverList</code> or <code>SliverGrid</code>
+</div>
+</div>
+<div class="step-item">
+<span class="step-number">5.</span>
+<div class="step-text">
+<strong>Add sticky headers</strong> – Use <code>SliverPersistentHeader</code> for section headers
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">6.</span>
+<div class="step-text">
+<strong>Add spacing</strong> – Use <code>SliverPadding</code> to add space between slivers
+              </div>
+</div>
+<div class="step-item">
+<span class="step-number">7.</span>
+<div class="step-text">
+<strong>Test and refine</strong> – Adjust heights, behaviors, and animations
+              </div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Common Mistakes</span>
+<span class="divider-line"></span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 1: Not using SliverToBoxAdapter for regular widgets</div>
+<p>
+              You can't put regular widgets directly in <code>CustomScrollView.slivers</code>.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Wrap with SliverToBoxAdapter</div>
+<p>
+              Use <code>SliverToBoxAdapter(child: YourWidget())</code> to add regular widgets to a sliver list.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 2: Forgetting to implement shouldRebuild</div>
+<p>
+              Not implementing <code>shouldRebuild</code> in custom delegates can cause unnecessary rebuilds.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Implement shouldRebuild</div>
+<p>
+              Always implement <code>shouldRebuild</code> in your custom delegates to control when they rebuild.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 3: Using SliverChildListDelegate for large lists</div>
+<p>
+<code>SliverChildListDelegate</code> builds all children at once, which is inefficient for large lists.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use SliverChildBuilderDelegate</div>
+<p>
+              Use <code>SliverChildBuilderDelegate</code> for lazy loading of large lists.
+            </p>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">❌ Mistake 4: Hardcoding heights</div>
+<p>
+              Hardcoding heights in slivers can cause layout issues on different screen sizes.
+            </p>
+</div>
+<div class="good-box">
+<div class="good-title">✅ Correct: Use responsive heights</div>
+<p>
+              Use <code>MediaQuery</code>, <code>LayoutBuilder</code>, or dynamic calculations for sliver heights.
+            </p>
+</div>
+</div>
+<!-- ===== SECTION 9: RESOURCES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">Resources</span>
+<span class="divider-line"></span>
+</div>
+<div class="resources-box">
+<h4>📚 Learning Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">Flutter Slivers Docs</a> – Official documentation</li>
+<li><a href="https://medium.com/flutter-community/slivers-demystified-6ff68ab0296f" target="_blank">Slivers, Demystified</a> – Medium article</li>
+<li><a href="https://www.youtube.com/watch?v=p7dF3QaBZjc" target="_blank">SliverAppBar Widget of the Week</a> – 1-minute video</li>
+<li><a href="https://www.youtube.com/watch?v=OrVg6qgQ_wY" target="_blank">SliverList and SliverGrid Widget of the Week</a> – 1-minute video</li>
+</ul>
+</div>
+<div class="resources-box" style="margin-top: 1rem;">
+<h4>🔗 Related Lessons</h4>
+<ul>
+<li><a href="module6-topic2-animations.html">Animations</a> – Combine slivers with animations</li>
+<li><a href="module6-topic1-custom-widgets.html">Custom Widgets</a> – Building reusable components</li>
+<li><a href="../module6-advanced-flutter.html">Module 6 Overview</a> – All advanced topics</li>
+</ul>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>🎯 Key Takeaway</h3>
+<p>
+<strong>Slivers</strong> are the building blocks of custom scrolling in Flutter. Using
+            <code>CustomScrollView</code> with different sliver types — <code>SliverAppBar</code>,
+            <code>SliverList</code>, <code>SliverGrid</code>, and <code>SliverPersistentHeader</code> —
+            you can create <strong>fancy scrolling effects</strong> like collapsing headers, sticky
+            sections, and elastic scrolling. Always use <code>SliverChildBuilderDelegate</code> for
+            large lists and implement <code>shouldRebuild</code> in custom delegates for performance.
+          </p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module6-topic3-hero-animations.html">
+<i class="fas fa-arrow-left"></i> Previous: Hero Animations
+          </a>
+<a class="btn btn-primary btn-sm" href="module6-topic5-performance-optimization.html">
+            Next: Performance Optimization <i class="fas fa-arrow-right"></i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">NekoVerse</span>
+</div>
+<p class="company-tagline">Building cross-platform educational experiences.</p>
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
+</div>
+<div class="footer-links">
+<h4>Course</h4>
+<ul>
+<li><a href="../../roadmap.html">Curriculum</a></li>
+<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
+<li><a href="../../roadmap.html">Projects</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Resources</h4>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" rel="noopener" target="_blank">Flutter Slivers Docs</a></li>
+<li><a href="https://docs.flutter.dev/ui/layout/scrolling" rel="noopener" target="_blank">Scrollable Layouts</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Community</h4>
+<ul>
+<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
+<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
+<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/sidebar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../../components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Mark Complete button
+      const markBtn = document.getElementById('markCompleteBtn');
+      const lessonId = 'module6-topic4-slivers';
+
+      function checkCompletion() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          markBtn.classList.add('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+        } else {
+          markBtn.classList.remove('completed');
+          markBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      checkCompletion();
+
+      markBtn.addEventListener('click', function() {
+        const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+        if (progress[lessonId]) {
+          delete progress[lessonId];
+        } else {
+          progress[lessonId] = true;
+        }
+        localStorage.setItem('flutter_intermediate_progress', JSON.stringify(progress));
+        checkCompletion();
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      });
+
+      // Copy button functionality
+      document.querySelectorAll('.code-block').forEach(function(block) {
+        if (block.querySelector('.copy-btn')) return;
+        var code = block.querySelector('code');
+        if (!code) return;
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.setAttribute('type', 'button');
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = code.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('copied');
+              }, 2000);
+            }).catch(function() {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+
+        block.appendChild(btn);
+      });
+
+      function fallbackCopy(text, btn) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          console.warn('Copy failed:', e);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initialize and bind Expand/Collapse Functionality
+    document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            if (codeBlock.classList.contains('collapsed')) {
+                codeBlock.classList.remove('collapsed');
+                btn.innerHTML = '<i class="fas fa-compress"></i> Collapse';
+            } else {
+                codeBlock.classList.add('collapsed');
+                btn.innerHTML = '<i class="fas fa-expand"></i> Expand';
+                
+                // Keep viewport focused perfectly on code context if it rolls off-screen
+                var boxPosition = codeBlock.getBoundingClientRect();
+                if (boxPosition.top < 0) {
+                    codeBlock.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // 2. Fallback execution binding for missing Copy Buttons injected dynamically
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        if (btn.hasAttribute('data-enhanced-bound')) return;
+        btn.setAttribute('data-enhanced-bound', 'true');
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var codeBlock = btn.closest('.code-block');
+            var codeTag = codeBlock.querySelector('code');
+            if (!codeTag) return;
+            
+            var textToCopy = codeTag.innerText || codeTag.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    animateCopySuccess(btn);
+                }).catch(function() {
+                    performFallbackCopy(textToCopy, btn);
+                });
+            } else {
+                performFallbackCopy(textToCopy, btn);
+            }
+        });
+    });
+
+    function animateCopySuccess(btn) {
+        var oldContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.innerHTML = oldContent;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    function performFallbackCopy(text, btn) {
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            animateCopySuccess(btn);
+        } catch (err) {
+            console.warn('Fallback copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    }
+});
+</script><script id="dynamic-code-block-engine">
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Collapse & Expand Engine ---
+      const collapseButtons = document.querySelectorAll('.collapse-btn');
+      collapseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          
+          const isCollapsed = codeBlock.classList.toggle('collapsed');
+          if (isCollapsed) {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
+          } else {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
+          }
+        });
+      });
+
+      // --- Universal Copy Engine ---
+      const copyButtons = document.querySelectorAll('.copy-btn');
+      copyButtons.forEach(function(btn) {
+        // Prevent doubling up event listeners if some modules already have scripts
+        if (btn.getAttribute('data-utility-hooked') === 'true') return;
+        btn.setAttribute('data-utility-hooked', 'true');
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const codeBlock = btn.closest('.code-block');
+          if (!codeBlock) return;
+          const codeEl = codeBlock.querySelector('code');
+          if (!codeEl) return;
+
+          const text = codeEl.innerText || codeEl.textContent;
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              triggerCopiedState(btn);
+            }).catch(function() {
+              fallbackClipboardCopy(text, btn);
+            });
+          } else {
+            fallbackClipboardCopy(text, btn);
+          }
+        });
+      });
+
+      function triggerCopiedState(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+
+      function fallbackClipboardCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          triggerCopiedState(btn);
+        } catch (err) {
+          console.warn('Fallback copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+    </script></body>
+</html>
