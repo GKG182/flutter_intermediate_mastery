@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Challenges – Flutter Intermediate Mastery</title>
+
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <link rel="stylesheet" href="styles/utilities.css" />
+  <link rel="stylesheet" href="styles/dark_mode.css" />
+  <link rel="stylesheet" href="styles/animations.css" />
+  <link rel="stylesheet" href="styles/sidebar.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* ===== CHALLENGES PAGE STYLES ===== */
+    .challenges-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .challenges-header h1 {
+      font-size: var(--font-4xl);
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+    }
+    .challenges-header p {
+      font-size: var(--font-base);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .challenges-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .challenges-stats .stat-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1rem 2rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      min-width: 120px;
+    }
+    .challenges-stats .stat-card .stat-number {
+      font-size: var(--font-3xl);
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .challenges-stats .stat-card .stat-label {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .challenges-stats .stat-card.completed .stat-number {
+      color: #10B981;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+    .filter-bar .filter-btn {
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--background-secondary);
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    .filter-bar .filter-btn:hover {
+      border-color: var(--primary-light);
+      color: var(--text);
+    }
+    .filter-bar .filter-btn.active {
+      background: var(--primary-gradient);
+      color: white;
+      border-color: transparent;
+    }
+
+    /* Module Section */
+    .module-challenges {
+      margin-bottom: 2.5rem;
+    }
+    .module-challenges .module-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .module-challenges .module-header .module-icon {
+      font-size: 1.8rem;
+    }
+    .module-challenges .module-header h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      margin: 0;
+    }
+    .module-challenges .module-header .module-count {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+    .module-challenges .module-header .module-progress {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Challenge Grid */
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .challenge-card {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+    .challenge-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-md);
+    }
+    .challenge-card .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    .challenge-card .card-header .challenge-number {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--primary);
+      background: rgba(124, 58, 237, 0.08);
+      padding: 0.1rem 0.6rem;
+      border-radius: 50px;
+    }
+    .challenge-card .card-header .challenge-status {
+      font-size: var(--font-xs);
+      padding: 0.1rem 0.6rem;
+      border-radius: 50px;
+      font-weight: 600;
+    }
+    .challenge-card .card-header .challenge-status.pending {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .challenge-card .card-header .challenge-status.completed {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+    }
+    .challenge-card .card-header .challenge-status.in-progress {
+      background: rgba(59, 130, 246, 0.12);
+      color: #3B82F6;
+    }
+
+    .challenge-card h3 {
+      font-size: var(--font-base);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+    .challenge-card p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .challenge-card .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .challenge-card .card-footer .tags {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+    .challenge-card .card-footer .tags .tag {
+      font-size: var(--font-xs);
+      padding: 0.1rem 0.5rem;
+      border-radius: 50px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .challenge-card .card-footer .tags .tag.api {
+      border-color: #3B82F6;
+      color: #3B82F6;
+    }
+    .challenge-card .card-footer .tags .tag.state {
+      border-color: #8B5CF6;
+      color: #8B5CF6;
+    }
+    .challenge-card .card-footer .tags .tag.storage {
+      border-color: #10B981;
+      color: #10B981;
+    }
+    .challenge-card .card-footer .tags .tag.supabase {
+      border-color: #F59E0B;
+      color: #F59E0B;
+    }
+    .challenge-card .card-footer .tags .tag.advanced {
+      border-color: #EF4444;
+      color: #EF4444;
+    }
+    .challenge-card .card-footer .tags .tag.clean {
+      border-color: #EC4899;
+      color: #EC4899;
+    }
+
+    .challenge-card .card-footer .btn-start {
+      font-size: var(--font-sm);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--primary-gradient);
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .challenge-card .card-footer .btn-start:hover {
+      transform: scale(1.05);
+    }
+    .challenge-card .card-footer .btn-start.completed-btn {
+      background: #10B981;
+    }
+
+    .challenge-card .card-footer .btn-start:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .challenge-card .difficulty {
+      display: inline-block;
+      font-size: var(--font-xs);
+      padding: 0.1rem 0.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+    }
+    .challenge-card .difficulty.easy {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+    }
+    .challenge-card .difficulty.medium {
+      background: rgba(245, 158, 11, 0.12);
+      color: #F59E0B;
+    }
+    .challenge-card .difficulty.hard {
+      background: rgba(239, 68, 68, 0.12);
+      color: #EF4444;
+    }
+
+    /* Empty state */
+    .no-challenges {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+    .no-challenges i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .challenge-grid {
+        grid-template-columns: 1fr;
+      }
+      .challenges-stats {
+        gap: 1rem;
+      }
+      .challenges-stats .stat-card {
+        padding: 0.75rem 1.5rem;
+        min-width: 80px;
+      }
+      .challenges-stats .stat-card .stat-number {
+        font-size: var(--font-2xl);
+      }
+      .filter-bar .filter-btn {
+        font-size: var(--font-xs);
+        padding: 0.3rem 0.8rem;
+      }
+      .module-challenges .module-header {
+        flex-wrap: wrap;
+      }
+      .module-challenges .module-header .module-count {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .challenges-header h1 {
+        font-size: var(--font-3xl);
+      }
+      .challenge-card {
+        padding: 1rem;
+      }
+      .challenge-card .card-footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .challenge-card .card-footer .btn-start {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Header -->
+  <header class="header-nav">
+    <div class="container nav-container">
+      <a href="index.html" class="logo"><span class="logo-text">Flutter Intermediate</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
+        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li><a href="challenges.html" class="nav-link active">Challenges</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle"><span class="theme-icon">🌙</span></button>
+        <button id="menu-toggle" class="menu-toggle"><span class="hamburger"></span></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <ul>
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
+        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <div class="container">
+
+        <!-- Header -->
+        <div class="challenges-header">
+          <h1>💪 Practice <span class="gradient-text">Challenges</span></h1>
+          <p>
+            Build real-world Flutter apps with these hands-on challenges.
+            Each challenge is designed to reinforce a specific module concept.
+          </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="challenges-stats" id="challengeStats">
+          <div class="stat-card">
+            <div class="stat-number" id="totalChallenges">0</div>
+            <div class="stat-label">Total Challenges</div>
+          </div>
+          <div class="stat-card completed">
+            <div class="stat-number" id="completedChallenges">0</div>
+            <div class="stat-label">Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="inProgressChallenges">0</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="module1">Module 1</button>
+          <button class="filter-btn" data-filter="module2">Module 2</button>
+          <button class="filter-btn" data-filter="module3">Module 3</button>
+          <button class="filter-btn" data-filter="module4">Module 4</button>
+          <button class="filter-btn" data-filter="module5">Module 5</button>
+          <button class="filter-btn" data-filter="module6">Module 6</button>
+          <button class="filter-btn" data-filter="completed">✅ Completed</button>
+        </div>
+
+        <!-- Challenges Container -->
+        <div id="challengesContainer">
+          <!-- Modules will be rendered here by JavaScript -->
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="company-brand">
+            <img alt="NekoVerse Logo" class="nekoverse-logo-img" src="assets/download.png" width="40" height="40" />
+            <span class="nekoverse-text">NekoVerse</span>
+          </div>
+          <p class="company-tagline">Building cross-platform educational experiences.</p>
+          <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+        </div>
+        <div class="footer-links">
+          <h4>Course</h4>
+          <ul>
+            <li><a href="roadmap.html">Curriculum</a></li>
+            <li><a href="challenges.html">Challenges</a></li>
+            <li><a href="roadmap.html">Projects</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+            <li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+            <li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+            <li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+            <li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+ document.addEventListener('DOMContentLoaded', function() {
+  // Theme toggle
+  const toggle = document.getElementById('theme-toggle');
+  if (toggle) {
+    const icon = toggle.querySelector('.theme-icon');
+    const current = document.documentElement.getAttribute('data-theme');
+    if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+  }
+
+  // ==========================================
+  // CHALLENGE DATA
+  // ==========================================
+
+  const challenges = {
+    module1: {
+      name: 'State Management',
+      icon: '🧠',
+      color: '#8B5CF6',
+      challenges: [
+        {
+          id: 'm1-c1',
+          title: 'Counter Evolution System',
+          description: 'Build a counter app with multiple counters, reset per counter, and a global total counter.',
+          difficulty: 'easy',
+          tags: ['state', 'riverpod'],
+          status: 'pending',
+          path: 'practices/module1/challenge1-counter-evolution.html',
+          api: null
+        },
+        {
+          id: 'm1-c2',
+          title: 'Smart Todo Manager',
+          description: 'Add, delete, and toggle tasks with filtering: All / Done / Pending.',
+          difficulty: 'easy',
+          tags: ['state', 'riverpod'],
+          status: 'pending',
+          path: 'practices/module1/challenge2-todo-manager.html',
+          api: null
+        },
+        {
+          id: 'm1-c3',
+          title: 'Shopping Cart Calculator',
+          description: 'Add/remove products with automatic total calculation.',
+          difficulty: 'easy',
+          tags: ['state', 'riverpod'],
+          status: 'pending',
+          path: 'practices/module1/challenge3-shopping-cart.html',
+          api: null
+        },
+        {
+          id: 'm1-c4',
+          title: 'Theme Switcher Pro',
+          description: 'Light/Dark mode toggle with state persistence.',
+          difficulty: 'medium',
+          tags: ['state', 'riverpod'],
+          status: 'pending',
+          path: 'practices/module1/challenge4-theme-switcher.html',
+          api: null
+        },
+        {
+          id: 'm1-c5',
+          title: 'Async User Loader',
+          description: 'Load fake users from JSONPlaceholder API using FutureProvider.',
+          difficulty: 'medium',
+          tags: ['state', 'api'],
+          status: 'pending',
+          path: 'practices/module1/challenge5-async-user-loader.html',
+          api: 'https://jsonplaceholder.typicode.com/users'
+        },
+        {
+          id: 'm1-c6',
+          title: 'Live Counter Stream',
+          description: 'A counter that updates every second using StreamProvider.',
+          difficulty: 'medium',
+          tags: ['state', 'stream'],
+          status: 'pending',
+          path: 'practices/module1/challenge6-live-counter-stream.html',
+          api: null
+        },
+        {
+          id: 'm1-c7',
+          title: 'Form Validation System',
+          description: 'Login form with email validation and password strength meter.',
+          difficulty: 'medium',
+          tags: ['state', 'forms'],
+          status: 'pending',
+          path: 'practices/module1/challenge7-form-validation.html',
+          api: null
+        },
+        {
+          id: 'm1-c8',
+          title: 'Multi-Step Form State Manager',
+          description: 'Step 1 → 2 → 3 form flow with state preserved across screens.',
+          difficulty: 'hard',
+          tags: ['state', 'riverpod'],
+          status: 'pending',
+          path: 'practices/module1/challenge8-multi-step-form.html',
+          api: null
+        }
+      ]
+    },
+    module2: {
+      name: 'API Integration',
+      icon: '🌐',
+      color: '#3B82F6',
+      challenges: [
+        {
+          id: 'm2-c1',
+          title: 'Weather App',
+          description: 'Fetch weather data from OpenWeatherMap API with HTTP GET and JSON parsing.',
+          difficulty: 'medium',
+          tags: ['api', 'http'],
+          status: 'pending',
+          path: 'practices/module2/challenge1-weather-app.html',
+          api: 'https://openweathermap.org/api'
+        },
+        {
+          id: 'm2-c2',
+          title: 'Movie Explorer',
+          description: 'Search movies, view trending list, and see details using TMDB API.',
+          difficulty: 'medium',
+          tags: ['api', 'http'],
+          status: 'pending',
+          path: 'practices/module2/challenge2-movie-explorer.html',
+          api: 'https://www.themoviedb.org/documentation/api'
+        },
+        {
+          id: 'm2-c3',
+          title: 'News Reader App',
+          description: 'Browse news categories, search articles, and paginate results.',
+          difficulty: 'medium',
+          tags: ['api', 'pagination'],
+          status: 'pending',
+          path: 'practices/module2/challenge3-news-reader.html',
+          api: 'https://newsapi.org'
+        },
+        {
+          id: 'm2-c4',
+          title: 'GitHub Profile Viewer',
+          description: 'Search GitHub users and view their repositories.',
+          difficulty: 'medium',
+          tags: ['api', 'http'],
+          status: 'pending',
+          path: 'practices/module2/challenge4-github-viewer.html',
+          api: 'https://api.github.com'
+        },
+        {
+          id: 'm2-c5',
+          title: 'Wikipedia Search App',
+          description: 'Search Wikipedia articles and preview results.',
+          difficulty: 'medium',
+          tags: ['api', 'search'],
+          status: 'pending',
+          path: 'practices/module2/challenge5-wikipedia-search.html',
+          api: 'https://www.mediawiki.org/wiki/API:Main_page'
+        },
+        {
+          id: 'm2-c6',
+          title: 'Random Joke App',
+          description: 'Fetch random jokes from the Official Joke API.',
+          difficulty: 'easy',
+          tags: ['api', 'http'],
+          status: 'pending',
+          path: 'practices/module2/challenge6-random-joke.html',
+          api: 'https://official-joke-api.appspot.com'
+        },
+        {
+          id: 'm2-c7',
+          title: 'Currency Converter',
+          description: 'Convert between currencies using exchangerate.host API.',
+          difficulty: 'medium',
+          tags: ['api', 'http'],
+          status: 'pending',
+          path: 'practices/module2/challenge7-currency-converter.html',
+          api: 'https://exchangerate.host'
+        },
+        {
+          id: 'm2-c8',
+          title: 'Recipe Finder App',
+          description: 'Search and view recipes using The Meal DB API.',
+          difficulty: 'medium',
+          tags: ['api', 'http'],
+          status: 'pending',
+          path: 'practices/module2/challenge8-recipe-finder.html',
+          api: 'https://www.themealdb.com/api.php'
+        }
+      ]
+    },
+    module3: {
+      name: 'Local Storage',
+      icon: '💾',
+      color: '#10B981',
+      challenges: [
+        {
+          id: 'm3-c1',
+          title: 'Offline Notes App',
+          description: 'Create and persist notes offline using Hive or SQLite.',
+          difficulty: 'medium',
+          tags: ['storage', 'hive'],
+          status: 'pending',
+          path: 'practices/module3/challenge1-offline-notes-app.html',
+          api: null
+        },
+        {
+          id: 'm3-c2',
+          title: 'Expense Tracker Pro',
+          description: 'Track expenses with categories and charts using SQLite.',
+          difficulty: 'medium',
+          tags: ['storage', 'sqlite'],
+          status: 'pending',
+          path: 'practices/module3/challenge2-expense-tracker-pro.html',
+          api: null
+        },
+        {
+          id: 'm3-c3',
+          title: 'Habit Tracker',
+          description: 'Daily habit tracking with streak counter using Hive.',
+          difficulty: 'medium',
+          tags: ['storage', 'hive'],
+          status: 'pending',
+          path: 'practices/module3/challenge3-habit-tracker.html',
+          api: null
+        },
+        {
+          id: 'm3-c4',
+          title: 'Bookmark Manager',
+          description: 'Save and organize bookmarks using SharedPreferences.',
+          difficulty: 'easy',
+          tags: ['storage', 'shared_preferences'],
+          status: 'pending',
+          path: 'practices/module3/challenge4-bookmark-manager.html',
+          api: null
+        }
+      ]
+    },
+    module4: {
+      name: 'Supabase',
+      icon: '🗄️',
+      color: '#F59E0B',
+      challenges: [
+        {
+          id: 'm4-c1',
+          title: 'Authentication System',
+          description: 'Email login, logout, and session persistence with Supabase Auth.',
+          difficulty: 'medium',
+          tags: ['supabase', 'auth'],
+          status: 'pending',
+          path: 'practices/module4/challenge1-auth-system.html',
+          api: 'https://supabase.com/docs/guides/auth'
+        },
+        {
+          id: 'm4-c2',
+          title: 'Realtime Chat App',
+          description: 'Live messaging with timestamps using Supabase Realtime.',
+          difficulty: 'hard',
+          tags: ['supabase', 'realtime'],
+          status: 'pending',
+          path: 'practices/module4/challenge2-realtime-chat.html',
+          api: 'https://supabase.com/docs/guides/realtime'
+        },
+        {
+          id: 'm4-c3',
+          title: 'Task Management System',
+          description: 'Create projects, assign tasks to team members, and track progress in real time.',
+          difficulty: 'hard',
+          tags: ['supabase', 'storage'],
+          status: 'pending',
+          path: 'practices/module4/challenge3-task-management.html',
+          api: 'https://supabase.com/docs/guides/storage'
+        },
+        {
+          id: 'm4-c4',
+          title: 'Live Location Tracker',
+          description: 'Track live locations with Supabase Realtime updates.',
+          difficulty: 'hard',
+          tags: ['supabase', 'realtime'],
+          status: 'pending',
+          path: 'practices/module4/challenge4-location-tracker.html',
+          api: 'https://supabase.com/docs/guides/realtime'
+        }
+      ]
+    },
+    module5: {
+      name: 'Clean Architecture',
+      icon: '🏗️',
+      color: '#EC4899',
+      challenges: [
+        {
+          id: 'm5-c1',
+          title: 'Clean Notes App',
+          description: 'Build a notes app using Clean Architecture, with separate data, domain, and presentation layers, dependency injection, and use cases.',
+          difficulty: 'hard',
+          tags: ['clean', 'architecture'],
+          status: 'pending',
+          path: 'practices/module5/challenge1-clean-notes-app.html',
+          api: null
+        },
+        {
+          id: 'm5-c3',
+          title: 'Dependency Injection Setup App',
+          description: 'Set up get_it for dependency injection in a Flutter app.',
+          difficulty: 'medium',
+          tags: ['clean', 'di'],
+          status: 'pending',
+          path: 'practices/module5/challenge3-di-setup-app.html',
+          api: null
+        }
+      ]
+    },
+    module6: {
+      name: 'Advanced Flutter',
+      icon: '⚡',
+      color: '#EF4444',
+      challenges: [
+        {
+          id: 'm6-c1',
+          title: 'Interactive Quiz App',
+          description: 'Build a quiz app with animated transitions, score tracking, and progress indicators.',
+          difficulty: 'hard',
+          tags: ['advanced', 'animations'],
+          status: 'pending',
+          path: 'practices/module6/challenge1-interactive-quiz-app.html',
+          api: null
+        },
+        {
+          id: 'm6-c2',
+          title: 'Photo Gallery with Animations',
+          description: 'Create a photo gallery with smooth hero animations, grid layouts, and pinch-to-zoom.',
+          difficulty: 'hard',
+          tags: ['advanced', 'slivers'],
+          status: 'pending',
+          path: 'practices/module6/challenge2-photo-gallery.html',
+          api: null
+        },
+        {
+          id: 'm6-c3',
+          title: 'Weather Animation Dashboard',
+          description: 'Build an animated weather icons, temperature graphs, and smooth transitions.',
+          difficulty: 'hard',
+          tags: ['advanced', 'ui'],
+          status: 'pending',
+          path: 'practices/module6/challenge3-weather-animation-dashboard.html',
+          api: null
+        },
+        {
+          id: 'm6-c4',
+          title: 'Fitness Tracker UI',
+          description: 'Trello-style board with drag & drop using GestureDetector.',
+          difficulty: 'hard',
+          tags: ['advanced', 'gestures'],
+          status: 'pending',
+          path: 'practices/module6/challenge4-fitness-tracker-ui.html',
+          api: null
+        },
+        {
+          id: 'm6-c5',
+          title: 'Infinite Scroll Feed',
+          description: 'Load posts from JSONPlaceholder with infinite scrolling.',
+          difficulty: 'medium',
+          tags: ['advanced', 'scrolling'],
+          status: 'pending',
+          path: 'practices/module6/challenge5-infinite-scroll-feed.html',
+          api: 'https://jsonplaceholder.typicode.com/posts'
+        },
+        {
+          id: 'm6-c6',
+          title: 'Image Gallery App',
+          description: 'Browse and search images using Unsplash API.',
+          difficulty: 'medium',
+          tags: ['advanced', 'api'],
+          status: 'pending',
+          path: 'practices/module6/challenge6-image-gallery-app.html',
+          api: 'https://unsplash.com/developers'
+        },
+        {
+          id: 'm6-c7',
+          title: 'Video Player App',
+          description: 'Play videos using the video_player package.',
+          difficulty: 'medium',
+          tags: ['advanced', 'media'],
+          status: 'pending',
+          path: 'practices/module6/challenge7-video-player-app.html',
+          api: null
+        }
+      ]
+    }
+  };
+
+  // ==========================================
+  // RENDER FUNCTIONS
+  // ==========================================
+
+  function renderChallenges(filter = 'all') {
+    const container = document.getElementById('challengesContainer');
+    container.innerHTML = '';
+
+    let totalChallenges = 0;
+    let completedChallenges = 0;
+    let inProgressChallenges = 0;
+
+    // Load progress from localStorage
+    const progress = JSON.parse(localStorage.getItem('flutter_intermediate_progress') || '{}');
+
+    Object.keys(challenges).forEach(moduleKey => {
+      const module = challenges[moduleKey];
+      const filteredChallenges = module.challenges.filter(challenge => {
+        if (filter === 'all') return true;
+        if (filter === 'completed') {
+          const challengeId = challenge.id;
+          const status = progress[challengeId] ? 'completed' : 'pending';
+          return status === 'completed';
+        }
+        if (filter === moduleKey) return true;
+        return false;
+      });
+
+      if (filteredChallenges.length === 0) return;
+
+      // Check if module has any completed challenges
+      const moduleCompleted = module.challenges.filter(c => progress[c.id] === true).length;
+
+      // Create module section
+      const moduleSection = document.createElement('div');
+      moduleSection.className = 'module-challenges';
+      moduleSection.dataset.module = moduleKey;
+
+      moduleSection.innerHTML = `
+        <div class="module-header">
+          <span class="module-icon">${module.icon}</span>
+          <h2>${module.name}</h2>
+          <span class="module-count">${filteredChallenges.length} challenges</span>
+          <span class="module-progress">${moduleCompleted}/${module.challenges.length} completed</span>
+        </div>
+        <div class="challenge-grid">
+          ${filteredChallenges.map(challenge => {
+            const challengeId = challenge.id;
+            const isCompleted = progress[challengeId] === true;
+            const isInProgress = progress[challengeId] === 'in-progress';
+
+            if (isCompleted) completedChallenges++;
+            else if (isInProgress) inProgressChallenges++;
+            totalChallenges++;
+
+            const statusClass = isCompleted ? 'completed' : (isInProgress ? 'in-progress' : 'pending');
+            const statusLabel = isCompleted ? '✅ Done' : (isInProgress ? '🔄 In Progress' : '⏳ Pending');
+
+            // Build tag classes
+            const tagClasses = challenge.tags.map(tag => {
+              const tagMap = {
+                'state': 'state',
+                'riverpod': 'state',
+                'api': 'api',
+                'http': 'api',
+                'storage': 'storage',
+                'hive': 'storage',
+                'sqlite': 'storage',
+                'shared_preferences': 'storage',
+                'supabase': 'supabase',
+                'auth': 'supabase',
+                'realtime': 'supabase',
+                'clean': 'clean',
+                'architecture': 'clean',
+                'di': 'clean',
+                'advanced': 'advanced',
+                'animations': 'advanced',
+                'slivers': 'advanced',
+                'ui': 'advanced',
+                'gestures': 'advanced',
+                'scrolling': 'advanced',
+                'media': 'advanced',
+                'forms': 'state',
+                'stream': 'state',
+                'search': 'api',
+                'pagination': 'api'
+              };
+              return tagMap[tag] || tag;
+            });
+
+            const uniqueTags = [...new Set(tagClasses)];
+
+            return `
+              <div class="challenge-card" data-challenge="${challengeId}" data-module="${moduleKey}">
+                <div class="card-header">
+                  <span class="challenge-number">${challenge.id}</span>
+                  <span class="challenge-status ${statusClass}">${statusLabel}</span>
+                </div>
+                <h3>${challenge.title}</h3>
+                <p>${challenge.description}</p>
+                <div class="card-footer">
+                  <div class="tags">
+                    ${uniqueTags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join('')}
+                    <span class="difficulty ${challenge.difficulty}">${challenge.difficulty}</span>
+                    ${challenge.api ? `<span class="tag api">🌐 API</span>` : ''}
+                  </div>
+                  <a href="${isCompleted ? '#' : challenge.path}" 
+                     class="btn-start ${isCompleted ? 'completed-btn' : ''}"
+                     ${isCompleted ? 'disabled' : ''}>
+                    ${isCompleted ? '✅ Completed' : 'Start Challenge'}
+                  </a>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      container.appendChild(moduleSection);
+    });
+
+    // Update stats
+    document.getElementById('totalChallenges').textContent = totalChallenges;
+    document.getElementById('completedChallenges').textContent = completedChallenges;
+    document.getElementById('inProgressChallenges').textContent = inProgressChallenges;
+
+    // Update sidebar
+    if (window.courseSidebar) {
+      window.courseSidebar.updateAll();
+    }
+  }
+
+  // ==========================================
+  // FILTER FUNCTIONALITY
+  // ==========================================
+  
+  // Check for filter parameter in URL
+  function getFilterFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filter = urlParams.get('filter');
+    return filter || 'all';
+  }
+
+  // Set active filter button based on URL
+  function setActiveFilterButton(filter) {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.dataset.filter === filter) {
+        btn.classList.add('active');
+      }
+    });
+  }
+
+  // Click handler for filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const filter = this.dataset.filter;
+      
+      // Update URL without reloading the page
+      const url = new URL(window.location);
+      if (filter === 'all') {
+        url.searchParams.delete('filter');
+      } else {
+        url.searchParams.set('filter', filter);
+      }
+      window.history.pushState({}, '', url);
+      
+      setActiveFilterButton(filter);
+      renderChallenges(filter);
+    });
+  });
+
+  // ==========================================
+  // INITIAL RENDER - USE URL FILTER
+  // ==========================================
+
+  // Get filter from URL
+  const initialFilter = getFilterFromURL();
+
+  // Set the active filter button
+  setActiveFilterButton(initialFilter);
+
+  // Render with the filter from URL
+  renderChallenges(initialFilter);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flutter Intermediate Mastery – Learn Flutter Through Projects</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Project-based Flutter course for intermediate developers. Build real apps and become job-ready." />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <link rel="stylesheet" href="styles/utilities.css" />
+  <link rel="stylesheet" href="styles/dark_mode.css" />
+  <link rel="stylesheet" href="styles/animations.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <canvas id="bg-3d" aria-hidden="true"></canvas>
+
+  <!-- ===== HEADER – Clean, minimal ===== -->
+  <header class="header-nav">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <span class="logo-text">Flutter Intermediate</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link active">Home</a></li>
+        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
+        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
+          <span class="hamburger"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <ul>
+        <li><a href="/" class="nav-link active">Home</a></li>
+        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
+        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <div class="hero-badge"><i class="fas fa-rocket"></i> Project‑Based</div>
+        <h1 class="hero-title">Master Intermediate <br /><span class="gradient-text">Flutter</span></h1>
+        <p class="hero-description">
+          Build 17 real‑world apps while learning state management, API integration, Supabase, clean architecture, and advanced UI. No fluff — just practical skills.
+        </p>
+        <div class="hero-actions">
+          <a href="roadmap.html" class="btn btn-primary btn-large"><i class="fas fa-map"></i> View Roadmap</a>
+          <a href="#modules" class="btn btn-outline btn-large"><i class="fas fa-chevron-down"></i> Explore</a>
+        </div>
+        <div class="hero-stats">
+          <div><span class="stat-number">6</span><span class="stat-label">Modules</span></div>
+          <div><span class="stat-number">17</span><span class="stat-label">Projects</span></div>
+          <div><span class="stat-number">50+</span><span class="stat-label">Lessons</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="floating-card card-1"><i class="fas fa-code"></i> Flutter</div>
+        <div class="floating-card card-2"><i class="fas fa-database"></i> Supabase</div>
+        <div class="floating-card card-3"><i class="fas fa-cloud"></i> REST API</div>
+        <div class="floating-card card-4"><i class="fas fa-mobile-alt"></i> Apps</div>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECH STACK ===== -->
+  <section class="tech-stack">
+    <div class="container text-center">
+      <p class="tech-stack-label">Built with the tools real Flutter teams use</p>
+      <div class="tech-stack-inner">
+        <span class="tech-item"><i class="fas fa-layer-group"></i> Flutter</span>
+        <span class="tech-item"><i class="fas fa-bolt"></i> Dart</span>
+        <span class="tech-item"><i class="fas fa-fire"></i> Supabase</span>
+        <span class="tech-item"><i class="fas fa-code-branch"></i> Riverpod</span>
+        <span class="tech-item"><i class="fas fa-cloud"></i> REST APIs</span>
+        <span class="tech-item"><i class="fas fa-database"></i> SQLite</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Why This Course?</h2>
+        <p class="section-subtitle">Learn by building, not by reading.</p>
+      </div>
+    </div>
+    <div class="swipe-scroll" id="featuresScroll">
+      <div class="feature-card card swipe-card">
+        <div class="feature-icon"><i class="fas fa-project-diagram"></i></div>
+        <h3>Project‑Based</h3>
+        <p>Every concept is introduced through a complete, production‑ready application.</p>
+      </div>
+      <div class="feature-card card swipe-card">
+        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+        <h3>Beginner Friendly</h3>
+        <p>Assumes you've completed a beginner Flutter course. Simple explanations for complex topics.</p>
+      </div>
+      <div class="feature-card card swipe-card">
+        <div class="feature-icon"><i class="fas fa-book-open"></i></div>
+        <h3>Official Docs</h3>
+        <p>Every lesson links to the official Flutter, Riverpod, and Supabase documentation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODULES ===== -->
+  <section class="modules" id="modules">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Course Modules</h2>
+        <p class="section-subtitle">From state management to advanced UI — a clear path to mastery.</p>
+      </div>
+    </div>
+    <div class="swipe-scroll modules-scroll" id="modulesScroll">
+      <!-- Module 1 -->
+      <div class="module-card card swipe-card">
+        <div class="module-number">01</div>
+        <h3>State Management</h3>
+        <p>Riverpod, providers, and state patterns through real projects.</p>
+        <div class="module-projects">
+          <span class="project-tag">Counter App Pro</span>
+          <span class="project-tag">Task Manager</span>
+          <span class="project-tag">Shopping Cart</span>
+        </div>
+        <a href="lessons/module1/module1-topic1-why-state-management.html" class="btn btn-primary btn-sm">Explore →</a>
+      </div>
+      <!-- Module 2 -->
+      <div class="module-card card swipe-card">
+        <div class="module-number">02</div>
+        <h3>API Integration</h3>
+        <p>HTTP, REST, JSON, pagination, caching — build a Weather App, Movie Explorer, and News Reader.</p>
+        <div class="module-projects">
+          <span class="project-tag">Weather App</span>
+          <span class="project-tag">Movie Explorer</span>
+          <span class="project-tag">News Reader</span>
+        </div>
+        <a href="lessons/module2/module2-topic1-http-requests.html" class="btn btn-primary btn-sm">Explore →</a>
+      </div>
+      <!-- Module 3 -->
+      <div class="module-card card swipe-card">
+        <div class="module-number">03</div>
+        <h3>Local Storage</h3>
+        <p>SharedPreferences, Hive, SQLite — build a Notes App, Expense Tracker, and Habit Tracker.</p>
+        <div class="module-projects">
+          <span class="project-tag">Notes App</span>
+          <span class="project-tag">Expense Tracker</span>
+          <span class="project-tag">Habit Tracker</span>
+        </div>
+        <a href="lessons/module3/module3-topic1-shared-preferences.html" class="btn btn-primary btn-sm">Explore →</a>
+      </div>
+      <!-- Module 4 -->
+      <div class="module-card card swipe-card">
+        <div class="module-number">04</div>
+        <h3>Supabase</h3>
+        <p>Auth, Firestore, Storage, Cloud Messaging — build an Auth App, Chat, and Instagram clone.</p>
+        <div class="module-projects">
+          <span class="project-tag">Auth App</span>
+          <span class="project-tag">Chat App</span>
+          <span class="project-tag">Instagram Clone</span>
+        </div>
+        <a href="lessons/module4/module4-topic1-supabase-setup.html" class="btn btn-primary btn-sm">Explore →</a>
+      </div>
+      <!-- Module 5 -->
+      <div class="module-card card swipe-card">
+        <div class="module-number">05</div>
+        <h3>Clean Architecture</h3>
+        <p>Repository pattern, dependency injection, and feature‑first structure by refactoring existing apps.</p>
+        <div class="module-projects">
+          <span class="project-tag">Refactor Weather</span>
+          <span class="project-tag">Refactor Chat</span>
+        </div>
+        <a href="lessons/module5/module5-topic1-architecture-overview.html" class="btn btn-primary btn-sm">Explore →</a>
+      </div>
+      <!-- Module 6 -->
+      <div class="module-card card swipe-card">
+        <div class="module-number">06</div>
+        <h3>Advanced Flutter</h3>
+        <p>Custom widgets, animations, Hero, slivers, performance, responsive design.</p>
+        <div class="module-projects">
+          <span class="project-tag">Animated Portfolio</span>
+          <span class="project-tag">E‑Commerce UI</span>
+          <span class="project-tag">Netflix UI</span>
+        </div>
+        <a href="lessons/module6/module6-topic1-custom-widgets.html" class="btn btn-primary btn-sm">Explore →</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="text-center mt-5">
+        <a href="roadmap.html" class="btn btn-secondary btn-large"><i class="fas fa-map-signs"></i> Full Roadmap</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know before you start.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Do I need any prior Flutter experience?</summary>
+          <p>Yes — this course assumes you've already completed a beginner Flutter course and are comfortable with widgets, basic state, and navigation. If Flutter is completely new to you, start with the fundamentals first and come back here once the basics feel familiar.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What Flutter and Dart versions does this course use?</summary>
+          <p>The course is kept current with the latest stable Flutter and Dart releases, including sound null safety and Material 3 widgets, so what you build here matches what you'll see in real production codebases.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How long does it take to finish?</summary>
+          <p>Most learners work through all six modules and 17 projects in 6–10 weeks at a pace of a few hours a week. Everything is fully self-paced, so you can move faster or slower depending on your schedule.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I get a certificate when I finish?</summary>
+          <p>Not at the moment — the focus here is on the 17 portfolio-ready projects themselves, which tend to carry a lot more weight with employers and clients than a completion certificate.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if I get stuck on a lesson?</summary>
+          <p>Every lesson links directly to the official Flutter, Riverpod, and Supabase documentation, and the roadmap page tracks exactly where you are in the course so you always know what to tackle next.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a community to ask questions in?</summary>
+          <p>Yes — the Discord community linked in the footer is the best place to ask questions, share progress on your projects, and get a second pair of eyes when something isn't working.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Ready to Become Job-Ready?</h2>
+        <p>Follow the roadmap, build all 17 projects, and walk away with a portfolio that proves you can ship real Flutter apps.</p>
+        <a href="roadmap.html" class="btn btn-light btn-large"><i class="fas fa-rocket"></i> Start the Roadmap</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER – NekoVerse branding, no portfolio ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="company-brand">
+            <img alt="NekoVerse Logo" class="nekoverse-logo-img" src="assets/download.png" width="40" height="40" />
+            <span class="nekoverse-text">NekoVerse</span>
+          </div>
+          <p class="company-tagline">Building cross-platform educational experiences.</p>
+          <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+        </div>
+        <div class="footer-links">
+          <h4>Course</h4>
+          <ul>
+            <li><a href="roadmap.html">Curriculum</a></li>
+            <li><a href="lessons/module1/module1-topic1-why-state-management.html">Getting Started</a></li>
+            <li><a href="roadmap.html">Projects</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+            <li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+            <li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+            <li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+            <li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/theme.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // ===== 3D background (Three.js) =====
+    // Floating wireframe shapes + a soft particle field, fixed behind the
+    // whole page. Pure decoration — wrapped so a blocked/failed CDN load
+    // just leaves the plain CSS gradient background (no broken page).
+    (function () {
+      if (typeof THREE === 'undefined') return;
+
+      const canvas = document.getElementById('bg-3d');
+      if (!canvas) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.z = 14;
+
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      function currentPalette() {
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return {
+          particle: dark ? 0xc4b5fd : 0x8b5cf6,
+          shapeA: dark ? 0xa78bfa : 0x6d28d9,
+          shapeB: dark ? 0xf9a8d4 : 0xec4899,
+          particleOpacity: dark ? 0.85 : 0.55,
+          shapeOpacity: dark ? 0.28 : 0.16
+        };
+      }
+      let palette = currentPalette();
+
+      // ---- Particle field ----
+      const PARTICLE_COUNT = 700;
+      const positions = new Float32Array(PARTICLE_COUNT * 3);
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 40;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 30 - 5;
+      }
+      const particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const particleMat = new THREE.PointsMaterial({
+        color: palette.particle,
+        size: 0.07,
+        transparent: true,
+        opacity: palette.particleOpacity,
+        sizeAttenuation: true
+      });
+      const particles = new THREE.Points(particleGeo, particleMat);
+      scene.add(particles);
+
+      // ---- Floating wireframe shapes ----
+      const shapes = [];
+      const shapeDefs = [
+        { geo: new THREE.IcosahedronGeometry(2.6, 0), color: palette.shapeA, pos: [-6, 2, -6] },
+        { geo: new THREE.TorusGeometry(2, 0.6, 8, 24), color: palette.shapeB, pos: [6.5, -1.5, -8] },
+        { geo: new THREE.OctahedronGeometry(1.8, 0), color: palette.shapeA, pos: [4, 4, -10] },
+        { geo: new THREE.IcosahedronGeometry(1.4, 0), color: palette.shapeB, pos: [-5, -3.5, -9] }
+      ];
+      shapeDefs.forEach(function (def, i) {
+        const mat = new THREE.MeshBasicMaterial({
+          color: def.color,
+          wireframe: true,
+          transparent: true,
+          opacity: palette.shapeOpacity
+        });
+        const mesh = new THREE.Mesh(def.geo, mat);
+        mesh.position.set(def.pos[0], def.pos[1], def.pos[2]);
+        mesh.userData.speed = 0.05 + i * 0.015;
+        scene.add(mesh);
+        shapes.push(mesh);
+      });
+
+      function applyPalette() {
+        palette = currentPalette();
+        particleMat.color.setHex(palette.particle);
+        particleMat.opacity = palette.particleOpacity;
+        shapes.forEach(function (mesh, i) {
+          mesh.material.color.setHex(i % 2 === 0 ? palette.shapeA : palette.shapeB);
+          mesh.material.opacity = palette.shapeOpacity;
+        });
+      }
+
+      // Re-color when the theme toggle flips data-theme
+      new MutationObserver(applyPalette).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+      // Gentle mouse parallax
+      let targetX = 0, targetY = 0;
+      window.addEventListener('mousemove', function (e) {
+        targetX = (e.clientX / window.innerWidth - 0.5) * 1.2;
+        targetY = (e.clientY / window.innerHeight - 0.5) * 1.2;
+      });
+
+      window.addEventListener('resize', function () {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      const clock = new THREE.Clock();
+
+      function tick() {
+        const t = clock.getElapsedTime();
+
+        particles.rotation.y = t * 0.015;
+        particles.rotation.x = t * 0.008;
+
+        shapes.forEach(function (mesh) {
+          mesh.rotation.x += mesh.userData.speed * 0.01;
+          mesh.rotation.y += mesh.userData.speed * 0.015;
+        });
+
+        camera.position.x += (targetX - camera.position.x) * 0.04;
+        camera.position.y += (-targetY - camera.position.y) * 0.04;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+
+        if (!reduceMotion) requestAnimationFrame(tick);
+      }
+
+      tick();
+      if (reduceMotion) {
+        // Render a single static frame and skip the animation loop entirely.
+        renderer.render(scene, camera);
+      }
+    })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Click-and-drag support for the swipe-scroll carousels (desktop mice
+      // don't have a horizontal scroll gesture by default; touch and
+      // trackpads already work natively via CSS scroll-snap).
+      document.querySelectorAll('.swipe-scroll').forEach(function (scroller) {
+        let isDown = false;
+        let startX = 0;
+        let startScroll = 0;
+
+        scroller.addEventListener('mousedown', function (e) {
+          isDown = true;
+          scroller.classList.add('dragging');
+          startX = e.pageX;
+          startScroll = scroller.scrollLeft;
+        });
+
+        function stopDrag() {
+          isDown = false;
+          scroller.classList.remove('dragging');
+        }
+        scroller.addEventListener('mouseup', stopDrag);
+        scroller.addEventListener('mouseleave', stopDrag);
+
+        scroller.addEventListener('mousemove', function (e) {
+          if (!isDown) return;
+          e.preventDefault();
+          scroller.scrollLeft = startScroll - (e.pageX - startX);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

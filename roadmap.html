@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Roadmap – Flutter Intermediate Mastery</title>
+
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <link rel="stylesheet" href="styles/utilities.css" />
+  <link rel="stylesheet" href="styles/dark_mode.css" />
+  <link rel="stylesheet" href="styles/animations.css" />
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* Roadmap-specific styles */
+    .roadmap-progress {
+      background: var(--background-secondary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .roadmap-progress h3 {
+      margin-bottom: 0.5rem;
+      font-size: var(--font-lg);
+    }
+    .roadmap-progress .progress-bar {
+      max-width: 400px;
+      margin: 0.5rem auto;
+      height: 8px;
+      background: var(--surface);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .roadmap-progress .progress-bar-fill {
+      height: 100%;
+      background: var(--primary-gradient);
+      border-radius: 4px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+    .roadmap-progress .progress-text {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+    }
+    .roadmap-progress .progress-details {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 0.75rem;
+      font-size: var(--font-sm);
+      flex-wrap: wrap;
+    }
+    .roadmap-progress .progress-details span {
+      color: var(--text-secondary);
+    }
+    .roadmap-progress .progress-details .num {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .roadmap-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .roadmap-step {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      background: var(--background-secondary);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      align-items: flex-start;
+    }
+    .roadmap-step:hover {
+      border-color: var(--primary-light);
+      transform: translateX(4px);
+    }
+    .roadmap-step.completed {
+      border-left: 4px solid #10B981;
+    }
+    .roadmap-step.current {
+      border-left: 4px solid #3B82F6;
+      background: rgba(59, 130, 246, 0.04);
+    }
+    .roadmap-step.pending {
+      border-left: 4px solid var(--border);
+    }
+
+    .step-marker {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-lg);
+      margin-top: 0.1rem;
+    }
+    .roadmap-step.completed .step-marker {
+      background: #10B981;
+      color: white;
+    }
+    .roadmap-step.current .step-marker {
+      background: #3B82F6;
+      color: white;
+      animation: pulse-marker 1.5s ease-in-out infinite;
+    }
+    .roadmap-step.pending .step-marker {
+      background: var(--surface);
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+    }
+
+    @keyframes pulse-marker {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .step-content {
+      flex: 1;
+    }
+    .step-content h3 {
+      font-size: var(--font-lg);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+    .step-content p {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    .step-content .step-status {
+      display: inline-block;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      padding: 0.15rem 0.75rem;
+      border-radius: 50px;
+      margin-bottom: 0.5rem;
+    }
+    .roadmap-step.completed .step-status {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+    }
+    .roadmap-step.current .step-status {
+      background: rgba(59, 130, 246, 0.12);
+      color: #3B82F6;
+    }
+    .roadmap-step.pending .step-status {
+      background: var(--surface);
+      color: var(--text-muted);
+    }
+
+    .step-content .step-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .step-content .step-modules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+    }
+    .step-content .step-modules .module-tag {
+      font-size: var(--font-xs);
+      padding: 0.15rem 0.6rem;
+      border-radius: 50px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .step-content .step-modules .module-tag.done {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10B981;
+      color: #10B981;
+    }
+    .step-content .step-modules .module-tag.current {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3B82F6;
+      color: #3B82F6;
+    }
+
+    .step-content .step-progress-text {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .step-content .step-details {
+      font-size: var(--font-xs);
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    .step-content .step-details strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .roadmap-step {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+      .step-marker {
+        width: 32px;
+        height: 32px;
+        font-size: var(--font-base);
+      }
+      .roadmap-progress .progress-details {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+ 
+  <!-- Header -->
+  <header class="header-nav">
+    <div class="container nav-container">
+      <a href="index.html" class="logo"><span class="logo-text">Flutter Intermediate</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="roadmap.html" class="nav-link active">Roadmap</a></li>
+        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle"><span class="theme-icon">🌙</span></button>
+        <button id="menu-toggle" class="menu-toggle"><span class="hamburger"></span></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <ul>
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
+        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <h1 class="page-title">Your Learning <span class="gradient-text">Roadmap</span></h1>
+          <p class="page-description" style="max-width:600px; margin:0 auto 2rem;">
+            Follow this structured path to go from beginner to job‑ready Flutter developer.
+            Each step builds on the previous one.
+          </p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="roadmap-progress card" id="roadmapProgress">
+          <h3>📊 Your Progress</h3>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="roadmapProgressFill" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <span class="progress-text" id="roadmapProgressText">0% Complete</span>
+          <div class="progress-details">
+            <span>📚 <span class="num" id="completedLessons">0</span> / <span id="totalLessons">0</span> lessons completed</span>
+            <span>📦 <span class="num" id="completedModules">0</span> / <span id="totalModules">6</span> modules completed</span>
+          </div>
+        </div>
+
+        <!-- Roadmap Steps -->
+        <div class="roadmap-steps" id="roadmapSteps">
+
+          <!-- Step 1: Beginner Flutter -->
+          <div class="roadmap-step completed" data-step="1">
+            <div class="step-marker"><i class="fas fa-check-circle"></i></div>
+            <div class="step-content">
+              <h3>1. Beginner Flutter</h3>
+              <p>Master the fundamentals of Flutter development — widgets, layouts, stateful/stateless widgets, and navigation. Build your first apps and understand the core concepts.</p>
+              <span class="step-status">✅ Completed</span>
+              <div class="step-modules">
+                <span class="module-tag done">✓ Widgets</span>
+                <span class="module-tag done">✓ Layouts</span>
+                <span class="module-tag done">✓ Navigation</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: State Management -->
+          <div class="roadmap-step current" data-step="2" data-module="module1">
+            <div class="step-marker"><i class="fas fa-spinner"></i></div>
+            <div class="step-content">
+              <h3>2. State Management (Riverpod)</h3>
+              <p>Learn Riverpod — the modern state management solution. Master providers, StateProvider, FutureProvider, StateNotifier, AsyncValue, and build real projects.</p>
+              <span class="step-status">🔄 In Progress</span>
+              <div class="step-modules">
+                <span class="module-tag current">⏳ 10 Topics</span>
+                <span class="module-tag">📱 3 Projects</span>
+              </div>
+              <div class="step-actions">
+                <a href="lessons/module1/module1-topic1-why-state-management.html" class="btn btn-primary btn-sm">Continue Learning</a>
+                <a href="lessons/module1/module1-topic1-why-state-management.html" class="btn btn-outline btn-sm">Module Overview</a>
+              </div>
+              <div class="step-progress-text" id="step2Progress">0 of 13 lessons completed</div>
+            </div>
+          </div>
+
+          <!-- Step 3: API Integration -->
+          <div class="roadmap-step pending" data-step="3" data-module="module2">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>3. API Integration</h3>
+              <p>Connect your Flutter apps to the internet. Learn HTTP requests, REST APIs, JSON serialization, pagination, caching, and error handling through practical projects.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">🌐 8 Topics</span>
+                <span class="module-tag">📱 3 Projects</span>
+              </div>
+              <div class="step-details"><strong>Projects:</strong> Weather App, Movie Explorer, News Reader</div>
+              <div class="step-actions">
+                <a href="lessons/module2/module2-topic1-http-requests.html" class="btn btn-outline btn-sm">Start Module</a>
+              </div>
+              <div class="step-progress-text">0 of 11 lessons completed</div>
+            </div>
+          </div>
+
+          <!-- Step 4: Local Storage -->
+          <div class="roadmap-step pending" data-step="4" data-module="module3">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>4. Local Storage</h3>
+              <p>Persist data locally in your Flutter apps. Master SharedPreferences, Hive, and SQLite. Build offline-first apps that work without an internet connection.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">💾 4 Topics</span>
+                <span class="module-tag">📱 3 Projects</span>
+              </div>
+              <div class="step-details"><strong>Projects:</strong> Notes App, Expense Tracker, Habit Tracker</div>
+              <div class="step-actions">
+                <a href="lessons/module3/module3-topic1-shared-preferences.html" class="btn btn-outline btn-sm">Start Module</a>
+              </div>
+              <div class="step-progress-text">0 of 7 lessons completed</div>
+            </div>
+          </div>
+
+          <!-- Step 5: Supabase -->
+          <div class="roadmap-step pending" data-step="5" data-module="module4">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>5. Supabase</h3>
+              <p>Build full-stack Flutter apps with Supabase. Learn Authentication, PostgreSQL Database, Storage, Realtime subscriptions, and Row Level Security.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">🗄️ 6 Topics</span>
+                <span class="module-tag">📱 3 Projects</span>
+              </div>
+              <div class="step-details"><strong>Projects:</strong> Authentication App, Realtime Chat App, Instagram Mini Clone</div>
+              <div class="step-actions">
+                <a href="lessons/module4/module4-topic1-supabase-setup.html" class="btn btn-outline btn-sm">Start Module</a>
+              </div>
+              <div class="step-progress-text">0 of 9 lessons completed</div>
+            </div>
+          </div>
+
+          <!-- Step 6: Clean Architecture -->
+          <div class="roadmap-step pending" data-step="6" data-module="module5">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>6. Clean Architecture</h3>
+              <p>Structure your code like a professional. Learn the repository pattern, dependency injection with GetIt, and feature-first architecture. Refactor existing apps for scalability.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">🏗️ 4 Topics</span>
+                <span class="module-tag">📱 2 Projects</span>
+              </div>
+              <div class="step-details"><strong>Projects:</strong> Refactor Weather App, Refactor Chat App</div>
+              <div class="step-actions">
+                <a href="lessons/module5/module5-topic1-architecture-overview.html" class="btn btn-outline btn-sm">Start Module</a>
+              </div>
+              <div class="step-progress-text">0 of 6 lessons completed</div>
+            </div>
+          </div>
+
+          <!-- Step 7: Advanced Flutter -->
+          <div class="roadmap-step pending" data-step="7" data-module="module6">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>7. Advanced Flutter</h3>
+              <p>Take your skills to the next level. Master custom widgets, animations, Hero transitions, slivers, performance optimization, DevTools, memory optimization, responsive design, and adaptive design.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">✨ 9 Topics</span>
+                <span class="module-tag">📱 3 Projects</span>
+              </div>
+              <div class="step-details"><strong>Projects:</strong> Animated Portfolio App, E-Commerce UI, Netflix Style UI</div>
+              <div class="step-actions">
+                <a href="lessons/module6/module6-topic1-custom-widgets.html" class="btn btn-outline btn-sm">Start Module</a>
+              </div>
+              <div class="step-progress-text">0 of 12 lessons completed</div>
+            </div>
+          </div>
+
+          <!-- Step 8: Portfolio Projects -->
+          <div class="roadmap-step pending" data-step="8">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>8. Portfolio Projects</h3>
+              <p>Build polished, production-ready apps to showcase your skills. All projects from the course are portfolio-ready and demonstrate real-world Flutter development.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">📱 14+ Projects</span>
+                <span class="module-tag">⭐ Portfolio Ready</span>
+              </div>
+              <div class="step-details"><strong>Featured:</strong> Weather App, Task Manager, E-Commerce UI, Netflix Style UI, Chat App, Instagram Clone</div>
+            </div>
+          </div>
+
+          <!-- Step 9: Job Ready -->
+          <div class="roadmap-step pending" data-step="9">
+            <div class="step-marker"><i class="fas fa-circle"></i></div>
+            <div class="step-content">
+              <h3>9. Job Ready Flutter Developer</h3>
+              <p>Prepare for your Flutter developer career. Review and polish your portfolio, optimize your GitHub profile, practice technical interviews, and apply for jobs with confidence.</p>
+              <span class="step-status">⏳ Pending</span>
+              <div class="step-modules">
+                <span class="module-tag">🎯 Interview Prep</span>
+                <span class="module-tag">📄 Resume Guide</span>
+                <span class="module-tag">💼 Portfolio Review</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="company-brand">
+            <img alt="NekoVerse Logo" class="nekoverse-logo-img" src="assets/download.png" width="40" height="40" />
+            <span class="nekoverse-text">NekoVerse</span>
+          </div>
+          <p class="company-tagline">Building cross-platform educational experiences.</p>
+          <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+            Take our Dart Course →
+          </a>
+        </div>
+        <div class="footer-links">
+          <h4>Course</h4>
+          <ul>
+            <li><a href="roadmap.html">Curriculum</a></li>
+            <li><a href="lessons/module1/module1-topic1-why-state-management.html">Getting Started</a></li>
+            <li><a href="roadmap.html">Projects</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
+            <li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
+            <li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
+            <li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
+            <li><a href="https://supabase.com" rel="noopener" target="_blank">Supabase</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
+            <li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
+            <li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
+        <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+          Based on <a href="https://flutter.dev" target="_blank" style="color: var(--text-muted);">Flutter Official Documentation</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="js/theme.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/sidebar.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('components/sidebar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('sidebarContainer').innerHTML = html;
+          if (typeof CourseSidebar !== 'undefined') {
+            window.courseSidebar = new CourseSidebar();
+          }
+        })
+        .catch(() => console.warn('Sidebar component not found.'));
+
+      // Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const icon = toggle.querySelector('.theme-icon');
+        const current = document.documentElement.getAttribute('data-theme');
+        if (icon) icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      }
+
+      // ==========================================
+      // ROADMAP PROGRESS TRACKER - COMPLETE
+      // ==========================================
+
+      // Define ALL lessons for each module
+      const moduleLessons = {
+        'module1': [
+          'module1-topic1-why-state-management',
+          'module1-topic2-local-state',
+          'module1-topic3-global-state',
+          'module1-topic4-riverpod-basics',
+          'module1-topic5-provider',
+          'module1-topic6-stateprovider',
+          'module1-topic7-futureprovider',
+          'module1-topic8-streamprovider',
+          'module1-topic9-statenotifierprovider',
+          'module1-topic10-asyncvalue',
+          'project-counter-app-pro',
+          'project-task-manager',
+          'project-shopping-cart'
+        ],
+        'module2': [
+          'module2-topic1-http-requests',
+          'module2-topic2-rest-apis',
+          'module2-topic3-json',
+          'module2-topic4-serialization',
+          'module2-topic5-error-handling',
+          'module2-topic6-pagination',
+          'module2-topic7-search',
+          'module2-topic8-caching',
+          'project-weather-app',
+          'project-movie-explorer',
+          'project-news-reader'
+        ],
+        'module3': [
+          'module3-topic1-shared-preferences',
+          'module3-topic2-hive',
+          'module3-topic3-sqlite',
+          'module3-topic4-offline-first',
+          'project-notes-app',
+          'project-expense-tracker',
+          'project-habit-tracker'
+        ],
+        'module4': [
+          'module4-topic1-supabase-setup',
+          'module4-topic2-authentication',
+          'module4-topic3-database',
+          'module4-topic4-storage',
+          'module4-topic5-realtime',
+          'module4-topic6-rls',
+          'project-auth-app',
+          'project-realtime-chat-app',
+          'project-instagram-mini-clone'
+        ],
+        'module5': [
+          'module5-topic1-architecture-overview',
+          'module5-topic2-repository-pattern',
+          'module5-topic3-dependency-injection',
+          'module5-topic4-feature-first-architecture',
+          'project-refactor-weather-app',
+          'project-refactor-chat-app'
+        ],
+        'module6': [
+          'module6-topic1-custom-widgets',
+          'module6-topic2-animations',
+          'module6-topic3-hero-animations',
+          'module6-topic4-slivers',
+          'module6-topic5-performance-optimization',
+          'module6-topic6-devtools',
+          'module6-topic7-memory-optimization',
+          'module6-topic8-responsive-design',
+          'module6-topic9-adaptive-design',
+          'project-animated-portfolio',
+          'project-ecommerce-ui',
+          'project-netflix-ui'
+        ]
+      };
+
+      // Define module metadata
+      const moduleMeta = {
+        'module1': { name: 'State Management', step: 2, stepId: 'step2Progress' },
+        'module2': { name: 'API Integration', step: 3, stepId: null },
+        'module3': { name: 'Local Storage', step: 4, stepId: null },
+        'module4': { name: 'Supabase', step: 5, stepId: null },
+        'module5': { name: 'Clean Architecture', step: 6, stepId: null },
+        'module6': { name: 'Advanced Flutter', step: 7, stepId: null }
+      };
+
+      // Load progress from localStorage
+      function loadProgress() {
+        const saved = localStorage.getItem('flutter_intermediate_progress');
+        if (saved) {
+          try {
+            return JSON.parse(saved);
+          } catch (e) {
+            return {};
+          }
+        }
+        return {};
+      }
+
+      // Calculate module progress
+      function getModuleProgress(moduleLessons, progress) {
+        let completed = 0;
+        moduleLessons.forEach(lessonId => {
+          if (progress[lessonId] === true) {
+            completed++;
+          }
+        });
+        return { completed, total: moduleLessons.length };
+      }
+
+      // Update roadmap UI
+      function updateRoadmap() {
+        const progress = loadProgress();
+
+        let totalCompleted = 0;
+        let totalLessons = 0;
+        let completedModules = 0;
+
+        // Calculate progress for each module
+        const moduleStats = {};
+        Object.keys(moduleLessons).forEach(moduleKey => {
+          const stats = getModuleProgress(moduleLessons[moduleKey], progress);
+          moduleStats[moduleKey] = stats;
+          totalCompleted += stats.completed;
+          totalLessons += stats.total;
+          if (stats.completed === stats.total && stats.total > 0) {
+            completedModules++;
+          }
+        });
+
+        // Update Step 2 progress text (Module 1)
+        const step2Progress = document.getElementById('step2Progress');
+        if (step2Progress && moduleStats['module1']) {
+          step2Progress.textContent = `${moduleStats['module1'].completed} of ${moduleStats['module1'].total} lessons completed`;
+        }
+
+        // Update progress for other steps
+        document.querySelectorAll('.roadmap-step[data-module]').forEach(step => {
+          const moduleKey = step.dataset.module;
+          if (moduleKey && moduleStats[moduleKey]) {
+            const stats = moduleStats[moduleKey];
+            const progressText = step.querySelector('.step-progress-text');
+            if (progressText) {
+              progressText.textContent = `${stats.completed} of ${stats.total} lessons completed`;
+            }
+
+            // Update step status
+            if (stats.completed === stats.total && stats.total > 0) {
+              // Module complete
+              step.className = 'roadmap-step completed';
+              step.querySelector('.step-marker').innerHTML = '<i class="fas fa-check-circle"></i>';
+              step.querySelector('.step-status').textContent = '✅ Completed';
+              const tags = step.querySelectorAll('.module-tag');
+              tags.forEach(tag => {
+                if (tag.textContent.includes('⏳')) {
+                  tag.textContent = tag.textContent.replace('⏳', '✓');
+                }
+                tag.className = 'module-tag done';
+              });
+            } else if (stats.completed > 0) {
+              // Module in progress
+              step.className = 'roadmap-step current';
+              step.querySelector('.step-marker').innerHTML = '<i class="fas fa-spinner"></i>';
+              step.querySelector('.step-status').textContent = '🔄 In Progress';
+              const tags = step.querySelectorAll('.module-tag');
+              tags.forEach(tag => {
+                if (tag.textContent.includes('⏳')) {
+                  // Keep as is
+                }
+                if (tag.className === 'module-tag') {
+                  tag.className = 'module-tag current';
+                }
+              });
+            }
+          }
+        });
+
+        // Update overall progress
+        const overallPercentage = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
+        const progressFill = document.getElementById('roadmapProgressFill');
+        const progressText = document.getElementById('roadmapProgressText');
+        const completedLessonsEl = document.getElementById('completedLessons');
+        const totalLessonsEl = document.getElementById('totalLessons');
+        const completedModulesEl = document.getElementById('completedModules');
+        const totalModulesEl = document.getElementById('totalModules');
+
+        if (progressFill) {
+          progressFill.style.width = `${overallPercentage}%`;
+          progressFill.setAttribute('aria-valuenow', overallPercentage);
+        }
+        if (progressText) {
+          progressText.textContent = `${overallPercentage}% Complete`;
+        }
+        if (completedLessonsEl) {
+          completedLessonsEl.textContent = totalCompleted;
+        }
+        if (totalLessonsEl) {
+          totalLessonsEl.textContent = totalLessons;
+        }
+        if (completedModulesEl) {
+          completedModulesEl.textContent = completedModules;
+        }
+        if (totalModulesEl) {
+          totalModulesEl.textContent = 6;
+        }
+
+        // Update sidebar if available
+        if (window.courseSidebar) {
+          window.courseSidebar.updateAll();
+        }
+      }
+
+      // Initial update
+      updateRoadmap();
+
+      // Listen for storage changes (if user completes lessons in other tabs)
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'flutter_intermediate_progress') {
+          updateRoadmap();
+        }
+      });
+
+      // Update every 2 seconds to catch any changes
+      setInterval(updateRoadmap, 2000);
+
+      // Expose update function globally
+      window.updateRoadmap = updateRoadmap;
+    });
+  </script>
+</body>
+</html>
