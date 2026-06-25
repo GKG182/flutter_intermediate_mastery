@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Movie Explorer – Module 2 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Movie Explorer app that searches movies and displays trending movies using the TMDB API." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Movie Explorer – Module 2 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Movie Explorer app that searches movies and displays trending movies using the TMDB API." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -342,8 +343,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -406,338 +407,1180 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 2 · Challenge 2
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Movie Explorer</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> API Integration</span>
-<span class="meta-item"><strong>Concepts:</strong> HTTP GET, JSON Parsing, Search, Pagination</span>
-<span class="meta-item"><strong>Est. Time:</strong> 60-75 min</span>
-<span class="meta-item"><span class="api-tag">🎬 TMDB API</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Movie Explorer</strong> app that allows users to search for movies,
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 2 · Challenge 2
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Movie Explorer
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         API Integration
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         HTTP GET, JSON Parsing, Search, Pagination
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         60-75 min
+        </span>
+        <span class="meta-item">
+         <span class="api-tag">
+          🎬 TMDB API
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Movie Explorer
+        </strong>
+        app that allows users to search for movies,
               view trending movies, and see detailed information about each movie. Use the
-              <strong>The Movie Database (TMDB) API</strong> to fetch movie data.
-            </p>
-<div class="api-box">
-<h4>🌐 API Endpoints</h4>
-<p><strong>TMDB - Trending Movies</strong></p>
-<div class="endpoint">https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}</div>
-<p style="margin-top: 0.5rem;"><strong>TMDB - Search Movies</strong></p>
-<div class="endpoint">https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&amp;query={query}</div>
-<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-                Returns movie data including title, overview, release date, rating, and poster path.
-              </p>
-<div class="api-note">
-                ⚠️ <strong>Note:</strong> You'll need a free API key from <a href="https://www.themoviedb.org/documentation/api" target="_blank">TMDB</a>.
+        <strong>
+         The Movie Database (TMDB) API
+        </strong>
+        to fetch movie data.
+       </p>
+       <div class="api-box">
+        <h4>
+         🌐 API Endpoints
+        </h4>
+        <p>
+         <strong>
+          TMDB - Trending Movies
+         </strong>
+        </p>
+        <div class="endpoint">
+         https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}
+        </div>
+        <p style="margin-top: 0.5rem;">
+         <strong>
+          TMDB - Search Movies
+         </strong>
+        </p>
+        <div class="endpoint">
+         https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&amp;query={query}
+        </div>
+        <p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+         Returns movie data including title, overview, release date, rating, and poster path.
+        </p>
+        <div class="api-note">
+         ⚠️
+         <strong>
+          Note:
+         </strong>
+         You'll need a free API key from
+         <a href="https://www.themoviedb.org/documentation/api" target="_blank">
+          TMDB
+         </a>
+         .
                 Sign up for an account and request an API key.
-              </div>
-</div>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Display <strong>trending movies</strong> on app start</li>
-<li><strong>Search</strong> for movies by title</li>
-<li>Show movie <strong>poster</strong> images</li>
-<li>Display <strong>title</strong>, <strong>release year</strong>, and <strong>rating</strong></li>
-<li>Tap a movie to see <strong>details</strong> (overview, release date, vote count)</li>
-<li>Handle <strong>loading</strong> and <strong>error</strong> states</li>
-<li>Use <strong>http</strong> package for API calls</li>
-<li>Use <strong>FutureProvider</strong> or <strong>StateNotifier</strong> for state management</li>
-</ul>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://developers.themoviedb.org/3" target="_blank">TMDB API Documentation</a></li>
-<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
-<li><a href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">Flutter Networking</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Create a <code>Movie</code> model with fields for id, title,
+        </div>
+       </div>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Display
+          <strong>
+           trending movies
+          </strong>
+          on app start
+         </li>
+         <li>
+          <strong>
+           Search
+          </strong>
+          for movies by title
+         </li>
+         <li>
+          Show movie
+          <strong>
+           poster
+          </strong>
+          images
+         </li>
+         <li>
+          Display
+          <strong>
+           title
+          </strong>
+          ,
+          <strong>
+           release year
+          </strong>
+          , and
+          <strong>
+           rating
+          </strong>
+         </li>
+         <li>
+          Tap a movie to see
+          <strong>
+           details
+          </strong>
+          (overview, release date, vote count)
+         </li>
+         <li>
+          Handle
+          <strong>
+           loading
+          </strong>
+          and
+          <strong>
+           error
+          </strong>
+          states
+         </li>
+         <li>
+          Use
+          <strong>
+           http
+          </strong>
+          package for API calls
+         </li>
+         <li>
+          Use
+          <strong>
+           FutureProvider
+          </strong>
+          or
+          <strong>
+           StateNotifier
+          </strong>
+          for state management
+         </li>
+        </ul>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://developers.themoviedb.org/3" target="_blank">
+           TMDB API Documentation
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/http" target="_blank">
+           http package
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
+           Flutter Networking
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Create a
+          <code>
+           Movie
+          </code>
+          model with fields for id, title,
                   overview, posterPath, releaseDate, voteAverage, and voteCount. Use two providers:
                   one for trending movies and one for search results. For the poster image, use
-                  <code>https://image.tmdb.org/t/p/w500/{posterPath}</code>.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+          <code>
+           https://image.tmdb.org/t/p/w500/{posterPath}
+          </code>
+          .
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
     http: ^1.1.0
     cached_network_image: ^3.3.0
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Movie Model (lib/models/movie.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/movie.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">Movie</span> {
-    <span class="keyword">final</span> <span class="keyword">int</span> id;
-    <span class="keyword">final</span> String title;
-    <span class="keyword">final</span> String? overview;
-    <span class="keyword">final</span> String? posterPath;
-    <span class="keyword">final</span> String? releaseDate;
-    <span class="keyword">final</span> <span class="keyword">double</span>? voteAverage;
-    <span class="keyword">final</span> <span class="keyword">int</span>? voteCount;
-
-    <span class="function">Movie</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">this</span>.overview,
-      <span class="keyword">this</span>.posterPath,
-      <span class="keyword">this</span>.releaseDate,
-      <span class="keyword">this</span>.voteAverage,
-      <span class="keyword">this</span>.voteCount,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Movie Model (lib/models/movie.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/movie.dart
+          </span>
+          <code>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Movie
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           id;
+           <span class="keyword">
+            final
+           </span>
+           String title;
+           <span class="keyword">
+            final
+           </span>
+           String? overview;
+           <span class="keyword">
+            final
+           </span>
+           String? posterPath;
+           <span class="keyword">
+            final
+           </span>
+           String? releaseDate;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            double
+           </span>
+           ? voteAverage;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           ? voteCount;
+           <span class="function">
+            Movie
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .title,
+           <span class="keyword">
+            this
+           </span>
+           .overview,
+           <span class="keyword">
+            this
+           </span>
+           .posterPath,
+           <span class="keyword">
+            this
+           </span>
+           .releaseDate,
+           <span class="keyword">
+            this
+           </span>
+           .voteAverage,
+           <span class="keyword">
+            this
+           </span>
+           .voteCount,
     });
-
-    <span class="keyword">factory</span> Movie.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Movie(
-        id: json[<span class="string">'id'</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
-        title: json[<span class="string">'title'</span>] <span class="keyword">as</span> String,
-        overview: json[<span class="string">'overview'</span>] <span class="keyword">as</span> String?,
-        posterPath: json[<span class="string">'poster_path'</span>] <span class="keyword">as</span> String?,
-        releaseDate: json[<span class="string">'release_date'</span>] <span class="keyword">as</span> String?,
-        voteAverage: (json[<span class="string">'vote_average'</span>] <span class="keyword">as</span> <span class="keyword">num</span>?)?.<span class="function">toDouble</span>(),
-        voteCount: json[<span class="string">'vote_count'</span>] <span class="keyword">as</span> <span class="keyword">int</span>?,
+           <span class="keyword">
+            factory
+           </span>
+           Movie.
+           <span class="function">
+            fromJson
+           </span>
+           (Map&lt;String, dynamic&gt; json) {
+           <span class="keyword">
+            return
+           </span>
+           Movie(
+        id: json[
+           <span class="string">
+            'id'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           ,
+        title: json[
+           <span class="string">
+            'title'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        overview: json[
+           <span class="string">
+            'overview'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String?,
+        posterPath: json[
+           <span class="string">
+            'poster_path'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String?,
+        releaseDate: json[
+           <span class="string">
+            'release_date'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String?,
+        voteAverage: (json[
+           <span class="string">
+            'vote_average'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            num
+           </span>
+           ?)?.
+           <span class="function">
+            toDouble
+           </span>
+           (),
+        voteCount: json[
+           <span class="string">
+            'vote_count'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           ?,
       );
     }
 
-    String get posterUrl =&gt; posterPath != <span class="keyword">null</span>
-        ? <span class="string">'https://image.tmdb.org/t/p/w500$posterPath'</span>
-        : <span class="string">''</span>;
+    String get posterUrl =&gt; posterPath !=
+           <span class="keyword">
+            null
+           </span>
+           ?
+           <span class="string">
+            'https://image.tmdb.org/t/p/w500$posterPath'
+           </span>
+           :
+           <span class="string">
+            ''
+           </span>
+           ;
 
-    String get year =&gt; releaseDate != <span class="keyword">null</span> &amp;&amp; releaseDate!.<span class="function">length</span> &gt;= <span class="number">4</span>
-        ? releaseDate!.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">4</span>)
-        : <span class="string">'N/A'</span>;
+    String get year =&gt; releaseDate !=
+           <span class="keyword">
+            null
+           </span>
+           &amp;&amp; releaseDate!.
+           <span class="function">
+            length
+           </span>
+           &gt;=
+           <span class="number">
+            4
+           </span>
+           ? releaseDate!.
+           <span class="function">
+            substring
+           </span>
+           (
+           <span class="number">
+            0
+           </span>
+           ,
+           <span class="number">
+            4
+           </span>
+           )
+        :
+           <span class="string">
+            'N/A'
+           </span>
+           ;
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Movie Provider (lib/providers/movie_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/movie_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/movie.dart'</span>;
-
-  <span class="keyword">const</span> String apiKey = <span class="string">'YOUR_API_KEY_HERE'</span>; <span class="comment">// Replace with your TMDB API key</span>
-<span class="keyword">final</span> trendingMoviesProvider = FutureProvider&lt;List&lt;Movie&gt;&gt;((ref) async {
-    <span class="keyword">final</span> url = Uri.parse(
-      <span class="string">'https://api.themoviedb.org/3/trending/movie/week?api_key=$apiKey'</span>,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Movie Provider (lib/providers/movie_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/movie_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:http/http.dart'
+           </span>
+           <span class="keyword">
+            as
+           </span>
+           http;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/movie.dart'
+           </span>
+           ;
+           <span class="keyword">
+            const
+           </span>
+           String apiKey =
+           <span class="string">
+            'YOUR_API_KEY_HERE'
+           </span>
+           ;
+           <span class="comment">
+            // Replace with your TMDB API key
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           trendingMoviesProvider = FutureProvider&lt;List&lt;Movie&gt;&gt;((ref) async {
+           <span class="keyword">
+            final
+           </span>
+           url = Uri.parse(
+           <span class="string">
+            'https://api.themoviedb.org/3/trending/movie/week?api_key=$apiKey'
+           </span>
+           ,
     );
-
-    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
-      <span class="keyword">final</span> List&lt;dynamic&gt; results = data[<span class="string">'results'</span>];
-      <span class="keyword">return</span> results.<span class="function">map</span>((json) =&gt; Movie.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load trending movies: ${response.statusCode}'</span>);
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (url);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            final
+           </span>
+           List&lt;dynamic&gt; results = data[
+           <span class="string">
+            'results'
+           </span>
+           ];
+           <span class="keyword">
+            return
+           </span>
+           results.
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; Movie.
+           <span class="function">
+            fromJson
+           </span>
+           (json)).
+           <span class="function">
+            toList
+           </span>
+           ();
+    }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to load trending movies: ${response.statusCode}'
+           </span>
+           );
     }
   });
-
-  <span class="keyword">final</span> searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">''</span>);
-
-  <span class="keyword">final</span> searchResultsProvider = FutureProvider&lt;List&lt;Movie&gt;&gt;.autoDispose((ref) async {
-    <span class="keyword">final</span> query = ref.<span class="function">watch</span>(searchQueryProvider);
-    <span class="keyword">if</span> (query.<span class="function">isEmpty</span>) <span class="keyword">return</span> [];
-
-    <span class="keyword">final</span> url = Uri.parse(
-      <span class="string">'https://api.themoviedb.org/3/search/movie?api_key=$apiKey&amp;query=$query'</span>,
+           <span class="keyword">
+            final
+           </span>
+           searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt;
+           <span class="string">
+            ''
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           searchResultsProvider = FutureProvider&lt;List&lt;Movie&gt;&gt;.autoDispose((ref) async {
+           <span class="keyword">
+            final
+           </span>
+           query = ref.
+           <span class="function">
+            watch
+           </span>
+           (searchQueryProvider);
+           <span class="keyword">
+            if
+           </span>
+           (query.
+           <span class="function">
+            isEmpty
+           </span>
+           )
+           <span class="keyword">
+            return
+           </span>
+           [];
+           <span class="keyword">
+            final
+           </span>
+           url = Uri.parse(
+           <span class="string">
+            'https://api.themoviedb.org/3/search/movie?api_key=$apiKey&amp;query=$query'
+           </span>
+           ,
     );
-
-    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
-      <span class="keyword">final</span> List&lt;dynamic&gt; results = data[<span class="string">'results'</span>];
-      <span class="keyword">return</span> results.<span class="function">map</span>((json) =&gt; Movie.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to search movies: ${response.statusCode}'</span>);
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (url);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            final
+           </span>
+           List&lt;dynamic&gt; results = data[
+           <span class="string">
+            'results'
+           </span>
+           ];
+           <span class="keyword">
+            return
+           </span>
+           results.
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; Movie.
+           <span class="function">
+            fromJson
+           </span>
+           (json)).
+           <span class="function">
+            toList
+           </span>
+           ();
+    }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to search movies: ${response.statusCode}'
+           </span>
+           );
     }
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Movie Card Widget (lib/widgets/movie_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/widgets/movie_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/movie.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">MovieCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Movie movie;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function(Movie) onTap;
-
-    <span class="keyword">const</span> <span class="function">MovieCard</span>({<span class="keyword">required</span> <span class="keyword">this</span>.movie, <span class="keyword">required</span> <span class="keyword">this</span>.onTap, <span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Movie Card Widget (lib/widgets/movie_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/widgets/movie_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:cached_network_image/cached_network_image.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/movie.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MovieCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Movie movie;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function(Movie) onTap;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MovieCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .movie,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onTap,
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Card(
-        elevation: <span class="number">2</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        elevation:
+           <span class="number">
+            2
+           </span>
+           ,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
         ),
         child: InkWell(
           onTap: () =&gt; onTap(movie),
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
           child: Row(
             children: [
-              <span class="comment">// Poster</span>
-              ClipRRect(
-                borderRadius: BorderRadius.<span class="function">horizontal</span>(
-                  left: Radius.<span class="function">circular</span>(<span class="number">8</span>),
+           <span class="comment">
+            // Poster
+           </span>
+           ClipRRect(
+                borderRadius: BorderRadius.
+           <span class="function">
+            horizontal
+           </span>
+           (
+                  left: Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                 ),
-                child: movie.posterUrl.<span class="function">isNotEmpty</span>
-                    ? CachedNetworkImage(
+                child: movie.posterUrl.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? CachedNetworkImage(
                         imageUrl: movie.posterUrl,
-                        width: <span class="number">90</span>,
-                        height: <span class="number">135</span>,
+                        width:
+           <span class="number">
+            90
+           </span>
+           ,
+                        height:
+           <span class="number">
+            135
+           </span>
+           ,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =&gt; Container(
-                          width: <span class="number">90</span>,
-                          height: <span class="number">135</span>,
-                          color: Colors.grey[<span class="number">300</span>],
-                          child: Icon(Icons.movie, color: Colors.grey[<span class="number">500</span>]),
+                          width:
+           <span class="number">
+            90
+           </span>
+           ,
+                          height:
+           <span class="number">
+            135
+           </span>
+           ,
+                          color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
+                          child: Icon(Icons.movie, color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                         ),
                         errorWidget: (context, url, error) =&gt; Container(
-                          width: <span class="number">90</span>,
-                          height: <span class="number">135</span>,
-                          color: Colors.grey[<span class="number">300</span>],
-                          child: Icon(Icons.broken_image, color: Colors.grey[<span class="number">500</span>]),
+                          width:
+           <span class="number">
+            90
+           </span>
+           ,
+                          height:
+           <span class="number">
+            135
+           </span>
+           ,
+                          color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
+                          child: Icon(Icons.broken_image, color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                         ),
                       )
                     : Container(
-                        width: <span class="number">90</span>,
-                        height: <span class="number">135</span>,
-                        color: Colors.grey[<span class="number">300</span>],
-                        child: Icon(Icons.movie, color: Colors.grey[<span class="number">500</span>]),
+                        width:
+           <span class="number">
+            90
+           </span>
+           ,
+                        height:
+           <span class="number">
+            135
+           </span>
+           ,
+                        color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
+                        child: Icon(Icons.movie, color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                       ),
               ),
-              <span class="comment">// Info</span>
-              Expanded(
+           <span class="comment">
+            // Info
+           </span>
+           Expanded(
                 child: Padding(
-                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                  padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         movie.title,
                         style: TextStyle(
-                          fontSize: <span class="number">16</span>,
+                          fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                           fontWeight: FontWeight.bold,
                         ),
-                        maxLines: <span class="number">2</span>,
+                        maxLines:
+           <span class="number">
+            2
+           </span>
+           ,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: <span class="number">4</span>),
+                      SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                       Text(
                         movie.year,
                         style: TextStyle(
-                          fontSize: <span class="number">12</span>,
-                          color: Colors.grey[<span class="number">600</span>],
+                          fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                          color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                         ),
                       ),
-                      SizedBox(height: <span class="number">4</span>),
+                      SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.amber, size: <span class="number">16</span>),
-                          SizedBox(width: <span class="number">4</span>),
+                          Icon(Icons.star, color: Colors.amber, size:
+           <span class="number">
+            16
+           </span>
+           ),
+                          SizedBox(width:
+           <span class="number">
+            4
+           </span>
+           ),
                           Text(
-                            movie.voteAverage != <span class="keyword">null</span>
-                                ? movie.voteAverage!.<span class="function">toStringAsFixed</span>(<span class="number">1</span>)
-                                : <span class="string">'N/A'</span>,
+                            movie.voteAverage !=
+           <span class="keyword">
+            null
+           </span>
+           ? movie.voteAverage!.
+           <span class="function">
+            toStringAsFixed
+           </span>
+           (
+           <span class="number">
+            1
+           </span>
+           )
+                                :
+           <span class="string">
+            'N/A'
+           </span>
+           ,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: <span class="number">8</span>),
+                          SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                           Text(
-                            <span class="string">'(${movie.voteCount ?? 0} votes)'</span>,
+           <span class="string">
+            '(${movie.voteCount ?? 0} votes)'
+           </span>
+           ,
                             style: TextStyle(
-                              fontSize: <span class="number">12</span>,
-                              color: Colors.grey[<span class="number">600</span>],
+                              fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                              color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                             ),
                           ),
                         ],
@@ -752,25 +1595,90 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Movie Detail Screen (lib/screens/movie_detail_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/movie_detail_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/movie.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">MovieDetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Movie movie;
-
-    <span class="keyword">const</span> <span class="function">MovieDetailScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.movie, <span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Movie Detail Screen (lib/screens/movie_detail_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/movie_detail_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:cached_network_image/cached_network_image.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/movie.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MovieDetailScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Movie movie;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MovieDetailScreen
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .movie,
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
           title: Text(movie.title),
           backgroundColor: Colors.deepPurple,
@@ -780,13 +1688,30 @@
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              <span class="comment">// Backdrop or poster</span>
-              Container(
-                height: <span class="number">250</span>,
-                width: <span class="keyword">double</span>.infinity,
-                color: Colors.grey[<span class="number">900</span>],
-                child: movie.posterUrl.<span class="function">isNotEmpty</span>
-                    ? CachedNetworkImage(
+           <span class="comment">
+            // Backdrop or poster
+           </span>
+           Container(
+                height:
+           <span class="number">
+            250
+           </span>
+           ,
+                width:
+           <span class="keyword">
+            double
+           </span>
+           .infinity,
+                color: Colors.grey[
+           <span class="number">
+            900
+           </span>
+           ],
+                child: movie.posterUrl.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? CachedNetworkImage(
                         imageUrl: movie.posterUrl,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =&gt; Center(
@@ -794,68 +1719,182 @@
                         ),
                         errorWidget: (context, url, error) =&gt; Icon(
                           Icons.broken_image,
-                          size: <span class="number">64</span>,
-                          color: Colors.grey[<span class="number">500</span>],
+                          size:
+           <span class="number">
+            64
+           </span>
+           ,
+                          color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                         ),
                       )
-                    : Icon(Icons.movie, size: <span class="number">64</span>, color: Colors.grey[<span class="number">500</span>]),
+                    : Icon(Icons.movie, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
               ),
               Padding(
-                padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    <span class="comment">// Title and year</span>
-                    Text(
+           <span class="comment">
+            // Title and year
+           </span>
+           Text(
                       movie.title,
                       style: TextStyle(
-                        fontSize: <span class="number">24</span>,
+                        fontSize:
+           <span class="number">
+            24
+           </span>
+           ,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: <span class="number">4</span>),
+                    SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                     Text(
-                      <span class="string">'${movie.year} • ${movie.releaseDate ?? 'Unknown release date'}'</span>,
-                      style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            '${movie.year} • ${movie.releaseDate ?? 'Unknown release date'}'
+           </span>
+           ,
+                      style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                     ),
-                    SizedBox(height: <span class="number">8</span>),
-                    <span class="comment">// Rating</span>
-                    Row(
+                    SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
+           <span class="comment">
+            // Rating
+           </span>
+           Row(
                       children: [
                         Icon(Icons.star, color: Colors.amber),
-                        SizedBox(width: <span class="number">4</span>),
+                        SizedBox(width:
+           <span class="number">
+            4
+           </span>
+           ),
                         Text(
-                          movie.voteAverage != <span class="keyword">null</span>
-                              ? movie.voteAverage!.<span class="function">toStringAsFixed</span>(<span class="number">1</span>)
-                              : <span class="string">'N/A'</span>,
+                          movie.voteAverage !=
+           <span class="keyword">
+            null
+           </span>
+           ? movie.voteAverage!.
+           <span class="function">
+            toStringAsFixed
+           </span>
+           (
+           <span class="number">
+            1
+           </span>
+           )
+                              :
+           <span class="string">
+            'N/A'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">18</span>,
+                            fontSize:
+           <span class="number">
+            18
+           </span>
+           ,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: <span class="number">8</span>),
+                        SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                         Text(
-                          <span class="string">'(${movie.voteCount ?? 0} votes)'</span>,
-                          style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            '(${movie.voteCount ?? 0} votes)'
+           </span>
+           ,
+                          style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                         ),
                       ],
                     ),
-                    SizedBox(height: <span class="number">16</span>),
-                    <span class="comment">// Overview</span>
-                    Text(
-                      <span class="string">'Overview'</span>,
+                    SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Overview
+           </span>
+           Text(
+           <span class="string">
+            'Overview'
+           </span>
+           ,
                       style: TextStyle(
-                        fontSize: <span class="number">18</span>,
+                        fontSize:
+           <span class="number">
+            18
+           </span>
+           ,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: <span class="number">8</span>),
+                    SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                     Text(
-                      movie.overview ?? <span class="string">'No overview available.'</span>,
+                      movie.overview ??
+           <span class="string">
+            'No overview available.'
+           </span>
+           ,
                       style: TextStyle(
-                        fontSize: <span class="number">16</span>,
-                        height: <span class="number">1.6</span>,
-                        color: Colors.grey[<span class="number">800</span>],
+                        fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
+                        height:
+           <span class="number">
+            1.6
+           </span>
+           ,
+                        color: Colors.grey[
+           <span class="number">
+            800
+           </span>
+           ],
                       ),
                     ),
                   ],
@@ -867,78 +1906,288 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Main Screen (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/movie_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/movie_card.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/movie_detail_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Main Screen (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/movie_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/movie_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/movie_detail_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Movie Explorer'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Movie Explorer'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
-    <span class="keyword">bool</span> _isSearching = <span class="keyword">false</span>;
-
-    <span class="keyword">void</span> <span class="function">_searchMovies</span>() {
-      <span class="keyword">final</span> query = _controller.text.<span class="function">trim</span>();
-      <span class="keyword">if</span> (query.<span class="function">isNotEmpty</span>) {
-        <span class="function">setState</span>(() =&gt; _isSearching = <span class="keyword">true</span>);
-        ref.<span class="function">read</span>(searchQueryProvider.notifier).state = query;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _controller = TextEditingController();
+           <span class="keyword">
+            bool
+           </span>
+           _isSearching =
+           <span class="keyword">
+            false
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _searchMovies
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           query = _controller.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (query.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isSearching =
+           <span class="keyword">
+            true
+           </span>
+           );
+        ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider.notifier).state = query;
       }
     }
-
-    <span class="keyword">void</span> <span class="function">_clearSearch</span>() {
-      <span class="function">setState</span>(() {
-        _isSearching = <span class="keyword">false</span>;
-        _controller.<span class="function">clear</span>();
-        ref.<span class="function">read</span>(searchQueryProvider.notifier).state = <span class="string">''</span>;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _clearSearch
+           </span>
+           () {
+           <span class="function">
+            setState
+           </span>
+           (() {
+        _isSearching =
+           <span class="keyword">
+            false
+           </span>
+           ;
+        _controller.
+           <span class="function">
+            clear
+           </span>
+           ();
+        ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider.notifier).state =
+           <span class="string">
+            ''
+           </span>
+           ;
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> trendingAsync = ref.<span class="function">watch</span>(trendingMoviesProvider);
-      <span class="keyword">final</span> searchAsync = ref.<span class="function">watch</span>(searchResultsProvider);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           trendingAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (trendingMoviesProvider);
+           <span class="keyword">
+            final
+           </span>
+           searchAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (searchResultsProvider);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'🎬 Movie Explorer'</span>),
+          title: Text(
+           <span class="string">
+            '🎬 Movie Explorer'
+           </span>
+           ),
           backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           actions: [
-            <span class="keyword">if</span> (_isSearching)
+           <span class="keyword">
+            if
+           </span>
+           (_isSearching)
               IconButton(
                 onPressed: _clearSearch,
                 icon: Icon(Icons.clear),
@@ -946,75 +2195,188 @@
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
           child: Column(
             children: [
-              <span class="comment">// Search Bar</span>
-              Row(
+           <span class="comment">
+            // Search Bar
+           </span>
+           Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        hintText: <span class="string">'Search movies...'</span>,
+                        hintText:
+           <span class="string">
+            'Search movies...'
+           </span>
+           ,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                         ),
                         prefixIcon: Icon(Icons.search),
-                        contentPadding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                        contentPadding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           ),
                       ),
                       onSubmitted: (_) =&gt; _searchMovies(),
                     ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                   ElevatedButton(
                     onPressed: _searchMovies,
-                    child: Text(<span class="string">'Search'</span>),
+                    child: Text(
+           <span class="string">
+            'Search'
+           </span>
+           ),
                   ),
                 ],
               ),
-              SizedBox(height: <span class="number">12</span>),
-              <span class="comment">// Results</span>
-              Expanded(
+              SizedBox(height:
+           <span class="number">
+            12
+           </span>
+           ),
+           <span class="comment">
+            // Results
+           </span>
+           Expanded(
                 child: _isSearching
-                    ? searchAsync.<span class="function">when</span>(
+                    ? searchAsync.
+           <span class="function">
+            when
+           </span>
+           (
                         loading: () =&gt; Center(child: CircularProgressIndicator()),
                         error: (error, stack) =&gt; Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                              SizedBox(height: <span class="number">16</span>),
-                              Text(<span class="string">'No movies found'</span>),
-                              SizedBox(height: <span class="number">8</span>),
+                              Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                               Text(
-                                error.<span class="function">toString</span>(),
-                                style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'No movies found'
+           </span>
+           ),
+                              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
+                              Text(
+                                error.
+           <span class="function">
+            toString
+           </span>
+           (),
+                                style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                               ),
                             ],
                           ),
                         ),
-                        data: (movies) =&gt; movies.<span class="function">isEmpty</span>
-                            ? Center(
+                        data: (movies) =&gt; movies.
+           <span class="function">
+            isEmpty
+           </span>
+           ? Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.movie, size: <span class="number">64</span>, color: Colors.grey[<span class="number">400</span>]),
-                                    SizedBox(height: <span class="number">16</span>),
+                                    Icon(Icons.movie, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ]),
+                                    SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                                     Text(
-                                      <span class="string">'No results found'</span>,
-                                      style: TextStyle(fontSize: <span class="number">16</span>, color: Colors.grey[<span class="number">500</span>]),
+           <span class="string">
+            'No results found'
+           </span>
+           ,
+                                      style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                                     ),
                                   ],
                                 ),
                               )
                             : ListView.builder(
-                                itemCount: movies.<span class="function">length</span>,
+                                itemCount: movies.
+           <span class="function">
+            length
+           </span>
+           ,
                                 itemBuilder: (context, index) {
-                                  <span class="keyword">return</span> MovieCard(
+           <span class="keyword">
+            return
+           </span>
+           MovieCard(
                                     movie: movies[index],
                                     onTap: (movie) {
-                                      Navigator.<span class="function">push</span>(
+                                      Navigator.
+           <span class="function">
+            push
+           </span>
+           (
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =&gt; MovieDetailScreen(movie: movie),
@@ -1025,37 +2387,92 @@
                                 },
                               ),
                       )
-                    : trendingAsync.<span class="function">when</span>(
+                    : trendingAsync.
+           <span class="function">
+            when
+           </span>
+           (
                         loading: () =&gt; Center(child: CircularProgressIndicator()),
                         error: (error, stack) =&gt; Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                              SizedBox(height: <span class="number">16</span>),
-                              Text(<span class="string">'Failed to load movies'</span>),
-                              SizedBox(height: <span class="number">8</span>),
+                              Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                               Text(
-                                error.<span class="function">toString</span>(),
-                                style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'Failed to load movies'
+           </span>
+           ),
+                              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
+                              Text(
+                                error.
+           <span class="function">
+            toString
+           </span>
+           (),
+                                style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                               ),
-                              SizedBox(height: <span class="number">16</span>),
+                              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                               ElevatedButton(
                                 onPressed: () {
-                                  ref.<span class="function">invalidate</span>(trendingMoviesProvider);
+                                  ref.
+           <span class="function">
+            invalidate
+           </span>
+           (trendingMoviesProvider);
                                 },
-                                child: Text(<span class="string">'Retry'</span>),
+                                child: Text(
+           <span class="string">
+            'Retry'
+           </span>
+           ),
                               ),
                             ],
                           ),
                         ),
                         data: (movies) =&gt; ListView.builder(
-                          itemCount: movies.<span class="function">length</span>,
+                          itemCount: movies.
+           <span class="function">
+            length
+           </span>
+           ,
                           itemBuilder: (context, index) {
-                            <span class="keyword">return</span> MovieCard(
+           <span class="keyword">
+            return
+           </span>
+           MovieCard(
                               movie: movies[index],
                               onTap: (movie) {
-                                Navigator.<span class="function">push</span>(
+                                Navigator.
+           <span class="function">
+            push
+           </span>
+           (
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =&gt; MovieDetailScreen(movie: movie),
@@ -1073,82 +2490,185 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>HTTP GET</strong> – Fetching trending and search results from TMDB</li>
-<li><strong>JSON Parsing</strong> – Converting API responses to Movie objects</li>
-<li><strong>FutureProvider</strong> – Managing async API calls</li>
-<li><strong>Image Caching</strong> – Using cached_network_image for posters</li>
-<li><strong>Navigation</strong> – Passing data to detail screen</li>
-<li><strong>Search</strong> – Real-time movie search functionality</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge1-weather-app.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge3-news-reader.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-<li><a href="https://developers.themoviedb.org/3" rel="noopener" target="_blank">TMDB API</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            HTTP GET
+           </strong>
+           – Fetching trending and search results from TMDB
+          </li>
+          <li>
+           <strong>
+            JSON Parsing
+           </strong>
+           – Converting API responses to Movie objects
+          </li>
+          <li>
+           <strong>
+            FutureProvider
+           </strong>
+           – Managing async API calls
+          </li>
+          <li>
+           <strong>
+            Image Caching
+           </strong>
+           – Using cached_network_image for posters
+          </li>
+          <li>
+           <strong>
+            Navigation
+           </strong>
+           – Passing data to detail screen
+          </li>
+          <li>
+           <strong>
+            Search
+           </strong>
+           – Real-time movie search functionality
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge1-weather-app.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge3-news-reader.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+       <li>
+        <a href="https://developers.themoviedb.org/3" rel="noopener" target="_blank">
+         TMDB API
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1256,8 +2776,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1330,5 +2850,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SharedPreferences – Module 3 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to use SharedPreferences in Flutter for storing simple key-value data persistently across app sessions." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   SharedPreferences – Module 3 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to use SharedPreferences in Flutter for storing simple key-value data persistently across app sessions." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -574,10 +575,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         color: #ffffff !important;
     }
-    
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -640,393 +640,1254 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module3-state-management.html">Module 3</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 1</span>
-</div>
-<span class="module-badge"><i class="fas fa-database"></i> Module 3</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 1</div>
-<h1>SharedPreferences</h1>
-<p class="topic-subtitle">
-            Storing simple key-value pairs persistently in Flutter — the easiest way to save user preferences and app settings.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://pub.dev/packages/shared_preferences" target="_blank">
-<i class="fas fa-box"></i> shared_preferences package
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT IS SHAREDPREFERENCES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Is SharedPreferences?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>SharedPreferences</strong> is a Flutter plugin that provides a simple way to store
-            <strong>key-value pairs</strong> persistently across app sessions. It wraps platform-specific
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module3-state-management.html">
+        Module 3
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 1
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-database">
+       </i>
+       Module 3
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 1
+      </div>
+      <h1>
+       SharedPreferences
+      </h1>
+      <p class="topic-subtitle">
+       Storing simple key-value pairs persistently in Flutter — the easiest way to save user preferences and app settings.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://pub.dev/packages/shared_preferences" target="_blank">
+        <i class="fas fa-box">
+        </i>
+        shared_preferences package
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT IS SHAREDPREFERENCES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Is SharedPreferences?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        SharedPreferences
+       </strong>
+       is a Flutter plugin that provides a simple way to store
+       <strong>
+        key-value pairs
+       </strong>
+       persistently across app sessions. It wraps platform-specific
             persistent storage:
-          </p>
-<div class="storage-location-grid">
-<div class="storage-location-item" style="border-left: 3px solid #3B82F6;">
-<div class="platform-icon">🤖</div>
-<div class="platform-name">Android</div>
-<div class="platform-desc">SharedPreferences</div>
-</div>
-<div class="storage-location-item" style="border-left: 3px solid #10B981;">
-<div class="platform-icon">🍎</div>
-<div class="platform-name">iOS/macOS</div>
-<div class="platform-desc">NSUserDefaults</div>
-</div>
-<div class="storage-location-item" style="border-left: 3px solid #F59E0B;">
-<div class="platform-icon">🌐</div>
-<div class="platform-name">Web</div>
-<div class="platform-desc">LocalStorage</div>
-</div>
-</div>
-<div class="concept-card success">
-<h4>✅ When to Use SharedPreferences</h4>
-<ul>
-<li>Storing <strong>user preferences</strong> (theme, language, notifications)</li>
-<li>Saving <strong>app settings</strong> (sound, volume, font size)</li>
-<li>Storing <strong>simple user data</strong> (username, email, high score)</li>
-<li><strong>Session data</strong> (login state, last visit)</li>
-</ul>
-</div>
-<div class="concept-card warning">
-<h4>⚠️ Not for Large Data</h4>
-<p>
-              SharedPreferences is designed for <strong>small amounts of simple data</strong>.
+      </p>
+      <div class="storage-location-grid">
+       <div class="storage-location-item" style="border-left: 3px solid #3B82F6;">
+        <div class="platform-icon">
+         🤖
+        </div>
+        <div class="platform-name">
+         Android
+        </div>
+        <div class="platform-desc">
+         SharedPreferences
+        </div>
+       </div>
+       <div class="storage-location-item" style="border-left: 3px solid #10B981;">
+        <div class="platform-icon">
+         🍎
+        </div>
+        <div class="platform-name">
+         iOS/macOS
+        </div>
+        <div class="platform-desc">
+         NSUserDefaults
+        </div>
+       </div>
+       <div class="storage-location-item" style="border-left: 3px solid #F59E0B;">
+        <div class="platform-icon">
+         🌐
+        </div>
+        <div class="platform-name">
+         Web
+        </div>
+        <div class="platform-desc">
+         LocalStorage
+        </div>
+       </div>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ When to Use SharedPreferences
+       </h4>
+       <ul>
+        <li>
+         Storing
+         <strong>
+          user preferences
+         </strong>
+         (theme, language, notifications)
+        </li>
+        <li>
+         Saving
+         <strong>
+          app settings
+         </strong>
+         (sound, volume, font size)
+        </li>
+        <li>
+         Storing
+         <strong>
+          simple user data
+         </strong>
+         (username, email, high score)
+        </li>
+        <li>
+         <strong>
+          Session data
+         </strong>
+         (login state, last visit)
+        </li>
+       </ul>
+      </div>
+      <div class="concept-card warning">
+       <h4>
+        ⚠️ Not for Large Data
+       </h4>
+       <p>
+        SharedPreferences is designed for
+        <strong>
+         small amounts of simple data
+        </strong>
+        .
               Do not use it for storing large lists, images, or complex objects.
-              For large data, use <strong>Hive</strong> or <strong>SQLite</strong>.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 2: SUPPORTED DATA TYPES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Supported Data Types</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            SharedPreferences supports the following data types:
-          </p>
-<div class="comparison-grid">
-<div class="compare-item">
-<h4 style="color: var(--primary);">📦 Primitive Types</h4>
-<ul>
-<li><code>int</code> – Integer values</li>
-<li><code>double</code> – Decimal values</li>
-<li><code>bool</code> – True/false values</li>
-<li><code>String</code> – Text values</li>
-</ul>
-</div>
-<div class="compare-item">
-<h4 style="color: var(--secondary);">📋 Collection Types</h4>
-<ul>
-<li><code>List&lt;String&gt;</code> – Lists of strings</li>
-</ul>
-<p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
-<strong>Note:</strong> For lists of other types, use JSON serialization.
-              </p>
-</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Supported Types Example</span>
-<code>
-<span class="comment">// Primitive types</span>
-  await prefs.setInt(<span class="string">'counter'</span>, <span class="number">10</span>);
-  await prefs.setDouble(<span class="string">'price'</span>, <span class="number">19.99</span>);
-  await prefs.setBool(<span class="string">'isDarkMode'</span>, <span class="keyword">true</span>);
-  await prefs.setString(<span class="string">'username'</span>, <span class="string">'john_doe'</span>);
-
-  <span class="comment">// Collection types</span>
-  await prefs.setStringList(<span class="string">'favorites'</span>, [<span class="string">'apple'</span>, <span class="string">'banana'</span>, <span class="string">'cherry'</span>]);
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 3: SETUP AND USAGE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Setup and Usage</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            To use SharedPreferences, you need to add the dependency and import the package.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">pubspec.yaml – Add Dependency</span>
-<code>
-  dependencies:
+              For large data, use
+        <strong>
+         Hive
+        </strong>
+        or
+        <strong>
+         SQLite
+        </strong>
+        .
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: SUPPORTED DATA TYPES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Supported Data Types
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       SharedPreferences supports the following data types:
+      </p>
+      <div class="comparison-grid">
+       <div class="compare-item">
+        <h4 style="color: var(--primary);">
+         📦 Primitive Types
+        </h4>
+        <ul>
+         <li>
+          <code>
+           int
+          </code>
+          – Integer values
+         </li>
+         <li>
+          <code>
+           double
+          </code>
+          – Decimal values
+         </li>
+         <li>
+          <code>
+           bool
+          </code>
+          – True/false values
+         </li>
+         <li>
+          <code>
+           String
+          </code>
+          – Text values
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: var(--secondary);">
+         📋 Collection Types
+        </h4>
+        <ul>
+         <li>
+          <code>
+           List&lt;String&gt;
+          </code>
+          – Lists of strings
+         </li>
+        </ul>
+        <p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
+         <strong>
+          Note:
+         </strong>
+         For lists of other types, use JSON serialization.
+        </p>
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Supported Types Example
+       </span>
+       <code>
+        <span class="comment">
+         // Primitive types
+        </span>
+        await prefs.setInt(
+        <span class="string">
+         'counter'
+        </span>
+        ,
+        <span class="number">
+         10
+        </span>
+        );
+  await prefs.setDouble(
+        <span class="string">
+         'price'
+        </span>
+        ,
+        <span class="number">
+         19.99
+        </span>
+        );
+  await prefs.setBool(
+        <span class="string">
+         'isDarkMode'
+        </span>
+        ,
+        <span class="keyword">
+         true
+        </span>
+        );
+  await prefs.setString(
+        <span class="string">
+         'username'
+        </span>
+        ,
+        <span class="string">
+         'john_doe'
+        </span>
+        );
+        <span class="comment">
+         // Collection types
+        </span>
+        await prefs.setStringList(
+        <span class="string">
+         'favorites'
+        </span>
+        , [
+        <span class="string">
+         'apple'
+        </span>
+        ,
+        <span class="string">
+         'banana'
+        </span>
+        ,
+        <span class="string">
+         'cherry'
+        </span>
+        ]);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: SETUP AND USAGE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Setup and Usage
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       To use SharedPreferences, you need to add the dependency and import the package.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        pubspec.yaml – Add Dependency
+       </span>
+       <code>
+        dependencies:
     shared_preferences: ^2.5.5
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/shared_prefs_demo.dart – Basic Usage</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:shared_preferences/shared_preferences.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">PreferencesService</span> {
-    <span class="comment">// Get an instance of SharedPreferences</span>
-<span class="keyword">static</span> <span class="keyword">Future</span>&lt;SharedPreferences&gt; <span class="function">getPrefs</span>() async {
-      <span class="keyword">return</span> await SharedPreferences.getInstance();
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/shared_prefs_demo.dart – Basic Usage
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:shared_preferences/shared_preferences.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         PreferencesService
+        </span>
+        {
+        <span class="comment">
+         // Get an instance of SharedPreferences
+        </span>
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;SharedPreferences&gt;
+        <span class="function">
+         getPrefs
+        </span>
+        () async {
+        <span class="keyword">
+         return
+        </span>
+        await SharedPreferences.getInstance();
     }
-
-    <span class="comment">// ----- WRITE DATA -----</span>
-<span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">setThemeMode</span>(<span class="keyword">bool</span> isDark) async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">await</span> prefs.setBool(<span class="string">'dark_mode'</span>, isDark);
+        <span class="comment">
+         // ----- WRITE DATA -----
+        </span>
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         setThemeMode
+        </span>
+        (
+        <span class="keyword">
+         bool
+        </span>
+        isDark) async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         await
+        </span>
+        prefs.setBool(
+        <span class="string">
+         'dark_mode'
+        </span>
+        , isDark);
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">setUsername</span>(String name) async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">await</span> prefs.setString(<span class="string">'username'</span>, name);
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         setUsername
+        </span>
+        (String name) async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         await
+        </span>
+        prefs.setString(
+        <span class="string">
+         'username'
+        </span>
+        , name);
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">setCounter</span>(<span class="keyword">int</span> count) async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">await</span> prefs.setInt(<span class="string">'counter'</span>, count);
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         setCounter
+        </span>
+        (
+        <span class="keyword">
+         int
+        </span>
+        count) async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         await
+        </span>
+        prefs.setInt(
+        <span class="string">
+         'counter'
+        </span>
+        , count);
     }
-
-    <span class="comment">// ----- READ DATA -----</span>
-<span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">getThemeMode</span>() async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">return</span> prefs.getBool(<span class="string">'dark_mode'</span>) ?? <span class="keyword">false</span>;
+        <span class="comment">
+         // ----- READ DATA -----
+        </span>
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         getThemeMode
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         return
+        </span>
+        prefs.getBool(
+        <span class="string">
+         'dark_mode'
+        </span>
+        ) ??
+        <span class="keyword">
+         false
+        </span>
+        ;
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;String&gt; <span class="function">getUsername</span>() async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">return</span> prefs.getString(<span class="string">'username'</span>) ?? <span class="string">'Guest'</span>;
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;String&gt;
+        <span class="function">
+         getUsername
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         return
+        </span>
+        prefs.getString(
+        <span class="string">
+         'username'
+        </span>
+        ) ??
+        <span class="string">
+         'Guest'
+        </span>
+        ;
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">getCounter</span>() async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">return</span> prefs.getInt(<span class="string">'counter'</span>) ?? <span class="number">0</span>;
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         int
+        </span>
+        &gt;
+        <span class="function">
+         getCounter
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         return
+        </span>
+        prefs.getInt(
+        <span class="string">
+         'counter'
+        </span>
+        ) ??
+        <span class="number">
+         0
+        </span>
+        ;
     }
-
-    <span class="comment">// ----- DELETE DATA -----</span>
-<span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">removeUsername</span>() async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">await</span> prefs.remove(<span class="string">'username'</span>);
+        <span class="comment">
+         // ----- DELETE DATA -----
+        </span>
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         removeUsername
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         await
+        </span>
+        prefs.remove(
+        <span class="string">
+         'username'
+        </span>
+        );
     }
-
-    <span class="comment">// ----- CLEAR ALL -----</span>
-<span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">clearAll</span>() async {
-      <span class="keyword">final</span> prefs = await getPrefs();
-      <span class="keyword">await</span> prefs.clear();
+        <span class="comment">
+         // ----- CLEAR ALL -----
+        </span>
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         clearAll
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await getPrefs();
+        <span class="keyword">
+         await
+        </span>
+        prefs.clear();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 4: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Settings App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete example of a settings app that uses SharedPreferences to persist user preferences.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Complete Settings App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:shared_preferences/shared_preferences.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() =&gt; runApp(<span class="function">MyApp</span>());
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Settings App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete example of a settings app that uses SharedPreferences to persist user preferences.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Complete Settings App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:shared_preferences/shared_preferences.dart'
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () =&gt; runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Settings App'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Settings App'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         home: SettingsScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">SettingsScreen</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         SettingsScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;SettingsScreen&gt; <span class="function">createState</span>() =&gt; _SettingsScreenState();
+    State&lt;SettingsScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _SettingsScreenState();
   }
-
-  <span class="keyword">class</span> _SettingsScreenState <span class="keyword">extends</span> State&lt;SettingsScreen&gt; {
-    <span class="keyword">bool</span> _isDarkMode = <span class="keyword">false</span>;
-    <span class="keyword">bool</span> _notificationsEnabled = <span class="keyword">true</span>;
-    <span class="keyword">bool</span> _soundEnabled = <span class="keyword">true</span>;
-    String _username = <span class="string">'Guest'</span>;
-    <span class="keyword">int</span> _fontSize = <span class="number">16</span>;
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
-
-    <span class="keyword">final</span> TextEditingController _usernameController = TextEditingController();
+        <span class="keyword">
+         class
+        </span>
+        _SettingsScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;SettingsScreen&gt; {
+        <span class="keyword">
+         bool
+        </span>
+        _isDarkMode =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _notificationsEnabled =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _soundEnabled =
+        <span class="keyword">
+         true
+        </span>
+        ;
+    String _username =
+        <span class="string">
+         'Guest'
+        </span>
+        ;
+        <span class="keyword">
+         int
+        </span>
+        _fontSize =
+        <span class="number">
+         16
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _usernameController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _loadSettings();
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
       _usernameController.dispose();
-      <span class="keyword">super</span>.dispose();
+        <span class="keyword">
+         super
+        </span>
+        .dispose();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadSettings</span>() async {
-      <span class="keyword">final</span> prefs = await SharedPreferences.getInstance();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _loadSettings
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await SharedPreferences.getInstance();
 
       setState(() {
-        _isDarkMode = prefs.getBool(<span class="string">'dark_mode'</span>) ?? <span class="keyword">false</span>;
-        _notificationsEnabled = prefs.getBool(<span class="string">'notifications'</span>) ?? <span class="keyword">true</span>;
-        _soundEnabled = prefs.getBool(<span class="string">'sound'</span>) ?? <span class="keyword">true</span>;
-        _username = prefs.getString(<span class="string">'username'</span>) ?? <span class="string">'Guest'</span>;
-        _fontSize = prefs.getInt(<span class="string">'font_size'</span>) ?? <span class="number">16</span>;
+        _isDarkMode = prefs.getBool(
+        <span class="string">
+         'dark_mode'
+        </span>
+        ) ??
+        <span class="keyword">
+         false
+        </span>
+        ;
+        _notificationsEnabled = prefs.getBool(
+        <span class="string">
+         'notifications'
+        </span>
+        ) ??
+        <span class="keyword">
+         true
+        </span>
+        ;
+        _soundEnabled = prefs.getBool(
+        <span class="string">
+         'sound'
+        </span>
+        ) ??
+        <span class="keyword">
+         true
+        </span>
+        ;
+        _username = prefs.getString(
+        <span class="string">
+         'username'
+        </span>
+        ) ??
+        <span class="string">
+         'Guest'
+        </span>
+        ;
+        _fontSize = prefs.getInt(
+        <span class="string">
+         'font_size'
+        </span>
+        ) ??
+        <span class="number">
+         16
+        </span>
+        ;
         _usernameController.text = _username;
-        _isLoading = <span class="keyword">false</span>;
+        _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_saveSetting</span>(String key, dynamic value) async {
-      <span class="keyword">final</span> prefs = await SharedPreferences.getInstance();
-
-      <span class="keyword">if</span> (value <span class="keyword">is</span> <span class="keyword">bool</span>) {
-        <span class="keyword">await</span> prefs.setBool(key, value);
-      } <span class="keyword">else</span> <span class="keyword">if</span> (value <span class="keyword">is</span> <span class="keyword">int</span>) {
-        <span class="keyword">await</span> prefs.setInt(key, value);
-      } <span class="keyword">else</span> <span class="keyword">if</span> (value <span class="keyword">is</span> String) {
-        <span class="keyword">await</span> prefs.setString(key, value);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _saveSetting
+        </span>
+        (String key, dynamic value) async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await SharedPreferences.getInstance();
+        <span class="keyword">
+         if
+        </span>
+        (value
+        <span class="keyword">
+         is
+        </span>
+        <span class="keyword">
+         bool
+        </span>
+        ) {
+        <span class="keyword">
+         await
+        </span>
+        prefs.setBool(key, value);
+      }
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (value
+        <span class="keyword">
+         is
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        ) {
+        <span class="keyword">
+         await
+        </span>
+        prefs.setInt(key, value);
+      }
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (value
+        <span class="keyword">
+         is
+        </span>
+        String) {
+        <span class="keyword">
+         await
+        </span>
+        prefs.setString(key, value);
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_saveUsername</span>() async {
-      <span class="keyword">final</span> newUsername = _usernameController.text.trim();
-      <span class="keyword">if</span> (newUsername.isNotEmpty) {
-        <span class="keyword">await</span> _saveSetting(<span class="string">'username'</span>, newUsername);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _saveUsername
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        newUsername = _usernameController.text.trim();
+        <span class="keyword">
+         if
+        </span>
+        (newUsername.isNotEmpty) {
+        <span class="keyword">
+         await
+        </span>
+        _saveSetting(
+        <span class="string">
+         'username'
+        </span>
+        , newUsername);
         setState(() {
           _username = newUsername;
         });
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_resetSettings</span>() async {
-      <span class="keyword">final</span> prefs = await SharedPreferences.getInstance();
-      <span class="keyword">await</span> prefs.clear();
-      <span class="keyword">await</span> _loadSettings();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _resetSettings
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        prefs = await SharedPreferences.getInstance();
+        <span class="keyword">
+         await
+        </span>
+        prefs.clear();
+        <span class="keyword">
+         await
+        </span>
+        _loadSettings();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">if</span> (_isLoading) {
-        <span class="keyword">return</span> Scaffold(
-          appBar: AppBar(title: Text(<span class="string">'Settings'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         if
+        </span>
+        (_isLoading) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+          appBar: AppBar(title: Text(
+        <span class="string">
+         'Settings'
+        </span>
+        )),
           body: Center(child: CircularProgressIndicator()),
         );
       }
-
-      <span class="keyword">return</span> Scaffold(
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'⚙️ Settings'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         '⚙️ Settings'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
               onPressed: _loadSettings,
-              tooltip: <span class="string">'Reload'</span>,
+              tooltip:
+        <span class="string">
+         'Reload'
+        </span>
+        ,
             ),
           ],
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(<span class="number">16</span>),
+          padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
           child: Column(
             children: [
-              <span class="comment">// User Profile Section</span>
-              Card(
+        <span class="comment">
+         // User Profile Section
+        </span>
+        Card(
                 child: Padding(
-                  padding: EdgeInsets.all(<span class="number">16</span>),
+                  padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        <span class="string">'👤 Profile'</span>,
-                        style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+        <span class="string">
+         '👤 Profile'
+        </span>
+        ,
+                        style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: <span class="number">12</span>),
+                      SizedBox(height:
+        <span class="number">
+         12
+        </span>
+        ),
                       Row(
                         children: [
                           CircleAvatar(
-                            radius: <span class="number">30</span>,
+                            radius:
+        <span class="number">
+         30
+        </span>
+        ,
                             child: Text(
-                              _username.isNotEmpty ? _username[<span class="number">0</span>].toUpperCase() : <span class="string">'?'</span>,
-                              style: TextStyle(fontSize: <span class="number">20</span>),
+                              _username.isNotEmpty ? _username[
+        <span class="number">
+         0
+        </span>
+        ].toUpperCase() :
+        <span class="string">
+         '?'
+        </span>
+        ,
+                              style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        ),
                             ),
                           ),
-                          SizedBox(width: <span class="number">16</span>),
+                          SizedBox(width:
+        <span class="number">
+         16
+        </span>
+        ),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   _username,
-                                  style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  <span class="string">'User since 2024'</span>,
+        <span class="string">
+         'User since 2024'
+        </span>
+        ,
                                   style: TextStyle(color: Colors.grey.shade500),
                                 ),
                               ],
@@ -1034,25 +1895,53 @@
                           ),
                         ],
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                       Row(
                         children: [
                           Expanded(
                             child: TextField(
                               controller: _usernameController,
                               decoration: InputDecoration(
-                                hintText: <span class="string">'Change username'</span>,
+                                hintText:
+        <span class="string">
+         'Change username'
+        </span>
+        ,
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                                  borderRadius: BorderRadius.circular(
+        <span class="number">
+         8
+        </span>
+        ),
                                 ),
-                                contentPadding: EdgeInsets.symmetric(horizontal: <span class="number">12</span>, vertical: <span class="number">8</span>),
+                                contentPadding: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         12
+        </span>
+        , vertical:
+        <span class="number">
+         8
+        </span>
+        ),
                               ),
                             ),
                           ),
-                          SizedBox(width: <span class="number">8</span>),
+                          SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
                           ElevatedButton(
                             onPressed: _saveUsername,
-                            child: Text(<span class="string">'Save'</span>),
+                            child: Text(
+        <span class="string">
+         'Save'
+        </span>
+        ),
                           ),
                         ],
                       ),
@@ -1061,52 +1950,137 @@
                 ),
               ),
 
-              SizedBox(height: <span class="number">16</span>),
-
-              <span class="comment">// Appearance Section</span>
-              Card(
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+        <span class="comment">
+         // Appearance Section
+        </span>
+        Card(
                 child: Padding(
-                  padding: EdgeInsets.all(<span class="number">16</span>),
+                  padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        <span class="string">'🎨 Appearance'</span>,
-                        style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+        <span class="string">
+         '🎨 Appearance'
+        </span>
+        ,
+                        style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                       SwitchListTile(
-                        title: Text(<span class="string">'Dark Mode'</span>),
-                        subtitle: Text(<span class="string">'Enable dark theme'</span>),
+                        title: Text(
+        <span class="string">
+         'Dark Mode'
+        </span>
+        ),
+                        subtitle: Text(
+        <span class="string">
+         'Enable dark theme'
+        </span>
+        ),
                         value: _isDarkMode,
                         onChanged: (value) async {
                           setState(() =&gt; _isDarkMode = value);
-                          <span class="keyword">await</span> _saveSetting(<span class="string">'dark_mode'</span>, value);
+        <span class="keyword">
+         await
+        </span>
+        _saveSetting(
+        <span class="string">
+         'dark_mode'
+        </span>
+        , value);
                         },
                       ),
                       ListTile(
-                        title: Text(<span class="string">'Font Size'</span>),
-                        subtitle: Text(<span class="string">'${_fontSize}px'</span>),
+                        title: Text(
+        <span class="string">
+         'Font Size'
+        </span>
+        ),
+                        subtitle: Text(
+        <span class="string">
+         '${_fontSize}px'
+        </span>
+        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
                               icon: Icon(Icons.remove),
                               onPressed: () async {
-                                <span class="keyword">if</span> (_fontSize &gt; <span class="number">12</span>) {
-                                  <span class="keyword">final</span> newSize = _fontSize - <span class="number">2</span>;
+        <span class="keyword">
+         if
+        </span>
+        (_fontSize &gt;
+        <span class="number">
+         12
+        </span>
+        ) {
+        <span class="keyword">
+         final
+        </span>
+        newSize = _fontSize -
+        <span class="number">
+         2
+        </span>
+        ;
                                   setState(() =&gt; _fontSize = newSize);
-                                  <span class="keyword">await</span> _saveSetting(<span class="string">'font_size'</span>, newSize);
+        <span class="keyword">
+         await
+        </span>
+        _saveSetting(
+        <span class="string">
+         'font_size'
+        </span>
+        , newSize);
                                 }
                               },
                             ),
                             IconButton(
                               icon: Icon(Icons.add),
                               onPressed: () async {
-                                <span class="keyword">if</span> (_fontSize &lt; <span class="number">28</span>) {
-                                  <span class="keyword">final</span> newSize = _fontSize + <span class="number">2</span>;
+        <span class="keyword">
+         if
+        </span>
+        (_fontSize &lt;
+        <span class="number">
+         28
+        </span>
+        ) {
+        <span class="keyword">
+         final
+        </span>
+        newSize = _fontSize +
+        <span class="number">
+         2
+        </span>
+        ;
                                   setState(() =&gt; _fontSize = newSize);
-                                  <span class="keyword">await</span> _saveSetting(<span class="string">'font_size'</span>, newSize);
+        <span class="keyword">
+         await
+        </span>
+        _saveSetting(
+        <span class="string">
+         'font_size'
+        </span>
+        , newSize);
                                 }
                               },
                             ),
@@ -1118,36 +2092,86 @@
                 ),
               ),
 
-              SizedBox(height: <span class="number">16</span>),
-
-              <span class="comment">// Preferences Section</span>
-              Card(
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+        <span class="comment">
+         // Preferences Section
+        </span>
+        Card(
                 child: Padding(
-                  padding: EdgeInsets.all(<span class="number">16</span>),
+                  padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        <span class="string">'🔔 Preferences'</span>,
-                        style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+        <span class="string">
+         '🔔 Preferences'
+        </span>
+        ,
+                        style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                       SwitchListTile(
-                        title: Text(<span class="string">'Notifications'</span>),
-                        subtitle: Text(<span class="string">'Receive push notifications'</span>),
+                        title: Text(
+        <span class="string">
+         'Notifications'
+        </span>
+        ),
+                        subtitle: Text(
+        <span class="string">
+         'Receive push notifications'
+        </span>
+        ),
                         value: _notificationsEnabled,
                         onChanged: (value) async {
                           setState(() =&gt; _notificationsEnabled = value);
-                          <span class="keyword">await</span> _saveSetting(<span class="string">'notifications'</span>, value);
+        <span class="keyword">
+         await
+        </span>
+        _saveSetting(
+        <span class="string">
+         'notifications'
+        </span>
+        , value);
                         },
                       ),
                       SwitchListTile(
-                        title: Text(<span class="string">'Sound Effects'</span>),
-                        subtitle: Text(<span class="string">'Play sounds on interactions'</span>),
+                        title: Text(
+        <span class="string">
+         'Sound Effects'
+        </span>
+        ),
+                        subtitle: Text(
+        <span class="string">
+         'Play sounds on interactions'
+        </span>
+        ),
                         value: _soundEnabled,
                         onChanged: (value) async {
                           setState(() =&gt; _soundEnabled = value);
-                          <span class="keyword">await</span> _saveSetting(<span class="string">'sound'</span>, value);
+        <span class="keyword">
+         await
+        </span>
+        _saveSetting(
+        <span class="string">
+         'sound'
+        </span>
+        , value);
                         },
                       ),
                     ],
@@ -1155,24 +2179,44 @@
                 ),
               ),
 
-              SizedBox(height: <span class="number">16</span>),
-
-              <span class="comment">// Danger Zone</span>
-              Card(
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+        <span class="comment">
+         // Danger Zone
+        </span>
+        Card(
                 child: Padding(
-                  padding: EdgeInsets.all(<span class="number">16</span>),
+                  padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        <span class="string">'⚠️ Danger Zone'</span>,
+        <span class="string">
+         '⚠️ Danger Zone'
+        </span>
+        ,
                         style: TextStyle(
-                          fontSize: <span class="number">18</span>,
+                          fontSize:
+        <span class="number">
+         18
+        </span>
+        ,
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
                         ),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -1180,21 +2224,36 @@
                             showDialog(
                               context: context,
                               builder: (context) =&gt; AlertDialog(
-                                title: Text(<span class="string">'Reset All Settings'</span>),
+                                title: Text(
+        <span class="string">
+         'Reset All Settings'
+        </span>
+        ),
                                 content: Text(
-                                  <span class="string">'This will reset all your settings to default values. Are you sure?'</span>,
+        <span class="string">
+         'This will reset all your settings to default values. Are you sure?'
+        </span>
+        ,
                                 ),
                                 actions: [
                                   TextButton(
                                     onPressed: () =&gt; Navigator.pop(context),
-                                    child: Text(<span class="string">'Cancel'</span>),
+                                    child: Text(
+        <span class="string">
+         'Cancel'
+        </span>
+        ),
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
                                       _resetSettings();
                                       Navigator.pop(context);
                                     },
-                                    child: Text(<span class="string">'Reset'</span>),
+                                    child: Text(
+        <span class="string">
+         'Reset'
+        </span>
+        ),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.red,
                                     ),
@@ -1207,7 +2266,11 @@
                             backgroundColor: Colors.red.shade50,
                             foregroundColor: Colors.red,
                           ),
-                          child: Text(<span class="string">'Reset All Settings'</span>),
+                          child: Text(
+        <span class="string">
+         'Reset All Settings'
+        </span>
+        ),
                         ),
                       ),
                     ],
@@ -1220,193 +2283,467 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Add the dependency</strong> – Add <code>shared_preferences: ^2.5.5</code> to your <code>pubspec.yaml</code>.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Get an instance</strong> – Call <code>SharedPreferences.getInstance()</code> to get a reference to the preferences.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Write data</strong> – Use <code>setXxx()</code> methods to store data (e.g., <code>setBool('key', value)</code>).
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Read data</strong> – Use <code>getXxx()</code> methods to retrieve data with fallback values.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Delete data</strong> – Use <code>remove('key')</code> to delete a single key or <code>clear()</code> to delete all.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 6: BEST PRACTICES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Best Practices</span>
-<span class="divider-line"></span>
-</div>
-<div class="concept-card success">
-<h4>✅ Do's</h4>
-<ul>
-<li>Use <strong>meaningful key names</strong> (e.g., <code>'user_theme_preference'</code>)</li>
-<li>Always provide <strong>fallback values</strong> when reading (<code>?? defaultValue</code>)</li>
-<li>Group related preferences with <strong>consistent prefixes</strong></li>
-<li>Consider using a <strong>service class</strong> to encapsulate all SharedPreferences logic</li>
-<li>Call <code>reload()</code> if preferences are modified outside the app</li>
-</ul>
-</div>
-<div class="concept-card error">
-<h4>❌ Don'ts</h4>
-<ul>
-<li>Don't store <strong>large objects</strong> or large lists</li>
-<li>Don't store <strong>sensitive data</strong> (use encryption for passwords)</li>
-<li>Don't use SharedPreferences for <strong>critical data</strong> (writes are asynchronous)</li>
-<li>Don't use SharedPreferences as a <strong>database</strong> for large datasets</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Forgetting to await</div>
-<p>
-<code>SharedPreferences.getInstance()</code> and all <code>setXxx()</code> methods are asynchronous.
-              Always use <code>await</code> or handle the <code>Future</code> properly.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always await async methods</div>
-<p>
-<code>final prefs = await SharedPreferences.getInstance();</code><br/>
-<code>await prefs.setBool('key', value);</code>
-</p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Not providing fallback values</div>
-<p>
-              If a key doesn't exist, <code>getXxx()</code> returns <code>null</code>.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add the dependency
+         </strong>
+         – Add
+         <code>
+          shared_preferences: ^2.5.5
+         </code>
+         to your
+         <code>
+          pubspec.yaml
+         </code>
+         .
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Get an instance
+         </strong>
+         – Call
+         <code>
+          SharedPreferences.getInstance()
+         </code>
+         to get a reference to the preferences.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Write data
+         </strong>
+         – Use
+         <code>
+          setXxx()
+         </code>
+         methods to store data (e.g.,
+         <code>
+          setBool('key', value)
+         </code>
+         ).
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Read data
+         </strong>
+         – Use
+         <code>
+          getXxx()
+         </code>
+         methods to retrieve data with fallback values.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Delete data
+         </strong>
+         – Use
+         <code>
+          remove('key')
+         </code>
+         to delete a single key or
+         <code>
+          clear()
+         </code>
+         to delete all.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: BEST PRACTICES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Best Practices
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Do's
+       </h4>
+       <ul>
+        <li>
+         Use
+         <strong>
+          meaningful key names
+         </strong>
+         (e.g.,
+         <code>
+          'user_theme_preference'
+         </code>
+         )
+        </li>
+        <li>
+         Always provide
+         <strong>
+          fallback values
+         </strong>
+         when reading (
+         <code>
+          ?? defaultValue
+         </code>
+         )
+        </li>
+        <li>
+         Group related preferences with
+         <strong>
+          consistent prefixes
+         </strong>
+        </li>
+        <li>
+         Consider using a
+         <strong>
+          service class
+         </strong>
+         to encapsulate all SharedPreferences logic
+        </li>
+        <li>
+         Call
+         <code>
+          reload()
+         </code>
+         if preferences are modified outside the app
+        </li>
+       </ul>
+      </div>
+      <div class="concept-card error">
+       <h4>
+        ❌ Don'ts
+       </h4>
+       <ul>
+        <li>
+         Don't store
+         <strong>
+          large objects
+         </strong>
+         or large lists
+        </li>
+        <li>
+         Don't store
+         <strong>
+          sensitive data
+         </strong>
+         (use encryption for passwords)
+        </li>
+        <li>
+         Don't use SharedPreferences for
+         <strong>
+          critical data
+         </strong>
+         (writes are asynchronous)
+        </li>
+        <li>
+         Don't use SharedPreferences as a
+         <strong>
+          database
+         </strong>
+         for large datasets
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Forgetting to await
+       </div>
+       <p>
+        <code>
+         SharedPreferences.getInstance()
+        </code>
+        and all
+        <code>
+         setXxx()
+        </code>
+        methods are asynchronous.
+              Always use
+        <code>
+         await
+        </code>
+        or handle the
+        <code>
+         Future
+        </code>
+        properly.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always await async methods
+       </div>
+       <p>
+        <code>
+         final prefs = await SharedPreferences.getInstance();
+        </code>
+        <br/>
+        <code>
+         await prefs.setBool('key', value);
+        </code>
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Not providing fallback values
+       </div>
+       <p>
+        If a key doesn't exist,
+        <code>
+         getXxx()
+        </code>
+        returns
+        <code>
+         null
+        </code>
+        .
               Not handling this can cause null errors.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always provide fallback values</div>
-<p>
-<code>final bool isDark = prefs.getBool('dark_mode') ?? false;</code>
-</p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Storing complex objects</div>
-<p>
-              SharedPreferences doesn't support custom objects. Trying to store them directly will cause errors.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use JSON serialization for objects</div>
-<p>
-              Convert objects to JSON strings using <code>jsonEncode()</code> and parse with <code>jsonDecode()</code>.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            SharedPreferences is the <strong>simplest way</strong> to store small amounts of key-value data in Flutter.
-            It's perfect for <strong>user preferences, app settings, and simple state</strong> that needs to persist
-            across app sessions. <strong>Always provide fallback values and use a service class</strong> to keep your code clean.
-          </p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="../module3-state-management.html">
-<i class="fas fa-arrow-left"></i> Back to Module 3
-          </a>
-<a class="btn btn-primary btn-sm" href="module3-topic2-hive.html">
-            Next: Hive <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module3-state-management.html">Module 3</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-<li><a href="https://pub.dev/packages/shared_preferences" rel="noopener" target="_blank">shared_preferences</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://pub.dev/packages/shared_preferences" style="color: var(--text-muted);" target="_blank">shared_preferences Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always provide fallback values
+       </div>
+       <p>
+        <code>
+         final bool isDark = prefs.getBool('dark_mode') ?? false;
+        </code>
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Storing complex objects
+       </div>
+       <p>
+        SharedPreferences doesn't support custom objects. Trying to store them directly will cause errors.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use JSON serialization for objects
+       </div>
+       <p>
+        Convert objects to JSON strings using
+        <code>
+         jsonEncode()
+        </code>
+        and parse with
+        <code>
+         jsonDecode()
+        </code>
+        .
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       SharedPreferences is the
+       <strong>
+        simplest way
+       </strong>
+       to store small amounts of key-value data in Flutter.
+            It's perfect for
+       <strong>
+        user preferences, app settings, and simple state
+       </strong>
+       that needs to persist
+            across app sessions.
+       <strong>
+        Always provide fallback values and use a service class
+       </strong>
+       to keep your code clean.
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="../module3-state-management.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Back to Module 3
+      </a>
+      <a class="btn btn-primary btn-sm" href="module3-topic2-hive.html">
+       Next: Hive
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module3-state-management.html">
+         Module 3
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/shared_preferences" rel="noopener" target="_blank">
+         shared_preferences
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://pub.dev/packages/shared_preferences" style="color: var(--text-muted);" target="_blank">
+       shared_preferences Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1461,8 +2798,8 @@
       });
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1535,8 +2872,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1609,5 +2947,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

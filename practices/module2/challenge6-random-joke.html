@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Random Joke App – Module 2 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Random Joke App that fetches jokes from the Official Joke API." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Random Joke App – Module 2 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Random Joke App that fetches jokes from the Official Joke API." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -342,8 +343,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -406,281 +407,859 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 2 · Challenge 6
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Random Joke App</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge easy">Easy</span></span>
-<span class="meta-item"><strong>Module:</strong> API Integration</span>
-<span class="meta-item"><strong>Concepts:</strong> HTTP GET, JSON Parsing, Random Data</span>
-<span class="meta-item"><strong>Est. Time:</strong> 20-30 min</span>
-<span class="meta-item"><span class="api-tag">😂 Official Joke API</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Random Joke App</strong> that fetches random jokes from the
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 2 · Challenge 6
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Random Joke App
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge easy">
+          Easy
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         API Integration
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         HTTP GET, JSON Parsing, Random Data
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         20-30 min
+        </span>
+        <span class="meta-item">
+         <span class="api-tag">
+          😂 Official Joke API
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Random Joke App
+        </strong>
+        that fetches random jokes from the
               Official Joke API. Users can tap a button to get a new joke, with a clean
               and entertaining UI.
-            </p>
-<div class="api-box">
-<h4>🌐 API Endpoint</h4>
-<p><strong>Official Joke API - Random Joke</strong></p>
-<div class="endpoint">https://official-joke-api.appspot.com/random_joke</div>
-<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-                Returns a random joke with setup, punchline, and type (general, programming, etc.).
-              </p>
-<div class="api-note">
-                💡 <strong>Note:</strong> No API key required! Free to use for learning.
-              </div>
-</div>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Fetch a <strong>random joke</strong> from the API</li>
-<li>Display the <strong>setup</strong> and <strong>punchline</strong></li>
-<li>Show the <strong>joke type</strong> (e.g., "General", "Programming")</li>
-<li>Add a <strong>"New Joke"</strong> button to fetch another</li>
-<li>Show a <strong>loading indicator</strong> while fetching</li>
-<li>Handle <strong>errors</strong> gracefully</li>
-<li>Use <strong>FutureProvider</strong> for state management</li>
-<li>Use <strong>http</strong> package for API calls</li>
-</ul>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://official-joke-api.appspot.com" target="_blank">Official Joke API</a></li>
-<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
-<li><a href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">Flutter Networking</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Create a <code>Joke</code> model with <code>type</code>, <code>setup</code>, and <code>punchline</code>.
-                  Use <code>FutureProvider.autoDispose</code> with a <code>refresh</code> counter to trigger new fetches.
+       </p>
+       <div class="api-box">
+        <h4>
+         🌐 API Endpoint
+        </h4>
+        <p>
+         <strong>
+          Official Joke API - Random Joke
+         </strong>
+        </p>
+        <div class="endpoint">
+         https://official-joke-api.appspot.com/random_joke
+        </div>
+        <p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+         Returns a random joke with setup, punchline, and type (general, programming, etc.).
+        </p>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         No API key required! Free to use for learning.
+        </div>
+       </div>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Fetch a
+          <strong>
+           random joke
+          </strong>
+          from the API
+         </li>
+         <li>
+          Display the
+          <strong>
+           setup
+          </strong>
+          and
+          <strong>
+           punchline
+          </strong>
+         </li>
+         <li>
+          Show the
+          <strong>
+           joke type
+          </strong>
+          (e.g., "General", "Programming")
+         </li>
+         <li>
+          Add a
+          <strong>
+           "New Joke"
+          </strong>
+          button to fetch another
+         </li>
+         <li>
+          Show a
+          <strong>
+           loading indicator
+          </strong>
+          while fetching
+         </li>
+         <li>
+          Handle
+          <strong>
+           errors
+          </strong>
+          gracefully
+         </li>
+         <li>
+          Use
+          <strong>
+           FutureProvider
+          </strong>
+          for state management
+         </li>
+         <li>
+          Use
+          <strong>
+           http
+          </strong>
+          package for API calls
+         </li>
+        </ul>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://official-joke-api.appspot.com" target="_blank">
+           Official Joke API
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/http" target="_blank">
+           http package
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
+           Flutter Networking
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Create a
+          <code>
+           Joke
+          </code>
+          model with
+          <code>
+           type
+          </code>
+          ,
+          <code>
+           setup
+          </code>
+          , and
+          <code>
+           punchline
+          </code>
+          .
+                  Use
+          <code>
+           FutureProvider.autoDispose
+          </code>
+          with a
+          <code>
+           refresh
+          </code>
+          counter to trigger new fetches.
                   When the user taps "New Joke", increment the counter to invalidate the provider.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
     http: ^1.1.0
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Joke Model (lib/models/joke.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/joke.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">Joke</span> {
-    <span class="keyword">final</span> String type;
-    <span class="keyword">final</span> String setup;
-    <span class="keyword">final</span> String punchline;
-
-    <span class="function">Joke</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.type,
-      <span class="keyword">required</span> <span class="keyword">this</span>.setup,
-      <span class="keyword">required</span> <span class="keyword">this</span>.punchline,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Joke Model (lib/models/joke.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/joke.dart
+          </span>
+          <code>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Joke
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           String type;
+           <span class="keyword">
+            final
+           </span>
+           String setup;
+           <span class="keyword">
+            final
+           </span>
+           String punchline;
+           <span class="function">
+            Joke
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .type,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .setup,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .punchline,
     });
-
-    <span class="keyword">factory</span> Joke.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Joke(
-        type: json[<span class="string">'type'</span>] <span class="keyword">as</span> String,
-        setup: json[<span class="string">'setup'</span>] <span class="keyword">as</span> String,
-        punchline: json[<span class="string">'punchline'</span>] <span class="keyword">as</span> String,
+           <span class="keyword">
+            factory
+           </span>
+           Joke.
+           <span class="function">
+            fromJson
+           </span>
+           (Map&lt;String, dynamic&gt; json) {
+           <span class="keyword">
+            return
+           </span>
+           Joke(
+        type: json[
+           <span class="string">
+            'type'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        setup: json[
+           <span class="string">
+            'setup'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        punchline: json[
+           <span class="string">
+            'punchline'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Joke Provider (lib/providers/joke_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/joke_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/joke.dart'</span>;
-
-  <span class="keyword">final</span> refreshCounterProvider = StateProvider&lt;<span class="keyword">int</span>&gt;((ref) =&gt; <span class="number">0</span>);
-
-  <span class="keyword">final</span> jokeProvider = FutureProvider&lt;Joke&gt;.autoDispose((ref) async {
-    <span class="comment">// Watch refresh counter to trigger new fetches</span>
-    ref.<span class="function">watch</span>(refreshCounterProvider);
-
-    <span class="keyword">final</span> url = Uri.parse(<span class="string">'https://official-joke-api.appspot.com/random_joke'</span>);
-    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
-      <span class="keyword">return</span> Joke.<span class="function">fromJson</span>(data);
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load joke: ${response.statusCode}'</span>);
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Joke Provider (lib/providers/joke_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/joke_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:http/http.dart'
+           </span>
+           <span class="keyword">
+            as
+           </span>
+           http;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/joke.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           refreshCounterProvider = StateProvider&lt;
+           <span class="keyword">
+            int
+           </span>
+           &gt;((ref) =&gt;
+           <span class="number">
+            0
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           jokeProvider = FutureProvider&lt;Joke&gt;.autoDispose((ref) async {
+           <span class="comment">
+            // Watch refresh counter to trigger new fetches
+           </span>
+           ref.
+           <span class="function">
+            watch
+           </span>
+           (refreshCounterProvider);
+           <span class="keyword">
+            final
+           </span>
+           url = Uri.parse(
+           <span class="string">
+            'https://official-joke-api.appspot.com/random_joke'
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (url);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            return
+           </span>
+           Joke.
+           <span class="function">
+            fromJson
+           </span>
+           (data);
+    }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to load joke: ${response.statusCode}'
+           </span>
+           );
     }
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Main Screen (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/joke_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/joke_card.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Main Screen (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/joke_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/joke_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Random Joke'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Random Joke'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
-
-    <span class="keyword">void</span> <span class="function">_refreshJoke</span>(WidgetRef ref) {
-      ref.<span class="function">read</span>(refreshCounterProvider.notifier).state++;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _refreshJoke
+           </span>
+           (WidgetRef ref) {
+      ref.
+           <span class="function">
+            read
+           </span>
+           (refreshCounterProvider.notifier).state++;
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> jokeAsync = ref.<span class="function">watch</span>(jokeProvider);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           jokeAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (jokeProvider);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'😂 Random Joke'</span>),
+          title: Text(
+           <span class="string">
+            '😂 Random Joke'
+           </span>
+           ),
           backgroundColor: Colors.amber,
           foregroundColor: Colors.black,
           actions: [
             IconButton(
               onPressed: () =&gt; _refreshJoke(ref),
               icon: Icon(Icons.refresh),
-              tooltip: <span class="string">'New Joke'</span>,
+              tooltip:
+           <span class="string">
+            'New Joke'
+           </span>
+           ,
             ),
           ],
         ),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
-            child: jokeAsync.<span class="function">when</span>(
+            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
+            child: jokeAsync.
+           <span class="function">
+            when
+           </span>
+           (
               loading: () =&gt; Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(),
-                  SizedBox(height: <span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   Text(
-                    <span class="string">'Loading a joke...'</span>,
-                    style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'Loading a joke...'
+           </span>
+           ,
+                    style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                   ),
                 ],
               ),
               error: (error, stack) =&gt; Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                  SizedBox(height: <span class="number">16</span>),
+                  Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   Text(
-                    <span class="string">'Oops! Something went wrong'</span>,
-                    style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'Oops! Something went wrong'
+           </span>
+           ,
+                    style: TextStyle(fontSize:
+           <span class="number">
+            18
+           </span>
+           , fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: <span class="number">8</span>),
+                  SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                   Text(
-                    error.<span class="function">toString</span>(),
+                    error.
+           <span class="function">
+            toString
+           </span>
+           (),
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                    style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                   ),
-                  SizedBox(height: <span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   ElevatedButton(
                     onPressed: () =&gt; _refreshJoke(ref),
-                    child: Text(<span class="string">'Try Again'</span>),
+                    child: Text(
+           <span class="string">
+            'Try Again'
+           </span>
+           ),
                   ),
                 ],
               ),
@@ -691,94 +1270,291 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Joke Card Widget (lib/widgets/joke_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/widgets/joke_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/joke.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">JokeCard</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">final</span> Joke joke;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function() onNewJoke;
-
-    <span class="keyword">const</span> <span class="function">JokeCard</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.joke,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onNewJoke,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Joke Card Widget (lib/widgets/joke_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/widgets/joke_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/joke.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            JokeCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatefulWidget {
+           <span class="keyword">
+            final
+           </span>
+           Joke joke;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function() onNewJoke;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            JokeCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .joke,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onNewJoke,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    State&lt;JokeCard&gt; <span class="function">createState</span>() =&gt; _JokeCardState();
+    State&lt;JokeCard&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _JokeCardState();
   }
-
-  <span class="keyword">class</span> <span class="function">_JokeCardState</span> <span class="keyword">extends</span> State&lt;JokeCard&gt; {
-    <span class="keyword">bool</span> _showPunchline = <span class="keyword">false</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _JokeCardState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           State&lt;JokeCard&gt; {
+           <span class="keyword">
+            bool
+           </span>
+           _showPunchline =
+           <span class="keyword">
+            false
+           </span>
+           ;
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Card(
-        elevation: <span class="number">8</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        elevation:
+           <span class="number">
+            8
+           </span>
+           ,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">16</span>),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
         ),
         child: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              <span class="comment">// Type badge</span>
-              Container(
-                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+           <span class="comment">
+            // Type badge
+           </span>
+           Container(
+                padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           , vertical:
+           <span class="number">
+            4
+           </span>
+           ),
                 decoration: BoxDecoration(
-                  color: Colors.amber[<span class="number">100</span>],
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                  color: Colors.amber[
+           <span class="number">
+            100
+           </span>
+           ],
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                 ),
                 child: Text(
-                  widget.joke.type.<span class="function">toUpperCase</span>(),
+                  widget.joke.type.
+           <span class="function">
+            toUpperCase
+           </span>
+           (),
                   style: TextStyle(
-                    fontSize: <span class="number">12</span>,
+                    fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
                     fontWeight: FontWeight.bold,
-                    color: Colors.amber[<span class="number">900</span>],
+                    color: Colors.amber[
+           <span class="number">
+            900
+           </span>
+           ],
                   ),
                 ),
               ),
-              SizedBox(height: <span class="number">24</span>),
-              <span class="comment">// Setup</span>
-              Text(
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Setup
+           </span>
+           Text(
                 widget.joke.setup,
                 style: TextStyle(
-                  fontSize: <span class="number">20</span>,
+                  fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: <span class="number">16</span>),
-              <span class="comment">// Punchline (reveal on tap)</span>
-              GestureDetector(
+              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Punchline (reveal on tap)
+           </span>
+           GestureDetector(
                 onTap: () {
-                  <span class="function">setState</span>(() {
+           <span class="function">
+            setState
+           </span>
+           (() {
                     _showPunchline = !_showPunchline;
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                  padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                   decoration: BoxDecoration(
-                    color: Colors.grey[<span class="number">100</span>],
-                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                    color: Colors.grey[
+           <span class="number">
+            100
+           </span>
+           ],
+                    borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                   ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Text(
-                          _showPunchline ? widget.joke.punchline : <span class="string">'Tap to reveal punchline 👆'</span>,
+                          _showPunchline ? widget.joke.punchline :
+           <span class="string">
+            'Tap to reveal punchline 👆'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">18</span>,
+                            fontSize:
+           <span class="number">
+            18
+           </span>
+           ,
                             fontWeight: _showPunchline ? FontWeight.bold : FontWeight.normal,
-                            color: _showPunchline ? Colors.black : Colors.grey[<span class="number">500</span>],
+                            color: _showPunchline ? Colors.black : Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                             fontStyle: _showPunchline ? FontStyle.normal : FontStyle.italic,
                           ),
                           textAlign: TextAlign.center,
@@ -788,33 +1564,85 @@
                   ),
                 ),
               ),
-              SizedBox(height: <span class="number">24</span>),
-              <span class="comment">// New joke button</span>
-              SizedBox(
-                width: <span class="keyword">double</span>.infinity,
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // New joke button
+           </span>
+           SizedBox(
+                width:
+           <span class="keyword">
+            double
+           </span>
+           .infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    <span class="function">setState</span>(() =&gt; _showPunchline = <span class="keyword">false</span>);
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _showPunchline =
+           <span class="keyword">
+            false
+           </span>
+           );
                     widget.onNewJoke();
                   },
                   icon: Icon(Icons.refresh),
-                  label: Text(<span class="string">'New Joke'</span>),
+                  label: Text(
+           <span class="string">
+            'New Joke'
+           </span>
+           ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.amber,
                     foregroundColor: Colors.black,
-                    padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                    padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                      borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: <span class="number">8</span>),
+              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
               Text(
-                <span class="string">'👆 Tap the punchline to reveal'</span>,
+           <span class="string">
+            '👆 Tap the punchline to reveal'
+           </span>
+           ,
                 style: TextStyle(
-                  fontSize: <span class="number">12</span>,
-                  color: Colors.grey[<span class="number">500</span>],
+                  fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                  color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                 ),
               ),
             ],
@@ -823,80 +1651,174 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>HTTP GET</strong> – Fetching random jokes from the API</li>
-<li><strong>JSON Parsing</strong> – Converting API response to Joke object</li>
-<li><strong>FutureProvider</strong> – Managing async joke data</li>
-<li><strong>Provider Invalidation</strong> – Using a counter to trigger new fetches</li>
-<li><strong>Interactive UI</strong> – Tap to reveal punchline</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge5-wikipedia-search.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge7-currency-converter.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://official-joke-api.appspot.com" rel="noopener" target="_blank">Official Joke API</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            HTTP GET
+           </strong>
+           – Fetching random jokes from the API
+          </li>
+          <li>
+           <strong>
+            JSON Parsing
+           </strong>
+           – Converting API response to Joke object
+          </li>
+          <li>
+           <strong>
+            FutureProvider
+           </strong>
+           – Managing async joke data
+          </li>
+          <li>
+           <strong>
+            Provider Invalidation
+           </strong>
+           – Using a counter to trigger new fetches
+          </li>
+          <li>
+           <strong>
+            Interactive UI
+           </strong>
+           – Tap to reveal punchline
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge5-wikipedia-search.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge7-currency-converter.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://official-joke-api.appspot.com" rel="noopener" target="_blank">
+         Official Joke API
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1004,8 +1926,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1078,5 +2000,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

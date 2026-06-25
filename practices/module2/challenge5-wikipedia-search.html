@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Wikipedia Search – Module 2 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Wikipedia Search App that searches articles and displays previews using the Wikipedia API." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Wikipedia Search – Module 2 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Wikipedia Search App that searches articles and displays previews using the Wikipedia API." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -342,8 +343,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -406,272 +407,871 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 2 · Challenge 5
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Wikipedia Search App</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> API Integration</span>
-<span class="meta-item"><strong>Concepts:</strong> HTTP GET, JSON Parsing, Search, WebView</span>
-<span class="meta-item"><strong>Est. Time:</strong> 45-60 min</span>
-<span class="meta-item"><span class="api-tag">📚 Wikipedia API</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Wikipedia Search App</strong> that allows users to search for Wikipedia
-              articles and preview results. Use the <strong>Wikipedia API</strong> to fetch article
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 2 · Challenge 5
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Wikipedia Search App
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         API Integration
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         HTTP GET, JSON Parsing, Search, WebView
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         45-60 min
+        </span>
+        <span class="meta-item">
+         <span class="api-tag">
+          📚 Wikipedia API
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Wikipedia Search App
+        </strong>
+        that allows users to search for Wikipedia
+              articles and preview results. Use the
+        <strong>
+         Wikipedia API
+        </strong>
+        to fetch article
               titles, snippets, and open articles in a web view.
-            </p>
-<div class="api-box">
-<h4>🌐 API Endpoint</h4>
-<p><strong>Wikipedia - Search Articles</strong></p>
-<div class="endpoint">https://en.wikipedia.org/w/api.php?action=query&amp;list=search&amp;srsearch={query}&amp;format=json</div>
-<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-                Returns article titles, snippets, and page IDs. No API key required!
-              </p>
-<div class="api-note">
-                💡 <strong>Note:</strong> Wikipedia API is open and free to use. Great for learning!
-              </div>
-</div>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Search for Wikipedia articles by <strong>keyword</strong></li>
-<li>Display article <strong>title</strong> and <strong>snippet</strong> (preview)</li>
-<li>Tap an article to <strong>open</strong> it in a WebView</li>
-<li>Show <strong>loading indicator</strong> while searching</li>
-<li>Handle <strong>empty results</strong> and <strong>errors</strong></li>
-<li>Use <strong>http</strong> package for API calls</li>
-<li>Use <strong>webview_flutter</strong> for displaying articles</li>
-<li>Use <strong>FutureProvider</strong> for state management</li>
-</ul>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://www.mediawiki.org/wiki/API:Main_page" target="_blank">Wikipedia API Docs</a></li>
-<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
-<li><a href="https://pub.dev/packages/webview_flutter" target="_blank">webview_flutter</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Create a <code>WikiArticle</code> model with <code>title</code>, <code>snippet</code>, and <code>pageId</code>.
-                  Use <code>FutureProvider.autoDispose</code> with the search query. For the WebView, use
-                  <code>webview_flutter</code> with the URL: <code>https://en.wikipedia.org/?curid={pageId}</code>
-</p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+       </p>
+       <div class="api-box">
+        <h4>
+         🌐 API Endpoint
+        </h4>
+        <p>
+         <strong>
+          Wikipedia - Search Articles
+         </strong>
+        </p>
+        <div class="endpoint">
+         https://en.wikipedia.org/w/api.php?action=query&amp;list=search&amp;srsearch={query}&amp;format=json
+        </div>
+        <p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+         Returns article titles, snippets, and page IDs. No API key required!
+        </p>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         Wikipedia API is open and free to use. Great for learning!
+        </div>
+       </div>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Search for Wikipedia articles by
+          <strong>
+           keyword
+          </strong>
+         </li>
+         <li>
+          Display article
+          <strong>
+           title
+          </strong>
+          and
+          <strong>
+           snippet
+          </strong>
+          (preview)
+         </li>
+         <li>
+          Tap an article to
+          <strong>
+           open
+          </strong>
+          it in a WebView
+         </li>
+         <li>
+          Show
+          <strong>
+           loading indicator
+          </strong>
+          while searching
+         </li>
+         <li>
+          Handle
+          <strong>
+           empty results
+          </strong>
+          and
+          <strong>
+           errors
+          </strong>
+         </li>
+         <li>
+          Use
+          <strong>
+           http
+          </strong>
+          package for API calls
+         </li>
+         <li>
+          Use
+          <strong>
+           webview_flutter
+          </strong>
+          for displaying articles
+         </li>
+         <li>
+          Use
+          <strong>
+           FutureProvider
+          </strong>
+          for state management
+         </li>
+        </ul>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://www.mediawiki.org/wiki/API:Main_page" target="_blank">
+           Wikipedia API Docs
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/http" target="_blank">
+           http package
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/webview_flutter" target="_blank">
+           webview_flutter
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Create a
+          <code>
+           WikiArticle
+          </code>
+          model with
+          <code>
+           title
+          </code>
+          ,
+          <code>
+           snippet
+          </code>
+          , and
+          <code>
+           pageId
+          </code>
+          .
+                  Use
+          <code>
+           FutureProvider.autoDispose
+          </code>
+          with the search query. For the WebView, use
+          <code>
+           webview_flutter
+          </code>
+          with the URL:
+          <code>
+           https://en.wikipedia.org/?curid={pageId}
+          </code>
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
     http: ^1.1.0
     webview_flutter: ^4.5.0
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Article Model (lib/models/wiki_article.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/wiki_article.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">WikiArticle</span> {
-    <span class="keyword">final</span> <span class="keyword">int</span> pageId;
-    <span class="keyword">final</span> String title;
-    <span class="keyword">final</span> String snippet;
-
-    <span class="function">WikiArticle</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.pageId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">required</span> <span class="keyword">this</span>.snippet,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Article Model (lib/models/wiki_article.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/wiki_article.dart
+          </span>
+          <code>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            WikiArticle
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           pageId;
+           <span class="keyword">
+            final
+           </span>
+           String title;
+           <span class="keyword">
+            final
+           </span>
+           String snippet;
+           <span class="function">
+            WikiArticle
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .pageId,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .title,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .snippet,
     });
-
-    <span class="keyword">factory</span> WikiArticle.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> WikiArticle(
-        pageId: json[<span class="string">'pageid'</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
-        title: json[<span class="string">'title'</span>] <span class="keyword">as</span> String,
-        snippet: json[<span class="string">'snippet'</span>] <span class="keyword">as</span> String,
+           <span class="keyword">
+            factory
+           </span>
+           WikiArticle.
+           <span class="function">
+            fromJson
+           </span>
+           (Map&lt;String, dynamic&gt; json) {
+           <span class="keyword">
+            return
+           </span>
+           WikiArticle(
+        pageId: json[
+           <span class="string">
+            'pageid'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           ,
+        title: json[
+           <span class="string">
+            'title'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        snippet: json[
+           <span class="string">
+            'snippet'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
       );
     }
 
-    String get url =&gt; <span class="string">'https://en.wikipedia.org/?curid=$pageId'</span>;
+    String get url =&gt;
+           <span class="string">
+            'https://en.wikipedia.org/?curid=$pageId'
+           </span>
+           ;
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Wikipedia Provider (lib/providers/wiki_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/wiki_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/wiki_article.dart'</span>;
-
-  <span class="keyword">final</span> searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">''</span>);
-
-  <span class="keyword">final</span> searchResultsProvider = FutureProvider&lt;List&lt;WikiArticle&gt;&gt;.autoDispose((ref) async {
-    <span class="keyword">final</span> query = ref.<span class="function">watch</span>(searchQueryProvider);
-    <span class="keyword">if</span> (query.<span class="function">isEmpty</span>) <span class="keyword">return</span> [];
-
-    <span class="keyword">final</span> url = Uri.parse(
-      <span class="string">'https://en.wikipedia.org/w/api.php?action=query&amp;list=search&amp;srsearch=$query&amp;format=json'</span>,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Wikipedia Provider (lib/providers/wiki_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/wiki_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:http/http.dart'
+           </span>
+           <span class="keyword">
+            as
+           </span>
+           http;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/wiki_article.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt;
+           <span class="string">
+            ''
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           searchResultsProvider = FutureProvider&lt;List&lt;WikiArticle&gt;&gt;.autoDispose((ref) async {
+           <span class="keyword">
+            final
+           </span>
+           query = ref.
+           <span class="function">
+            watch
+           </span>
+           (searchQueryProvider);
+           <span class="keyword">
+            if
+           </span>
+           (query.
+           <span class="function">
+            isEmpty
+           </span>
+           )
+           <span class="keyword">
+            return
+           </span>
+           [];
+           <span class="keyword">
+            final
+           </span>
+           url = Uri.parse(
+           <span class="string">
+            'https://en.wikipedia.org/w/api.php?action=query&amp;list=search&amp;srsearch=$query&amp;format=json'
+           </span>
+           ,
     );
-
-    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
-      <span class="keyword">final</span> List&lt;dynamic&gt; results = data[<span class="string">'query'</span>][<span class="string">'search'</span>];
-      <span class="keyword">return</span> results.<span class="function">map</span>((json) =&gt; WikiArticle.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to search: ${response.statusCode}'</span>);
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (url);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            final
+           </span>
+           List&lt;dynamic&gt; results = data[
+           <span class="string">
+            'query'
+           </span>
+           ][
+           <span class="string">
+            'search'
+           </span>
+           ];
+           <span class="keyword">
+            return
+           </span>
+           results.
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; WikiArticle.
+           <span class="function">
+            fromJson
+           </span>
+           (json)).
+           <span class="function">
+            toList
+           </span>
+           ();
+    }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to search: ${response.statusCode}'
+           </span>
+           );
     }
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Article Card Widget (lib/widgets/article_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/widgets/article_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:webview_flutter/webview_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/wiki_article.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../screens/article_screen.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ArticleCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> WikiArticle article;
-
-    <span class="keyword">const</span> <span class="function">ArticleCard</span>({<span class="keyword">required</span> <span class="keyword">this</span>.article, <span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Article Card Widget (lib/widgets/article_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/widgets/article_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:webview_flutter/webview_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/wiki_article.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../screens/article_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            ArticleCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           WikiArticle article;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            ArticleCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .article,
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Card(
-        elevation: <span class="number">2</span>,
-        margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">6</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        elevation:
+           <span class="number">
+            2
+           </span>
+           ,
+        margin: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            6
+           </span>
+           ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
         ),
         child: InkWell(
           onTap: () {
-            Navigator.<span class="function">push</span>(
+            Navigator.
+           <span class="function">
+            push
+           </span>
+           (
               context,
               MaterialPageRoute(
                 builder: (context) =&gt; ArticleScreen(article: article),
               ),
             );
           },
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.description, color: Colors.blue[<span class="number">400</span>], size: <span class="number">20</span>),
-                    SizedBox(width: <span class="number">8</span>),
+                    Icon(Icons.description, color: Colors.blue[
+           <span class="number">
+            400
+           </span>
+           ], size:
+           <span class="number">
+            20
+           </span>
+           ),
+                    SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                     Expanded(
                       child: Text(
                         article.title,
                         style: TextStyle(
-                          fontSize: <span class="number">16</span>,
+                          fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: <span class="number">8</span>),
+                SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                 Text(
-                  article.snippet.<span class="function">replaceAll</span>(RegExp(<span class="string">r'&lt;[^&gt;]*&gt;'</span>), <span class="string">''</span>),
+                  article.snippet.
+           <span class="function">
+            replaceAll
+           </span>
+           (RegExp(
+           <span class="string">
+            r'&lt;[^&gt;]*&gt;'
+           </span>
+           ),
+           <span class="string">
+            ''
+           </span>
+           ),
                   style: TextStyle(
-                    fontSize: <span class="number">14</span>,
-                    color: Colors.grey[<span class="number">700</span>],
+                    fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
+                    color: Colors.grey[
+           <span class="number">
+            700
+           </span>
+           ],
                   ),
-                  maxLines: <span class="number">3</span>,
+                  maxLines:
+           <span class="number">
+            3
+           </span>
+           ,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: <span class="number">8</span>),
+                SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      <span class="string">'Read more →'</span>,
+           <span class="string">
+            'Read more →'
+           </span>
+           ,
                       style: TextStyle(
-                        fontSize: <span class="number">12</span>,
-                        color: Colors.blue[<span class="number">600</span>],
+                        fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                        color: Colors.blue[
+           <span class="number">
+            600
+           </span>
+           ],
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -684,52 +1284,175 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Article Screen (lib/screens/article_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/article_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:webview_flutter/webview_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/wiki_article.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ArticleScreen</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">final</span> WikiArticle article;
-
-    <span class="keyword">const</span> <span class="function">ArticleScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.article, <span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Article Screen (lib/screens/article_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/article_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:webview_flutter/webview_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/wiki_article.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            ArticleScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatefulWidget {
+           <span class="keyword">
+            final
+           </span>
+           WikiArticle article;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            ArticleScreen
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .article,
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    State&lt;ArticleScreen&gt; <span class="function">createState</span>() =&gt; _ArticleScreenState();
+    State&lt;ArticleScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _ArticleScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_ArticleScreenState</span> <span class="keyword">extends</span> State&lt;ArticleScreen&gt; {
-    <span class="keyword">late</span> WebViewController _controller;
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _ArticleScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           State&lt;ArticleScreen&gt; {
+           <span class="keyword">
+            late
+           </span>
+           WebViewController _controller;
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           ;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            initState
+           </span>
+           () {
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            initState
+           </span>
+           ();
       _controller = WebViewController()
-        ..<span class="function">setJavaScriptMode</span>(JavaScriptMode.unrestricted)
-        ..<span class="function">setNavigationDelegate</span>(
+        ..
+           <span class="function">
+            setJavaScriptMode
+           </span>
+           (JavaScriptMode.unrestricted)
+        ..
+           <span class="function">
+            setNavigationDelegate
+           </span>
+           (
           NavigationDelegate(
             onPageFinished: (url) {
-              <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           );
             },
           ),
         )
-        ..<span class="function">loadRequest</span>(Uri.parse(widget.article.url));
+        ..
+           <span class="function">
+            loadRequest
+           </span>
+           (Uri.parse(widget.article.url));
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
           title: Text(
             widget.article.title,
-            maxLines: <span class="number">1</span>,
+            maxLines:
+           <span class="number">
+            1
+           </span>
+           ,
             overflow: TextOverflow.ellipsis,
           ),
           backgroundColor: Colors.blue,
@@ -738,7 +1461,10 @@
         body: Stack(
           children: [
             WebViewWidget(controller: _controller),
-            <span class="keyword">if</span> (_isLoading)
+           <span class="keyword">
+            if
+           </span>
+           (_isLoading)
               Center(
                 child: CircularProgressIndicator(),
               ),
@@ -747,107 +1473,330 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Main Screen (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/wiki_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/article_card.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Main Screen (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/wiki_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/article_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Wikipedia Search'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Wikipedia Search'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
-
-    <span class="keyword">void</span> <span class="function">_search</span>() {
-      <span class="keyword">final</span> query = _controller.text.<span class="function">trim</span>();
-      <span class="keyword">if</span> (query.<span class="function">isNotEmpty</span>) {
-        ref.<span class="function">read</span>(searchQueryProvider.notifier).state = query;
-        FocusScope.<span class="function">of</span>(context).<span class="function">unfocus</span>();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _controller = TextEditingController();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _search
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           query = _controller.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (query.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ) {
+        ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider.notifier).state = query;
+        FocusScope.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            unfocus
+           </span>
+           ();
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> results = ref.<span class="function">watch</span>(searchResultsProvider);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           results = ref.
+           <span class="function">
+            watch
+           </span>
+           (searchResultsProvider);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'📚 Wikipedia Search'</span>),
+          title: Text(
+           <span class="string">
+            '📚 Wikipedia Search'
+           </span>
+           ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
           child: Column(
             children: [
-              <span class="comment">// Search Bar</span>
-              Row(
+           <span class="comment">
+            // Search Bar
+           </span>
+           Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        hintText: <span class="string">'Search Wikipedia...'</span>,
+                        hintText:
+           <span class="string">
+            'Search Wikipedia...'
+           </span>
+           ,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                         ),
                         prefixIcon: Icon(Icons.search),
-                        contentPadding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                        contentPadding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           ),
                       ),
                       onSubmitted: (_) =&gt; _search(),
                     ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                   ElevatedButton(
                     onPressed: _search,
-                    child: Text(<span class="string">'Search'</span>),
+                    child: Text(
+           <span class="string">
+            'Search'
+           </span>
+           ),
                   ),
                 ],
               ),
-              SizedBox(height: <span class="number">16</span>),
-              <span class="comment">// Results</span>
-              Expanded(
-                child: results.<span class="function">when</span>(
+              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Results
+           </span>
+           Expanded(
+                child: results.
+           <span class="function">
+            when
+           </span>
+           (
                   loading: () =&gt; Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularProgressIndicator(),
-                        SizedBox(height: <span class="number">16</span>),
+                        SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                         Text(
-                          <span class="string">'Searching Wikipedia...'</span>,
-                          style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'Searching Wikipedia...'
+           </span>
+           ,
+                          style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                         ),
                       ],
                     ),
@@ -856,47 +1805,127 @@
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                        SizedBox(height: <span class="number">16</span>),
+                        Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                        SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                         Text(
-                          <span class="string">'Something went wrong'</span>,
-                          style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'Something went wrong'
+           </span>
+           ,
+                          style: TextStyle(fontSize:
+           <span class="number">
+            18
+           </span>
+           , fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: <span class="number">8</span>),
+                        SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                         Text(
-                          error.<span class="function">toString</span>(),
+                          error.
+           <span class="function">
+            toString
+           </span>
+           (),
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                          style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                         ),
                       ],
                     ),
                   ),
                   data: (articles) {
-                    <span class="keyword">if</span> (articles.<span class="function">isEmpty</span>) {
-                      <span class="keyword">return</span> Center(
+           <span class="keyword">
+            if
+           </span>
+           (articles.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.search_off, size: <span class="number">64</span>, color: Colors.grey[<span class="number">400</span>]),
-                            SizedBox(height: <span class="number">16</span>),
+                            Icon(Icons.search_off, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ]),
+                            SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                             Text(
-                              <span class="string">'No results found'</span>,
-                              style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'No results found'
+           </span>
+           ,
+                              style: TextStyle(fontSize:
+           <span class="number">
+            18
+           </span>
+           , fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: <span class="number">8</span>),
+                            SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                             Text(
-                              <span class="string">'Try a different search term'</span>,
-                              style: TextStyle(color: Colors.grey[<span class="number">500</span>]),
+           <span class="string">
+            'Try a different search term'
+           </span>
+           ,
+                              style: TextStyle(color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                             ),
                           ],
                         ),
                       );
                     }
-
-                    <span class="keyword">return</span> ListView.builder(
-                      itemCount: articles.<span class="function">length</span>,
+           <span class="keyword">
+            return
+           </span>
+           ListView.builder(
+                      itemCount: articles.
+           <span class="function">
+            length
+           </span>
+           ,
                       itemBuilder: (context, index) {
-                        <span class="keyword">return</span> ArticleCard(article: articles[index]);
+           <span class="keyword">
+            return
+           </span>
+           ArticleCard(article: articles[index]);
                       },
                     );
                   },
@@ -908,80 +1937,174 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>HTTP GET</strong> – Fetching search results from Wikipedia API</li>
-<li><strong>JSON Parsing</strong> – Converting API responses to WikiArticle objects</li>
-<li><strong>FutureProvider</strong> – Managing async search queries</li>
-<li><strong>WebView</strong> – Displaying full articles with webview_flutter</li>
-<li><strong>HTML Stripping</strong> – Cleaning snippet HTML from API response</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge4-github-viewer.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge6-random-joke.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://www.mediawiki.org/wiki/API:Main_page" rel="noopener" target="_blank">Wikipedia API</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            HTTP GET
+           </strong>
+           – Fetching search results from Wikipedia API
+          </li>
+          <li>
+           <strong>
+            JSON Parsing
+           </strong>
+           – Converting API responses to WikiArticle objects
+          </li>
+          <li>
+           <strong>
+            FutureProvider
+           </strong>
+           – Managing async search queries
+          </li>
+          <li>
+           <strong>
+            WebView
+           </strong>
+           – Displaying full articles with webview_flutter
+          </li>
+          <li>
+           <strong>
+            HTML Stripping
+           </strong>
+           – Cleaning snippet HTML from API response
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge4-github-viewer.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge6-random-joke.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://www.mediawiki.org/wiki/API:Main_page" rel="noopener" target="_blank">
+         Wikipedia API
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1089,8 +2212,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1163,5 +2286,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

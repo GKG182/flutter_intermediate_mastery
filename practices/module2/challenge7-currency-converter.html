@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Currency Converter – Module 2 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Currency Converter app that fetches real-time exchange rates from exchangerate.host API." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Currency Converter – Module 2 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Currency Converter app that fetches real-time exchange rates from exchangerate.host API." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -346,8 +347,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -410,302 +411,1042 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 2 · Challenge 7
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Currency Converter</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> API Integration</span>
-<span class="meta-item"><strong>Concepts:</strong> HTTP GET, JSON Parsing, Real-time Rates</span>
-<span class="meta-item"><strong>Est. Time:</strong> 45-60 min</span>
-<span class="meta-item"><span class="api-tag">💱 exchangerate.host</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Currency Converter</strong> app that fetches real-time exchange rates
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 2 · Challenge 7
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Currency Converter
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         API Integration
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         HTTP GET, JSON Parsing, Real-time Rates
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         45-60 min
+        </span>
+        <span class="meta-item">
+         <span class="api-tag">
+          💱 exchangerate.host
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Currency Converter
+        </strong>
+        app that fetches real-time exchange rates
               from the exchangerate.host API. Users can select currencies, enter an amount, and see
               the converted value instantly.
-            </p>
-<div class="api-box">
-<h4>🌐 API Endpoint</h4>
-<p><strong>exchangerate.host - Latest Rates</strong></p>
-<div class="endpoint">https://api.exchangerate.host/latest?base={base_currency}&amp;symbols={target_currency}</div>
-<p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-                Returns the latest exchange rate between two currencies. No API key required!
-              </p>
-<div class="api-note">
-                💡 <strong>Note:</strong> Free to use with 1500 requests per month. Supports over 170 currencies.
-              </div>
-</div>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Select <strong>from</strong> and <strong>to</strong> currencies</li>
-<li>Enter an <strong>amount</strong> to convert</li>
-<li>Fetch <strong>real-time exchange rate</strong> from the API</li>
-<li>Display the <strong>converted amount</strong></li>
-<li>Show the <strong>exchange rate</strong> used</li>
-<li><strong>Swap</strong> currencies with one tap</li>
-<li>Handle <strong>loading</strong> and <strong>error</strong> states</li>
-<li>Use <strong>http</strong> package for API calls</li>
-<li>Use <strong>FutureProvider</strong> for state management</li>
-</ul>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://exchangerate.host" target="_blank">exchangerate.host API</a></li>
-<li><a href="https://pub.dev/packages/http" target="_blank">http package</a></li>
-<li><a href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">Flutter Networking</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Use <code>StateProvider</code> for the base currency,
-                  target currency, and amount. Use <code>FutureProvider.autoDispose</code> with
+       </p>
+       <div class="api-box">
+        <h4>
+         🌐 API Endpoint
+        </h4>
+        <p>
+         <strong>
+          exchangerate.host - Latest Rates
+         </strong>
+        </p>
+        <div class="endpoint">
+         https://api.exchangerate.host/latest?base={base_currency}&amp;symbols={target_currency}
+        </div>
+        <p style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+         Returns the latest exchange rate between two currencies. No API key required!
+        </p>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         Free to use with 1500 requests per month. Supports over 170 currencies.
+        </div>
+       </div>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Select
+          <strong>
+           from
+          </strong>
+          and
+          <strong>
+           to
+          </strong>
+          currencies
+         </li>
+         <li>
+          Enter an
+          <strong>
+           amount
+          </strong>
+          to convert
+         </li>
+         <li>
+          Fetch
+          <strong>
+           real-time exchange rate
+          </strong>
+          from the API
+         </li>
+         <li>
+          Display the
+          <strong>
+           converted amount
+          </strong>
+         </li>
+         <li>
+          Show the
+          <strong>
+           exchange rate
+          </strong>
+          used
+         </li>
+         <li>
+          <strong>
+           Swap
+          </strong>
+          currencies with one tap
+         </li>
+         <li>
+          Handle
+          <strong>
+           loading
+          </strong>
+          and
+          <strong>
+           error
+          </strong>
+          states
+         </li>
+         <li>
+          Use
+          <strong>
+           http
+          </strong>
+          package for API calls
+         </li>
+         <li>
+          Use
+          <strong>
+           FutureProvider
+          </strong>
+          for state management
+         </li>
+        </ul>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://exchangerate.host" target="_blank">
+           exchangerate.host API
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/http" target="_blank">
+           http package
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
+           Flutter Networking
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Use
+          <code>
+           StateProvider
+          </code>
+          for the base currency,
+                  target currency, and amount. Use
+          <code>
+           FutureProvider.autoDispose
+          </code>
+          with
                   dependencies on these providers. The conversion calculation is:
-                  <code>converted = amount * rate</code>. Use a <code>Provider</code> to calculate
+          <code>
+           converted = amount * rate
+          </code>
+          . Use a
+          <code>
+           Provider
+          </code>
+          to calculate
                   the result from the rate and amount.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
     http: ^1.1.0
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Currency Provider (lib/providers/currency_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/currency_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-
-  <span class="comment">// Available currencies</span>
-<span class="keyword">final</span> currencies = [
-    <span class="string">'USD'</span>, <span class="string">'EUR'</span>, <span class="string">'GBP'</span>, <span class="string">'JPY'</span>, <span class="string">'CAD'</span>, <span class="string">'AUD'</span>,
-    <span class="string">'CHF'</span>, <span class="string">'CNY'</span>, <span class="string">'INR'</span>, <span class="string">'BRL'</span>, <span class="string">'KRW'</span>, <span class="string">'MXN'</span>,
-    <span class="string">'SGD'</span>, <span class="string">'NZD'</span>, <span class="string">'HKD'</span>, <span class="string">'SEK'</span>, <span class="string">'NOK'</span>, <span class="string">'DKK'</span>,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Currency Provider (lib/providers/currency_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/currency_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:http/http.dart'
+           </span>
+           <span class="keyword">
+            as
+           </span>
+           http;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="comment">
+            // Available currencies
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           currencies = [
+           <span class="string">
+            'USD'
+           </span>
+           ,
+           <span class="string">
+            'EUR'
+           </span>
+           ,
+           <span class="string">
+            'GBP'
+           </span>
+           ,
+           <span class="string">
+            'JPY'
+           </span>
+           ,
+           <span class="string">
+            'CAD'
+           </span>
+           ,
+           <span class="string">
+            'AUD'
+           </span>
+           ,
+           <span class="string">
+            'CHF'
+           </span>
+           ,
+           <span class="string">
+            'CNY'
+           </span>
+           ,
+           <span class="string">
+            'INR'
+           </span>
+           ,
+           <span class="string">
+            'BRL'
+           </span>
+           ,
+           <span class="string">
+            'KRW'
+           </span>
+           ,
+           <span class="string">
+            'MXN'
+           </span>
+           ,
+           <span class="string">
+            'SGD'
+           </span>
+           ,
+           <span class="string">
+            'NZD'
+           </span>
+           ,
+           <span class="string">
+            'HKD'
+           </span>
+           ,
+           <span class="string">
+            'SEK'
+           </span>
+           ,
+           <span class="string">
+            'NOK'
+           </span>
+           ,
+           <span class="string">
+            'DKK'
+           </span>
+           ,
   ];
-
-  <span class="comment">// State providers</span>
-<span class="keyword">final</span> baseCurrencyProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">'USD'</span>);
-  <span class="keyword">final</span> targetCurrencyProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">'EUR'</span>);
-  <span class="keyword">final</span> amountProvider = StateProvider&lt;<span class="keyword">double</span>&gt;((ref) =&gt; <span class="number">1.0</span>);
-
-  <span class="comment">// Rate provider</span>
-<span class="keyword">final</span> rateProvider = FutureProvider&lt;<span class="keyword">double</span>&gt;.autoDispose((ref) async {
-    <span class="keyword">final</span> base = ref.<span class="function">watch</span>(baseCurrencyProvider);
-    <span class="keyword">final</span> target = ref.<span class="function">watch</span>(targetCurrencyProvider);
-
-    <span class="keyword">final</span> url = Uri.parse(
-      <span class="string">'https://api.exchangerate.host/latest?base=$base&amp;symbols=$target'</span>,
+           <span class="comment">
+            // State providers
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           baseCurrencyProvider = StateProvider&lt;String&gt;((ref) =&gt;
+           <span class="string">
+            'USD'
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           targetCurrencyProvider = StateProvider&lt;String&gt;((ref) =&gt;
+           <span class="string">
+            'EUR'
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           amountProvider = StateProvider&lt;
+           <span class="keyword">
+            double
+           </span>
+           &gt;((ref) =&gt;
+           <span class="number">
+            1.0
+           </span>
+           );
+           <span class="comment">
+            // Rate provider
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           rateProvider = FutureProvider&lt;
+           <span class="keyword">
+            double
+           </span>
+           &gt;.autoDispose((ref) async {
+           <span class="keyword">
+            final
+           </span>
+           base = ref.
+           <span class="function">
+            watch
+           </span>
+           (baseCurrencyProvider);
+           <span class="keyword">
+            final
+           </span>
+           target = ref.
+           <span class="function">
+            watch
+           </span>
+           (targetCurrencyProvider);
+           <span class="keyword">
+            final
+           </span>
+           url = Uri.parse(
+           <span class="string">
+            'https://api.exchangerate.host/latest?base=$base&amp;symbols=$target'
+           </span>
+           ,
     );
-
-    <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(url);
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = json.<span class="function">decode</span>(response.body);
-      <span class="keyword">final</span> rates = data[<span class="string">'rates'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-      <span class="keyword">return</span> (rates[target] <span class="keyword">as</span> <span class="keyword">num</span>).<span class="function">toDouble</span>();
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load exchange rate: ${response.statusCode}'</span>);
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (url);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            final
+           </span>
+           rates = data[
+           <span class="string">
+            'rates'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           Map&lt;String, dynamic&gt;;
+           <span class="keyword">
+            return
+           </span>
+           (rates[target]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            num
+           </span>
+           ).
+           <span class="function">
+            toDouble
+           </span>
+           ();
+    }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to load exchange rate: ${response.statusCode}'
+           </span>
+           );
     }
   });
-
-  <span class="comment">// Converted amount (derived state)</span>
-<span class="keyword">final</span> convertedAmountProvider = Provider&lt;<span class="keyword">double</span>&gt;((ref) {
-    <span class="keyword">final</span> rate = ref.<span class="function">watch</span>(rateProvider);
-    <span class="keyword">final</span> amount = ref.<span class="function">watch</span>(amountProvider);
-
-    <span class="keyword">return</span> rate.<span class="function">when</span>(
+           <span class="comment">
+            // Converted amount (derived state)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           convertedAmountProvider = Provider&lt;
+           <span class="keyword">
+            double
+           </span>
+           &gt;((ref) {
+           <span class="keyword">
+            final
+           </span>
+           rate = ref.
+           <span class="function">
+            watch
+           </span>
+           (rateProvider);
+           <span class="keyword">
+            final
+           </span>
+           amount = ref.
+           <span class="function">
+            watch
+           </span>
+           (amountProvider);
+           <span class="keyword">
+            return
+           </span>
+           rate.
+           <span class="function">
+            when
+           </span>
+           (
       data: (rateValue) =&gt; amount * rateValue,
-      loading: () =&gt; <span class="number">0.0</span>,
-      error: (_, __) =&gt; <span class="number">0.0</span>,
+      loading: () =&gt;
+           <span class="number">
+            0.0
+           </span>
+           ,
+      error: (_, __) =&gt;
+           <span class="number">
+            0.0
+           </span>
+           ,
     );
   });
-
-  <span class="comment">// Swap currencies</span>
-<span class="keyword">final</span> swapProvider = Provider&lt;VoidCallback&gt;((ref) {
-    <span class="keyword">return</span> () {
-      <span class="keyword">final</span> base = ref.<span class="function">read</span>(baseCurrencyProvider);
-      <span class="keyword">final</span> target = ref.<span class="function">read</span>(targetCurrencyProvider);
-      ref.<span class="function">read</span>(baseCurrencyProvider.notifier).state = target;
-      ref.<span class="function">read</span>(targetCurrencyProvider.notifier).state = base;
+           <span class="comment">
+            // Swap currencies
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           swapProvider = Provider&lt;VoidCallback&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           base = ref.
+           <span class="function">
+            read
+           </span>
+           (baseCurrencyProvider);
+           <span class="keyword">
+            final
+           </span>
+           target = ref.
+           <span class="function">
+            read
+           </span>
+           (targetCurrencyProvider);
+      ref.
+           <span class="function">
+            read
+           </span>
+           (baseCurrencyProvider.notifier).state = target;
+      ref.
+           <span class="function">
+            read
+           </span>
+           (targetCurrencyProvider.notifier).state = base;
     };
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Main Screen (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/currency_provider.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Main Screen (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/currency_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Currency Converter'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Currency Converter'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _controller = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
-      _controller.text = <span class="string">'1.00'</span>;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            initState
+           </span>
+           () {
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            initState
+           </span>
+           ();
+      _controller.text =
+           <span class="string">
+            '1.00'
+           </span>
+           ;
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _controller.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_updateAmount</span>(String value) {
-      <span class="keyword">final</span> amount = <span class="keyword">double</span>.<span class="function">tryParse</span>(value) ?? <span class="number">0</span>;
-      ref.<span class="function">read</span>(amountProvider.notifier).state = amount;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _updateAmount
+           </span>
+           (String value) {
+           <span class="keyword">
+            final
+           </span>
+           amount =
+           <span class="keyword">
+            double
+           </span>
+           .
+           <span class="function">
+            tryParse
+           </span>
+           (value) ??
+           <span class="number">
+            0
+           </span>
+           ;
+      ref.
+           <span class="function">
+            read
+           </span>
+           (amountProvider.notifier).state = amount;
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> base = ref.<span class="function">watch</span>(baseCurrencyProvider);
-      <span class="keyword">final</span> target = ref.<span class="function">watch</span>(targetCurrencyProvider);
-      <span class="keyword">final</span> rateAsync = ref.<span class="function">watch</span>(rateProvider);
-      <span class="keyword">final</span> converted = ref.<span class="function">watch</span>(convertedAmountProvider);
-      <span class="keyword">final</span> swap = ref.<span class="function">read</span>(swapProvider);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           base = ref.
+           <span class="function">
+            watch
+           </span>
+           (baseCurrencyProvider);
+           <span class="keyword">
+            final
+           </span>
+           target = ref.
+           <span class="function">
+            watch
+           </span>
+           (targetCurrencyProvider);
+           <span class="keyword">
+            final
+           </span>
+           rateAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (rateProvider);
+           <span class="keyword">
+            final
+           </span>
+           converted = ref.
+           <span class="function">
+            watch
+           </span>
+           (convertedAmountProvider);
+           <span class="keyword">
+            final
+           </span>
+           swap = ref.
+           <span class="function">
+            read
+           </span>
+           (swapProvider);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'💱 Currency Converter'</span>),
+          title: Text(
+           <span class="string">
+            '💱 Currency Converter'
+           </span>
+           ),
           backgroundColor: Colors.green,
           foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
           child: Column(
             children: [
-              <span class="comment">// Amount input</span>
-              Card(
+           <span class="comment">
+            // Amount input
+           </span>
+           Card(
                 child: Padding(
-                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                  padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        <span class="string">'Amount'</span>,
+           <span class="string">
+            'Amount'
+           </span>
+           ,
                         style: TextStyle(
-                          fontSize: <span class="number">14</span>,
-                          color: Colors.grey[<span class="number">600</span>],
+                          fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
+                          color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                         ),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                       TextField(
                         controller: _controller,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          prefixText: <span class="string">'$base  '</span>,
+                          prefixText:
+           <span class="string">
+            '$base  '
+           </span>
+           ,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                            borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                           ),
                         ),
                         onChanged: _updateAmount,
@@ -714,85 +1455,227 @@
                   ),
                 ),
               ),
-              SizedBox(height: <span class="number">16</span>),
-              <span class="comment">// Currency selection</span>
-              Row(
+              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Currency selection
+           </span>
+           Row(
                 children: [
                   Expanded(
-                    child: <span class="function">_buildCurrencyDropdown</span>(
-                      label: <span class="string">'From'</span>,
+                    child:
+           <span class="function">
+            _buildCurrencyDropdown
+           </span>
+           (
+                      label:
+           <span class="string">
+            'From'
+           </span>
+           ,
                       value: base,
                       onChanged: (newValue) {
-                        <span class="keyword">if</span> (newValue != <span class="keyword">null</span>) {
-                          ref.<span class="function">read</span>(baseCurrencyProvider.notifier).state = newValue;
+           <span class="keyword">
+            if
+           </span>
+           (newValue !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+                          ref.
+           <span class="function">
+            read
+           </span>
+           (baseCurrencyProvider.notifier).state = newValue;
                         }
                       },
                     ),
                   ),
-                  SizedBox(width: <span class="number">12</span>),
+                  SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                   IconButton(
                     onPressed: swap,
                     icon: Icon(Icons.swap_horiz, color: Colors.green),
-                    iconSize: <span class="number">32</span>,
+                    iconSize:
+           <span class="number">
+            32
+           </span>
+           ,
                   ),
-                  SizedBox(width: <span class="number">12</span>),
+                  SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                   Expanded(
-                    child: <span class="function">_buildCurrencyDropdown</span>(
-                      label: <span class="string">'To'</span>,
+                    child:
+           <span class="function">
+            _buildCurrencyDropdown
+           </span>
+           (
+                      label:
+           <span class="string">
+            'To'
+           </span>
+           ,
                       value: target,
                       onChanged: (newValue) {
-                        <span class="keyword">if</span> (newValue != <span class="keyword">null</span>) {
-                          ref.<span class="function">read</span>(targetCurrencyProvider.notifier).state = newValue;
+           <span class="keyword">
+            if
+           </span>
+           (newValue !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+                          ref.
+           <span class="function">
+            read
+           </span>
+           (targetCurrencyProvider.notifier).state = newValue;
                         }
                       },
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: <span class="number">24</span>),
-              <span class="comment">// Result</span>
-              Card(
-                elevation: <span class="number">4</span>,
-                color: Colors.green[<span class="number">50</span>],
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Result
+           </span>
+           Card(
+                elevation:
+           <span class="number">
+            4
+           </span>
+           ,
+                color: Colors.green[
+           <span class="number">
+            50
+           </span>
+           ],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+                  padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
                   child: Column(
                     children: [
                       Text(
-                        <span class="string">'Converted Amount'</span>,
+           <span class="string">
+            'Converted Amount'
+           </span>
+           ,
                         style: TextStyle(
-                          fontSize: <span class="number">14</span>,
-                          color: Colors.green[<span class="number">700</span>],
+                          fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
+                          color: Colors.green[
+           <span class="number">
+            700
+           </span>
+           ],
                         ),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
-                      rateAsync.<span class="function">when</span>(
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
+                      rateAsync.
+           <span class="function">
+            when
+           </span>
+           (
                         loading: () =&gt; CircularProgressIndicator(),
                         error: (_, __) =&gt; Text(
-                          <span class="string">'Error loading rate'</span>,
-                          style: TextStyle(color: Colors.red[<span class="number">400</span>]),
+           <span class="string">
+            'Error loading rate'
+           </span>
+           ,
+                          style: TextStyle(color: Colors.red[
+           <span class="number">
+            400
+           </span>
+           ]),
                         ),
                         data: (_) =&gt; Text(
-                          <span class="string">'$target  ${converted.toStringAsFixed(2)}'</span>,
+           <span class="string">
+            '$target  ${converted.toStringAsFixed(2)}'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">32</span>,
+                            fontSize:
+           <span class="number">
+            32
+           </span>
+           ,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green[<span class="number">800</span>],
+                            color: Colors.green[
+           <span class="number">
+            800
+           </span>
+           ],
                           ),
                         ),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
-                      rateAsync.<span class="function">when</span>(
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
+                      rateAsync.
+           <span class="function">
+            when
+           </span>
+           (
                         loading: () =&gt; SizedBox.shrink(),
                         error: (_, __) =&gt; SizedBox.shrink(),
                         data: (rate) =&gt; Text(
-                          <span class="string">'1 $base = $rate $target'</span>,
+           <span class="string">
+            '1 $base = $rate $target'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">12</span>,
-                            color: Colors.grey[<span class="number">600</span>],
+                            fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                           ),
                         ),
                       ),
@@ -801,26 +1684,63 @@
                 ),
               ),
               Spacer(),
-              <span class="comment">// Refresh button</span>
-              SizedBox(
-                width: <span class="keyword">double</span>.infinity,
+           <span class="comment">
+            // Refresh button
+           </span>
+           SizedBox(
+                width:
+           <span class="keyword">
+            double
+           </span>
+           .infinity,
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    ref.<span class="function">invalidate</span>(rateProvider);
+                    ref.
+           <span class="function">
+            invalidate
+           </span>
+           (rateProvider);
                   },
                   icon: Icon(Icons.refresh),
-                  label: Text(<span class="string">'Refresh Rate'</span>),
+                  label: Text(
+           <span class="string">
+            'Refresh Rate'
+           </span>
+           ),
                   style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                    padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                   ),
                 ),
               ),
-              SizedBox(height: <span class="number">8</span>),
+              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
               Text(
-                <span class="string">'Rates update in real-time'</span>,
+           <span class="string">
+            'Rates update in real-time'
+           </span>
+           ,
                 style: TextStyle(
-                  fontSize: <span class="number">12</span>,
-                  color: Colors.grey[<span class="number">500</span>],
+                  fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                  color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                 ),
               ),
             ],
@@ -829,38 +1749,108 @@
       );
     }
 
-    Widget <span class="function">_buildCurrencyDropdown</span>({
-      <span class="keyword">required</span> String label,
-      <span class="keyword">required</span> String value,
-      <span class="keyword">required</span> <span class="keyword">void</span> Function(String?) onChanged,
+    Widget
+           <span class="function">
+            _buildCurrencyDropdown
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String label,
+           <span class="keyword">
+            required
+           </span>
+           String value,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function(String?) onChanged,
     }) {
-      <span class="keyword">return</span> Column(
+           <span class="keyword">
+            return
+           </span>
+           Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
             style: TextStyle(
-              fontSize: <span class="number">14</span>,
-              color: Colors.grey[<span class="number">600</span>],
+              fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
+              color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
             ),
           ),
-          SizedBox(height: <span class="number">4</span>),
+          SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
           Container(
-            padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>),
+            padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            12
+           </span>
+           ),
             decoration: BoxDecoration(
-              border: Border.<span class="function">all</span>(color: Colors.grey[<span class="number">300</span>]!),
-              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+              border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]!),
+              borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton&lt;String&gt;(
                 value: value,
-                isExpanded: <span class="keyword">true</span>,
-                items: currencies.<span class="function">map</span>((currency) {
-                  <span class="keyword">return</span> DropdownMenuItem&lt;String&gt;(
+                isExpanded:
+           <span class="keyword">
+            true
+           </span>
+           ,
+                items: currencies.
+           <span class="function">
+            map
+           </span>
+           ((currency) {
+           <span class="keyword">
+            return
+           </span>
+           DropdownMenuItem&lt;String&gt;(
                     value: currency,
                     child: Text(currency),
                   );
-                }).<span class="function">toList</span>(),
+                }).
+           <span class="function">
+            toList
+           </span>
+           (),
                 onChanged: onChanged,
               ),
             ),
@@ -869,81 +1859,180 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>HTTP GET</strong> – Fetching real-time exchange rates</li>
-<li><strong>JSON Parsing</strong> – Extracting rates from API response</li>
-<li><strong>StateProvider</strong> – Managing currency selection and amount</li>
-<li><strong>FutureProvider</strong> – Handling async rate fetching</li>
-<li><strong>Provider Invalidation</strong> – Refreshing rates</li>
-<li><strong>Derived State</strong> – Calculating converted amount</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge6-random-joke.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge8-recipe-finder.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://exchangerate.host" rel="noopener" target="_blank">exchangerate.host</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            HTTP GET
+           </strong>
+           – Fetching real-time exchange rates
+          </li>
+          <li>
+           <strong>
+            JSON Parsing
+           </strong>
+           – Extracting rates from API response
+          </li>
+          <li>
+           <strong>
+            StateProvider
+           </strong>
+           – Managing currency selection and amount
+          </li>
+          <li>
+           <strong>
+            FutureProvider
+           </strong>
+           – Handling async rate fetching
+          </li>
+          <li>
+           <strong>
+            Provider Invalidation
+           </strong>
+           – Refreshing rates
+          </li>
+          <li>
+           <strong>
+            Derived State
+           </strong>
+           – Calculating converted amount
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge6-random-joke.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge8-recipe-finder.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://exchangerate.host" rel="noopener" target="_blank">
+         exchangerate.host
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1051,8 +2140,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1125,5 +2214,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

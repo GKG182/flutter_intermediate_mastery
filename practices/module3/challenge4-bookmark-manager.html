@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Bookmark Manager – Module 3 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Bookmark Manager app using SharedPreferences for local storage in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Bookmark Manager – Module 3 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Bookmark Manager app using SharedPreferences for local storage in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -343,8 +344,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -407,136 +408,381 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 3 · Challenge 4
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Bookmark Manager</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge easy">Easy</span></span>
-<span class="meta-item"><strong>Module:</strong> Local Storage</span>
-<span class="meta-item"><strong>Concepts:</strong> SharedPreferences, JSON Serialization, CRUD</span>
-<span class="meta-item"><strong>Est. Time:</strong> 25-35 min</span>
-<span class="meta-item"><span class="storage-tag">⚙️ SharedPreferences</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Bookmark Manager</strong> app that allows users to save,
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 3 · Challenge 4
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Bookmark Manager
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge easy">
+          Easy
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         Local Storage
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         SharedPreferences, JSON Serialization, CRUD
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         25-35 min
+        </span>
+        <span class="meta-item">
+         <span class="storage-tag">
+          ⚙️ SharedPreferences
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Bookmark Manager
+        </strong>
+        app that allows users to save,
               organize, and manage their favorite URLs. All bookmarks should be stored
-              locally using <strong>SharedPreferences</strong>.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Create a <strong>Bookmark</strong> model with <code>id</code>, <code>title</code>, <code>url</code>, <code>category</code>, <code>timestamp</code></li>
-<li>Use <strong>SharedPreferences</strong> for local storage</li>
-<li>Store bookmarks as <strong>JSON</strong> strings</li>
-<li>Use <strong>Riverpod</strong> for state management</li>
-<li>Display a <strong>list of bookmarks</strong> sorted by timestamp</li>
-<li>Allow users to <strong>add</strong> new bookmarks (title + URL)</li>
-<li>Allow users to <strong>delete</strong> bookmarks</li>
-<li>Add <strong>category</strong> support (e.g., Work, Personal, Study, Other)</li>
-<li>Add <strong>search</strong> functionality to filter bookmarks</li>
-<li>Handle <strong>empty state</strong> when no bookmarks exist</li>
-<li>Add <strong>launch URL</strong> functionality (open in browser)</li>
-</ul>
-</div>
-<div class="api-box">
-<h4>⚙️ SharedPreferences Setup</h4>
-<p><strong>SharedPreferences</strong> is a simple key-value store for primitive data types.</p>
-<div class="endpoint">flutter pub add shared_preferences</div>
-<div class="api-note">
-                💡 <strong>Note:</strong> SharedPreferences is ideal for small amounts of data like user settings or bookmarks.
+              locally using
+        <strong>
+         SharedPreferences
+        </strong>
+        .
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Create a
+          <strong>
+           Bookmark
+          </strong>
+          model with
+          <code>
+           id
+          </code>
+          ,
+          <code>
+           title
+          </code>
+          ,
+          <code>
+           url
+          </code>
+          ,
+          <code>
+           category
+          </code>
+          ,
+          <code>
+           timestamp
+          </code>
+         </li>
+         <li>
+          Use
+          <strong>
+           SharedPreferences
+          </strong>
+          for local storage
+         </li>
+         <li>
+          Store bookmarks as
+          <strong>
+           JSON
+          </strong>
+          strings
+         </li>
+         <li>
+          Use
+          <strong>
+           Riverpod
+          </strong>
+          for state management
+         </li>
+         <li>
+          Display a
+          <strong>
+           list of bookmarks
+          </strong>
+          sorted by timestamp
+         </li>
+         <li>
+          Allow users to
+          <strong>
+           add
+          </strong>
+          new bookmarks (title + URL)
+         </li>
+         <li>
+          Allow users to
+          <strong>
+           delete
+          </strong>
+          bookmarks
+         </li>
+         <li>
+          Add
+          <strong>
+           category
+          </strong>
+          support (e.g., Work, Personal, Study, Other)
+         </li>
+         <li>
+          Add
+          <strong>
+           search
+          </strong>
+          functionality to filter bookmarks
+         </li>
+         <li>
+          Handle
+          <strong>
+           empty state
+          </strong>
+          when no bookmarks exist
+         </li>
+         <li>
+          Add
+          <strong>
+           launch URL
+          </strong>
+          functionality (open in browser)
+         </li>
+        </ul>
+       </div>
+       <div class="api-box">
+        <h4>
+         ⚙️ SharedPreferences Setup
+        </h4>
+        <p>
+         <strong>
+          SharedPreferences
+         </strong>
+         is a simple key-value store for primitive data types.
+        </p>
+        <div class="endpoint">
+         flutter pub add shared_preferences
+        </div>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         SharedPreferences is ideal for small amounts of data like user settings or bookmarks.
                 For storing complex objects, convert them to JSON strings.
-              </div>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://pub.dev/packages/shared_preferences" target="_blank">SharedPreferences Package</a></li>
-<li><a href="https://docs.flutter.dev/cookbook/persistence/key-value" target="_blank">Flutter Key-Value Storage</a></li>
-<li><a href="https://pub.dev/packages/url_launcher" target="_blank">url_launcher Package</a></li>
-<li><a href="https://riverpod.dev/" target="_blank">Riverpod Documentation</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Use <code>SharedPreferences</code> to store a JSON string of all bookmarks.
-                  Create helper methods for <code>saveBookmarks()</code> and <code>loadBookmarks()</code>.
-                  Use <code>jsonEncode</code> and <code>jsonDecode</code> for serialization.
-                  For launching URLs, use the <code>url_launcher</code> package with <code>launchUrl()</code>.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+        </div>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://pub.dev/packages/shared_preferences" target="_blank">
+           SharedPreferences Package
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook/persistence/key-value" target="_blank">
+           Flutter Key-Value Storage
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/url_launcher" target="_blank">
+           url_launcher Package
+          </a>
+         </li>
+         <li>
+          <a href="https://riverpod.dev/" target="_blank">
+           Riverpod Documentation
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Use
+          <code>
+           SharedPreferences
+          </code>
+          to store a JSON string of all bookmarks.
+                  Create helper methods for
+          <code>
+           saveBookmarks()
+          </code>
+          and
+          <code>
+           loadBookmarks()
+          </code>
+          .
+                  Use
+          <code>
+           jsonEncode
+          </code>
+          and
+          <code>
+           jsonDecode
+          </code>
+          for serialization.
+                  For launching URLs, use the
+          <code>
+           url_launcher
+          </code>
+          package with
+          <code>
+           launchUrl()
+          </code>
+          .
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
@@ -548,289 +794,1337 @@
   dev_dependencies:
     flutter_test:
       sdk: flutter
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Bookmark Model (lib/models/bookmark.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/bookmark.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'package:uuid/uuid.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">Bookmark</span> {
-    <span class="keyword">final</span> String id;
-    <span class="keyword">final</span> String title;
-    <span class="keyword">final</span> String url;
-    <span class="keyword">final</span> String category;
-    <span class="keyword">final</span> DateTime timestamp;
-
-    <span class="function">Bookmark</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">required</span> <span class="keyword">this</span>.url,
-      <span class="keyword">required</span> <span class="keyword">this</span>.category,
-      <span class="keyword">required</span> <span class="keyword">this</span>.timestamp,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Bookmark Model (lib/models/bookmark.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/bookmark.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:uuid/uuid.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Bookmark
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           String id;
+           <span class="keyword">
+            final
+           </span>
+           String title;
+           <span class="keyword">
+            final
+           </span>
+           String url;
+           <span class="keyword">
+            final
+           </span>
+           String category;
+           <span class="keyword">
+            final
+           </span>
+           DateTime timestamp;
+           <span class="function">
+            Bookmark
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .title,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .url,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .category,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .timestamp,
     });
-
-    <span class="function">Bookmark.create</span>({
-      <span class="keyword">required</span> String title,
-      <span class="keyword">required</span> String url,
-      <span class="keyword">required</span> String category,
-    }) : <span class="keyword">this</span>(
-      id: <span class="function">Uuid</span>().<span class="function">v4</span>(),
-      title: title.<span class="function">trim</span>(),
-      url: url.<span class="function">trim</span>(),
+           <span class="function">
+            Bookmark.create
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String title,
+           <span class="keyword">
+            required
+           </span>
+           String url,
+           <span class="keyword">
+            required
+           </span>
+           String category,
+    }) :
+           <span class="keyword">
+            this
+           </span>
+           (
+      id:
+           <span class="function">
+            Uuid
+           </span>
+           ().
+           <span class="function">
+            v4
+           </span>
+           (),
+      title: title.
+           <span class="function">
+            trim
+           </span>
+           (),
+      url: url.
+           <span class="function">
+            trim
+           </span>
+           (),
       category: category,
-      timestamp: DateTime.<span class="function">now</span>(),
+      timestamp: DateTime.
+           <span class="function">
+            now
+           </span>
+           (),
     );
 
-    Map&lt;String, dynamic&gt; <span class="function">toJson</span>() {
-      <span class="keyword">return</span> {
-        <span class="string">'id'</span>: id,
-        <span class="string">'title'</span>: title,
-        <span class="string">'url'</span>: url,
-        <span class="string">'category'</span>: category,
-        <span class="string">'timestamp'</span>: timestamp.<span class="function">toIso8601String</span>(),
+    Map&lt;String, dynamic&gt;
+           <span class="function">
+            toJson
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           {
+           <span class="string">
+            'id'
+           </span>
+           : id,
+           <span class="string">
+            'title'
+           </span>
+           : title,
+           <span class="string">
+            'url'
+           </span>
+           : url,
+           <span class="string">
+            'category'
+           </span>
+           : category,
+           <span class="string">
+            'timestamp'
+           </span>
+           : timestamp.
+           <span class="function">
+            toIso8601String
+           </span>
+           (),
       };
     }
-
-    <span class="keyword">factory</span> Bookmark.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Bookmark(
-        id: json[<span class="string">'id'</span>],
-        title: json[<span class="string">'title'</span>],
-        url: json[<span class="string">'url'</span>],
-        category: json[<span class="string">'category'</span>],
-        timestamp: DateTime.<span class="function">parse</span>(json[<span class="string">'timestamp'</span>]),
+           <span class="keyword">
+            factory
+           </span>
+           Bookmark.
+           <span class="function">
+            fromJson
+           </span>
+           (Map&lt;String, dynamic&gt; json) {
+           <span class="keyword">
+            return
+           </span>
+           Bookmark(
+        id: json[
+           <span class="string">
+            'id'
+           </span>
+           ],
+        title: json[
+           <span class="string">
+            'title'
+           </span>
+           ],
+        url: json[
+           <span class="string">
+            'url'
+           </span>
+           ],
+        category: json[
+           <span class="string">
+            'category'
+           </span>
+           ],
+        timestamp: DateTime.
+           <span class="function">
+            parse
+           </span>
+           (json[
+           <span class="string">
+            'timestamp'
+           </span>
+           ]),
       );
     }
-
-    <span class="keyword">static</span> List&lt;String&gt; get categories =&gt; [
-      <span class="string">'Work'</span>,
-      <span class="string">'Personal'</span>,
-      <span class="string">'Study'</span>,
-      <span class="string">'Entertainment'</span>,
-      <span class="string">'News'</span>,
-      <span class="string">'Other'</span>,
+           <span class="keyword">
+            static
+           </span>
+           List&lt;String&gt; get categories =&gt; [
+           <span class="string">
+            'Work'
+           </span>
+           ,
+           <span class="string">
+            'Personal'
+           </span>
+           ,
+           <span class="string">
+            'Study'
+           </span>
+           ,
+           <span class="string">
+            'Entertainment'
+           </span>
+           ,
+           <span class="string">
+            'News'
+           </span>
+           ,
+           <span class="string">
+            'Other'
+           </span>
+           ,
     ];
 
-    String <span class="function">getFormattedDate</span>() {
-      <span class="keyword">return</span> DateFormat.<span class="function">yMMMd</span>().<span class="function">add_jm</span>().<span class="function">format</span>(timestamp);
+    String
+           <span class="function">
+            getFormattedDate
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           DateFormat.
+           <span class="function">
+            yMMMd
+           </span>
+           ().
+           <span class="function">
+            add_jm
+           </span>
+           ().
+           <span class="function">
+            format
+           </span>
+           (timestamp);
     }
-
-    <span class="keyword">static</span> String <span class="function">getDomain</span>(String url) {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> uri = Uri.<span class="function">parse</span>(url);
-        <span class="keyword">return</span> uri.host.<span class="function">replaceAll</span>(<span class="string">'www.'</span>, <span class="string">''</span>);
-      } <span class="function">catch</span> (_) {
-        <span class="keyword">return</span> url;
+           <span class="keyword">
+            static
+           </span>
+           String
+           <span class="function">
+            getDomain
+           </span>
+           (String url) {
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           uri = Uri.
+           <span class="function">
+            parse
+           </span>
+           (url);
+           <span class="keyword">
+            return
+           </span>
+           uri.host.
+           <span class="function">
+            replaceAll
+           </span>
+           (
+           <span class="string">
+            'www.'
+           </span>
+           ,
+           <span class="string">
+            ''
+           </span>
+           );
+      }
+           <span class="function">
+            catch
+           </span>
+           (_) {
+           <span class="keyword">
+            return
+           </span>
+           url;
       }
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Storage Service (lib/services/storage_service.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/services/storage_service.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'package:shared_preferences/shared_preferences.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/bookmark.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">StorageService</span> {
-    <span class="keyword">static</span> <span class="keyword">const</span> String _bookmarksKey = <span class="string">'bookmarks'</span>;
-    <span class="keyword">static</span> SharedPreferences? _prefs;
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">init</span>() <span class="keyword">async</span> {
-      _prefs = <span class="keyword">await</span> SharedPreferences.<span class="function">getInstance</span>();
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Storage Service (lib/services/storage_service.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/services/storage_service.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:shared_preferences/shared_preferences.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/bookmark.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            StorageService
+           </span>
+           {
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            const
+           </span>
+           String _bookmarksKey =
+           <span class="string">
+            'bookmarks'
+           </span>
+           ;
+           <span class="keyword">
+            static
+           </span>
+           SharedPreferences? _prefs;
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            init
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      _prefs =
+           <span class="keyword">
+            await
+           </span>
+           SharedPreferences.
+           <span class="function">
+            getInstance
+           </span>
+           ();
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;List&lt;Bookmark&gt;&gt; <span class="function">loadBookmarks</span>() <span class="keyword">async</span> {
-      <span class="keyword">if</span> (_prefs == <span class="keyword">null</span>) <span class="keyword">await</span> <span class="function">init</span>();
-      <span class="keyword">final</span> String? jsonString = _prefs!.<span class="function">getString</span>(_bookmarksKey);
-      <span class="keyword">if</span> (jsonString == <span class="keyword">null</span> || jsonString.<span class="function">isEmpty</span>) {
-        <span class="keyword">return</span> [];
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Bookmark&gt;&gt;
+           <span class="function">
+            loadBookmarks
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (_prefs ==
+           <span class="keyword">
+            null
+           </span>
+           )
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            init
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           String? jsonString = _prefs!.
+           <span class="function">
+            getString
+           </span>
+           (_bookmarksKey);
+           <span class="keyword">
+            if
+           </span>
+           (jsonString ==
+           <span class="keyword">
+            null
+           </span>
+           || jsonString.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           [];
       }
-      <span class="keyword">final</span> List&lt;dynamic&gt; jsonList = json.<span class="function">decode</span>(jsonString);
-      <span class="keyword">return</span> jsonList
-          .<span class="function">map</span>((json) =&gt; Bookmark.<span class="function">fromJson</span>(json))
-          .<span class="function">toList</span>()
-        ..<span class="function">sort</span>((a, b) =&gt; b.timestamp.<span class="function">compareTo</span>(a.timestamp));
+           <span class="keyword">
+            final
+           </span>
+           List&lt;dynamic&gt; jsonList = json.
+           <span class="function">
+            decode
+           </span>
+           (jsonString);
+           <span class="keyword">
+            return
+           </span>
+           jsonList
+          .
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; Bookmark.
+           <span class="function">
+            fromJson
+           </span>
+           (json))
+          .
+           <span class="function">
+            toList
+           </span>
+           ()
+        ..
+           <span class="function">
+            sort
+           </span>
+           ((a, b) =&gt; b.timestamp.
+           <span class="function">
+            compareTo
+           </span>
+           (a.timestamp));
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">saveBookmarks</span>(List&lt;Bookmark&gt; bookmarks) <span class="keyword">async</span> {
-      <span class="keyword">if</span> (_prefs == <span class="keyword">null</span>) <span class="keyword">await</span> <span class="function">init</span>();
-      <span class="keyword">final</span> String jsonString = json.<span class="function">encode</span>(
-        bookmarks.<span class="function">map</span>((bookmark) =&gt; bookmark.<span class="function">toJson</span>()).<span class="function">toList</span>(),
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            saveBookmarks
+           </span>
+           (List&lt;Bookmark&gt; bookmarks)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (_prefs ==
+           <span class="keyword">
+            null
+           </span>
+           )
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            init
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           String jsonString = json.
+           <span class="function">
+            encode
+           </span>
+           (
+        bookmarks.
+           <span class="function">
+            map
+           </span>
+           ((bookmark) =&gt; bookmark.
+           <span class="function">
+            toJson
+           </span>
+           ()).
+           <span class="function">
+            toList
+           </span>
+           (),
       );
-      <span class="keyword">await</span> _prefs!.<span class="function">setString</span>(_bookmarksKey, jsonString);
+           <span class="keyword">
+            await
+           </span>
+           _prefs!.
+           <span class="function">
+            setString
+           </span>
+           (_bookmarksKey, jsonString);
     }
-
-    <span class="keyword">static</span> <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">clearAll</span>() <span class="keyword">async</span> {
-      <span class="keyword">if</span> (_prefs == <span class="keyword">null</span>) <span class="keyword">await</span> <span class="function">init</span>();
-      <span class="keyword">await</span> _prefs!.<span class="function">remove</span>(_bookmarksKey);
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            clearAll
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (_prefs ==
+           <span class="keyword">
+            null
+           </span>
+           )
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            init
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           _prefs!.
+           <span class="function">
+            remove
+           </span>
+           (_bookmarksKey);
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Bookmark Provider (lib/providers/bookmark_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/bookmark_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/bookmark.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../services/storage_service.dart'</span>;
-
-  <span class="comment">// Search query state</span>
-<span class="keyword">final</span> searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">''</span>);
-
-  <span class="keyword">final</span> bookmarkListProvider = FutureProvider&lt;List&lt;Bookmark&gt;&gt;((ref) <span class="keyword">async</span> {
-    <span class="keyword">final</span> searchQuery = ref.<span class="function">watch</span>(searchQueryProvider);
-    <span class="keyword">final</span> bookmarks = <span class="keyword">await</span> StorageService.<span class="function">loadBookmarks</span>();
-
-    <span class="keyword">if</span> (searchQuery.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-      <span class="keyword">return</span> bookmarks;
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Bookmark Provider (lib/providers/bookmark_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/bookmark_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/bookmark.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../services/storage_service.dart'
+           </span>
+           ;
+           <span class="comment">
+            // Search query state
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt;
+           <span class="string">
+            ''
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           bookmarkListProvider = FutureProvider&lt;List&lt;Bookmark&gt;&gt;((ref)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           searchQuery = ref.
+           <span class="function">
+            watch
+           </span>
+           (searchQueryProvider);
+           <span class="keyword">
+            final
+           </span>
+           bookmarks =
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            loadBookmarks
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (searchQuery.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           bookmarks;
     }
-
-    <span class="keyword">final</span> query = searchQuery.<span class="function">toLowerCase</span>().<span class="function">trim</span>();
-    <span class="keyword">return</span> bookmarks.<span class="function">where</span>((bookmark) {
-      <span class="keyword">return</span> bookmark.title.<span class="function">toLowerCase</span>().<span class="function">contains</span>(query) ||
-          bookmark.url.<span class="function">toLowerCase</span>().<span class="function">contains</span>(query) ||
-          bookmark.category.<span class="function">toLowerCase</span>().<span class="function">contains</span>(query);
-    }).<span class="function">toList</span>();
+           <span class="keyword">
+            final
+           </span>
+           query = searchQuery.
+           <span class="function">
+            toLowerCase
+           </span>
+           ().
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           bookmarks.
+           <span class="function">
+            where
+           </span>
+           ((bookmark) {
+           <span class="keyword">
+            return
+           </span>
+           bookmark.title.
+           <span class="function">
+            toLowerCase
+           </span>
+           ().
+           <span class="function">
+            contains
+           </span>
+           (query) ||
+          bookmark.url.
+           <span class="function">
+            toLowerCase
+           </span>
+           ().
+           <span class="function">
+            contains
+           </span>
+           (query) ||
+          bookmark.category.
+           <span class="function">
+            toLowerCase
+           </span>
+           ().
+           <span class="function">
+            contains
+           </span>
+           (query);
+    }).
+           <span class="function">
+            toList
+           </span>
+           ();
   });
-
-  <span class="keyword">class</span> <span class="function">BookmarkNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;<span class="keyword">void</span>&gt; {
-    <span class="keyword">final</span> Ref ref;
-
-    <span class="function">BookmarkNotifier</span>(<span class="keyword">this</span>.ref) : <span class="keyword">super</span>(<span class="keyword">null</span>);
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">addBookmark</span>(Bookmark bookmark) <span class="keyword">async</span> {
-      <span class="keyword">final</span> currentBookmarks = <span class="keyword">await</span> StorageService.<span class="function">loadBookmarks</span>();
-      currentBookmarks.<span class="function">add</span>(bookmark);
-      <span class="keyword">await</span> StorageService.<span class="function">saveBookmarks</span>(currentBookmarks);
-      ref.<span class="function">invalidate</span>(bookmarkListProvider);
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            BookmarkNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt; {
+           <span class="keyword">
+            final
+           </span>
+           Ref ref;
+           <span class="function">
+            BookmarkNotifier
+           </span>
+           (
+           <span class="keyword">
+            this
+           </span>
+           .ref) :
+           <span class="keyword">
+            super
+           </span>
+           (
+           <span class="keyword">
+            null
+           </span>
+           );
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            addBookmark
+           </span>
+           (Bookmark bookmark)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           currentBookmarks =
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            loadBookmarks
+           </span>
+           ();
+      currentBookmarks.
+           <span class="function">
+            add
+           </span>
+           (bookmark);
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            saveBookmarks
+           </span>
+           (currentBookmarks);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (bookmarkListProvider);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deleteBookmark</span>(String id) <span class="keyword">async</span> {
-      <span class="keyword">final</span> currentBookmarks = <span class="keyword">await</span> StorageService.<span class="function">loadBookmarks</span>();
-      currentBookmarks.<span class="function">removeWhere</span>((bookmark) =&gt; bookmark.id == id);
-      <span class="keyword">await</span> StorageService.<span class="function">saveBookmarks</span>(currentBookmarks);
-      ref.<span class="function">invalidate</span>(bookmarkListProvider);
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            deleteBookmark
+           </span>
+           (String id)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           currentBookmarks =
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            loadBookmarks
+           </span>
+           ();
+      currentBookmarks.
+           <span class="function">
+            removeWhere
+           </span>
+           ((bookmark) =&gt; bookmark.id == id);
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            saveBookmarks
+           </span>
+           (currentBookmarks);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (bookmarkListProvider);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">clearAllBookmarks</span>() <span class="keyword">async</span> {
-      <span class="keyword">await</span> StorageService.<span class="function">clearAll</span>();
-      ref.<span class="function">invalidate</span>(bookmarkListProvider);
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            clearAllBookmarks
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            clearAll
+           </span>
+           ();
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (bookmarkListProvider);
     }
-
-    <span class="keyword">void</span> <span class="function">setSearchQuery</span>(String query) {
-      ref.<span class="function">read</span>(searchQueryProvider.notifier).state = query;
-      ref.<span class="function">invalidate</span>(bookmarkListProvider);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            setSearchQuery
+           </span>
+           (String query) {
+      ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider.notifier).state = query;
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (bookmarkListProvider);
     }
-
-    <span class="keyword">void</span> <span class="function">clearSearch</span>() {
-      ref.<span class="function">read</span>(searchQueryProvider.notifier).state = <span class="string">''</span>;
-      ref.<span class="function">invalidate</span>(bookmarkListProvider);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            clearSearch
+           </span>
+           () {
+      ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider.notifier).state =
+           <span class="string">
+            ''
+           </span>
+           ;
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (bookmarkListProvider);
     }
   }
-
-  <span class="keyword">final</span> bookmarkNotifierProvider =
-      StateNotifierProvider&lt;BookmarkNotifier, <span class="keyword">void</span>&gt;((ref) {
-    <span class="keyword">return</span> <span class="function">BookmarkNotifier</span>(ref);
+           <span class="keyword">
+            final
+           </span>
+           bookmarkNotifierProvider =
+      StateNotifierProvider&lt;BookmarkNotifier,
+           <span class="keyword">
+            void
+           </span>
+           &gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            BookmarkNotifier
+           </span>
+           (ref);
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Main App (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'services/storage_service.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/home_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
-    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
-    <span class="keyword">await</span> StorageService.<span class="function">init</span>();
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Main App (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'services/storage_service.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/home_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+    WidgetsFlutterBinding.
+           <span class="function">
+            ensureInitialized
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           StorageService.
+           <span class="function">
+            init
+           </span>
+           ();
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Bookmark Manager'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Bookmark Manager'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
-        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
+        debugShowCheckedModeBanner:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Home Screen (lib/screens/home_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/home_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:url_launcher/url_launcher.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/bookmark.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/bookmark_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'add_bookmark_screen.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/bookmark_card.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Home Screen (lib/screens/home_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/home_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:url_launcher/url_launcher.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/bookmark.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/bookmark_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'add_bookmark_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/bookmark_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">final</span> TextEditingController _searchController = TextEditingController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _searchController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _searchController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _searchController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> bookmarksAsync = ref.<span class="function">watch</span>(bookmarkListProvider);
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(bookmarkNotifierProvider.notifier);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           bookmarksAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (bookmarkListProvider);
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (bookmarkNotifierProvider.notifier);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'🔖 Bookmark Manager'</span>),
+          title: Text(
+           <span class="string">
+            '🔖 Bookmark Manager'
+           </span>
+           ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
             PopupMenuButton&lt;String&gt;(
               onSelected: (value) {
-                <span class="keyword">if</span> (value == <span class="string">'clear'</span>) {
-                  <span class="function">_showClearDialog</span>(context, notifier);
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="string">
+            'clear'
+           </span>
+           ) {
+           <span class="function">
+            _showClearDialog
+           </span>
+           (context, notifier);
                 }
               },
               itemBuilder: (context) =&gt; [
                 PopupMenuItem(
-                  value: <span class="string">'clear'</span>,
+                  value:
+           <span class="string">
+            'clear'
+           </span>
+           ,
                   child: Row(
                     children: [
                       Icon(Icons.delete_sweep, color: Colors.red),
-                      SizedBox(width: <span class="number">8</span>),
-                      Text(<span class="string">'Clear All'</span>),
+                      SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
+                      Text(
+           <span class="string">
+            'Clear All'
+           </span>
+           ),
                     ],
                   ),
                 ),
@@ -840,112 +2134,317 @@
         ),
         body: Column(
           children: [
-            <span class="comment">// Search Bar</span>
-            Padding(
-              padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+           <span class="comment">
+            // Search Bar
+           </span>
+           Padding(
+              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Search bookmarks...'</span>,
+                  hintText:
+           <span class="string">
+            'Search bookmarks...'
+           </span>
+           ,
                   prefixIcon: Icon(Icons.search),
-                  suffixIcon: _searchController.text.<span class="function">isNotEmpty</span>
-                      ? IconButton(
+                  suffixIcon: _searchController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? IconButton(
                           onPressed: () {
-                            _searchController.<span class="function">clear</span>();
-                            notifier.<span class="function">clearSearch</span>();
+                            _searchController.
+           <span class="function">
+            clear
+           </span>
+           ();
+                            notifier.
+           <span class="function">
+            clearSearch
+           </span>
+           ();
                           },
                           icon: Icon(Icons.clear),
                         )
-                      : <span class="keyword">null</span>,
+                      :
+           <span class="keyword">
+            null
+           </span>
+           ,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                    borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                   ),
                 ),
-                onChanged: (value) =&gt; notifier.<span class="function">setSearchQuery</span>(value),
+                onChanged: (value) =&gt; notifier.
+           <span class="function">
+            setSearchQuery
+           </span>
+           (value),
               ),
             ),
-            <span class="comment">// Bookmarks List</span>
-            Expanded(
-              child: bookmarksAsync.<span class="function">when</span>(
+           <span class="comment">
+            // Bookmarks List
+           </span>
+           Expanded(
+              child: bookmarksAsync.
+           <span class="function">
+            when
+           </span>
+           (
                 loading: () =&gt; Center(child: CircularProgressIndicator()),
                 error: (error, stack) =&gt; Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                      SizedBox(height: <span class="number">16</span>),
+                      Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                      SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                       Text(
-                        <span class="string">'Error loading bookmarks'</span>,
-                        style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'Error loading bookmarks'
+           </span>
+           ,
+                        style: TextStyle(fontSize:
+           <span class="number">
+            18
+           </span>
+           , fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                       Text(
-                        error.<span class="function">toString</span>(),
+                        error.
+           <span class="function">
+            toString
+           </span>
+           (),
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                        style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                       ),
                     ],
                   ),
                 ),
                 data: (bookmarks) {
-                  <span class="keyword">if</span> (bookmarks.<span class="function">isEmpty</span>) {
-                    <span class="keyword">return</span> Center(
+           <span class="keyword">
+            if
+           </span>
+           (bookmarks.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.bookmark_border,
-                            size: <span class="number">80</span>,
-                            color: Colors.grey[<span class="number">300</span>],
+                            size:
+           <span class="number">
+            80
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
                           ),
-                          SizedBox(height: <span class="number">16</span>),
+                          SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                           Text(
-                            _searchController.text.<span class="function">isNotEmpty</span>
-                                ? <span class="string">'No matching bookmarks'</span>
-                                : <span class="string">'No bookmarks yet'</span>,
+                            _searchController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ?
+           <span class="string">
+            'No matching bookmarks'
+           </span>
+           :
+           <span class="string">
+            'No bookmarks yet'
+           </span>
+           ,
                             style: TextStyle(
-                              fontSize: <span class="number">20</span>,
+                              fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[<span class="number">600</span>],
+                              color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                             ),
                           ),
-                          SizedBox(height: <span class="number">8</span>),
+                          SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                           Text(
-                            _searchController.text.<span class="function">isNotEmpty</span>
-                                ? <span class="string">'Try a different search term'</span>
-                                : <span class="string">'Tap + to add your first bookmark'</span>,
+                            _searchController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ?
+           <span class="string">
+            'Try a different search term'
+           </span>
+           :
+           <span class="string">
+            'Tap + to add your first bookmark'
+           </span>
+           ,
                             style: TextStyle(
-                              color: Colors.grey[<span class="number">500</span>],
-                              fontSize: <span class="number">14</span>,
+                              color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
+                              fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                             ),
                           ),
                         ],
                       ),
                     );
                   }
-                  <span class="keyword">return</span> ListView.<span class="function">builder</span>(
-                    padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
-                    itemCount: bookmarks.<span class="function">length</span>,
+           <span class="keyword">
+            return
+           </span>
+           ListView.
+           <span class="function">
+            builder
+           </span>
+           (
+                    padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           , vertical:
+           <span class="number">
+            8
+           </span>
+           ),
+                    itemCount: bookmarks.
+           <span class="function">
+            length
+           </span>
+           ,
                     itemBuilder: (context, index) {
-                      <span class="keyword">final</span> bookmark = bookmarks[index];
-                      <span class="keyword">return</span> Dismissible(
+           <span class="keyword">
+            final
+           </span>
+           bookmark = bookmarks[index];
+           <span class="keyword">
+            return
+           </span>
+           Dismissible(
                         key: Key(bookmark.id),
-                        direction: DismissDirection.<span class="function">endToStart</span>,
+                        direction: DismissDirection.
+           <span class="function">
+            endToStart
+           </span>
+           ,
                         background: Container(
                           color: Colors.red,
-                          alignment: Alignment.<span class="function">centerRight</span>,
-                          padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">20</span>),
+                          alignment: Alignment.
+           <span class="function">
+            centerRight
+           </span>
+           ,
+                          padding: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (right:
+           <span class="number">
+            20
+           </span>
+           ),
                           child: Icon(Icons.delete, color: Colors.white),
                         ),
                         onDismissed: (_) {
-                          notifier.<span class="function">deleteBookmark</span>(bookmark.id);
-                          ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-                            SnackBar(content: Text(<span class="string">'Bookmark deleted'</span>)),
+                          notifier.
+           <span class="function">
+            deleteBookmark
+           </span>
+           (bookmark.id);
+                          ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+                            SnackBar(content: Text(
+           <span class="string">
+            'Bookmark deleted'
+           </span>
+           )),
                           );
                         },
                         child: BookmarkCard(
                           bookmark: bookmark,
-                          onTap: () =&gt; <span class="function">_launchUrl</span>(bookmark.url),
+                          onTap: () =&gt;
+           <span class="function">
+            _launchUrl
+           </span>
+           (bookmark.url),
                         ),
                       );
                     },
@@ -963,51 +2462,157 @@
         ),
       );
     }
-
-    <span class="keyword">void</span> _navigateToAddBookmark(BuildContext context) {
-      Navigator.<span class="function">push</span>(
+           <span class="keyword">
+            void
+           </span>
+           _navigateToAddBookmark(BuildContext context) {
+      Navigator.
+           <span class="function">
+            push
+           </span>
+           (
         context,
         MaterialPageRoute(builder: (_) =&gt; AddBookmarkScreen()),
       );
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_launchUrl</span>(String url) <span class="keyword">async</span> {
-      <span class="keyword">final</span> Uri uri = Uri.<span class="function">parse</span>(url);
-      <span class="keyword">if</span> (<span class="keyword">await</span> <span class="function">canLaunchUrl</span>(uri)) {
-        <span class="keyword">await</span> <span class="function">launchUrl</span>(uri, mode: LaunchMode.<span class="function">externalApplication</span>);
-      } <span class="keyword">else</span> {
-        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-          SnackBar(content: Text(<span class="string">'Could not launch URL'</span>)),
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _launchUrl
+           </span>
+           (String url)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           Uri uri = Uri.
+           <span class="function">
+            parse
+           </span>
+           (url);
+           <span class="keyword">
+            if
+           </span>
+           (
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            canLaunchUrl
+           </span>
+           (uri)) {
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            launchUrl
+           </span>
+           (uri, mode: LaunchMode.
+           <span class="function">
+            externalApplication
+           </span>
+           );
+      }
+           <span class="keyword">
+            else
+           </span>
+           {
+        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+          SnackBar(content: Text(
+           <span class="string">
+            'Could not launch URL'
+           </span>
+           )),
         );
       }
     }
-
-    <span class="keyword">void</span> <span class="function">_showClearDialog</span>(
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _showClearDialog
+           </span>
+           (
       BuildContext context,
       BookmarkNotifier notifier,
     ) {
       showDialog(
         context: context,
         builder: (context) =&gt; AlertDialog(
-          title: Text(<span class="string">'Clear All Bookmarks'</span>),
+          title: Text(
+           <span class="string">
+            'Clear All Bookmarks'
+           </span>
+           ),
           content: Text(
-            <span class="string">'Are you sure you want to delete all bookmarks? This action cannot be undone.'</span>,
+           <span class="string">
+            'Are you sure you want to delete all bookmarks? This action cannot be undone.'
+           </span>
+           ,
           ),
           actions: [
             TextButton(
-              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context),
-              child: Text(<span class="string">'Cancel'</span>),
+              onPressed: () =&gt; Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context),
+              child: Text(
+           <span class="string">
+            'Cancel'
+           </span>
+           ),
             ),
             TextButton(
               onPressed: () {
-                notifier.<span class="function">clearAllBookmarks</span>();
-                Navigator.<span class="function">pop</span>(context);
-                ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-                  SnackBar(content: Text(<span class="string">'All bookmarks cleared'</span>)),
+                notifier.
+           <span class="function">
+            clearAllBookmarks
+           </span>
+           ();
+                Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context);
+                ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+                  SnackBar(content: Text(
+           <span class="string">
+            'All bookmarks cleared'
+           </span>
+           )),
                 );
               },
               child: Text(
-                <span class="string">'Clear All'</span>,
+           <span class="string">
+            'Clear All'
+           </span>
+           ,
                 style: TextStyle(color: Colors.red),
               ),
             ),
@@ -1016,215 +2621,662 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">7. Add Bookmark Screen (lib/screens/add_bookmark_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/add_bookmark_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/bookmark.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/bookmark_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">AddBookmarkScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">AddBookmarkScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          7. Add Bookmark Screen (lib/screens/add_bookmark_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/add_bookmark_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/bookmark.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/bookmark_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AddBookmarkScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            AddBookmarkScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;AddBookmarkScreen&gt; <span class="function">createState</span>() =&gt; _AddBookmarkScreenState();
+    ConsumerState&lt;AddBookmarkScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _AddBookmarkScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AddBookmarkScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;AddBookmarkScreen&gt; {
-    <span class="keyword">final</span> _formKey = GlobalKey&lt;FormState&gt;();
-    <span class="keyword">final</span> _titleController = TextEditingController();
-    <span class="keyword">final</span> _urlController = TextEditingController();
-    String _selectedCategory = Bookmark.categories[<span class="number">0</span>];
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _AddBookmarkScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;AddBookmarkScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           _formKey = GlobalKey&lt;FormState&gt;();
+           <span class="keyword">
+            final
+           </span>
+           _titleController = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           _urlController = TextEditingController();
+    String _selectedCategory = Bookmark.categories[
+           <span class="number">
+            0
+           </span>
+           ];
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ;
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _titleController.<span class="function">dispose</span>();
-      _urlController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _titleController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _urlController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Add Bookmark'</span>),
+          title: Text(
+           <span class="string">
+            'Add Bookmark'
+           </span>
+           ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  <span class="comment">// Title</span>
-                  TextFormField(
+           <span class="comment">
+            // Title
+           </span>
+           TextFormField(
                     controller: _titleController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Title'</span>,
+                      labelText:
+           <span class="string">
+            'Title'
+           </span>
+           ,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.title),
-                      hintText: <span class="string">'e.g., Google, Stack Overflow'</span>,
+                      hintText:
+           <span class="string">
+            'e.g., Google, Stack Overflow'
+           </span>
+           ,
                     ),
                     validator: (value) {
-                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please enter a title'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter a title'
+           </span>
+           ;
                       }
-                      <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                     },
-                    autofocus: <span class="keyword">true</span>,
+                    autofocus:
+           <span class="keyword">
+            true
+           </span>
+           ,
                     textInputAction: TextInputAction.next,
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// URL</span>
-                  TextFormField(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // URL
+           </span>
+           TextFormField(
                     controller: _urlController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'URL'</span>,
+                      labelText:
+           <span class="string">
+            'URL'
+           </span>
+           ,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.link),
-                      hintText: <span class="string">'https://example.com'</span>,
+                      hintText:
+           <span class="string">
+            'https://example.com'
+           </span>
+           ,
                     ),
                     validator: (value) {
-                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please enter a URL'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter a URL'
+           </span>
+           ;
                       }
-                      <span class="keyword">if</span> (!value.<span class="function">startsWith</span>(<span class="string">'http://'</span>) &amp;&amp;
-                          !value.<span class="function">startsWith</span>(<span class="string">'https://'</span>)) {
-                        <span class="keyword">return</span> <span class="string">'Please enter a valid URL (start with http:// or https://)'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (!value.
+           <span class="function">
+            startsWith
+           </span>
+           (
+           <span class="string">
+            'http://'
+           </span>
+           ) &amp;&amp;
+                          !value.
+           <span class="function">
+            startsWith
+           </span>
+           (
+           <span class="string">
+            'https://'
+           </span>
+           )) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter a valid URL (start with http:// or https://)'
+           </span>
+           ;
                       }
-                      <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                     },
-                    keyboardType: TextInputType.<span class="function">url</span>(),
+                    keyboardType: TextInputType.
+           <span class="function">
+            url
+           </span>
+           (),
                     textInputAction: TextInputAction.next,
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Category</span>
-                  DropdownButtonFormField&lt;String&gt;(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Category
+           </span>
+           DropdownButtonFormField&lt;String&gt;(
                     value: _selectedCategory,
-                    items: Bookmark.categories.<span class="function">map</span>((category) {
-                      <span class="keyword">return</span> DropdownMenuItem(
+                    items: Bookmark.categories.
+           <span class="function">
+            map
+           </span>
+           ((category) {
+           <span class="keyword">
+            return
+           </span>
+           DropdownMenuItem(
                         value: category,
                         child: Row(
                           children: [
                             Icon(
-                              <span class="function">_getCategoryIcon</span>(category),
-                              size: <span class="number">16</span>,
-                              color: <span class="function">_getCategoryColor</span>(category),
+           <span class="function">
+            _getCategoryIcon
+           </span>
+           (category),
+                              size:
+           <span class="number">
+            16
+           </span>
+           ,
+                              color:
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (category),
                             ),
-                            SizedBox(width: <span class="number">8</span>),
+                            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                             Text(category),
                           ],
                         ),
                       );
-                    }).<span class="function">toList</span>(),
+                    }).
+           <span class="function">
+            toList
+           </span>
+           (),
                     onChanged: (value) {
-                      <span class="keyword">if</span> (value != <span class="keyword">null</span>) {
+           <span class="keyword">
+            if
+           </span>
+           (value !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
                         setState(() =&gt; _selectedCategory = value);
                       }
                     },
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Category'</span>,
+                      labelText:
+           <span class="string">
+            'Category'
+           </span>
+           ,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.folder),
                     ),
                     validator: (value) {
-                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">isEmpty</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please select a category'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please select a category'
+           </span>
+           ;
                       }
-                      <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                     },
                   ),
-                  SizedBox(height: <span class="number">24</span>),
-
-                  <span class="comment">// Preview</span>
-                  Container(
-                    padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Preview
+           </span>
+           Container(
+                    padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                     decoration: BoxDecoration(
-                      color: Colors.grey[<span class="number">50</span>],
-                      borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-                      border: Border.<span class="function">all</span>(color: Colors.grey[<span class="number">200</span>]!),
+                      color: Colors.grey[
+           <span class="number">
+            50
+           </span>
+           ],
+                      borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                      border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.grey[
+           <span class="number">
+            200
+           </span>
+           ]!),
                     ),
                     child: Row(
                       children: [
                         Icon(
-                          <span class="function">_getCategoryIcon</span>(_selectedCategory),
-                          color: <span class="function">_getCategoryColor</span>(_selectedCategory),
+           <span class="function">
+            _getCategoryIcon
+           </span>
+           (_selectedCategory),
+                          color:
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (_selectedCategory),
                         ),
-                        SizedBox(width: <span class="number">12</span>),
+                        SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _titleController.text.<span class="function">isNotEmpty</span>
-                                    ? _titleController.text
-                                    : <span class="string">'Preview'</span>,
+                                _titleController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? _titleController.text
+                                    :
+           <span class="string">
+            'Preview'
+           </span>
+           ,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: _titleController.text.<span class="function">isNotEmpty</span>
-                                      ? Colors.black
-                                      : Colors.grey[<span class="number">400</span>],
+                                  color: _titleController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? Colors.black
+                                      : Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
                                 ),
                               ),
                               Text(
-                                _urlController.text.<span class="function">isNotEmpty</span>
-                                    ? Bookmark.<span class="function">getDomain</span>(_urlController.text)
-                                    : <span class="string">'example.com'</span>,
+                                _urlController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? Bookmark.
+           <span class="function">
+            getDomain
+           </span>
+           (_urlController.text)
+                                    :
+           <span class="string">
+            'example.com'
+           </span>
+           ,
                                 style: TextStyle(
-                                  fontSize: <span class="number">12</span>,
-                                  color: Colors.grey[<span class="number">500</span>],
+                                  fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                                  color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                                 ),
                               ),
                             ],
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>, vertical: <span class="number">4</span>),
+                          padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            8
+           </span>
+           , vertical:
+           <span class="number">
+            4
+           </span>
+           ),
                           decoration: BoxDecoration(
-                            color: <span class="function">_getCategoryColor</span>(_selectedCategory).<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                            color:
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (_selectedCategory).
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                            borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                           ),
                           child: Text(
                             _selectedCategory,
                             style: TextStyle(
-                              fontSize: <span class="number">10</span>,
+                              fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
                               fontWeight: FontWeight.w600,
-                              color: <span class="function">_getCategoryColor</span>(_selectedCategory),
+                              color:
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (_selectedCategory),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: <span class="number">24</span>),
-
-                  <span class="comment">// Save button</span>
-                  _isLoading
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Save button
+           </span>
+           _isLoading
                       ? Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: () =&gt; _saveBookmark(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">16</span>),
+                            padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            16
+           </span>
+           ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                              borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                             ),
                           ),
                           child: Text(
-                            <span class="string">'Save Bookmark'</span>,
-                            style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'Save Bookmark'
+           </span>
+           ,
+                            style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , fontWeight: FontWeight.bold),
                           ),
                         ),
                 ],
@@ -1234,97 +3286,405 @@
         ),
       );
     }
-
-    <span class="keyword">IconData</span> <span class="function">_getCategoryIcon</span>(String category) {
-      <span class="keyword">switch</span> (category) {
-        <span class="keyword">case</span> <span class="string">'Work'</span>:
-          <span class="keyword">return</span> Icons.work;
-        <span class="keyword">case</span> <span class="string">'Personal'</span>:
-          <span class="keyword">return</span> Icons.person;
-        <span class="keyword">case</span> <span class="string">'Study'</span>:
-          <span class="keyword">return</span> Icons.school;
-        <span class="keyword">case</span> <span class="string">'Entertainment'</span>:
-          <span class="keyword">return</span> Icons.movie;
-        <span class="keyword">case</span> <span class="string">'News'</span>:
-          <span class="keyword">return</span> Icons.newspaper;
-        <span class="keyword">default</span>:
-          <span class="keyword">return</span> Icons.bookmark;
+           <span class="keyword">
+            IconData
+           </span>
+           <span class="function">
+            _getCategoryIcon
+           </span>
+           (String category) {
+           <span class="keyword">
+            switch
+           </span>
+           (category) {
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Work'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.work;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Personal'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.person;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Study'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.school;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Entertainment'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.movie;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'News'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.newspaper;
+           <span class="keyword">
+            default
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.bookmark;
       }
     }
 
-    Color <span class="function">_getCategoryColor</span>(String category) {
-      <span class="keyword">switch</span> (category) {
-        <span class="keyword">case</span> <span class="string">'Work'</span>:
-          <span class="keyword">return</span> Colors.blue;
-        <span class="keyword">case</span> <span class="string">'Personal'</span>:
-          <span class="keyword">return</span> Colors.green;
-        <span class="keyword">case</span> <span class="string">'Study'</span>:
-          <span class="keyword">return</span> Colors.purple;
-        <span class="keyword">case</span> <span class="string">'Entertainment'</span>:
-          <span class="keyword">return</span> Colors.orange;
-        <span class="keyword">case</span> <span class="string">'News'</span>:
-          <span class="keyword">return</span> Colors.red;
-        <span class="keyword">default</span>:
-          <span class="keyword">return</span> Colors.grey;
+    Color
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (String category) {
+           <span class="keyword">
+            switch
+           </span>
+           (category) {
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Work'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.blue;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Personal'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.green;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Study'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.purple;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Entertainment'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.orange;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'News'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.red;
+           <span class="keyword">
+            default
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.grey;
       }
     }
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _saveBookmark
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            if
+           </span>
+           (!_formKey.
+           <span class="function">
+            currentState
+           </span>
+           ()!.
+           <span class="function">
+            validate
+           </span>
+           ())
+           <span class="keyword">
+            return
+           </span>
+           ;
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           );
 
-    <span class="keyword">void</span> <span class="function">_saveBookmark</span>(BuildContext context) {
-      <span class="keyword">if</span> (!_formKey.<span class="function">currentState</span>()!.<span class="function">validate</span>()) <span class="keyword">return</span>;
-
-      <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">true</span>);
-
-      Future.<span class="function">delayed</span>(Duration(milliseconds: <span class="number">500</span>), () {
-        <span class="keyword">final</span> bookmark = Bookmark.<span class="function">create</span>(
-          title: _titleController.text.<span class="function">trim</span>(),
-          url: _urlController.text.<span class="function">trim</span>(),
+      Future.
+           <span class="function">
+            delayed
+           </span>
+           (Duration(milliseconds:
+           <span class="number">
+            500
+           </span>
+           ), () {
+           <span class="keyword">
+            final
+           </span>
+           bookmark = Bookmark.
+           <span class="function">
+            create
+           </span>
+           (
+          title: _titleController.text.
+           <span class="function">
+            trim
+           </span>
+           (),
+          url: _urlController.text.
+           <span class="function">
+            trim
+           </span>
+           (),
           category: _selectedCategory,
         );
-        ref.<span class="function">read</span>(bookmarkNotifierProvider.notifier).<span class="function">addBookmark</span>(bookmark);
-        Navigator.<span class="function">pop</span>(context);
-        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-          SnackBar(content: Text(<span class="string">'Bookmark saved!'</span>)),
+        ref.
+           <span class="function">
+            read
+           </span>
+           (bookmarkNotifierProvider.notifier).
+           <span class="function">
+            addBookmark
+           </span>
+           (bookmark);
+        Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context);
+        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+          SnackBar(content: Text(
+           <span class="string">
+            'Bookmark saved!'
+           </span>
+           )),
         );
       });
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">8. Bookmark Card Widget (lib/screens/widgets/bookmark_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/bookmark_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/bookmark.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">BookmarkCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Bookmark bookmark;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function() onTap;
-
-    <span class="keyword">const</span> <span class="function">BookmarkCard</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.bookmark,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          8. Bookmark Card Widget (lib/screens/widgets/bookmark_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/bookmark_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/bookmark.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            BookmarkCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Bookmark bookmark;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function() onTap;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            BookmarkCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .bookmark,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onTap,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> categoryColor = <span class="function">_getCategoryColor</span>(bookmark.category);
-
-      <span class="keyword">return</span> Card(
-        margin: EdgeInsets.<span class="function">only</span>(bottom: <span class="number">8</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           categoryColor =
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (bookmark.category);
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        margin: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (bottom:
+           <span class="number">
+            8
+           </span>
+           ),
         child: ListTile(
-          contentPadding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+          contentPadding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
           leading: Container(
-            width: <span class="number">40</span>,
-            height: <span class="number">40</span>,
+            width:
+           <span class="number">
+            40
+           </span>
+           ,
+            height:
+           <span class="number">
+            40
+           </span>
+           ,
             decoration: BoxDecoration(
-              color: categoryColor.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+              color: categoryColor.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+              borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
             ),
             child: Icon(
-              <span class="function">_getCategoryIcon</span>(bookmark.category),
+           <span class="function">
+            _getCategoryIcon
+           </span>
+           (bookmark.category),
               color: categoryColor,
             ),
           ),
@@ -1333,45 +3693,117 @@
             style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
-            maxLines: <span class="number">1</span>,
+            maxLines:
+           <span class="number">
+            1
+           </span>
+           ,
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                Bookmark.<span class="function">getDomain</span>(bookmark.url),
+                Bookmark.
+           <span class="function">
+            getDomain
+           </span>
+           (bookmark.url),
                 style: TextStyle(
-                  fontSize: <span class="number">12</span>,
-                  color: Colors.grey[<span class="number">600</span>],
+                  fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                  color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                 ),
-                maxLines: <span class="number">1</span>,
+                maxLines:
+           <span class="number">
+            1
+           </span>
+           ,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: <span class="number">2</span>),
+              SizedBox(height:
+           <span class="number">
+            2
+           </span>
+           ),
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>, vertical: <span class="number">2</span>),
+                    padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            8
+           </span>
+           , vertical:
+           <span class="number">
+            2
+           </span>
+           ),
                     decoration: BoxDecoration(
-                      color: categoryColor.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                      borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                      color: categoryColor.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                      borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                     ),
                     child: Text(
                       bookmark.category,
                       style: TextStyle(
-                        fontSize: <span class="number">10</span>,
+                        fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
                         fontWeight: FontWeight.w500,
                         color: categoryColor,
                       ),
                     ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                   Text(
-                    bookmark.<span class="function">getFormattedDate</span>(),
+                    bookmark.
+           <span class="function">
+            getFormattedDate
+           </span>
+           (),
                     style: TextStyle(
-                      fontSize: <span class="number">10</span>,
-                      color: Colors.grey[<span class="number">500</span>],
+                      fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
+                      color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                     ),
                   ),
                 ],
@@ -1380,123 +3812,347 @@
           ),
           trailing: Icon(
             Icons.open_in_new,
-            color: Colors.grey[<span class="number">400</span>],
-            size: <span class="number">20</span>,
+            color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
+            size:
+           <span class="number">
+            20
+           </span>
+           ,
           ),
           onTap: onTap,
         ),
       );
     }
-
-    <span class="keyword">IconData</span> <span class="function">_getCategoryIcon</span>(String category) {
-      <span class="keyword">switch</span> (category) {
-        <span class="keyword">case</span> <span class="string">'Work'</span>:
-          <span class="keyword">return</span> Icons.work;
-        <span class="keyword">case</span> <span class="string">'Personal'</span>:
-          <span class="keyword">return</span> Icons.person;
-        <span class="keyword">case</span> <span class="string">'Study'</span>:
-          <span class="keyword">return</span> Icons.school;
-        <span class="keyword">case</span> <span class="string">'Entertainment'</span>:
-          <span class="keyword">return</span> Icons.movie;
-        <span class="keyword">case</span> <span class="string">'News'</span>:
-          <span class="keyword">return</span> Icons.newspaper;
-        <span class="keyword">default</span>:
-          <span class="keyword">return</span> Icons.bookmark;
+           <span class="keyword">
+            IconData
+           </span>
+           <span class="function">
+            _getCategoryIcon
+           </span>
+           (String category) {
+           <span class="keyword">
+            switch
+           </span>
+           (category) {
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Work'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.work;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Personal'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.person;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Study'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.school;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Entertainment'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.movie;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'News'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.newspaper;
+           <span class="keyword">
+            default
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Icons.bookmark;
       }
     }
 
-    Color <span class="function">_getCategoryColor</span>(String category) {
-      <span class="keyword">switch</span> (category) {
-        <span class="keyword">case</span> <span class="string">'Work'</span>:
-          <span class="keyword">return</span> Colors.blue;
-        <span class="keyword">case</span> <span class="string">'Personal'</span>:
-          <span class="keyword">return</span> Colors.green;
-        <span class="keyword">case</span> <span class="string">'Study'</span>:
-          <span class="keyword">return</span> Colors.purple;
-        <span class="keyword">case</span> <span class="string">'Entertainment'</span>:
-          <span class="keyword">return</span> Colors.orange;
-        <span class="keyword">case</span> <span class="string">'News'</span>:
-          <span class="keyword">return</span> Colors.red;
-        <span class="keyword">default</span>:
-          <span class="keyword">return</span> Colors.grey;
+    Color
+           <span class="function">
+            _getCategoryColor
+           </span>
+           (String category) {
+           <span class="keyword">
+            switch
+           </span>
+           (category) {
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Work'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.blue;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Personal'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.green;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Study'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.purple;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'Entertainment'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.orange;
+           <span class="keyword">
+            case
+           </span>
+           <span class="string">
+            'News'
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.red;
+           <span class="keyword">
+            default
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           Colors.grey;
       }
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>SharedPreferences</strong> – Simple key-value storage for bookmarks</li>
-<li><strong>JSON Serialization</strong> – Storing complex objects as JSON strings</li>
-<li><strong>Riverpod</strong> – FutureProvider for async data, StateNotifier for actions</li>
-<li><strong>URL Launcher</strong> – Opening bookmarks in external browser</li>
-<li><strong>Search &amp; Filter</strong> – Real-time search filtering by title, URL, or category</li>
-<li><strong>Categories</strong> – Organizing bookmarks with color-coded categories</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge3-habit-tracker.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="../module4/challenge1-auth-system.html">
-              Next Module <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://pub.dev/packages/shared_preferences" rel="noopener" target="_blank">SharedPreferences</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            SharedPreferences
+           </strong>
+           – Simple key-value storage for bookmarks
+          </li>
+          <li>
+           <strong>
+            JSON Serialization
+           </strong>
+           – Storing complex objects as JSON strings
+          </li>
+          <li>
+           <strong>
+            Riverpod
+           </strong>
+           – FutureProvider for async data, StateNotifier for actions
+          </li>
+          <li>
+           <strong>
+            URL Launcher
+           </strong>
+           – Opening bookmarks in external browser
+          </li>
+          <li>
+           <strong>
+            Search &amp; Filter
+           </strong>
+           – Real-time search filtering by title, URL, or category
+          </li>
+          <li>
+           <strong>
+            Categories
+           </strong>
+           – Organizing bookmarks with color-coded categories
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge3-habit-tracker.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="../module4/challenge1-auth-system.html">
+        Next Module
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/shared_preferences" rel="noopener" target="_blank">
+         SharedPreferences
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1604,8 +4260,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1678,5 +4334,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

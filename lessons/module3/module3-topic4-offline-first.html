@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Offline-First Architecture – Module 3 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn offline-first architecture in Flutter. Master data synchronization, conflict resolution, and building apps that work without internet." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Offline-First Architecture – Module 3 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn offline-first architecture in Flutter. Master data synchronization, conflict resolution, and building apps that work without internet." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -595,10 +596,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         color: #ffffff !important;
     }
-    
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -661,677 +661,2233 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module3-state-management.html">Module 3</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 4</span>
-</div>
-<span class="module-badge"><i class="fas fa-database"></i> Module 3</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 4</div>
-<h1>Offline-First Architecture</h1>
-<p class="topic-subtitle">
-            Building resilient Flutter apps that work seamlessly with or without an internet connection.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
-<i class="fas fa-book"></i> Flutter Docs – App Architecture
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT IS OFFLINE-FIRST ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Is Offline-First?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Offline-first</strong> is an architectural approach where your app is designed to
-            <strong>work without an internet connection</strong> as the primary use case, rather than
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module3-state-management.html">
+        Module 3
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 4
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-database">
+       </i>
+       Module 3
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 4
+      </div>
+      <h1>
+       Offline-First Architecture
+      </h1>
+      <p class="topic-subtitle">
+       Building resilient Flutter apps that work seamlessly with or without an internet connection.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Flutter Docs – App Architecture
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT IS OFFLINE-FIRST ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Is Offline-First?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Offline-first
+       </strong>
+       is an architectural approach where your app is designed to
+       <strong>
+        work without an internet connection
+       </strong>
+       as the primary use case, rather than
             treating offline as an edge case. This means:
-          </p>
-<ul>
-<li>Data is stored locally first (on the device)</li>
-<li>The app reads from and writes to local storage</li>
-<li>Background synchronization happens when the network is available</li>
-<li>The user experience remains consistent regardless of connectivity</li>
-</ul>
-<div class="concept-card success">
-<h4>✅ Benefits of Offline-First</h4>
-<ul>
-<li><strong>Reliability</strong> – Works anywhere, anytime</li>
-<li><strong>Speed</strong> – Local data access is instant</li>
-<li><strong>Data usage</strong> – Reduced network calls</li>
-<li><strong>User experience</strong> – No loading spinners or "no connection" errors</li>
-<li><strong>Scalability</strong> – Reduced server load</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: CORE PRINCIPLES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Core Principles</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Offline-first architecture is built on four core principles:
-          </p>
-<div class="architecture-grid">
-<div class="architecture-item" style="border-left: 3px solid #10B981;">
-<div class="arch-icon">💾</div>
-<div class="arch-name">Local First</div>
-<div class="arch-desc">Always read from and write to local storage first</div>
-</div>
-<div class="architecture-item" style="border-left: 3px solid #3B82F6;">
-<div class="arch-icon">🔄</div>
-<div class="arch-name">Sync in Background</div>
-<div class="arch-desc">Synchronize with the server when online</div>
-</div>
-<div class="architecture-item" style="border-left: 3px solid #F59E0B;">
-<div class="arch-icon">⚡</div>
-<div class="arch-name">Optimistic Updates</div>
-<div class="arch-desc">Update UI immediately, sync later</div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 3: SYNC STRATEGIES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Synchronization Strategies</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            There are three main strategies for synchronizing data between local storage and the server:
-          </p>
-<div class="sync-strategies-grid">
-<div class="sync-strategy-item" style="border-left: 3px solid #3B82F6;">
-<h4>🔄 Pull-based Sync</h4>
-<p>
-<strong>How it works:</strong> The app periodically checks the server for new data and downloads it.
-                <br/><br/>
-<strong>Best for:</strong> Reference data, read-only content
-                <br/><br/>
-<strong>Example:</strong> News app that refreshes every hour
-              </p>
-</div>
-<div class="sync-strategy-item" style="border-left: 3px solid #10B981;">
-<h4>📤 Push-based Sync</h4>
-<p>
-<strong>How it works:</strong> The app sends local changes to the server immediately when online.
-                <br/><br/>
-<strong>Best for:</strong> User-generated content, real-time updates
-                <br/><br/>
-<strong>Example:</strong> Notes app that syncs changes as you type
-              </p>
-</div>
-<div class="sync-strategy-item" style="border-left: 3px solid #F59E0B;">
-<h4>🔁 Bi-directional Sync</h4>
-<p>
-<strong>How it works:</strong> Both pull and push synchronization working together.
-                <br/><br/>
-<strong>Best for:</strong> Collaborative apps, two-way data flow
-                <br/><br/>
-<strong>Example:</strong> Task management app with team members
-              </p>
-</div>
-<div class="sync-strategy-item" style="border-left: 3px solid #8B5CF6;">
-<h4>📱 Conflict Resolution</h4>
-<p>
-<strong>How it works:</strong> Rules for handling conflicting changes from multiple sources.
-                <br/><br/>
-<strong>Strategies:</strong> Last write wins, merge changes, manual resolution
-                <br/><br/>
-<strong>Example:</strong> Git-like merge for collaborative editing
-              </p>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 4: IMPLEMENTATION PATTERNS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Implementation Patterns</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here are the key patterns for implementing offline-first architecture in Flutter.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/offline_service.dart – Offline Service</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'package:connectivity_plus/connectivity_plus.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-
-  <span class="keyword">class</span> <span class="function">SyncQueueItem</span> {
-    <span class="keyword">final</span> String id;
-    <span class="keyword">final</span> String collection;
-    <span class="keyword">final</span> String operation; <span class="comment">// 'create', 'update', 'delete'</span>
-<span class="keyword">final</span> Map&lt;String, dynamic&gt; data;
-    <span class="keyword">final</span> DateTime timestamp;
-
-    <span class="function">SyncQueueItem</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.collection,
-      <span class="keyword">required</span> <span class="keyword">this</span>.operation,
-      <span class="keyword">required</span> <span class="keyword">this</span>.data,
-      <span class="keyword">DateTime</span>? timestamp,
-    }) : <span class="keyword">this</span>.timestamp = timestamp ?? DateTime.now();
+      </p>
+      <ul>
+       <li>
+        Data is stored locally first (on the device)
+       </li>
+       <li>
+        The app reads from and writes to local storage
+       </li>
+       <li>
+        Background synchronization happens when the network is available
+       </li>
+       <li>
+        The user experience remains consistent regardless of connectivity
+       </li>
+      </ul>
+      <div class="concept-card success">
+       <h4>
+        ✅ Benefits of Offline-First
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Reliability
+         </strong>
+         – Works anywhere, anytime
+        </li>
+        <li>
+         <strong>
+          Speed
+         </strong>
+         – Local data access is instant
+        </li>
+        <li>
+         <strong>
+          Data usage
+         </strong>
+         – Reduced network calls
+        </li>
+        <li>
+         <strong>
+          User experience
+         </strong>
+         – No loading spinners or "no connection" errors
+        </li>
+        <li>
+         <strong>
+          Scalability
+         </strong>
+         – Reduced server load
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: CORE PRINCIPLES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Core Principles
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Offline-first architecture is built on four core principles:
+      </p>
+      <div class="architecture-grid">
+       <div class="architecture-item" style="border-left: 3px solid #10B981;">
+        <div class="arch-icon">
+         💾
+        </div>
+        <div class="arch-name">
+         Local First
+        </div>
+        <div class="arch-desc">
+         Always read from and write to local storage first
+        </div>
+       </div>
+       <div class="architecture-item" style="border-left: 3px solid #3B82F6;">
+        <div class="arch-icon">
+         🔄
+        </div>
+        <div class="arch-name">
+         Sync in Background
+        </div>
+        <div class="arch-desc">
+         Synchronize with the server when online
+        </div>
+       </div>
+       <div class="architecture-item" style="border-left: 3px solid #F59E0B;">
+        <div class="arch-icon">
+         ⚡
+        </div>
+        <div class="arch-name">
+         Optimistic Updates
+        </div>
+        <div class="arch-desc">
+         Update UI immediately, sync later
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: SYNC STRATEGIES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Synchronization Strategies
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       There are three main strategies for synchronizing data between local storage and the server:
+      </p>
+      <div class="sync-strategies-grid">
+       <div class="sync-strategy-item" style="border-left: 3px solid #3B82F6;">
+        <h4>
+         🔄 Pull-based Sync
+        </h4>
+        <p>
+         <strong>
+          How it works:
+         </strong>
+         The app periodically checks the server for new data and downloads it.
+         <br/>
+         <br/>
+         <strong>
+          Best for:
+         </strong>
+         Reference data, read-only content
+         <br/>
+         <br/>
+         <strong>
+          Example:
+         </strong>
+         News app that refreshes every hour
+        </p>
+       </div>
+       <div class="sync-strategy-item" style="border-left: 3px solid #10B981;">
+        <h4>
+         📤 Push-based Sync
+        </h4>
+        <p>
+         <strong>
+          How it works:
+         </strong>
+         The app sends local changes to the server immediately when online.
+         <br/>
+         <br/>
+         <strong>
+          Best for:
+         </strong>
+         User-generated content, real-time updates
+         <br/>
+         <br/>
+         <strong>
+          Example:
+         </strong>
+         Notes app that syncs changes as you type
+        </p>
+       </div>
+       <div class="sync-strategy-item" style="border-left: 3px solid #F59E0B;">
+        <h4>
+         🔁 Bi-directional Sync
+        </h4>
+        <p>
+         <strong>
+          How it works:
+         </strong>
+         Both pull and push synchronization working together.
+         <br/>
+         <br/>
+         <strong>
+          Best for:
+         </strong>
+         Collaborative apps, two-way data flow
+         <br/>
+         <br/>
+         <strong>
+          Example:
+         </strong>
+         Task management app with team members
+        </p>
+       </div>
+       <div class="sync-strategy-item" style="border-left: 3px solid #8B5CF6;">
+        <h4>
+         📱 Conflict Resolution
+        </h4>
+        <p>
+         <strong>
+          How it works:
+         </strong>
+         Rules for handling conflicting changes from multiple sources.
+         <br/>
+         <br/>
+         <strong>
+          Strategies:
+         </strong>
+         Last write wins, merge changes, manual resolution
+         <br/>
+         <br/>
+         <strong>
+          Example:
+         </strong>
+         Git-like merge for collaborative editing
+        </p>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: IMPLEMENTATION PATTERNS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Implementation Patterns
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here are the key patterns for implementing offline-first architecture in Flutter.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/offline_service.dart – Offline Service
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:connectivity_plus/connectivity_plus.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:hive_flutter/hive_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         SyncQueueItem
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        String id;
+        <span class="keyword">
+         final
+        </span>
+        String collection;
+        <span class="keyword">
+         final
+        </span>
+        String operation;
+        <span class="comment">
+         // 'create', 'update', 'delete'
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        Map&lt;String, dynamic&gt; data;
+        <span class="keyword">
+         final
+        </span>
+        DateTime timestamp;
+        <span class="function">
+         SyncQueueItem
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .id,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .collection,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .operation,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .data,
+        <span class="keyword">
+         DateTime
+        </span>
+        ? timestamp,
+    }) :
+        <span class="keyword">
+         this
+        </span>
+        .timestamp = timestamp ?? DateTime.now();
   }
-
-  <span class="keyword">class</span> <span class="function">OfflineService</span> {
-    <span class="keyword">final</span> http.Client client;
-    <span class="keyword">final</span> Box _syncQueue;
-    <span class="keyword">final</span> Connectivity _connectivity = Connectivity();
-
-    <span class="function">OfflineService</span>({
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         OfflineService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        http.Client client;
+        <span class="keyword">
+         final
+        </span>
+        Box _syncQueue;
+        <span class="keyword">
+         final
+        </span>
+        Connectivity _connectivity = Connectivity();
+        <span class="function">
+         OfflineService
+        </span>
+        ({
       http.Client? client,
-      <span class="keyword">required</span> Box syncQueue,
+        <span class="keyword">
+         required
+        </span>
+        Box syncQueue,
     })  : client = client ?? http.Client(),
           _syncQueue = syncQueue;
-
-    <span class="comment">// ----- CHECK CONNECTIVITY -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">isOnline</span>() async {
-      <span class="keyword">final</span> result = await _connectivity.checkConnectivity();
-      <span class="keyword">return</span> result != ConnectivityResult.none;
+        <span class="comment">
+         // ----- CHECK CONNECTIVITY -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         isOnline
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        result = await _connectivity.checkConnectivity();
+        <span class="keyword">
+         return
+        </span>
+        result != ConnectivityResult.none;
     }
-
-    <span class="comment">// ----- QUEUE OPERATIONS FOR SYNC -----</span>
-<span class="keyword">void</span> <span class="function">queueOperation</span>({
-      <span class="keyword">required</span> String collection,
-      <span class="keyword">required</span> String operation,
-      <span class="keyword">required</span> Map&lt;String, dynamic&gt; data,
+        <span class="comment">
+         // ----- QUEUE OPERATIONS FOR SYNC -----
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         queueOperation
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String collection,
+        <span class="keyword">
+         required
+        </span>
+        String operation,
+        <span class="keyword">
+         required
+        </span>
+        Map&lt;String, dynamic&gt; data,
     }) {
-      <span class="keyword">final</span> id = DateTime.now().millisecondsSinceEpoch.toString();
-      <span class="keyword">final</span> item = SyncQueueItem(
+        <span class="keyword">
+         final
+        </span>
+        id = DateTime.now().millisecondsSinceEpoch.toString();
+        <span class="keyword">
+         final
+        </span>
+        item = SyncQueueItem(
         id: id,
         collection: collection,
         operation: operation,
         data: data,
       );
       _syncQueue.put(id, {
-        <span class="string">'collection'</span>: collection,
-        <span class="string">'operation'</span>: operation,
-        <span class="string">'data'</span>: data,
-        <span class="string">'timestamp'</span>: item.timestamp.toIso8601String(),
+        <span class="string">
+         'collection'
+        </span>
+        : collection,
+        <span class="string">
+         'operation'
+        </span>
+        : operation,
+        <span class="string">
+         'data'
+        </span>
+        : data,
+        <span class="string">
+         'timestamp'
+        </span>
+        : item.timestamp.toIso8601String(),
       });
       _attemptSync();
     }
-
-    <span class="comment">// ----- SYNC WITH SERVER -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_attemptSync</span>() async {
-      <span class="keyword">if</span> (!<span class="keyword">await</span> isOnline()) <span class="keyword">return</span>;
-
-      <span class="keyword">final</span> queueItems = _syncQueue.values.toList();
-
-      <span class="keyword">for</span> (<span class="keyword">var</span> item <span class="keyword">in</span> queueItems) {
-        <span class="keyword">try</span> {
-          <span class="keyword">final</span> collection = item[<span class="string">'collection'</span>] <span class="keyword">as</span> String;
-          <span class="keyword">final</span> operation = item[<span class="string">'operation'</span>] <span class="keyword">as</span> String;
-          <span class="keyword">final</span> data = item[<span class="string">'data'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-          <span class="keyword">final</span> key = _syncQueue.keyAt(_syncQueue.values.toList().indexOf(item));
-
-          <span class="keyword">switch</span> (operation) {
-            <span class="keyword">case</span> <span class="string">'create'</span>:
-              <span class="keyword">await</span> _syncCreate(collection, data);
-              <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="string">'update'</span>:
-              <span class="keyword">await</span> _syncUpdate(collection, data);
-              <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="string">'delete'</span>:
-              <span class="keyword">await</span> _syncDelete(collection, data);
-              <span class="keyword">break</span>;
+        <span class="comment">
+         // ----- SYNC WITH SERVER -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _attemptSync
+        </span>
+        () async {
+        <span class="keyword">
+         if
+        </span>
+        (!
+        <span class="keyword">
+         await
+        </span>
+        isOnline())
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        queueItems = _syncQueue.values.toList();
+        <span class="keyword">
+         for
+        </span>
+        (
+        <span class="keyword">
+         var
+        </span>
+        item
+        <span class="keyword">
+         in
+        </span>
+        queueItems) {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        collection = item[
+        <span class="string">
+         'collection'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String;
+        <span class="keyword">
+         final
+        </span>
+        operation = item[
+        <span class="string">
+         'operation'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String;
+        <span class="keyword">
+         final
+        </span>
+        data = item[
+        <span class="string">
+         'data'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
+        <span class="keyword">
+         final
+        </span>
+        key = _syncQueue.keyAt(_syncQueue.values.toList().indexOf(item));
+        <span class="keyword">
+         switch
+        </span>
+        (operation) {
+        <span class="keyword">
+         case
+        </span>
+        <span class="string">
+         'create'
+        </span>
+        :
+        <span class="keyword">
+         await
+        </span>
+        _syncCreate(collection, data);
+        <span class="keyword">
+         break
+        </span>
+        ;
+        <span class="keyword">
+         case
+        </span>
+        <span class="string">
+         'update'
+        </span>
+        :
+        <span class="keyword">
+         await
+        </span>
+        _syncUpdate(collection, data);
+        <span class="keyword">
+         break
+        </span>
+        ;
+        <span class="keyword">
+         case
+        </span>
+        <span class="string">
+         'delete'
+        </span>
+        :
+        <span class="keyword">
+         await
+        </span>
+        _syncDelete(collection, data);
+        <span class="keyword">
+         break
+        </span>
+        ;
           }
-
-          <span class="comment">// Remove from queue after successful sync</span>
-<span class="keyword">await</span> _syncQueue.delete(key);
-        } <span class="keyword">catch</span> (e) {
-          <span class="comment">// If sync fails, keep in queue for later retry</span>
-          print(<span class="string">'Sync failed: $e'</span>);
+        <span class="comment">
+         // Remove from queue after successful sync
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        _syncQueue.delete(key);
+        }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        <span class="comment">
+         // If sync fails, keep in queue for later retry
+        </span>
+        print(
+        <span class="string">
+         'Sync failed: $e'
+        </span>
+        );
         }
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncCreate</span>(String collection, Map&lt;String, dynamic&gt; data) async {
-      <span class="comment">// Send POST request to server</span>
-<span class="keyword">final</span> response = await client.post(
-        Uri.parse(<span class="string">'https://api.example.com/api/$collection'</span>),
-        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncCreate
+        </span>
+        (String collection, Map&lt;String, dynamic&gt; data) async {
+        <span class="comment">
+         // Send POST request to server
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        response = await client.post(
+        Uri.parse(
+        <span class="string">
+         'https://api.example.com/api/$collection'
+        </span>
+        ),
+        headers: {
+        <span class="string">
+         'Content-Type'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
         body: jsonEncode(data),
       );
-      <span class="keyword">if</span> (response.statusCode != <span class="number">201</span>) {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to create'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode !=
+        <span class="number">
+         201
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to create'
+        </span>
+        );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncUpdate</span>(String collection, Map&lt;String, dynamic&gt; data) async {
-      <span class="keyword">final</span> id = data[<span class="string">'id'</span>];
-      <span class="keyword">final</span> response = await client.put(
-        Uri.parse(<span class="string">'https://api.example.com/api/$collection/$id'</span>),
-        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncUpdate
+        </span>
+        (String collection, Map&lt;String, dynamic&gt; data) async {
+        <span class="keyword">
+         final
+        </span>
+        id = data[
+        <span class="string">
+         'id'
+        </span>
+        ];
+        <span class="keyword">
+         final
+        </span>
+        response = await client.put(
+        Uri.parse(
+        <span class="string">
+         'https://api.example.com/api/$collection/$id'
+        </span>
+        ),
+        headers: {
+        <span class="string">
+         'Content-Type'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
         body: jsonEncode(data),
       );
-      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span>) {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to update'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode !=
+        <span class="number">
+         200
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to update'
+        </span>
+        );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncDelete</span>(String collection, Map&lt;String, dynamic&gt; data) async {
-      <span class="keyword">final</span> id = data[<span class="string">'id'</span>];
-      <span class="keyword">final</span> response = await client.delete(
-        Uri.parse(<span class="string">'https://api.example.com/api/$collection/$id'</span>),
-        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncDelete
+        </span>
+        (String collection, Map&lt;String, dynamic&gt; data) async {
+        <span class="keyword">
+         final
+        </span>
+        id = data[
+        <span class="string">
+         'id'
+        </span>
+        ];
+        <span class="keyword">
+         final
+        </span>
+        response = await client.delete(
+        Uri.parse(
+        <span class="string">
+         'https://api.example.com/api/$collection/$id'
+        </span>
+        ),
+        headers: {
+        <span class="string">
+         'Content-Type'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
       );
-      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span> &amp;&amp; response.statusCode != <span class="number">204</span>) {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to delete'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode !=
+        <span class="number">
+         200
+        </span>
+        &amp;&amp; response.statusCode !=
+        <span class="number">
+         204
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to delete'
+        </span>
+        );
       }
     }
-
-    <span class="comment">// ----- FORCE SYNC -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">forceSync</span>() async {
-      <span class="keyword">await</span> _attemptSync();
+        <span class="comment">
+         // ----- FORCE SYNC -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         forceSync
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        _attemptSync();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Offline Notes App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete offline-first notes app that works seamlessly with or without internet.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Offline-First Notes App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:connectivity_plus/connectivity_plus.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Offline Notes App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete offline-first notes app that works seamlessly with or without internet.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Offline-First Notes App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:convert'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:hive_flutter/hive_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:connectivity_plus/connectivity_plus.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 1. MODELS
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="annotation">
+         @HiveType
+        </span>
+        (typeId:
+        <span class="number">
+         0
+        </span>
+        )
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         Note
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        HiveObject {
+        <span class="annotation">
+         @HiveField
+        </span>
+        (
+        <span class="number">
+         0
+        </span>
+        )
+        <span class="keyword">
+         final
+        </span>
+        String id;
+        <span class="annotation">
+         @HiveField
+        </span>
+        (
+        <span class="number">
+         1
+        </span>
+        )
+        <span class="keyword">
+         final
+        </span>
+        String title;
+        <span class="annotation">
+         @HiveField
+        </span>
+        (
+        <span class="number">
+         2
+        </span>
+        )
+        <span class="keyword">
+         final
+        </span>
+        String content;
+        <span class="annotation">
+         @HiveField
+        </span>
+        (
+        <span class="number">
+         3
+        </span>
+        )
+        <span class="keyword">
+         final
+        </span>
+        DateTime createdAt;
+        <span class="annotation">
+         @HiveField
+        </span>
+        (
+        <span class="number">
+         4
+        </span>
+        )
+        <span class="keyword">
+         final
+        </span>
+        DateTime updatedAt;
+        <span class="annotation">
+         @HiveField
+        </span>
+        (
+        <span class="number">
+         5
+        </span>
+        )
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         bool
+        </span>
+        isSynced;
+        <span class="function">
+         Note
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .id,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .title,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .content,
+        <span class="keyword">
+         DateTime
+        </span>
+        ? createdAt,
+        <span class="keyword">
+         DateTime
+        </span>
+        ? updatedAt,
+        <span class="keyword">
+         this
+        </span>
+        .isSynced =
+        <span class="keyword">
+         false
+        </span>
+        ,
+    })  :
+        <span class="keyword">
+         this
+        </span>
+        .createdAt = createdAt ?? DateTime.now(),
+        <span class="keyword">
+         this
+        </span>
+        .updatedAt = updatedAt ?? DateTime.now();
 
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 1. MODELS</span>
-<span class="comment">// ==========================================</span>
-<span class="annotation">@HiveType</span>(typeId: <span class="number">0</span>)
-  <span class="keyword">class</span> <span class="function">Note</span> <span class="keyword">extends</span> HiveObject {
-    <span class="annotation">@HiveField</span>(<span class="number">0</span>)
-    <span class="keyword">final</span> String id;
-
-    <span class="annotation">@HiveField</span>(<span class="number">1</span>)
-    <span class="keyword">final</span> String title;
-
-    <span class="annotation">@HiveField</span>(<span class="number">2</span>)
-    <span class="keyword">final</span> String content;
-
-    <span class="annotation">@HiveField</span>(<span class="number">3</span>)
-    <span class="keyword">final</span> DateTime createdAt;
-
-    <span class="annotation">@HiveField</span>(<span class="number">4</span>)
-    <span class="keyword">final</span> DateTime updatedAt;
-
-    <span class="annotation">@HiveField</span>(<span class="number">5</span>)
-    <span class="keyword">final</span> <span class="keyword">bool</span> isSynced;
-
-    <span class="function">Note</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">required</span> <span class="keyword">this</span>.content,
-      <span class="keyword">DateTime</span>? createdAt,
-      <span class="keyword">DateTime</span>? updatedAt,
-      <span class="keyword">this</span>.isSynced = <span class="keyword">false</span>,
-    })  : <span class="keyword">this</span>.createdAt = createdAt ?? DateTime.now(),
-          <span class="keyword">this</span>.updatedAt = updatedAt ?? DateTime.now();
-
-    Note <span class="function">copyWith</span>({
+    Note
+        <span class="function">
+         copyWith
+        </span>
+        ({
       String? title,
       String? content,
       DateTime? updatedAt,
       bool? isSynced,
     }) {
-      <span class="keyword">return</span> Note(
-        id: <span class="keyword">this</span>.id,
-        title: title ?? <span class="keyword">this</span>.title,
-        content: content ?? <span class="keyword">this</span>.content,
+        <span class="keyword">
+         return
+        </span>
+        Note(
+        id:
+        <span class="keyword">
+         this
+        </span>
+        .id,
+        title: title ??
+        <span class="keyword">
+         this
+        </span>
+        .title,
+        content: content ??
+        <span class="keyword">
+         this
+        </span>
+        .content,
         createdAt: createdAt,
         updatedAt: updatedAt ?? DateTime.now(),
-        isSynced: isSynced ?? <span class="keyword">this</span>.isSynced,
+        isSynced: isSynced ??
+        <span class="keyword">
+         this
+        </span>
+        .isSynced,
       );
     }
 
-    Map&lt;String, dynamic&gt; <span class="function">toJson</span>() {
-      <span class="keyword">return</span> {
-        <span class="string">'id'</span>: id,
-        <span class="string">'title'</span>: title,
-        <span class="string">'content'</span>: content,
-        <span class="string">'createdAt'</span>: createdAt.toIso8601String(),
-        <span class="string">'updatedAt'</span>: updatedAt.toIso8601String(),
+    Map&lt;String, dynamic&gt;
+        <span class="function">
+         toJson
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'id'
+        </span>
+        : id,
+        <span class="string">
+         'title'
+        </span>
+        : title,
+        <span class="string">
+         'content'
+        </span>
+        : content,
+        <span class="string">
+         'createdAt'
+        </span>
+        : createdAt.toIso8601String(),
+        <span class="string">
+         'updatedAt'
+        </span>
+        : updatedAt.toIso8601String(),
       };
     }
 
     factory Note.fromJson(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Note(
-        id: json[<span class="string">'id'</span>],
-        title: json[<span class="string">'title'</span>],
-        content: json[<span class="string">'content'</span>],
-        createdAt: DateTime.parse(json[<span class="string">'createdAt'</span>]),
-        updatedAt: DateTime.parse(json[<span class="string">'updatedAt'</span>]),
-        isSynced: <span class="keyword">true</span>,
+        <span class="keyword">
+         return
+        </span>
+        Note(
+        id: json[
+        <span class="string">
+         'id'
+        </span>
+        ],
+        title: json[
+        <span class="string">
+         'title'
+        </span>
+        ],
+        content: json[
+        <span class="string">
+         'content'
+        </span>
+        ],
+        createdAt: DateTime.parse(json[
+        <span class="string">
+         'createdAt'
+        </span>
+        ]),
+        updatedAt: DateTime.parse(json[
+        <span class="string">
+         'updatedAt'
+        </span>
+        ]),
+        isSynced:
+        <span class="keyword">
+         true
+        </span>
+        ,
       );
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 2. OFFLINE SERVICE</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">OfflineNoteService</span> {
-    <span class="keyword">static</span> <span class="keyword">const</span> String apiBase = <span class="string">'https://api.example.com/api/notes'</span>;
-    <span class="keyword">final</span> http.Client client;
-    <span class="keyword">final</span> Connectivity connectivity = Connectivity();
-    <span class="keyword">final</span> Box _syncQueue;
-
-    <span class="function">OfflineNoteService</span>({
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 2. OFFLINE SERVICE
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         OfflineNoteService
+        </span>
+        {
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         const
+        </span>
+        String apiBase =
+        <span class="string">
+         'https://api.example.com/api/notes'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        http.Client client;
+        <span class="keyword">
+         final
+        </span>
+        Connectivity connectivity = Connectivity();
+        <span class="keyword">
+         final
+        </span>
+        Box _syncQueue;
+        <span class="function">
+         OfflineNoteService
+        </span>
+        ({
       http.Client? client,
-      <span class="keyword">required</span> Box syncQueue,
+        <span class="keyword">
+         required
+        </span>
+        Box syncQueue,
     })  : client = client ?? http.Client(),
           _syncQueue = syncQueue;
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">isOnline</span>() async {
-      <span class="keyword">final</span> result = await connectivity.checkConnectivity();
-      <span class="keyword">return</span> result != ConnectivityResult.none;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         isOnline
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        result = await connectivity.checkConnectivity();
+        <span class="keyword">
+         return
+        </span>
+        result != ConnectivityResult.none;
     }
-
-    <span class="comment">// ----- CREATE NOTE (Offline-First) -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">createNote</span>({
-      <span class="keyword">required</span> String title,
-      <span class="keyword">required</span> String content,
-      <span class="keyword">required</span> Box&lt;Note&gt; noteBox,
+        <span class="comment">
+         // ----- CREATE NOTE (Offline-First) -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         createNote
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String title,
+        <span class="keyword">
+         required
+        </span>
+        String content,
+        <span class="keyword">
+         required
+        </span>
+        Box&lt;Note&gt; noteBox,
     }) async {
-      <span class="keyword">final</span> note = Note(
+        <span class="keyword">
+         final
+        </span>
+        note = Note(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         title: title,
         content: content,
-        isSynced: <span class="keyword">false</span>,
+        isSynced:
+        <span class="keyword">
+         false
+        </span>
+        ,
       );
-
-      <span class="comment">// Save locally immediately</span>
-<span class="keyword">await</span> noteBox.put(note.id, note);
-
-      <span class="comment">// Queue for sync if online</span>
-<span class="keyword">if</span> (<span class="keyword">await</span> isOnline()) {
-        <span class="keyword">await</span> _syncCreateNote(note);
-        <span class="keyword">final</span> syncedNote = note.copyWith(isSynced: <span class="keyword">true</span>);
-        <span class="keyword">await</span> noteBox.put(note.id, syncedNote);
-      } <span class="keyword">else</span> {
-        <span class="comment">// Queue for later sync</span>
-<span class="keyword">await</span> _queueOperation(<span class="string">'create'</span>, note);
+        <span class="comment">
+         // Save locally immediately
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        noteBox.put(note.id, note);
+        <span class="comment">
+         // Queue for sync if online
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (
+        <span class="keyword">
+         await
+        </span>
+        isOnline()) {
+        <span class="keyword">
+         await
+        </span>
+        _syncCreateNote(note);
+        <span class="keyword">
+         final
+        </span>
+        syncedNote = note.copyWith(isSynced:
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         await
+        </span>
+        noteBox.put(note.id, syncedNote);
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="comment">
+         // Queue for later sync
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        _queueOperation(
+        <span class="string">
+         'create'
+        </span>
+        , note);
       }
     }
-
-    <span class="comment">// ----- UPDATE NOTE (Offline-First) -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">updateNote</span>({
-      <span class="keyword">required</span> Note note,
-      <span class="keyword">required</span> Box&lt;Note&gt; noteBox,
+        <span class="comment">
+         // ----- UPDATE NOTE (Offline-First) -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         updateNote
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        Note note,
+        <span class="keyword">
+         required
+        </span>
+        Box&lt;Note&gt; noteBox,
     }) async {
-      <span class="keyword">final</span> updatedNote = note.copyWith(
+        <span class="keyword">
+         final
+        </span>
+        updatedNote = note.copyWith(
         updatedAt: DateTime.now(),
-        isSynced: <span class="keyword">false</span>,
+        isSynced:
+        <span class="keyword">
+         false
+        </span>
+        ,
       );
-
-      <span class="comment">// Update locally immediately</span>
-<span class="keyword">await</span> noteBox.put(updatedNote.id, updatedNote);
-
-      <span class="comment">// Queue for sync if online</span>
-<span class="keyword">if</span> (<span class="keyword">await</span> isOnline()) {
-        <span class="keyword">await</span> _syncUpdateNote(updatedNote);
-        <span class="keyword">final</span> syncedNote = updatedNote.copyWith(isSynced: <span class="keyword">true</span>);
-        <span class="keyword">await</span> noteBox.put(updatedNote.id, syncedNote);
-      } <span class="keyword">else</span> {
-        <span class="comment">// Queue for later sync</span>
-<span class="keyword">await</span> _queueOperation(<span class="string">'update'</span>, updatedNote);
+        <span class="comment">
+         // Update locally immediately
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        noteBox.put(updatedNote.id, updatedNote);
+        <span class="comment">
+         // Queue for sync if online
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (
+        <span class="keyword">
+         await
+        </span>
+        isOnline()) {
+        <span class="keyword">
+         await
+        </span>
+        _syncUpdateNote(updatedNote);
+        <span class="keyword">
+         final
+        </span>
+        syncedNote = updatedNote.copyWith(isSynced:
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         await
+        </span>
+        noteBox.put(updatedNote.id, syncedNote);
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="comment">
+         // Queue for later sync
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        _queueOperation(
+        <span class="string">
+         'update'
+        </span>
+        , updatedNote);
       }
     }
-
-    <span class="comment">// ----- DELETE NOTE (Offline-First) -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deleteNote</span>({
-      <span class="keyword">required</span> String noteId,
-      <span class="keyword">required</span> Box&lt;Note&gt; noteBox,
+        <span class="comment">
+         // ----- DELETE NOTE (Offline-First) -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         deleteNote
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String noteId,
+        <span class="keyword">
+         required
+        </span>
+        Box&lt;Note&gt; noteBox,
     }) async {
-      <span class="keyword">final</span> note = noteBox.get(noteId);
-
-      <span class="comment">// Delete locally immediately</span>
-<span class="keyword">await</span> noteBox.delete(noteId);
-
-      <span class="comment">// Queue for sync if online</span>
-<span class="keyword">if</span> (note != <span class="keyword">null</span> &amp;&amp; <span class="keyword">await</span> isOnline()) {
-        <span class="keyword">await</span> _syncDeleteNote(noteId);
-      } <span class="keyword">else</span> <span class="keyword">if</span> (note != <span class="keyword">null</span>) {
-        <span class="comment">// Queue for later sync</span>
-<span class="keyword">await</span> _queueOperation(<span class="string">'delete'</span>, note);
+        <span class="keyword">
+         final
+        </span>
+        note = noteBox.get(noteId);
+        <span class="comment">
+         // Delete locally immediately
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        noteBox.delete(noteId);
+        <span class="comment">
+         // Queue for sync if online
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (note !=
+        <span class="keyword">
+         null
+        </span>
+        &amp;&amp;
+        <span class="keyword">
+         await
+        </span>
+        isOnline()) {
+        <span class="keyword">
+         await
+        </span>
+        _syncDeleteNote(noteId);
+      }
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (note !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        <span class="comment">
+         // Queue for later sync
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        _queueOperation(
+        <span class="string">
+         'delete'
+        </span>
+        , note);
       }
     }
-
-    <span class="comment">// ----- QUEUE OPERATION -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_queueOperation</span>(String operation, Note note) async {
-      <span class="keyword">final</span> key = DateTime.now().millisecondsSinceEpoch.toString();
-      <span class="keyword">await</span> _syncQueue.put(key, {
-        <span class="string">'operation'</span>: operation,
-        <span class="string">'note'</span>: note.toJson(),
+        <span class="comment">
+         // ----- QUEUE OPERATION -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _queueOperation
+        </span>
+        (String operation, Note note) async {
+        <span class="keyword">
+         final
+        </span>
+        key = DateTime.now().millisecondsSinceEpoch.toString();
+        <span class="keyword">
+         await
+        </span>
+        _syncQueue.put(key, {
+        <span class="string">
+         'operation'
+        </span>
+        : operation,
+        <span class="string">
+         'note'
+        </span>
+        : note.toJson(),
       });
     }
-
-    <span class="comment">// ----- SYNC OPERATIONS -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncCreateNote</span>(Note note) async {
-      <span class="keyword">final</span> response = await client.post(
+        <span class="comment">
+         // ----- SYNC OPERATIONS -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncCreateNote
+        </span>
+        (Note note) async {
+        <span class="keyword">
+         final
+        </span>
+        response = await client.post(
         Uri.parse(apiBase),
-        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        headers: {
+        <span class="string">
+         'Content-Type'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
         body: jsonEncode(note.toJson()),
       );
-      <span class="keyword">if</span> (response.statusCode != <span class="number">201</span>) {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to create note'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode !=
+        <span class="number">
+         201
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to create note'
+        </span>
+        );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncUpdateNote</span>(Note note) async {
-      <span class="keyword">final</span> response = await client.put(
-        Uri.parse(<span class="string">'$apiBase/${note.id}'</span>),
-        headers: {<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>},
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncUpdateNote
+        </span>
+        (Note note) async {
+        <span class="keyword">
+         final
+        </span>
+        response = await client.put(
+        Uri.parse(
+        <span class="string">
+         '$apiBase/${note.id}'
+        </span>
+        ),
+        headers: {
+        <span class="string">
+         'Content-Type'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
         body: jsonEncode(note.toJson()),
       );
-      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span>) {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to update note'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode !=
+        <span class="number">
+         200
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to update note'
+        </span>
+        );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncDeleteNote</span>(String id) async {
-      <span class="keyword">final</span> response = await client.delete(
-        Uri.parse(<span class="string">'$apiBase/$id'</span>),
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncDeleteNote
+        </span>
+        (String id) async {
+        <span class="keyword">
+         final
+        </span>
+        response = await client.delete(
+        Uri.parse(
+        <span class="string">
+         '$apiBase/$id'
+        </span>
+        ),
       );
-      <span class="keyword">if</span> (response.statusCode != <span class="number">200</span> &amp;&amp; response.statusCode != <span class="number">204</span>) {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to delete note'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode !=
+        <span class="number">
+         200
+        </span>
+        &amp;&amp; response.statusCode !=
+        <span class="number">
+         204
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to delete note'
+        </span>
+        );
       }
     }
-
-    <span class="comment">// ----- SYNC ALL QUEUED OPERATIONS -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">syncAll</span>(Box&lt;Note&gt; noteBox) async {
-      <span class="keyword">if</span> (!<span class="keyword">await</span> isOnline()) <span class="keyword">return</span>;
-
-      <span class="keyword">final</span> queueItems = _syncQueue.values.toList();
-
-      <span class="keyword">for</span> (<span class="keyword">var</span> item <span class="keyword">in</span> queueItems) {
-        <span class="keyword">try</span> {
-          <span class="keyword">final</span> operation = item[<span class="string">'operation'</span>] <span class="keyword">as</span> String;
-          <span class="keyword">final</span> noteData = item[<span class="string">'note'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-          <span class="keyword">final</span> note = Note.fromJson(noteData);
-
-          <span class="keyword">switch</span> (operation) {
-            <span class="keyword">case</span> <span class="string">'create'</span>:
-              <span class="keyword">await</span> _syncCreateNote(note);
-              <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="string">'update'</span>:
-              <span class="keyword">await</span> _syncUpdateNote(note);
-              <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="string">'delete'</span>:
-              <span class="keyword">await</span> _syncDeleteNote(note.id);
-              <span class="keyword">break</span>;
+        <span class="comment">
+         // ----- SYNC ALL QUEUED OPERATIONS -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         syncAll
+        </span>
+        (Box&lt;Note&gt; noteBox) async {
+        <span class="keyword">
+         if
+        </span>
+        (!
+        <span class="keyword">
+         await
+        </span>
+        isOnline())
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        queueItems = _syncQueue.values.toList();
+        <span class="keyword">
+         for
+        </span>
+        (
+        <span class="keyword">
+         var
+        </span>
+        item
+        <span class="keyword">
+         in
+        </span>
+        queueItems) {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        operation = item[
+        <span class="string">
+         'operation'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String;
+        <span class="keyword">
+         final
+        </span>
+        noteData = item[
+        <span class="string">
+         'note'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
+        <span class="keyword">
+         final
+        </span>
+        note = Note.fromJson(noteData);
+        <span class="keyword">
+         switch
+        </span>
+        (operation) {
+        <span class="keyword">
+         case
+        </span>
+        <span class="string">
+         'create'
+        </span>
+        :
+        <span class="keyword">
+         await
+        </span>
+        _syncCreateNote(note);
+        <span class="keyword">
+         break
+        </span>
+        ;
+        <span class="keyword">
+         case
+        </span>
+        <span class="string">
+         'update'
+        </span>
+        :
+        <span class="keyword">
+         await
+        </span>
+        _syncUpdateNote(note);
+        <span class="keyword">
+         break
+        </span>
+        ;
+        <span class="keyword">
+         case
+        </span>
+        <span class="string">
+         'delete'
+        </span>
+        :
+        <span class="keyword">
+         await
+        </span>
+        _syncDeleteNote(note.id);
+        <span class="keyword">
+         break
+        </span>
+        ;
           }
-
-          <span class="comment">// Mark note as synced and remove from queue</span>
-<span class="keyword">final</span> key = _syncQueue.keyAt(_syncQueue.values.toList().indexOf(item));
-          <span class="keyword">await</span> _syncQueue.delete(key);
-
-          <span class="keyword">if</span> (operation != <span class="string">'delete'</span>) {
-            <span class="keyword">final</span> localNote = note.copyWith(isSynced: <span class="keyword">true</span>);
-            <span class="keyword">await</span> noteBox.put(localNote.id, localNote);
+        <span class="comment">
+         // Mark note as synced and remove from queue
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        key = _syncQueue.keyAt(_syncQueue.values.toList().indexOf(item));
+        <span class="keyword">
+         await
+        </span>
+        _syncQueue.delete(key);
+        <span class="keyword">
+         if
+        </span>
+        (operation !=
+        <span class="string">
+         'delete'
+        </span>
+        ) {
+        <span class="keyword">
+         final
+        </span>
+        localNote = note.copyWith(isSynced:
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         await
+        </span>
+        noteBox.put(localNote.id, localNote);
           }
-        } <span class="keyword">catch</span> (e) {
-          print(<span class="string">'Sync failed for item: $e'</span>);
+        }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+          print(
+        <span class="string">
+         'Sync failed for item: $e'
+        </span>
+        );
         }
       }
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 3. FLUTTER UI</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">void</span> <span class="function">main</span>() async {
-    <span class="keyword">await</span> Hive.initFlutter();
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 3. FLUTTER UI
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        Hive.initFlutter();
     Hive.registerAdapter(NoteAdapter());
-    <span class="keyword">await</span> Hive.openBox&lt;Note&gt;(<span class="string">'notes'</span>);
-    <span class="keyword">await</span> Hive.openBox(<span class="string">'syncQueue'</span>);
-    runApp(<span class="function">MyApp</span>());
+        <span class="keyword">
+         await
+        </span>
+        Hive.openBox&lt;Note&gt;(
+        <span class="string">
+         'notes'
+        </span>
+        );
+        <span class="keyword">
+         await
+        </span>
+        Hive.openBox(
+        <span class="string">
+         'syncQueue'
+        </span>
+        );
+    runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Offline Notes'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Offline Notes'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         home: NotesScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">NotesScreen</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         NotesScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;NotesScreen&gt; <span class="function">createState</span>() =&gt; _NotesScreenState();
+    State&lt;NotesScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _NotesScreenState();
   }
-
-  <span class="keyword">class</span> _NotesScreenState <span class="keyword">extends</span> State&lt;NotesScreen&gt; {
-    <span class="keyword">late</span> Box&lt;Note&gt; _noteBox;
-    <span class="keyword">late</span> Box _syncQueue;
-    <span class="keyword">late</span> OfflineNoteService _service;
-
-    <span class="keyword">final</span> TextEditingController _titleController = TextEditingController();
-    <span class="keyword">final</span> TextEditingController _contentController = TextEditingController();
+        <span class="keyword">
+         class
+        </span>
+        _NotesScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;NotesScreen&gt; {
+        <span class="keyword">
+         late
+        </span>
+        Box&lt;Note&gt; _noteBox;
+        <span class="keyword">
+         late
+        </span>
+        Box _syncQueue;
+        <span class="keyword">
+         late
+        </span>
+        OfflineNoteService _service;
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _titleController = TextEditingController();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _contentController = TextEditingController();
     Note? _editingNote;
-
-    <span class="keyword">bool</span> _isOnline = <span class="keyword">true</span>;
+        <span class="keyword">
+         bool
+        </span>
+        _isOnline =
+        <span class="keyword">
+         true
+        </span>
+        ;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _initBoxes();
       _checkConnectivity();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_initBoxes</span>() async {
-      _noteBox = await Hive.openBox&lt;Note&gt;(<span class="string">'notes'</span>);
-      _syncQueue = await Hive.openBox(<span class="string">'syncQueue'</span>);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _initBoxes
+        </span>
+        () async {
+      _noteBox = await Hive.openBox&lt;Note&gt;(
+        <span class="string">
+         'notes'
+        </span>
+        );
+      _syncQueue = await Hive.openBox(
+        <span class="string">
+         'syncQueue'
+        </span>
+        );
       _service = OfflineNoteService(syncQueue: _syncQueue);
       setState(() {});
     }
-
-    <span class="keyword">void</span> <span class="function">_checkConnectivity</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _checkConnectivity
+        </span>
+        () {
       Connectivity().onConnectivityChanged.listen((result) {
         setState(() {
           _isOnline = result != ConnectivityResult.none;
         });
-        <span class="keyword">if</span> (_isOnline) {
+        <span class="keyword">
+         if
+        </span>
+        (_isOnline) {
           _syncAll();
         }
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_syncAll</span>() async {
-      <span class="keyword">await</span> _service.syncAll(_noteBox);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _syncAll
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        _service.syncAll(_noteBox);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_saveNote</span>() async {
-      <span class="keyword">final</span> title = _titleController.text.trim();
-      <span class="keyword">final</span> content = _contentController.text.trim();
-
-      <span class="keyword">if</span> (title.isEmpty) <span class="keyword">return</span>;
-
-      <span class="keyword">if</span> (_editingNote == <span class="keyword">null</span>) {
-        <span class="comment">// Create new note</span>
-<span class="keyword">await</span> _service.createNote(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _saveNote
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        title = _titleController.text.trim();
+        <span class="keyword">
+         final
+        </span>
+        content = _contentController.text.trim();
+        <span class="keyword">
+         if
+        </span>
+        (title.isEmpty)
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         if
+        </span>
+        (_editingNote ==
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        <span class="comment">
+         // Create new note
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        _service.createNote(
           title: title,
           content: content,
           noteBox: _noteBox,
         );
-      } <span class="keyword">else</span> {
-        <span class="comment">// Update existing note</span>
-<span class="keyword">final</span> updatedNote = _editingNote!.copyWith(
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="comment">
+         // Update existing note
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        updatedNote = _editingNote!.copyWith(
           title: title,
           content: content,
         );
-        <span class="keyword">await</span> _service.updateNote(
+        <span class="keyword">
+         await
+        </span>
+        _service.updateNote(
           note: updatedNote,
           noteBox: _noteBox,
         );
@@ -1340,58 +2896,134 @@
       _titleController.clear();
       _contentController.clear();
       setState(() {
-        _editingNote = <span class="keyword">null</span>;
+        _editingNote =
+        <span class="keyword">
+         null
+        </span>
+        ;
       });
     }
-
-    <span class="keyword">void</span> <span class="function">_editNote</span>(Note note) {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _editNote
+        </span>
+        (Note note) {
       setState(() {
         _editingNote = note;
         _titleController.text = note.title;
         _contentController.text = note.content;
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_deleteNote</span>(Note note) async {
-      <span class="keyword">await</span> _service.deleteNote(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _deleteNote
+        </span>
+        (Note note) async {
+        <span class="keyword">
+         await
+        </span>
+        _service.deleteNote(
         noteId: note.id,
         noteBox: _noteBox,
       );
     }
-
-    <span class="keyword">void</span> <span class="function">_cancelEdit</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _cancelEdit
+        </span>
+        () {
       setState(() {
-        _editingNote = <span class="keyword">null</span>;
+        _editingNote =
+        <span class="keyword">
+         null
+        </span>
+        ;
         _titleController.clear();
         _contentController.clear();
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'📝 Offline Notes'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         '📝 Offline Notes'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
           actions: [
-            <span class="comment">// Online/Offline indicator</span>
-            Container(
-              margin: EdgeInsets.only(right: <span class="number">16</span>),
+        <span class="comment">
+         // Online/Offline indicator
+        </span>
+        Container(
+              margin: EdgeInsets.only(right:
+        <span class="number">
+         16
+        </span>
+        ),
               child: Row(
                 children: [
                   Container(
-                    width: <span class="number">10</span>,
-                    height: <span class="number">10</span>,
+                    width:
+        <span class="number">
+         10
+        </span>
+        ,
+                    height:
+        <span class="number">
+         10
+        </span>
+        ,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _isOnline ? Colors.green : Colors.red,
                     ),
                   ),
-                  SizedBox(width: <span class="number">4</span>),
+                  SizedBox(width:
+        <span class="number">
+         4
+        </span>
+        ),
                   Text(
-                    _isOnline ? <span class="string">'Online'</span> : <span class="string">'Offline'</span>,
+                    _isOnline ?
+        <span class="string">
+         'Online'
+        </span>
+        :
+        <span class="string">
+         'Offline'
+        </span>
+        ,
                     style: TextStyle(
-                      fontSize: <span class="number">12</span>,
+                      fontSize:
+        <span class="number">
+         12
+        </span>
+        ,
                       color: _isOnline ? Colors.green : Colors.red,
                     ),
                   ),
@@ -1400,55 +3032,122 @@
             ),
             IconButton(
               icon: Icon(Icons.sync),
-              onPressed: _isOnline ? _syncAll : <span class="keyword">null</span>,
-              tooltip: <span class="string">'Sync Now'</span>,
+              onPressed: _isOnline ? _syncAll :
+        <span class="keyword">
+         null
+        </span>
+        ,
+              tooltip:
+        <span class="string">
+         'Sync Now'
+        </span>
+        ,
             ),
           ],
         ),
         body: Column(
           children: [
-            <span class="comment">// Input Section</span>
-            Padding(
-              padding: EdgeInsets.all(<span class="number">16</span>),
+        <span class="comment">
+         // Input Section
+        </span>
+        Padding(
+              padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
               child: Column(
                 children: [
                   TextField(
                     controller: _titleController,
                     decoration: InputDecoration(
-                      hintText: <span class="string">'Note title...'</span>,
+                      hintText:
+        <span class="string">
+         'Note title...'
+        </span>
+        ,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                        borderRadius: BorderRadius.circular(
+        <span class="number">
+         8
+        </span>
+        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: <span class="number">8</span>),
+                  SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                   TextField(
                     controller: _contentController,
                     decoration: InputDecoration(
-                      hintText: <span class="string">'Note content...'</span>,
+                      hintText:
+        <span class="string">
+         'Note content...'
+        </span>
+        ,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                        borderRadius: BorderRadius.circular(
+        <span class="number">
+         8
+        </span>
+        ),
                       ),
                     ),
-                    maxLines: <span class="number">3</span>,
+                    maxLines:
+        <span class="number">
+         3
+        </span>
+        ,
                   ),
-                  SizedBox(height: <span class="number">8</span>),
+                  SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                   Row(
                     children: [
                       Expanded(
                         child: ElevatedButton(
                           onPressed: _saveNote,
-                          child: Text(_editingNote == <span class="keyword">null</span>
-                              ? <span class="string">'Add Note'</span>
-                              : <span class="string">'Update Note'</span>),
+                          child: Text(_editingNote ==
+        <span class="keyword">
+         null
+        </span>
+        ?
+        <span class="string">
+         'Add Note'
+        </span>
+        :
+        <span class="string">
+         'Update Note'
+        </span>
+        ),
                         ),
                       ),
-                      <span class="keyword">if</span> (_editingNote != <span class="keyword">null</span>)
+        <span class="keyword">
+         if
+        </span>
+        (_editingNote !=
+        <span class="keyword">
+         null
+        </span>
+        )
                         Padding(
-                          padding: EdgeInsets.only(left: <span class="number">8</span>),
+                          padding: EdgeInsets.only(left:
+        <span class="number">
+         8
+        </span>
+        ),
                           child: TextButton(
                             onPressed: _cancelEdit,
-                            child: Text(<span class="string">'Cancel'</span>),
+                            child: Text(
+        <span class="string">
+         'Cancel'
+        </span>
+        ),
                           ),
                         ),
                     ],
@@ -1456,43 +3155,89 @@
                 ],
               ),
             ),
-
-            <span class="comment">// Notes List</span>
-            Expanded(
-              child: _noteBox == <span class="keyword">null</span>
-                  ? Center(child: CircularProgressIndicator())
+        <span class="comment">
+         // Notes List
+        </span>
+        Expanded(
+              child: _noteBox ==
+        <span class="keyword">
+         null
+        </span>
+        ? Center(child: CircularProgressIndicator())
                   : ValueListenableBuilder(
                       valueListenable: _noteBox.listenable(),
                       builder: (context, Box&lt;Note&gt; box, _) {
-                        <span class="keyword">final</span> notes = box.values.toList()
+        <span class="keyword">
+         final
+        </span>
+        notes = box.values.toList()
                           ..sort((a, b) =&gt; b.updatedAt.compareTo(a.updatedAt));
-
-                        <span class="keyword">if</span> (notes.isEmpty) {
-                          <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (notes.isEmpty) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.note_add, size: <span class="number">80</span>, color: Colors.grey.shade400),
-                                SizedBox(height: <span class="number">16</span>),
+                                Icon(Icons.note_add, size:
+        <span class="number">
+         80
+        </span>
+        , color: Colors.grey.shade400),
+                                SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                                 Text(
-                                  <span class="string">'No notes yet'</span>,
-                                  style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+        <span class="string">
+         'No notes yet'
+        </span>
+        ,
+                                  style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        , fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  <span class="string">'Add your first note above'</span>,
+        <span class="string">
+         'Add your first note above'
+        </span>
+        ,
                                   style: TextStyle(color: Colors.grey.shade400),
                                 ),
                               ],
                             ),
                           );
                         }
-
-                        <span class="keyword">return</span> ListView.builder(
+        <span class="keyword">
+         return
+        </span>
+        ListView.builder(
                           itemCount: notes.length,
                           itemBuilder: (context, index) {
-                            <span class="keyword">final</span> note = notes[index];
-                            <span class="keyword">return</span> Card(
-                              margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+        <span class="keyword">
+         final
+        </span>
+        note = notes[index];
+        <span class="keyword">
+         return
+        </span>
+        Card(
+                              margin: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         16
+        </span>
+        , vertical:
+        <span class="number">
+         4
+        </span>
+        ),
                               child: ListTile(
                                 leading: Icon(
                                   note.isSynced ? Icons.cloud_done : Icons.cloud_off,
@@ -1507,16 +3252,31 @@
                                   children: [
                                     Text(
                                       note.content,
-                                      maxLines: <span class="number">1</span>,
+                                      maxLines:
+        <span class="number">
+         1
+        </span>
+        ,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(color: Colors.grey.shade600),
                                     ),
                                     Text(
                                       note.isSynced
-                                          ? <span class="string">'Synced'</span>
-                                          : <span class="string">'Pending sync...'</span>,
+                                          ?
+        <span class="string">
+         'Synced'
+        </span>
+        :
+        <span class="string">
+         'Pending sync...'
+        </span>
+        ,
                                       style: TextStyle(
-                                        fontSize: <span class="number">10</span>,
+                                        fontSize:
+        <span class="number">
+         10
+        </span>
+        ,
                                         color: note.isSynced ? Colors.green : Colors.orange,
                                       ),
                                     ),
@@ -1526,11 +3286,19 @@
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      icon: Icon(Icons.edit, size: <span class="number">20</span>),
+                                      icon: Icon(Icons.edit, size:
+        <span class="number">
+         20
+        </span>
+        ),
                                       onPressed: () =&gt; _editNote(note),
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.delete, size: <span class="number">20</span>, color: Colors.red),
+                                      icon: Icon(Icons.delete, size:
+        <span class="number">
+         20
+        </span>
+        , color: Colors.red),
                                       onPressed: () =&gt; _deleteNote(note),
                                     ),
                                   ],
@@ -1547,195 +3315,419 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Local Storage First</strong> – Always write to local storage (Hive) first. This ensures the user sees their data immediately.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Check Connectivity</strong> – Use <code>connectivity_plus</code> to check if the device is online.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Sync if Online</strong> – If connected, send changes to the server immediately and mark as synced.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Queue if Offline</strong> – If offline, store operations in a sync queue for later processing.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Background Sync</strong> – When connectivity is restored, process all queued operations.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 7: BEST PRACTICES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Best Practices</span>
-<span class="divider-line"></span>
-</div>
-<div class="concept-card success">
-<h4>✅ Do's</h4>
-<ul>
-<li>Always <strong>read from local storage first</strong></li>
-<li>Use <strong>optimistic updates</strong> for better UX</li>
-<li>Store <strong>timestamps</strong> for conflict resolution</li>
-<li>Use a <strong>sync queue</strong> for offline operations</li>
-<li>Show <strong>sync status</strong> to users (synced/pending)</li>
-<li>Handle <strong>conflicts</strong> with clear rules</li>
-<li>Use <strong>background sync</strong> when connectivity is restored</li>
-</ul>
-</div>
-<div class="concept-card error">
-<h4>❌ Don'ts</h4>
-<ul>
-<li>Don't <strong>block the UI</strong> during sync operations</li>
-<li>Don't <strong>ignore conflicts</strong> – they will happen</li>
-<li>Don't <strong>sync large files</strong> in the background without user consent</li>
-<li>Don't <strong>lose data</strong> if sync fails – keep it in the queue</li>
-<li>Don't <strong>over-sync</strong> – use debouncing for frequent changes</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not handling conflicts</div>
-<p>
-              When multiple devices edit the same data, conflicts can occur. Always have a conflict resolution strategy.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use conflict resolution</div>
-<p>
-              Strategies: Last Write Wins, Merge, or Manual Resolution with user input.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Syncing too frequently</div>
-<p>
-              Syncing on every keystroke or network change can drain battery and use data.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use debouncing</div>
-<p>
-              Wait for the user to stop typing (500ms-1s) before syncing changes.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not showing sync status</div>
-<p>
-              Users need to know if their data is synced or pending. Confusion leads to frustration.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Show sync status</div>
-<p>
-              Use icons, colors, or text to indicate sync status (Synced, Pending, Error).
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Offline-first architecture is about <strong>designing for resilience</strong>.
-            Always <strong>read from and write to local storage first</strong>, then sync
-            with the server when connected. Use a <strong>sync queue</strong> for offline
-            operations and <strong>conflict resolution</strong> for consistency.
-            <strong>Your users will thank you for a reliable, fast experience anywhere.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module3-topic3-sqlite.html">
-<i class="fas fa-arrow-left"></i> Previous: SQLite
-          </a>
-<a class="btn btn-primary btn-sm" href="../module3-state-management.html">
-<i class="fas fa-check"></i> Module 3 Complete!
-          </a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module3-state-management.html">Module 3</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-<li><a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">Flutter Architecture</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Local Storage First
+         </strong>
+         – Always write to local storage (Hive) first. This ensures the user sees their data immediately.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Check Connectivity
+         </strong>
+         – Use
+         <code>
+          connectivity_plus
+         </code>
+         to check if the device is online.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Sync if Online
+         </strong>
+         – If connected, send changes to the server immediately and mark as synced.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Queue if Offline
+         </strong>
+         – If offline, store operations in a sync queue for later processing.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Background Sync
+         </strong>
+         – When connectivity is restored, process all queued operations.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: BEST PRACTICES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Best Practices
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Do's
+       </h4>
+       <ul>
+        <li>
+         Always
+         <strong>
+          read from local storage first
+         </strong>
+        </li>
+        <li>
+         Use
+         <strong>
+          optimistic updates
+         </strong>
+         for better UX
+        </li>
+        <li>
+         Store
+         <strong>
+          timestamps
+         </strong>
+         for conflict resolution
+        </li>
+        <li>
+         Use a
+         <strong>
+          sync queue
+         </strong>
+         for offline operations
+        </li>
+        <li>
+         Show
+         <strong>
+          sync status
+         </strong>
+         to users (synced/pending)
+        </li>
+        <li>
+         Handle
+         <strong>
+          conflicts
+         </strong>
+         with clear rules
+        </li>
+        <li>
+         Use
+         <strong>
+          background sync
+         </strong>
+         when connectivity is restored
+        </li>
+       </ul>
+      </div>
+      <div class="concept-card error">
+       <h4>
+        ❌ Don'ts
+       </h4>
+       <ul>
+        <li>
+         Don't
+         <strong>
+          block the UI
+         </strong>
+         during sync operations
+        </li>
+        <li>
+         Don't
+         <strong>
+          ignore conflicts
+         </strong>
+         – they will happen
+        </li>
+        <li>
+         Don't
+         <strong>
+          sync large files
+         </strong>
+         in the background without user consent
+        </li>
+        <li>
+         Don't
+         <strong>
+          lose data
+         </strong>
+         if sync fails – keep it in the queue
+        </li>
+        <li>
+         Don't
+         <strong>
+          over-sync
+         </strong>
+         – use debouncing for frequent changes
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not handling conflicts
+       </div>
+       <p>
+        When multiple devices edit the same data, conflicts can occur. Always have a conflict resolution strategy.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use conflict resolution
+       </div>
+       <p>
+        Strategies: Last Write Wins, Merge, or Manual Resolution with user input.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Syncing too frequently
+       </div>
+       <p>
+        Syncing on every keystroke or network change can drain battery and use data.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use debouncing
+       </div>
+       <p>
+        Wait for the user to stop typing (500ms-1s) before syncing changes.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not showing sync status
+       </div>
+       <p>
+        Users need to know if their data is synced or pending. Confusion leads to frustration.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Show sync status
+       </div>
+       <p>
+        Use icons, colors, or text to indicate sync status (Synced, Pending, Error).
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Offline-first architecture is about
+       <strong>
+        designing for resilience
+       </strong>
+       .
+            Always
+       <strong>
+        read from and write to local storage first
+       </strong>
+       , then sync
+            with the server when connected. Use a
+       <strong>
+        sync queue
+       </strong>
+       for offline
+            operations and
+       <strong>
+        conflict resolution
+       </strong>
+       for consistency.
+       <strong>
+        Your users will thank you for a reliable, fast experience anywhere.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module3-topic3-sqlite.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: SQLite
+      </a>
+      <a class="btn btn-primary btn-sm" href="../module3-state-management.html">
+       <i class="fas fa-check">
+       </i>
+       Module 3 Complete!
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module3-state-management.html">
+         Module 3
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+       <li>
+        <a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">
+         Flutter Architecture
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1790,8 +3782,8 @@
       });
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1864,8 +3856,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1938,5 +3931,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

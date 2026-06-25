@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Realtime Chat App – Module 4 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Realtime Chat App using Supabase Realtime subscriptions in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Realtime Chat App – Module 4 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Realtime Chat App using Supabase Realtime subscriptions in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -343,8 +344,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -407,138 +408,385 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 4 · Challenge 2
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Realtime Chat App</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge hard">Hard</span></span>
-<span class="meta-item"><strong>Module:</strong> Supabase</span>
-<span class="meta-item"><strong>Concepts:</strong> Supabase Realtime, Streams, Subscriptions, Authentication</span>
-<span class="meta-item"><strong>Est. Time:</strong> 50-60 min</span>
-<span class="meta-item"><span class="supabase-tag">🗄️ Supabase Realtime</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Realtime Chat App</strong> using Supabase Realtime subscriptions.
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 4 · Challenge 2
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Realtime Chat App
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge hard">
+          Hard
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         Supabase
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         Supabase Realtime, Streams, Subscriptions, Authentication
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         50-60 min
+        </span>
+        <span class="meta-item">
+         <span class="supabase-tag">
+          🗄️ Supabase Realtime
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Realtime Chat App
+        </strong>
+        using Supabase Realtime subscriptions.
               Users can send and receive messages instantly without refreshing, with proper
               authentication and message history.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Use <strong>Supabase Realtime</strong> for live messaging</li>
-<li>Use <strong>Supabase Auth</strong> for user authentication (from previous challenge)</li>
-<li>Create a <strong>messages</strong> table with <code>id</code>, <code>content</code>, <code>user_id</code>, <code>username</code>, <code>created_at</code></li>
-<li>Enable <strong>Realtime</strong> on the messages table</li>
-<li>Subscribe to <strong>new messages</strong> with <code>channel</code></li>
-<li>Display messages in a <strong>ListView</strong> with newest at bottom</li>
-<li>Add a <strong>message input</strong> field with send button</li>
-<li>Show <strong>user avatars</strong> with initials</li>
-<li>Add <strong>timestamps</strong> to messages</li>
-<li>Auto-scroll to <strong>latest message</strong></li>
-<li>Handle <strong>typing indicators</strong> (optional but encouraged)</li>
-<li>Show <strong>online status</strong> (optional but encouraged)</li>
-</ul>
-</div>
-<div class="api-box">
-<h4>🗄️ Supabase Realtime Setup</h4>
-<p><strong>Supabase Realtime</strong> uses WebSockets for live data synchronization.</p>
-<div class="endpoint">-- Enable Realtime on your messages table in Supabase Dashboard</div>
-<div class="endpoint">ALTER TABLE messages REPLICA IDENTITY FULL;</div>
-<div class="api-note">
-                💡 <strong>Note:</strong> You must enable Realtime on the messages table in the Supabase Dashboard &gt; Database &gt; Replication.
-              </div>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://pub.dev/packages/supabase_flutter" target="_blank">Supabase Flutter Package</a></li>
-<li><a href="https://supabase.com/docs/guides/realtime" target="_blank">Supabase Realtime Docs</a></li>
-<li><a href="https://supabase.com/docs/guides/realtime/flutter" target="_blank">Flutter Realtime Guide</a></li>
-<li><a href="https://riverpod.dev/" target="_blank">Riverpod Documentation</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Use <code>supabase.channel()</code> to create a realtime channel.
-                  Subscribe to <code>postgres_changes</code> with event: 'INSERT' and schema: 'public'.
-                  Use <code>StreamProvider</code> to listen to the subscription stream.
-                  For the message list, use <code>StreamBuilder</code> or <code>ListView.builder</code> with a
-                  stream from the channel. Don't forget to <code>dispose()</code> the channel in the provider.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Use
+          <strong>
+           Supabase Realtime
+          </strong>
+          for live messaging
+         </li>
+         <li>
+          Use
+          <strong>
+           Supabase Auth
+          </strong>
+          for user authentication (from previous challenge)
+         </li>
+         <li>
+          Create a
+          <strong>
+           messages
+          </strong>
+          table with
+          <code>
+           id
+          </code>
+          ,
+          <code>
+           content
+          </code>
+          ,
+          <code>
+           user_id
+          </code>
+          ,
+          <code>
+           username
+          </code>
+          ,
+          <code>
+           created_at
+          </code>
+         </li>
+         <li>
+          Enable
+          <strong>
+           Realtime
+          </strong>
+          on the messages table
+         </li>
+         <li>
+          Subscribe to
+          <strong>
+           new messages
+          </strong>
+          with
+          <code>
+           channel
+          </code>
+         </li>
+         <li>
+          Display messages in a
+          <strong>
+           ListView
+          </strong>
+          with newest at bottom
+         </li>
+         <li>
+          Add a
+          <strong>
+           message input
+          </strong>
+          field with send button
+         </li>
+         <li>
+          Show
+          <strong>
+           user avatars
+          </strong>
+          with initials
+         </li>
+         <li>
+          Add
+          <strong>
+           timestamps
+          </strong>
+          to messages
+         </li>
+         <li>
+          Auto-scroll to
+          <strong>
+           latest message
+          </strong>
+         </li>
+         <li>
+          Handle
+          <strong>
+           typing indicators
+          </strong>
+          (optional but encouraged)
+         </li>
+         <li>
+          Show
+          <strong>
+           online status
+          </strong>
+          (optional but encouraged)
+         </li>
+        </ul>
+       </div>
+       <div class="api-box">
+        <h4>
+         🗄️ Supabase Realtime Setup
+        </h4>
+        <p>
+         <strong>
+          Supabase Realtime
+         </strong>
+         uses WebSockets for live data synchronization.
+        </p>
+        <div class="endpoint">
+         -- Enable Realtime on your messages table in Supabase Dashboard
+        </div>
+        <div class="endpoint">
+         ALTER TABLE messages REPLICA IDENTITY FULL;
+        </div>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         You must enable Realtime on the messages table in the Supabase Dashboard &gt; Database &gt; Replication.
+        </div>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://pub.dev/packages/supabase_flutter" target="_blank">
+           Supabase Flutter Package
+          </a>
+         </li>
+         <li>
+          <a href="https://supabase.com/docs/guides/realtime" target="_blank">
+           Supabase Realtime Docs
+          </a>
+         </li>
+         <li>
+          <a href="https://supabase.com/docs/guides/realtime/flutter" target="_blank">
+           Flutter Realtime Guide
+          </a>
+         </li>
+         <li>
+          <a href="https://riverpod.dev/" target="_blank">
+           Riverpod Documentation
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Use
+          <code>
+           supabase.channel()
+          </code>
+          to create a realtime channel.
+                  Subscribe to
+          <code>
+           postgres_changes
+          </code>
+          with event: 'INSERT' and schema: 'public'.
+                  Use
+          <code>
+           StreamProvider
+          </code>
+          to listen to the subscription stream.
+                  For the message list, use
+          <code>
+           StreamBuilder
+          </code>
+          or
+          <code>
+           ListView.builder
+          </code>
+          with a
+                  stream from the channel. Don't forget to
+          <code>
+           dispose()
+          </code>
+          the channel in the provider.
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
@@ -548,381 +796,1459 @@
   dev_dependencies:
     flutter_test:
       sdk: flutter
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. SQL Schema (supabase/migrations/chat.sql)</h4>
-<div class="code-block">
-<span class="code-label">supabase/migrations/chat.sql</span>
-<code>
-<span class="comment">-- Create messages table</span>
-  CREATE TABLE messages (
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. SQL Schema (supabase/migrations/chat.sql)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           supabase/migrations/chat.sql
+          </span>
+          <code>
+           <span class="comment">
+            -- Create messages table
+           </span>
+           CREATE TABLE messages (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     content TEXT NOT NULL,
     user_id UUID NOT NULL,
     username TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
   );
-
-  <span class="comment">-- Enable Row Level Security</span>
-  ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
-
-  <span class="comment">-- Allow users to read all messages</span>
-  CREATE POLICY "Users can read all messages"
+           <span class="comment">
+            -- Enable Row Level Security
+           </span>
+           ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+           <span class="comment">
+            -- Allow users to read all messages
+           </span>
+           CREATE POLICY "Users can read all messages"
     ON messages FOR SELECT
     USING (true);
-
-  <span class="comment">-- Allow users to insert their own messages</span>
-  CREATE POLICY "Users can insert their own messages"
+           <span class="comment">
+            -- Allow users to insert their own messages
+           </span>
+           CREATE POLICY "Users can insert their own messages"
     ON messages FOR INSERT
     WITH CHECK (auth.uid() = user_id);
-
-  <span class="comment">-- Enable Realtime for the messages table</span>
-  ALTER TABLE messages REPLICA IDENTITY FULL;
-
-  <span class="comment">-- Enable Realtime publication (run in Supabase SQL editor)</span>
-  BEGIN;
+           <span class="comment">
+            -- Enable Realtime for the messages table
+           </span>
+           ALTER TABLE messages REPLICA IDENTITY FULL;
+           <span class="comment">
+            -- Enable Realtime publication (run in Supabase SQL editor)
+           </span>
+           BEGIN;
     DROP PUBLICATION IF EXISTS supabase_realtime;
     CREATE PUBLICATION supabase_realtime;
   COMMIT;
-
-  <span class="comment">-- Add messages table to Realtime publication</span>
-  ALTER PUBLICATION supabase_realtime ADD TABLE messages;
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Message Model (lib/models/message.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/message.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">Message</span> {
-    <span class="keyword">final</span> String id;
-    <span class="keyword">final</span> String content;
-    <span class="keyword">final</span> String userId;
-    <span class="keyword">final</span> String username;
-    <span class="keyword">final</span> DateTime createdAt;
-
-    <span class="function">Message</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.content,
-      <span class="keyword">required</span> <span class="keyword">this</span>.userId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.username,
-      <span class="keyword">required</span> <span class="keyword">this</span>.createdAt,
+           <span class="comment">
+            -- Add messages table to Realtime publication
+           </span>
+           ALTER PUBLICATION supabase_realtime ADD TABLE messages;
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Message Model (lib/models/message.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/message.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:intl/intl.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Message
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           String id;
+           <span class="keyword">
+            final
+           </span>
+           String content;
+           <span class="keyword">
+            final
+           </span>
+           String userId;
+           <span class="keyword">
+            final
+           </span>
+           String username;
+           <span class="keyword">
+            final
+           </span>
+           DateTime createdAt;
+           <span class="function">
+            Message
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .content,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .userId,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .username,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .createdAt,
     });
-
-    <span class="keyword">factory</span> Message.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Message(
-        id: json[<span class="string">'id'</span>],
-        content: json[<span class="string">'content'</span>],
-        userId: json[<span class="string">'user_id'</span>],
-        username: json[<span class="string">'username'</span>],
-        createdAt: DateTime.<span class="function">parse</span>(json[<span class="string">'created_at'</span>]),
+           <span class="keyword">
+            factory
+           </span>
+           Message.
+           <span class="function">
+            fromJson
+           </span>
+           (Map&lt;String, dynamic&gt; json) {
+           <span class="keyword">
+            return
+           </span>
+           Message(
+        id: json[
+           <span class="string">
+            'id'
+           </span>
+           ],
+        content: json[
+           <span class="string">
+            'content'
+           </span>
+           ],
+        userId: json[
+           <span class="string">
+            'user_id'
+           </span>
+           ],
+        username: json[
+           <span class="string">
+            'username'
+           </span>
+           ],
+        createdAt: DateTime.
+           <span class="function">
+            parse
+           </span>
+           (json[
+           <span class="string">
+            'created_at'
+           </span>
+           ]),
       );
     }
 
-    Map&lt;String, dynamic&gt; <span class="function">toJson</span>() {
-      <span class="keyword">return</span> {
-        <span class="string">'id'</span>: id,
-        <span class="string">'content'</span>: content,
-        <span class="string">'user_id'</span>: userId,
-        <span class="string">'username'</span>: username,
-        <span class="string">'created_at'</span>: createdAt.<span class="function">toIso8601String</span>(),
+    Map&lt;String, dynamic&gt;
+           <span class="function">
+            toJson
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           {
+           <span class="string">
+            'id'
+           </span>
+           : id,
+           <span class="string">
+            'content'
+           </span>
+           : content,
+           <span class="string">
+            'user_id'
+           </span>
+           : userId,
+           <span class="string">
+            'username'
+           </span>
+           : username,
+           <span class="string">
+            'created_at'
+           </span>
+           : createdAt.
+           <span class="function">
+            toIso8601String
+           </span>
+           (),
       };
     }
-
-    <span class="keyword">factory</span> Message.<span class="function">forInsert</span>({
-      <span class="keyword">required</span> String content,
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> String username,
+           <span class="keyword">
+            factory
+           </span>
+           Message.
+           <span class="function">
+            forInsert
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String content,
+           <span class="keyword">
+            required
+           </span>
+           String userId,
+           <span class="keyword">
+            required
+           </span>
+           String username,
     }) {
-      <span class="keyword">return</span> Message(
-        id: <span class="string">''</span>,
+           <span class="keyword">
+            return
+           </span>
+           Message(
+        id:
+           <span class="string">
+            ''
+           </span>
+           ,
         content: content,
         userId: userId,
         username: username,
-        createdAt: DateTime.<span class="function">now</span>(),
+        createdAt: DateTime.
+           <span class="function">
+            now
+           </span>
+           (),
       );
     }
 
-    String <span class="function">getFormattedTime</span>() {
-      <span class="keyword">final</span> now = DateTime.<span class="function">now</span>();
-      <span class="keyword">final</span> difference = now.<span class="function">difference</span>(createdAt);
-
-      <span class="keyword">if</span> (difference.inDays &gt; <span class="number">0</span>) {
-        <span class="keyword">return</span> DateFormat.<span class="function">yMMMd</span>().<span class="function">add_jm</span>().<span class="function">format</span>(createdAt);
-      } <span class="keyword">else</span> {
-        <span class="keyword">return</span> DateFormat.<span class="function">jm</span>().<span class="function">format</span>(createdAt);
+    String
+           <span class="function">
+            getFormattedTime
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           now = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           difference = now.
+           <span class="function">
+            difference
+           </span>
+           (createdAt);
+           <span class="keyword">
+            if
+           </span>
+           (difference.inDays &gt;
+           <span class="number">
+            0
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           DateFormat.
+           <span class="function">
+            yMMMd
+           </span>
+           ().
+           <span class="function">
+            add_jm
+           </span>
+           ().
+           <span class="function">
+            format
+           </span>
+           (createdAt);
+      }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            return
+           </span>
+           DateFormat.
+           <span class="function">
+            jm
+           </span>
+           ().
+           <span class="function">
+            format
+           </span>
+           (createdAt);
       }
     }
-
-    <span class="keyword">bool</span> <span class="function">isFromCurrentUser</span>(String currentUserId) {
-      <span class="keyword">return</span> userId == currentUserId;
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            isFromCurrentUser
+           </span>
+           (String currentUserId) {
+           <span class="keyword">
+            return
+           </span>
+           userId == currentUserId;
     }
 
-    String <span class="function">getInitials</span>() {
-      <span class="keyword">return</span> username
-          .<span class="function">split</span>(<span class="string">' '</span>)
-          .<span class="function">map</span>((word) =&gt; word.<span class="function">isNotEmpty</span> ? word[<span class="number">0</span>] : <span class="string">''</span>)
-          .<span class="function">join</span>()
-          .<span class="function">toUpperCase</span>()
-          .<span class="function">substring</span>(<span class="number">0</span>, <span class="number">2</span>);
+    String
+           <span class="function">
+            getInitials
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           username
+          .
+           <span class="function">
+            split
+           </span>
+           (
+           <span class="string">
+            ' '
+           </span>
+           )
+          .
+           <span class="function">
+            map
+           </span>
+           ((word) =&gt; word.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? word[
+           <span class="number">
+            0
+           </span>
+           ] :
+           <span class="string">
+            ''
+           </span>
+           )
+          .
+           <span class="function">
+            join
+           </span>
+           ()
+          .
+           <span class="function">
+            toUpperCase
+           </span>
+           ()
+          .
+           <span class="function">
+            substring
+           </span>
+           (
+           <span class="number">
+            0
+           </span>
+           ,
+           <span class="number">
+            2
+           </span>
+           );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Chat Provider (lib/providers/chat_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/chat_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/message.dart'</span>;
-
-  <span class="keyword">final</span> supabase = Supabase.instance.client;
-
-  <span class="comment">// Provider for the current user's username</span>
-<span class="keyword">final</span> currentUsernameProvider = Provider&lt;String?&gt;((ref) {
-    <span class="keyword">final</span> user = supabase.auth.<span class="function">currentUser</span>;
-    <span class="keyword">return</span> user?.userMetadata?[<span class="string">'username'</span>] <span class="keyword">as</span> String?;
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Chat Provider (lib/providers/chat_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/chat_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:async'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/message.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           supabase = Supabase.instance.client;
+           <span class="comment">
+            // Provider for the current user's username
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           currentUsernameProvider = Provider&lt;String?&gt;((ref) {
+           <span class="keyword">
+            final
+           </span>
+           user = supabase.auth.
+           <span class="function">
+            currentUser
+           </span>
+           ;
+           <span class="keyword">
+            return
+           </span>
+           user?.userMetadata?[
+           <span class="string">
+            'username'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String?;
+  });
+           <span class="comment">
+            // Chat state provider with realtime subscription
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           chatProvider = StreamProvider&lt;List&lt;Message&gt;&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            _getChatStream
+           </span>
+           (ref);
   });
 
-  <span class="comment">// Chat state provider with realtime subscription</span>
-<span class="keyword">final</span> chatProvider = StreamProvider&lt;List&lt;Message&gt;&gt;((ref) {
-    <span class="keyword">return</span> <span class="function">_getChatStream</span>(ref);
-  });
-
-  Stream&lt;List&lt;Message&gt;&gt; <span class="function">_getChatStream</span>(Ref ref) <span class="keyword">async</span>* {
-    <span class="comment">// First, load all existing messages</span>
-<span class="keyword">final</span> initialMessages = <span class="keyword">await</span> <span class="function">_loadMessages</span>();
+  Stream&lt;List&lt;Message&gt;&gt;
+           <span class="function">
+            _getChatStream
+           </span>
+           (Ref ref)
+           <span class="keyword">
+            async
+           </span>
+           * {
+           <span class="comment">
+            // First, load all existing messages
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           initialMessages =
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            _loadMessages
+           </span>
+           ();
     List&lt;Message&gt; messages = initialMessages;
-
-    <span class="comment">// Create a channel for realtime updates</span>
-<span class="keyword">final</span> channel = supabase.<span class="function">channel</span>(<span class="string">'public:messages'</span>);
-
-    <span class="comment">// Create a controller for new messages</span>
-<span class="keyword">final</span> controller = StreamController&lt;List&lt;Message&gt;&gt;();
-
-    <span class="comment">// Emit initial messages</span>
-    controller.<span class="function">add</span>(messages);
-
-    <span class="comment">// Listen for new messages</span>
-    channel.<span class="function">on</span>(
-      RealtimeListenTypes.<span class="function">postgresChanges</span>,
+           <span class="comment">
+            // Create a channel for realtime updates
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           channel = supabase.
+           <span class="function">
+            channel
+           </span>
+           (
+           <span class="string">
+            'public:messages'
+           </span>
+           );
+           <span class="comment">
+            // Create a controller for new messages
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           controller = StreamController&lt;List&lt;Message&gt;&gt;();
+           <span class="comment">
+            // Emit initial messages
+           </span>
+           controller.
+           <span class="function">
+            add
+           </span>
+           (messages);
+           <span class="comment">
+            // Listen for new messages
+           </span>
+           channel.
+           <span class="function">
+            on
+           </span>
+           (
+      RealtimeListenTypes.
+           <span class="function">
+            postgresChanges
+           </span>
+           ,
       ChannelFilter(
-        event: <span class="string">'INSERT'</span>,
-        schema: <span class="string">'public'</span>,
-        table: <span class="string">'messages'</span>,
+        event:
+           <span class="string">
+            'INSERT'
+           </span>
+           ,
+        schema:
+           <span class="string">
+            'public'
+           </span>
+           ,
+        table:
+           <span class="string">
+            'messages'
+           </span>
+           ,
       ),
       (payload, [ref]) {
-        <span class="keyword">final</span> newMessage = Message.<span class="function">fromJson</span>(payload[<span class="string">'new'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;);
+           <span class="keyword">
+            final
+           </span>
+           newMessage = Message.
+           <span class="function">
+            fromJson
+           </span>
+           (payload[
+           <span class="string">
+            'new'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           Map&lt;String, dynamic&gt;);
         messages = [newMessage, ...messages];
-        controller.<span class="function">add</span>(messages);
+        controller.
+           <span class="function">
+            add
+           </span>
+           (messages);
       },
     );
-
-    <span class="comment">// Subscribe to the channel</span>
-<span class="keyword">await</span> channel.<span class="function">subscribe</span>();
-
-    <span class="comment">// Yield messages as they come</span>
-<span class="keyword">await</span> for (<span class="keyword">final</span> _ <span class="keyword">in</span> controller.stream) {
-      <span class="keyword">yield</span> messages;
+           <span class="comment">
+            // Subscribe to the channel
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           channel.
+           <span class="function">
+            subscribe
+           </span>
+           ();
+           <span class="comment">
+            // Yield messages as they come
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           for (
+           <span class="keyword">
+            final
+           </span>
+           _
+           <span class="keyword">
+            in
+           </span>
+           controller.stream) {
+           <span class="keyword">
+            yield
+           </span>
+           messages;
     }
-
-    <span class="comment">// Clean up when the provider is disposed</span>
-    ref.<span class="function">onDispose</span>(() {
-      controller.<span class="function">close</span>();
-      supabase.<span class="function">removeChannel</span>(channel);
+           <span class="comment">
+            // Clean up when the provider is disposed
+           </span>
+           ref.
+           <span class="function">
+            onDispose
+           </span>
+           (() {
+      controller.
+           <span class="function">
+            close
+           </span>
+           ();
+      supabase.
+           <span class="function">
+            removeChannel
+           </span>
+           (channel);
     });
   }
-
-  <span class="keyword">Future</span>&lt;List&lt;Message&gt;&gt; <span class="function">_loadMessages</span>() <span class="keyword">async</span> {
-    <span class="keyword">final</span> response = <span class="keyword">await</span> supabase
-        .<span class="function">from</span>(<span class="string">'messages'</span>)
-        .<span class="function">select</span>(<span class="string">'*'</span>)
-        .<span class="function">order</span>(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>)
-        .<span class="function">limit</span>(<span class="number">100</span>);
-
-    <span class="keyword">return</span> (response <span class="keyword">as</span> List)
-        .<span class="function">map</span>((json) =&gt; Message.<span class="function">fromJson</span>(json))
-        .<span class="function">toList</span>();
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Message&gt;&gt;
+           <span class="function">
+            _loadMessages
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase
+        .
+           <span class="function">
+            from
+           </span>
+           (
+           <span class="string">
+            'messages'
+           </span>
+           )
+        .
+           <span class="function">
+            select
+           </span>
+           (
+           <span class="string">
+            '*'
+           </span>
+           )
+        .
+           <span class="function">
+            order
+           </span>
+           (
+           <span class="string">
+            'created_at'
+           </span>
+           , ascending:
+           <span class="keyword">
+            false
+           </span>
+           )
+        .
+           <span class="function">
+            limit
+           </span>
+           (
+           <span class="number">
+            100
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           (response
+           <span class="keyword">
+            as
+           </span>
+           List)
+        .
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; Message.
+           <span class="function">
+            fromJson
+           </span>
+           (json))
+        .
+           <span class="function">
+            toList
+           </span>
+           ();
   }
-
-  <span class="comment">// Send a new message</span>
-<span class="keyword">final</span> sendMessageProvider = Provider&lt;<span class="keyword">void</span> Function(String)&gt;((ref) {
-    <span class="keyword">return</span> <span class="function">_sendMessage</span>;
+           <span class="comment">
+            // Send a new message
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           sendMessageProvider = Provider&lt;
+           <span class="keyword">
+            void
+           </span>
+           Function(String)&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            _sendMessage
+           </span>
+           ;
   });
-
-  <span class="keyword">void</span> <span class="function">_sendMessage</span>(String content) <span class="keyword">async</span> {
-    <span class="keyword">final</span> user = supabase.auth.<span class="function">currentUser</span>;
-    <span class="keyword">if</span> (user == <span class="keyword">null</span> || content.<span class="function">trim</span>().<span class="function">isEmpty</span>) <span class="keyword">return</span>;
-
-    <span class="keyword">final</span> username = user.userMetadata?[<span class="string">'username'</span>] <span class="keyword">as</span> String? ?? <span class="string">'Anonymous'</span>;
-
-    <span class="keyword">await</span> supabase.<span class="function">from</span>(<span class="string">'messages'</span>).<span class="function">insert</span>({
-      <span class="string">'content'</span>: content.<span class="function">trim</span>(),
-      <span class="string">'user_id'</span>: user.id,
-      <span class="string">'username'</span>: username,
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _sendMessage
+           </span>
+           (String content)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           user = supabase.auth.
+           <span class="function">
+            currentUser
+           </span>
+           ;
+           <span class="keyword">
+            if
+           </span>
+           (user ==
+           <span class="keyword">
+            null
+           </span>
+           || content.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           )
+           <span class="keyword">
+            return
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           username = user.userMetadata?[
+           <span class="string">
+            'username'
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String? ??
+           <span class="string">
+            'Anonymous'
+           </span>
+           ;
+           <span class="keyword">
+            await
+           </span>
+           supabase.
+           <span class="function">
+            from
+           </span>
+           (
+           <span class="string">
+            'messages'
+           </span>
+           ).
+           <span class="function">
+            insert
+           </span>
+           ({
+           <span class="string">
+            'content'
+           </span>
+           : content.
+           <span class="function">
+            trim
+           </span>
+           (),
+           <span class="string">
+            'user_id'
+           </span>
+           : user.id,
+           <span class="string">
+            'username'
+           </span>
+           : username,
     });
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Main App (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/auth_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/chat_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/chat_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
-    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
-
-    <span class="keyword">await</span> Supabase.<span class="function">initialize</span>(
-      url: <span class="string">'YOUR_SUPABASE_URL'</span>,
-      anonKey: <span class="string">'YOUR_SUPABASE_ANON_KEY'</span>,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Main App (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/auth_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/chat_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/chat_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+    WidgetsFlutterBinding.
+           <span class="function">
+            ensureInitialized
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           Supabase.
+           <span class="function">
+            initialize
+           </span>
+           (
+      url:
+           <span class="string">
+            'YOUR_SUPABASE_URL'
+           </span>
+           ,
+      anonKey:
+           <span class="string">
+            'YOUR_SUPABASE_ANON_KEY'
+           </span>
+           ,
     );
 
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> authState = ref.<span class="function">watch</span>(authStateProvider);
-
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Realtime Chat'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           authState = ref.
+           <span class="function">
+            watch
+           </span>
+           (authStateProvider);
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Realtime Chat'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: authState.<span class="function">when</span>(
+        home: authState.
+           <span class="function">
+            when
+           </span>
+           (
           data: (user) {
-            <span class="keyword">if</span> (user != <span class="keyword">null</span>) {
-              <span class="keyword">return</span> <span class="keyword">const</span> ChatScreen();
+           <span class="keyword">
+            if
+           </span>
+           (user !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            const
+           </span>
+           ChatScreen();
             }
-            <span class="keyword">return</span> <span class="keyword">const</span> AuthScreen(); <span class="comment">// From previous challenge</span>
-          },
-          loading: () =&gt; <span class="keyword">const</span> Scaffold(
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            const
+           </span>
+           AuthScreen();
+           <span class="comment">
+            // From previous challenge
+           </span>
+           },
+          loading: () =&gt;
+           <span class="keyword">
+            const
+           </span>
+           Scaffold(
             body: Center(child: CircularProgressIndicator()),
           ),
           error: (error, stack) =&gt; Scaffold(
             body: Center(
-              child: Text(<span class="string">'Error: </span><span class="string">$error</span><span class="string">'</span>),
+              child: Text(
+           <span class="string">
+            'Error:
+           </span>
+           <span class="string">
+            $error
+           </span>
+           <span class="string">
+            '
+           </span>
+           ),
             ),
           ),
         ),
-        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+        debugShowCheckedModeBanner:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Chat Screen (lib/screens/chat_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/chat_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/message.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/chat_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/auth_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/message_bubble.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/message_input.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ChatScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">ChatScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Chat Screen (lib/screens/chat_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/chat_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/message.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/chat_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/auth_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/message_bubble.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/message_input.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            ChatScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            ChatScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;ChatScreen&gt; <span class="function">createState</span>() =&gt; _ChatScreenState();
+    ConsumerState&lt;ChatScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _ChatScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_ChatScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;ChatScreen&gt; {
-    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _ChatScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;ChatScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           ScrollController _scrollController = ScrollController();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _scrollController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _scrollController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_scrollToBottom</span>() {
-      WidgetsBinding.instance.<span class="function">addPostFrameCallback</span>((_) {
-        <span class="keyword">if</span> (_scrollController.hasClients) {
-          _scrollController.<span class="function">animateTo</span>(
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _scrollToBottom
+           </span>
+           () {
+      WidgetsBinding.instance.
+           <span class="function">
+            addPostFrameCallback
+           </span>
+           ((_) {
+           <span class="keyword">
+            if
+           </span>
+           (_scrollController.hasClients) {
+          _scrollController.
+           <span class="function">
+            animateTo
+           </span>
+           (
             0,
-            duration: Duration(milliseconds: <span class="number">300</span>),
-            curve: Curves.<span class="function">easeOut</span>,
+            duration: Duration(milliseconds:
+           <span class="number">
+            300
+           </span>
+           ),
+            curve: Curves.
+           <span class="function">
+            easeOut
+           </span>
+           ,
           );
         }
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleSignOut</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> confirmed = <span class="keyword">await</span> showDialog(
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _handleSignOut
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           confirmed =
+           <span class="keyword">
+            await
+           </span>
+           showDialog(
         context: context,
         builder: (context) =&gt; AlertDialog(
-          title: Text(<span class="string">'Sign Out'</span>),
-          content: Text(<span class="string">'Are you sure you want to leave the chat?'</span>),
+          title: Text(
+           <span class="string">
+            'Sign Out'
+           </span>
+           ),
+          content: Text(
+           <span class="string">
+            'Are you sure you want to leave the chat?'
+           </span>
+           ),
           actions: [
             TextButton(
-              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context, <span class="keyword">false</span>),
-              child: Text(<span class="string">'Cancel'</span>),
+              onPressed: () =&gt; Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context,
+           <span class="keyword">
+            false
+           </span>
+           ),
+              child: Text(
+           <span class="string">
+            'Cancel'
+           </span>
+           ),
             ),
             TextButton(
-              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context, <span class="keyword">true</span>),
+              onPressed: () =&gt; Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context,
+           <span class="keyword">
+            true
+           </span>
+           ),
               child: Text(
-                <span class="string">'Sign Out'</span>,
+           <span class="string">
+            'Sign Out'
+           </span>
+           ,
                 style: TextStyle(color: Colors.red),
               ),
             ),
           ],
         ),
       );
-
-      <span class="keyword">if</span> (confirmed) {
-        <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-        <span class="keyword">try</span> {
-          <span class="keyword">await</span> notifier.<span class="function">signOut</span>();
-        } <span class="function">catch</span> (e) {
-          ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-            SnackBar(content: Text(<span class="string">'Error signing out: </span><span class="string">$e</span><span class="string">'</span>)),
+           <span class="keyword">
+            if
+           </span>
+           (confirmed) {
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signOut
+           </span>
+           ();
+        }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+          ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+            SnackBar(content: Text(
+           <span class="string">
+            'Error signing out:
+           </span>
+           <span class="string">
+            $e
+           </span>
+           <span class="string">
+            '
+           </span>
+           )),
           );
         }
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> messagesAsync = ref.<span class="function">watch</span>(chatProvider);
-      <span class="keyword">final</span> currentUser = ref.<span class="function">watch</span>(currentUserProvider);
-      <span class="keyword">final</span> sendMessage = ref.<span class="function">watch</span>(sendMessageProvider);
-
-      <span class="keyword">if</span> (currentUser == <span class="keyword">null</span>) {
-        <span class="keyword">return</span> Scaffold(
-          body: Center(child: Text(<span class="string">'Not authenticated'</span>)),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           messagesAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (chatProvider);
+           <span class="keyword">
+            final
+           </span>
+           currentUser = ref.
+           <span class="function">
+            watch
+           </span>
+           (currentUserProvider);
+           <span class="keyword">
+            final
+           </span>
+           sendMessage = ref.
+           <span class="function">
+            watch
+           </span>
+           (sendMessageProvider);
+           <span class="keyword">
+            if
+           </span>
+           (currentUser ==
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
+          body: Center(child: Text(
+           <span class="string">
+            'Not authenticated'
+           </span>
+           )),
         );
       }
-
-      <span class="keyword">return</span> Scaffold(
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
           title: Row(
             children: [
               Icon(Icons.chat_bubble, color: Colors.white),
-              SizedBox(width: <span class="number">8</span>),
-              Text(<span class="string">'Realtime Chat'</span>),
+              SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
+              Text(
+           <span class="string">
+            'Realtime Chat'
+           </span>
+           ),
             ],
           ),
           backgroundColor: Colors.blue,
@@ -931,55 +2257,134 @@
             IconButton(
               onPressed: _handleSignOut,
               icon: Icon(Icons.logout),
-              tooltip: <span class="string">'Sign Out'</span>,
+              tooltip:
+           <span class="string">
+            'Sign Out'
+           </span>
+           ,
             ),
           ],
         ),
         body: Column(
           children: [
-            <span class="comment">// Chat messages</span>
-            Expanded(
-              child: messagesAsync.<span class="function">when</span>(
+           <span class="comment">
+            // Chat messages
+           </span>
+           Expanded(
+              child: messagesAsync.
+           <span class="function">
+            when
+           </span>
+           (
                 data: (messages) {
-                  <span class="keyword">if</span> (messages.<span class="function">isEmpty</span>) {
-                    <span class="keyword">return</span> Center(
+           <span class="keyword">
+            if
+           </span>
+           (messages.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.chat_bubble_outline,
-                            size: <span class="number">64</span>,
-                            color: Colors.grey[<span class="number">300</span>],
+                            size:
+           <span class="number">
+            64
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
                           ),
-                          SizedBox(height: <span class="number">16</span>),
+                          SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                           Text(
-                            <span class="string">'No messages yet'</span>,
+           <span class="string">
+            'No messages yet'
+           </span>
+           ,
                             style: TextStyle(
-                              fontSize: <span class="number">18</span>,
+                              fontSize:
+           <span class="number">
+            18
+           </span>
+           ,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey[<span class="number">600</span>],
+                              color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                             ),
                           ),
-                          SizedBox(height: <span class="number">8</span>),
+                          SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                           Text(
-                            <span class="string">'Be the first to send a message!'</span>,
+           <span class="string">
+            'Be the first to send a message!'
+           </span>
+           ,
                             style: TextStyle(
-                              color: Colors.grey[<span class="number">500</span>],
+                              color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                             ),
                           ),
                         ],
                       ),
                     );
                   }
-                  <span class="keyword">return</span> ListView.<span class="function">builder</span>(
-                    reverse: <span class="keyword">true</span>,
+           <span class="keyword">
+            return
+           </span>
+           ListView.
+           <span class="function">
+            builder
+           </span>
+           (
+                    reverse:
+           <span class="keyword">
+            true
+           </span>
+           ,
                     controller: _scrollController,
-                    itemCount: messages.<span class="function">length</span>,
+                    itemCount: messages.
+           <span class="function">
+            length
+           </span>
+           ,
                     itemBuilder: (context, index) {
-                      <span class="keyword">final</span> message = messages[index];
-                      <span class="keyword">return</span> MessageBubble(
+           <span class="keyword">
+            final
+           </span>
+           message = messages[index];
+           <span class="keyword">
+            return
+           </span>
+           MessageBubble(
                         message: message,
-                        isCurrentUser: message.<span class="function">isFromCurrentUser</span>(currentUser.id),
+                        isCurrentUser: message.
+           <span class="function">
+            isFromCurrentUser
+           </span>
+           (currentUser.id),
                       );
                     },
                   );
@@ -989,10 +2394,21 @@
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircularProgressIndicator(),
-                      SizedBox(height: <span class="number">16</span>),
+                      SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                       Text(
-                        <span class="string">'Loading messages...'</span>,
-                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'Loading messages...'
+           </span>
+           ,
+                        style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                       ),
                     ],
                   ),
@@ -1003,33 +2419,69 @@
                     children: [
                       Icon(
                         Icons.error_outline,
-                        size: <span class="number">64</span>,
-                        color: Colors.red[<span class="number">300</span>],
+                        size:
+           <span class="number">
+            64
+           </span>
+           ,
+                        color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ],
                       ),
-                      SizedBox(height: <span class="number">16</span>),
+                      SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                       Text(
-                        <span class="string">'Error loading messages'</span>,
+           <span class="string">
+            'Error loading messages'
+           </span>
+           ,
                         style: TextStyle(
-                          fontSize: <span class="number">18</span>,
+                          fontSize:
+           <span class="number">
+            18
+           </span>
+           ,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                       Text(
-                        error.<span class="function">toString</span>(),
+                        error.
+           <span class="function">
+            toString
+           </span>
+           (),
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                        style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-            <span class="comment">// Message input</span>
-            MessageInput(
+           <span class="comment">
+            // Message input
+           </span>
+           MessageInput(
               onSend: (content) {
                 sendMessage(content);
-                <span class="function">_scrollToBottom</span>();
+           <span class="function">
+            _scrollToBottom
+           </span>
+           ();
               },
             ),
           ],
@@ -1037,27 +2489,94 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">7. Message Bubble Widget (lib/screens/widgets/message_bubble.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/message_bubble.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/message.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">MessageBubble</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Message message;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isCurrentUser;
-
-    <span class="keyword">const</span> <span class="function">MessageBubble</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.message,
-      <span class="keyword">required</span> <span class="keyword">this</span>.isCurrentUser,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          7. Message Bubble Widget (lib/screens/widgets/message_bubble.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/message_bubble.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/message.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MessageBubble
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Message message;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isCurrentUser;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MessageBubble
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .message,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .isCurrentUser,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
-
-    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Color&gt; _avatarColors = [
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Color&gt; _avatarColors = [
       Colors.blue,
       Colors.green,
       Colors.orange,
@@ -1068,34 +2587,113 @@
       Colors.indigo,
     ];
 
-    Color <span class="function">_getAvatarColor</span>(String username) {
-      <span class="keyword">final</span> hash = username.<span class="function">hashCode</span>;
-      <span class="keyword">return</span> _avatarColors[hash.<span class="function">abs</span>() % _avatarColors.<span class="function">length</span>];
+    Color
+           <span class="function">
+            _getAvatarColor
+           </span>
+           (String username) {
+           <span class="keyword">
+            final
+           </span>
+           hash = username.
+           <span class="function">
+            hashCode
+           </span>
+           ;
+           <span class="keyword">
+            return
+           </span>
+           _avatarColors[hash.
+           <span class="function">
+            abs
+           </span>
+           () % _avatarColors.
+           <span class="function">
+            length
+           </span>
+           ];
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Padding(
-        padding: EdgeInsets.<span class="function">symmetric</span>(
-          horizontal: <span class="number">16</span>,
-          vertical: <span class="number">4</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Padding(
+        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (
+          horizontal:
+           <span class="number">
+            16
+           </span>
+           ,
+          vertical:
+           <span class="number">
+            4
+           </span>
+           ,
         ),
         child: Row(
           mainAxisAlignment: isCurrentUser
-              ? MainAxisAlignment.<span class="function">end</span>
-              : MainAxisAlignment.<span class="function">start</span>,
-          crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+              ? MainAxisAlignment.
+           <span class="function">
+            end
+           </span>
+           : MainAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
+          crossAxisAlignment: CrossAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
           children: [
-            <span class="keyword">if</span> (!isCurrentUser)
+           <span class="keyword">
+            if
+           </span>
+           (!isCurrentUser)
               Padding(
-                padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">8</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (right:
+           <span class="number">
+            8
+           </span>
+           ),
                 child: CircleAvatar(
-                  radius: <span class="number">16</span>,
-                  backgroundColor: <span class="function">_getAvatarColor</span>(message.username),
+                  radius:
+           <span class="number">
+            16
+           </span>
+           ,
+                  backgroundColor:
+           <span class="function">
+            _getAvatarColor
+           </span>
+           (message.username),
                   child: Text(
-                    message.<span class="function">getInitials</span>(),
+                    message.
+           <span class="function">
+            getInitials
+           </span>
+           (),
                     style: TextStyle(
-                      fontSize: <span class="number">10</span>,
+                      fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -1104,66 +2702,204 @@
               ),
             Flexible(
               child: Container(
-                padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                 decoration: BoxDecoration(
                   color: isCurrentUser
                       ? Colors.blue
-                      : Colors.grey[<span class="number">200</span>],
-                  borderRadius: BorderRadius.<span class="function">only</span>(
-                    topLeft: Radius.<span class="function">circular</span>(<span class="number">12</span>),
-                    topRight: Radius.<span class="function">circular</span>(<span class="number">12</span>),
+                      : Colors.grey[
+           <span class="number">
+            200
+           </span>
+           ],
+                  borderRadius: BorderRadius.
+           <span class="function">
+            only
+           </span>
+           (
+                    topLeft: Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
+                    topRight: Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                     bottomLeft: isCurrentUser
-                        ? Radius.<span class="function">circular</span>(<span class="number">12</span>)
-                        : Radius.<span class="function">circular</span>(<span class="number">0</span>),
+                        ? Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           )
+                        : Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            0
+           </span>
+           ),
                     bottomRight: isCurrentUser
-                        ? Radius.<span class="function">circular</span>(<span class="number">0</span>)
-                        : Radius.<span class="function">circular</span>(<span class="number">12</span>),
+                        ? Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            0
+           </span>
+           )
+                        : Radius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                   ),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+                  crossAxisAlignment: CrossAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
                   children: [
-                    <span class="keyword">if</span> (!isCurrentUser)
+           <span class="keyword">
+            if
+           </span>
+           (!isCurrentUser)
                       Text(
                         message.username,
                         style: TextStyle(
-                          fontSize: <span class="number">12</span>,
+                          fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
                           fontWeight: FontWeight.bold,
-                          color: <span class="function">_getAvatarColor</span>(message.username),
+                          color:
+           <span class="function">
+            _getAvatarColor
+           </span>
+           (message.username),
                         ),
                       ),
-                    SizedBox(height: <span class="number">2</span>),
+                    SizedBox(height:
+           <span class="number">
+            2
+           </span>
+           ),
                     Text(
                       message.content,
                       style: TextStyle(
                         color: isCurrentUser ? Colors.white : Colors.black87,
-                        fontSize: <span class="number">14</span>,
+                        fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                       ),
                     ),
-                    SizedBox(height: <span class="number">4</span>),
+                    SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                     Text(
-                      message.<span class="function">getFormattedTime</span>(),
+                      message.
+           <span class="function">
+            getFormattedTime
+           </span>
+           (),
                       style: TextStyle(
-                        fontSize: <span class="number">10</span>,
+                        fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
                         color: isCurrentUser
-                            ? Colors.white.<span class="function">withOpacity</span>(<span class="number">0.7</span>)
-                            : Colors.grey[<span class="number">500</span>],
+                            ? Colors.white.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.7
+           </span>
+           )
+                            : Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            <span class="keyword">if</span> (isCurrentUser)
+           <span class="keyword">
+            if
+           </span>
+           (isCurrentUser)
               Padding(
-                padding: EdgeInsets.<span class="function">only</span>(left: <span class="number">8</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (left:
+           <span class="number">
+            8
+           </span>
+           ),
                 child: CircleAvatar(
-                  radius: <span class="number">16</span>,
-                  backgroundColor: <span class="function">_getAvatarColor</span>(message.username),
+                  radius:
+           <span class="number">
+            16
+           </span>
+           ,
+                  backgroundColor:
+           <span class="function">
+            _getAvatarColor
+           </span>
+           (message.username),
                   child: Text(
-                    message.<span class="function">getInitials</span>(),
+                    message.
+           <span class="function">
+            getInitials
+           </span>
+           (),
                     style: TextStyle(
-                      fontSize: <span class="number">10</span>,
+                      fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -1175,69 +2911,279 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">8. Message Input Widget (lib/screens/widgets/message_input.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/message_input.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">MessageInput</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">final</span> <span class="keyword">void</span> Function(String) onSend;
-
-    <span class="keyword">const</span> <span class="function">MessageInput</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.onSend,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          8. Message Input Widget (lib/screens/widgets/message_input.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/message_input.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MessageInput
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatefulWidget {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function(String) onSend;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MessageInput
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onSend,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    State&lt;MessageInput&gt; <span class="function">createState</span>() =&gt; _MessageInputState();
+    State&lt;MessageInput&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _MessageInputState();
   }
-
-  <span class="keyword">class</span> <span class="function">_MessageInputState</span> <span class="keyword">extends</span> State&lt;MessageInput&gt; {
-    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
-    <span class="keyword">final</span> FocusNode _focusNode = FocusNode();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _MessageInputState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           State&lt;MessageInput&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _controller = TextEditingController();
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           FocusNode _focusNode = FocusNode();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>();
-      _focusNode.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _controller.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _focusNode.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_sendMessage</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> content = _controller.text.<span class="function">trim</span>();
-      <span class="keyword">if</span> (content.<span class="function">isEmpty</span> || _isLoading) <span class="keyword">return</span>;
-
-      <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">true</span>);
-      _controller.<span class="function">clear</span>();
-
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> widget.<span class="function">onSend</span>(content);
-      } <span class="function">catch</span> (e) {
-        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-          SnackBar(content: Text(<span class="string">'Error sending message: </span><span class="string">$e</span><span class="string">'</span>)),
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _sendMessage
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           content = _controller.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (content.
+           <span class="function">
+            isEmpty
+           </span>
+           || _isLoading)
+           <span class="keyword">
+            return
+           </span>
+           ;
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           );
+      _controller.
+           <span class="function">
+            clear
+           </span>
+           ();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           widget.
+           <span class="function">
+            onSend
+           </span>
+           (content);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+          SnackBar(content: Text(
+           <span class="string">
+            'Error sending message:
+           </span>
+           <span class="string">
+            $e
+           </span>
+           <span class="string">
+            '
+           </span>
+           )),
         );
-      } <span class="keyword">finally</span> {
-        <span class="keyword">if</span> (mounted) {
-          <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
-          _focusNode.<span class="function">requestFocus</span>();
+      }
+           <span class="keyword">
+            finally
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (mounted) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           );
+          _focusNode.
+           <span class="function">
+            requestFocus
+           </span>
+           ();
         }
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Container(
-        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Container(
+        padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
         decoration: BoxDecoration(
-          color: Theme.<span class="function">of</span>(context).scaffoldBackgroundColor,
-          border: Border.<span class="function">top</span>(
-            color: Colors.grey[<span class="number">300</span>]!,
-            width: <span class="number">1</span>,
+          color: Theme.
+           <span class="function">
+            of
+           </span>
+           (context).scaffoldBackgroundColor,
+          border: Border.
+           <span class="function">
+            top
+           </span>
+           (
+            color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]!,
+            width:
+           <span class="number">
+            1
+           </span>
+           ,
           ),
         ),
         child: Row(
@@ -1247,39 +3193,103 @@
                 controller: _controller,
                 focusNode: _focusNode,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Type a message...'</span>,
+                  hintText:
+           <span class="string">
+            'Type a message...'
+           </span>
+           ,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">24</span>),
+                    borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
                   ),
-                  contentPadding: EdgeInsets.<span class="function">symmetric</span>(
-                    horizontal: <span class="number">16</span>,
-                    vertical: <span class="number">10</span>,
+                  contentPadding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (
+                    horizontal:
+           <span class="number">
+            16
+           </span>
+           ,
+                    vertical:
+           <span class="number">
+            10
+           </span>
+           ,
                   ),
                   suffixIcon: _isLoading
                       ? SizedBox(
-                          width: <span class="number">20</span>,
-                          height: <span class="number">20</span>,
+                          width:
+           <span class="number">
+            20
+           </span>
+           ,
+                          height:
+           <span class="number">
+            20
+           </span>
+           ,
                           child: Padding(
-                            padding: EdgeInsets.<span class="function">all</span>(<span class="number">10</span>),
+                            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            10
+           </span>
+           ),
                             child: CircularProgressIndicator(
-                              strokeWidth: <span class="number">2</span>,
+                              strokeWidth:
+           <span class="number">
+            2
+           </span>
+           ,
                               valueColor: AlwaysStoppedAnimation&lt;Color&gt;(Colors.blue),
                             ),
                           ),
                         )
-                      : <span class="keyword">null</span>,
+                      :
+           <span class="keyword">
+            null
+           </span>
+           ,
                 ),
                 enabled: !_isLoading,
-                textInputAction: TextInputAction.<span class="function">send</span>,
+                textInputAction: TextInputAction.
+           <span class="function">
+            send
+           </span>
+           ,
                 onSubmitted: (_) =&gt; _sendMessage(),
               ),
             ),
-            SizedBox(width: <span class="number">8</span>),
+            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
             IconButton(
-              onPressed: _isLoading ? <span class="keyword">null</span> : _sendMessage,
+              onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _sendMessage,
               icon: Icon(
                 Icons.send,
-                color: _isLoading ? Colors.grey[<span class="number">400</span>] : Colors.blue,
+                color: _isLoading ? Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ] : Colors.blue,
               ),
             ),
           ],
@@ -1287,347 +3297,1353 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">9. Auth Provider (Reusing from previous challenge - lib/providers/auth_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/auth_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:google_sign_in/google_sign_in.dart'</span>;
-
-  <span class="keyword">final</span> supabase = Supabase.instance.client;
-
-  <span class="keyword">final</span> authStateProvider = StreamProvider&lt;User?&gt;((ref) {
-    <span class="keyword">return</span> supabase.auth.<span class="function">onAuthStateChange</span>().<span class="function">map</span>((event) {
-      <span class="keyword">return</span> event.session?.user;
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          9. Auth Provider (Reusing from previous challenge - lib/providers/auth_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/auth_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:google_sign_in/google_sign_in.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           supabase = Supabase.instance.client;
+           <span class="keyword">
+            final
+           </span>
+           authStateProvider = StreamProvider&lt;User?&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           supabase.auth.
+           <span class="function">
+            onAuthStateChange
+           </span>
+           ().
+           <span class="function">
+            map
+           </span>
+           ((event) {
+           <span class="keyword">
+            return
+           </span>
+           event.session?.user;
     });
   });
-
-  <span class="keyword">final</span> currentUserProvider = Provider&lt;User?&gt;((ref) {
-    <span class="keyword">return</span> supabase.auth.<span class="function">currentUser</span>;
+           <span class="keyword">
+            final
+           </span>
+           currentUserProvider = Provider&lt;User?&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           supabase.auth.
+           <span class="function">
+            currentUser
+           </span>
+           ;
   });
-
-  <span class="keyword">class</span> <span class="function">AuthNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;AsyncValue&lt;User?&gt;&gt; {
-    <span class="function">AuthNotifier</span>() : <span class="keyword">super</span>(<span class="keyword">const</span> AsyncValue.loading()) {
-      <span class="function">_loadInitialUser</span>();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AuthNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;AsyncValue&lt;User?&gt;&gt; {
+           <span class="function">
+            AuthNotifier
+           </span>
+           () :
+           <span class="keyword">
+            super
+           </span>
+           (
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading()) {
+           <span class="function">
+            _loadInitialUser
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_loadInitialUser</span>() {
-      <span class="keyword">final</span> user = supabase.auth.<span class="function">currentUser</span>;
-      state = AsyncValue.<span class="function">data</span>(user);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _loadInitialUser
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           user = supabase.auth.
+           <span class="function">
+            currentUser
+           </span>
+           ;
+      state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (user);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signUp</span>({
-      <span class="keyword">required</span> String email,
-      <span class="keyword">required</span> String password,
-      <span class="keyword">required</span> String username,
-    }) <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">signUp</span>(
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signUp
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String email,
+           <span class="keyword">
+            required
+           </span>
+           String password,
+           <span class="keyword">
+            required
+           </span>
+           String username,
+    })
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signUp
+           </span>
+           (
           email: email,
           password: password,
-          data: {<span class="string">'username'</span>: username},
+          data: {
+           <span class="string">
+            'username'
+           </span>
+           : username},
         );
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signIn</span>({
-      <span class="keyword">required</span> String email,
-      <span class="keyword">required</span> String password,
-    }) <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">signInWithPassword</span>(
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signIn
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String email,
+           <span class="keyword">
+            required
+           </span>
+           String password,
+    })
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signInWithPassword
+           </span>
+           (
           email: email,
           password: password,
         );
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signInWithGoogle</span>() <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> GoogleSignIn googleSignIn = GoogleSignIn(
-          serverClientId: <span class="string">'YOUR_GOOGLE_WEB_CLIENT_ID'</span>,
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signInWithGoogle
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           GoogleSignIn googleSignIn = GoogleSignIn(
+          serverClientId:
+           <span class="string">
+            'YOUR_GOOGLE_WEB_CLIENT_ID'
+           </span>
+           ,
         );
-        <span class="keyword">final</span> googleUser = <span class="keyword">await</span> googleSignIn.<span class="function">signIn</span>();
-        <span class="keyword">if</span> (googleUser == <span class="keyword">null</span>) <span class="keyword">throw</span> Exception(<span class="string">'Google sign-in cancelled'</span>);
-        <span class="keyword">final</span> googleAuth = <span class="keyword">await</span> googleUser.<span class="function">authentication</span>;
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">signInWithIdToken</span>(
-          provider: OAuthProvider.<span class="function">google</span>,
+           <span class="keyword">
+            final
+           </span>
+           googleUser =
+           <span class="keyword">
+            await
+           </span>
+           googleSignIn.
+           <span class="function">
+            signIn
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (googleUser ==
+           <span class="keyword">
+            null
+           </span>
+           )
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Google sign-in cancelled'
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           googleAuth =
+           <span class="keyword">
+            await
+           </span>
+           googleUser.
+           <span class="function">
+            authentication
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signInWithIdToken
+           </span>
+           (
+          provider: OAuthProvider.
+           <span class="function">
+            google
+           </span>
+           ,
           idToken: googleAuth.idToken!,
           accessToken: googleAuth.accessToken,
         );
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signOut</span>() <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> GoogleSignIn().<span class="function">signOut</span>();
-        <span class="keyword">await</span> supabase.auth.<span class="function">signOut</span>();
-        state = <span class="keyword">const</span> AsyncValue.<span class="function">data</span>(<span class="keyword">null</span>);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signOut
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           GoogleSignIn().
+           <span class="function">
+            signOut
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signOut
+           </span>
+           ();
+        state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (
+           <span class="keyword">
+            null
+           </span>
+           );
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
   }
-
-  <span class="keyword">final</span> authNotifierProvider =
+           <span class="keyword">
+            final
+           </span>
+           authNotifierProvider =
       StateNotifierProvider&lt;AuthNotifier, AsyncValue&lt;User?&gt;&gt;((ref) {
-    <span class="keyword">return</span> <span class="function">AuthNotifier</span>();
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            AuthNotifier
+           </span>
+           ();
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">10. Auth Screen (Reusing from previous challenge - lib/screens/auth_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/auth_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/auth_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">AuthScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">AuthScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          10. Auth Screen (Reusing from previous challenge - lib/screens/auth_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/auth_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/auth_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AuthScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            AuthScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;AuthScreen&gt; <span class="function">createState</span>() =&gt; _AuthScreenState();
+    ConsumerState&lt;AuthScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _AuthScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AuthScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;AuthScreen&gt; {
-    <span class="keyword">bool</span> _isLogin = <span class="keyword">true</span>;
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
-    <span class="keyword">String</span>? _errorMessage;
-    <span class="keyword">final</span> _emailController = TextEditingController();
-    <span class="keyword">final</span> _passwordController = TextEditingController();
-    <span class="keyword">final</span> _usernameController = TextEditingController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _AuthScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;AuthScreen&gt; {
+           <span class="keyword">
+            bool
+           </span>
+           _isLogin =
+           <span class="keyword">
+            true
+           </span>
+           ;
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ;
+           <span class="keyword">
+            String
+           </span>
+           ? _errorMessage;
+           <span class="keyword">
+            final
+           </span>
+           _emailController = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           _passwordController = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           _usernameController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _emailController.<span class="function">dispose</span>();
-      _passwordController.<span class="function">dispose</span>();
-      _usernameController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _emailController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _passwordController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _usernameController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_toggleMode</span>() {
-      <span class="function">setState</span>(() {
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _toggleMode
+           </span>
+           () {
+           <span class="function">
+            setState
+           </span>
+           (() {
         _isLogin = !_isLogin;
-        _errorMessage = <span class="keyword">null</span>;
+        _errorMessage =
+           <span class="keyword">
+            null
+           </span>
+           ;
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleAuth</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> email = _emailController.text.<span class="function">trim</span>();
-      <span class="keyword">final</span> password = _passwordController.text.<span class="function">trim</span>();
-
-      <span class="keyword">if</span> (email.<span class="function">isEmpty</span> || password.<span class="function">isEmpty</span>) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = <span class="string">'Please fill in all fields'</span>);
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _handleAuth
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           email = _emailController.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           password = _passwordController.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (email.
+           <span class="function">
+            isEmpty
+           </span>
+           || password.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage =
+           <span class="string">
+            'Please fill in all fields'
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
-
-      <span class="keyword">if</span> (!_isLogin &amp;&amp; _usernameController.text.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = <span class="string">'Please enter a username'</span>);
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            if
+           </span>
+           (!_isLogin &amp;&amp; _usernameController.text.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage =
+           <span class="string">
+            'Please enter a username'
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
-
-      <span class="function">setState</span>(() {
-        _isLoading = <span class="keyword">true</span>;
-        _errorMessage = <span class="keyword">null</span>;
+           <span class="function">
+            setState
+           </span>
+           (() {
+        _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           ;
+        _errorMessage =
+           <span class="keyword">
+            null
+           </span>
+           ;
       });
-
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-
-      <span class="keyword">try</span> {
-        <span class="keyword">if</span> (_isLogin) {
-          <span class="keyword">await</span> notifier.<span class="function">signIn</span>(email: email, password: password);
-        } <span class="keyword">else</span> {
-          <span class="keyword">await</span> notifier.<span class="function">signUp</span>(
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (_isLogin) {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signIn
+           </span>
+           (email: email, password: password);
+        }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signUp
+           </span>
+           (
             email: email,
             password: password,
-            username: _usernameController.text.<span class="function">trim</span>(),
+            username: _usernameController.text.
+           <span class="function">
+            trim
+           </span>
+           (),
           );
         }
-      } <span class="function">catch</span> (e) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = e.<span class="function">toString</span>());
-      } <span class="keyword">finally</span> {
-        <span class="keyword">if</span> (mounted) {
-          <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage = e.
+           <span class="function">
+            toString
+           </span>
+           ());
+      }
+           <span class="keyword">
+            finally
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (mounted) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           );
         }
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleGoogleSignIn</span>() <span class="keyword">async</span> {
-      <span class="function">setState</span>(() {
-        _isLoading = <span class="keyword">true</span>;
-        _errorMessage = <span class="keyword">null</span>;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _handleGoogleSignIn
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="function">
+            setState
+           </span>
+           (() {
+        _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           ;
+        _errorMessage =
+           <span class="keyword">
+            null
+           </span>
+           ;
       });
-
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> notifier.<span class="function">signInWithGoogle</span>();
-      } <span class="function">catch</span> (e) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = e.<span class="function">toString</span>());
-      } <span class="keyword">finally</span> {
-        <span class="keyword">if</span> (mounted) {
-          <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signInWithGoogle
+           </span>
+           ();
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage = e.
+           <span class="function">
+            toString
+           </span>
+           ());
+      }
+           <span class="keyword">
+            finally
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (mounted) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           );
         }
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.chat_bubble_outline, size: <span class="number">80</span>, color: Colors.blue),
-                  SizedBox(height: <span class="number">16</span>),
+                  Icon(Icons.chat_bubble_outline, size:
+           <span class="number">
+            80
+           </span>
+           , color: Colors.blue),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   Text(
-                    _isLogin ? <span class="string">'Welcome Back'</span> : <span class="string">'Create Account'</span>,
-                    style: TextStyle(fontSize: <span class="number">28</span>, fontWeight: FontWeight.bold),
+                    _isLogin ?
+           <span class="string">
+            'Welcome Back'
+           </span>
+           :
+           <span class="string">
+            'Create Account'
+           </span>
+           ,
+                    style: TextStyle(fontSize:
+           <span class="number">
+            28
+           </span>
+           , fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: <span class="number">8</span>),
+                  SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                   Text(
-                    _isLogin ? <span class="string">'Sign in to chat'</span> : <span class="string">'Join the conversation'</span>,
-                    style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                    _isLogin ?
+           <span class="string">
+            'Sign in to chat'
+           </span>
+           :
+           <span class="string">
+            'Join the conversation'
+           </span>
+           ,
+                    style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                   ),
-                  SizedBox(height: <span class="number">32</span>),
-                  <span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                  SizedBox(height:
+           <span class="number">
+            32
+           </span>
+           ),
+           <span class="keyword">
+            if
+           </span>
+           (_errorMessage !=
+           <span class="keyword">
+            null
+           </span>
+           )
                     Container(
-                      padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                      padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                       decoration: BoxDecoration(
-                        color: Colors.red.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        color: Colors.red.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                       child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
                     ),
-                  SizedBox(height: <span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Email'</span>,
+                      labelText:
+           <span class="string">
+            'Email'
+           </span>
+           ,
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
                     enabled: !_isLoading,
                   ),
-                  SizedBox(height: <span class="number">12</span>),
-                  <span class="keyword">if</span> (!_isLogin)
+                  SizedBox(height:
+           <span class="number">
+            12
+           </span>
+           ),
+           <span class="keyword">
+            if
+           </span>
+           (!_isLogin)
                     TextField(
                       controller: _usernameController,
                       decoration: InputDecoration(
-                        labelText: <span class="string">'Username'</span>,
+                        labelText:
+           <span class="string">
+            'Username'
+           </span>
+           ,
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                         ),
                       ),
                       enabled: !_isLoading,
                     ),
-                  <span class="keyword">if</span> (!_isLogin) SizedBox(height: <span class="number">12</span>),
+           <span class="keyword">
+            if
+           </span>
+           (!_isLogin) SizedBox(height:
+           <span class="number">
+            12
+           </span>
+           ),
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Password'</span>,
+                      labelText:
+           <span class="string">
+            'Password'
+           </span>
+           ,
                       prefixIcon: Icon(Icons.lock),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
-                    obscureText: <span class="keyword">true</span>,
+                    obscureText:
+           <span class="keyword">
+            true
+           </span>
+           ,
                     enabled: !_isLoading,
                     onSubmitted: (_) =&gt; _handleAuth(),
                   ),
-                  SizedBox(height: <span class="number">24</span>),
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
                   ElevatedButton(
-                    onPressed: _isLoading ? <span class="keyword">null</span> : _handleAuth,
+                    onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _handleAuth,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                      padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
                     child: _isLoading
                         ? SizedBox(
-                            height: <span class="number">20</span>,
-                            width: <span class="number">20</span>,
+                            height:
+           <span class="number">
+            20
+           </span>
+           ,
+                            width:
+           <span class="number">
+            20
+           </span>
+           ,
                             child: CircularProgressIndicator(
-                              strokeWidth: <span class="number">2</span>,
+                              strokeWidth:
+           <span class="number">
+            2
+           </span>
+           ,
                               color: Colors.white,
                             ),
                           )
                         : Text(
-                            _isLogin ? <span class="string">'Sign In'</span> : <span class="string">'Sign Up'</span>,
-                            style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+                            _isLogin ?
+           <span class="string">
+            'Sign In'
+           </span>
+           :
+           <span class="string">
+            'Sign Up'
+           </span>
+           ,
+                            style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , fontWeight: FontWeight.bold),
                           ),
                   ),
-                  SizedBox(height: <span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   Row(
                     children: [
                       Expanded(child: Divider()),
                       Padding(
-                        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
-                        child: Text(<span class="string">'OR'</span>, style: TextStyle(color: Colors.grey[<span class="number">400</span>])),
+                        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           ),
+                        child: Text(
+           <span class="string">
+            'OR'
+           </span>
+           , style: TextStyle(color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ])),
                       ),
                       Expanded(child: Divider()),
                     ],
                   ),
-                  SizedBox(height: <span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   OutlinedButton.icon(
-                    onPressed: _isLoading ? <span class="keyword">null</span> : _handleGoogleSignIn,
+                    onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _handleGoogleSignIn,
                     icon: Image.network(
-                      <span class="string">'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg'</span>,
-                      width: <span class="number">24</span>,
-                      height: <span class="number">24</span>,
+           <span class="string">
+            'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg'
+           </span>
+           ,
+                      width:
+           <span class="number">
+            24
+           </span>
+           ,
+                      height:
+           <span class="number">
+            24
+           </span>
+           ,
                     ),
-                    label: Text(<span class="string">'Continue with Google'</span>),
+                    label: Text(
+           <span class="string">
+            'Continue with Google'
+           </span>
+           ),
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                      padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
                   ),
-                  SizedBox(height: <span class="number">24</span>),
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        _isLogin ? <span class="string">"Don't have an account?"</span> : <span class="string">'Already have an account?'</span>,
-                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                        _isLogin ?
+           <span class="string">
+            "Don't have an account?"
+           </span>
+           :
+           <span class="string">
+            'Already have an account?'
+           </span>
+           ,
+                        style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                       ),
                       TextButton(
-                        onPressed: _isLoading ? <span class="keyword">null</span> : _toggleMode,
+                        onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _toggleMode,
                         child: Text(
-                          _isLogin ? <span class="string">'Sign Up'</span> : <span class="string">'Sign In'</span>,
+                          _isLogin ?
+           <span class="string">
+            'Sign Up'
+           </span>
+           :
+           <span class="string">
+            'Sign In'
+           </span>
+           ,
                           style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -1641,81 +4657,180 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>Supabase Realtime</strong> – WebSocket subscriptions for live message updates</li>
-<li><strong>StreamProvider</strong> – Handling realtime streams with Riverpod</li>
-<li><strong>Database Policies</strong> – Row Level Security for message access</li>
-<li><strong>Channel Subscriptions</strong> – Listening to INSERT events on the messages table</li>
-<li><strong>Auto-scroll</strong> – Automatically scrolling to latest messages</li>
-<li><strong>Message Bubbles</strong> – Differentiating current user vs other users</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge1-auth-system.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge3-instagram-clone.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://supabase.com" rel="noopener" target="_blank">Supabase</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            Supabase Realtime
+           </strong>
+           – WebSocket subscriptions for live message updates
+          </li>
+          <li>
+           <strong>
+            StreamProvider
+           </strong>
+           – Handling realtime streams with Riverpod
+          </li>
+          <li>
+           <strong>
+            Database Policies
+           </strong>
+           – Row Level Security for message access
+          </li>
+          <li>
+           <strong>
+            Channel Subscriptions
+           </strong>
+           – Listening to INSERT events on the messages table
+          </li>
+          <li>
+           <strong>
+            Auto-scroll
+           </strong>
+           – Automatically scrolling to latest messages
+          </li>
+          <li>
+           <strong>
+            Message Bubbles
+           </strong>
+           – Differentiating current user vs other users
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge1-auth-system.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge3-instagram-clone.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com" rel="noopener" target="_blank">
+         Supabase
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1823,8 +4938,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1897,5 +5012,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

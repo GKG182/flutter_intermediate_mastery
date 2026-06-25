@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Infinite Scroll Feed – Module 6 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build an Infinite Scroll Feed with pagination, loading states, and smooth scrolling in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Infinite Scroll Feed – Module 6 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build an Infinite Scroll Feed with pagination, loading states, and smooth scrolling in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -343,8 +344,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -407,134 +408,340 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 6 · Challenge 5
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Infinite Scroll Feed</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> Advanced Flutter</span>
-<span class="meta-item"><strong>Concepts:</strong> Pagination, Scroll Controller, API Integration, Loading States</span>
-<span class="meta-item"><strong>Est. Time:</strong> 35-45 min</span>
-<span class="meta-item"><span class="advanced-tag">⚡ Advanced</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build an <strong>Infinite Scroll Feed</strong> that loads posts from the
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 6 · Challenge 5
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Infinite Scroll Feed
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         Advanced Flutter
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         Pagination, Scroll Controller, API Integration, Loading States
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         35-45 min
+        </span>
+        <span class="meta-item">
+         <span class="advanced-tag">
+          ⚡ Advanced
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build an
+        <strong>
+         Infinite Scroll Feed
+        </strong>
+        that loads posts from the
               JSONPlaceholder API with pagination. The app should load more content as
               the user scrolls, with smooth loading indicators and error handling.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Fetch posts from <strong>JSONPlaceholder API</strong> with pagination</li>
-<li>Implement <strong>infinite scrolling</strong> with scroll detection</li>
-<li>Show <strong>loading indicators</strong> for initial and subsequent loads</li>
-<li>Display <strong>post cards</strong> with title, body, and user info</li>
-<li>Handle <strong>error states</strong> with retry functionality</li>
-<li>Add <strong>pull-to-refresh</strong> to reload the feed</li>
-<li>Show <strong>end-of-feed</strong> indicator when all posts loaded</li>
-<li>Use <strong>Riverpod</strong> for state management</li>
-<li>Support <strong>dark/light theme</strong></li>
-<li>Add <strong>search functionality</strong> to filter posts</li>
-</ul>
-</div>
-<div class="api-box">
-<h4>🌐 API Endpoint</h4>
-<p><strong>JSONPlaceholder - Posts</strong></p>
-<div class="endpoint">https://jsonplaceholder.typicode.com/posts?_page=1&amp;_limit=20</div>
-<div class="api-note">
-                💡 <strong>Note:</strong> JSONPlaceholder is a free mock API - no API key required!
-              </div>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://pub.dev/packages/http" target="_blank">http Package</a></li>
-<li><a href="https://pub.dev/packages/flutter_riverpod" target="_blank">Riverpod</a></li>
-<li><a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a></li>
-<li><a href="https://docs.flutter.dev/cookbook/networking/pagination" target="_blank">Flutter Pagination Guide</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Use <code>ScrollController</code> with <code>addListener</code> to detect when the user scrolls near the bottom.
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Fetch posts from
+          <strong>
+           JSONPlaceholder API
+          </strong>
+          with pagination
+         </li>
+         <li>
+          Implement
+          <strong>
+           infinite scrolling
+          </strong>
+          with scroll detection
+         </li>
+         <li>
+          Show
+          <strong>
+           loading indicators
+          </strong>
+          for initial and subsequent loads
+         </li>
+         <li>
+          Display
+          <strong>
+           post cards
+          </strong>
+          with title, body, and user info
+         </li>
+         <li>
+          Handle
+          <strong>
+           error states
+          </strong>
+          with retry functionality
+         </li>
+         <li>
+          Add
+          <strong>
+           pull-to-refresh
+          </strong>
+          to reload the feed
+         </li>
+         <li>
+          Show
+          <strong>
+           end-of-feed
+          </strong>
+          indicator when all posts loaded
+         </li>
+         <li>
+          Use
+          <strong>
+           Riverpod
+          </strong>
+          for state management
+         </li>
+         <li>
+          Support
+          <strong>
+           dark/light theme
+          </strong>
+         </li>
+         <li>
+          Add
+          <strong>
+           search functionality
+          </strong>
+          to filter posts
+         </li>
+        </ul>
+       </div>
+       <div class="api-box">
+        <h4>
+         🌐 API Endpoint
+        </h4>
+        <p>
+         <strong>
+          JSONPlaceholder - Posts
+         </strong>
+        </p>
+        <div class="endpoint">
+         https://jsonplaceholder.typicode.com/posts?_page=1&amp;_limit=20
+        </div>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         JSONPlaceholder is a free mock API - no API key required!
+        </div>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://pub.dev/packages/http" target="_blank">
+           http Package
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/flutter_riverpod" target="_blank">
+           Riverpod
+          </a>
+         </li>
+         <li>
+          <a href="https://jsonplaceholder.typicode.com" target="_blank">
+           JSONPlaceholder
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook/networking/pagination" target="_blank">
+           Flutter Pagination Guide
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Use
+          <code>
+           ScrollController
+          </code>
+          with
+          <code>
+           addListener
+          </code>
+          to detect when the user scrolls near the bottom.
                   Track the current page number and use it in API requests.
-                  Use <code>FutureProvider</code> for loading posts and <code>StateProvider</code> for pagination state.
-                  Show a <code>CircularProgressIndicator</code> at the bottom of the list when loading more.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+                  Use
+          <code>
+           FutureProvider
+          </code>
+          for loading posts and
+          <code>
+           StateProvider
+          </code>
+          for pagination state.
+                  Show a
+          <code>
+           CircularProgressIndicator
+          </code>
+          at the bottom of the list when loading more.
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
@@ -544,402 +751,1754 @@
   dev_dependencies:
     flutter_test:
       sdk: flutter
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Post Model (lib/models/post.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/post.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">Post</span> {
-    <span class="keyword">final</span> <span class="keyword">int</span> id;
-    <span class="keyword">final</span> <span class="keyword">int</span> userId;
-    <span class="keyword">final</span> String title;
-    <span class="keyword">final</span> String body;
-
-    <span class="function">Post</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.userId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">required</span> <span class="keyword">this</span>.body,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Post Model (lib/models/post.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/post.dart
+          </span>
+          <code>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Post
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           id;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           userId;
+           <span class="keyword">
+            final
+           </span>
+           String title;
+           <span class="keyword">
+            final
+           </span>
+           String body;
+           <span class="function">
+            Post
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .userId,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .title,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .body,
     });
-
-    <span class="keyword">factory</span> Post.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Post(
-        id: json[<span class="string">'id'</span>],
-        userId: json[<span class="string">'userId'</span>],
-        title: json[<span class="string">'title'</span>],
-        body: json[<span class="string">'body'</span>],
+           <span class="keyword">
+            factory
+           </span>
+           Post.
+           <span class="function">
+            fromJson
+           </span>
+           (Map&lt;String, dynamic&gt; json) {
+           <span class="keyword">
+            return
+           </span>
+           Post(
+        id: json[
+           <span class="string">
+            'id'
+           </span>
+           ],
+        userId: json[
+           <span class="string">
+            'userId'
+           </span>
+           ],
+        title: json[
+           <span class="string">
+            'title'
+           </span>
+           ],
+        body: json[
+           <span class="string">
+            'body'
+           </span>
+           ],
       );
     }
 
-    String <span class="function">getExcerpt</span>({<span class="keyword">int</span> length = <span class="number">100</span>}) {
-      <span class="keyword">if</span> (body.<span class="function">length</span> &lt;= length) <span class="keyword">return</span> body;
-      <span class="keyword">return</span> <span class="string">'${body.substring(0, length)}...'</span>;
+    String
+           <span class="function">
+            getExcerpt
+           </span>
+           ({
+           <span class="keyword">
+            int
+           </span>
+           length =
+           <span class="number">
+            100
+           </span>
+           }) {
+           <span class="keyword">
+            if
+           </span>
+           (body.
+           <span class="function">
+            length
+           </span>
+           &lt;= length)
+           <span class="keyword">
+            return
+           </span>
+           body;
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            '${body.substring(0, length)}...'
+           </span>
+           ;
     }
 
-    String <span class="function">getTitle</span>() {
-      <span class="keyword">return</span> title[<span class="number">0</span>].<span class="function">toUpperCase</span>() + title.<span class="function">substring</span>(<span class="number">1</span>);
+    String
+           <span class="function">
+            getTitle
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           title[
+           <span class="number">
+            0
+           </span>
+           ].
+           <span class="function">
+            toUpperCase
+           </span>
+           () + title.
+           <span class="function">
+            substring
+           </span>
+           (
+           <span class="number">
+            1
+           </span>
+           );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Feed Provider (lib/providers/feed_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/feed_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/post.dart'</span>;
-
-  <span class="keyword">final</span> searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt; <span class="string">''</span>);
-
-  <span class="keyword">class</span> <span class="function">FeedState</span> {
-    <span class="keyword">final</span> List&lt;Post&gt; posts;
-    <span class="keyword">final</span> <span class="keyword">int</span> currentPage;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isLoadingMore;
-    <span class="keyword">final</span> <span class="keyword">bool</span> hasMore;
-    <span class="keyword">final</span> String? error;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isSearching;
-
-    <span class="function">FeedState</span>({
-      <span class="keyword">this</span>.posts = <span class="keyword">const</span> [],
-      <span class="keyword">this</span>.currentPage = <span class="number">1</span>,
-      <span class="keyword">this</span>.isLoading = <span class="keyword">false</span>,
-      <span class="keyword">this</span>.isLoadingMore = <span class="keyword">false</span>,
-      <span class="keyword">this</span>.hasMore = <span class="keyword">true</span>,
-      <span class="keyword">this</span>.error,
-      <span class="keyword">this</span>.isSearching = <span class="keyword">false</span>,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Feed Provider (lib/providers/feed_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/feed_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:http/http.dart'
+           </span>
+           <span class="keyword">
+            as
+           </span>
+           http;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:convert'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/post.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           searchQueryProvider = StateProvider&lt;String&gt;((ref) =&gt;
+           <span class="string">
+            ''
+           </span>
+           );
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            FeedState
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Post&gt; posts;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           currentPage;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isLoading;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isLoadingMore;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           hasMore;
+           <span class="keyword">
+            final
+           </span>
+           String? error;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isSearching;
+           <span class="function">
+            FeedState
+           </span>
+           ({
+           <span class="keyword">
+            this
+           </span>
+           .posts =
+           <span class="keyword">
+            const
+           </span>
+           [],
+           <span class="keyword">
+            this
+           </span>
+           .currentPage =
+           <span class="number">
+            1
+           </span>
+           ,
+           <span class="keyword">
+            this
+           </span>
+           .isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ,
+           <span class="keyword">
+            this
+           </span>
+           .isLoadingMore =
+           <span class="keyword">
+            false
+           </span>
+           ,
+           <span class="keyword">
+            this
+           </span>
+           .hasMore =
+           <span class="keyword">
+            true
+           </span>
+           ,
+           <span class="keyword">
+            this
+           </span>
+           .error,
+           <span class="keyword">
+            this
+           </span>
+           .isSearching =
+           <span class="keyword">
+            false
+           </span>
+           ,
     });
 
-    FeedState <span class="function">copyWith</span>({
+    FeedState
+           <span class="function">
+            copyWith
+           </span>
+           ({
       List&lt;Post&gt;? posts,
-      <span class="keyword">int</span>? currentPage,
-      <span class="keyword">bool</span>? isLoading,
-      <span class="keyword">bool</span>? isLoadingMore,
-      <span class="keyword">bool</span>? hasMore,
+           <span class="keyword">
+            int
+           </span>
+           ? currentPage,
+           <span class="keyword">
+            bool
+           </span>
+           ? isLoading,
+           <span class="keyword">
+            bool
+           </span>
+           ? isLoadingMore,
+           <span class="keyword">
+            bool
+           </span>
+           ? hasMore,
       String? error,
-      <span class="keyword">bool</span>? isSearching,
+           <span class="keyword">
+            bool
+           </span>
+           ? isSearching,
     }) {
-      <span class="keyword">return</span> FeedState(
-        posts: posts ?? <span class="keyword">this</span>.posts,
-        currentPage: currentPage ?? <span class="keyword">this</span>.currentPage,
-        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
-        isLoadingMore: isLoadingMore ?? <span class="keyword">this</span>.isLoadingMore,
-        hasMore: hasMore ?? <span class="keyword">this</span>.hasMore,
+           <span class="keyword">
+            return
+           </span>
+           FeedState(
+        posts: posts ??
+           <span class="keyword">
+            this
+           </span>
+           .posts,
+        currentPage: currentPage ??
+           <span class="keyword">
+            this
+           </span>
+           .currentPage,
+        isLoading: isLoading ??
+           <span class="keyword">
+            this
+           </span>
+           .isLoading,
+        isLoadingMore: isLoadingMore ??
+           <span class="keyword">
+            this
+           </span>
+           .isLoadingMore,
+        hasMore: hasMore ??
+           <span class="keyword">
+            this
+           </span>
+           .hasMore,
         error: error,
-        isSearching: isSearching ?? <span class="keyword">this</span>.isSearching,
+        isSearching: isSearching ??
+           <span class="keyword">
+            this
+           </span>
+           .isSearching,
       );
     }
-
-    <span class="keyword">bool</span> get shouldShowEmpty =&gt; posts.<span class="function">isEmpty</span> &amp;&amp; !isLoading &amp;&amp; !isSearching;
-    <span class="keyword">bool</span> get shouldShowNoResults =&gt; posts.<span class="function">isEmpty</span> &amp;&amp; !isLoading &amp;&amp; isSearching;
+           <span class="keyword">
+            bool
+           </span>
+           get shouldShowEmpty =&gt; posts.
+           <span class="function">
+            isEmpty
+           </span>
+           &amp;&amp; !isLoading &amp;&amp; !isSearching;
+           <span class="keyword">
+            bool
+           </span>
+           get shouldShowNoResults =&gt; posts.
+           <span class="function">
+            isEmpty
+           </span>
+           &amp;&amp; !isLoading &amp;&amp; isSearching;
   }
-
-  <span class="keyword">class</span> <span class="function">FeedNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;FeedState&gt; {
-    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> perPage = <span class="number">20</span>;
-
-    <span class="function">FeedNotifier</span>() : <span class="keyword">super</span>(FeedState());
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">loadInitialPosts</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> query = ref.<span class="function">read</span>(searchQueryProvider);
-      <span class="keyword">if</span> (query.<span class="function">isNotEmpty</span>) {
-        <span class="keyword">await</span> <span class="function">searchPosts</span>(query);
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            FeedNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;FeedState&gt; {
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            const
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           perPage =
+           <span class="number">
+            20
+           </span>
+           ;
+           <span class="function">
+            FeedNotifier
+           </span>
+           () :
+           <span class="keyword">
+            super
+           </span>
+           (FeedState());
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            loadInitialPosts
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           query = ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider);
+           <span class="keyword">
+            if
+           </span>
+           (query.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            searchPosts
+           </span>
+           (query);
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
 
-      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>, error: <span class="keyword">null</span>, posts: []);
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> posts = <span class="keyword">await</span> <span class="function">_fetchPosts</span>(page: <span class="number">1</span>);
-        state = state.<span class="function">copyWith</span>(
+      state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (isLoading:
+           <span class="keyword">
+            true
+           </span>
+           , error:
+           <span class="keyword">
+            null
+           </span>
+           , posts: []);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           posts =
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            _fetchPosts
+           </span>
+           (page:
+           <span class="number">
+            1
+           </span>
+           );
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
           posts: posts,
-          currentPage: <span class="number">1</span>,
-          isLoading: <span class="keyword">false</span>,
-          hasMore: posts.<span class="function">length</span> == perPage,
-          isSearching: <span class="keyword">false</span>,
+          currentPage:
+           <span class="number">
+            1
+           </span>
+           ,
+          isLoading:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          hasMore: posts.
+           <span class="function">
+            length
+           </span>
+           == perPage,
+          isSearching:
+           <span class="keyword">
+            false
+           </span>
+           ,
         );
-      } <span class="function">catch</span> (e) {
-        state = state.<span class="function">copyWith</span>(
-          isLoading: <span class="keyword">false</span>,
-          error: e.<span class="function">toString</span>(),
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
+          isLoading:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          error: e.
+           <span class="function">
+            toString
+           </span>
+           (),
         );
       }
     }
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            loadMorePosts
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (state.isLoadingMore || !state.hasMore || state.isSearching)
+           <span class="keyword">
+            return
+           </span>
+           ;
 
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">loadMorePosts</span>() <span class="keyword">async</span> {
-      <span class="keyword">if</span> (state.isLoadingMore || !state.hasMore || state.isSearching) <span class="keyword">return</span>;
-
-      state = state.<span class="function">copyWith</span>(isLoadingMore: <span class="keyword">true</span>);
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> nextPage = state.currentPage + <span class="number">1</span>;
-        <span class="keyword">final</span> newPosts = <span class="keyword">await</span> <span class="function">_fetchPosts</span>(page: nextPage);
-        state = state.<span class="function">copyWith</span>(
+      state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (isLoadingMore:
+           <span class="keyword">
+            true
+           </span>
+           );
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           nextPage = state.currentPage +
+           <span class="number">
+            1
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           newPosts =
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            _fetchPosts
+           </span>
+           (page: nextPage);
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
           posts: [...state.posts, ...newPosts],
           currentPage: nextPage,
-          isLoadingMore: <span class="keyword">false</span>,
-          hasMore: newPosts.<span class="function">length</span> == perPage,
+          isLoadingMore:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          hasMore: newPosts.
+           <span class="function">
+            length
+           </span>
+           == perPage,
         );
-      } <span class="function">catch</span> (e) {
-        state = state.<span class="function">copyWith</span>(
-          isLoadingMore: <span class="keyword">false</span>,
-          error: e.<span class="function">toString</span>(),
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
+          isLoadingMore:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          error: e.
+           <span class="function">
+            toString
+           </span>
+           (),
         );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">refreshFeed</span>() <span class="keyword">async</span> {
-      state = state.<span class="function">copyWith</span>(isLoading: <span class="keyword">true</span>, error: <span class="keyword">null</span>);
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> posts = <span class="keyword">await</span> <span class="function">_fetchPosts</span>(page: <span class="number">1</span>);
-        state = state.<span class="function">copyWith</span>(
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            refreshFeed
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (isLoading:
+           <span class="keyword">
+            true
+           </span>
+           , error:
+           <span class="keyword">
+            null
+           </span>
+           );
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           posts =
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            _fetchPosts
+           </span>
+           (page:
+           <span class="number">
+            1
+           </span>
+           );
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
           posts: posts,
-          currentPage: <span class="number">1</span>,
-          isLoading: <span class="keyword">false</span>,
-          hasMore: posts.<span class="function">length</span> == perPage,
-          isSearching: <span class="keyword">false</span>,
+          currentPage:
+           <span class="number">
+            1
+           </span>
+           ,
+          isLoading:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          hasMore: posts.
+           <span class="function">
+            length
+           </span>
+           == perPage,
+          isSearching:
+           <span class="keyword">
+            false
+           </span>
+           ,
         );
-      } <span class="function">catch</span> (e) {
-        state = state.<span class="function">copyWith</span>(
-          isLoading: <span class="keyword">false</span>,
-          error: e.<span class="function">toString</span>(),
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
+          isLoading:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          error: e.
+           <span class="function">
+            toString
+           </span>
+           (),
         );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">searchPosts</span>(String query) <span class="keyword">async</span> {
-      <span class="keyword">if</span> (query.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-        state = state.<span class="function">copyWith</span>(isSearching: <span class="keyword">false</span>);
-        <span class="keyword">await</span> <span class="function">loadInitialPosts</span>();
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            searchPosts
+           </span>
+           (String query)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (query.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (isSearching:
+           <span class="keyword">
+            false
+           </span>
+           );
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            loadInitialPosts
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
 
-      state = state.<span class="function">copyWith</span>(
-        isLoading: <span class="keyword">true</span>,
-        isSearching: <span class="keyword">true</span>,
-        error: <span class="keyword">null</span>,
+      state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
+        isLoading:
+           <span class="keyword">
+            true
+           </span>
+           ,
+        isSearching:
+           <span class="keyword">
+            true
+           </span>
+           ,
+        error:
+           <span class="keyword">
+            null
+           </span>
+           ,
         posts: [],
-        hasMore: <span class="keyword">false</span>,
+        hasMore:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           allPosts =
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            _fetchAllPosts
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           filtered = allPosts
+            .
+           <span class="function">
+            where
+           </span>
+           ((post) =&gt;
+                post.title.
+           <span class="function">
+            toLowerCase
+           </span>
+           ().
+           <span class="function">
+            contains
+           </span>
+           (query.
+           <span class="function">
+            toLowerCase
+           </span>
+           ()) ||
+                post.body.
+           <span class="function">
+            toLowerCase
+           </span>
+           ().
+           <span class="function">
+            contains
+           </span>
+           (query.
+           <span class="function">
+            toLowerCase
+           </span>
+           ()))
+            .
+           <span class="function">
+            toList
+           </span>
+           ();
 
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> allPosts = <span class="keyword">await</span> <span class="function">_fetchAllPosts</span>();
-        <span class="keyword">final</span> filtered = allPosts
-            .<span class="function">where</span>((post) =&gt;
-                post.title.<span class="function">toLowerCase</span>().<span class="function">contains</span>(query.<span class="function">toLowerCase</span>()) ||
-                post.body.<span class="function">toLowerCase</span>().<span class="function">contains</span>(query.<span class="function">toLowerCase</span>()))
-            .<span class="function">toList</span>();
-
-        state = state.<span class="function">copyWith</span>(
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
           posts: filtered,
-          isLoading: <span class="keyword">false</span>,
-          isSearching: <span class="keyword">true</span>,
-          hasMore: <span class="keyword">false</span>,
+          isLoading:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          isSearching:
+           <span class="keyword">
+            true
+           </span>
+           ,
+          hasMore:
+           <span class="keyword">
+            false
+           </span>
+           ,
         );
-      } <span class="function">catch</span> (e) {
-        state = state.<span class="function">copyWith</span>(
-          isLoading: <span class="keyword">false</span>,
-          error: e.<span class="function">toString</span>(),
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = state.
+           <span class="function">
+            copyWith
+           </span>
+           (
+          isLoading:
+           <span class="keyword">
+            false
+           </span>
+           ,
+          error: e.
+           <span class="function">
+            toString
+           </span>
+           (),
         );
       }
     }
-
-    <span class="keyword">Future</span>&lt;List&lt;Post&gt;&gt; <span class="function">_fetchPosts</span>({<span class="keyword">required</span> <span class="keyword">int</span> page}) <span class="keyword">async</span> {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(
-        Uri.<span class="function">parse</span>(<span class="string">'https://jsonplaceholder.typicode.com/posts?_page=</span><span class="string">$page</span><span class="string">&amp;_limit=</span><span class="string">$perPage</span><span class="string">'</span>),
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Post&gt;&gt;
+           <span class="function">
+            _fetchPosts
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           page})
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (
+        Uri.
+           <span class="function">
+            parse
+           </span>
+           (
+           <span class="string">
+            'https://jsonplaceholder.typicode.com/posts?_page=
+           </span>
+           <span class="string">
+            $page
+           </span>
+           <span class="string">
+            &amp;_limit=
+           </span>
+           <span class="string">
+            $perPage
+           </span>
+           <span class="string">
+            '
+           </span>
+           ),
       );
-
-      <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-        <span class="keyword">final</span> List&lt;dynamic&gt; data = json.<span class="function">decode</span>(response.body);
-        <span class="keyword">return</span> data.<span class="function">map</span>((json) =&gt; Post.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
-      } <span class="keyword">else</span> {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to load posts'</span>);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           List&lt;dynamic&gt; data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            return
+           </span>
+           data.
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; Post.
+           <span class="function">
+            fromJson
+           </span>
+           (json)).
+           <span class="function">
+            toList
+           </span>
+           ();
+      }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to load posts'
+           </span>
+           );
       }
     }
-
-    <span class="keyword">Future</span>&lt;List&lt;Post&gt;&gt; <span class="function">_fetchAllPosts</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> http.<span class="function">get</span>(
-        Uri.<span class="function">parse</span>(<span class="string">'https://jsonplaceholder.typicode.com/posts'</span>),
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Post&gt;&gt;
+           <span class="function">
+            _fetchAllPosts
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           http.
+           <span class="function">
+            get
+           </span>
+           (
+        Uri.
+           <span class="function">
+            parse
+           </span>
+           (
+           <span class="string">
+            'https://jsonplaceholder.typicode.com/posts'
+           </span>
+           ),
       );
-
-      <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-        <span class="keyword">final</span> List&lt;dynamic&gt; data = json.<span class="function">decode</span>(response.body);
-        <span class="keyword">return</span> data.<span class="function">map</span>((json) =&gt; Post.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
-      } <span class="keyword">else</span> {
-        <span class="keyword">throw</span> Exception(<span class="string">'Failed to load posts'</span>);
+           <span class="keyword">
+            if
+           </span>
+           (response.statusCode ==
+           <span class="number">
+            200
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           List&lt;dynamic&gt; data = json.
+           <span class="function">
+            decode
+           </span>
+           (response.body);
+           <span class="keyword">
+            return
+           </span>
+           data.
+           <span class="function">
+            map
+           </span>
+           ((json) =&gt; Post.
+           <span class="function">
+            fromJson
+           </span>
+           (json)).
+           <span class="function">
+            toList
+           </span>
+           ();
+      }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Failed to load posts'
+           </span>
+           );
       }
     }
   }
-
-  <span class="keyword">final</span> feedProvider = StateNotifierProvider&lt;FeedNotifier, FeedState&gt;((ref) {
-    <span class="keyword">final</span> notifier = FeedNotifier();
-    notifier.<span class="function">loadInitialPosts</span>();
-    <span class="keyword">return</span> notifier;
+           <span class="keyword">
+            final
+           </span>
+           feedProvider = StateNotifierProvider&lt;FeedNotifier, FeedState&gt;((ref) {
+           <span class="keyword">
+            final
+           </span>
+           notifier = FeedNotifier();
+    notifier.
+           <span class="function">
+            loadInitialPosts
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           notifier;
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Main App (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'presentation/screens/feed_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Main App (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'presentation/screens/feed_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Infinite Feed'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Infinite Feed'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> FeedScreen(),
-        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+        home:
+           <span class="keyword">
+            const
+           </span>
+           FeedScreen(),
+        debugShowCheckedModeBanner:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Feed Screen (lib/presentation/screens/feed_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/presentation/screens/feed_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../providers/feed_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../widgets/post_card.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../widgets/search_bar.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'post_detail_screen.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">FeedScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">FeedScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Feed Screen (lib/presentation/screens/feed_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/presentation/screens/feed_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../providers/feed_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../widgets/post_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../widgets/search_bar.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'post_detail_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            FeedScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            FeedScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;FeedScreen&gt; <span class="function">createState</span>() =&gt; _FeedScreenState();
+    ConsumerState&lt;FeedScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _FeedScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_FeedScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;FeedScreen&gt; {
-    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _FeedScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;FeedScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           ScrollController _scrollController = ScrollController();
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
-      _scrollController.<span class="function">addListener</span>(_onScroll);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            initState
+           </span>
+           () {
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            initState
+           </span>
+           ();
+      _scrollController.
+           <span class="function">
+            addListener
+           </span>
+           (_onScroll);
     }
-
-    <span class="keyword">void</span> <span class="function">_onScroll</span>() {
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(feedProvider.notifier);
-      <span class="keyword">final</span> state = ref.<span class="function">read</span>(feedProvider);
-
-      <span class="keyword">if</span> (_scrollController.position.<span class="function">pixels</span> &gt;=
-          _scrollController.position.<span class="function">maxScrollExtent</span> * <span class="number">0.8</span>) {
-        notifier.<span class="function">loadMorePosts</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _onScroll
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (feedProvider.notifier);
+           <span class="keyword">
+            final
+           </span>
+           state = ref.
+           <span class="function">
+            read
+           </span>
+           (feedProvider);
+           <span class="keyword">
+            if
+           </span>
+           (_scrollController.position.
+           <span class="function">
+            pixels
+           </span>
+           &gt;=
+          _scrollController.position.
+           <span class="function">
+            maxScrollExtent
+           </span>
+           *
+           <span class="number">
+            0.8
+           </span>
+           ) {
+        notifier.
+           <span class="function">
+            loadMorePosts
+           </span>
+           ();
       }
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _scrollController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _scrollController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(feedProvider);
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(feedProvider.notifier);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           state = ref.
+           <span class="function">
+            watch
+           </span>
+           (feedProvider);
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (feedProvider.notifier);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'📱 Infinite Feed'</span>),
+          title: Text(
+           <span class="string">
+            '📱 Infinite Feed'
+           </span>
+           ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(<span class="number">70</span>),
+            preferredSize: Size.fromHeight(
+           <span class="number">
+            70
+           </span>
+           ),
             child: Padding(
-              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+              padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           , vertical:
+           <span class="number">
+            8
+           </span>
+           ),
               child: SearchBar(
                 onSearch: (query) {
-                  notifier.<span class="function">searchPosts</span>(query);
+                  notifier.
+           <span class="function">
+            searchPosts
+           </span>
+           (query);
                 },
                 onClear: () {
-                  notifier.<span class="function">loadInitialPosts</span>();
+                  notifier.
+           <span class="function">
+            loadInitialPosts
+           </span>
+           ();
                 },
               ),
             ),
           ),
         ),
         body: RefreshIndicator(
-          onRefresh: () <span class="keyword">async</span> {
-            <span class="keyword">if</span> (state.isSearching) {
-              <span class="keyword">final</span> query = ref.<span class="function">read</span>(searchQueryProvider);
-              <span class="keyword">await</span> notifier.<span class="function">searchPosts</span>(query);
-            } <span class="keyword">else</span> {
-              <span class="keyword">await</span> notifier.<span class="function">refreshFeed</span>();
+          onRefresh: ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (state.isSearching) {
+           <span class="keyword">
+            final
+           </span>
+           query = ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider);
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            searchPosts
+           </span>
+           (query);
+            }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            refreshFeed
+           </span>
+           ();
             }
           },
-          child: state.error != <span class="keyword">null</span> &amp;&amp; state.posts.<span class="function">isEmpty</span>
-              ? Center(
+          child: state.error !=
+           <span class="keyword">
+            null
+           </span>
+           &amp;&amp; state.posts.
+           <span class="function">
+            isEmpty
+           </span>
+           ? Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+                    mainAxisAlignment: MainAxisAlignment.
+           <span class="function">
+            center
+           </span>
+           ,
                     children: [
-                      Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                      SizedBox(height: <span class="number">16</span>),
+                      Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                      SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                       Text(
                         state.error!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                        style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                       ),
-                      SizedBox(height: <span class="number">16</span>),
+                      SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                       ElevatedButton(
                         onPressed: () {
-                          <span class="keyword">if</span> (state.isSearching) {
-                            <span class="keyword">final</span> query = ref.<span class="function">read</span>(searchQueryProvider);
-                            notifier.<span class="function">searchPosts</span>(query);
-                          } <span class="keyword">else</span> {
-                            notifier.<span class="function">loadInitialPosts</span>();
+           <span class="keyword">
+            if
+           </span>
+           (state.isSearching) {
+           <span class="keyword">
+            final
+           </span>
+           query = ref.
+           <span class="function">
+            read
+           </span>
+           (searchQueryProvider);
+                            notifier.
+           <span class="function">
+            searchPosts
+           </span>
+           (query);
+                          }
+           <span class="keyword">
+            else
+           </span>
+           {
+                            notifier.
+           <span class="function">
+            loadInitialPosts
+           </span>
+           ();
                           }
                         },
-                        child: Text(<span class="string">'Retry'</span>),
+                        child: Text(
+           <span class="string">
+            'Retry'
+           </span>
+           ),
                       ),
                     ],
                   ),
                 )
-              : state.isLoading &amp;&amp; state.posts.<span class="function">isEmpty</span>
-                  ? Center(child: CircularProgressIndicator())
+              : state.isLoading &amp;&amp; state.posts.
+           <span class="function">
+            isEmpty
+           </span>
+           ? Center(child: CircularProgressIndicator())
                   : state.shouldShowEmpty
                       ? _buildEmptyState()
                       : state.shouldShowNoResults
                           ? _buildNoResultsState()
-                          : ListView.<span class="function">builder</span>(
+                          : ListView.
+           <span class="function">
+            builder
+           </span>
+           (
                               controller: _scrollController,
-                              padding: EdgeInsets.<span class="function">all</span>(<span class="number">8</span>),
-                              itemCount: state.posts.<span class="function">length</span> + (state.isLoadingMore ? <span class="number">1</span> : <span class="number">0</span>),
+                              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                              itemCount: state.posts.
+           <span class="function">
+            length
+           </span>
+           + (state.isLoadingMore ?
+           <span class="number">
+            1
+           </span>
+           :
+           <span class="number">
+            0
+           </span>
+           ),
                               itemBuilder: (context, index) {
-                                <span class="keyword">if</span> (index == state.posts.<span class="function">length</span>) {
-                                  <span class="keyword">return</span> Padding(
-                                    padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+           <span class="keyword">
+            if
+           </span>
+           (index == state.posts.
+           <span class="function">
+            length
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Padding(
+                                    padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                                     child: Center(
                                       child: CircularProgressIndicator(),
                                     ),
                                   );
                                 }
-                                <span class="keyword">final</span> post = state.posts[index];
-                                <span class="keyword">return</span> PostCard(
+           <span class="keyword">
+            final
+           </span>
+           post = state.posts[index];
+           <span class="keyword">
+            return
+           </span>
+           PostCard(
                                   post: post,
                                   onTap: () {
-                                    Navigator.<span class="function">push</span>(
+                                    Navigator.
+           <span class="function">
+            push
+           </span>
+           (
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) =&gt; PostDetailScreen(post: post),
@@ -954,24 +2513,65 @@
     }
 
     Widget _buildEmptyState() {
-      <span class="keyword">return</span> Center(
+           <span class="keyword">
+            return
+           </span>
+           Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+          mainAxisAlignment: MainAxisAlignment.
+           <span class="function">
+            center
+           </span>
+           ,
           children: [
-            Icon(Icons.post_add, size: <span class="number">80</span>, color: Colors.grey[<span class="number">300</span>]),
-            SizedBox(height: <span class="number">16</span>),
+            Icon(Icons.post_add, size:
+           <span class="number">
+            80
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]),
+            SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
             Text(
-              <span class="string">'No posts yet'</span>,
+           <span class="string">
+            'No posts yet'
+           </span>
+           ,
               style: TextStyle(
-                fontSize: <span class="number">20</span>,
+                fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[<span class="number">600</span>],
+                color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
               ),
             ),
-            SizedBox(height: <span class="number">8</span>),
+            SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
             Text(
-              <span class="string">'Pull down to refresh'</span>,
-              style: TextStyle(color: Colors.grey[<span class="number">500</span>]),
+           <span class="string">
+            'Pull down to refresh'
+           </span>
+           ,
+              style: TextStyle(color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
             ),
           ],
         ),
@@ -979,51 +2579,159 @@
     }
 
     Widget _buildNoResultsState() {
-      <span class="keyword">return</span> Center(
+           <span class="keyword">
+            return
+           </span>
+           Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.<span class="function">center</span>,
+          mainAxisAlignment: MainAxisAlignment.
+           <span class="function">
+            center
+           </span>
+           ,
           children: [
-            Icon(Icons.search_off, size: <span class="number">80</span>, color: Colors.grey[<span class="number">300</span>]),
-            SizedBox(height: <span class="number">16</span>),
+            Icon(Icons.search_off, size:
+           <span class="number">
+            80
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]),
+            SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
             Text(
-              <span class="string">'No results found'</span>,
+           <span class="string">
+            'No results found'
+           </span>
+           ,
               style: TextStyle(
-                fontSize: <span class="number">20</span>,
+                fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[<span class="number">600</span>],
+                color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
               ),
             ),
-            SizedBox(height: <span class="number">8</span>),
+            SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
             Text(
-              <span class="string">'Try a different search term'</span>,
-              style: TextStyle(color: Colors.grey[<span class="number">500</span>]),
+           <span class="string">
+            'Try a different search term'
+           </span>
+           ,
+              style: TextStyle(color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
             ),
           ],
         ),
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Post Card Widget (lib/presentation/widgets/post_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/presentation/widgets/post_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/post.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">PostCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Post post;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function() onTap;
-
-    <span class="keyword">const</span> <span class="function">PostCard</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.post,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Post Card Widget (lib/presentation/widgets/post_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/presentation/widgets/post_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/post.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            PostCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Post post;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function() onTap;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            PostCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .post,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onTap,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
-
-    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Color&gt; _avatarColors = [
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Color&gt; _avatarColors = [
       Colors.blue,
       Colors.green,
       Colors.orange,
@@ -1034,74 +2742,207 @@
       Colors.indigo,
     ];
 
-    Color <span class="function">_getAvatarColor</span>(<span class="keyword">int</span> userId) {
-      <span class="keyword">return</span> _avatarColors[userId % _avatarColors.<span class="function">length</span>];
+    Color
+           <span class="function">
+            _getAvatarColor
+           </span>
+           (
+           <span class="keyword">
+            int
+           </span>
+           userId) {
+           <span class="keyword">
+            return
+           </span>
+           _avatarColors[userId % _avatarColors.
+           <span class="function">
+            length
+           </span>
+           ];
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Card(
-        margin: EdgeInsets.<span class="function">only</span>(bottom: <span class="number">8</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        margin: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (bottom:
+           <span class="number">
+            8
+           </span>
+           ),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+              crossAxisAlignment: CrossAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
               children: [
                 CircleAvatar(
-                  backgroundColor: <span class="function">_getAvatarColor</span>(post.userId),
+                  backgroundColor:
+           <span class="function">
+            _getAvatarColor
+           </span>
+           (post.userId),
                   child: Text(
-                    post.userId.<span class="function">toString</span>(),
+                    post.userId.
+           <span class="function">
+            toString
+           </span>
+           (),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                SizedBox(width: <span class="number">12</span>),
+                SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+                    crossAxisAlignment: CrossAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
                     children: [
                       Text(
-                        post.<span class="function">getTitle</span>(),
+                        post.
+           <span class="function">
+            getTitle
+           </span>
+           (),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: <span class="number">16</span>,
+                          fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                         ),
-                        maxLines: <span class="number">2</span>,
+                        maxLines:
+           <span class="number">
+            2
+           </span>
+           ,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: <span class="number">4</span>),
+                      SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                       Text(
-                        post.<span class="function">getExcerpt</span>(),
+                        post.
+           <span class="function">
+            getExcerpt
+           </span>
+           (),
                         style: TextStyle(
-                          color: Colors.grey[<span class="number">600</span>],
-                          fontSize: <span class="number">14</span>,
+                          color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
+                          fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                         ),
-                        maxLines: <span class="number">3</span>,
+                        maxLines:
+           <span class="number">
+            3
+           </span>
+           ,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                       Row(
                         children: [
                           Icon(
                             Icons.person_outline,
-                            size: <span class="number">12</span>,
-                            color: Colors.grey[<span class="number">500</span>],
+                            size:
+           <span class="number">
+            12
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                           ),
-                          SizedBox(width: <span class="number">4</span>),
+                          SizedBox(width:
+           <span class="number">
+            4
+           </span>
+           ),
                           Text(
-                            <span class="string">'User ${post.userId}'</span>,
+           <span class="string">
+            'User ${post.userId}'
+           </span>
+           ,
                             style: TextStyle(
-                              fontSize: <span class="number">12</span>,
-                              color: Colors.grey[<span class="number">500</span>],
+                              fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                              color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                             ),
                           ),
                           Spacer(),
                           Icon(
                             Icons.chevron_right,
-                            size: <span class="number">16</span>,
-                            color: Colors.grey[<span class="number">400</span>],
+                            size:
+           <span class="number">
+            16
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
                           ),
                         ],
                       ),
@@ -1115,204 +2956,640 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">7. Search Bar Widget (lib/presentation/widgets/search_bar.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/presentation/widgets/search_bar.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">SearchBar</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">final</span> <span class="keyword">void</span> Function(String) onSearch;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function() onClear;
-
-    <span class="keyword">const</span> <span class="function">SearchBar</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.onSearch,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onClear,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          7. Search Bar Widget (lib/presentation/widgets/search_bar.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/presentation/widgets/search_bar.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            SearchBar
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatefulWidget {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function(String) onSearch;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function() onClear;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            SearchBar
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onSearch,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onClear,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    State&lt;SearchBar&gt; <span class="function">createState</span>() =&gt; _SearchBarState();
+    State&lt;SearchBar&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _SearchBarState();
   }
-
-  <span class="keyword">class</span> <span class="function">_SearchBarState</span> <span class="keyword">extends</span> State&lt;SearchBar&gt; {
-    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
-    <span class="keyword">final</span> FocusNode _focusNode = FocusNode();
-    <span class="keyword">bool</span> _isTyping = <span class="keyword">false</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _SearchBarState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           State&lt;SearchBar&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _controller = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           FocusNode _focusNode = FocusNode();
+           <span class="keyword">
+            bool
+           </span>
+           _isTyping =
+           <span class="keyword">
+            false
+           </span>
+           ;
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>();
-      _focusNode.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _controller.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _focusNode.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_handleSearch</span>() {
-      <span class="keyword">final</span> query = _controller.text.<span class="function">trim</span>();
-      widget.<span class="function">onSearch</span>(query);
-      _focusNode.<span class="function">unfocus</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _handleSearch
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           query = _controller.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+      widget.
+           <span class="function">
+            onSearch
+           </span>
+           (query);
+      _focusNode.
+           <span class="function">
+            unfocus
+           </span>
+           ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Container(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Container(
         decoration: BoxDecoration(
-          color: Colors.grey[<span class="number">200</span>],
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+          color: Colors.grey[
+           <span class="number">
+            200
+           </span>
+           ],
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
         ),
         child: Row(
           children: [
-            SizedBox(width: <span class="number">8</span>),
-            Icon(Icons.search, color: Colors.grey[<span class="number">600</span>]),
-            SizedBox(width: <span class="number">8</span>),
+            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
+            Icon(Icons.search, color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
+            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
             Expanded(
               child: TextField(
                 controller: _controller,
                 focusNode: _focusNode,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Search posts...'</span>,
-                  border: InputBorder.<span class="function">none</span>,
-                  hintStyle: TextStyle(color: Colors.grey[<span class="number">500</span>]),
+                  hintText:
+           <span class="string">
+            'Search posts...'
+           </span>
+           ,
+                  border: InputBorder.
+           <span class="function">
+            none
+           </span>
+           ,
+                  hintStyle: TextStyle(color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                 ),
                 onChanged: (value) {
-                  setState(() =&gt; _isTyping = value.<span class="function">isNotEmpty</span>);
-                  <span class="keyword">if</span> (value.<span class="function">isEmpty</span>) {
-                    widget.<span class="function">onClear</span>();
+                  setState(() =&gt; _isTyping = value.
+           <span class="function">
+            isNotEmpty
+           </span>
+           );
+           <span class="keyword">
+            if
+           </span>
+           (value.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+                    widget.
+           <span class="function">
+            onClear
+           </span>
+           ();
                   }
                 },
                 onSubmitted: (_) =&gt; _handleSearch(),
-                textInputAction: TextInputAction.<span class="function">search</span>,
+                textInputAction: TextInputAction.
+           <span class="function">
+            search
+           </span>
+           ,
               ),
             ),
-            <span class="keyword">if</span> (_isTyping)
+           <span class="keyword">
+            if
+           </span>
+           (_isTyping)
               IconButton(
                 onPressed: () {
-                  _controller.<span class="function">clear</span>();
-                  setState(() =&gt; _isTyping = <span class="keyword">false</span>);
-                  widget.<span class="function">onClear</span>();
-                  _focusNode.<span class="function">requestFocus</span>();
+                  _controller.
+           <span class="function">
+            clear
+           </span>
+           ();
+                  setState(() =&gt; _isTyping =
+           <span class="keyword">
+            false
+           </span>
+           );
+                  widget.
+           <span class="function">
+            onClear
+           </span>
+           ();
+                  _focusNode.
+           <span class="function">
+            requestFocus
+           </span>
+           ();
                 },
-                icon: Icon(Icons.clear, size: <span class="number">18</span>, color: Colors.grey[<span class="number">600</span>]),
-                padding: EdgeInsets.<span class="function">zero</span>,
+                icon: Icon(Icons.clear, size:
+           <span class="number">
+            18
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
+                padding: EdgeInsets.
+           <span class="function">
+            zero
+           </span>
+           ,
                 constraints: BoxConstraints(),
               ),
-            SizedBox(width: <span class="number">8</span>),
+            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
             ElevatedButton(
               onPressed: _handleSearch,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                 ),
-                padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">8</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            12
+           </span>
+           , vertical:
+           <span class="number">
+            8
+           </span>
+           ),
               ),
-              child: Text(<span class="string">'Search'</span>),
+              child: Text(
+           <span class="string">
+            'Search'
+           </span>
+           ),
             ),
-            SizedBox(width: <span class="number">4</span>),
+            SizedBox(width:
+           <span class="number">
+            4
+           </span>
+           ),
           ],
         ),
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">8. Post Detail Screen (lib/presentation/screens/post_detail_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/presentation/screens/post_detail_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/post.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">PostDetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Post post;
-
-    <span class="keyword">const</span> <span class="function">PostDetailScreen</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.post,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          8. Post Detail Screen (lib/presentation/screens/post_detail_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/presentation/screens/post_detail_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/post.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            PostDetailScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Post post;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            PostDetailScreen
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .post,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Post Details'</span>),
+          title: Text(
+           <span class="string">
+            'Post Details'
+           </span>
+           ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+            crossAxisAlignment: CrossAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
             children: [
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: Colors.blue.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+                    backgroundColor: Colors.blue.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
                     child: Text(
-                      post.userId.<span class="function">toString</span>(),
+                      post.userId.
+           <span class="function">
+            toString
+           </span>
+           (),
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
-                  SizedBox(width: <span class="number">12</span>),
+                  SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.<span class="function">start</span>,
+                    crossAxisAlignment: CrossAxisAlignment.
+           <span class="function">
+            start
+           </span>
+           ,
                     children: [
                       Text(
-                        <span class="string">'User #${post.userId}'</span>,
+           <span class="string">
+            'User #${post.userId}'
+           </span>
+           ,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: <span class="number">14</span>,
+                          fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                         ),
                       ),
                       Text(
-                        <span class="string">'Post #${post.id}'</span>,
+           <span class="string">
+            'Post #${post.id}'
+           </span>
+           ,
                         style: TextStyle(
-                          fontSize: <span class="number">12</span>,
-                          color: Colors.grey[<span class="number">500</span>],
+                          fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                          color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: <span class="number">24</span>),
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
               Text(
-                post.<span class="function">getTitle</span>(),
+                post.
+           <span class="function">
+            getTitle
+           </span>
+           (),
                 style: TextStyle(
-                  fontSize: <span class="number">24</span>,
+                  fontSize:
+           <span class="number">
+            24
+           </span>
+           ,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: <span class="number">16</span>),
+              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
               Text(
                 post.body,
                 style: TextStyle(
-                  fontSize: <span class="number">16</span>,
-                  height: <span class="number">1.6</span>,
-                  color: Colors.grey[<span class="number">800</span>],
+                  fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
+                  height:
+           <span class="number">
+            1.6
+           </span>
+           ,
+                  color: Colors.grey[
+           <span class="number">
+            800
+           </span>
+           ],
                 ),
               ),
               Spacer(),
               Container(
-                padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                 decoration: BoxDecoration(
-                  color: Colors.blue.<span class="function">withOpacity</span>(<span class="number">0.05</span>),
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-                  border: Border.<span class="function">all</span>(color: Colors.blue.<span class="function">withOpacity</span>(<span class="number">0.2</span>)),
+                  color: Colors.blue.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.05
+           </span>
+           ),
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                  border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.blue.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.2
+           </span>
+           )),
                 ),
                 child: Row(
                   children: [
                     Icon(Icons.info_outline, color: Colors.blue),
-                    SizedBox(width: <span class="number">8</span>),
+                    SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                     Expanded(
                       child: Text(
-                        <span class="string">'This is a mock post from JSONPlaceholder API'</span>,
-                        style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.blue),
+           <span class="string">
+            'This is a mock post from JSONPlaceholder API'
+           </span>
+           ,
+                        style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           , color: Colors.blue),
                       ),
                     ),
                   ],
@@ -1324,81 +3601,180 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>Infinite Scrolling</strong> – Pagination with scroll detection</li>
-<li><strong>API Integration</strong> – Fetching data with http package</li>
-<li><strong>State Management</strong> – Riverpod with StateNotifier for complex state</li>
-<li><strong>Loading States</strong> – Initial loading, loading more, and error handling</li>
-<li><strong>Search Functionality</strong> – Filtering posts with real-time search</li>
-<li><strong>Pull-to-Refresh</strong> – RefreshIndicator for manual refresh</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge4-fitness-tracker-ui.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge6-image-gallery-app.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://jsonplaceholder.typicode.com" rel="noopener" target="_blank">JSONPlaceholder</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            Infinite Scrolling
+           </strong>
+           – Pagination with scroll detection
+          </li>
+          <li>
+           <strong>
+            API Integration
+           </strong>
+           – Fetching data with http package
+          </li>
+          <li>
+           <strong>
+            State Management
+           </strong>
+           – Riverpod with StateNotifier for complex state
+          </li>
+          <li>
+           <strong>
+            Loading States
+           </strong>
+           – Initial loading, loading more, and error handling
+          </li>
+          <li>
+           <strong>
+            Search Functionality
+           </strong>
+           – Filtering posts with real-time search
+          </li>
+          <li>
+           <strong>
+            Pull-to-Refresh
+           </strong>
+           – RefreshIndicator for manual refresh
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge4-fitness-tracker-ui.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge6-image-gallery-app.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://jsonplaceholder.typicode.com" rel="noopener" target="_blank">
+         JSONPlaceholder
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1506,8 +3882,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1580,5 +3956,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

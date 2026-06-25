@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Realtime – Module 4 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to implement real-time features in Flutter with Supabase Realtime. Master database subscriptions, presence tracking, and live UI updates." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Realtime – Module 4 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to implement real-time features in Flutter with Supabase Realtime. Master database subscriptions, presence tracking, and live UI updates." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -502,9 +503,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -567,346 +568,843 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module4-state-management.html">Module 4</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 5</span>
-</div>
-<span class="module-badge"><i class="fas fa-database"></i> Module 4</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 5</div>
-<h1>Realtime</h1>
-<p class="topic-subtitle">
-            Building live, collaborative features with Supabase Realtime — database subscriptions, presence, and streams.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://supabase.com/docs/guides/realtime" target="_blank">
-<i class="fas fa-globe"></i> Supabase Realtime Overview
-            </a>
-<a class="doc-badge" href="https://supabase.com/docs/guides/realtime/realtime-listeners" target="_blank">
-<i class="fas fa-book"></i> Realtime Listeners
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT IS REALTIME ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Is Realtime?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Supabase Realtime</strong> is a feature that allows you to <strong>listen to database changes</strong>
-            in real-time and build <strong>live, collaborative features</strong> into your Flutter apps.
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module4-state-management.html">
+        Module 4
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 5
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-database">
+       </i>
+       Module 4
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 5
+      </div>
+      <h1>
+       Realtime
+      </h1>
+      <p class="topic-subtitle">
+       Building live, collaborative features with Supabase Realtime — database subscriptions, presence, and streams.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://supabase.com/docs/guides/realtime" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Supabase Realtime Overview
+       </a>
+       <a class="doc-badge" href="https://supabase.com/docs/guides/realtime/realtime-listeners" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Realtime Listeners
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT IS REALTIME ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Is Realtime?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Supabase Realtime
+       </strong>
+       is a feature that allows you to
+       <strong>
+        listen to database changes
+       </strong>
+       in real-time and build
+       <strong>
+        live, collaborative features
+       </strong>
+       into your Flutter apps.
             It's built on top of PostgreSQL and uses WebSockets for efficient communication.
-          </p>
-<div class="concept-card success">
-<h4>✅ What You Can Build with Realtime</h4>
-<ul>
-<li><strong>Live Chat</strong> – Real-time message updates without polling</li>
-<li><strong>Collaborative Editing</strong> – Multiple users editing the same document</li>
-<li><strong>Live Dashboards</strong> – Real-time data visualization</li>
-<li><strong>Presence Systems</strong> – See who's online and what they're doing</li>
-<li><strong>Live Feeds</strong> – Social media feeds that update in real-time</li>
-<li><strong>Game Leaderboards</strong> – Live score updates</li>
-</ul>
-</div>
-<div class="comparison-grid">
-<div class="compare-item">
-<h4 style="color: var(--primary);">Polling (Traditional)</h4>
-<ul>
-<li>Repeated HTTP requests (every few seconds)</li>
-<li>Wastes bandwidth and battery</li>
-<li>High latency (up to the polling interval)</li>
-<li>More server load</li>
-<li>Simple to implement</li>
-</ul>
-</div>
-<div class="compare-item">
-<h4 style="color: #10B981;">WebSockets (Realtime)</h4>
-<ul>
-<li>Persistent connection</li>
-<li>Efficient — only sends when data changes</li>
-<li>Instant updates (milliseconds)</li>
-<li>Less server load</li>
-<li>More complex setup</li>
-</ul>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 2: REALTIME CHANNELS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Realtime Channels</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Realtime works through <strong>channels</strong> — logical groupings of subscriptions.
+      </p>
+      <div class="concept-card success">
+       <h4>
+        ✅ What You Can Build with Realtime
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Live Chat
+         </strong>
+         – Real-time message updates without polling
+        </li>
+        <li>
+         <strong>
+          Collaborative Editing
+         </strong>
+         – Multiple users editing the same document
+        </li>
+        <li>
+         <strong>
+          Live Dashboards
+         </strong>
+         – Real-time data visualization
+        </li>
+        <li>
+         <strong>
+          Presence Systems
+         </strong>
+         – See who's online and what they're doing
+        </li>
+        <li>
+         <strong>
+          Live Feeds
+         </strong>
+         – Social media feeds that update in real-time
+        </li>
+        <li>
+         <strong>
+          Game Leaderboards
+         </strong>
+         – Live score updates
+        </li>
+       </ul>
+      </div>
+      <div class="comparison-grid">
+       <div class="compare-item">
+        <h4 style="color: var(--primary);">
+         Polling (Traditional)
+        </h4>
+        <ul>
+         <li>
+          Repeated HTTP requests (every few seconds)
+         </li>
+         <li>
+          Wastes bandwidth and battery
+         </li>
+         <li>
+          High latency (up to the polling interval)
+         </li>
+         <li>
+          More server load
+         </li>
+         <li>
+          Simple to implement
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: #10B981;">
+         WebSockets (Realtime)
+        </h4>
+        <ul>
+         <li>
+          Persistent connection
+         </li>
+         <li>
+          Efficient — only sends when data changes
+         </li>
+         <li>
+          Instant updates (milliseconds)
+         </li>
+         <li>
+          Less server load
+         </li>
+         <li>
+          More complex setup
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: REALTIME CHANNELS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Realtime Channels
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Realtime works through
+       <strong>
+        channels
+       </strong>
+       — logical groupings of subscriptions.
             You can subscribe to changes on specific tables or even specific rows.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/realtime_service.dart – Realtime Channels</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">RealtimeService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/realtime_service.dart – Realtime Channels
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         RealtimeService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
     RealtimeChannel? _channel;
-
-    <span class="comment">// Subscribe to all changes on the 'posts' table</span>
-<span class="keyword">void</span> <span class="function">subscribeToPosts</span>({
-      <span class="keyword">void</span> Function(PostgresChangePayload)? onInsert,
-      <span class="keyword">void</span> Function(PostgresChangePayload)? onUpdate,
-      <span class="keyword">void</span> Function(PostgresChangePayload)? onDelete,
+        <span class="comment">
+         // Subscribe to all changes on the 'posts' table
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         subscribeToPosts
+        </span>
+        ({
+        <span class="keyword">
+         void
+        </span>
+        Function(PostgresChangePayload)? onInsert,
+        <span class="keyword">
+         void
+        </span>
+        Function(PostgresChangePayload)? onUpdate,
+        <span class="keyword">
+         void
+        </span>
+        Function(PostgresChangePayload)? onDelete,
     }) {
-      _channel = client.channel(<span class="string">'public:posts'</span>)
+      _channel = client.channel(
+        <span class="string">
+         'public:posts'
+        </span>
+        )
         .onPostgresChange(
           PostgresChangeEvent.insert,
           (payload) {
-            print(<span class="string">'Post inserted: ${payload.newRecord}'</span>);
+            print(
+        <span class="string">
+         'Post inserted: ${payload.newRecord}'
+        </span>
+        );
             onInsert?.call(payload);
           },
         )
         .onPostgresChange(
           PostgresChangeEvent.update,
           (payload) {
-            print(<span class="string">'Post updated: ${payload.newRecord}'</span>);
+            print(
+        <span class="string">
+         'Post updated: ${payload.newRecord}'
+        </span>
+        );
             onUpdate?.call(payload);
           },
         )
         .onPostgresChange(
           PostgresChangeEvent.delete,
           (payload) {
-            print(<span class="string">'Post deleted: ${payload.oldRecord}'</span>);
+            print(
+        <span class="string">
+         'Post deleted: ${payload.oldRecord}'
+        </span>
+        );
             onDelete?.call(payload);
           },
         )
         .subscribe();
     }
-
-    <span class="comment">// Subscribe to changes on a specific post</span>
-<span class="keyword">void</span> <span class="function">subscribeToPost</span>(String postId, {
-      <span class="keyword">void</span> Function(PostgresChangePayload)? onUpdate,
+        <span class="comment">
+         // Subscribe to changes on a specific post
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         subscribeToPost
+        </span>
+        (String postId, {
+        <span class="keyword">
+         void
+        </span>
+        Function(PostgresChangePayload)? onUpdate,
     }) {
-      _channel = client.channel(<span class="string">'public:posts:id=eq.$postId'</span>)
+      _channel = client.channel(
+        <span class="string">
+         'public:posts:id=eq.$postId'
+        </span>
+        )
         .onPostgresChange(
           PostgresChangeEvent.update,
           (payload) {
-            print(<span class="string">'Post $postId updated: ${payload.newRecord}'</span>);
+            print(
+        <span class="string">
+         'Post $postId updated: ${payload.newRecord}'
+        </span>
+        );
             onUpdate?.call(payload);
           },
         )
         .subscribe();
     }
-
-    <span class="comment">// Subscribe to comments on a specific post</span>
-<span class="keyword">void</span> <span class="function">subscribeToPostComments</span>(String postId, {
-      <span class="keyword">void</span> Function(PostgresChangePayload)? onInsert,
+        <span class="comment">
+         // Subscribe to comments on a specific post
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         subscribeToPostComments
+        </span>
+        (String postId, {
+        <span class="keyword">
+         void
+        </span>
+        Function(PostgresChangePayload)? onInsert,
     }) {
-      _channel = client.channel(<span class="string">'public:comments:post_id=eq.$postId'</span>)
+      _channel = client.channel(
+        <span class="string">
+         'public:comments:post_id=eq.$postId'
+        </span>
+        )
         .onPostgresChange(
           PostgresChangeEvent.insert,
           (payload) {
-            print(<span class="string">'Comment added to post $postId: ${payload.newRecord}'</span>);
+            print(
+        <span class="string">
+         'Comment added to post $postId: ${payload.newRecord}'
+        </span>
+        );
             onInsert?.call(payload);
           },
         )
         .subscribe();
     }
-
-    <span class="comment">// Unsubscribe from all channels</span>
-<span class="keyword">void</span> <span class="function">unsubscribe</span>() {
+        <span class="comment">
+         // Unsubscribe from all channels
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         unsubscribe
+        </span>
+        () {
       _channel?.unsubscribe();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 3: PRESENCE SYSTEM ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Presence System (Online Users)</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Presence</strong> allows you to track who's online and what they're doing.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: PRESENCE SYSTEM ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Presence System (Online Users)
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Presence
+       </strong>
+       allows you to track who's online and what they're doing.
             It's perfect for chat apps, collaborative tools, and social features.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/presence_service.dart – Presence Tracking</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">PresenceService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/presence_service.dart – Presence Tracking
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         PresenceService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
     RealtimeChannel? _presenceChannel;
-    <span class="keyword">final</span> Map&lt;String, dynamic&gt; _onlineUsers = {};
-
-    <span class="keyword">Map</span>&lt;String, dynamic&gt; <span class="function">get</span> onlineUsers =&gt; _onlineUsers;
-
-    <span class="keyword">void</span> <span class="function">initializePresence</span>(String roomId, String userId, String username) {
+        <span class="keyword">
+         final
+        </span>
+        Map&lt;String, dynamic&gt; _onlineUsers = {};
+        <span class="keyword">
+         Map
+        </span>
+        &lt;String, dynamic&gt;
+        <span class="function">
+         get
+        </span>
+        onlineUsers =&gt; _onlineUsers;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initializePresence
+        </span>
+        (String roomId, String userId, String username) {
       _presenceChannel = client.channel(
-        <span class="string">'presence:$roomId'</span>,
+        <span class="string">
+         'presence:$roomId'
+        </span>
+        ,
         opts: const RealtimeChannelOptions(
           config: PresenceConfig(
-            key: <span class="string">'user_id'</span>,
+            key:
+        <span class="string">
+         'user_id'
+        </span>
+        ,
           ),
         ),
       );
-
-      <span class="comment">// Track when users join</span>
-      _presenceChannel!.onPresenceSync((payload) {
-        <span class="keyword">final</span> presenceState = payload.presenceState;
+        <span class="comment">
+         // Track when users join
+        </span>
+        _presenceChannel!.onPresenceSync((payload) {
+        <span class="keyword">
+         final
+        </span>
+        presenceState = payload.presenceState;
         _onlineUsers.clear();
         presenceState.forEach((key, value) {
-          <span class="keyword">final</span> user = value.first <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
+        <span class="keyword">
+         final
+        </span>
+        user = value.first
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
           _onlineUsers[key] = user;
         });
       });
-
-      <span class="comment">// Track when users leave</span>
-      _presenceChannel!.onPresenceDiff((diff) {
+        <span class="comment">
+         // Track when users leave
+        </span>
+        _presenceChannel!.onPresenceDiff((diff) {
         diff.leaves.forEach((key, value) {
           _onlineUsers.remove(key);
         });
       });
-
-      <span class="comment">// Join the presence channel</span>
-      _presenceChannel!.subscribe((status) async {
-        <span class="keyword">if</span> (status == <span class="string">'SUBSCRIBED'</span>) {
-          <span class="keyword">final</span> presenceData = {
-            <span class="string">'user_id'</span>: userId,
-            <span class="string">'username'</span>: username,
-            <span class="string">'online_at'</span>: DateTime.now().toIso8601String(),
+        <span class="comment">
+         // Join the presence channel
+        </span>
+        _presenceChannel!.subscribe((status) async {
+        <span class="keyword">
+         if
+        </span>
+        (status ==
+        <span class="string">
+         'SUBSCRIBED'
+        </span>
+        ) {
+        <span class="keyword">
+         final
+        </span>
+        presenceData = {
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
+        <span class="string">
+         'username'
+        </span>
+        : username,
+        <span class="string">
+         'online_at'
+        </span>
+        : DateTime.now().toIso8601String(),
           };
-          <span class="keyword">await</span> _presenceChannel!.track(presenceData);
+        <span class="keyword">
+         await
+        </span>
+        _presenceChannel!.track(presenceData);
         }
       });
     }
-
-    <span class="keyword">void</span> <span class="function">updatePresence</span>({
-      <span class="keyword">required</span> String status,
-      <span class="keyword">required</span> String userId,
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         updatePresence
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String status,
+        <span class="keyword">
+         required
+        </span>
+        String userId,
     }) {
-      <span class="keyword">final</span> presenceData = {
-        <span class="string">'user_id'</span>: userId,
-        <span class="string">'status'</span>: status,
-        <span class="string">'last_active'</span>: DateTime.now().toIso8601String(),
+        <span class="keyword">
+         final
+        </span>
+        presenceData = {
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
+        <span class="string">
+         'status'
+        </span>
+        : status,
+        <span class="string">
+         'last_active'
+        </span>
+        : DateTime.now().toIso8601String(),
       };
       _presenceChannel?.track(presenceData);
     }
-
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
       _presenceChannel?.unsubscribe();
     }
-
-    <span class="keyword">bool</span> <span class="function">isUserOnline</span>(String userId) {
-      <span class="keyword">return</span> _onlineUsers.containsKey(userId);
+        <span class="keyword">
+         bool
+        </span>
+        <span class="function">
+         isUserOnline
+        </span>
+        (String userId) {
+        <span class="keyword">
+         return
+        </span>
+        _onlineUsers.containsKey(userId);
     }
-
-    <span class="keyword">int</span> <span class="function">getOnlineCount</span>() {
-      <span class="keyword">return</span> _onlineUsers.length;
+        <span class="keyword">
+         int
+        </span>
+        <span class="function">
+         getOnlineCount
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        _onlineUsers.length;
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/online_users_widget.dart – Display Online Users</span>
-<code>
-<span class="keyword">class</span> <span class="function">OnlineUsersWidget</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">final</span> PresenceService presenceService;
-
-    <span class="keyword">const</span> OnlineUsersWidget({<span class="keyword">required</span> <span class="keyword">this</span>.presenceService, super.key});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/online_users_widget.dart – Display Online Users
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         OnlineUsersWidget
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
+        <span class="keyword">
+         final
+        </span>
+        PresenceService presenceService;
+        <span class="keyword">
+         const
+        </span>
+        OnlineUsersWidget({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .presenceService, super.key});
 
     @override
-    State&lt;OnlineUsersWidget&gt; <span class="function">createState</span>() =&gt; _OnlineUsersWidgetState();
+    State&lt;OnlineUsersWidget&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _OnlineUsersWidgetState();
   }
-
-  <span class="keyword">class</span> _OnlineUsersWidgetState <span class="keyword">extends</span> State&lt;OnlineUsersWidget&gt; {
-    <span class="keyword">late</span> PresenceService _presenceService;
+        <span class="keyword">
+         class
+        </span>
+        _OnlineUsersWidgetState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;OnlineUsersWidget&gt; {
+        <span class="keyword">
+         late
+        </span>
+        PresenceService _presenceService;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _presenceService = widget.presenceService;
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> users = _presenceService.onlineUsers;
-      <span class="keyword">final</span> count = _presenceService.getOnlineCount();
-
-      <span class="keyword">return</span> Container(
-        padding: EdgeInsets.all(<span class="number">16</span>),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         final
+        </span>
+        users = _presenceService.onlineUsers;
+        <span class="keyword">
+         final
+        </span>
+        count = _presenceService.getOnlineCount();
+        <span class="keyword">
+         return
+        </span>
+        Container(
+        padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              <span class="string">'🟢 $count online'</span>,
+        <span class="string">
+         '🟢 $count online'
+        </span>
+        ,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: <span class="number">8</span>),
+            SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
             Wrap(
-              spacing: <span class="number">8</span>,
-              runSpacing: <span class="number">8</span>,
+              spacing:
+        <span class="number">
+         8
+        </span>
+        ,
+              runSpacing:
+        <span class="number">
+         8
+        </span>
+        ,
               children: users.entries.map((entry) {
-                <span class="keyword">final</span> user = entry.value <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-                <span class="keyword">return</span> Chip(
+        <span class="keyword">
+         final
+        </span>
+        user = entry.value
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
+        <span class="keyword">
+         return
+        </span>
+        Chip(
                   avatar: CircleAvatar(
-                    radius: <span class="number">12</span>,
+                    radius:
+        <span class="number">
+         12
+        </span>
+        ,
                     child: Text(
-                      (user[<span class="string">'username'</span>] ?? <span class="string">'?'</span>)[<span class="number">0</span>].toUpperCase(),
-                      style: TextStyle(fontSize: <span class="number">10</span>),
+                      (user[
+        <span class="string">
+         'username'
+        </span>
+        ] ??
+        <span class="string">
+         '?'
+        </span>
+        )[
+        <span class="number">
+         0
+        </span>
+        ].toUpperCase(),
+                      style: TextStyle(fontSize:
+        <span class="number">
+         10
+        </span>
+        ),
                     ),
                   ),
-                  label: Text(user[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>),
+                  label: Text(user[
+        <span class="string">
+         'username'
+        </span>
+        ] ??
+        <span class="string">
+         'Unknown'
+        </span>
+        ),
                   backgroundColor: Colors.green.shade50,
                 );
               }).toList(),
@@ -916,40 +1414,102 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 4: STREAMS AND SUBSCRIPTIONS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Streams and Subscriptions</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            You can convert Realtime subscriptions into <strong>Dart Streams</strong> for easy integration
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: STREAMS AND SUBSCRIPTIONS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Streams and Subscriptions
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       You can convert Realtime subscriptions into
+       <strong>
+        Dart Streams
+       </strong>
+       for easy integration
             with Flutter's reactive programming model.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/stream_service.dart – Realtime Streams</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">StreamService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/stream_service.dart – Realtime Streams
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         StreamService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
     RealtimeChannel? _channel;
-    <span class="keyword">final</span> StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; _messagesController =
+        <span class="keyword">
+         final
+        </span>
+        StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; _messagesController =
         StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;.broadcast();
 
-    Stream&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">get</span> messagesStream =&gt; _messagesController.stream;
-
-    <span class="keyword">void</span> <span class="function">subscribeToMessages</span>(String roomId) {
-      _channel = client.channel(<span class="string">'public:messages:room_id=eq.$roomId'</span>)
+    Stream&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         get
+        </span>
+        messagesStream =&gt; _messagesController.stream;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         subscribeToMessages
+        </span>
+        (String roomId) {
+      _channel = client.channel(
+        <span class="string">
+         'public:messages:room_id=eq.$roomId'
+        </span>
+        )
         .onPostgresChange(
           PostgresChangeEvent.insert,
           (payload) {
-            <span class="comment">// Get current messages from the database</span>
-            _fetchCurrentMessages(roomId);
+        <span class="comment">
+         // Get current messages from the database
+        </span>
+        _fetchCurrentMessages(roomId);
           },
         )
         .onPostgresChange(
@@ -965,119 +1525,377 @@
           },
         )
         .subscribe();
-
-      <span class="comment">// Initial fetch</span>
-      _fetchCurrentMessages(roomId);
+        <span class="comment">
+         // Initial fetch
+        </span>
+        _fetchCurrentMessages(roomId);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_fetchCurrentMessages</span>(String roomId) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> client
-            .from(<span class="string">'messages'</span>)
-            .select(<span class="string">'*, profiles(username)'</span>)
-            .eq(<span class="string">'room_id'</span>, roomId)
-            .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">true</span>);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _fetchCurrentMessages
+        </span>
+        (String roomId) async {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+            .from(
+        <span class="string">
+         'messages'
+        </span>
+        )
+            .select(
+        <span class="string">
+         '*, profiles(username)'
+        </span>
+        )
+            .eq(
+        <span class="string">
+         'room_id'
+        </span>
+        , roomId)
+            .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         true
+        </span>
+        );
 
         _messagesController.add(response);
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error fetching messages: $e'</span>);
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error fetching messages: $e'
+        </span>
+        );
       }
     }
-
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
       _channel?.unsubscribe();
       _messagesController.close();
     }
   }
-
-  <span class="comment">// Using the stream with Riverpod</span>
-<span class="keyword">final</span> messagesStreamProvider = StreamProvider&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;((ref) {
-    <span class="keyword">final</span> service = ref.watch(streamServiceProvider);
-    <span class="keyword">return</span> service.messagesStream;
+        <span class="comment">
+         // Using the stream with Riverpod
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        messagesStreamProvider = StreamProvider&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;((ref) {
+        <span class="keyword">
+         final
+        </span>
+        service = ref.watch(streamServiceProvider);
+        <span class="keyword">
+         return
+        </span>
+        service.messagesStream;
   });
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Live Chat App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete live chat app using Supabase Realtime for instant message updates.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Complete Chat App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() async {
-    <span class="keyword">await</span> Supabase.initialize(
-      url: <span class="string">'https://your-project.supabase.co'</span>,
-      anonKey: <span class="string">'your-anon-key'</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Live Chat App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete live chat app using Supabase Realtime for instant message updates.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Complete Chat App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:intl/intl.dart'
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        Supabase.initialize(
+      url:
+        <span class="string">
+         'https://your-project.supabase.co'
+        </span>
+        ,
+      anonKey:
+        <span class="string">
+         'your-anon-key'
+        </span>
+        ,
     );
-    runApp(<span class="function">MyApp</span>());
+    runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Live Chat'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Live Chat'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         home: ChatRoomScreen(),
       );
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 1. CHAT SERVICE</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">ChatService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 1. CHAT SERVICE
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
     RealtimeChannel? _channel;
-    <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; _messages = [];
-    <span class="keyword">final</span> List&lt;Function&gt; _listeners = [];
-
-    <span class="keyword">List</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">get</span> messages =&gt; _messages;
-
-    <span class="keyword">void</span> <span class="function">addListener</span>(Function listener) {
+        <span class="keyword">
+         final
+        </span>
+        List&lt;Map&lt;String, dynamic&gt;&gt; _messages = [];
+        <span class="keyword">
+         final
+        </span>
+        List&lt;Function&gt; _listeners = [];
+        <span class="keyword">
+         List
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         get
+        </span>
+        messages =&gt; _messages;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         addListener
+        </span>
+        (Function listener) {
       _listeners.add(listener);
     }
-
-    <span class="keyword">void</span> <span class="function">removeListener</span>(Function listener) {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         removeListener
+        </span>
+        (Function listener) {
       _listeners.remove(listener);
     }
-
-    <span class="keyword">void</span> <span class="function">_notifyListeners</span>() {
-      <span class="keyword">for</span> (<span class="keyword">var</span> listener <span class="keyword">in</span> _listeners) {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _notifyListeners
+        </span>
+        () {
+        <span class="keyword">
+         for
+        </span>
+        (
+        <span class="keyword">
+         var
+        </span>
+        listener
+        <span class="keyword">
+         in
+        </span>
+        _listeners) {
         listener();
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">connect</span>(String roomId) async {
-      <span class="comment">// Load initial messages</span>
-<span class="keyword">await</span> _loadMessages(roomId);
-
-      <span class="comment">// Subscribe to real-time updates</span>
-      _channel = client.channel(<span class="string">'public:messages:room_id=eq.$roomId'</span>)
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         connect
+        </span>
+        (String roomId) async {
+        <span class="comment">
+         // Load initial messages
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        _loadMessages(roomId);
+        <span class="comment">
+         // Subscribe to real-time updates
+        </span>
+        _channel = client.channel(
+        <span class="string">
+         'public:messages:room_id=eq.$roomId'
+        </span>
+        )
         .onPostgresChange(
           PostgresChangeEvent.insert,
           (payload) async {
-            <span class="comment">// Check if the new message belongs to this room</span>
-<span class="keyword">final</span> newRecord = payload.newRecord <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-            <span class="keyword">if</span> (newRecord[<span class="string">'room_id'</span>] == roomId) {
-              <span class="comment">// Fetch the full message with user profile</span>
-<span class="keyword">final</span> fullMessage = <span class="keyword">await</span> client
-                  .from(<span class="string">'messages'</span>)
-                  .select(<span class="string">'*, profiles(username)'</span>)
-                  .eq(<span class="string">'id'</span>, newRecord[<span class="string">'id'</span>])
+        <span class="comment">
+         // Check if the new message belongs to this room
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        newRecord = payload.newRecord
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
+        <span class="keyword">
+         if
+        </span>
+        (newRecord[
+        <span class="string">
+         'room_id'
+        </span>
+        ] == roomId) {
+        <span class="comment">
+         // Fetch the full message with user profile
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        fullMessage =
+        <span class="keyword">
+         await
+        </span>
+        client
+                  .from(
+        <span class="string">
+         'messages'
+        </span>
+        )
+                  .select(
+        <span class="string">
+         '*, profiles(username)'
+        </span>
+        )
+                  .eq(
+        <span class="string">
+         'id'
+        </span>
+        , newRecord[
+        <span class="string">
+         'id'
+        </span>
+        ])
                   .single();
 
               _messages.add(fullMessage);
@@ -1087,97 +1905,291 @@
         )
         .subscribe();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadMessages</span>(String roomId) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
-          .from(<span class="string">'messages'</span>)
-          .select(<span class="string">'*, profiles(username)'</span>)
-          .eq(<span class="string">'room_id'</span>, roomId)
-          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">true</span>);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _loadMessages
+        </span>
+        (String roomId) async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'messages'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*, profiles(username)'
+        </span>
+        )
+          .eq(
+        <span class="string">
+         'room_id'
+        </span>
+        , roomId)
+          .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         true
+        </span>
+        );
 
       _messages.clear();
       _messages.addAll(response);
       _notifyListeners();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">sendMessage</span>({
-      <span class="keyword">required</span> String roomId,
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> String content,
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         sendMessage
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String roomId,
+        <span class="keyword">
+         required
+        </span>
+        String userId,
+        <span class="keyword">
+         required
+        </span>
+        String content,
     }) async {
-      <span class="keyword">if</span> (content.trim().isEmpty) <span class="keyword">return</span>;
-
-      <span class="keyword">await</span> client.from(<span class="string">'messages'</span>).insert({
-        <span class="string">'room_id'</span>: roomId,
-        <span class="string">'user_id'</span>: userId,
-        <span class="string">'content'</span>: content.trim(),
+        <span class="keyword">
+         if
+        </span>
+        (content.trim().isEmpty)
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         await
+        </span>
+        client.from(
+        <span class="string">
+         'messages'
+        </span>
+        ).insert({
+        <span class="string">
+         'room_id'
+        </span>
+        : roomId,
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
+        <span class="string">
+         'content'
+        </span>
+        : content.trim(),
       });
     }
-
-    <span class="keyword">void</span> <span class="function">disconnect</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         disconnect
+        </span>
+        () {
       _channel?.unsubscribe();
       _listeners.clear();
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 2. CHAT UI</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">ChatRoomScreen</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 2. CHAT UI
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatRoomScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;ChatRoomScreen&gt; <span class="function">createState</span>() =&gt; _ChatRoomScreenState();
+    State&lt;ChatRoomScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _ChatRoomScreenState();
   }
-
-  <span class="keyword">class</span> _ChatRoomScreenState <span class="keyword">extends</span> State&lt;ChatRoomScreen&gt; {
-    <span class="keyword">final</span> ChatService _chatService = ChatService();
-    <span class="keyword">final</span> TextEditingController _messageController = TextEditingController();
-    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
-    String _roomId = <span class="string">'general'</span>;
+        <span class="keyword">
+         class
+        </span>
+        _ChatRoomScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;ChatRoomScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        ChatService _chatService = ChatService();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _messageController = TextEditingController();
+        <span class="keyword">
+         final
+        </span>
+        ScrollController _scrollController = ScrollController();
+    String _roomId =
+        <span class="string">
+         'general'
+        </span>
+        ;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _chatService.addListener(_updateUI);
       _connectToChat();
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
       _chatService.removeListener(_updateUI);
       _chatService.disconnect();
       _messageController.dispose();
       _scrollController.dispose();
-      <span class="keyword">super</span>.dispose();
+        <span class="keyword">
+         super
+        </span>
+        .dispose();
     }
-
-    <span class="keyword">void</span> <span class="function">_updateUI</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _updateUI
+        </span>
+        () {
       setState(() {});
       _scrollToBottom();
     }
-
-    <span class="keyword">void</span> <span class="function">_scrollToBottom</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _scrollToBottom
+        </span>
+        () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        <span class="keyword">if</span> (_scrollController.hasClients) {
+        <span class="keyword">
+         if
+        </span>
+        (_scrollController.hasClients) {
           _scrollController.animateTo(
             _scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: <span class="number">300</span>),
+            duration: Duration(milliseconds:
+        <span class="number">
+         300
+        </span>
+        ),
             curve: Curves.easeOut,
           );
         }
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_connectToChat</span>() async {
-      <span class="keyword">await</span> _chatService.connect(_roomId);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _connectToChat
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        _chatService.connect(_roomId);
       setState(() {});
       _scrollToBottom();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_sendMessage</span>() async {
-      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
-      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
-
-      <span class="keyword">await</span> _chatService.sendMessage(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _sendMessage
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        user = Supabase.instance.client.auth.currentUser;
+        <span class="keyword">
+         if
+        </span>
+        (user ==
+        <span class="keyword">
+         null
+        </span>
+        )
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         await
+        </span>
+        _chatService.sendMessage(
         roomId: _roomId,
         userId: user.id,
         content: _messageController.text,
@@ -1187,27 +2199,59 @@
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> messages = _chatService.messages;
-      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         final
+        </span>
+        messages = _chatService.messages;
+        <span class="keyword">
+         final
+        </span>
+        user = Supabase.instance.client.auth.currentUser;
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
           title: Row(
             children: [
               Container(
-                width: <span class="number">10</span>,
-                height: <span class="number">10</span>,
+                width:
+        <span class="number">
+         10
+        </span>
+        ,
+                height:
+        <span class="number">
+         10
+        </span>
+        ,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.green,
                 ),
               ),
-              SizedBox(width: <span class="number">8</span>),
-              Text(<span class="string">'#$_roomId'</span>),
+              SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
+              Text(
+        <span class="string">
+         '#$_roomId'
+        </span>
+        ),
             ],
           ),
-          centerTitle: <span class="keyword">true</span>,
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         body: Column(
           children: [
@@ -1217,14 +2261,32 @@
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.chat_bubble_outline, size: <span class="number">80</span>, color: Colors.grey.shade400),
-                          SizedBox(height: <span class="number">16</span>),
+                          Icon(Icons.chat_bubble_outline, size:
+        <span class="number">
+         80
+        </span>
+        , color: Colors.grey.shade400),
+                          SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                           Text(
-                            <span class="string">'No messages yet'</span>,
-                            style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+        <span class="string">
+         'No messages yet'
+        </span>
+        ,
+                            style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        , fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            <span class="string">'Be the first to send a message!'</span>,
+        <span class="string">
+         'Be the first to send a message!'
+        </span>
+        ,
                             style: TextStyle(color: Colors.grey.shade400),
                           ),
                         ],
@@ -1232,21 +2294,74 @@
                     )
                   : ListView.builder(
                       controller: _scrollController,
-                      padding: EdgeInsets.all(<span class="number">12</span>),
+                      padding: EdgeInsets.all(
+        <span class="number">
+         12
+        </span>
+        ),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
-                        <span class="keyword">final</span> message = messages[index];
-                        <span class="keyword">final</span> profile = message[<span class="string">'profiles'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;?;
-                        <span class="keyword">final</span> username = profile?[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>;
-                        <span class="keyword">final</span> isMe = message[<span class="string">'user_id'</span>] == user?.id;
-                        <span class="keyword">final</span> createdAt = DateTime.parse(message[<span class="string">'created_at'</span>]);
-
-                        <span class="keyword">return</span> Align(
+        <span class="keyword">
+         final
+        </span>
+        message = messages[index];
+        <span class="keyword">
+         final
+        </span>
+        profile = message[
+        <span class="string">
+         'profiles'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;?;
+        <span class="keyword">
+         final
+        </span>
+        username = profile?[
+        <span class="string">
+         'username'
+        </span>
+        ] ??
+        <span class="string">
+         'Unknown'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        isMe = message[
+        <span class="string">
+         'user_id'
+        </span>
+        ] == user?.id;
+        <span class="keyword">
+         final
+        </span>
+        createdAt = DateTime.parse(message[
+        <span class="string">
+         'created_at'
+        </span>
+        ]);
+        <span class="keyword">
+         return
+        </span>
+        Align(
                           alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                           child: Container(
-                            margin: EdgeInsets.only(bottom: <span class="number">8</span>),
+                            margin: EdgeInsets.only(bottom:
+        <span class="number">
+         8
+        </span>
+        ),
                             constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * <span class="number">0.75</span>,
+                              maxWidth: MediaQuery.of(context).size.width *
+        <span class="number">
+         0.75
+        </span>
+        ,
                             ),
                             child: Column(
                               crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -1254,19 +2369,50 @@
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    <span class="keyword">if</span> (!isMe)
+        <span class="keyword">
+         if
+        </span>
+        (!isMe)
                                       CircleAvatar(
-                                        radius: <span class="number">12</span>,
+                                        radius:
+        <span class="number">
+         12
+        </span>
+        ,
                                         child: Text(
-                                          username.isNotEmpty ? username[<span class="number">0</span>].toUpperCase() : <span class="string">'?'</span>,
-                                          style: TextStyle(fontSize: <span class="number">10</span>),
+                                          username.isNotEmpty ? username[
+        <span class="number">
+         0
+        </span>
+        ].toUpperCase() :
+        <span class="string">
+         '?'
+        </span>
+        ,
+                                          style: TextStyle(fontSize:
+        <span class="number">
+         10
+        </span>
+        ),
                                         ),
                                       ),
-                                    SizedBox(width: <span class="number">4</span>),
+                                    SizedBox(width:
+        <span class="number">
+         4
+        </span>
+        ),
                                     Text(
-                                      isMe ? <span class="string">'You'</span> : username,
+                                      isMe ?
+        <span class="string">
+         'You'
+        </span>
+        : username,
                                       style: TextStyle(
-                                        fontSize: <span class="number">12</span>,
+                                        fontSize:
+        <span class="number">
+         12
+        </span>
+        ,
                                         fontWeight: FontWeight.w600,
                                         color: isMe ? Colors.deepPurple : Colors.grey.shade700,
                                       ),
@@ -1274,19 +2420,35 @@
                                   ],
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(<span class="number">12</span>),
+                                  padding: EdgeInsets.all(
+        <span class="number">
+         12
+        </span>
+        ),
                                   decoration: BoxDecoration(
                                     color: isMe
                                         ? Colors.deepPurple.shade50
                                         : Colors.grey.shade100,
-                                    borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                                    borderRadius: BorderRadius.circular(
+        <span class="number">
+         12
+        </span>
+        ),
                                   ),
-                                  child: Text(message[<span class="string">'content'</span>]),
+                                  child: Text(message[
+        <span class="string">
+         'content'
+        </span>
+        ]),
                                 ),
                                 Text(
                                   DateFormat('h:mm a').format(createdAt),
                                   style: TextStyle(
-                                    fontSize: <span class="number">10</span>,
+                                    fontSize:
+        <span class="number">
+         10
+        </span>
+        ,
                                     color: Colors.grey.shade500,
                                   ),
                                 ),
@@ -1297,9 +2459,15 @@
                       },
                     ),
             ),
-            <span class="comment">// Input bar</span>
-            Container(
-              padding: EdgeInsets.all(<span class="number">12</span>),
+        <span class="comment">
+         // Input bar
+        </span>
+        Container(
+              padding: EdgeInsets.all(
+        <span class="number">
+         12
+        </span>
+        ),
               decoration: BoxDecoration(
                 color: Colors.grey.shade50,
                 border: Border(top: BorderSide(color: Colors.grey.shade200)),
@@ -1310,16 +2478,36 @@
                     child: TextField(
                       controller: _messageController,
                       decoration: InputDecoration(
-                        hintText: <span class="string">'Type a message...'</span>,
+                        hintText:
+        <span class="string">
+         'Type a message...'
+        </span>
+        ,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(<span class="number">24</span>),
+                          borderRadius: BorderRadius.circular(
+        <span class="number">
+         24
+        </span>
+        ),
                         ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+                        contentPadding: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         16
+        </span>
+        , vertical:
+        <span class="number">
+         8
+        </span>
+        ),
                       ),
                       onSubmitted: (_) =&gt; _sendMessage(),
                     ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
                   IconButton(
                     icon: Icon(Icons.send, color: Colors.deepPurple),
                     onPressed: _sendMessage,
@@ -1332,188 +2520,405 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Enable Realtime</strong> – In Supabase Dashboard, enable Realtime for the tables you want to listen to.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Create a channel</strong> – Use <code>client.channel('public:table_name')</code> to create a Realtime channel.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Listen to events</strong> – Use <code>.onPostgresChange()</code> to listen to INSERT, UPDATE, DELETE events.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Subscribe</strong> – Call <code>.subscribe()</code> to start receiving real-time updates.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Update UI</strong> – When a change is received, update your UI using setState or StreamBuilder.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 7: BEST PRACTICES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Best Practices</span>
-<span class="divider-line"></span>
-</div>
-<div class="concept-card success">
-<h4>✅ Do's</h4>
-<ul>
-<li>Always <strong>unsubscribe</strong> from channels when leaving a screen</li>
-<li>Use <strong>filters</strong> to only listen to relevant data (e.g., specific room)</li>
-<li>Handle <strong>reconnection</strong> logic for network interruptions</li>
-<li>Use <strong>StreamBuilder</strong> or <strong>ValueListenableBuilder</strong> for reactive UI</li>
-<li>Limit the <strong>number of channels</strong> to avoid performance issues</li>
-</ul>
-</div>
-<div class="concept-card error">
-<h4>❌ Don'ts</h4>
-<ul>
-<li>Don't forget to <strong>dispose</strong> streams and channels</li>
-<li>Don't listen to <strong>all tables</strong> — only subscribe to what you need</li>
-<li>Don't rely on Realtime for <strong>critical data consistency</strong> (use transactions)</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not enabling Realtime in the dashboard</div>
-<p>
-              Realtime must be enabled for each table in the Supabase Dashboard. Without this, subscriptions won't work.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Enable Realtime for your tables</div>
-<p>
-              Go to Database → Replication and enable Realtime for the tables you need.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Not unsubscribing from channels</div>
-<p>
-              Leaving channels open can cause memory leaks and unnecessary network usage.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always unsubscribe</div>
-<p>
-              Call <code>channel.unsubscribe()</code> in <code>dispose()</code> or when navigating away.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not handling connection errors</div>
-<p>
-              Network issues can cause Realtime connections to drop. Handle reconnection gracefully.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Handle reconnection</div>
-<p>
-              Use the <code>onReconnection</code> callback or listen to the connection status.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Supabase Realtime enables <strong>live, collaborative features</strong> in your Flutter apps.
-            Use <strong>channels</strong> to subscribe to database changes, <strong>presence</strong> to track
-            online users, and <strong>streams</strong> for reactive programming.
-            <strong>Always enable Realtime in the dashboard and unsubscribe from channels when done.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module4-topic4-storage.html">
-<i class="fas fa-arrow-left"></i> Previous: Storage
-          </a>
-<a class="btn btn-primary btn-sm" href="module4-topic6-rls.html">
-            Next: Row Level Security (RLS) <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module4-state-management.html">Module 4</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://supabase.com/docs/guides/realtime" rel="noopener" target="_blank">Supabase Realtime</a></li>
-<li><a href="https://supabase.com/docs/guides/realtime/realtime-listeners" rel="noopener" target="_blank">Realtime Listeners</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Enable Realtime
+         </strong>
+         – In Supabase Dashboard, enable Realtime for the tables you want to listen to.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create a channel
+         </strong>
+         – Use
+         <code>
+          client.channel('public:table_name')
+         </code>
+         to create a Realtime channel.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Listen to events
+         </strong>
+         – Use
+         <code>
+          .onPostgresChange()
+         </code>
+         to listen to INSERT, UPDATE, DELETE events.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Subscribe
+         </strong>
+         – Call
+         <code>
+          .subscribe()
+         </code>
+         to start receiving real-time updates.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Update UI
+         </strong>
+         – When a change is received, update your UI using setState or StreamBuilder.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: BEST PRACTICES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Best Practices
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Do's
+       </h4>
+       <ul>
+        <li>
+         Always
+         <strong>
+          unsubscribe
+         </strong>
+         from channels when leaving a screen
+        </li>
+        <li>
+         Use
+         <strong>
+          filters
+         </strong>
+         to only listen to relevant data (e.g., specific room)
+        </li>
+        <li>
+         Handle
+         <strong>
+          reconnection
+         </strong>
+         logic for network interruptions
+        </li>
+        <li>
+         Use
+         <strong>
+          StreamBuilder
+         </strong>
+         or
+         <strong>
+          ValueListenableBuilder
+         </strong>
+         for reactive UI
+        </li>
+        <li>
+         Limit the
+         <strong>
+          number of channels
+         </strong>
+         to avoid performance issues
+        </li>
+       </ul>
+      </div>
+      <div class="concept-card error">
+       <h4>
+        ❌ Don'ts
+       </h4>
+       <ul>
+        <li>
+         Don't forget to
+         <strong>
+          dispose
+         </strong>
+         streams and channels
+        </li>
+        <li>
+         Don't listen to
+         <strong>
+          all tables
+         </strong>
+         — only subscribe to what you need
+        </li>
+        <li>
+         Don't rely on Realtime for
+         <strong>
+          critical data consistency
+         </strong>
+         (use transactions)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not enabling Realtime in the dashboard
+       </div>
+       <p>
+        Realtime must be enabled for each table in the Supabase Dashboard. Without this, subscriptions won't work.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Enable Realtime for your tables
+       </div>
+       <p>
+        Go to Database → Replication and enable Realtime for the tables you need.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Not unsubscribing from channels
+       </div>
+       <p>
+        Leaving channels open can cause memory leaks and unnecessary network usage.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always unsubscribe
+       </div>
+       <p>
+        Call
+        <code>
+         channel.unsubscribe()
+        </code>
+        in
+        <code>
+         dispose()
+        </code>
+        or when navigating away.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not handling connection errors
+       </div>
+       <p>
+        Network issues can cause Realtime connections to drop. Handle reconnection gracefully.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Handle reconnection
+       </div>
+       <p>
+        Use the
+        <code>
+         onReconnection
+        </code>
+        callback or listen to the connection status.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Supabase Realtime enables
+       <strong>
+        live, collaborative features
+       </strong>
+       in your Flutter apps.
+            Use
+       <strong>
+        channels
+       </strong>
+       to subscribe to database changes,
+       <strong>
+        presence
+       </strong>
+       to track
+            online users, and
+       <strong>
+        streams
+       </strong>
+       for reactive programming.
+       <strong>
+        Always enable Realtime in the dashboard and unsubscribe from channels when done.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module4-topic4-storage.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Storage
+      </a>
+      <a class="btn btn-primary btn-sm" href="module4-topic6-rls.html">
+       Next: Row Level Security (RLS)
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module4-state-management.html">
+         Module 4
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://supabase.com/docs/guides/realtime" rel="noopener" target="_blank">
+         Supabase Realtime
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com/docs/guides/realtime/realtime-listeners" rel="noopener" target="_blank">
+         Realtime Listeners
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/supabase" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/supabase" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">
+       Supabase Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1626,8 +3031,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1700,8 +3105,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1774,5 +3180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

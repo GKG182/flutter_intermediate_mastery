@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Authentication System – Module 4 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build an Authentication System using Supabase Auth with email/password and Google sign-in in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Authentication System – Module 4 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build an Authentication System using Supabase Auth with email/password and Google sign-in in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -343,8 +344,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -407,136 +408,361 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 4 · Challenge 1
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Authentication System</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> Supabase</span>
-<span class="meta-item"><strong>Concepts:</strong> Supabase Auth, Email/Password, OAuth, Session Management</span>
-<span class="meta-item"><strong>Est. Time:</strong> 40-50 min</span>
-<span class="meta-item"><span class="supabase-tag">🗄️ Supabase Auth</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build an <strong>Authentication System</strong> using Supabase Auth that supports
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 4 · Challenge 1
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Authentication System
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         Supabase
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         Supabase Auth, Email/Password, OAuth, Session Management
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         40-50 min
+        </span>
+        <span class="meta-item">
+         <span class="supabase-tag">
+          🗄️ Supabase Auth
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build an
+        <strong>
+         Authentication System
+        </strong>
+        using Supabase Auth that supports
               email/password sign-up and sign-in, Google OAuth, and session persistence.
               Users should be able to manage their profile and sign out securely.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Use <strong>Supabase</strong> for authentication (not Firebase)</li>
-<li>Implement <strong>email/password sign-up</strong> with user metadata</li>
-<li>Implement <strong>email/password sign-in</strong></li>
-<li>Add <strong>Google OAuth</strong> sign-in</li>
-<li>Implement <strong>session persistence</strong> (auto-login)</li>
-<li>Listen to <strong>auth state changes</strong> with Riverpod</li>
-<li>Show <strong>protected dashboard</strong> after login</li>
-<li>Display user <strong>profile information</strong> (email, metadata)</li>
-<li>Implement <strong>sign out</strong> functionality</li>
-<li>Show <strong>loading states</strong> during authentication</li>
-<li>Handle <strong>errors</strong> gracefully (invalid credentials, network issues)</li>
-</ul>
-</div>
-<div class="api-box">
-<h4>🗄️ Supabase Setup</h4>
-<p><strong>Supabase</strong> provides a complete authentication system with built-in session management.</p>
-<div class="endpoint">flutter pub add supabase_flutter google_sign_in sign_in_with_apple</div>
-<div class="api-note">
-                💡 <strong>Note:</strong> You'll need to set up a Supabase project and enable email/password and Google providers in the dashboard.
-              </div>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://pub.dev/packages/supabase_flutter" target="_blank">Supabase Flutter Package</a></li>
-<li><a href="https://supabase.com/docs/guides/auth" target="_blank">Supabase Auth Docs</a></li>
-<li><a href="https://pub.dev/packages/google_sign_in" target="_blank">Google Sign-In</a></li>
-<li><a href="https://riverpod.dev/" target="_blank">Riverpod Documentation</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Use <code>Supabase.initialize()</code> in main.dart with your project URL and anon key.
-                  Create a Riverpod provider that listens to <code>supabase.auth.onAuthStateChange</code>.
-                  Use <code>signUp()</code> and <code>signInWithPassword()</code> for email auth.
-                  For Google, use <code>signInWithIdToken()</code> with the provider set to <code>OAuthProvider.google</code>.
-                  Use <code>currentUser</code> and <code>currentSession</code> to check auth state.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Use
+          <strong>
+           Supabase
+          </strong>
+          for authentication (not Firebase)
+         </li>
+         <li>
+          Implement
+          <strong>
+           email/password sign-up
+          </strong>
+          with user metadata
+         </li>
+         <li>
+          Implement
+          <strong>
+           email/password sign-in
+          </strong>
+         </li>
+         <li>
+          Add
+          <strong>
+           Google OAuth
+          </strong>
+          sign-in
+         </li>
+         <li>
+          Implement
+          <strong>
+           session persistence
+          </strong>
+          (auto-login)
+         </li>
+         <li>
+          Listen to
+          <strong>
+           auth state changes
+          </strong>
+          with Riverpod
+         </li>
+         <li>
+          Show
+          <strong>
+           protected dashboard
+          </strong>
+          after login
+         </li>
+         <li>
+          Display user
+          <strong>
+           profile information
+          </strong>
+          (email, metadata)
+         </li>
+         <li>
+          Implement
+          <strong>
+           sign out
+          </strong>
+          functionality
+         </li>
+         <li>
+          Show
+          <strong>
+           loading states
+          </strong>
+          during authentication
+         </li>
+         <li>
+          Handle
+          <strong>
+           errors
+          </strong>
+          gracefully (invalid credentials, network issues)
+         </li>
+        </ul>
+       </div>
+       <div class="api-box">
+        <h4>
+         🗄️ Supabase Setup
+        </h4>
+        <p>
+         <strong>
+          Supabase
+         </strong>
+         provides a complete authentication system with built-in session management.
+        </p>
+        <div class="endpoint">
+         flutter pub add supabase_flutter google_sign_in sign_in_with_apple
+        </div>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         You'll need to set up a Supabase project and enable email/password and Google providers in the dashboard.
+        </div>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://pub.dev/packages/supabase_flutter" target="_blank">
+           Supabase Flutter Package
+          </a>
+         </li>
+         <li>
+          <a href="https://supabase.com/docs/guides/auth" target="_blank">
+           Supabase Auth Docs
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/google_sign_in" target="_blank">
+           Google Sign-In
+          </a>
+         </li>
+         <li>
+          <a href="https://riverpod.dev/" target="_blank">
+           Riverpod Documentation
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Use
+          <code>
+           Supabase.initialize()
+          </code>
+          in main.dart with your project URL and anon key.
+                  Create a Riverpod provider that listens to
+          <code>
+           supabase.auth.onAuthStateChange
+          </code>
+          .
+                  Use
+          <code>
+           signUp()
+          </code>
+          and
+          <code>
+           signInWithPassword()
+          </code>
+          for email auth.
+                  For Google, use
+          <code>
+           signInWithIdToken()
+          </code>
+          with the provider set to
+          <code>
+           OAuthProvider.google
+          </code>
+          .
+                  Use
+          <code>
+           currentUser
+          </code>
+          and
+          <code>
+           currentSession
+          </code>
+          to check auth state.
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
@@ -548,506 +774,1825 @@
   dev_dependencies:
     flutter_test:
       sdk: flutter
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Supabase Initialization (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/auth_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/auth_screen.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/dashboard_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
-    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
-
-    <span class="keyword">await</span> Supabase.<span class="function">initialize</span>(
-      url: <span class="string">'YOUR_SUPABASE_URL'</span>,
-      anonKey: <span class="string">'YOUR_SUPABASE_ANON_KEY'</span>,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Supabase Initialization (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/auth_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/auth_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/dashboard_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+    WidgetsFlutterBinding.
+           <span class="function">
+            ensureInitialized
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           Supabase.
+           <span class="function">
+            initialize
+           </span>
+           (
+      url:
+           <span class="string">
+            'YOUR_SUPABASE_URL'
+           </span>
+           ,
+      anonKey:
+           <span class="string">
+            'YOUR_SUPABASE_ANON_KEY'
+           </span>
+           ,
     );
 
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> authState = ref.<span class="function">watch</span>(authStateProvider);
-
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Supabase Auth'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           authState = ref.
+           <span class="function">
+            watch
+           </span>
+           (authStateProvider);
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Supabase Auth'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: authState.<span class="function">when</span>(
+        home: authState.
+           <span class="function">
+            when
+           </span>
+           (
           data: (user) {
-            <span class="keyword">if</span> (user != <span class="keyword">null</span>) {
-              <span class="keyword">return</span> <span class="keyword">const</span> DashboardScreen();
+           <span class="keyword">
+            if
+           </span>
+           (user !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            const
+           </span>
+           DashboardScreen();
             }
-            <span class="keyword">return</span> <span class="keyword">const</span> AuthScreen();
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            const
+           </span>
+           AuthScreen();
           },
-          loading: () =&gt; <span class="keyword">const</span> Scaffold(
+          loading: () =&gt;
+           <span class="keyword">
+            const
+           </span>
+           Scaffold(
             body: Center(child: CircularProgressIndicator()),
           ),
           error: (error, stack) =&gt; Scaffold(
             body: Center(
-              child: Text(<span class="string">'Error: </span><span class="string">$error</span><span class="string">'</span>),
+              child: Text(
+           <span class="string">
+            'Error:
+           </span>
+           <span class="string">
+            $error
+           </span>
+           <span class="string">
+            '
+           </span>
+           ),
             ),
           ),
         ),
-        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+        debugShowCheckedModeBanner:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Auth Provider (lib/providers/auth_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/auth_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:google_sign_in/google_sign_in.dart'</span>;
-
-  <span class="keyword">final</span> supabase = Supabase.instance.client;
-
-  <span class="comment">// Auth state provider - listens to auth changes</span>
-<span class="keyword">final</span> authStateProvider = StreamProvider&lt;User?&gt;((ref) {
-    <span class="keyword">return</span> supabase.auth.<span class="function">onAuthStateChange</span>().<span class="function">map</span>((event) {
-      <span class="keyword">return</span> event.session?.user;
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Auth Provider (lib/providers/auth_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/auth_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:google_sign_in/google_sign_in.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           supabase = Supabase.instance.client;
+           <span class="comment">
+            // Auth state provider - listens to auth changes
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           authStateProvider = StreamProvider&lt;User?&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           supabase.auth.
+           <span class="function">
+            onAuthStateChange
+           </span>
+           ().
+           <span class="function">
+            map
+           </span>
+           ((event) {
+           <span class="keyword">
+            return
+           </span>
+           event.session?.user;
     });
   });
-
-  <span class="comment">// Current user provider (synchronous)</span>
-<span class="keyword">final</span> currentUserProvider = Provider&lt;User?&gt;((ref) {
-    <span class="keyword">return</span> supabase.auth.<span class="function">currentUser</span>;
+           <span class="comment">
+            // Current user provider (synchronous)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           currentUserProvider = Provider&lt;User?&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           supabase.auth.
+           <span class="function">
+            currentUser
+           </span>
+           ;
   });
-
-  <span class="comment">// Current session provider</span>
-<span class="keyword">final</span> currentSessionProvider = Provider&lt;Session?&gt;((ref) {
-    <span class="keyword">return</span> supabase.auth.<span class="function">currentSession</span>;
+           <span class="comment">
+            // Current session provider
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           currentSessionProvider = Provider&lt;Session?&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           supabase.auth.
+           <span class="function">
+            currentSession
+           </span>
+           ;
   });
-
-  <span class="keyword">class</span> <span class="function">AuthNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;AsyncValue&lt;User?&gt;&gt; {
-    <span class="function">AuthNotifier</span>() : <span class="keyword">super</span>(<span class="keyword">const</span> AsyncValue.loading()) {
-      <span class="function">_loadInitialUser</span>();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AuthNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;AsyncValue&lt;User?&gt;&gt; {
+           <span class="function">
+            AuthNotifier
+           </span>
+           () :
+           <span class="keyword">
+            super
+           </span>
+           (
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading()) {
+           <span class="function">
+            _loadInitialUser
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_loadInitialUser</span>() {
-      <span class="keyword">final</span> user = supabase.auth.<span class="function">currentUser</span>;
-      state = AsyncValue.<span class="function">data</span>(user);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _loadInitialUser
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           user = supabase.auth.
+           <span class="function">
+            currentUser
+           </span>
+           ;
+      state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (user);
     }
-
-    <span class="comment">// Email/Password Sign Up</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signUp</span>({
-      <span class="keyword">required</span> String email,
-      <span class="keyword">required</span> String password,
-      <span class="keyword">required</span> String username,
-    }) <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">signUp</span>(
+           <span class="comment">
+            // Email/Password Sign Up
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signUp
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String email,
+           <span class="keyword">
+            required
+           </span>
+           String password,
+           <span class="keyword">
+            required
+           </span>
+           String username,
+    })
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signUp
+           </span>
+           (
           email: email,
           password: password,
           data: {
-            <span class="string">'username'</span>: username,
-            <span class="string">'created_at'</span>: DateTime.<span class="function">now</span>().<span class="function">toIso8601String</span>(),
+           <span class="string">
+            'username'
+           </span>
+           : username,
+           <span class="string">
+            'created_at'
+           </span>
+           : DateTime.
+           <span class="function">
+            now
+           </span>
+           ().
+           <span class="function">
+            toIso8601String
+           </span>
+           (),
           },
         );
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="comment">// Email/Password Sign In</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signIn</span>({
-      <span class="keyword">required</span> String email,
-      <span class="keyword">required</span> String password,
-    }) <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">signInWithPassword</span>(
+           <span class="comment">
+            // Email/Password Sign In
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signIn
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String email,
+           <span class="keyword">
+            required
+           </span>
+           String password,
+    })
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signInWithPassword
+           </span>
+           (
           email: email,
           password: password,
         );
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="comment">// Google Sign In</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signInWithGoogle</span>() <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> GoogleSignIn googleSignIn = GoogleSignIn(
-          serverClientId: <span class="string">'YOUR_GOOGLE_WEB_CLIENT_ID'</span>,
+           <span class="comment">
+            // Google Sign In
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signInWithGoogle
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           GoogleSignIn googleSignIn = GoogleSignIn(
+          serverClientId:
+           <span class="string">
+            'YOUR_GOOGLE_WEB_CLIENT_ID'
+           </span>
+           ,
         );
-
-        <span class="keyword">final</span> googleUser = <span class="keyword">await</span> googleSignIn.<span class="function">signIn</span>();
-        <span class="keyword">if</span> (googleUser == <span class="keyword">null</span>) {
-          <span class="keyword">throw</span> Exception(<span class="string">'Google sign-in cancelled'</span>);
+           <span class="keyword">
+            final
+           </span>
+           googleUser =
+           <span class="keyword">
+            await
+           </span>
+           googleSignIn.
+           <span class="function">
+            signIn
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (googleUser ==
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Google sign-in cancelled'
+           </span>
+           );
         }
-
-        <span class="keyword">final</span> googleAuth = <span class="keyword">await</span> googleUser.<span class="function">authentication</span>;
-        <span class="keyword">final</span> idToken = googleAuth.idToken;
-        <span class="keyword">final</span> accessToken = googleAuth.accessToken;
-
-        <span class="keyword">if</span> (idToken == <span class="keyword">null</span>) {
-          <span class="keyword">throw</span> Exception(<span class="string">'No ID token found'</span>);
+           <span class="keyword">
+            final
+           </span>
+           googleAuth =
+           <span class="keyword">
+            await
+           </span>
+           googleUser.
+           <span class="function">
+            authentication
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           idToken = googleAuth.idToken;
+           <span class="keyword">
+            final
+           </span>
+           accessToken = googleAuth.accessToken;
+           <span class="keyword">
+            if
+           </span>
+           (idToken ==
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'No ID token found'
+           </span>
+           );
         }
-
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">signInWithIdToken</span>(
-          provider: OAuthProvider.<span class="function">google</span>,
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signInWithIdToken
+           </span>
+           (
+          provider: OAuthProvider.
+           <span class="function">
+            google
+           </span>
+           ,
           idToken: idToken,
           accessToken: accessToken,
         );
 
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="comment">// Sign Out</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">signOut</span>() <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="comment">// Sign out from Google as well if used</span>
-<span class="keyword">final</span> GoogleSignIn googleSignIn = GoogleSignIn();
-        <span class="keyword">await</span> googleSignIn.<span class="function">signOut</span>();
-
-        <span class="keyword">await</span> supabase.auth.<span class="function">signOut</span>();
-        state = <span class="keyword">const</span> AsyncValue.<span class="function">data</span>(<span class="keyword">null</span>);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+           <span class="comment">
+            // Sign Out
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            signOut
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="comment">
+            // Sign out from Google as well if used
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           GoogleSignIn googleSignIn = GoogleSignIn();
+           <span class="keyword">
+            await
+           </span>
+           googleSignIn.
+           <span class="function">
+            signOut
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            signOut
+           </span>
+           ();
+        state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (
+           <span class="keyword">
+            null
+           </span>
+           );
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
-
-    <span class="comment">// Update user metadata</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">updateProfile</span>({
-      <span class="keyword">required</span> String username,
-    }) <span class="keyword">async</span> {
-      state = <span class="keyword">const</span> AsyncValue.loading();
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> supabase.auth.<span class="function">updateUser</span>(
-          data: {<span class="string">'username'</span>: username},
+           <span class="comment">
+            // Update user metadata
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            updateProfile
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String username,
+    })
+           <span class="keyword">
+            async
+           </span>
+           {
+      state =
+           <span class="keyword">
+            const
+           </span>
+           AsyncValue.loading();
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           response =
+           <span class="keyword">
+            await
+           </span>
+           supabase.auth.
+           <span class="function">
+            updateUser
+           </span>
+           (
+          data: {
+           <span class="string">
+            'username'
+           </span>
+           : username},
         );
-        state = AsyncValue.<span class="function">data</span>(response.user);
-      } <span class="function">catch</span> (e) {
-        state = AsyncValue.<span class="function">error</span>(e.<span class="function">toString</span>(), StackTrace.<span class="function">current</span>);
-        <span class="function">rethrow</span>;
+        state = AsyncValue.
+           <span class="function">
+            data
+           </span>
+           (response.user);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        state = AsyncValue.
+           <span class="function">
+            error
+           </span>
+           (e.
+           <span class="function">
+            toString
+           </span>
+           (), StackTrace.
+           <span class="function">
+            current
+           </span>
+           );
+           <span class="function">
+            rethrow
+           </span>
+           ;
       }
     }
   }
-
-  <span class="keyword">final</span> authNotifierProvider =
+           <span class="keyword">
+            final
+           </span>
+           authNotifierProvider =
       StateNotifierProvider&lt;AuthNotifier, AsyncValue&lt;User?&gt;&gt;((ref) {
-    <span class="keyword">return</span> <span class="function">AuthNotifier</span>();
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            AuthNotifier
+           </span>
+           ();
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Auth Screen (lib/screens/auth_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/auth_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/auth_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/auth_form.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">AuthScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">AuthScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Auth Screen (lib/screens/auth_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/auth_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/auth_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/auth_form.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AuthScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            AuthScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;AuthScreen&gt; <span class="function">createState</span>() =&gt; _AuthScreenState();
+    ConsumerState&lt;AuthScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _AuthScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AuthScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;AuthScreen&gt; {
-    <span class="keyword">bool</span> _isLogin = <span class="keyword">true</span>;
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
-    <span class="keyword">String</span>? _errorMessage;
-
-    <span class="keyword">final</span> _emailController = TextEditingController();
-    <span class="keyword">final</span> _passwordController = TextEditingController();
-    <span class="keyword">final</span> _usernameController = TextEditingController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _AuthScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;AuthScreen&gt; {
+           <span class="keyword">
+            bool
+           </span>
+           _isLogin =
+           <span class="keyword">
+            true
+           </span>
+           ;
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ;
+           <span class="keyword">
+            String
+           </span>
+           ? _errorMessage;
+           <span class="keyword">
+            final
+           </span>
+           _emailController = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           _passwordController = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           _usernameController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _emailController.<span class="function">dispose</span>();
-      _passwordController.<span class="function">dispose</span>();
-      _usernameController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _emailController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _passwordController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _usernameController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_toggleMode</span>() {
-      <span class="function">setState</span>(() {
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _toggleMode
+           </span>
+           () {
+           <span class="function">
+            setState
+           </span>
+           (() {
         _isLogin = !_isLogin;
-        _errorMessage = <span class="keyword">null</span>;
-        _usernameController.<span class="function">clear</span>();
+        _errorMessage =
+           <span class="keyword">
+            null
+           </span>
+           ;
+        _usernameController.
+           <span class="function">
+            clear
+           </span>
+           ();
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleAuth</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> email = _emailController.text.<span class="function">trim</span>();
-      <span class="keyword">final</span> password = _passwordController.text.<span class="function">trim</span>();
-
-      <span class="keyword">if</span> (email.<span class="function">isEmpty</span> || password.<span class="function">isEmpty</span>) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = <span class="string">'Please fill in all fields'</span>);
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _handleAuth
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           email = _emailController.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           password = _passwordController.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (email.
+           <span class="function">
+            isEmpty
+           </span>
+           || password.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage =
+           <span class="string">
+            'Please fill in all fields'
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
-
-      <span class="keyword">if</span> (!_isLogin &amp;&amp; _usernameController.text.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = <span class="string">'Please enter a username'</span>);
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            if
+           </span>
+           (!_isLogin &amp;&amp; _usernameController.text.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage =
+           <span class="string">
+            'Please enter a username'
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
-
-      <span class="function">setState</span>(() {
-        _isLoading = <span class="keyword">true</span>;
-        _errorMessage = <span class="keyword">null</span>;
+           <span class="function">
+            setState
+           </span>
+           (() {
+        _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           ;
+        _errorMessage =
+           <span class="keyword">
+            null
+           </span>
+           ;
       });
-
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-
-      <span class="keyword">try</span> {
-        <span class="keyword">if</span> (_isLogin) {
-          <span class="keyword">await</span> notifier.<span class="function">signIn</span>(
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (_isLogin) {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signIn
+           </span>
+           (
             email: email,
             password: password,
           );
-        } <span class="keyword">else</span> {
-          <span class="keyword">await</span> notifier.<span class="function">signUp</span>(
+        }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signUp
+           </span>
+           (
             email: email,
             password: password,
-            username: _usernameController.text.<span class="function">trim</span>(),
+            username: _usernameController.text.
+           <span class="function">
+            trim
+           </span>
+           (),
           );
         }
-      } <span class="function">catch</span> (e) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = e.<span class="function">toString</span>());
-      } <span class="keyword">finally</span> {
-        <span class="keyword">if</span> (mounted) {
-          <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage = e.
+           <span class="function">
+            toString
+           </span>
+           ());
+      }
+           <span class="keyword">
+            finally
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (mounted) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           );
         }
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleGoogleSignIn</span>() <span class="keyword">async</span> {
-      <span class="function">setState</span>(() {
-        _isLoading = <span class="keyword">true</span>;
-        _errorMessage = <span class="keyword">null</span>;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _handleGoogleSignIn
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="function">
+            setState
+           </span>
+           (() {
+        _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           ;
+        _errorMessage =
+           <span class="keyword">
+            null
+           </span>
+           ;
       });
-
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> notifier.<span class="function">signInWithGoogle</span>();
-      } <span class="function">catch</span> (e) {
-        <span class="function">setState</span>(() =&gt; _errorMessage = e.<span class="function">toString</span>());
-      } <span class="keyword">finally</span> {
-        <span class="keyword">if</span> (mounted) {
-          <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">false</span>);
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signInWithGoogle
+           </span>
+           ();
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _errorMessage = e.
+           <span class="function">
+            toString
+           </span>
+           ());
+      }
+           <span class="keyword">
+            finally
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (mounted) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           );
         }
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  <span class="comment">// Logo/Header</span>
-                  Icon(
+           <span class="comment">
+            // Logo/Header
+           </span>
+           Icon(
                     Icons.lock_outline,
-                    size: <span class="number">80</span>,
+                    size:
+           <span class="number">
+            80
+           </span>
+           ,
                     color: Colors.deepPurple,
                   ),
-                  SizedBox(height: <span class="number">16</span>),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   Text(
-                    _isLogin ? <span class="string">'Welcome Back'</span> : <span class="string">'Create Account'</span>,
+                    _isLogin ?
+           <span class="string">
+            'Welcome Back'
+           </span>
+           :
+           <span class="string">
+            'Create Account'
+           </span>
+           ,
                     style: TextStyle(
-                      fontSize: <span class="number">28</span>,
+                      fontSize:
+           <span class="number">
+            28
+           </span>
+           ,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: <span class="number">8</span>),
+                  SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                   Text(
                     _isLogin
-                        ? <span class="string">'Sign in to continue'</span>
-                        : <span class="string">'Start your journey with us'</span>,
+                        ?
+           <span class="string">
+            'Sign in to continue'
+           </span>
+           :
+           <span class="string">
+            'Start your journey with us'
+           </span>
+           ,
                     style: TextStyle(
-                      color: Colors.grey[<span class="number">600</span>],
-                      fontSize: <span class="number">14</span>,
+                      color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
+                      fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: <span class="number">32</span>),
-
-                  <span class="comment">// Error message</span>
-<span class="keyword">if</span> (_errorMessage != <span class="keyword">null</span>)
+                  SizedBox(height:
+           <span class="number">
+            32
+           </span>
+           ),
+           <span class="comment">
+            // Error message
+           </span>
+           <span class="keyword">
+            if
+           </span>
+           (_errorMessage !=
+           <span class="keyword">
+            null
+           </span>
+           )
                     Container(
-                      padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                      padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                       decoration: BoxDecoration(
-                        color: Colors.red.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-                        border: Border.<span class="function">all</span>(color: Colors.red.<span class="function">withOpacity</span>(<span class="number">0.3</span>)),
+                        color: Colors.red.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                        border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.red.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.3
+           </span>
+           )),
                       ),
                       child: Text(
                         _errorMessage!,
-                        style: TextStyle(color: Colors.red, fontSize: <span class="number">14</span>),
+                        style: TextStyle(color: Colors.red, fontSize:
+           <span class="number">
+            14
+           </span>
+           ),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Email</span>
-                  TextField(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Email
+           </span>
+           TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Email'</span>,
+                      labelText:
+           <span class="string">
+            'Email'
+           </span>
+           ,
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
-                    keyboardType: TextInputType.<span class="function">emailAddress</span>,
+                    keyboardType: TextInputType.
+           <span class="function">
+            emailAddress
+           </span>
+           ,
                     textInputAction: TextInputAction.next,
                     enabled: !_isLoading,
                   ),
-                  SizedBox(height: <span class="number">12</span>),
-
-                  <span class="comment">// Username (only for sign-up)</span>
-<span class="keyword">if</span> (!_isLogin)
+                  SizedBox(height:
+           <span class="number">
+            12
+           </span>
+           ),
+           <span class="comment">
+            // Username (only for sign-up)
+           </span>
+           <span class="keyword">
+            if
+           </span>
+           (!_isLogin)
                     Column(
                       children: [
                         TextField(
                           controller: _usernameController,
                           decoration: InputDecoration(
-                            labelText: <span class="string">'Username'</span>,
+                            labelText:
+           <span class="string">
+            'Username'
+           </span>
+           ,
                             prefixIcon: Icon(Icons.person),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                              borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                             ),
                           ),
                           textInputAction: TextInputAction.next,
                           enabled: !_isLoading,
                         ),
-                        SizedBox(height: <span class="number">12</span>),
+                        SizedBox(height:
+           <span class="number">
+            12
+           </span>
+           ),
                       ],
                     ),
-
-                  <span class="comment">// Password</span>
-                  TextField(
+           <span class="comment">
+            // Password
+           </span>
+           TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Password'</span>,
+                      labelText:
+           <span class="string">
+            'Password'
+           </span>
+           ,
                       prefixIcon: Icon(Icons.lock),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
-                    obscureText: <span class="keyword">true</span>,
+                    obscureText:
+           <span class="keyword">
+            true
+           </span>
+           ,
                     textInputAction: TextInputAction.done,
                     enabled: !_isLoading,
                     onSubmitted: (_) =&gt; _handleAuth(),
                   ),
-                  SizedBox(height: <span class="number">24</span>),
-
-                  <span class="comment">// Submit button</span>
-                  ElevatedButton(
-                    onPressed: _isLoading ? <span class="keyword">null</span> : _handleAuth,
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Submit button
+           </span>
+           ElevatedButton(
+                    onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _handleAuth,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                      padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
                     child: _isLoading
                         ? SizedBox(
-                            height: <span class="number">20</span>,
-                            width: <span class="number">20</span>,
+                            height:
+           <span class="number">
+            20
+           </span>
+           ,
+                            width:
+           <span class="number">
+            20
+           </span>
+           ,
                             child: CircularProgressIndicator(
-                              strokeWidth: <span class="number">2</span>,
+                              strokeWidth:
+           <span class="number">
+            2
+           </span>
+           ,
                               color: Colors.white,
                             ),
                           )
                         : Text(
-                            _isLogin ? <span class="string">'Sign In'</span> : <span class="string">'Sign Up'</span>,
-                            style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+                            _isLogin ?
+           <span class="string">
+            'Sign In'
+           </span>
+           :
+           <span class="string">
+            'Sign Up'
+           </span>
+           ,
+                            style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , fontWeight: FontWeight.bold),
                           ),
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Divider</span>
-                  Row(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Divider
+           </span>
+           Row(
                     children: [
                       Expanded(child: Divider()),
                       Padding(
-                        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           ),
                         child: Text(
-                          <span class="string">'OR'</span>,
-                          style: TextStyle(color: Colors.grey[<span class="number">400</span>]),
+           <span class="string">
+            'OR'
+           </span>
+           ,
+                          style: TextStyle(color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ]),
                         ),
                       ),
                       Expanded(child: Divider()),
                     ],
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Google Sign In</span>
-                  OutlinedButton.icon(
-                    onPressed: _isLoading ? <span class="keyword">null</span> : _handleGoogleSignIn,
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Google Sign In
+           </span>
+           OutlinedButton.icon(
+                    onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _handleGoogleSignIn,
                     icon: Image.network(
-                      <span class="string">'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg'</span>,
-                      width: <span class="number">24</span>,
-                      height: <span class="number">24</span>,
+           <span class="string">
+            'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg'
+           </span>
+           ,
+                      width:
+           <span class="number">
+            24
+           </span>
+           ,
+                      height:
+           <span class="number">
+            24
+           </span>
+           ,
                     ),
-                    label: Text(<span class="string">'Continue with Google'</span>),
+                    label: Text(
+           <span class="string">
+            'Continue with Google'
+           </span>
+           ),
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                      padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                        borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                       ),
                     ),
                   ),
-                  SizedBox(height: <span class="number">24</span>),
-
-                  <span class="comment">// Toggle mode</span>
-                  Row(
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Toggle mode
+           </span>
+           Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         _isLogin
-                            ? <span class="string">"Don't have an account?"</span>
-                            : <span class="string">'Already have an account?'</span>,
-                        style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                            ?
+           <span class="string">
+            "Don't have an account?"
+           </span>
+           :
+           <span class="string">
+            'Already have an account?'
+           </span>
+           ,
+                        style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                       ),
                       TextButton(
-                        onPressed: _isLoading ? <span class="keyword">null</span> : _toggleMode,
+                        onPressed: _isLoading ?
+           <span class="keyword">
+            null
+           </span>
+           : _toggleMode,
                         child: Text(
-                          _isLogin ? <span class="string">'Sign Up'</span> : <span class="string">'Sign In'</span>,
+                          _isLogin ?
+           <span class="string">
+            'Sign Up'
+           </span>
+           :
+           <span class="string">
+            'Sign In'
+           </span>
+           ,
                           style: TextStyle(
                             color: Colors.deepPurple,
                             fontWeight: FontWeight.bold,
@@ -1064,246 +2609,815 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Dashboard Screen (lib/screens/dashboard_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/dashboard_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/auth_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">DashboardScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">DashboardScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Dashboard Screen (lib/screens/dashboard_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/dashboard_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:supabase_flutter/supabase_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/auth_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            DashboardScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            DashboardScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;DashboardScreen&gt; <span class="function">createState</span>() =&gt; _DashboardScreenState();
+    ConsumerState&lt;DashboardScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _DashboardScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_DashboardScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;DashboardScreen&gt; {
-    <span class="keyword">bool</span> _isEditing = <span class="keyword">false</span>;
-    <span class="keyword">final</span> _usernameController = TextEditingController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _DashboardScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;DashboardScreen&gt; {
+           <span class="keyword">
+            bool
+           </span>
+           _isEditing =
+           <span class="keyword">
+            false
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           _usernameController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _usernameController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _usernameController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_handleSignOut</span>() <span class="keyword">async</span> {
-      <span class="keyword">final</span> confirmed = <span class="keyword">await</span> showDialog(
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _handleSignOut
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           confirmed =
+           <span class="keyword">
+            await
+           </span>
+           showDialog(
         context: context,
         builder: (context) =&gt; AlertDialog(
-          title: Text(<span class="string">'Sign Out'</span>),
-          content: Text(<span class="string">'Are you sure you want to sign out?'</span>),
+          title: Text(
+           <span class="string">
+            'Sign Out'
+           </span>
+           ),
+          content: Text(
+           <span class="string">
+            'Are you sure you want to sign out?'
+           </span>
+           ),
           actions: [
             TextButton(
-              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context, <span class="keyword">false</span>),
-              child: Text(<span class="string">'Cancel'</span>),
+              onPressed: () =&gt; Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context,
+           <span class="keyword">
+            false
+           </span>
+           ),
+              child: Text(
+           <span class="string">
+            'Cancel'
+           </span>
+           ),
             ),
             TextButton(
-              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context, <span class="keyword">true</span>),
+              onPressed: () =&gt; Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context,
+           <span class="keyword">
+            true
+           </span>
+           ),
               child: Text(
-                <span class="string">'Sign Out'</span>,
+           <span class="string">
+            'Sign Out'
+           </span>
+           ,
                 style: TextStyle(color: Colors.red),
               ),
             ),
           ],
         ),
       );
-
-      <span class="keyword">if</span> (confirmed) {
-        <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-        <span class="keyword">try</span> {
-          <span class="keyword">await</span> notifier.<span class="function">signOut</span>();
-        } <span class="function">catch</span> (e) {
-          ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-            SnackBar(content: Text(<span class="string">'Error signing out: </span><span class="string">$e</span><span class="string">'</span>)),
+           <span class="keyword">
+            if
+           </span>
+           (confirmed) {
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            signOut
+           </span>
+           ();
+        }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+          ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+            SnackBar(content: Text(
+           <span class="string">
+            'Error signing out:
+           </span>
+           <span class="string">
+            $e
+           </span>
+           <span class="string">
+            '
+           </span>
+           )),
           );
         }
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_updateUsername</span>(String newUsername) <span class="keyword">async</span> {
-      <span class="keyword">if</span> (newUsername.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-          SnackBar(content: Text(<span class="string">'Username cannot be empty'</span>)),
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _updateUsername
+           </span>
+           (String newUsername)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            if
+           </span>
+           (newUsername.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+          SnackBar(content: Text(
+           <span class="string">
+            'Username cannot be empty'
+           </span>
+           )),
         );
-        <span class="keyword">return</span>;
+           <span class="keyword">
+            return
+           </span>
+           ;
       }
-
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(authNotifierProvider.notifier);
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> notifier.<span class="function">updateProfile</span>(username: newUsername.<span class="function">trim</span>());
-        <span class="function">setState</span>(() =&gt; _isEditing = <span class="keyword">false</span>);
-        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-          SnackBar(content: Text(<span class="string">'Profile updated!'</span>)),
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (authNotifierProvider.notifier);
+           <span class="keyword">
+            try
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           notifier.
+           <span class="function">
+            updateProfile
+           </span>
+           (username: newUsername.
+           <span class="function">
+            trim
+           </span>
+           ());
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isEditing =
+           <span class="keyword">
+            false
+           </span>
+           );
+        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+          SnackBar(content: Text(
+           <span class="string">
+            'Profile updated!'
+           </span>
+           )),
         );
-      } <span class="function">catch</span> (e) {
-        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-          SnackBar(content: Text(<span class="string">'Error updating profile: </span><span class="string">$e</span><span class="string">'</span>)),
+      }
+           <span class="function">
+            catch
+           </span>
+           (e) {
+        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+          SnackBar(content: Text(
+           <span class="string">
+            'Error updating profile:
+           </span>
+           <span class="string">
+            $e
+           </span>
+           <span class="string">
+            '
+           </span>
+           )),
         );
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> user = ref.<span class="function">watch</span>(currentUserProvider);
-      <span class="keyword">final</span> session = ref.<span class="function">watch</span>(currentSessionProvider);
-
-      <span class="keyword">if</span> (user == <span class="keyword">null</span>) {
-        <span class="keyword">return</span> Scaffold(
-          body: Center(child: Text(<span class="string">'Not authenticated'</span>)),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           user = ref.
+           <span class="function">
+            watch
+           </span>
+           (currentUserProvider);
+           <span class="keyword">
+            final
+           </span>
+           session = ref.
+           <span class="function">
+            watch
+           </span>
+           (currentSessionProvider);
+           <span class="keyword">
+            if
+           </span>
+           (user ==
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
+          body: Center(child: Text(
+           <span class="string">
+            'Not authenticated'
+           </span>
+           )),
         );
       }
-
-      <span class="keyword">final</span> username = user.userMetadata?[<span class="string">'username'</span>] ?? <span class="string">'No username'</span>;
-
-      <span class="keyword">return</span> Scaffold(
+           <span class="keyword">
+            final
+           </span>
+           username = user.userMetadata?[
+           <span class="string">
+            'username'
+           </span>
+           ] ??
+           <span class="string">
+            'No username'
+           </span>
+           ;
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Dashboard'</span>),
+          title: Text(
+           <span class="string">
+            'Dashboard'
+           </span>
+           ),
           backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           actions: [
             IconButton(
               onPressed: _handleSignOut,
               icon: Icon(Icons.logout),
-              tooltip: <span class="string">'Sign Out'</span>,
+              tooltip:
+           <span class="string">
+            'Sign Out'
+           </span>
+           ,
             ),
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">24</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            24
+           </span>
+           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              <span class="comment">// Welcome message</span>
-              Text(
-                <span class="string">'Welcome back! 👋'</span>,
+           <span class="comment">
+            // Welcome message
+           </span>
+           Text(
+           <span class="string">
+            'Welcome back! 👋'
+           </span>
+           ,
                 style: TextStyle(
-                  fontSize: <span class="number">24</span>,
+                  fontSize:
+           <span class="number">
+            24
+           </span>
+           ,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: <span class="number">4</span>),
+              SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
               Text(
-                <span class="string">'You are signed in as:'</span>,
-                style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'You are signed in as:'
+           </span>
+           ,
+                style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
               ),
-              SizedBox(height: <span class="number">24</span>),
-
-              <span class="comment">// Profile Card</span>
-              Card(
-                elevation: <span class="number">4</span>,
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Profile Card
+           </span>
+           Card(
+                elevation:
+           <span class="number">
+            4
+           </span>
+           ,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">20</span>),
+                  padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            20
+           </span>
+           ),
                   child: Column(
                     children: [
-                      <span class="comment">// Avatar</span>
-                      CircleAvatar(
-                        radius: <span class="number">40</span>,
-                        backgroundColor: Colors.deepPurple.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+           <span class="comment">
+            // Avatar
+           </span>
+           CircleAvatar(
+                        radius:
+           <span class="number">
+            40
+           </span>
+           ,
+                        backgroundColor: Colors.deepPurple.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
                         child: Text(
-                          username.<span class="function">isNotEmpty</span> ? username[<span class="number">0</span>].<span class="function">toUpperCase</span>() : <span class="string">'?'</span>,
+                          username.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? username[
+           <span class="number">
+            0
+           </span>
+           ].
+           <span class="function">
+            toUpperCase
+           </span>
+           () :
+           <span class="string">
+            '?'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">32</span>,
+                            fontSize:
+           <span class="number">
+            32
+           </span>
+           ,
                             fontWeight: FontWeight.bold,
                             color: Colors.deepPurple,
                           ),
                         ),
                       ),
-                      SizedBox(height: <span class="number">16</span>),
-
-                      <span class="comment">// Username</span>
-<span class="keyword">if</span> (!_isEditing)
+                      SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Username
+           </span>
+           <span class="keyword">
+            if
+           </span>
+           (!_isEditing)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               username,
                               style: TextStyle(
-                                fontSize: <span class="number">20</span>,
+                                fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(width: <span class="number">8</span>),
+                            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                             IconButton(
                               onPressed: () {
                                 _usernameController.text = username;
-                                <span class="function">setState</span>(() =&gt; _isEditing = <span class="keyword">true</span>);
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isEditing =
+           <span class="keyword">
+            true
+           </span>
+           );
                               },
-                              icon: Icon(Icons.edit, size: <span class="number">18</span>),
-                              color: Colors.grey[<span class="number">500</span>],
+                              icon: Icon(Icons.edit, size:
+           <span class="number">
+            18
+           </span>
+           ),
+                              color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                             ),
                           ],
                         )
-                      <span class="keyword">else</span>
-                        Row(
+           <span class="keyword">
+            else
+           </span>
+           Row(
                           children: [
                             Expanded(
                               child: TextField(
                                 controller: _usernameController,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                                    borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                                   ),
-                                  contentPadding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">8</span>),
+                                  contentPadding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            12
+           </span>
+           , vertical:
+           <span class="number">
+            8
+           </span>
+           ),
                                 ),
                                 textInputAction: TextInputAction.done,
                                 onSubmitted: _updateUsername,
                               ),
                             ),
-                            SizedBox(width: <span class="number">8</span>),
+                            SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                             IconButton(
                               onPressed: () =&gt; _updateUsername(_usernameController.text),
                               icon: Icon(Icons.save, color: Colors.green),
                             ),
                             IconButton(
-                              onPressed: () =&gt; <span class="function">setState</span>(() =&gt; _isEditing = <span class="keyword">false</span>),
+                              onPressed: () =&gt;
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isEditing =
+           <span class="keyword">
+            false
+           </span>
+           ),
                               icon: Icon(Icons.cancel, color: Colors.red),
                             ),
                           ],
                         ),
-                      SizedBox(height: <span class="number">8</span>),
-
-                      <span class="comment">// Email (read-only)</span>
-                      Text(
-                        user.email ?? <span class="string">'No email'</span>,
+                      SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
+           <span class="comment">
+            // Email (read-only)
+           </span>
+           Text(
+                        user.email ??
+           <span class="string">
+            'No email'
+           </span>
+           ,
                         style: TextStyle(
-                          color: Colors.grey[<span class="number">600</span>],
-                          fontSize: <span class="number">14</span>,
+                          color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
+                          fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                         ),
                       ),
-                      SizedBox(height: <span class="number">4</span>),
-
-                      <span class="comment">// User ID (for debugging)</span>
-                      Text(
-                        <span class="string">'ID: ${user.id.substring(0, 8)}...'</span>,
+                      SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
+           <span class="comment">
+            // User ID (for debugging)
+           </span>
+           Text(
+           <span class="string">
+            'ID: ${user.id.substring(0, 8)}...'
+           </span>
+           ,
                         style: TextStyle(
-                          color: Colors.grey[<span class="number">400</span>],
-                          fontSize: <span class="number">12</span>,
+                          color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
+                          fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
                         ),
                       ),
-                      SizedBox(height: <span class="number">4</span>),
-
-                      <span class="comment">// Auth provider</span>
-                      Container(
-                        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">4</span>),
+                      SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
+           <span class="comment">
+            // Auth provider
+           </span>
+           Container(
+                        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            12
+           </span>
+           , vertical:
+           <span class="number">
+            4
+           </span>
+           ),
                         decoration: BoxDecoration(
-                          color: Colors.grey[<span class="number">100</span>],
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                          color: Colors.grey[
+           <span class="number">
+            100
+           </span>
+           ],
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                         ),
                         child: Text(
-                          user.appMetadata?[<span class="string">'provider'</span>] ?? <span class="string">'email'</span>,
+                          user.appMetadata?[
+           <span class="string">
+            'provider'
+           </span>
+           ] ??
+           <span class="string">
+            'email'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">12</span>,
-                            color: Colors.grey[<span class="number">600</span>],
+                            fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                           ),
                         ),
                       ),
@@ -1311,52 +3425,147 @@
                   ),
                 ),
               ),
-              SizedBox(height: <span class="number">24</span>),
-
-              <span class="comment">// Session info</span>
-              Text(
-                <span class="string">'Session Info'</span>,
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Session info
+           </span>
+           Text(
+           <span class="string">
+            'Session Info'
+           </span>
+           ,
                 style: TextStyle(
-                  fontSize: <span class="number">16</span>,
+                  fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: <span class="number">8</span>),
+              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
               Container(
-                padding: EdgeInsets.<span class="function">all</span>(<span class="number">12</span>),
+                padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                 decoration: BoxDecoration(
-                  color: Colors.grey[<span class="number">50</span>],
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-                  border: Border.<span class="function">all</span>(color: Colors.grey[<span class="number">200</span>]!),
+                  color: Colors.grey[
+           <span class="number">
+            50
+           </span>
+           ],
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                  border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.grey[
+           <span class="number">
+            200
+           </span>
+           ]!),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      <span class="string">'Expires at: ${session?.expiresAt != null ? DateTime.fromMillisecondsSinceEpoch(session!.expiresAt!).toLocal().toString() : 'N/A'}'</span>,
-                      style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'Expires at: ${session?.expiresAt != null ? DateTime.fromMillisecondsSinceEpoch(session!.expiresAt!).toLocal().toString() : 'N/A'}'
+           </span>
+           ,
+                      style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                     ),
-                    SizedBox(height: <span class="number">4</span>),
+                    SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                     Text(
-                      <span class="string">'Access token: ${session?.accessToken != null ? '${session!.accessToken.substring(0, 20)}...' : 'N/A'}'</span>,
-                      style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'Access token: ${session?.accessToken != null ? '${session!.accessToken.substring(0, 20)}...' : 'N/A'}'
+           </span>
+           ,
+                      style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: <span class="number">24</span>),
-
-              <span class="comment">// Sign out button</span>
-              ElevatedButton.icon(
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Sign out button
+           </span>
+           ElevatedButton.icon(
                 onPressed: _handleSignOut,
                 icon: Icon(Icons.logout),
-                label: Text(<span class="string">'Sign Out'</span>),
+                label: Text(
+           <span class="string">
+            'Sign Out'
+           </span>
+           ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">14</span>),
+                  padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            14
+           </span>
+           ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                    borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                   ),
                 ),
               ),
@@ -1366,81 +3575,180 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>Supabase Auth</strong> – Complete authentication system with session management</li>
-<li><strong>Email/Password Auth</strong> – Sign-up and sign-in with user metadata</li>
-<li><strong>Google OAuth</strong> – Native Google sign-in integration</li>
-<li><strong>Riverpod State Management</strong> – Auth state with StreamProvider and StateNotifier</li>
-<li><strong>Session Persistence</strong> – Auto-login using Supabase's built-in session handling</li>
-<li><strong>Protected Routes</strong> – Conditional navigation based on auth state</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="../module3/challenge4-bookmark-manager.html">
-<i class="fas fa-arrow-left"></i> Previous Module
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge2-realtime-chat.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://supabase.com" rel="noopener" target="_blank">Supabase</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            Supabase Auth
+           </strong>
+           – Complete authentication system with session management
+          </li>
+          <li>
+           <strong>
+            Email/Password Auth
+           </strong>
+           – Sign-up and sign-in with user metadata
+          </li>
+          <li>
+           <strong>
+            Google OAuth
+           </strong>
+           – Native Google sign-in integration
+          </li>
+          <li>
+           <strong>
+            Riverpod State Management
+           </strong>
+           – Auth state with StreamProvider and StateNotifier
+          </li>
+          <li>
+           <strong>
+            Session Persistence
+           </strong>
+           – Auto-login using Supabase's built-in session handling
+          </li>
+          <li>
+           <strong>
+            Protected Routes
+           </strong>
+           – Conditional navigation based on auth state
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="../module3/challenge4-bookmark-manager.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Module
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge2-realtime-chat.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com" rel="noopener" target="_blank">
+         Supabase
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1548,8 +3856,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1622,5 +3930,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

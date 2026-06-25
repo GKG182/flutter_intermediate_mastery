@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>FutureProvider – Module 1 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to use FutureProvider in Riverpod for handling asynchronous data fetching, loading states, and error handling in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   FutureProvider – Module 1 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to use FutureProvider in Riverpod for handling asynchronous data fetching, loading states, and error handling in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -574,10 +575,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         color: #ffffff !important;
     }
-    
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -640,301 +640,753 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a "="" class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a "="" class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a module1-topic1-why-state-management.html"="">Module 1</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 7</span>
-</div>
-<span class="module-badge"><i class="fas fa-book-open"></i> Module 1</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 7</div>
-<h1>FutureProvider</h1>
-<p class="topic-subtitle">
-            Handling asynchronous data in Riverpod — loading states, error handling, and working with Futures.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://riverpod.dev/docs/concepts/providers" target="_blank">
-<i class="fas fa-globe"></i> Riverpod – FutureProvider Guide
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
-<i class="fas fa-book"></i> Flutter Docs – Fetch Data
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT IS FUTUREPROVIDER ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Is FutureProvider?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>FutureProvider</code> is a type of provider in Riverpod that holds a <strong>Future</strong>.
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a module1-topic1-why-state-management.html"="">
+        Module 1
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 7
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-book-open">
+       </i>
+       Module 1
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 7
+      </div>
+      <h1>
+       FutureProvider
+      </h1>
+      <p class="topic-subtitle">
+       Handling asynchronous data in Riverpod — loading states, error handling, and working with Futures.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://riverpod.dev/docs/concepts/providers" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Riverpod – FutureProvider Guide
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Flutter Docs – Fetch Data
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT IS FUTUREPROVIDER ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Is FutureProvider?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        FutureProvider
+       </code>
+       is a type of provider in Riverpod that holds a
+       <strong>
+        Future
+       </strong>
+       .
             It's designed specifically for asynchronous operations like:
-          </p>
-<ul>
-<li>Making API calls (HTTP requests)</li>
-<li>Reading from a database</li>
-<li>Fetching data from local storage</li>
-<li>Any operation that returns a <code>Future</code></li>
-</ul>
-<p>
-            The key benefit of <code>FutureProvider</code> is that it <strong>handles the loading, data, and error states for you</strong>.
+      </p>
+      <ul>
+       <li>
+        Making API calls (HTTP requests)
+       </li>
+       <li>
+        Reading from a database
+       </li>
+       <li>
+        Fetching data from local storage
+       </li>
+       <li>
+        Any operation that returns a
+        <code>
+         Future
+        </code>
+       </li>
+      </ul>
+      <p>
+       The key benefit of
+       <code>
+        FutureProvider
+       </code>
+       is that it
+       <strong>
+        handles the loading, data, and error states for you
+       </strong>
+       .
             Your UI can react to each state appropriately.
-          </p>
-<div class="concept-card success">
-<h4>✅ When to Use FutureProvider</h4>
-<p>
-              Use <code>FutureProvider</code> when you need to fetch data asynchronously and display it in your UI.
+      </p>
+      <div class="concept-card success">
+       <h4>
+        ✅ When to Use FutureProvider
+       </h4>
+       <p>
+        Use
+        <code>
+         FutureProvider
+        </code>
+        when you need to fetch data asynchronously and display it in your UI.
               It's perfect for API calls, database reads, and any operation that takes time to complete.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 2: DEFINING A FUTUREPROVIDER ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Defining a FutureProvider</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Defining a <code>FutureProvider</code> is similar to a regular provider, but the creation function
-            is marked as <code>async</code> and returns a <code>Future</code>.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/providers.dart – Defining a FutureProvider</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-
-  <span class="comment">// A FutureProvider that fetches a user from an API</span>
-<span class="keyword">final</span> userProvider = FutureProvider&lt;User&gt;((ref) async {
-    <span class="comment">// This function is called when the provider is first read</span>
-<span class="keyword">final</span> response = await http.get(Uri.parse(<span class="string">'https://api.example.com/user'</span>));
-    <span class="keyword">return</span> User.fromJson(response.body);
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: DEFINING A FUTUREPROVIDER ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Defining a FutureProvider
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Defining a
+       <code>
+        FutureProvider
+       </code>
+       is similar to a regular provider, but the creation function
+            is marked as
+       <code>
+        async
+       </code>
+       and returns a
+       <code>
+        Future
+       </code>
+       .
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/providers.dart – Defining a FutureProvider
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter_riverpod/flutter_riverpod.dart'
+        </span>
+        ;
+        <span class="comment">
+         // A FutureProvider that fetches a user from an API
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        userProvider = FutureProvider&lt;User&gt;((ref) async {
+        <span class="comment">
+         // This function is called when the provider is first read
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        response = await http.get(Uri.parse(
+        <span class="string">
+         'https://api.example.com/user'
+        </span>
+        ));
+        <span class="keyword">
+         return
+        </span>
+        User.fromJson(response.body);
   });
-
-  <span class="comment">// A FutureProvider that fetches a list of posts</span>
-<span class="keyword">final</span> postsProvider = FutureProvider&lt;List&lt;Post&gt;&gt;((ref) async {
-    <span class="keyword">final</span> response = await http.get(Uri.parse(<span class="string">'https://api.example.com/posts'</span>));
-    <span class="keyword">return</span> postsFromJson(response.body);
+        <span class="comment">
+         // A FutureProvider that fetches a list of posts
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        postsProvider = FutureProvider&lt;List&lt;Post&gt;&gt;((ref) async {
+        <span class="keyword">
+         final
+        </span>
+        response = await http.get(Uri.parse(
+        <span class="string">
+         'https://api.example.com/posts'
+        </span>
+        ));
+        <span class="keyword">
+         return
+        </span>
+        postsFromJson(response.body);
   });
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>🔑 Key Points</h4>
-<ul>
-<li>The creation function is marked with <code>async</code></li>
-<li>It returns a <code>Future</code> of the desired type</li>
-<li>The provider is read-only — you can't modify the data directly</li>
-<li>To refresh the data, use <code>ref.refresh(provider)</code></li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 3: READING A FUTUREPROVIDER ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Reading a FutureProvider</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            When you <code>watch</code> a <code>FutureProvider</code>, you get an <code>AsyncValue</code> object
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        🔑 Key Points
+       </h4>
+       <ul>
+        <li>
+         The creation function is marked with
+         <code>
+          async
+         </code>
+        </li>
+        <li>
+         It returns a
+         <code>
+          Future
+         </code>
+         of the desired type
+        </li>
+        <li>
+         The provider is read-only — you can't modify the data directly
+        </li>
+        <li>
+         To refresh the data, use
+         <code>
+          ref.refresh(provider)
+         </code>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: READING A FUTUREPROVIDER ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Reading a FutureProvider
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       When you
+       <code>
+        watch
+       </code>
+       a
+       <code>
+        FutureProvider
+       </code>
+       , you get an
+       <code>
+        AsyncValue
+       </code>
+       object
             that represents the current state of the asynchronous operation.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Using FutureProvider in a Widget</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">UserScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Using FutureProvider in a Widget
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter_riverpod/flutter_riverpod.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'providers.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         UserScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        ConsumerWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="comment">// 👀 Watch the user provider to get the AsyncValue</span>
-<span class="keyword">final</span> userAsync = ref.watch(userProvider);
-
-      <span class="keyword">return</span> Scaffold(
-        appBar: AppBar(title: Text(<span class="string">'User Profile'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context, WidgetRef ref) {
+        <span class="comment">
+         // 👀 Watch the user provider to get the AsyncValue
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        userAsync = ref.watch(userProvider);
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+        appBar: AppBar(title: Text(
+        <span class="string">
+         'User Profile'
+        </span>
+        )),
         body: Center(
           child: userAsync.when(
             loading: () =&gt; CircularProgressIndicator(),
-            error: (error, stack) =&gt; Text(<span class="string">'Error: $error'</span>),
-            data: (user) =&gt; Text(<span class="string">'Hello, ${user.name}!'</span>),
+            error: (error, stack) =&gt; Text(
+        <span class="string">
+         'Error: $error'
+        </span>
+        ),
+            data: (user) =&gt; Text(
+        <span class="string">
+         'Hello, ${user.name}!'
+        </span>
+        ),
           ),
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 4: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Define the Provider</strong> – <code>userProvider</code> is a <code>FutureProvider</code> that
-                fetches a <code>User</code> from an API. The <code>async</code> function makes the HTTP request
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Define the Provider
+         </strong>
+         –
+         <code>
+          userProvider
+         </code>
+         is a
+         <code>
+          FutureProvider
+         </code>
+         that
+                fetches a
+         <code>
+          User
+         </code>
+         from an API. The
+         <code>
+          async
+         </code>
+         function makes the HTTP request
                 and returns the parsed user.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Watch the Provider</strong> – <code>ref.watch(userProvider)</code> returns an <code>AsyncValue</code>
-                that represents the current state of the future: loading, error, or data.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Handle States</strong> – The <code>.when()</code> method handles all three states:
-                <code>loading</code> shows a progress indicator, <code>error</code> shows an error message,
-                and <code>data</code> displays the user's name.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Automatic Caching</strong> – The result is cached after the first successful fetch.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Watch the Provider
+         </strong>
+         –
+         <code>
+          ref.watch(userProvider)
+         </code>
+         returns an
+         <code>
+          AsyncValue
+         </code>
+         that represents the current state of the future: loading, error, or data.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Handle States
+         </strong>
+         – The
+         <code>
+          .when()
+         </code>
+         method handles all three states:
+         <code>
+          loading
+         </code>
+         shows a progress indicator,
+         <code>
+          error
+         </code>
+         shows an error message,
+                and
+         <code>
+          data
+         </code>
+         displays the user's name.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Automatic Caching
+         </strong>
+         – The result is cached after the first successful fetch.
                 Subsequent reads return the cached data immediately without refetching.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 5: ASYNCVALUE STATES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">The Three States of AsyncValue</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>AsyncValue</code> is a sealed class that represents the three possible states of a <code>Future</code>:
-          </p>
-<div class="state-grid">
-<div class="state-item">
-<div class="state-icon">⏳</div>
-<div class="state-name">Loading</div>
-<div class="state-desc">The Future is currently executing. Show a loading indicator.</div>
-</div>
-<div class="state-item" style="border-left: 3px solid #EF4444;">
-<div class="state-icon">❌</div>
-<div class="state-name">Error</div>
-<div class="state-desc">The Future completed with an error. Show an error message.</div>
-</div>
-<div class="state-item" style="border-left: 3px solid #10B981;">
-<div class="state-icon">✅</div>
-<div class="state-name">Data</div>
-<div class="state-desc">The Future completed successfully with data. Display the data.</div>
-</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Handling AsyncValue States</span>
-<code>
-<span class="keyword">final</span> asyncValue = ref.watch(userProvider);
-
-  <span class="comment">// Method 1: Using .when() - most concise</span>
-  asyncValue.when(
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: ASYNCVALUE STATES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        The Three States of AsyncValue
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        AsyncValue
+       </code>
+       is a sealed class that represents the three possible states of a
+       <code>
+        Future
+       </code>
+       :
+      </p>
+      <div class="state-grid">
+       <div class="state-item">
+        <div class="state-icon">
+         ⏳
+        </div>
+        <div class="state-name">
+         Loading
+        </div>
+        <div class="state-desc">
+         The Future is currently executing. Show a loading indicator.
+        </div>
+       </div>
+       <div class="state-item" style="border-left: 3px solid #EF4444;">
+        <div class="state-icon">
+         ❌
+        </div>
+        <div class="state-name">
+         Error
+        </div>
+        <div class="state-desc">
+         The Future completed with an error. Show an error message.
+        </div>
+       </div>
+       <div class="state-item" style="border-left: 3px solid #10B981;">
+        <div class="state-icon">
+         ✅
+        </div>
+        <div class="state-name">
+         Data
+        </div>
+        <div class="state-desc">
+         The Future completed successfully with data. Display the data.
+        </div>
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Handling AsyncValue States
+       </span>
+       <code>
+        <span class="keyword">
+         final
+        </span>
+        asyncValue = ref.watch(userProvider);
+        <span class="comment">
+         // Method 1: Using .when() - most concise
+        </span>
+        asyncValue.when(
     loading: () =&gt; CircularProgressIndicator(),
-    error: (error, stack) =&gt; Text(<span class="string">'Error: $error'</span>),
+    error: (error, stack) =&gt; Text(
+        <span class="string">
+         'Error: $error'
+        </span>
+        ),
     data: (user) =&gt; Text(user.name),
   );
-
-  <span class="comment">// Method 2: Using .maybeWhen() - with fallback</span>
-  asyncValue.maybeWhen(
+        <span class="comment">
+         // Method 2: Using .maybeWhen() - with fallback
+        </span>
+        asyncValue.maybeWhen(
     data: (user) =&gt; Text(user.name),
-    orElse: () =&gt; Text(<span class="string">'Loading or error...'</span>),
+    orElse: () =&gt; Text(
+        <span class="string">
+         'Loading or error...'
+        </span>
+        ),
   );
-
-  <span class="comment">// Method 3: Using conditionals</span>
-<span class="keyword">if</span> (asyncValue.isLoading) {
-    <span class="keyword">return</span> CircularProgressIndicator();
-  } <span class="keyword">else</span> <span class="keyword">if</span> (asyncValue.hasError) {
-    <span class="keyword">return</span> Text(<span class="string">'Error: ${asyncValue.error}'</span>);
-  } <span class="keyword">else</span> {
-    <span class="keyword">return</span> Text(asyncValue.value!.name);
+        <span class="comment">
+         // Method 3: Using conditionals
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (asyncValue.isLoading) {
+        <span class="keyword">
+         return
+        </span>
+        CircularProgressIndicator();
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: REFRESHING DATA ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Refreshing FutureProvider Data</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            By default, <code>FutureProvider</code> caches the result after the first successful fetch.
-            To refetch the data (for example, when the user pulls to refresh), use <code>ref.refresh()</code>.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Refresh Button</span>
-<code>
-<span class="keyword">class</span> <span class="function">UserScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (asyncValue.hasError) {
+        <span class="keyword">
+         return
+        </span>
+        Text(
+        <span class="string">
+         'Error: ${asyncValue.error}'
+        </span>
+        );
+  }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        Text(asyncValue.value!.name);
+  }
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: REFRESHING DATA ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Refreshing FutureProvider Data
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       By default,
+       <code>
+        FutureProvider
+       </code>
+       caches the result after the first successful fetch.
+            To refetch the data (for example, when the user pulls to refresh), use
+       <code>
+        ref.refresh()
+       </code>
+       .
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Refresh Button
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         UserScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        ConsumerWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> userAsync = ref.watch(userProvider);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context, WidgetRef ref) {
+        <span class="keyword">
+         final
+        </span>
+        userAsync = ref.watch(userProvider);
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'User Profile'</span>),
+          title: Text(
+        <span class="string">
+         'User Profile'
+        </span>
+        ),
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () {
-                <span class="comment">// 🔄 Refresh the data</span>
-                ref.refresh(userProvider);
+        <span class="comment">
+         // 🔄 Refresh the data
+        </span>
+        ref.refresh(userProvider);
               },
             ),
           ],
@@ -945,135 +1397,417 @@
             error: (error, stack) =&gt; Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(<span class="string">'Error: $error'</span>),
+                Text(
+        <span class="string">
+         'Error: $error'
+        </span>
+        ),
                 ElevatedButton(
                   onPressed: () =&gt; ref.refresh(userProvider),
-                  child: Text(<span class="string">'Retry'</span>),
+                  child: Text(
+        <span class="string">
+         'Retry'
+        </span>
+        ),
                 ),
               ],
             ),
-            data: (user) =&gt; Text(<span class="string">'Hello, ${user.name}!'</span>),
+            data: (user) =&gt; Text(
+        <span class="string">
+         'Hello, ${user.name}!'
+        </span>
+        ),
           ),
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 Refresh vs. Watch</h4>
-<ul>
-<li><strong>ref.watch()</strong> – Reads the provider and listens for changes</li>
-<li><strong>ref.refresh()</strong> – Invalidates the cached data and triggers a new fetch</li>
-<li><strong>ref.invalidate()</strong> – Marks the data as invalid without refetching (it will refetch on next watch)</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Weather App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete example of a weather app that uses <code>FutureProvider</code> to fetch weather data
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 Refresh vs. Watch
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          ref.watch()
+         </strong>
+         – Reads the provider and listens for changes
+        </li>
+        <li>
+         <strong>
+          ref.refresh()
+         </strong>
+         – Invalidates the cached data and triggers a new fetch
+        </li>
+        <li>
+         <strong>
+          ref.invalidate()
+         </strong>
+         – Marks the data as invalid without refetching (it will refetch on next watch)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Weather App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete example of a weather app that uses
+       <code>
+        FutureProvider
+       </code>
+       to fetch weather data
             from an API. This demonstrates loading, error, and data states in a real-world scenario.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/weather.dart – Complete Weather App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-  <span class="keyword">import</span> <span class="string">'dart:convert'</span>;
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/weather.dart – Complete Weather App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter_riverpod/flutter_riverpod.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:convert'
+        </span>
+        ;
+        <span class="comment">
+         // 1. Define the data model
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         Weather
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        String city;
+        <span class="keyword">
+         final
+        </span>
+        double temperature;
+        <span class="keyword">
+         final
+        </span>
+        String condition;
 
-  <span class="comment">// 1. Define the data model</span>
-<span class="keyword">class</span> <span class="function">Weather</span> {
-    <span class="keyword">final</span> String city;
-    <span class="keyword">final</span> double temperature;
-    <span class="keyword">final</span> String condition;
-
-    Weather({<span class="keyword">required</span> <span class="keyword">this</span>.city, <span class="keyword">required</span> <span class="keyword">this</span>.temperature, <span class="keyword">required</span> <span class="keyword">this</span>.condition});
+    Weather({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .city,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .temperature,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .condition});
 
     factory Weather.fromJson(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Weather(
-        city: json[<span class="string">'name'</span>] ?? <span class="string">'Unknown'</span>,
-        temperature: (json[<span class="string">'main'</span>][<span class="string">'temp'</span>] <span class="keyword">as</span> num).toDouble() - <span class="number">273.15</span>,
-        condition: json[<span class="string">'weather'</span>][<span class="number">0</span>][<span class="string">'description'</span>] ?? <span class="string">'Unknown'</span>,
+        <span class="keyword">
+         return
+        </span>
+        Weather(
+        city: json[
+        <span class="string">
+         'name'
+        </span>
+        ] ??
+        <span class="string">
+         'Unknown'
+        </span>
+        ,
+        temperature: (json[
+        <span class="string">
+         'main'
+        </span>
+        ][
+        <span class="string">
+         'temp'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        num).toDouble() -
+        <span class="number">
+         273.15
+        </span>
+        ,
+        condition: json[
+        <span class="string">
+         'weather'
+        </span>
+        ][
+        <span class="number">
+         0
+        </span>
+        ][
+        <span class="string">
+         'description'
+        </span>
+        ] ??
+        <span class="string">
+         'Unknown'
+        </span>
+        ,
       );
     }
   }
-
-  <span class="comment">// 2. Define the FutureProvider</span>
-<span class="keyword">final</span> weatherProvider = FutureProvider&lt;Weather&gt;((ref) async {
-    <span class="comment">// Fetch weather data from an API</span>
-<span class="keyword">final</span> response = await http.get(
-      Uri.parse(<span class="string">'https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=YOUR_API_KEY'</span>),
+        <span class="comment">
+         // 2. Define the FutureProvider
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        weatherProvider = FutureProvider&lt;Weather&gt;((ref) async {
+        <span class="comment">
+         // Fetch weather data from an API
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        response = await http.get(
+      Uri.parse(
+        <span class="string">
+         'https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=YOUR_API_KEY'
+        </span>
+        ),
     );
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = json.decode(response.body);
-      <span class="keyword">return</span> Weather.fromJson(data);
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load weather: ${response.statusCode}'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode ==
+        <span class="number">
+         200
+        </span>
+        ) {
+        <span class="keyword">
+         final
+        </span>
+        data = json.decode(response.body);
+        <span class="keyword">
+         return
+        </span>
+        Weather.fromJson(data);
+    }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to load weather: ${response.statusCode}'
+        </span>
+        );
     }
   });
-
-  <span class="comment">// 3. The UI Widget</span>
-<span class="keyword">class</span> <span class="function">WeatherScreen</span> <span class="keyword">extends</span> ConsumerWidget {
+        <span class="comment">
+         // 3. The UI Widget
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         WeatherScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        ConsumerWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> weatherAsync = ref.watch(weatherProvider);
-
-      <span class="keyword">return</span> Scaffold(
-        appBar: AppBar(title: Text(<span class="string">'Weather App'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context, WidgetRef ref) {
+        <span class="keyword">
+         final
+        </span>
+        weatherAsync = ref.watch(weatherProvider);
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+        appBar: AppBar(title: Text(
+        <span class="string">
+         'Weather App'
+        </span>
+        )),
         body: Padding(
-          padding: EdgeInsets.all(<span class="number">16</span>),
+          padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
           child: Center(
             child: weatherAsync.when(
               loading: () =&gt; Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(),
-                  SizedBox(height: <span class="number">16</span>),
-                  Text(<span class="string">'Loading weather data...'</span>),
+                  SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+                  Text(
+        <span class="string">
+         'Loading weather data...'
+        </span>
+        ),
                 ],
               ),
               error: (error, stack) =&gt; Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
-                  SizedBox(height: <span class="number">16</span>),
-                  Text(<span class="string">'Error: $error'</span>, textAlign: TextAlign.center),
-                  SizedBox(height: <span class="number">16</span>),
+                  Icon(Icons.error, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.red),
+                  SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+                  Text(
+        <span class="string">
+         'Error: $error'
+        </span>
+        , textAlign: TextAlign.center),
+                  SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                   ElevatedButton(
                     onPressed: () =&gt; ref.refresh(weatherProvider),
-                    child: Text(<span class="string">'Retry'</span>),
+                    child: Text(
+        <span class="string">
+         'Retry'
+        </span>
+        ),
                   ),
                 ],
               ),
               data: (weather) =&gt; Card(
                 child: Padding(
-                  padding: EdgeInsets.all(<span class="number">24</span>),
+                  padding: EdgeInsets.all(
+        <span class="number">
+         24
+        </span>
+        ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         weather.city,
-                        style: TextStyle(fontSize: <span class="number">24</span>, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize:
+        <span class="number">
+         24
+        </span>
+        , fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                       Text(
-                        <span class="string">'${weather.temperature.toStringAsFixed(1)}°C'</span>,
-                        style: TextStyle(fontSize: <span class="number">48</span>, fontWeight: FontWeight.w300),
+        <span class="string">
+         '${weather.temperature.toStringAsFixed(1)}°C'
+        </span>
+        ,
+                        style: TextStyle(fontSize:
+        <span class="number">
+         48
+        </span>
+        , fontWeight: FontWeight.w300),
                       ),
-                      SizedBox(height: <span class="number">8</span>),
+                      SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                       Text(weather.condition.toUpperCase()),
-                      SizedBox(height: <span class="number">16</span>),
+                      SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                       ElevatedButton.icon(
                         onPressed: () =&gt; ref.refresh(weatherProvider),
                         icon: Icon(Icons.refresh),
-                        label: Text(<span class="string">'Refresh'</span>),
+                        label: Text(
+        <span class="string">
+         'Refresh'
+        </span>
+        ),
                       ),
                     ],
                   ),
@@ -1085,162 +1819,324 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 8: COMPARISON WITH STATEPROVIDER ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">FutureProvider vs StateProvider</span>
-<span class="divider-line"></span>
-</div>
-<div class="comparison-grid">
-<div class="compare-item">
-<h4 style="color: var(--primary);">FutureProvider</h4>
-<ul>
-<li>Handles asynchronous data</li>
-<li>Built-in loading state</li>
-<li>Built-in error state</li>
-<li>Read-only (cannot modify data)</li>
-<li>Data is cached after fetch</li>
-<li>Perfect for API calls, database reads</li>
-</ul>
-</div>
-<div class="compare-item">
-<h4 style="color: #3B82F6;">StateProvider</h4>
-<ul>
-<li>Handles synchronous data</li>
-<li>No loading state</li>
-<li>No error state</li>
-<li>Mutable (can modify data)</li>
-<li>Data is not cached</li>
-<li>Perfect for counters, toggles, form data</li>
-</ul>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 9: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not handling the loading state</div>
-<p>
-              If you don't handle the loading state, your UI might show an empty or incorrect state
-              while the data is being fetched. Always handle all three states of <code>AsyncValue</code>.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always handle loading state</div>
-<p>
-              Use <code>.when()</code> or <code>.maybeWhen()</code> to handle loading, error, and data states
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMPARISON WITH STATEPROVIDER ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        FutureProvider vs StateProvider
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="comparison-grid">
+       <div class="compare-item">
+        <h4 style="color: var(--primary);">
+         FutureProvider
+        </h4>
+        <ul>
+         <li>
+          Handles asynchronous data
+         </li>
+         <li>
+          Built-in loading state
+         </li>
+         <li>
+          Built-in error state
+         </li>
+         <li>
+          Read-only (cannot modify data)
+         </li>
+         <li>
+          Data is cached after fetch
+         </li>
+         <li>
+          Perfect for API calls, database reads
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: #3B82F6;">
+         StateProvider
+        </h4>
+        <ul>
+         <li>
+          Handles synchronous data
+         </li>
+         <li>
+          No loading state
+         </li>
+         <li>
+          No error state
+         </li>
+         <li>
+          Mutable (can modify data)
+         </li>
+         <li>
+          Data is not cached
+         </li>
+         <li>
+          Perfect for counters, toggles, form data
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 9: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not handling the loading state
+       </div>
+       <p>
+        If you don't handle the loading state, your UI might show an empty or incorrect state
+              while the data is being fetched. Always handle all three states of
+        <code>
+         AsyncValue
+        </code>
+        .
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always handle loading state
+       </div>
+       <p>
+        Use
+        <code>
+         .when()
+        </code>
+        or
+        <code>
+         .maybeWhen()
+        </code>
+        to handle loading, error, and data states
               explicitly.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Using ref.watch() inside event handlers</div>
-<p>
-<code>ref.watch()</code> should only be used inside the <code>build()</code> method.
-              For event handlers, use <code>ref.refresh()</code> or <code>ref.invalidate()</code>.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use ref.refresh() in event handlers</div>
-<p>
-              For refresh buttons or retry logic, use <code>ref.refresh(provider)</code> to trigger a new fetch.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not handling errors gracefully</div>
-<p>
-              If an API call fails and you don't handle the error state, your app will show a red screen.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Using ref.watch() inside event handlers
+       </div>
+       <p>
+        <code>
+         ref.watch()
+        </code>
+        should only be used inside the
+        <code>
+         build()
+        </code>
+        method.
+              For event handlers, use
+        <code>
+         ref.refresh()
+        </code>
+        or
+        <code>
+         ref.invalidate()
+        </code>
+        .
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use ref.refresh() in event handlers
+       </div>
+       <p>
+        For refresh buttons or retry logic, use
+        <code>
+         ref.refresh(provider)
+        </code>
+        to trigger a new fetch.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not handling errors gracefully
+       </div>
+       <p>
+        If an API call fails and you don't handle the error state, your app will show a red screen.
               Always handle the error state and provide a way for the user to retry.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Show error messages and retry buttons</div>
-<p>
-              In the error state, show a friendly error message and a button to retry the operation.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-<code>FutureProvider</code> is the go-to solution for handling asynchronous data in Riverpod.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Show error messages and retry buttons
+       </div>
+       <p>
+        In the error state, show a friendly error message and a button to retry the operation.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       <code>
+        FutureProvider
+       </code>
+       is the go-to solution for handling asynchronous data in Riverpod.
             It handles loading and error states automatically, caches results, and provides a clean
-            API for refreshing data. <strong>Use it for all your API calls and async operations.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module1-topic6-stateprovider.html">
-<i class="fas fa-arrow-left"></i> Previous: StateProvider
-          </a>
-<a class="btn btn-primary btn-sm" href="module1-topic8-streamprovider.html">
-            Next: StreamProvider <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
-            Take our Dart Course →
-          </a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a module1-topic1-why-state-management.html"="">Getting Started</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">Riverpod Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+            API for refreshing data.
+       <strong>
+        Use it for all your API calls and async operations.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module1-topic6-stateprovider.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: StateProvider
+      </a>
+      <a class="btn btn-primary btn-sm" href="module1-topic8-streamprovider.html">
+       Next: StreamProvider
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a module1-topic1-why-state-management.html"="">
+         Getting Started
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">
+       Riverpod Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1297,8 +2193,8 @@
       });
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1371,8 +2267,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1445,5 +2342,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Hero Animations – Module 6 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn Hero animations in Flutter. Create shared element transitions between screens with the Hero widget for stunning, fluid navigation experiences." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Hero Animations – Module 6 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn Hero animations in Flutter. Create shared element transitions between screens with the Hero widget for stunning, fluid navigation experiences." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -589,9 +590,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -654,195 +655,454 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module6-advanced-flutter.html">Module 6</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 3</span>
-</div>
-<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 3</div>
-<h1>Hero Animations</h1>
-<p class="topic-subtitle">
-            Creating seamless shared element transitions between screens using Flutter's Hero widget.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
-<i class="fas fa-globe"></i> Flutter Hero Docs
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
-<i class="fas fa-book"></i> Hero Animation Guide
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT ARE HERO ANIMATIONS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Are Hero Animations?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Hero animations</strong> (also called <strong>shared element transitions</strong>)
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module6-advanced-flutter.html">
+        Module 6
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 3
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-star">
+       </i>
+       Module 6
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 3
+      </div>
+      <h1>
+       Hero Animations
+      </h1>
+      <p class="topic-subtitle">
+       Creating seamless shared element transitions between screens using Flutter's Hero widget.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Flutter Hero Docs
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Hero Animation Guide
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT ARE HERO ANIMATIONS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Are Hero Animations?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Hero animations
+       </strong>
+       (also called
+       <strong>
+        shared element transitions
+       </strong>
+       )
             are a type of animation where a widget appears to "fly" from one screen to another.
             You've probably seen this many times — for example, tapping a product image in a list,
             and watching it smoothly transition to a larger version on the details screen.
-          </p>
-<div class="concept-card info">
-<h4>💡 Key Concept</h4>
-<p>
-              A Hero animation creates the illusion that a widget is <strong>shared</strong> between
-              two screens. In reality, there are two separate <code>Hero</code> widgets with matching
-              <strong>tags</strong>. Flutter handles the animation between them automatically.
-            </p>
-</div>
-<div class="hero-types">
-<div class="hero-type" style="border-color: #3B82F6;">
-<div class="type-icon">🔄</div>
-<div class="type-name">Standard Hero</div>
-<div class="type-desc">
-                Widget flies from one route to another, changing position and size. The most common type.
-              </div>
-</div>
-<div class="hero-type" style="border-color: #8B5CF6;">
-<div class="type-icon">⭕➡️⬛</div>
-<div class="type-name">Radial Hero</div>
-<div class="type-desc">
-                Widget transforms shape during flight (e.g., circle to square) using clipping.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 2: BASIC STRUCTURE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Basic Structure</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Hero animations are implemented using two <code>Hero</code> widgets — one on the source route
-            and one on the destination route. Both must have the <strong>same tag</strong>.
-          </p>
-<div class="flight-diagram">
-<div class="step">🏠 Source Route</div>
-<span class="arrow">→</span>
-<div class="step">🚀 Hero Flies</div>
-<span class="arrow">→</span>
-<div class="step">📍 Destination Route</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Basic Hero Structure</span>
-<code>
-<span class="comment">// SOURCE ROUTE (List Screen)</span>
-  Hero(
-    tag: <span class="string">'product_123'</span>, <span class="comment">// Unique tag</span>
-    child: Container(
-      width: <span class="number">100</span>,
-      height: <span class="number">100</span>,
-      child: Image.network(<span class="string">'https://example.com/product.jpg'</span>),
+      </p>
+      <div class="concept-card info">
+       <h4>
+        💡 Key Concept
+       </h4>
+       <p>
+        A Hero animation creates the illusion that a widget is
+        <strong>
+         shared
+        </strong>
+        between
+              two screens. In reality, there are two separate
+        <code>
+         Hero
+        </code>
+        widgets with matching
+        <strong>
+         tags
+        </strong>
+        . Flutter handles the animation between them automatically.
+       </p>
+      </div>
+      <div class="hero-types">
+       <div class="hero-type" style="border-color: #3B82F6;">
+        <div class="type-icon">
+         🔄
+        </div>
+        <div class="type-name">
+         Standard Hero
+        </div>
+        <div class="type-desc">
+         Widget flies from one route to another, changing position and size. The most common type.
+        </div>
+       </div>
+       <div class="hero-type" style="border-color: #8B5CF6;">
+        <div class="type-icon">
+         ⭕➡️⬛
+        </div>
+        <div class="type-name">
+         Radial Hero
+        </div>
+        <div class="type-desc">
+         Widget transforms shape during flight (e.g., circle to square) using clipping.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: BASIC STRUCTURE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Basic Structure
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Hero animations are implemented using two
+       <code>
+        Hero
+       </code>
+       widgets — one on the source route
+            and one on the destination route. Both must have the
+       <strong>
+        same tag
+       </strong>
+       .
+      </p>
+      <div class="flight-diagram">
+       <div class="step">
+        🏠 Source Route
+       </div>
+       <span class="arrow">
+        →
+       </span>
+       <div class="step">
+        🚀 Hero Flies
+       </div>
+       <span class="arrow">
+        →
+       </span>
+       <div class="step">
+        📍 Destination Route
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Basic Hero Structure
+       </span>
+       <code>
+        <span class="comment">
+         // SOURCE ROUTE (List Screen)
+        </span>
+        Hero(
+    tag:
+        <span class="string">
+         'product_123'
+        </span>
+        ,
+        <span class="comment">
+         // Unique tag
+        </span>
+        child: Container(
+      width:
+        <span class="number">
+         100
+        </span>
+        ,
+      height:
+        <span class="number">
+         100
+        </span>
+        ,
+      child: Image.network(
+        <span class="string">
+         'https://example.com/product.jpg'
+        </span>
+        ),
     ),
   )
-
-  <span class="comment">// DESTINATION ROUTE (Detail Screen)</span>
-  Hero(
-    tag: <span class="string">'product_123'</span>, <span class="comment">// SAME tag!</span>
-    child: Container(
-      width: <span class="number">300</span>,
-      height: <span class="number">300</span>,
-      child: Image.network(<span class="string">'https://example.com/product.jpg'</span>),
+        <span class="comment">
+         // DESTINATION ROUTE (Detail Screen)
+        </span>
+        Hero(
+    tag:
+        <span class="string">
+         'product_123'
+        </span>
+        ,
+        <span class="comment">
+         // SAME tag!
+        </span>
+        child: Container(
+      width:
+        <span class="number">
+         300
+        </span>
+        ,
+      height:
+        <span class="number">
+         300
+        </span>
+        ,
+      child: Image.network(
+        <span class="string">
+         'https://example.com/product.jpg'
+        </span>
+        ),
     ),
   )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ Key Requirements</h4>
-<ul>
-<li><strong>Same tag</strong> – Both Hero widgets must have identical tags</li>
-<li><strong>Similar child widgets</strong> – The widgets should be visually similar</li>
-<li><strong>Navigation triggers</strong> – The animation starts when you push/pop a route</li>
-<li><strong>Unique tags</strong> – Each pair of heroes should have a unique tag</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 3: STANDARD HERO ANIMATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Standard Hero Animation</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            A <strong>standard hero animation</strong> flies a widget from one route to another,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Key Requirements
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Same tag
+         </strong>
+         – Both Hero widgets must have identical tags
+        </li>
+        <li>
+         <strong>
+          Similar child widgets
+         </strong>
+         – The widgets should be visually similar
+        </li>
+        <li>
+         <strong>
+          Navigation triggers
+         </strong>
+         – The animation starts when you push/pop a route
+        </li>
+        <li>
+         <strong>
+          Unique tags
+         </strong>
+         – Each pair of heroes should have a unique tag
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: STANDARD HERO ANIMATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Standard Hero Animation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       A
+       <strong>
+        standard hero animation
+       </strong>
+       flies a widget from one route to another,
             usually changing position and size. Here's a complete example:
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/photo_hero.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">PhotoHero</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">PhotoHero</span>({
-      <span class="keyword">super</span>.key,
-      <span class="keyword">required</span> <span class="keyword">this</span>.photo,
-      <span class="keyword">this</span>.onTap,
-      <span class="keyword">required</span> <span class="keyword">this</span>.width,
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/photo_hero.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         PhotoHero
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         const
+        </span>
+        <span class="function">
+         PhotoHero
+        </span>
+        ({
+        <span class="keyword">
+         super
+        </span>
+        .key,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .photo,
+        <span class="keyword">
+         this
+        </span>
+        .onTap,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .width,
     });
-
-    <span class="keyword">final</span> String photo;
-    <span class="keyword">final</span> VoidCallback? onTap;
-    <span class="keyword">final</span> <span class="keyword">double</span> width;
+        <span class="keyword">
+         final
+        </span>
+        String photo;
+        <span class="keyword">
+         final
+        </span>
+        VoidCallback? onTap;
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         double
+        </span>
+        width;
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> SizedBox(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        SizedBox(
         width: width,
         child: Hero(
-          tag: photo, <span class="comment">// Use the photo path as the tag</span>
-          child: Material(
+          tag: photo,
+        <span class="comment">
+         // Use the photo path as the tag
+        </span>
+        child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: onTap,
@@ -856,25 +1116,89 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/screens/home_screen.dart – Source Route</span>
-<code>
-<span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> StatelessWidget {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/screens/home_screen.dart – Source Route
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         HomeScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
-        appBar: AppBar(title: Text(<span class="string">'Hero Animation'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+        appBar: AppBar(title: Text(
+        <span class="string">
+         'Hero Animation'
+        </span>
+        )),
         body: Center(
           child: PhotoHero(
-            photo: <span class="string">'assets/flippers.png'</span>,
-            width: <span class="number">300.0</span>,
+            photo:
+        <span class="string">
+         'assets/flippers.png'
+        </span>
+        ,
+            width:
+        <span class="number">
+         300.0
+        </span>
+        ,
             onTap: () {
-              Navigator.<span class="function">of</span>(context).<span class="function">push</span>(
-                MaterialPageRoute&lt;<span class="keyword">void</span>&gt;(
+              Navigator.
+        <span class="function">
+         of
+        </span>
+        (context).
+        <span class="function">
+         push
+        </span>
+        (
+                MaterialPageRoute&lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;(
                   builder: (context) {
-                    <span class="keyword">return</span> DetailScreen(photo: <span class="string">'assets/flippers.png'</span>);
+        <span class="keyword">
+         return
+        </span>
+        DetailScreen(photo:
+        <span class="string">
+         'assets/flippers.png'
+        </span>
+        );
                   },
                 ),
               );
@@ -884,128 +1208,399 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/screens/detail_screen.dart – Destination Route</span>
-<code>
-<span class="keyword">class</span> <span class="function">DetailScreen</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> String photo;
-
-    <span class="function">DetailScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.photo});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/screens/detail_screen.dart – Destination Route
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         DetailScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        String photo;
+        <span class="function">
+         DetailScreen
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .photo});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
-        appBar: AppBar(title: Text(<span class="string">'Detail'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+        appBar: AppBar(title: Text(
+        <span class="string">
+         'Detail'
+        </span>
+        )),
         body: Container(
           color: Colors.lightBlueAccent,
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16
+        </span>
+        ),
           alignment: Alignment.topLeft,
           child: PhotoHero(
             photo: photo,
-            width: <span class="number">100.0</span>,
+            width:
+        <span class="number">
+         100.0
+        </span>
+        ,
             onTap: () {
-              Navigator.<span class="function">of</span>(context).<span class="function">pop</span>();
+              Navigator.
+        <span class="function">
+         of
+        </span>
+        (context).
+        <span class="function">
+         pop
+        </span>
+        ();
             },
           ),
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 Debugging Tip</h4>
-<p>
-              Use <code>timeDilation = 5.0</code> to slow down animations during development.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 Debugging Tip
+       </h4>
+       <p>
+        Use
+        <code>
+         timeDilation = 5.0
+        </code>
+        to slow down animations during development.
               This makes it easier to see what's happening during the transition.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 4: HOW HERO ANIMATIONS WORK ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">How Hero Animations Work</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Understanding what happens behind the scenes helps you debug and optimize hero animations.
-          </p>
-<div class="flight-diagram">
-<div class="step">1️⃣ Source hero in widget tree</div>
-<span class="arrow">⬇️</span>
-<div class="step">2️⃣ Push new route → Animation starts</div>
-<span class="arrow">⬇️</span>
-<div class="step">3️⃣ Flutter calculates flight path</div>
-<span class="arrow">⬇️</span>
-<div class="step">4️⃣ Destination hero placed in overlay</div>
-<span class="arrow">⬇️</span>
-<div class="step">5️⃣ Source hero moved offscreen</div>
-<span class="arrow">⬇️</span>
-<div class="step">6️⃣ Hero flies to destination</div>
-<span class="arrow">⬇️</span>
-<div class="step">7️⃣ Hero moved to destination route</div>
-<span class="arrow">⬇️</span>
-<div class="step">8️⃣ Animation complete ✅</div>
-</div>
-<div class="concept-card info">
-<h4>🧠 Behind the Scenes</h4>
-<ul>
-<li>Flutter calculates the <strong>flight path</strong> using <code>Tween&lt;Rect&gt;</code></li>
-<li>By default, uses <code>MaterialRectArcTween</code> for curved motion</li>
-<li>The hero is rendered in an <strong>overlay</strong> during the animation</li>
-<li>Both source and destination widgets remain in their routes</li>
-<li>The animation is <strong>reversible</strong> when you pop the route</li>
-</ul>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Customizing the Flight Path</span>
-<code>
-<span class="comment">// Custom RectTween for different flight behavior</span>
-<span class="keyword">static</span> RectTween <span class="function">_createRectTween</span>(Rect? begin, Rect? end) {
-    <span class="keyword">return</span> MaterialRectCenterArcTween(begin: begin, end: end);
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: HOW HERO ANIMATIONS WORK ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        How Hero Animations Work
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Understanding what happens behind the scenes helps you debug and optimize hero animations.
+      </p>
+      <div class="flight-diagram">
+       <div class="step">
+        1️⃣ Source hero in widget tree
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        2️⃣ Push new route → Animation starts
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        3️⃣ Flutter calculates flight path
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        4️⃣ Destination hero placed in overlay
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        5️⃣ Source hero moved offscreen
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        6️⃣ Hero flies to destination
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        7️⃣ Hero moved to destination route
+       </div>
+       <span class="arrow">
+        ⬇️
+       </span>
+       <div class="step">
+        8️⃣ Animation complete ✅
+       </div>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        🧠 Behind the Scenes
+       </h4>
+       <ul>
+        <li>
+         Flutter calculates the
+         <strong>
+          flight path
+         </strong>
+         using
+         <code>
+          Tween&lt;Rect&gt;
+         </code>
+        </li>
+        <li>
+         By default, uses
+         <code>
+          MaterialRectArcTween
+         </code>
+         for curved motion
+        </li>
+        <li>
+         The hero is rendered in an
+         <strong>
+          overlay
+         </strong>
+         during the animation
+        </li>
+        <li>
+         Both source and destination widgets remain in their routes
+        </li>
+        <li>
+         The animation is
+         <strong>
+          reversible
+         </strong>
+         when you pop the route
+        </li>
+       </ul>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Customizing the Flight Path
+       </span>
+       <code>
+        <span class="comment">
+         // Custom RectTween for different flight behavior
+        </span>
+        <span class="keyword">
+         static
+        </span>
+        RectTween
+        <span class="function">
+         _createRectTween
+        </span>
+        (Rect? begin, Rect? end) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialRectCenterArcTween(begin: begin, end: end);
   }
-
-  <span class="comment">// Using in Hero widget</span>
-  Hero(
+        <span class="comment">
+         // Using in Hero widget
+        </span>
+        Hero(
     tag: photo,
-    createRectTween: _createRectTween, <span class="comment">// Custom flight path</span>
-    child: <span class="comment">// ...</span>
-  )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: RADIAL HERO ANIMATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Radial Hero Animation</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            A <strong>radial hero animation</strong> transforms the shape of the hero during flight —
-            for example, from a <strong>circle to a square</strong>. This creates a more dramatic,
+    createRectTween: _createRectTween,
+        <span class="comment">
+         // Custom flight path
+        </span>
+        child:
+        <span class="comment">
+         // ...
+        </span>
+        )
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: RADIAL HERO ANIMATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Radial Hero Animation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       A
+       <strong>
+        radial hero animation
+       </strong>
+       transforms the shape of the hero during flight —
+            for example, from a
+       <strong>
+        circle to a square
+       </strong>
+       . This creates a more dramatic,
             polished transition.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/radial_expansion.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:math'</span> <span class="keyword">as</span> math;
-
-  <span class="keyword">class</span> <span class="function">RadialExpansion</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">RadialExpansion</span>({
-      <span class="keyword">super</span>.key,
-      <span class="keyword">required</span> <span class="keyword">this</span>.maxRadius,
-      <span class="keyword">this</span>.child,
-    }) : clipRectSize = <span class="number">2.0</span> * (maxRadius / math.<span class="function">sqrt</span>(<span class="number">2</span>));
-
-    <span class="keyword">final</span> <span class="keyword">double</span> maxRadius;
-    <span class="keyword">final</span> <span class="keyword">double</span> clipRectSize;
-    <span class="keyword">final</span> Widget? child;
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/radial_expansion.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:math'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        math;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         RadialExpansion
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         const
+        </span>
+        <span class="function">
+         RadialExpansion
+        </span>
+        ({
+        <span class="keyword">
+         super
+        </span>
+        .key,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .maxRadius,
+        <span class="keyword">
+         this
+        </span>
+        .child,
+    }) : clipRectSize =
+        <span class="number">
+         2.0
+        </span>
+        * (maxRadius / math.
+        <span class="function">
+         sqrt
+        </span>
+        (
+        <span class="number">
+         2
+        </span>
+        ));
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         double
+        </span>
+        maxRadius;
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         double
+        </span>
+        clipRectSize;
+        <span class="keyword">
+         final
+        </span>
+        Widget? child;
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> ClipOval(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        ClipOval(
         child: Center(
           child: SizedBox(
             width: clipRectSize,
@@ -1018,28 +1613,107 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/photo.dart – For Radial Hero</span>
-<code>
-<span class="keyword">class</span> <span class="function">Photo</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">Photo</span>({
-      <span class="keyword">super</span>.key,
-      <span class="keyword">required</span> <span class="keyword">this</span>.photo,
-      <span class="keyword">this</span>.color,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/photo.dart – For Radial Hero
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         Photo
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         const
+        </span>
+        <span class="function">
+         Photo
+        </span>
+        ({
+        <span class="keyword">
+         super
+        </span>
+        .key,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .photo,
+        <span class="keyword">
+         this
+        </span>
+        .color,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .onTap,
     });
-
-    <span class="keyword">final</span> String photo;
-    <span class="keyword">final</span> Color? color;
-    <span class="keyword">final</span> VoidCallback onTap;
+        <span class="keyword">
+         final
+        </span>
+        String photo;
+        <span class="keyword">
+         final
+        </span>
+        Color? color;
+        <span class="keyword">
+         final
+        </span>
+        VoidCallback onTap;
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Material(
-        <span class="comment">// Slightly opaque for transparency areas</span>
-        color: Theme.<span class="function">of</span>(context).primaryColor.<span class="function">withValues</span>(alpha: <span class="number">0.25</span>),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Material(
+        <span class="comment">
+         // Slightly opaque for transparency areas
+        </span>
+        color: Theme.
+        <span class="function">
+         of
+        </span>
+        (context).primaryColor.
+        <span class="function">
+         withValues
+        </span>
+        (alpha:
+        <span class="number">
+         0.25
+        </span>
+        ),
         child: InkWell(
           onTap: onTap,
           child: Image.asset(
@@ -1050,30 +1724,97 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/screens/radial_hero_screen.dart – Using Radial Hero</span>
-<code>
-<span class="keyword">class</span> <span class="function">RadialHeroScreen</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">static</span> RectTween <span class="function">_createRectTween</span>(Rect? begin, Rect? end) {
-      <span class="keyword">return</span> MaterialRectCenterArcTween(begin: begin, end: end);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/screens/radial_hero_screen.dart – Using Radial Hero
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         RadialHeroScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         static
+        </span>
+        RectTween
+        <span class="function">
+         _createRectTween
+        </span>
+        (Rect? begin, Rect? end) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialRectCenterArcTween(begin: begin, end: end);
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
-        appBar: AppBar(title: Text(<span class="string">'Radial Hero'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+        appBar: AppBar(title: Text(
+        <span class="string">
+         'Radial Hero'
+        </span>
+        )),
         body: Center(
           child: Hero(
-            tag: <span class="string">'hero_photo'</span>,
+            tag:
+        <span class="string">
+         'hero_photo'
+        </span>
+        ,
             createRectTween: _createRectTween,
             child: RadialExpansion(
-              maxRadius: <span class="number">150</span>,
+              maxRadius:
+        <span class="number">
+         150
+        </span>
+        ,
               child: Photo(
-                photo: <span class="string">'assets/photo.jpg'</span>,
+                photo:
+        <span class="string">
+         'assets/photo.jpg'
+        </span>
+        ,
                 onTap: () {
-                  Navigator.<span class="function">of</span>(context).<span class="function">pop</span>();
+                  Navigator.
+        <span class="function">
+         of
+        </span>
+        (context).
+        <span class="function">
+         pop
+        </span>
+        ();
                 },
               ),
             ),
@@ -1082,226 +1823,476 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 How Radial Heroes Work</h4>
-<ul>
-<li>Uses <strong>ClipOval</strong> and <strong>ClipRect</strong> together</li>
-<li>The intersection of the two clips creates the shape change</li>
-<li><strong>ClipOval</strong> scales from minRadius to maxRadius</li>
-<li><strong>ClipRect</strong> maintains constant size</li>
-<li>The result is a circle that "grows" into a square</li>
-<li>Use <code>MaterialRectCenterArcTween</code> to maintain aspect ratio</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Implementation</span>
-<span class="divider-line"></span>
-</div>
-<p>Follow these steps to add hero animations to your app:</p>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Identify the shared element</strong> – Find a widget that appears on both screens
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Create a reusable widget</strong> – Build a widget that can be used on both screens
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Wrap with Hero</strong> – Wrap the widget with <code>Hero</code> on the source screen
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Add matching Hero</strong> – Wrap the same widget with <code>Hero</code> on the destination screen
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Use the same tag</strong> – Both heroes must have identical tags
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">6.</span>
-<div class="step-text">
-<strong>Set up navigation</strong> – Push the destination route to trigger the animation
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">7.</span>
-<div class="step-text">
-<strong>Test and refine</strong> – Use <code>timeDilation</code> to debug and adjust
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Different tags on source and destination</div>
-<p>
-              If the tags don't match exactly, the hero animation won't work. The hero will just pop in/out.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use identical tags</div>
-<p>
-              Always use the <strong>exact same</strong> tag on both Hero widgets. Use a unique identifier
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 How Radial Heroes Work
+       </h4>
+       <ul>
+        <li>
+         Uses
+         <strong>
+          ClipOval
+         </strong>
+         and
+         <strong>
+          ClipRect
+         </strong>
+         together
+        </li>
+        <li>
+         The intersection of the two clips creates the shape change
+        </li>
+        <li>
+         <strong>
+          ClipOval
+         </strong>
+         scales from minRadius to maxRadius
+        </li>
+        <li>
+         <strong>
+          ClipRect
+         </strong>
+         maintains constant size
+        </li>
+        <li>
+         The result is a circle that "grows" into a square
+        </li>
+        <li>
+         Use
+         <code>
+          MaterialRectCenterArcTween
+         </code>
+         to maintain aspect ratio
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Implementation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Follow these steps to add hero animations to your app:
+      </p>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Identify the shared element
+         </strong>
+         – Find a widget that appears on both screens
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create a reusable widget
+         </strong>
+         – Build a widget that can be used on both screens
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Wrap with Hero
+         </strong>
+         – Wrap the widget with
+         <code>
+          Hero
+         </code>
+         on the source screen
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add matching Hero
+         </strong>
+         – Wrap the same widget with
+         <code>
+          Hero
+         </code>
+         on the destination screen
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Use the same tag
+         </strong>
+         – Both heroes must have identical tags
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         6.
+        </span>
+        <div class="step-text">
+         <strong>
+          Set up navigation
+         </strong>
+         – Push the destination route to trigger the animation
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         7.
+        </span>
+        <div class="step-text">
+         <strong>
+          Test and refine
+         </strong>
+         – Use
+         <code>
+          timeDilation
+         </code>
+         to debug and adjust
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Different tags on source and destination
+       </div>
+       <p>
+        If the tags don't match exactly, the hero animation won't work. The hero will just pop in/out.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use identical tags
+       </div>
+       <p>
+        Always use the
+        <strong>
+         exact same
+        </strong>
+        tag on both Hero widgets. Use a unique identifier
               from your data model (e.g., product ID).
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Different widget trees</div>
-<p>
-              If the hero's child widgets are too different, the transition can look jarring.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Similar widgets</div>
-<p>
-              The heroes should have <strong>virtually identical</strong> widget trees for the smoothest
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Different widget trees
+       </div>
+       <p>
+        If the hero's child widgets are too different, the transition can look jarring.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Similar widgets
+       </div>
+       <p>
+        The heroes should have
+        <strong>
+         virtually identical
+        </strong>
+        widget trees for the smoothest
               animation. The same image with different sizes works well.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not disposing controllers</div>
-<p>
-              If you're using custom animations with controllers, forgetting to dispose them causes memory leaks.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Dispose controllers</div>
-<p>
-              Always call <code>dispose()</code> on any animation controllers in your stateful widgets.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 4: Using non-unique tags</div>
-<p>
-              If multiple heroes on the same screen share the same tag, Flutter doesn't know which one to animate.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Unique tags per hero pair</div>
-<p>
-              Each pair of heroes should have a <strong>unique tag</strong>. Use the item's ID or a unique string.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 8: RESOURCES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Resources</span>
-<span class="divider-line"></span>
-</div>
-<div class="resources-box">
-<h4>📚 Learning Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">Flutter Hero Animations Guide</a> – Official documentation</li>
-<li><a href="https://docs.flutter.dev/ui/animations" target="_blank">Flutter Animation Docs</a> – Complete animation guide</li>
-<li><a href="https://api.flutter.dev/flutter/widgets/Hero-class.html" target="_blank">Hero API Reference</a> – Detailed API documentation</li>
-</ul>
-</div>
-<div class="resources-box" style="margin-top: 1rem;">
-<h4>🔗 Related Lessons</h4>
-<ul>
-<li><a href="module6-topic2-animations.html">Animations</a> – Foundation of Flutter animations</li>
-<li><a href="module6-topic1-custom-widgets.html">Custom Widgets</a> – Building reusable widgets</li>
-<li><a href="../module6-advanced-flutter.html">Module 6 Overview</a> – All advanced topics</li>
-</ul>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-<strong>Hero animations</strong> are a powerful way to create seamless transitions between
-            screens in Flutter. By using two <code>Hero</code> widgets with <strong>matching tags</strong>,
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not disposing controllers
+       </div>
+       <p>
+        If you're using custom animations with controllers, forgetting to dispose them causes memory leaks.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Dispose controllers
+       </div>
+       <p>
+        Always call
+        <code>
+         dispose()
+        </code>
+        on any animation controllers in your stateful widgets.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 4: Using non-unique tags
+       </div>
+       <p>
+        If multiple heroes on the same screen share the same tag, Flutter doesn't know which one to animate.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Unique tags per hero pair
+       </div>
+       <p>
+        Each pair of heroes should have a
+        <strong>
+         unique tag
+        </strong>
+        . Use the item's ID or a unique string.
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: RESOURCES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Resources
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="resources-box">
+       <h4>
+        📚 Learning Resources
+       </h4>
+       <ul>
+        <li>
+         <a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+          Flutter Hero Animations Guide
+         </a>
+         – Official documentation
+        </li>
+        <li>
+         <a href="https://docs.flutter.dev/ui/animations" target="_blank">
+          Flutter Animation Docs
+         </a>
+         – Complete animation guide
+        </li>
+        <li>
+         <a href="https://api.flutter.dev/flutter/widgets/Hero-class.html" target="_blank">
+          Hero API Reference
+         </a>
+         – Detailed API documentation
+        </li>
+       </ul>
+      </div>
+      <div class="resources-box" style="margin-top: 1rem;">
+       <h4>
+        🔗 Related Lessons
+       </h4>
+       <ul>
+        <li>
+         <a href="module6-topic2-animations.html">
+          Animations
+         </a>
+         – Foundation of Flutter animations
+        </li>
+        <li>
+         <a href="module6-topic1-custom-widgets.html">
+          Custom Widgets
+         </a>
+         – Building reusable widgets
+        </li>
+        <li>
+         <a href="../module6-advanced-flutter.html">
+          Module 6 Overview
+         </a>
+         – All advanced topics
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       <strong>
+        Hero animations
+       </strong>
+       are a powerful way to create seamless transitions between
+            screens in Flutter. By using two
+       <code>
+        Hero
+       </code>
+       widgets with
+       <strong>
+        matching tags
+       </strong>
+       ,
             you can create the illusion of a shared element flying between routes. Use
-            <strong>standard heroes</strong> for simple position/size changes and <strong>radial heroes</strong>
-            for shape transformations. Always use <strong>unique tags</strong> and keep the widget trees
+       <strong>
+        standard heroes
+       </strong>
+       for simple position/size changes and
+       <strong>
+        radial heroes
+       </strong>
+       for shape transformations. Always use
+       <strong>
+        unique tags
+       </strong>
+       and keep the widget trees
             similar for the best results.
-          </p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module6-topic2-animations.html">
-<i class="fas fa-arrow-left"></i> Previous: Animations
-          </a>
-<a class="btn btn-primary btn-sm" href="module6-topic4-slivers.html">
-            Next: Slivers <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">Hero Animations</a></li>
-<li><a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">Flutter Animations</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
-<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/ui/animations/hero-animations" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module6-topic2-animations.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Animations
+      </a>
+      <a class="btn btn-primary btn-sm" href="module6-topic4-slivers.html">
+       Next: Slivers
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module6-advanced-flutter.html">
+         Module 6
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">
+         Hero Animations
+        </a>
+       </li>
+       <li>
+        <a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
+         Flutter Animations
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+         Flutter GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/ui/animations/hero-animations" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1414,8 +2405,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1488,8 +2479,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1562,5 +2554,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Storage – Module 4 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to use Supabase Storage in Flutter. Upload images, manage files, work with public and private buckets, and handle media." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Storage – Module 4 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to use Supabase Storage in Flutter. Upload images, manage files, work with public and private buckets, and handle media." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -531,9 +532,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -596,137 +597,280 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module4-state-management.html">Module 4</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 4</span>
-</div>
-<span class="module-badge"><i class="fas fa-database"></i> Module 4</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 4</div>
-<h1>Storage</h1>
-<p class="topic-subtitle">
-            Managing file uploads, downloads, and media storage with Supabase Storage buckets.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://supabase.com/docs/guides/storage" target="_blank">
-<i class="fas fa-globe"></i> Supabase Storage Overview
-            </a>
-<a class="doc-badge" href="https://pub.dev/packages/supabase_flutter" target="_blank">
-<i class="fas fa-box"></i> supabase_flutter package
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: SUPABASE STORAGE OVERVIEW ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Supabase Storage Overview</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Supabase Storage</strong> provides a scalable file storage solution for your Flutter apps.
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module4-state-management.html">
+        Module 4
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 4
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-database">
+       </i>
+       Module 4
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 4
+      </div>
+      <h1>
+       Storage
+      </h1>
+      <p class="topic-subtitle">
+       Managing file uploads, downloads, and media storage with Supabase Storage buckets.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://supabase.com/docs/guides/storage" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Supabase Storage Overview
+       </a>
+       <a class="doc-badge" href="https://pub.dev/packages/supabase_flutter" target="_blank">
+        <i class="fas fa-box">
+        </i>
+        supabase_flutter package
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: SUPABASE STORAGE OVERVIEW ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Supabase Storage Overview
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Supabase Storage
+       </strong>
+       provides a scalable file storage solution for your Flutter apps.
             It's built on top of Amazon S3 and offers:
-          </p>
-<ul>
-<li><strong>Public &amp; Private Buckets</strong> – Control who can access your files</li>
-<li><strong>Image Optimization</strong> – Automatic resizing and optimization</li>
-<li><strong>CDN Delivery</strong> – Fast global content delivery</li>
-<li><strong>File Management</strong> – Upload, download, delete, and list files</li>
-<li><strong>Security</strong> – Row Level Security policies for storage</li>
-</ul>
-<div class="bucket-types-grid">
-<div class="bucket-type-item" style="border-left: 3px solid #10B981;">
-<div class="bucket-icon">🌐</div>
-<div class="bucket-name">Public Buckets</div>
-<div class="bucket-desc">Anyone can read files. Good for profile pictures, public assets</div>
-</div>
-<div class="bucket-type-item" style="border-left: 3px solid #EF4444;">
-<div class="bucket-icon">🔒</div>
-<div class="bucket-name">Private Buckets</div>
-<div class="bucket-desc">Only authenticated users with proper permissions can access</div>
-</div>
-</div>
-<div class="concept-card success">
-<h4>✅ Storage Use Cases</h4>
-<ul>
-<li><strong>Profile Pictures</strong> – User avatars uploaded to a public bucket</li>
-<li><strong>Post Images</strong> – Images for posts or articles</li>
-<li><strong>Video Uploads</strong> – User-generated video content</li>
-<li><strong>Documents</strong> – PDFs, spreadsheets, and other documents</li>
-<li><strong>Chat Media</strong> – Images and files in chat messages</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: SETUP ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Setting Up Storage</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            To use storage in your Flutter app, you need to create a bucket and set up the proper policies.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">SQL – Create Storage Buckets</span>
-<code>
-<span class="comment">-- Create a public bucket for avatars</span>
-  INSERT INTO storage.buckets (id, name, public)
+      </p>
+      <ul>
+       <li>
+        <strong>
+         Public &amp; Private Buckets
+        </strong>
+        – Control who can access your files
+       </li>
+       <li>
+        <strong>
+         Image Optimization
+        </strong>
+        – Automatic resizing and optimization
+       </li>
+       <li>
+        <strong>
+         CDN Delivery
+        </strong>
+        – Fast global content delivery
+       </li>
+       <li>
+        <strong>
+         File Management
+        </strong>
+        – Upload, download, delete, and list files
+       </li>
+       <li>
+        <strong>
+         Security
+        </strong>
+        – Row Level Security policies for storage
+       </li>
+      </ul>
+      <div class="bucket-types-grid">
+       <div class="bucket-type-item" style="border-left: 3px solid #10B981;">
+        <div class="bucket-icon">
+         🌐
+        </div>
+        <div class="bucket-name">
+         Public Buckets
+        </div>
+        <div class="bucket-desc">
+         Anyone can read files. Good for profile pictures, public assets
+        </div>
+       </div>
+       <div class="bucket-type-item" style="border-left: 3px solid #EF4444;">
+        <div class="bucket-icon">
+         🔒
+        </div>
+        <div class="bucket-name">
+         Private Buckets
+        </div>
+        <div class="bucket-desc">
+         Only authenticated users with proper permissions can access
+        </div>
+       </div>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Storage Use Cases
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Profile Pictures
+         </strong>
+         – User avatars uploaded to a public bucket
+        </li>
+        <li>
+         <strong>
+          Post Images
+         </strong>
+         – Images for posts or articles
+        </li>
+        <li>
+         <strong>
+          Video Uploads
+         </strong>
+         – User-generated video content
+        </li>
+        <li>
+         <strong>
+          Documents
+         </strong>
+         – PDFs, spreadsheets, and other documents
+        </li>
+        <li>
+         <strong>
+          Chat Media
+         </strong>
+         – Images and files in chat messages
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: SETUP ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Setting Up Storage
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       To use storage in your Flutter app, you need to create a bucket and set up the proper policies.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        SQL – Create Storage Buckets
+       </span>
+       <code>
+        <span class="comment">
+         -- Create a public bucket for avatars
+        </span>
+        INSERT INTO storage.buckets (id, name, public)
   VALUES ('avatars', 'avatars', true);
-
-  <span class="comment">-- Create a private bucket for user documents</span>
-  INSERT INTO storage.buckets (id, name, public)
+        <span class="comment">
+         -- Create a private bucket for user documents
+        </span>
+        INSERT INTO storage.buckets (id, name, public)
   VALUES ('documents', 'documents', false);
-
-  <span class="comment">-- Policy: Allow users to upload their own avatar</span>
-  CREATE POLICY "Users can upload their own avatar"
+        <span class="comment">
+         -- Policy: Allow users to upload their own avatar
+        </span>
+        CREATE POLICY "Users can upload their own avatar"
   ON storage.objects
   FOR INSERT
   TO authenticated
@@ -734,150 +878,499 @@
     bucket_id = 'avatars' AND
     (storage.foldername(name))[1] = auth.uid()::text
   );
-
-  <span class="comment">-- Policy: Allow users to read any avatar</span>
-  CREATE POLICY "Anyone can read avatars"
+        <span class="comment">
+         -- Policy: Allow users to read any avatar
+        </span>
+        CREATE POLICY "Anyone can read avatars"
   ON storage.objects
   FOR SELECT
   USING (bucket_id = 'avatars');
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 3: UPLOADING FILES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Uploading Files</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Uploading files to Supabase Storage is done through the <code>storage</code> API.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/storage_service.dart – Upload File</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:io'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:image_picker/image_picker.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">StorageService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="comment">// Upload an image file</span>
-<span class="keyword">Future</span>&lt;String?&gt; <span class="function">uploadAvatar</span>({
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> XFile file,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: UPLOADING FILES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Uploading Files
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Uploading files to Supabase Storage is done through the
+       <code>
+        storage
+       </code>
+       API.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/storage_service.dart – Upload File
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:io'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:image_picker/image_picker.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         StorageService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="comment">
+         // Upload an image file
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;String?&gt;
+        <span class="function">
+         uploadAvatar
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String userId,
+        <span class="keyword">
+         required
+        </span>
+        XFile file,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="comment">// Convert XFile to File</span>
-<span class="keyword">final</span> File imageFile = File(file.path);
-        <span class="keyword">final</span> bytes = <span class="keyword">await</span> imageFile.readAsBytes();
-
-        <span class="comment">// Generate a unique file name</span>
-<span class="keyword">final</span> timestamp = DateTime.now().millisecondsSinceEpoch;
-        <span class="keyword">final</span> filePath = <span class="string">'$userId/avatar_$timestamp.jpg'</span>;
-
-        <span class="comment">// Upload to the avatars bucket</span>
-<span class="keyword">final</span> response = <span class="keyword">await</span> client.storage
-            .from(<span class="string">'avatars'</span>)
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="comment">
+         // Convert XFile to File
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        File imageFile = File(file.path);
+        <span class="keyword">
+         final
+        </span>
+        bytes =
+        <span class="keyword">
+         await
+        </span>
+        imageFile.readAsBytes();
+        <span class="comment">
+         // Generate a unique file name
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        timestamp = DateTime.now().millisecondsSinceEpoch;
+        <span class="keyword">
+         final
+        </span>
+        filePath =
+        <span class="string">
+         '$userId/avatar_$timestamp.jpg'
+        </span>
+        ;
+        <span class="comment">
+         // Upload to the avatars bucket
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.storage
+            .from(
+        <span class="string">
+         'avatars'
+        </span>
+        )
             .uploadBinary(
               filePath,
               bytes,
               fileOptions: FileOptions(
-                cacheControl: <span class="string">'3600'</span>,
-                upsert: <span class="keyword">true</span>,
-                contentType: <span class="string">'image/jpeg'</span>,
+                cacheControl:
+        <span class="string">
+         '3600'
+        </span>
+        ,
+                upsert:
+        <span class="keyword">
+         true
+        </span>
+        ,
+                contentType:
+        <span class="string">
+         'image/jpeg'
+        </span>
+        ,
               ),
             );
-
-        <span class="comment">// Get the public URL</span>
-<span class="keyword">final</span> publicUrl = client.storage
-            .from(<span class="string">'avatars'</span>)
+        <span class="comment">
+         // Get the public URL
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        publicUrl = client.storage
+            .from(
+        <span class="string">
+         'avatars'
+        </span>
+        )
             .getPublicUrl(filePath);
-
-        <span class="keyword">return</span> publicUrl;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Upload failed: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="keyword">
+         return
+        </span>
+        publicUrl;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Upload failed: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         null
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Upload a post image</span>
-<span class="keyword">Future</span>&lt;String?&gt; <span class="function">uploadPostImage</span>({
-      <span class="keyword">required</span> String postId,
-      <span class="keyword">required</span> XFile file,
+        <span class="comment">
+         // Upload a post image
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;String?&gt;
+        <span class="function">
+         uploadPostImage
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String postId,
+        <span class="keyword">
+         required
+        </span>
+        XFile file,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> File imageFile = File(file.path);
-        <span class="keyword">final</span> bytes = <span class="keyword">await</span> imageFile.readAsBytes();
-
-        <span class="keyword">final</span> timestamp = DateTime.now().millisecondsSinceEpoch;
-        <span class="keyword">final</span> filePath = <span class="string">'posts/$postId/image_$timestamp.jpg'</span>;
-
-        <span class="keyword">final</span> response = <span class="keyword">await</span> client.storage
-            .from(<span class="string">'posts'</span>)
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        File imageFile = File(file.path);
+        <span class="keyword">
+         final
+        </span>
+        bytes =
+        <span class="keyword">
+         await
+        </span>
+        imageFile.readAsBytes();
+        <span class="keyword">
+         final
+        </span>
+        timestamp = DateTime.now().millisecondsSinceEpoch;
+        <span class="keyword">
+         final
+        </span>
+        filePath =
+        <span class="string">
+         'posts/$postId/image_$timestamp.jpg'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.storage
+            .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
             .uploadBinary(filePath, bytes);
-
-        <span class="keyword">final</span> publicUrl = client.storage
-            .from(<span class="string">'posts'</span>)
+        <span class="keyword">
+         final
+        </span>
+        publicUrl = client.storage
+            .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
             .getPublicUrl(filePath);
-
-        <span class="keyword">return</span> publicUrl;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Upload failed: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="keyword">
+         return
+        </span>
+        publicUrl;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Upload failed: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         null
+        </span>
+        ;
       }
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/screens/profile_screen.dart – Upload UI</span>
-<code>
-<span class="keyword">class</span> <span class="function">ProfileScreen</span> <span class="keyword">extends</span> StatefulWidget {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/screens/profile_screen.dart – Upload UI
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ProfileScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;ProfileScreen&gt; <span class="function">createState</span>() =&gt; _ProfileScreenState();
+    State&lt;ProfileScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _ProfileScreenState();
   }
-
-  <span class="keyword">class</span> _ProfileScreenState <span class="keyword">extends</span> State&lt;ProfileScreen&gt; {
-    <span class="keyword">final</span> StorageService _storageService = StorageService();
-    <span class="keyword">final</span> ImagePicker _picker = ImagePicker();
+        <span class="keyword">
+         class
+        </span>
+        _ProfileScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;ProfileScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        StorageService _storageService = StorageService();
+        <span class="keyword">
+         final
+        </span>
+        ImagePicker _picker = ImagePicker();
     String? _avatarUrl;
-    <span class="keyword">bool</span> _isUploading = <span class="keyword">false</span>;
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_pickImage</span>() async {
-      <span class="keyword">final</span> XFile? image = <span class="keyword">await</span> _picker.pickImage(
+        <span class="keyword">
+         bool
+        </span>
+        _isUploading =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _pickImage
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        XFile? image =
+        <span class="keyword">
+         await
+        </span>
+        _picker.pickImage(
         source: ImageSource.gallery,
-        maxWidth: <span class="number">512</span>,
-        maxHeight: <span class="number">512</span>,
-        imageQuality: <span class="number">80</span>,
+        maxWidth:
+        <span class="number">
+         512
+        </span>
+        ,
+        maxHeight:
+        <span class="number">
+         512
+        </span>
+        ,
+        imageQuality:
+        <span class="number">
+         80
+        </span>
+        ,
       );
-
-      <span class="keyword">if</span> (image != <span class="keyword">null</span>) {
-        <span class="keyword">await</span> _uploadImage(image);
+        <span class="keyword">
+         if
+        </span>
+        (image !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        <span class="keyword">
+         await
+        </span>
+        _uploadImage(image);
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_uploadImage</span>(XFile image) async {
-      setState(() =&gt; _isUploading = <span class="keyword">true</span>);
-
-      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
-      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
-
-      <span class="keyword">final</span> url = <span class="keyword">await</span> _storageService.uploadAvatar(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _uploadImage
+        </span>
+        (XFile image) async {
+      setState(() =&gt; _isUploading =
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         final
+        </span>
+        user = Supabase.instance.client.auth.currentUser;
+        <span class="keyword">
+         if
+        </span>
+        (user ==
+        <span class="keyword">
+         null
+        </span>
+        )
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        url =
+        <span class="keyword">
+         await
+        </span>
+        _storageService.uploadAvatar(
         userId: user.id,
         file: image,
       );
-
-      <span class="keyword">if</span> (url != <span class="keyword">null</span>) {
+        <span class="keyword">
+         if
+        </span>
+        (url !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
         setState(() {
           _avatarUrl = url;
-          _isUploading = <span class="keyword">false</span>;
+          _isUploading =
+        <span class="keyword">
+         false
+        </span>
+        ;
         });
-      } <span class="keyword">else</span> {
-        setState(() =&gt; _isUploading = <span class="keyword">false</span>);
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        setState(() =&gt; _isUploading =
+        <span class="keyword">
+         false
+        </span>
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(<span class="string">'Upload failed'</span>),
+            content: Text(
+        <span class="string">
+         'Upload failed'
+        </span>
+        ),
             backgroundColor: Colors.red,
           ),
         );
@@ -885,34 +1378,80 @@
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Profile'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         'Profile'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              <span class="comment">// Avatar</span>
-              Stack(
+        <span class="comment">
+         // Avatar
+        </span>
+        Stack(
                 children: [
                   CircleAvatar(
-                    radius: <span class="number">50</span>,
+                    radius:
+        <span class="number">
+         50
+        </span>
+        ,
                     backgroundColor: Colors.grey.shade200,
-                    backgroundImage: _avatarUrl != <span class="keyword">null</span>
-                        ? NetworkImage(_avatarUrl!)
-                        : <span class="keyword">null</span>,
-                    child: _avatarUrl == <span class="keyword">null</span>
-                        ? Icon(Icons.person, size: <span class="number">50</span>, color: Colors.grey.shade400)
-                        : <span class="keyword">null</span>,
+                    backgroundImage: _avatarUrl !=
+        <span class="keyword">
+         null
+        </span>
+        ? NetworkImage(_avatarUrl!)
+                        :
+        <span class="keyword">
+         null
+        </span>
+        ,
+                    child: _avatarUrl ==
+        <span class="keyword">
+         null
+        </span>
+        ? Icon(Icons.person, size:
+        <span class="number">
+         50
+        </span>
+        , color: Colors.grey.shade400)
+                        :
+        <span class="keyword">
+         null
+        </span>
+        ,
                   ),
-                  <span class="keyword">if</span> (_isUploading)
+        <span class="keyword">
+         if
+        </span>
+        (_isUploading)
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(<span class="number">0.5</span>),
+                          color: Colors.black.withOpacity(
+        <span class="number">
+         0.5
+        </span>
+        ),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -923,13 +1462,29 @@
                       ),
                     ),
                   Positioned(
-                    bottom: <span class="number">0</span>,
-                    right: <span class="number">0</span>,
+                    bottom:
+        <span class="number">
+         0
+        </span>
+        ,
+                    right:
+        <span class="number">
+         0
+        </span>
+        ,
                     child: CircleAvatar(
-                      radius: <span class="number">16</span>,
+                      radius:
+        <span class="number">
+         16
+        </span>
+        ,
                       backgroundColor: Colors.deepPurple,
                       child: IconButton(
-                        icon: Icon(Icons.camera_alt, size: <span class="number">16</span>, color: Colors.white),
+                        icon: Icon(Icons.camera_alt, size:
+        <span class="number">
+         16
+        </span>
+        , color: Colors.white),
                         padding: EdgeInsets.zero,
                         onPressed: _pickImage,
                       ),
@@ -937,9 +1492,16 @@
                   ),
                 ],
               ),
-              SizedBox(height: <span class="number">16</span>),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               Text(
-                <span class="string">'Tap the camera icon to upload a profile picture'</span>,
+        <span class="string">
+         'Tap the camera icon to upload a profile picture'
+        </span>
+        ,
                 style: TextStyle(color: Colors.grey.shade600),
                 textAlign: TextAlign.center,
               ),
@@ -949,378 +1511,1274 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 4: DOWNLOADING FILES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Downloading Files</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            There are two ways to access files from Supabase Storage: public URLs and signed URLs.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/download_service.dart – Download Files</span>
-<code>
-<span class="keyword">class</span> <span class="function">DownloadService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="comment">// Get public URL (for public buckets)</span>
-    String <span class="function">getPublicUrl</span>(String bucket, String path) {
-      <span class="keyword">return</span> client.storage.from(bucket).getPublicUrl(path);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: DOWNLOADING FILES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Downloading Files
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       There are two ways to access files from Supabase Storage: public URLs and signed URLs.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/download_service.dart – Download Files
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         DownloadService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="comment">
+         // Get public URL (for public buckets)
+        </span>
+        String
+        <span class="function">
+         getPublicUrl
+        </span>
+        (String bucket, String path) {
+        <span class="keyword">
+         return
+        </span>
+        client.storage.from(bucket).getPublicUrl(path);
     }
-
-    <span class="comment">// Get signed URL (for private buckets, expires after 60 seconds)</span>
-<span class="keyword">Future</span>&lt;String?&gt; <span class="function">getSignedUrl</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> String path,
-      <span class="keyword">int</span> expiresIn = <span class="number">60</span>,
+        <span class="comment">
+         // Get signed URL (for private buckets, expires after 60 seconds)
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;String?&gt;
+        <span class="function">
+         getSignedUrl
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        String path,
+        <span class="keyword">
+         int
+        </span>
+        expiresIn =
+        <span class="number">
+         60
+        </span>
+        ,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .createSignedUrl(path, expiresIn);
-
-        <span class="keyword">return</span> response;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error getting signed URL: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="keyword">
+         return
+        </span>
+        response;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error getting signed URL: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         null
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Download file as bytes</span>
-<span class="keyword">Future</span>&lt;List&lt;int&gt;?&gt; <span class="function">downloadFile</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> String path,
+        <span class="comment">
+         // Download file as bytes
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;int&gt;?&gt;
+        <span class="function">
+         downloadFile
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        String path,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .download(path);
-
-        <span class="keyword">return</span> response;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error downloading file: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="keyword">
+         return
+        </span>
+        response;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error downloading file: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         null
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Get file information</span>
-<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;?&gt; <span class="function">getFileInfo</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> String path,
+        <span class="comment">
+         // Get file information
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;?&gt;
+        <span class="function">
+         getFileInfo
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        String path,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .info(path);
-
-        <span class="keyword">return</span> response;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error getting file info: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="keyword">
+         return
+        </span>
+        response;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error getting file info: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         null
+        </span>
+        ;
       }
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>🔑 Public vs Signed URLs</h4>
-<ul>
-<li><strong>Public URLs</strong> – Anyone can access. Use for public buckets (avatars, logos, etc.)</li>
-<li><strong>Signed URLs</strong> – Temporary access. Use for private buckets (user documents, etc.)</li>
-<li><strong>Signed URLs expire</strong> – Default is 60 seconds, can be customized</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 5: LISTING AND MANAGING FILES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Listing and Managing Files</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            You can list, move, copy, and delete files in Supabase Storage.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/storage_manager.dart – File Management</span>
-<code>
-<span class="keyword">class</span> <span class="function">StorageManager</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="comment">// List files in a folder</span>
-<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">listFiles</span>({
-      <span class="keyword">required</span> String bucket,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        🔑 Public vs Signed URLs
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Public URLs
+         </strong>
+         – Anyone can access. Use for public buckets (avatars, logos, etc.)
+        </li>
+        <li>
+         <strong>
+          Signed URLs
+         </strong>
+         – Temporary access. Use for private buckets (user documents, etc.)
+        </li>
+        <li>
+         <strong>
+          Signed URLs expire
+         </strong>
+         – Default is 60 seconds, can be customized
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: LISTING AND MANAGING FILES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Listing and Managing Files
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       You can list, move, copy, and delete files in Supabase Storage.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/storage_manager.dart – File Management
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         StorageManager
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="comment">
+         // List files in a folder
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         listFiles
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
       String? path,
-      <span class="keyword">int</span>? limit,
+        <span class="keyword">
+         int
+        </span>
+        ? limit,
       String? offset,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
-            .list(path ?? <span class="string">''</span>, options: ListOptions(
+            .list(path ??
+        <span class="string">
+         ''
+        </span>
+        , options: ListOptions(
               limit: limit,
               offset: offset,
-              sortBy: <span class="string">'created_at'</span>,
+              sortBy:
+        <span class="string">
+         'created_at'
+        </span>
+        ,
             ));
-
-        <span class="keyword">return</span> response;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error listing files: $e'</span>);
-        <span class="keyword">return</span> [];
+        <span class="keyword">
+         return
+        </span>
+        response;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error listing files: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        [];
       }
     }
-
-    <span class="comment">// Move a file</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">moveFile</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> String fromPath,
-      <span class="keyword">required</span> String toPath,
+        <span class="comment">
+         // Move a file
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         moveFile
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        String fromPath,
+        <span class="keyword">
+         required
+        </span>
+        String toPath,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .move(fromPath, toPath);
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error moving file: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error moving file: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         false
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Copy a file</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">copyFile</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> String fromPath,
-      <span class="keyword">required</span> String toPath,
+        <span class="comment">
+         // Copy a file
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         copyFile
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        String fromPath,
+        <span class="keyword">
+         required
+        </span>
+        String toPath,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .copy(fromPath, toPath);
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error copying file: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error copying file: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         false
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Delete a file</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">deleteFile</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> String path,
+        <span class="comment">
+         // Delete a file
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         deleteFile
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        String path,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .remove([path]);
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error deleting file: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error deleting file: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         false
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Delete multiple files</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">deleteMultipleFiles</span>({
-      <span class="keyword">required</span> String bucket,
-      <span class="keyword">required</span> List&lt;String&gt; paths,
+        <span class="comment">
+         // Delete multiple files
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         deleteMultipleFiles
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String bucket,
+        <span class="keyword">
+         required
+        </span>
+        List&lt;String&gt; paths,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> client.storage
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        client.storage
             .from(bucket)
             .remove(paths);
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Error deleting files: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Error deleting files: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         false
+        </span>
+        ;
       }
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Image Gallery App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete image gallery app using Supabase Storage.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Complete Gallery App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:io'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:image_picker/image_picker.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:cached_network_image/cached_network_image.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() async {
-    <span class="keyword">await</span> Supabase.initialize(
-      url: <span class="string">'https://your-project.supabase.co'</span>,
-      anonKey: <span class="string">'your-anon-key'</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Image Gallery App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete image gallery app using Supabase Storage.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Complete Gallery App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:io'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:image_picker/image_picker.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:cached_network_image/cached_network_image.dart'
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        Supabase.initialize(
+      url:
+        <span class="string">
+         'https://your-project.supabase.co'
+        </span>
+        ,
+      anonKey:
+        <span class="string">
+         'your-anon-key'
+        </span>
+        ,
     );
-    runApp(<span class="function">MyApp</span>());
+    runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Image Gallery'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Image Gallery'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         home: GalleryScreen(),
       );
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 1. STORAGE SERVICE</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">GalleryStorageService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="keyword">Future</span>&lt;String?&gt; <span class="function">uploadImage</span>({
-      <span class="keyword">required</span> XFile file,
-      <span class="keyword">required</span> String userId,
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 1. STORAGE SERVICE
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         GalleryStorageService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;String?&gt;
+        <span class="function">
+         uploadImage
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        XFile file,
+        <span class="keyword">
+         required
+        </span>
+        String userId,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> bytes = <span class="keyword">await</span> File(file.path).readAsBytes();
-        <span class="keyword">final</span> timestamp = DateTime.now().millisecondsSinceEpoch;
-        <span class="keyword">final</span> path = <span class="string">'$userId/gallery_$timestamp.jpg'</span>;
-
-        <span class="keyword">await</span> client.storage
-            .from(<span class="string">'gallery'</span>)
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        bytes =
+        <span class="keyword">
+         await
+        </span>
+        File(file.path).readAsBytes();
+        <span class="keyword">
+         final
+        </span>
+        timestamp = DateTime.now().millisecondsSinceEpoch;
+        <span class="keyword">
+         final
+        </span>
+        path =
+        <span class="string">
+         '$userId/gallery_$timestamp.jpg'
+        </span>
+        ;
+        <span class="keyword">
+         await
+        </span>
+        client.storage
+            .from(
+        <span class="string">
+         'gallery'
+        </span>
+        )
             .uploadBinary(path, bytes);
-
-        <span class="keyword">return</span> client.storage
-            .from(<span class="string">'gallery'</span>)
+        <span class="keyword">
+         return
+        </span>
+        client.storage
+            .from(
+        <span class="string">
+         'gallery'
+        </span>
+        )
             .getPublicUrl(path);
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Upload failed: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">null</span>;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Upload failed: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         null
+        </span>
+        ;
       }
     }
-
-    <span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">listImages</span>(String userId) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">return</span> <span class="keyword">await</span> client.storage
-            .from(<span class="string">'gallery'</span>)
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         listImages
+        </span>
+        (String userId) async {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        client.storage
+            .from(
+        <span class="string">
+         'gallery'
+        </span>
+        )
             .list(userId);
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'List failed: $e'</span>);
-        <span class="keyword">return</span> [];
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'List failed: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        [];
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">deleteImage</span>(String path) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> client.storage
-            .from(<span class="string">'gallery'</span>)
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         deleteImage
+        </span>
+        (String path) async {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        client.storage
+            .from(
+        <span class="string">
+         'gallery'
+        </span>
+        )
             .remove([path]);
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-      } <span class="keyword">catch</span> (e) {
-        print(<span class="string">'Delete failed: $e'</span>);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        print(
+        <span class="string">
+         'Delete failed: $e'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         false
+        </span>
+        ;
       }
     }
 
-    String <span class="function">getPublicUrl</span>(String path) {
-      <span class="keyword">return</span> client.storage.from(<span class="string">'gallery'</span>).getPublicUrl(path);
+    String
+        <span class="function">
+         getPublicUrl
+        </span>
+        (String path) {
+        <span class="keyword">
+         return
+        </span>
+        client.storage.from(
+        <span class="string">
+         'gallery'
+        </span>
+        ).getPublicUrl(path);
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 2. GALLERY SCREEN</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">GalleryScreen</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 2. GALLERY SCREEN
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         GalleryScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;GalleryScreen&gt; <span class="function">createState</span>() =&gt; _GalleryScreenState();
+    State&lt;GalleryScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _GalleryScreenState();
   }
-
-  <span class="keyword">class</span> _GalleryScreenState <span class="keyword">extends</span> State&lt;GalleryScreen&gt; {
-    <span class="keyword">final</span> GalleryStorageService _storageService = GalleryStorageService();
-    <span class="keyword">final</span> ImagePicker _picker = ImagePicker();
+        <span class="keyword">
+         class
+        </span>
+        _GalleryScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;GalleryScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        GalleryStorageService _storageService = GalleryStorageService();
+        <span class="keyword">
+         final
+        </span>
+        ImagePicker _picker = ImagePicker();
     List&lt;Map&lt;String, dynamic&gt;&gt; _images = [];
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
-    <span class="keyword">bool</span> _isUploading = <span class="keyword">false</span>;
+        <span class="keyword">
+         bool
+        </span>
+        _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _isUploading =
+        <span class="keyword">
+         false
+        </span>
+        ;
 
     String? _userId;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _userId = Supabase.instance.client.auth.currentSession?.user.id;
-      <span class="keyword">if</span> (_userId != <span class="keyword">null</span>) {
+        <span class="keyword">
+         if
+        </span>
+        (_userId !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
         _loadImages();
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadImages</span>() async {
-      setState(() =&gt; _isLoading = <span class="keyword">true</span>);
-      <span class="keyword">final</span> images = <span class="keyword">await</span> _storageService.listImages(_userId!);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _loadImages
+        </span>
+        () async {
+      setState(() =&gt; _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         final
+        </span>
+        images =
+        <span class="keyword">
+         await
+        </span>
+        _storageService.listImages(_userId!);
       setState(() {
         _images = images;
-        _isLoading = <span class="keyword">false</span>;
+        _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_pickAndUpload</span>() async {
-      <span class="keyword">final</span> XFile? image = <span class="keyword">await</span> _picker.pickImage(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _pickAndUpload
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        XFile? image =
+        <span class="keyword">
+         await
+        </span>
+        _picker.pickImage(
         source: ImageSource.gallery,
-        maxWidth: <span class="number">1024</span>,
-        maxHeight: <span class="number">1024</span>,
-        imageQuality: <span class="number">80</span>,
+        maxWidth:
+        <span class="number">
+         1024
+        </span>
+        ,
+        maxHeight:
+        <span class="number">
+         1024
+        </span>
+        ,
+        imageQuality:
+        <span class="number">
+         80
+        </span>
+        ,
       );
+        <span class="keyword">
+         if
+        </span>
+        (image ==
+        <span class="keyword">
+         null
+        </span>
+        || _userId ==
+        <span class="keyword">
+         null
+        </span>
+        )
+        <span class="keyword">
+         return
+        </span>
+        ;
 
-      <span class="keyword">if</span> (image == <span class="keyword">null</span> || _userId == <span class="keyword">null</span>) <span class="keyword">return</span>;
-
-      setState(() =&gt; _isUploading = <span class="keyword">true</span>);
-      <span class="keyword">final</span> url = <span class="keyword">await</span> _storageService.uploadImage(
+      setState(() =&gt; _isUploading =
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         final
+        </span>
+        url =
+        <span class="keyword">
+         await
+        </span>
+        _storageService.uploadImage(
         file: image,
         userId: _userId!,
       );
-      setState(() =&gt; _isUploading = <span class="keyword">false</span>);
-
-      <span class="keyword">if</span> (url != <span class="keyword">null</span>) {
-        <span class="keyword">await</span> _loadImages();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(<span class="string">'Image uploaded!'</span>), backgroundColor: Colors.green),
+      setState(() =&gt; _isUploading =
+        <span class="keyword">
+         false
+        </span>
         );
-      } <span class="keyword">else</span> {
+        <span class="keyword">
+         if
+        </span>
+        (url !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        <span class="keyword">
+         await
+        </span>
+        _loadImages();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(<span class="string">'Upload failed'</span>), backgroundColor: Colors.red),
+          SnackBar(content: Text(
+        <span class="string">
+         'Image uploaded!'
+        </span>
+        ), backgroundColor: Colors.green),
+        );
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(
+        <span class="string">
+         'Upload failed'
+        </span>
+        ), backgroundColor: Colors.red),
         );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_deleteImage</span>(String path) async {
-      setState(() =&gt; _isLoading = <span class="keyword">true</span>);
-      <span class="keyword">final</span> success = <span class="keyword">await</span> _storageService.deleteImage(path);
-      setState(() =&gt; _isLoading = <span class="keyword">false</span>);
-
-      <span class="keyword">if</span> (success) {
-        <span class="keyword">await</span> _loadImages();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _deleteImage
+        </span>
+        (String path) async {
+      setState(() =&gt; _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         final
+        </span>
+        success =
+        <span class="keyword">
+         await
+        </span>
+        _storageService.deleteImage(path);
+      setState(() =&gt; _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        );
+        <span class="keyword">
+         if
+        </span>
+        (success) {
+        <span class="keyword">
+         await
+        </span>
+        _loadImages();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(<span class="string">'Image deleted'</span>)),
+          SnackBar(content: Text(
+        <span class="string">
+         'Image deleted'
+        </span>
+        )),
         );
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'🖼️ Gallery'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         '🖼️ Gallery'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
@@ -1335,34 +2793,94 @@
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.photo_library, size: <span class="number">80</span>, color: Colors.grey.shade400),
-                        SizedBox(height: <span class="number">16</span>),
+                        Icon(Icons.photo_library, size:
+        <span class="number">
+         80
+        </span>
+        , color: Colors.grey.shade400),
+                        SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                         Text(
-                          <span class="string">'No images yet'</span>,
-                          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+        <span class="string">
+         'No images yet'
+        </span>
+        ,
+                          style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        , fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          <span class="string">'Tap the + button to upload one'</span>,
+        <span class="string">
+         'Tap the + button to upload one'
+        </span>
+        ,
                           style: TextStyle(color: Colors.grey.shade400),
                         ),
                       ],
                     ),
                   )
                 : GridView.builder(
-                    padding: EdgeInsets.all(<span class="number">8</span>),
+                    padding: EdgeInsets.all(
+        <span class="number">
+         8
+        </span>
+        ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: <span class="number">3</span>,
-                      crossAxisSpacing: <span class="number">4</span>,
-                      mainAxisSpacing: <span class="number">4</span>,
+                      crossAxisCount:
+        <span class="number">
+         3
+        </span>
+        ,
+                      crossAxisSpacing:
+        <span class="number">
+         4
+        </span>
+        ,
+                      mainAxisSpacing:
+        <span class="number">
+         4
+        </span>
+        ,
                     ),
                     itemCount: _images.length,
                     itemBuilder: (context, index) {
-                      <span class="keyword">final</span> image = _images[index];
-                      <span class="keyword">final</span> path = image[<span class="string">'name'</span>] <span class="keyword">as</span> String;
-                      <span class="keyword">final</span> fullPath = <span class="string">'$_userId/$path'</span>;
-                      <span class="keyword">final</span> url = _storageService.getPublicUrl(fullPath);
-
-                      <span class="keyword">return</span> Stack(
+        <span class="keyword">
+         final
+        </span>
+        image = _images[index];
+        <span class="keyword">
+         final
+        </span>
+        path = image[
+        <span class="string">
+         'name'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String;
+        <span class="keyword">
+         final
+        </span>
+        fullPath =
+        <span class="string">
+         '$_userId/$path'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        url = _storageService.getPublicUrl(fullPath);
+        <span class="keyword">
+         return
+        </span>
+        Stack(
                         children: [
                           GestureDetector(
                             onTap: () {
@@ -1373,28 +2891,48 @@
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(<span class="number">8</span>),
+                                        borderRadius: BorderRadius.circular(
+        <span class="number">
+         8
+        </span>
+        ),
                                         child: CachedNetworkImage(
                                           imageUrl: url,
                                           fit: BoxFit.cover,
                                           placeholder: (context, url) =&gt; Container(
-                                            height: <span class="number">300</span>,
+                                            height:
+        <span class="number">
+         300
+        </span>
+        ,
                                             child: Center(
                                               child: CircularProgressIndicator(),
                                             ),
                                           ),
                                           errorWidget: (context, url, error) =&gt; Container(
-                                            height: <span class="number">300</span>,
+                                            height:
+        <span class="number">
+         300
+        </span>
+        ,
                                             color: Colors.grey.shade200,
                                             child: Icon(Icons.error, color: Colors.red),
                                           ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(<span class="number">8</span>),
+                                        padding: EdgeInsets.all(
+        <span class="number">
+         8
+        </span>
+        ),
                                         child: ElevatedButton.icon(
                                           icon: Icon(Icons.delete, color: Colors.red),
-                                          label: Text(<span class="string">'Delete'</span>),
+                                          label: Text(
+        <span class="string">
+         'Delete'
+        </span>
+        ),
                                           onPressed: () {
                                             Navigator.pop(context);
                                             _deleteImage(fullPath);
@@ -1413,10 +2951,18 @@
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(<span class="number">4</span>),
+                                borderRadius: BorderRadius.circular(
+        <span class="number">
+         4
+        </span>
+        ),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(<span class="number">4</span>),
+                                borderRadius: BorderRadius.circular(
+        <span class="number">
+         4
+        </span>
+        ),
                                 child: CachedNetworkImage(
                                   imageUrl: url,
                                   fit: BoxFit.cover,
@@ -1437,10 +2983,18 @@
                   ),
         floatingActionButton: _isUploading
             ? FloatingActionButton(
-                onPressed: <span class="keyword">null</span>,
+                onPressed:
+        <span class="keyword">
+         null
+        </span>
+        ,
                 child: CircularProgressIndicator(
                   color: Colors.white,
-                  strokeWidth: <span class="number">2</span>,
+                  strokeWidth:
+        <span class="number">
+         2
+        </span>
+        ,
                 ),
               )
             : FloatingActionButton(
@@ -1450,163 +3004,325 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 7: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Create a bucket</strong> – Use the SQL Editor or Supabase Dashboard to create public or private buckets.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Set up policies</strong> – Create RLS policies to control who can upload, read, and delete files.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Upload files</strong> – Use <code>storage.from(bucket).uploadBinary()</code> to upload files.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Get URLs</strong> – Use <code>getPublicUrl()</code> for public buckets or <code>createSignedUrl()</code> for private buckets.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Display images</strong> – Use <code>CachedNetworkImage</code> for efficient image loading with caching.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not setting up storage policies</div>
-<p>
-              Without proper policies, users won't be able to upload or access files, even if the bucket is public.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always set up RLS policies</div>
-<p>
-              Create policies for INSERT, SELECT, DELETE operations on the <code>storage.objects</code> table.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Using public URLs for private buckets</div>
-<p>
-              Public URLs only work for public buckets. For private buckets, you need signed URLs.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use signed URLs for private buckets</div>
-<p>
-              Use <code>createSignedUrl()</code> to get temporary access to private files.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not handling upload errors</div>
-<p>
-              Uploads can fail for many reasons (network issues, file size limits, etc.). Always handle errors gracefully.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always handle upload errors</div>
-<p>
-              Use try-catch blocks and show user-friendly error messages when uploads fail.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Supabase Storage provides <strong>scalable file storage</strong> with public and private buckets.
-            Use <strong>public URLs</strong> for public assets and <strong>signed URLs</strong> for private files.
-            Always set up <strong>RLS policies</strong> for security and use <strong>CachedNetworkImage</strong>
-            for efficient image display. <strong>Storage makes media management simple and secure.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module4-topic3-database.html">
-<i class="fas fa-arrow-left"></i> Previous: Database
-          </a>
-<a class="btn btn-primary btn-sm" href="module4-topic5-realtime.html">
-            Next: Realtime <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module4-state-management.html">Module 4</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://supabase.com/docs/guides/storage" rel="noopener" target="_blank">Supabase Storage</a></li>
-<li><a href="https://supabase.com/docs/reference/dart/storage-from-upload" rel="noopener" target="_blank">Upload Files</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create a bucket
+         </strong>
+         – Use the SQL Editor or Supabase Dashboard to create public or private buckets.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Set up policies
+         </strong>
+         – Create RLS policies to control who can upload, read, and delete files.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Upload files
+         </strong>
+         – Use
+         <code>
+          storage.from(bucket).uploadBinary()
+         </code>
+         to upload files.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Get URLs
+         </strong>
+         – Use
+         <code>
+          getPublicUrl()
+         </code>
+         for public buckets or
+         <code>
+          createSignedUrl()
+         </code>
+         for private buckets.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Display images
+         </strong>
+         – Use
+         <code>
+          CachedNetworkImage
+         </code>
+         for efficient image loading with caching.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not setting up storage policies
+       </div>
+       <p>
+        Without proper policies, users won't be able to upload or access files, even if the bucket is public.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always set up RLS policies
+       </div>
+       <p>
+        Create policies for INSERT, SELECT, DELETE operations on the
+        <code>
+         storage.objects
+        </code>
+        table.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Using public URLs for private buckets
+       </div>
+       <p>
+        Public URLs only work for public buckets. For private buckets, you need signed URLs.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use signed URLs for private buckets
+       </div>
+       <p>
+        Use
+        <code>
+         createSignedUrl()
+        </code>
+        to get temporary access to private files.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not handling upload errors
+       </div>
+       <p>
+        Uploads can fail for many reasons (network issues, file size limits, etc.). Always handle errors gracefully.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always handle upload errors
+       </div>
+       <p>
+        Use try-catch blocks and show user-friendly error messages when uploads fail.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Supabase Storage provides
+       <strong>
+        scalable file storage
+       </strong>
+       with public and private buckets.
+            Use
+       <strong>
+        public URLs
+       </strong>
+       for public assets and
+       <strong>
+        signed URLs
+       </strong>
+       for private files.
+            Always set up
+       <strong>
+        RLS policies
+       </strong>
+       for security and use
+       <strong>
+        CachedNetworkImage
+       </strong>
+       for efficient image display.
+       <strong>
+        Storage makes media management simple and secure.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module4-topic3-database.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Database
+      </a>
+      <a class="btn btn-primary btn-sm" href="module4-topic5-realtime.html">
+       Next: Realtime
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module4-state-management.html">
+         Module 4
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://supabase.com/docs/guides/storage" rel="noopener" target="_blank">
+         Supabase Storage
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com/docs/reference/dart/storage-from-upload" rel="noopener" target="_blank">
+         Upload Files
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/supabase" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/supabase" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">
+       Supabase Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1719,8 +3435,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1793,8 +3509,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1867,5 +3584,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

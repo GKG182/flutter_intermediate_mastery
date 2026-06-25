@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Smart Todo Manager – Module 1 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Smart Todo Manager with add, delete, toggle tasks, and filtering by status using Riverpod StateNotifierProvider." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== CHALLENGE-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Smart Todo Manager – Module 1 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Smart Todo Manager with add, delete, toggle tasks, and filtering by status using Riverpod StateNotifierProvider." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== CHALLENGE-SPECIFIC STYLES ===== */
     .challenge-container {
       max-width: 900px;
       margin: 0 auto;
@@ -358,8 +359,8 @@
       }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -422,261 +423,872 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== CHALLENGE CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<!-- Challenge Header -->
-<div class="challenge-header">
-<div class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 1 · Challenge 2
-            </div>
-<h1>Smart Todo Manager</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge easy">Easy</span></span>
-<span class="meta-item"><strong>Module:</strong> State Management</span>
-<span class="meta-item"><strong>Concepts:</strong> StateNotifierProvider, StateNotifier</span>
-<span class="meta-item"><strong>Est. Time:</strong> 30-45 min</span>
-</div>
-</div>
-<!-- ===== CHALLENGE DESCRIPTION ===== -->
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Smart Todo Manager</strong> — a fully functional todo app that demonstrates
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== CHALLENGE CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <!-- Challenge Header -->
+      <div class="challenge-header">
+       <div class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 1 · Challenge 2
+       </div>
+       <h1>
+        Smart Todo Manager
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge easy">
+          Easy
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         State Management
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         StateNotifierProvider, StateNotifier
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         30-45 min
+        </span>
+       </div>
+      </div>
+      <!-- ===== CHALLENGE DESCRIPTION ===== -->
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Smart Todo Manager
+        </strong>
+        — a fully functional todo app that demonstrates
               the power of Riverpod's StateNotifierProvider. Users should be able to add, delete, and toggle
               tasks, with filtering options to view All, Done, or Pending tasks.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Add new tasks with a <strong>text input</strong> and "Add" button</li>
-<li>Each task has a <strong>checkbox</strong> to toggle completion status</li>
-<li>Each task has a <strong>delete</strong> button to remove it</li>
-<li>Filter tasks by: <strong>All</strong>, <strong>Done</strong>, <strong>Pending</strong></li>
-<li>Show the <strong>total count</strong> and <strong>pending count</strong></li>
-<li>Use <strong>StateNotifier</strong> and <strong>StateNotifierProvider</strong> from Riverpod</li>
-<li>Tasks should have an <strong>ID</strong> and a <strong>timestamp</strong></li>
-<li>Clean, responsive UI with proper styling</li>
-</ul>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://riverpod.dev/docs/concepts/providers" target="_blank">Riverpod Providers</a></li>
-<li><a href="https://riverpod.dev/docs/concepts/state_notifier_provider" target="_blank">StateNotifierProvider</a></li>
-<li><a href="https://docs.flutter.dev/cookbook" target="_blank">Flutter Cookbook</a></li>
-</ul>
-</div>
-</div>
-<!-- ===== HINT ===== -->
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Define a <code>Todo</code> class with <code>id</code>, <code>title</code>, <code>isDone</code>, and <code>createdAt</code>.
-                  Use <code>StateNotifier&lt;List&lt;Todo&gt;&gt;</code> for the state. For filtering, create a <code>Provider</code>
-                  that watches the todo list and a <code>filter</code> variable to return the filtered list.
-                </p>
-</div>
-</div>
-</div>
-<!-- ===== SOLUTION ===== -->
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Add new tasks with a
+          <strong>
+           text input
+          </strong>
+          and "Add" button
+         </li>
+         <li>
+          Each task has a
+          <strong>
+           checkbox
+          </strong>
+          to toggle completion status
+         </li>
+         <li>
+          Each task has a
+          <strong>
+           delete
+          </strong>
+          button to remove it
+         </li>
+         <li>
+          Filter tasks by:
+          <strong>
+           All
+          </strong>
+          ,
+          <strong>
+           Done
+          </strong>
+          ,
+          <strong>
+           Pending
+          </strong>
+         </li>
+         <li>
+          Show the
+          <strong>
+           total count
+          </strong>
+          and
+          <strong>
+           pending count
+          </strong>
+         </li>
+         <li>
+          Use
+          <strong>
+           StateNotifier
+          </strong>
+          and
+          <strong>
+           StateNotifierProvider
+          </strong>
+          from Riverpod
+         </li>
+         <li>
+          Tasks should have an
+          <strong>
+           ID
+          </strong>
+          and a
+          <strong>
+           timestamp
+          </strong>
+         </li>
+         <li>
+          Clean, responsive UI with proper styling
+         </li>
+        </ul>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://riverpod.dev/docs/concepts/providers" target="_blank">
+           Riverpod Providers
+          </a>
+         </li>
+         <li>
+          <a href="https://riverpod.dev/docs/concepts/state_notifier_provider" target="_blank">
+           StateNotifierProvider
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook" target="_blank">
+           Flutter Cookbook
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <!-- ===== HINT ===== -->
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Define a
+          <code>
+           Todo
+          </code>
+          class with
+          <code>
+           id
+          </code>
+          ,
+          <code>
+           title
+          </code>
+          ,
+          <code>
+           isDone
+          </code>
+          , and
+          <code>
+           createdAt
+          </code>
+          .
+                  Use
+          <code>
+           StateNotifier&lt;List&lt;Todo&gt;&gt;
+          </code>
+          for the state. For filtering, create a
+          <code>
+           Provider
+          </code>
+          that watches the todo list and a
+          <code>
+           filter
+          </code>
+          variable to return the filtered list.
+         </p>
+        </div>
+       </div>
+      </div>
+      <!-- ===== SOLUTION ===== -->
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Todo Model (lib/models/todo.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/todo.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">Todo</span> {
-    <span class="keyword">final</span> String id;
-    <span class="keyword">final</span> String title;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isDone;
-    <span class="keyword">final</span> DateTime createdAt;
-
-    <span class="function">Todo</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">this</span>.isDone = <span class="keyword">false</span>,
-      <span class="keyword">DateTime</span>? createdAt,
-    }) : createdAt = createdAt ?? DateTime.<span class="function">now</span>();
-
-    <span class="function">Todo copyWith</span>({
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Todo Model (lib/models/todo.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/todo.dart
+          </span>
+          <code>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Todo
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           String id;
+           <span class="keyword">
+            final
+           </span>
+           String title;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isDone;
+           <span class="keyword">
+            final
+           </span>
+           DateTime createdAt;
+           <span class="function">
+            Todo
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .title,
+           <span class="keyword">
+            this
+           </span>
+           .isDone =
+           <span class="keyword">
+            false
+           </span>
+           ,
+           <span class="keyword">
+            DateTime
+           </span>
+           ? createdAt,
+    }) : createdAt = createdAt ?? DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="function">
+            Todo copyWith
+           </span>
+           ({
       String? id,
       String? title,
-      <span class="keyword">bool</span>? isDone,
+           <span class="keyword">
+            bool
+           </span>
+           ? isDone,
       DateTime? createdAt,
     }) {
-      <span class="keyword">return</span> Todo(
-        id: id ?? <span class="keyword">this</span>.id,
-        title: title ?? <span class="keyword">this</span>.title,
-        isDone: isDone ?? <span class="keyword">this</span>.isDone,
-        createdAt: createdAt ?? <span class="keyword">this</span>.createdAt,
+           <span class="keyword">
+            return
+           </span>
+           Todo(
+        id: id ??
+           <span class="keyword">
+            this
+           </span>
+           .id,
+        title: title ??
+           <span class="keyword">
+            this
+           </span>
+           .title,
+        isDone: isDone ??
+           <span class="keyword">
+            this
+           </span>
+           .isDone,
+        createdAt: createdAt ??
+           <span class="keyword">
+            this
+           </span>
+           .createdAt,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Todo Notifier (lib/providers/todo_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/todo_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'dart:math'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/todo.dart'</span>;
-
-  <span class="comment">// Filter enum</span>
-<span class="keyword">enum</span> <span class="function">TodoFilter</span> { all, done, pending }
-
-  <span class="comment">// StateNotifier for todos</span>
-<span class="keyword">class</span> <span class="function">TodoNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;List&lt;Todo&gt;&gt; {
-    <span class="function">TodoNotifier</span>() : <span class="keyword">super</span>([]);
-
-    <span class="keyword">void</span> <span class="function">addTodo</span>(String title) {
-      <span class="keyword">final</span> todo = Todo(
-        id: Random().<span class="function">nextInt</span>(<span class="number">1000000</span>).<span class="function">toString</span>(),
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Todo Notifier (lib/providers/todo_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/todo_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:math'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/todo.dart'
+           </span>
+           ;
+           <span class="comment">
+            // Filter enum
+           </span>
+           <span class="keyword">
+            enum
+           </span>
+           <span class="function">
+            TodoFilter
+           </span>
+           { all, done, pending }
+           <span class="comment">
+            // StateNotifier for todos
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            TodoNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;List&lt;Todo&gt;&gt; {
+           <span class="function">
+            TodoNotifier
+           </span>
+           () :
+           <span class="keyword">
+            super
+           </span>
+           ([]);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            addTodo
+           </span>
+           (String title) {
+           <span class="keyword">
+            final
+           </span>
+           todo = Todo(
+        id: Random().
+           <span class="function">
+            nextInt
+           </span>
+           (
+           <span class="number">
+            1000000
+           </span>
+           ).
+           <span class="function">
+            toString
+           </span>
+           (),
         title: title,
       );
       state = [...state, todo];
     }
-
-    <span class="keyword">void</span> <span class="function">toggleTodo</span>(String id) {
-      state = state.<span class="function">map</span>((todo) {
-        <span class="keyword">if</span> (todo.id == id) {
-          <span class="keyword">return</span> todo.<span class="function">copyWith</span>(isDone: !todo.isDone);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            toggleTodo
+           </span>
+           (String id) {
+      state = state.
+           <span class="function">
+            map
+           </span>
+           ((todo) {
+           <span class="keyword">
+            if
+           </span>
+           (todo.id == id) {
+           <span class="keyword">
+            return
+           </span>
+           todo.
+           <span class="function">
+            copyWith
+           </span>
+           (isDone: !todo.isDone);
         }
-        <span class="keyword">return</span> todo;
-      }).<span class="function">toList</span>();
+           <span class="keyword">
+            return
+           </span>
+           todo;
+      }).
+           <span class="function">
+            toList
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">deleteTodo</span>(String id) {
-      state = state.<span class="function">where</span>((todo) =&gt; todo.id != id).<span class="function">toList</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            deleteTodo
+           </span>
+           (String id) {
+      state = state.
+           <span class="function">
+            where
+           </span>
+           ((todo) =&gt; todo.id != id).
+           <span class="function">
+            toList
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">clearCompleted</span>() {
-      state = state.<span class="function">where</span>((todo) =&gt; !todo.isDone).<span class="function">toList</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            clearCompleted
+           </span>
+           () {
+      state = state.
+           <span class="function">
+            where
+           </span>
+           ((todo) =&gt; !todo.isDone).
+           <span class="function">
+            toList
+           </span>
+           ();
     }
   }
-
-  <span class="comment">// Providers</span>
-<span class="keyword">final</span> todoProvider = StateNotifierProvider&lt;TodoNotifier, List&lt;Todo&gt;&gt;((ref) {
-    <span class="keyword">return</span> TodoNotifier();
+           <span class="comment">
+            // Providers
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           todoProvider = StateNotifierProvider&lt;TodoNotifier, List&lt;Todo&gt;&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           TodoNotifier();
   });
-
-  <span class="keyword">final</span> filterProvider = StateProvider&lt;TodoFilter&gt;((ref) {
-    <span class="keyword">return</span> TodoFilter.all;
+           <span class="keyword">
+            final
+           </span>
+           filterProvider = StateProvider&lt;TodoFilter&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           TodoFilter.all;
   });
-
-  <span class="keyword">final</span> filteredTodosProvider = Provider&lt;List&lt;Todo&gt;&gt;((ref) {
-    <span class="keyword">final</span> todos = ref.<span class="function">watch</span>(todoProvider);
-    <span class="keyword">final</span> filter = ref.<span class="function">watch</span>(filterProvider);
-
-    <span class="keyword">switch</span> (filter) {
-      <span class="keyword">case</span> TodoFilter.done:
-        <span class="keyword">return</span> todos.<span class="function">where</span>((todo) =&gt; todo.isDone).<span class="function">toList</span>();
-      <span class="keyword">case</span> TodoFilter.pending:
-        <span class="keyword">return</span> todos.<span class="function">where</span>((todo) =&gt; !todo.isDone).<span class="function">toList</span>();
-      <span class="keyword">case</span> TodoFilter.all:
-      <span class="keyword">default</span>:
-        <span class="keyword">return</span> todos;
+           <span class="keyword">
+            final
+           </span>
+           filteredTodosProvider = Provider&lt;List&lt;Todo&gt;&gt;((ref) {
+           <span class="keyword">
+            final
+           </span>
+           todos = ref.
+           <span class="function">
+            watch
+           </span>
+           (todoProvider);
+           <span class="keyword">
+            final
+           </span>
+           filter = ref.
+           <span class="function">
+            watch
+           </span>
+           (filterProvider);
+           <span class="keyword">
+            switch
+           </span>
+           (filter) {
+           <span class="keyword">
+            case
+           </span>
+           TodoFilter.done:
+           <span class="keyword">
+            return
+           </span>
+           todos.
+           <span class="function">
+            where
+           </span>
+           ((todo) =&gt; todo.isDone).
+           <span class="function">
+            toList
+           </span>
+           ();
+           <span class="keyword">
+            case
+           </span>
+           TodoFilter.pending:
+           <span class="keyword">
+            return
+           </span>
+           todos.
+           <span class="function">
+            where
+           </span>
+           ((todo) =&gt; !todo.isDone).
+           <span class="function">
+            toList
+           </span>
+           ();
+           <span class="keyword">
+            case
+           </span>
+           TodoFilter.all:
+           <span class="keyword">
+            default
+           </span>
+           :
+           <span class="keyword">
+            return
+           </span>
+           todos;
     }
   });
-
-  <span class="keyword">final</span> todoStatsProvider = Provider&lt;Map&lt;String, <span class="keyword">int</span>&gt;&gt;((ref) {
-    <span class="keyword">final</span> todos = ref.<span class="function">watch</span>(todoProvider);
-    <span class="keyword">final</span> total = todos.<span class="function">length</span>;
-    <span class="keyword">final</span> done = todos.<span class="function">where</span>((t) =&gt; t.isDone).<span class="function">length</span>;
-    <span class="keyword">final</span> pending = total - done;
-    <span class="keyword">return</span> {<span class="string">'total'</span>: total, <span class="string">'done'</span>: done, <span class="string">'pending'</span>: pending};
+           <span class="keyword">
+            final
+           </span>
+           todoStatsProvider = Provider&lt;Map&lt;String,
+           <span class="keyword">
+            int
+           </span>
+           &gt;&gt;((ref) {
+           <span class="keyword">
+            final
+           </span>
+           todos = ref.
+           <span class="function">
+            watch
+           </span>
+           (todoProvider);
+           <span class="keyword">
+            final
+           </span>
+           total = todos.
+           <span class="function">
+            length
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           done = todos.
+           <span class="function">
+            where
+           </span>
+           ((t) =&gt; t.isDone).
+           <span class="function">
+            length
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           pending = total - done;
+           <span class="keyword">
+            return
+           </span>
+           {
+           <span class="string">
+            'total'
+           </span>
+           : total,
+           <span class="string">
+            'done'
+           </span>
+           : done,
+           <span class="string">
+            'pending'
+           </span>
+           : pending};
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Todo Item Widget (lib/widgets/todo_item.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/widgets/todo_item.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/todo.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/todo_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">TodoItem</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">final</span> Todo todo;
-
-    <span class="keyword">const</span> <span class="function">TodoItem</span>({<span class="keyword">required</span> <span class="keyword">this</span>.todo, <span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Todo Item Widget (lib/widgets/todo_item.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/widgets/todo_item.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/todo.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/todo_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            TodoItem
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            final
+           </span>
+           Todo todo;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            TodoItem
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .todo,
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">return</span> Card(
-        margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        margin: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            4
+           </span>
+           ),
         child: ListTile(
           leading: Checkbox(
             value: todo.isDone,
             onChanged: (_) {
-              ref.<span class="function">read</span>(todoProvider.notifier).<span class="function">toggleTodo</span>(todo.id);
+              ref.
+           <span class="function">
+            read
+           </span>
+           (todoProvider.notifier).
+           <span class="function">
+            toggleTodo
+           </span>
+           (todo.id);
             },
           ),
           title: Text(
@@ -691,11 +1303,27 @@
             children: [
               Text(
                 _formatTime(todo.createdAt),
-                style: TextStyle(fontSize: <span class="number">10</span>, color: Colors.grey[<span class="number">400</span>]),
+                style: TextStyle(fontSize:
+           <span class="number">
+            10
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ]),
               ),
               IconButton(
                 onPressed: () {
-                  ref.<span class="function">read</span>(todoProvider.notifier).<span class="function">deleteTodo</span>(todo.id);
+                  ref.
+           <span class="function">
+            read
+           </span>
+           (todoProvider.notifier).
+           <span class="function">
+            deleteTodo
+           </span>
+           (todo.id);
                 },
                 icon: Icon(Icons.delete_outline, color: Colors.red),
               ),
@@ -705,142 +1333,462 @@
       );
     }
 
-    String <span class="function">_formatTime</span>(DateTime time) {
-      <span class="keyword">return</span> <span class="string">'${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'</span>;
+    String
+           <span class="function">
+            _formatTime
+           </span>
+           (DateTime time) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
+           </span>
+           ;
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Main Screen (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'providers/todo_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/todo_item.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Main Screen (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'providers/todo_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/todo_item.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Smart Todo'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Smart Todo'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">final</span> TextEditingController _controller = TextEditingController();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           TextEditingController _controller = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _controller.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_addTodo</span>() {
-      <span class="keyword">final</span> title = _controller.text.<span class="function">trim</span>();
-      <span class="keyword">if</span> (title.<span class="function">isNotEmpty</span>) {
-        ref.<span class="function">read</span>(todoProvider.notifier).<span class="function">addTodo</span>(title);
-        _controller.<span class="function">clear</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _addTodo
+           </span>
+           () {
+           <span class="keyword">
+            final
+           </span>
+           title = _controller.text.
+           <span class="function">
+            trim
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (title.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ) {
+        ref.
+           <span class="function">
+            read
+           </span>
+           (todoProvider.notifier).
+           <span class="function">
+            addTodo
+           </span>
+           (title);
+        _controller.
+           <span class="function">
+            clear
+           </span>
+           ();
       }
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> filteredTodos = ref.<span class="function">watch</span>(filteredTodosProvider);
-      <span class="keyword">final</span> stats = ref.<span class="function">watch</span>(todoStatsProvider);
-      <span class="keyword">final</span> filter = ref.<span class="function">watch</span>(filterProvider);
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           filteredTodos = ref.
+           <span class="function">
+            watch
+           </span>
+           (filteredTodosProvider);
+           <span class="keyword">
+            final
+           </span>
+           stats = ref.
+           <span class="function">
+            watch
+           </span>
+           (todoStatsProvider);
+           <span class="keyword">
+            final
+           </span>
+           filter = ref.
+           <span class="function">
+            watch
+           </span>
+           (filterProvider);
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Smart Todo Manager'</span>),
+          title: Text(
+           <span class="string">
+            'Smart Todo Manager'
+           </span>
+           ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
-            <span class="keyword">if</span> (stats['done']! &gt; <span class="number">0</span>)
+           <span class="keyword">
+            if
+           </span>
+           (stats['done']! &gt;
+           <span class="number">
+            0
+           </span>
+           )
               IconButton(
                 onPressed: () {
-                  ref.<span class="function">read</span>(todoProvider.notifier).<span class="function">clearCompleted</span>();
+                  ref.
+           <span class="function">
+            read
+           </span>
+           (todoProvider.notifier).
+           <span class="function">
+            clearCompleted
+           </span>
+           ();
                 },
                 icon: Icon(Icons.cleaning_services),
-                tooltip: <span class="string">'Clear completed'</span>,
+                tooltip:
+           <span class="string">
+            'Clear completed'
+           </span>
+           ,
               ),
           ],
         ),
         body: Column(
           children: [
-            <span class="comment">// Stats</span>
-            Container(
-              padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
-              color: Colors.blue[<span class="number">50</span>],
+           <span class="comment">
+            // Stats
+           </span>
+           Container(
+              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
+              color: Colors.blue[
+           <span class="number">
+            50
+           </span>
+           ],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildStat(<span class="string">'Total'</span>, stats['total']!),
-                  _buildStat(<span class="string">'Done'</span>, stats['done']!, color: Colors.green),
-                  _buildStat(<span class="string">'Pending'</span>, stats['pending']!, color: Colors.orange),
+                  _buildStat(
+           <span class="string">
+            'Total'
+           </span>
+           , stats['total']!),
+                  _buildStat(
+           <span class="string">
+            'Done'
+           </span>
+           , stats['done']!, color: Colors.green),
+                  _buildStat(
+           <span class="string">
+            'Pending'
+           </span>
+           , stats['pending']!, color: Colors.orange),
                 ],
               ),
             ),
-            <span class="comment">// Filter chips</span>
-            Padding(
-              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+           <span class="comment">
+            // Filter chips
+           </span>
+           Padding(
+              padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           , vertical:
+           <span class="number">
+            8
+           </span>
+           ),
               child: Row(
                 children: [
-                  <span class="function">_buildFilterChip</span>(<span class="string">'All'</span>, TodoFilter.all, filter),
-                  <span class="function">_buildFilterChip</span>(<span class="string">'Done'</span>, TodoFilter.done, filter),
-                  <span class="function">_buildFilterChip</span>(<span class="string">'Pending'</span>, TodoFilter.pending, filter),
+           <span class="function">
+            _buildFilterChip
+           </span>
+           (
+           <span class="string">
+            'All'
+           </span>
+           , TodoFilter.all, filter),
+           <span class="function">
+            _buildFilterChip
+           </span>
+           (
+           <span class="string">
+            'Done'
+           </span>
+           , TodoFilter.done, filter),
+           <span class="function">
+            _buildFilterChip
+           </span>
+           (
+           <span class="string">
+            'Pending'
+           </span>
+           , TodoFilter.pending, filter),
                 ],
               ),
             ),
-            <span class="comment">// Add todo input</span>
-            Padding(
-              padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+           <span class="comment">
+            // Add todo input
+           </span>
+           Padding(
+              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
               child: Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        hintText: <span class="string">'Enter a task...'</span>,
+                        hintText:
+           <span class="string">
+            'Enter a task...'
+           </span>
+           ,
                         border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
+                        contentPadding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           ),
                       ),
                       onSubmitted: (_) =&gt; _addTodo(),
                     ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+           <span class="number">
+            8
+           </span>
+           ),
                   ElevatedButton(
                     onPressed: _addTodo,
-                    child: Text(<span class="string">'Add'</span>),
+                    child: Text(
+           <span class="string">
+            'Add'
+           </span>
+           ),
                   ),
                 ],
               ),
             ),
-            <span class="comment">// Todo list</span>
-            Expanded(
-              child: filteredTodos.<span class="function">isEmpty</span>
-                  ? Center(
+           <span class="comment">
+            // Todo list
+           </span>
+           Expanded(
+              child: filteredTodos.
+           <span class="function">
+            isEmpty
+           </span>
+           ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -850,26 +1798,71 @@
                                 : filter == TodoFilter.pending
                                 ? Icons.hourglass_empty
                                 : Icons.note_add,
-                            size: <span class="number">64</span>,
-                            color: Colors.grey[<span class="number">400</span>],
+                            size:
+           <span class="number">
+            64
+           </span>
+           ,
+                            color: Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
                           ),
-                          SizedBox(height: <span class="number">16</span>),
+                          SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                           Text(
                             filter == TodoFilter.done
-                                ? <span class="string">'No completed tasks'</span>
-                                : filter == TodoFilter.pending
-                                ? <span class="string">'All tasks completed! 🎉'</span>
-                                : <span class="string">'No tasks yet. Add one above!'</span>,
-                            style: TextStyle(fontSize: <span class="number">16</span>, color: Colors.grey[<span class="number">500</span>]),
+                                ?
+           <span class="string">
+            'No completed tasks'
+           </span>
+           : filter == TodoFilter.pending
+                                ?
+           <span class="string">
+            'All tasks completed! 🎉'
+           </span>
+           :
+           <span class="string">
+            'No tasks yet. Add one above!'
+           </span>
+           ,
+                            style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
                           ),
                         ],
                       ),
                     )
                   : ListView.builder(
-                      padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>),
-                      itemCount: filteredTodos.<span class="function">length</span>,
+                      padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           ),
+                      itemCount: filteredTodos.
+           <span class="function">
+            length
+           </span>
+           ,
                       itemBuilder: (context, index) {
-                        <span class="keyword">return</span> TodoItem(todo: filteredTodos[index]);
+           <span class="keyword">
+            return
+           </span>
+           TodoItem(todo: filteredTodos[index]);
                       },
                     ),
             ),
@@ -878,115 +1871,263 @@
       );
     }
 
-    Widget <span class="function">_buildStat</span>(String label, <span class="keyword">int</span> value, {Color? color}) {
-      <span class="keyword">return</span> Column(
+    Widget
+           <span class="function">
+            _buildStat
+           </span>
+           (String label,
+           <span class="keyword">
+            int
+           </span>
+           value, {Color? color}) {
+           <span class="keyword">
+            return
+           </span>
+           Column(
         children: [
           Text(
-            value.<span class="function">toString</span>(),
+            value.
+           <span class="function">
+            toString
+           </span>
+           (),
             style: TextStyle(
-              fontSize: <span class="number">24</span>,
+              fontSize:
+           <span class="number">
+            24
+           </span>
+           ,
               fontWeight: FontWeight.bold,
               color: color ?? Colors.black,
             ),
           ),
-          Text(label, style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>])),
+          Text(label, style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ])),
         ],
       );
     }
 
-    Widget <span class="function">_buildFilterChip</span>(String label, TodoFilter value, TodoFilter current) {
-      <span class="keyword">final</span> isSelected = value == current;
-      <span class="keyword">return</span> Padding(
-        padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">8</span>),
+    Widget
+           <span class="function">
+            _buildFilterChip
+           </span>
+           (String label, TodoFilter value, TodoFilter current) {
+           <span class="keyword">
+            final
+           </span>
+           isSelected = value == current;
+           <span class="keyword">
+            return
+           </span>
+           Padding(
+        padding: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (right:
+           <span class="number">
+            8
+           </span>
+           ),
         child: ChoiceChip(
           label: Text(label),
           selected: isSelected,
           onSelected: (_) {
-            ref.<span class="function">read</span>(filterProvider.notifier).state = value;
+            ref.
+           <span class="function">
+            read
+           </span>
+           (filterProvider.notifier).state = value;
           },
-          selectedColor: Colors.blue[<span class="number">200</span>],
+          selectedColor: Colors.blue[
+           <span class="number">
+            200
+           </span>
+           ],
         ),
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>StateNotifier</strong> – Managing complex state with methods</li>
-<li><strong>StateNotifierProvider</strong> – Providing the notifier to the UI</li>
-<li><strong>Provider</strong> – Derived state (filtered todos, stats)</li>
-<li><strong>StateProvider</strong> – Simple state (filter selection)</li>
-<li><strong>Immutability</strong> – Creating new lists when updating state</li>
-</ul>
-</div>
-</div>
-</div>
-<!-- ===== NAVIGATION ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href=" challenge1-counter-evolution.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge3-shopping-cart.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            StateNotifier
+           </strong>
+           – Managing complex state with methods
+          </li>
+          <li>
+           <strong>
+            StateNotifierProvider
+           </strong>
+           – Providing the notifier to the UI
+          </li>
+          <li>
+           <strong>
+            Provider
+           </strong>
+           – Derived state (filtered todos, stats)
+          </li>
+          <li>
+           <strong>
+            StateProvider
+           </strong>
+           – Simple state (filter selection)
+          </li>
+          <li>
+           <strong>
+            Immutability
+           </strong>
+           – Creating new lists when updating state
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <!-- ===== NAVIGATION ===== -->
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href=" challenge1-counter-evolution.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge3-shopping-cart.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1124,8 +2265,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1198,5 +2339,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

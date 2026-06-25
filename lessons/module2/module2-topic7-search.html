@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Search – Module 2 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to implement search functionality in Flutter. Master debouncing, filtering, real-time search, and API search integration." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Search – Module 2 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to implement search functionality in Flutter. Master debouncing, filtering, real-time search, and API search integration." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -574,10 +575,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         color: #ffffff !important;
     }
-    
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -640,180 +640,419 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module2-state-management.html">Module 2</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 7</span>
-</div>
-<span class="module-badge"><i class="fas fa-globe"></i> Module 2</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 7</div>
-<h1>Search</h1>
-<p class="topic-subtitle">
-            Implementing efficient search functionality — from local filtering to real-time API search with debouncing.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/cookbook" target="_blank">
-<i class="fas fa-book"></i> Flutter Cookbook
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT IS SEARCH ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Is Search?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Search</strong> allows users to find specific items within a dataset by typing a query.
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module2-state-management.html">
+        Module 2
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 7
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-globe">
+       </i>
+       Module 2
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 7
+      </div>
+      <h1>
+       Search
+      </h1>
+      <p class="topic-subtitle">
+       Implementing efficient search functionality — from local filtering to real-time API search with debouncing.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/cookbook" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Flutter Cookbook
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT IS SEARCH ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Is Search?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Search
+       </strong>
+       allows users to find specific items within a dataset by typing a query.
             It's essential for apps with large amounts of data, such as:
-          </p>
-<ul>
-<li>E-commerce apps (search for products)</li>
-<li>Social media apps (search for users or posts)</li>
-<li>Messaging apps (search for messages or contacts)</li>
-<li>Content apps (search for articles or videos)</li>
-</ul>
-<div class="concept-card success">
-<h4>🎯 Two Approaches</h4>
-<ul>
-<li><strong>Local Search</strong> – Search within data already loaded in the app</li>
-<li><strong>API Search</strong> – Send the search query to a server and get results</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: SEARCH STRATEGIES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Search Strategies</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            There are three main search strategies used in Flutter apps:
-          </p>
-<div class="search-types-grid">
-<div class="search-type-item" style="border-left: 3px solid #3B82F6;">
-<div class="search-icon">🔍</div>
-<div class="search-name">Local Filtering</div>
-<div class="search-desc">Filter already-loaded data in memory</div>
-</div>
-<div class="search-type-item" style="border-left: 3px solid #10B981;">
-<div class="search-icon">🌐</div>
-<div class="search-name">API Search</div>
-<div class="search-desc">Send query to server for results</div>
-</div>
-<div class="search-type-item" style="border-left: 3px solid #F59E0B;">
-<div class="search-icon">⚡</div>
-<div class="search-name">Real-Time Search</div>
-<div class="search-desc">Search as you type (with debouncing)</div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 3: LOCAL SEARCH (FILTERING) ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Local Search (Filtering)</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Local search filters data that's already loaded in memory. It's fast and works offline.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/local_search_screen.dart – Local Filtering</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">LocalSearchScreen</span> <span class="keyword">extends</span> StatefulWidget {
+      </p>
+      <ul>
+       <li>
+        E-commerce apps (search for products)
+       </li>
+       <li>
+        Social media apps (search for users or posts)
+       </li>
+       <li>
+        Messaging apps (search for messages or contacts)
+       </li>
+       <li>
+        Content apps (search for articles or videos)
+       </li>
+      </ul>
+      <div class="concept-card success">
+       <h4>
+        🎯 Two Approaches
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Local Search
+         </strong>
+         – Search within data already loaded in the app
+        </li>
+        <li>
+         <strong>
+          API Search
+         </strong>
+         – Send the search query to a server and get results
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: SEARCH STRATEGIES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Search Strategies
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       There are three main search strategies used in Flutter apps:
+      </p>
+      <div class="search-types-grid">
+       <div class="search-type-item" style="border-left: 3px solid #3B82F6;">
+        <div class="search-icon">
+         🔍
+        </div>
+        <div class="search-name">
+         Local Filtering
+        </div>
+        <div class="search-desc">
+         Filter already-loaded data in memory
+        </div>
+       </div>
+       <div class="search-type-item" style="border-left: 3px solid #10B981;">
+        <div class="search-icon">
+         🌐
+        </div>
+        <div class="search-name">
+         API Search
+        </div>
+        <div class="search-desc">
+         Send query to server for results
+        </div>
+       </div>
+       <div class="search-type-item" style="border-left: 3px solid #F59E0B;">
+        <div class="search-icon">
+         ⚡
+        </div>
+        <div class="search-name">
+         Real-Time Search
+        </div>
+        <div class="search-desc">
+         Search as you type (with debouncing)
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: LOCAL SEARCH (FILTERING) ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Local Search (Filtering)
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Local search filters data that's already loaded in memory. It's fast and works offline.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/local_search_screen.dart – Local Filtering
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         LocalSearchScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;LocalSearchScreen&gt; <span class="function">createState</span>() =&gt; _LocalSearchScreenState();
+    State&lt;LocalSearchScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _LocalSearchScreenState();
   }
-
-  <span class="keyword">class</span> _LocalSearchScreenState <span class="keyword">extends</span> State&lt;LocalSearchScreen&gt; {
-    <span class="keyword">final</span> List&lt;String&gt; _allItems = [
-      <span class="string">'Apple'</span>, <span class="string">'Banana'</span>, <span class="string">'Cherry'</span>, <span class="string">'Date'</span>, <span class="string">'Elderberry'</span>,
-      <span class="string">'Fig'</span>, <span class="string">'Grape'</span>, <span class="string">'Honeydew'</span>, <span class="string">'Kiwi'</span>, <span class="string">'Lemon'</span>,
-      <span class="string">'Mango'</span>, <span class="string">'Nectarine'</span>, <span class="string">'Orange'</span>, <span class="string">'Papaya'</span>, <span class="string">'Quince'</span>,
+        <span class="keyword">
+         class
+        </span>
+        _LocalSearchScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;LocalSearchScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        List&lt;String&gt; _allItems = [
+        <span class="string">
+         'Apple'
+        </span>
+        ,
+        <span class="string">
+         'Banana'
+        </span>
+        ,
+        <span class="string">
+         'Cherry'
+        </span>
+        ,
+        <span class="string">
+         'Date'
+        </span>
+        ,
+        <span class="string">
+         'Elderberry'
+        </span>
+        ,
+        <span class="string">
+         'Fig'
+        </span>
+        ,
+        <span class="string">
+         'Grape'
+        </span>
+        ,
+        <span class="string">
+         'Honeydew'
+        </span>
+        ,
+        <span class="string">
+         'Kiwi'
+        </span>
+        ,
+        <span class="string">
+         'Lemon'
+        </span>
+        ,
+        <span class="string">
+         'Mango'
+        </span>
+        ,
+        <span class="string">
+         'Nectarine'
+        </span>
+        ,
+        <span class="string">
+         'Orange'
+        </span>
+        ,
+        <span class="string">
+         'Papaya'
+        </span>
+        ,
+        <span class="string">
+         'Quince'
+        </span>
+        ,
     ];
 
     List&lt;String&gt; _filteredItems = [];
-    <span class="keyword">final</span> TextEditingController _searchController = TextEditingController();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _searchController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _filteredItems = _allItems;
       _searchController.addListener(_filterItems);
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
       _searchController.removeListener(_filterItems);
       _searchController.dispose();
-      <span class="keyword">super</span>.dispose();
+        <span class="keyword">
+         super
+        </span>
+        .dispose();
     }
-
-    <span class="keyword">void</span> <span class="function">_filterItems</span>() {
-      <span class="keyword">final</span> query = _searchController.text.toLowerCase().trim();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _filterItems
+        </span>
+        () {
+        <span class="keyword">
+         final
+        </span>
+        query = _searchController.text.toLowerCase().trim();
       setState(() {
-        <span class="keyword">if</span> (query.isEmpty) {
+        <span class="keyword">
+         if
+        </span>
+        (query.isEmpty) {
           _filteredItems = _allItems;
-        } <span class="keyword">else</span> {
+        }
+        <span class="keyword">
+         else
+        </span>
+        {
           _filteredItems = _allItems
               .where((item) =&gt; item.toLowerCase().contains(query))
               .toList();
         }
       });
     }
-
-    <span class="keyword">void</span> <span class="function">_clearSearch</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _clearSearch
+        </span>
+        () {
       _searchController.clear();
       setState(() {
         _filteredItems = _allItems;
@@ -821,51 +1060,103 @@
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Local Search'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         'Local Search'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         body: Column(
           children: [
-            <span class="comment">// Search Bar</span>
-            Padding(
-              padding: EdgeInsets.all(<span class="number">16</span>),
+        <span class="comment">
+         // Search Bar
+        </span>
+        Padding(
+              padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Search fruits...'</span>,
+                  hintText:
+        <span class="string">
+         'Search fruits...'
+        </span>
+        ,
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
                           icon: Icon(Icons.clear),
                           onPressed: _clearSearch,
                         )
-                      : <span class="keyword">null</span>,
+                      :
+        <span class="keyword">
+         null
+        </span>
+        ,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                    borderRadius: BorderRadius.circular(
+        <span class="number">
+         12
+        </span>
+        ),
                   ),
-                  filled: <span class="keyword">true</span>,
+                  filled:
+        <span class="keyword">
+         true
+        </span>
+        ,
                   fillColor: Colors.grey.shade50,
                 ),
               ),
             ),
-
-            <span class="comment">// Results count</span>
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>),
+        <span class="comment">
+         // Results count
+        </span>
+        Padding(
+              padding: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         16
+        </span>
+        ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    <span class="string">'${_filteredItems.length} items'</span>,
+        <span class="string">
+         '${_filteredItems.length} items'
+        </span>
+        ,
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
-                  <span class="keyword">if</span> (_searchController.text.isNotEmpty)
+        <span class="keyword">
+         if
+        </span>
+        (_searchController.text.isNotEmpty)
                     TextButton(
                       onPressed: _clearSearch,
-                      child: Text(<span class="string">'Clear'</span>),
+                      child: Text(
+        <span class="string">
+         'Clear'
+        </span>
+        ),
                     ),
                 ],
               ),
@@ -879,20 +1170,42 @@
                         children: [
                           Icon(
                             Icons.search_off,
-                            size: <span class="number">64</span>,
+                            size:
+        <span class="number">
+         64
+        </span>
+        ,
                             color: Colors.grey.shade400,
                           ),
-                          SizedBox(height: <span class="number">16</span>),
+                          SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                           Text(
-                            <span class="string">'No results found'</span>,
+        <span class="string">
+         'No results found'
+        </span>
+        ,
                             style: TextStyle(
-                              fontSize: <span class="number">18</span>,
+                              fontSize:
+        <span class="number">
+         18
+        </span>
+        ,
                               color: Colors.grey.shade600,
                             ),
                           ),
-                          SizedBox(height: <span class="number">8</span>),
+                          SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                           Text(
-                            <span class="string">'Try a different search term'</span>,
+        <span class="string">
+         'Try a different search term'
+        </span>
+        ,
                             style: TextStyle(color: Colors.grey.shade400),
                           ),
                         ],
@@ -901,13 +1214,27 @@
                   : ListView.builder(
                       itemCount: _filteredItems.length,
                       itemBuilder: (context, index) {
-                        <span class="keyword">final</span> item = _filteredItems[index];
-                        <span class="keyword">return</span> ListTile(
+        <span class="keyword">
+         final
+        </span>
+        item = _filteredItems[index];
+        <span class="keyword">
+         return
+        </span>
+        ListTile(
                           leading: CircleAvatar(
-                            child: Text(item[<span class="number">0</span>]),
+                            child: Text(item[
+        <span class="number">
+         0
+        </span>
+        ]),
                           ),
                           title: Text(item),
-                          trailing: Icon(Icons.arrow_forward_ios, size: <span class="number">16</span>),
+                          trailing: Icon(Icons.arrow_forward_ios, size:
+        <span class="number">
+         16
+        </span>
+        ),
                         );
                       },
                     ),
@@ -917,163 +1244,472 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>✅ When to Use Local Search</h4>
-<ul>
-<li>Small to medium datasets (under 10,000 items)</li>
-<li>Data is already loaded in memory</li>
-<li>Need offline search capability</li>
-<li>Simple filtering by text</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 4: API SEARCH ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">API Search</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            API search sends the search query to a server and displays the results. This is necessary for large datasets.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/api_search_service.dart – Search Service</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-
-  <span class="keyword">class</span> <span class="function">SearchService</span> {
-    <span class="keyword">final</span> http.Client client;
-
-    <span class="function">SearchService</span>({http.Client? client}) : client = client ?? http.Client();
-
-    <span class="keyword">Future</span>&lt;List&lt;dynamic&gt;&gt; <span class="function">search</span>(String query) async {
-      <span class="keyword">if</span> (query.isEmpty) <span class="keyword">return</span> [];
-
-      <span class="keyword">final</span> response = await client.get(
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        ✅ When to Use Local Search
+       </h4>
+       <ul>
+        <li>
+         Small to medium datasets (under 10,000 items)
+        </li>
+        <li>
+         Data is already loaded in memory
+        </li>
+        <li>
+         Need offline search capability
+        </li>
+        <li>
+         Simple filtering by text
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: API SEARCH ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        API Search
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       API search sends the search query to a server and displays the results. This is necessary for large datasets.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/api_search_service.dart – Search Service
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:convert'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         SearchService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        http.Client client;
+        <span class="function">
+         SearchService
+        </span>
+        ({http.Client? client}) : client = client ?? http.Client();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;dynamic&gt;&gt;
+        <span class="function">
+         search
+        </span>
+        (String query) async {
+        <span class="keyword">
+         if
+        </span>
+        (query.isEmpty)
+        <span class="keyword">
+         return
+        </span>
+        [];
+        <span class="keyword">
+         final
+        </span>
+        response = await client.get(
         Uri.parse(
-          <span class="string">'https://jsonplaceholder.typicode.com/posts?q=${Uri.encodeComponent(query)}'</span>,
+        <span class="string">
+         'https://jsonplaceholder.typicode.com/posts?q=${Uri.encodeComponent(query)}'
+        </span>
+        ,
         ),
-        headers: {<span class="string">'Accept'</span>: <span class="string">'application/json'</span>},
+        headers: {
+        <span class="string">
+         'Accept'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
       );
-
-      <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-        <span class="keyword">return</span> jsonDecode(response.body) <span class="keyword">as</span> List&lt;dynamic&gt;;
-      } <span class="keyword">else</span> {
-        <span class="keyword">throw</span> Exception(<span class="string">'Search failed: ${response.statusCode}'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode ==
+        <span class="number">
+         200
+        </span>
+        ) {
+        <span class="keyword">
+         return
+        </span>
+        jsonDecode(response.body)
+        <span class="keyword">
+         as
+        </span>
+        List&lt;dynamic&gt;;
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Search failed: ${response.statusCode}'
+        </span>
+        );
       }
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/api_search_screen.dart – API Search UI</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'api_search_service.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ApiSearchScreen</span> <span class="keyword">extends</span> StatefulWidget {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/api_search_screen.dart – API Search UI
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'api_search_service.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ApiSearchScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;ApiSearchScreen&gt; <span class="function">createState</span>() =&gt; _ApiSearchScreenState();
+    State&lt;ApiSearchScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _ApiSearchScreenState();
   }
-
-  <span class="keyword">class</span> _ApiSearchScreenState <span class="keyword">extends</span> State&lt;ApiSearchScreen&gt; {
-    <span class="keyword">final</span> SearchService _searchService = SearchService();
-    <span class="keyword">final</span> TextEditingController _searchController = TextEditingController();
+        <span class="keyword">
+         class
+        </span>
+        _ApiSearchScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;ApiSearchScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        SearchService _searchService = SearchService();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _searchController = TextEditingController();
 
     List&lt;dynamic&gt; _results = [];
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
-    <span class="keyword">bool</span> _hasSearched = <span class="keyword">false</span>;
-    <span class="keyword">bool</span> _hasError = <span class="keyword">false</span>;
+        <span class="keyword">
+         bool
+        </span>
+        _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _hasSearched =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
     String? _errorMessage;
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_performSearch</span>() async {
-      <span class="keyword">final</span> query = _searchController.text.trim();
-      <span class="keyword">if</span> (query.isEmpty) {
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _performSearch
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        query = _searchController.text.trim();
+        <span class="keyword">
+         if
+        </span>
+        (query.isEmpty) {
         setState(() {
           _results = [];
-          _hasSearched = <span class="keyword">false</span>;
+          _hasSearched =
+        <span class="keyword">
+         false
+        </span>
+        ;
         });
-        <span class="keyword">return</span>;
+        <span class="keyword">
+         return
+        </span>
+        ;
       }
 
       setState(() {
-        _isLoading = <span class="keyword">true</span>;
-        _hasError = <span class="keyword">false</span>;
-        _errorMessage = <span class="keyword">null</span>;
-        _hasSearched = <span class="keyword">true</span>;
+        _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        _errorMessage =
+        <span class="keyword">
+         null
+        </span>
+        ;
+        _hasSearched =
+        <span class="keyword">
+         true
+        </span>
+        ;
       });
-
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> results = await _searchService.search(query);
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        results = await _searchService.search(query);
         setState(() {
           _results = results;
-          _isLoading = <span class="keyword">false</span>;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
         });
-      } <span class="keyword">catch</span> (e) {
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
         setState(() {
-          _isLoading = <span class="keyword">false</span>;
-          _hasError = <span class="keyword">true</span>;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
+          _hasError =
+        <span class="keyword">
+         true
+        </span>
+        ;
           _errorMessage = e.toString();
         });
       }
     }
-
-    <span class="keyword">void</span> <span class="function">_clearSearch</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _clearSearch
+        </span>
+        () {
       _searchController.clear();
       setState(() {
         _results = [];
-        _hasSearched = <span class="keyword">false</span>;
-        _hasError = <span class="keyword">false</span>;
+        _hasSearched =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'API Search'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         'API Search'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         body: Column(
           children: [
-            <span class="comment">// Search Bar</span>
-            Padding(
-              padding: EdgeInsets.all(<span class="number">16</span>),
+        <span class="comment">
+         // Search Bar
+        </span>
+        Padding(
+              padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
               child: Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _searchController,
                       decoration: InputDecoration(
-                        hintText: <span class="string">'Search posts...'</span>,
+                        hintText:
+        <span class="string">
+         'Search posts...'
+        </span>
+        ,
                         prefixIcon: Icon(Icons.search),
                         suffixIcon: _searchController.text.isNotEmpty
                             ? IconButton(
                                 icon: Icon(Icons.clear),
                                 onPressed: _clearSearch,
                               )
-                            : <span class="keyword">null</span>,
+                            :
+        <span class="keyword">
+         null
+        </span>
+        ,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                          borderRadius: BorderRadius.circular(
+        <span class="number">
+         12
+        </span>
+        ),
                         ),
-                        filled: <span class="keyword">true</span>,
+                        filled:
+        <span class="keyword">
+         true
+        </span>
+        ,
                         fillColor: Colors.grey.shade50,
                       ),
                       onSubmitted: (_) =&gt; _performSearch(),
                     ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
                   ElevatedButton(
-                    onPressed: _isLoading ? <span class="keyword">null</span> : _performSearch,
+                    onPressed: _isLoading ?
+        <span class="keyword">
+         null
+        </span>
+        : _performSearch,
                     child: _isLoading
                         ? SizedBox(
-                            width: <span class="number">20</span>,
-                            height: <span class="number">20</span>,
+                            width:
+        <span class="number">
+         20
+        </span>
+        ,
+                            height:
+        <span class="number">
+         20
+        </span>
+        ,
                             child: CircularProgressIndicator(
-                              strokeWidth: <span class="number">2</span>,
+                              strokeWidth:
+        <span class="number">
+         2
+        </span>
+        ,
                               color: Colors.white,
                             ),
                           )
@@ -1082,9 +1718,10 @@
                 ],
               ),
             ),
-
-            <span class="comment">// Results</span>
-            Expanded(
+        <span class="comment">
+         // Results
+        </span>
+        Expanded(
               child: _buildContent(),
             ),
           ],
@@ -1092,93 +1729,222 @@
       );
     }
 
-    Widget <span class="function">_buildContent</span>() {
-      <span class="keyword">if</span> (_isLoading) {
-        <span class="keyword">return</span> Center(
+    Widget
+        <span class="function">
+         _buildContent
+        </span>
+        () {
+        <span class="keyword">
+         if
+        </span>
+        (_isLoading) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(),
-              SizedBox(height: <span class="number">16</span>),
-              Text(<span class="string">'Searching...'</span>),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+              Text(
+        <span class="string">
+         'Searching...'
+        </span>
+        ),
             ],
           ),
         );
       }
-
-      <span class="keyword">if</span> (_hasError) {
-        <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (_hasError) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
-              SizedBox(height: <span class="number">16</span>),
-              Text(_errorMessage ?? <span class="string">'Search failed'</span>),
-              SizedBox(height: <span class="number">16</span>),
+              Icon(Icons.error, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.red),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+              Text(_errorMessage ??
+        <span class="string">
+         'Search failed'
+        </span>
+        ),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               ElevatedButton(
                 onPressed: _performSearch,
-                child: Text(<span class="string">'Retry'</span>),
+                child: Text(
+        <span class="string">
+         'Retry'
+        </span>
+        ),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">if</span> (!_hasSearched) {
-        <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (!_hasSearched) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.search, size: <span class="number">64</span>, color: Colors.grey.shade400),
-              SizedBox(height: <span class="number">16</span>),
+              Icon(Icons.search, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.grey.shade400),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               Text(
-                <span class="string">'Search for posts'</span>,
-                style: TextStyle(fontSize: <span class="number">18</span>, color: Colors.grey.shade600),
+        <span class="string">
+         'Search for posts'
+        </span>
+        ,
+                style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , color: Colors.grey.shade600),
               ),
               Text(
-                <span class="string">'Enter a keyword to start searching'</span>,
+        <span class="string">
+         'Enter a keyword to start searching'
+        </span>
+        ,
                 style: TextStyle(color: Colors.grey.shade400),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">if</span> (_results.isEmpty) {
-        <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (_results.isEmpty) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.search_off, size: <span class="number">64</span>, color: Colors.grey.shade400),
-              SizedBox(height: <span class="number">16</span>),
+              Icon(Icons.search_off, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.grey.shade400),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               Text(
-                <span class="string">'No results found'</span>,
-                style: TextStyle(fontSize: <span class="number">18</span>, color: Colors.grey.shade600),
+        <span class="string">
+         'No results found'
+        </span>
+        ,
+                style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , color: Colors.grey.shade600),
               ),
               Text(
-                <span class="string">'Try a different search term'</span>,
+        <span class="string">
+         'Try a different search term'
+        </span>
+        ,
                 style: TextStyle(color: Colors.grey.shade400),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">return</span> ListView.builder(
+        <span class="keyword">
+         return
+        </span>
+        ListView.builder(
         itemCount: _results.length,
         itemBuilder: (context, index) {
-          <span class="keyword">final</span> item = _results[index];
-          <span class="keyword">return</span> Card(
-            margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+        <span class="keyword">
+         final
+        </span>
+        item = _results[index];
+        <span class="keyword">
+         return
+        </span>
+        Card(
+            margin: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         16
+        </span>
+        , vertical:
+        <span class="number">
+         4
+        </span>
+        ),
             child: ListTile(
-              title: Text(item[<span class="string">'title'</span>] ?? <span class="string">'No title'</span>),
+              title: Text(item[
+        <span class="string">
+         'title'
+        </span>
+        ] ??
+        <span class="string">
+         'No title'
+        </span>
+        ),
               subtitle: Text(
-                item[<span class="string">'body'</span>] ?? <span class="string">'No body'</span>,
-                maxLines: <span class="number">2</span>,
+                item[
+        <span class="string">
+         'body'
+        </span>
+        ] ??
+        <span class="string">
+         'No body'
+        </span>
+        ,
+                maxLines:
+        <span class="number">
+         2
+        </span>
+        ,
                 overflow: TextOverflow.ellipsis,
               ),
               leading: CircleAvatar(
-                child: Text((index + <span class="number">1</span>).toString()),
+                child: Text((index +
+        <span class="number">
+         1
+        </span>
+        ).toString()),
               ),
             ),
           );
@@ -1186,174 +1952,449 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: DEBOUNCING ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Debouncing: Search as You Type</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Debouncing</strong> prevents making an API call on every keystroke. Instead, it waits
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: DEBOUNCING ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Debouncing: Search as You Type
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Debouncing
+       </strong>
+       prevents making an API call on every keystroke. Instead, it waits
             for the user to stop typing (e.g., 500ms) before performing the search.
-          </p>
-<div class="concept-card success">
-<h4>⚡ Why Debounce?</h4>
-<ul>
-<li>Prevents unnecessary API calls</li>
-<li>Reduces server load</li>
-<li>Improves performance and battery life</li>
-<li>Better user experience (no constant loading)</li>
-</ul>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">lib/debounced_search_screen.dart – With Debouncing</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'api_search_service.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">DebouncedSearchScreen</span> <span class="keyword">extends</span> StatefulWidget {
+      </p>
+      <div class="concept-card success">
+       <h4>
+        ⚡ Why Debounce?
+       </h4>
+       <ul>
+        <li>
+         Prevents unnecessary API calls
+        </li>
+        <li>
+         Reduces server load
+        </li>
+        <li>
+         Improves performance and battery life
+        </li>
+        <li>
+         Better user experience (no constant loading)
+        </li>
+       </ul>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/debounced_search_screen.dart – With Debouncing
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'api_search_service.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         DebouncedSearchScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;DebouncedSearchScreen&gt; <span class="function">createState</span>() =&gt; _DebouncedSearchScreenState();
+    State&lt;DebouncedSearchScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _DebouncedSearchScreenState();
   }
-
-  <span class="keyword">class</span> _DebouncedSearchScreenState <span class="keyword">extends</span> State&lt;DebouncedSearchScreen&gt; {
-    <span class="keyword">final</span> SearchService _searchService = SearchService();
-    <span class="keyword">final</span> TextEditingController _searchController = TextEditingController();
+        <span class="keyword">
+         class
+        </span>
+        _DebouncedSearchScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;DebouncedSearchScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        SearchService _searchService = SearchService();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _searchController = TextEditingController();
 
     Timer? _debounceTimer;
     List&lt;dynamic&gt; _results = [];
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
-    <span class="keyword">bool</span> _hasSearched = <span class="keyword">false</span>;
-    <span class="keyword">bool</span> _hasError = <span class="keyword">false</span>;
+        <span class="keyword">
+         bool
+        </span>
+        _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _hasSearched =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
     String? _errorMessage;
-
-    <span class="keyword">static</span> <span class="keyword">const</span> Duration debounceDelay = Duration(milliseconds: <span class="number">500</span>);
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         const
+        </span>
+        Duration debounceDelay = Duration(milliseconds:
+        <span class="number">
+         500
+        </span>
+        );
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _searchController.addListener(_onSearchChanged);
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
       _debounceTimer?.cancel();
       _searchController.removeListener(_onSearchChanged);
       _searchController.dispose();
-      <span class="keyword">super</span>.dispose();
+        <span class="keyword">
+         super
+        </span>
+        .dispose();
     }
-
-    <span class="keyword">void</span> <span class="function">_onSearchChanged</span>() {
-      <span class="comment">// Cancel the previous timer</span>
-      _debounceTimer?.cancel();
-
-      <span class="comment">// Start a new timer</span>
-      _debounceTimer = Timer(debounceDelay, () {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _onSearchChanged
+        </span>
+        () {
+        <span class="comment">
+         // Cancel the previous timer
+        </span>
+        _debounceTimer?.cancel();
+        <span class="comment">
+         // Start a new timer
+        </span>
+        _debounceTimer = Timer(debounceDelay, () {
         _performSearch();
       });
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_performSearch</span>() async {
-      <span class="keyword">final</span> query = _searchController.text.trim();
-
-      <span class="comment">// Don't search for empty queries</span>
-<span class="keyword">if</span> (query.isEmpty) {
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _performSearch
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        query = _searchController.text.trim();
+        <span class="comment">
+         // Don't search for empty queries
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (query.isEmpty) {
         setState(() {
           _results = [];
-          _hasSearched = <span class="keyword">false</span>;
-          _isLoading = <span class="keyword">false</span>;
+          _hasSearched =
+        <span class="keyword">
+         false
+        </span>
+        ;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
         });
-        <span class="keyword">return</span>;
+        <span class="keyword">
+         return
+        </span>
+        ;
       }
 
       setState(() {
-        _isLoading = <span class="keyword">true</span>;
-        _hasError = <span class="keyword">false</span>;
-        _errorMessage = <span class="keyword">null</span>;
-        _hasSearched = <span class="keyword">true</span>;
+        _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        _errorMessage =
+        <span class="keyword">
+         null
+        </span>
+        ;
+        _hasSearched =
+        <span class="keyword">
+         true
+        </span>
+        ;
       });
-
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> results = await _searchService.search(query);
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        results = await _searchService.search(query);
         setState(() {
           _results = results;
-          _isLoading = <span class="keyword">false</span>;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
         });
-      } <span class="keyword">catch</span> (e) {
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
         setState(() {
-          _isLoading = <span class="keyword">false</span>;
-          _hasError = <span class="keyword">true</span>;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
+          _hasError =
+        <span class="keyword">
+         true
+        </span>
+        ;
           _errorMessage = e.toString();
         });
       }
     }
-
-    <span class="keyword">void</span> <span class="function">_clearSearch</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _clearSearch
+        </span>
+        () {
       _debounceTimer?.cancel();
       _searchController.clear();
       setState(() {
         _results = [];
-        _hasSearched = <span class="keyword">false</span>;
-        _hasError = <span class="keyword">false</span>;
-        _isLoading = <span class="keyword">false</span>;
+        _hasSearched =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
+        _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Debounced Search'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         'Debounced Search'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         body: Column(
           children: [
-            <span class="comment">// Search Bar</span>
-            Padding(
-              padding: EdgeInsets.all(<span class="number">16</span>),
+        <span class="comment">
+         // Search Bar
+        </span>
+        Padding(
+              padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Type to search...'</span>,
+                  hintText:
+        <span class="string">
+         'Type to search...'
+        </span>
+        ,
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
                           icon: Icon(Icons.clear),
                           onPressed: _clearSearch,
                         )
-                      : <span class="keyword">null</span>,
+                      :
+        <span class="keyword">
+         null
+        </span>
+        ,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(<span class="number">12</span>),
+                    borderRadius: BorderRadius.circular(
+        <span class="number">
+         12
+        </span>
+        ),
                   ),
-                  filled: <span class="keyword">true</span>,
+                  filled:
+        <span class="keyword">
+         true
+        </span>
+        ,
                   fillColor: Colors.grey.shade50,
                 ),
               ),
             ),
-
-            <span class="comment">// Status bar</span>
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: <span class="number">16</span>),
+        <span class="comment">
+         // Status bar
+        </span>
+        Padding(
+              padding: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         16
+        </span>
+        ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     _isLoading
-                        ? <span class="string">'Searching...'</span>
-                        : _hasSearched
-                            ? <span class="string">'${_results.length} results'</span>
-                            : <span class="string">'Type to search'</span>,
+                        ?
+        <span class="string">
+         'Searching...'
+        </span>
+        : _hasSearched
+                            ?
+        <span class="string">
+         '${_results.length} results'
+        </span>
+        :
+        <span class="string">
+         'Type to search'
+        </span>
+        ,
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
-                  <span class="keyword">if</span> (_searchController.text.isNotEmpty)
+        <span class="keyword">
+         if
+        </span>
+        (_searchController.text.isNotEmpty)
                     Text(
-                      <span class="string">'⌛ ${debounceDelay.inMilliseconds}ms delay'</span>,
+        <span class="string">
+         '⌛ ${debounceDelay.inMilliseconds}ms delay'
+        </span>
+        ,
                       style: TextStyle(
-                        fontSize: <span class="number">12</span>,
+                        fontSize:
+        <span class="number">
+         12
+        </span>
+        ,
                         color: Colors.grey.shade400,
                       ),
                     ),
@@ -1369,81 +2410,200 @@
       );
     }
 
-    Widget <span class="function">_buildContent</span>() {
-      <span class="comment">// Show loading indicator while debouncing</span>
-<span class="keyword">if</span> (_isLoading) {
-        <span class="keyword">return</span> Center(child: CircularProgressIndicator());
+    Widget
+        <span class="function">
+         _buildContent
+        </span>
+        () {
+        <span class="comment">
+         // Show loading indicator while debouncing
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (_isLoading) {
+        <span class="keyword">
+         return
+        </span>
+        Center(child: CircularProgressIndicator());
       }
-
-      <span class="keyword">if</span> (_hasError) {
-        <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (_hasError) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
-              SizedBox(height: <span class="number">16</span>),
-              Text(_errorMessage ?? <span class="string">'Search failed'</span>),
-              SizedBox(height: <span class="number">16</span>),
+              Icon(Icons.error, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.red),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+              Text(_errorMessage ??
+        <span class="string">
+         'Search failed'
+        </span>
+        ),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               ElevatedButton(
                 onPressed: _performSearch,
-                child: Text(<span class="string">'Retry'</span>),
+                child: Text(
+        <span class="string">
+         'Retry'
+        </span>
+        ),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">if</span> (!_hasSearched) {
-        <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (!_hasSearched) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.search, size: <span class="number">64</span>, color: Colors.grey.shade400),
-              SizedBox(height: <span class="number">16</span>),
+              Icon(Icons.search, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.grey.shade400),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               Text(
-                <span class="string">'Start typing to search'</span>,
-                style: TextStyle(fontSize: <span class="number">18</span>, color: Colors.grey.shade600),
+        <span class="string">
+         'Start typing to search'
+        </span>
+        ,
+                style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , color: Colors.grey.shade600),
               ),
               Text(
-                <span class="string">'Results will appear after you stop typing'</span>,
+        <span class="string">
+         'Results will appear after you stop typing'
+        </span>
+        ,
                 style: TextStyle(color: Colors.grey.shade400),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">if</span> (_results.isEmpty) {
-        <span class="keyword">return</span> Center(
+        <span class="keyword">
+         if
+        </span>
+        (_results.isEmpty) {
+        <span class="keyword">
+         return
+        </span>
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.search_off, size: <span class="number">64</span>, color: Colors.grey.shade400),
-              SizedBox(height: <span class="number">16</span>),
+              Icon(Icons.search_off, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.grey.shade400),
+              SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
               Text(
-                <span class="string">'No results found'</span>,
-                style: TextStyle(fontSize: <span class="number">18</span>, color: Colors.grey.shade600),
+        <span class="string">
+         'No results found'
+        </span>
+        ,
+                style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , color: Colors.grey.shade600),
               ),
               Text(
-                <span class="string">'Try a different search term'</span>,
+        <span class="string">
+         'Try a different search term'
+        </span>
+        ,
                 style: TextStyle(color: Colors.grey.shade400),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">return</span> ListView.builder(
+        <span class="keyword">
+         return
+        </span>
+        ListView.builder(
         itemCount: _results.length,
         itemBuilder: (context, index) {
-          <span class="keyword">final</span> item = _results[index];
-          <span class="keyword">return</span> Card(
-            margin: EdgeInsets.symmetric(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+        <span class="keyword">
+         final
+        </span>
+        item = _results[index];
+        <span class="keyword">
+         return
+        </span>
+        Card(
+            margin: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         16
+        </span>
+        , vertical:
+        <span class="number">
+         4
+        </span>
+        ),
             child: ListTile(
-              title: Text(item[<span class="string">'title'</span>] ?? <span class="string">'No title'</span>),
-              subtitle: Text(item[<span class="string">'body'</span>] ?? <span class="string">'No body'</span>),
+              title: Text(item[
+        <span class="string">
+         'title'
+        </span>
+        ] ??
+        <span class="string">
+         'No title'
+        </span>
+        ),
+              subtitle: Text(item[
+        <span class="string">
+         'body'
+        </span>
+        ] ??
+        <span class="string">
+         'No body'
+        </span>
+        ),
               leading: CircleAvatar(
-                child: Text((index + <span class="number">1</span>).toString()),
+                child: Text((index +
+        <span class="number">
+         1
+        </span>
+        ).toString()),
               ),
             ),
           );
@@ -1451,193 +2611,381 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Choose the search approach</strong> – Decide between local filtering, API search, or both.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Create the search UI</strong> – Add a <code>TextField</code> with a search icon and clear button.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Implement the search logic</strong> – For local search, filter the list. For API search, make a network request.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Add debouncing</strong> – Use a <code>Timer</code> to delay the search until the user stops typing.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Handle states</strong> – Show loading, error, empty, and results states appropriately.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 7: BEST PRACTICES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Search Best Practices</span>
-<span class="divider-line"></span>
-</div>
-<div class="concept-card success">
-<h4>✅ Do's</h4>
-<ul>
-<li>Always add a clear button to the search field</li>
-<li>Show loading indicators while searching</li>
-<li>Display search results in a clear, scannable format</li>
-<li>Show a "no results" message with helpful suggestions</li>
-<li>Debounce API searches (300-500ms delay)</li>
-<li>Handle errors gracefully with retry options</li>
-<li>Highlight matching text in results (optional)</li>
-</ul>
-</div>
-<div class="concept-card error">
-<h4>❌ Don'ts</h4>
-<ul>
-<li>Don't search on every keystroke without debouncing</li>
-<li>Don't show raw JSON or error messages</li>
-<li>Don't forget to handle empty searches</li>
-<li>Don't block the UI while searching</li>
-<li>Don't ignore the search input when it's empty</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not debouncing API searches</div>
-<p>
-              Without debouncing, every keystroke triggers an API call, causing performance issues and server load.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always debounce API searches</div>
-<p>
-              Use a <code>Timer</code> with a 300-500ms delay before performing the search.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Not handling empty search</div>
-<p>
-              If the user clears the search field, the app should return to the default state (show all items).
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Handle empty search</div>
-<p>
-              When the search query is empty, reset the results to show all items or show a placeholder.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not cancelling previous requests</div>
-<p>
-              If a search takes a long time and the user types another query, the old request should be cancelled.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Cancel in-flight requests</div>
-<p>
-              Use a <code>CancelToken</code> or check if the search term has changed before processing results.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Search is a <strong>critical feature</strong> for apps with large datasets. Use <strong>local filtering</strong>
-            for small datasets and <strong>API search</strong> for large ones. <strong>Always debounce</strong> API searches
-            to prevent unnecessary requests. Handle <strong>all states</strong> – loading, error, empty, and results.
-            <strong>A well-designed search enhances the user experience significantly.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module2-topic6-pagination.html">
-<i class="fas fa-arrow-left"></i> Previous: Pagination
-          </a>
-<a class="btn btn-primary btn-sm" href="module2-topic8-caching.html">
-            Next: Caching <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module2-state-management.html">Module 2</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/cookbook" style="color: var(--text-muted);" target="_blank">Flutter Cookbook</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Choose the search approach
+         </strong>
+         – Decide between local filtering, API search, or both.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create the search UI
+         </strong>
+         – Add a
+         <code>
+          TextField
+         </code>
+         with a search icon and clear button.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Implement the search logic
+         </strong>
+         – For local search, filter the list. For API search, make a network request.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add debouncing
+         </strong>
+         – Use a
+         <code>
+          Timer
+         </code>
+         to delay the search until the user stops typing.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Handle states
+         </strong>
+         – Show loading, error, empty, and results states appropriately.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: BEST PRACTICES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Search Best Practices
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Do's
+       </h4>
+       <ul>
+        <li>
+         Always add a clear button to the search field
+        </li>
+        <li>
+         Show loading indicators while searching
+        </li>
+        <li>
+         Display search results in a clear, scannable format
+        </li>
+        <li>
+         Show a "no results" message with helpful suggestions
+        </li>
+        <li>
+         Debounce API searches (300-500ms delay)
+        </li>
+        <li>
+         Handle errors gracefully with retry options
+        </li>
+        <li>
+         Highlight matching text in results (optional)
+        </li>
+       </ul>
+      </div>
+      <div class="concept-card error">
+       <h4>
+        ❌ Don'ts
+       </h4>
+       <ul>
+        <li>
+         Don't search on every keystroke without debouncing
+        </li>
+        <li>
+         Don't show raw JSON or error messages
+        </li>
+        <li>
+         Don't forget to handle empty searches
+        </li>
+        <li>
+         Don't block the UI while searching
+        </li>
+        <li>
+         Don't ignore the search input when it's empty
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not debouncing API searches
+       </div>
+       <p>
+        Without debouncing, every keystroke triggers an API call, causing performance issues and server load.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always debounce API searches
+       </div>
+       <p>
+        Use a
+        <code>
+         Timer
+        </code>
+        with a 300-500ms delay before performing the search.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Not handling empty search
+       </div>
+       <p>
+        If the user clears the search field, the app should return to the default state (show all items).
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Handle empty search
+       </div>
+       <p>
+        When the search query is empty, reset the results to show all items or show a placeholder.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not cancelling previous requests
+       </div>
+       <p>
+        If a search takes a long time and the user types another query, the old request should be cancelled.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Cancel in-flight requests
+       </div>
+       <p>
+        Use a
+        <code>
+         CancelToken
+        </code>
+        or check if the search term has changed before processing results.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Search is a
+       <strong>
+        critical feature
+       </strong>
+       for apps with large datasets. Use
+       <strong>
+        local filtering
+       </strong>
+       for small datasets and
+       <strong>
+        API search
+       </strong>
+       for large ones.
+       <strong>
+        Always debounce
+       </strong>
+       API searches
+            to prevent unnecessary requests. Handle
+       <strong>
+        all states
+       </strong>
+       – loading, error, empty, and results.
+       <strong>
+        A well-designed search enhances the user experience significantly.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module2-topic6-pagination.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Pagination
+      </a>
+      <a class="btn btn-primary btn-sm" href="module2-topic8-caching.html">
+       Next: Caching
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module2-state-management.html">
+         Module 2
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/cookbook" style="color: var(--text-muted);" target="_blank">
+       Flutter Cookbook
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1692,8 +3040,8 @@
       });
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1766,8 +3114,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1840,5 +3189,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

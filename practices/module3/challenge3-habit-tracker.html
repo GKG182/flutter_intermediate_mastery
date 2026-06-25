@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Habit Tracker – Module 3 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build a Habit Tracker app using Hive for local storage with streak tracking in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Habit Tracker – Module 3 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build a Habit Tracker app using Hive for local storage with streak tracking in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -343,8 +344,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -407,139 +408,368 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 3 · Challenge 3
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Habit Tracker</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> Local Storage</span>
-<span class="meta-item"><strong>Concepts:</strong> Hive, Streak Tracking, Date Logic</span>
-<span class="meta-item"><strong>Est. Time:</strong> 35-45 min</span>
-<span class="meta-item"><span class="storage-tag">📦 Hive</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build a <strong>Habit Tracker</strong> app that helps users track their
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 3 · Challenge 3
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Habit Tracker
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         Local Storage
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         Hive, Streak Tracking, Date Logic
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         35-45 min
+        </span>
+        <span class="meta-item">
+         <span class="storage-tag">
+          📦 Hive
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build a
+        <strong>
+         Habit Tracker
+        </strong>
+        app that helps users track their
               daily habits and maintain streaks. All data should be stored locally
-              using <strong>Hive</strong> as the local database.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Create a <strong>Habit</strong> model with <code>id</code>, <code>name</code>, <code>icon</code>, <code>color</code>, <code>createdAt</code></li>
-<li>Create a <strong>HabitLog</strong> model to track daily completion</li>
-<li>Use <strong>Hive</strong> for local storage with custom adapters</li>
-<li>Use <strong>Riverpod</strong> for state management</li>
-<li>Display a <strong>dashboard</strong> showing all habits with:
-                  <ul>
-<li>Current streak count</li>
-<li>Today's completion status</li>
-<li>Weekly progress indicator</li>
-</ul>
-</li>
-<li>Allow users to <strong>toggle completion</strong> for today</li>
-<li>Show a <strong>history view</strong> (last 7 days) with visual indicators</li>
-<li>Calculate <strong>streaks</strong> correctly (consecutive days)</li>
-<li>Handle <strong>empty state</strong> when no habits exist</li>
-</ul>
-</div>
-<div class="api-box">
-<h4>📦 Hive Setup</h4>
-<p><strong>Hive</strong> is a lightweight, fast key-value database for Flutter.</p>
-<div class="endpoint">flutter pub add hive_flutter hive_generator build_runner</div>
-<div class="api-note">
-                💡 <strong>Note:</strong> Use type adapters for both Habit and HabitLog models.
-              </div>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://pub.dev/packages/hive" target="_blank">Hive Package</a></li>
-<li><a href="https://pub.dev/packages/hive_flutter" target="_blank">Hive Flutter</a></li>
-<li><a href="https://docs.hivedb.dev/" target="_blank">Hive Documentation</a></li>
-<li><a href="https://riverpod.dev/" target="_blank">Riverpod Documentation</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Use two Hive boxes: one for habits and one for habit logs.
+              using
+        <strong>
+         Hive
+        </strong>
+        as the local database.
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Create a
+          <strong>
+           Habit
+          </strong>
+          model with
+          <code>
+           id
+          </code>
+          ,
+          <code>
+           name
+          </code>
+          ,
+          <code>
+           icon
+          </code>
+          ,
+          <code>
+           color
+          </code>
+          ,
+          <code>
+           createdAt
+          </code>
+         </li>
+         <li>
+          Create a
+          <strong>
+           HabitLog
+          </strong>
+          model to track daily completion
+         </li>
+         <li>
+          Use
+          <strong>
+           Hive
+          </strong>
+          for local storage with custom adapters
+         </li>
+         <li>
+          Use
+          <strong>
+           Riverpod
+          </strong>
+          for state management
+         </li>
+         <li>
+          Display a
+          <strong>
+           dashboard
+          </strong>
+          showing all habits with:
+          <ul>
+           <li>
+            Current streak count
+           </li>
+           <li>
+            Today's completion status
+           </li>
+           <li>
+            Weekly progress indicator
+           </li>
+          </ul>
+         </li>
+         <li>
+          Allow users to
+          <strong>
+           toggle completion
+          </strong>
+          for today
+         </li>
+         <li>
+          Show a
+          <strong>
+           history view
+          </strong>
+          (last 7 days) with visual indicators
+         </li>
+         <li>
+          Calculate
+          <strong>
+           streaks
+          </strong>
+          correctly (consecutive days)
+         </li>
+         <li>
+          Handle
+          <strong>
+           empty state
+          </strong>
+          when no habits exist
+         </li>
+        </ul>
+       </div>
+       <div class="api-box">
+        <h4>
+         📦 Hive Setup
+        </h4>
+        <p>
+         <strong>
+          Hive
+         </strong>
+         is a lightweight, fast key-value database for Flutter.
+        </p>
+        <div class="endpoint">
+         flutter pub add hive_flutter hive_generator build_runner
+        </div>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         Use type adapters for both Habit and HabitLog models.
+        </div>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://pub.dev/packages/hive" target="_blank">
+           Hive Package
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/hive_flutter" target="_blank">
+           Hive Flutter
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.hivedb.dev/" target="_blank">
+           Hive Documentation
+          </a>
+         </li>
+         <li>
+          <a href="https://riverpod.dev/" target="_blank">
+           Riverpod Documentation
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Use two Hive boxes: one for habits and one for habit logs.
                   For streak calculation, check if the habit was completed yesterday, then count backwards.
-                  Use <code>DateTime.now().difference()</code> to check dates. Create a <code>HabitLog</code>
-                  with <code>habitId</code>, <code>date</code>, and <code>isCompleted</code>.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+                  Use
+          <code>
+           DateTime.now().difference()
+          </code>
+          to check dates. Create a
+          <code>
+           HabitLog
+          </code>
+          with
+          <code>
+           habitId
+          </code>
+          ,
+          <code>
+           date
+          </code>
+          , and
+          <code>
+           isCompleted
+          </code>
+          .
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
@@ -552,484 +782,2053 @@
       sdk: flutter
     build_runner: ^2.4.0
     hive_generator: ^2.0.1
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Habit Model (lib/models/habit.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/habit.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:uuid/uuid.dart'</span>;
-
-  <span class="annotation">@HiveType(typeId: 0)</span>
-<span class="keyword">class</span> <span class="function">Habit</span> {
-    <span class="annotation">@HiveField(0)</span>
-<span class="keyword">final</span> String id;
-
-    <span class="annotation">@HiveField(1)</span>
-<span class="keyword">final</span> String name;
-
-    <span class="annotation">@HiveField(2)</span>
-<span class="keyword">final</span> String icon;
-
-    <span class="annotation">@HiveField(3)</span>
-<span class="keyword">final</span> <span class="keyword">int</span> colorValue;
-
-    <span class="annotation">@HiveField(4)</span>
-<span class="keyword">final</span> DateTime createdAt;
-
-    <span class="function">Habit</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.name,
-      <span class="keyword">required</span> <span class="keyword">this</span>.icon,
-      <span class="keyword">required</span> <span class="keyword">this</span>.colorValue,
-      <span class="keyword">required</span> <span class="keyword">this</span>.createdAt,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Habit Model (lib/models/habit.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/habit.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:hive_flutter/hive_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:uuid/uuid.dart'
+           </span>
+           ;
+           <span class="annotation">
+            @HiveType(typeId: 0)
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Habit
+           </span>
+           {
+           <span class="annotation">
+            @HiveField(0)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           String id;
+           <span class="annotation">
+            @HiveField(1)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           String name;
+           <span class="annotation">
+            @HiveField(2)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           String icon;
+           <span class="annotation">
+            @HiveField(3)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           colorValue;
+           <span class="annotation">
+            @HiveField(4)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           DateTime createdAt;
+           <span class="function">
+            Habit
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .name,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .icon,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .colorValue,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .createdAt,
     });
-
-    <span class="function">Habit.create</span>({
-      <span class="keyword">required</span> String name,
-      <span class="keyword">required</span> String icon,
-      <span class="keyword">required</span> <span class="keyword">int</span> colorValue,
-    }) : <span class="keyword">this</span>(
-      id: <span class="function">Uuid</span>().<span class="function">v4</span>(),
+           <span class="function">
+            Habit.create
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String name,
+           <span class="keyword">
+            required
+           </span>
+           String icon,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           colorValue,
+    }) :
+           <span class="keyword">
+            this
+           </span>
+           (
+      id:
+           <span class="function">
+            Uuid
+           </span>
+           ().
+           <span class="function">
+            v4
+           </span>
+           (),
       name: name,
       icon: icon,
       colorValue: colorValue,
-      createdAt: DateTime.<span class="function">now</span>(),
+      createdAt: DateTime.
+           <span class="function">
+            now
+           </span>
+           (),
     );
 
-    Habit <span class="function">copyWith</span>({
+    Habit
+           <span class="function">
+            copyWith
+           </span>
+           ({
       String? name,
       String? icon,
-      <span class="keyword">int</span>? colorValue,
+           <span class="keyword">
+            int
+           </span>
+           ? colorValue,
     }) {
-      <span class="keyword">return</span> Habit(
-        id: <span class="keyword">this</span>.id,
-        name: name ?? <span class="keyword">this</span>.name,
-        icon: icon ?? <span class="keyword">this</span>.icon,
-        colorValue: colorValue ?? <span class="keyword">this</span>.colorValue,
-        createdAt: <span class="keyword">this</span>.createdAt,
+           <span class="keyword">
+            return
+           </span>
+           Habit(
+        id:
+           <span class="keyword">
+            this
+           </span>
+           .id,
+        name: name ??
+           <span class="keyword">
+            this
+           </span>
+           .name,
+        icon: icon ??
+           <span class="keyword">
+            this
+           </span>
+           .icon,
+        colorValue: colorValue ??
+           <span class="keyword">
+            this
+           </span>
+           .colorValue,
+        createdAt:
+           <span class="keyword">
+            this
+           </span>
+           .createdAt,
       );
     }
 
-    Color <span class="function">getColor</span>() =&gt; Color(colorValue);
-
-    <span class="keyword">static</span> List&lt;String&gt; get icons =&gt; [
-      <span class="string">'🏃'</span>, <span class="string">'📚'</span>, <span class="string">'💪'</span>, <span class="string">'🧘'</span>, <span class="string">'🥗'</span>,
-      <span class="string">'💧'</span>, <span class="string">'✍️'</span>, <span class="string">'🎯'</span>, <span class="string">'🎨'</span>, <span class="string">'🧠'</span>,
-      <span class="string">'🌅'</span>, <span class="string">'🧹'</span>, <span class="string">'🎵'</span>, <span class="string">'📱'</span>, <span class="string">'🤝'</span>,
+    Color
+           <span class="function">
+            getColor
+           </span>
+           () =&gt; Color(colorValue);
+           <span class="keyword">
+            static
+           </span>
+           List&lt;String&gt; get icons =&gt; [
+           <span class="string">
+            '🏃'
+           </span>
+           ,
+           <span class="string">
+            '📚'
+           </span>
+           ,
+           <span class="string">
+            '💪'
+           </span>
+           ,
+           <span class="string">
+            '🧘'
+           </span>
+           ,
+           <span class="string">
+            '🥗'
+           </span>
+           ,
+           <span class="string">
+            '💧'
+           </span>
+           ,
+           <span class="string">
+            '✍️'
+           </span>
+           ,
+           <span class="string">
+            '🎯'
+           </span>
+           ,
+           <span class="string">
+            '🎨'
+           </span>
+           ,
+           <span class="string">
+            '🧠'
+           </span>
+           ,
+           <span class="string">
+            '🌅'
+           </span>
+           ,
+           <span class="string">
+            '🧹'
+           </span>
+           ,
+           <span class="string">
+            '🎵'
+           </span>
+           ,
+           <span class="string">
+            '📱'
+           </span>
+           ,
+           <span class="string">
+            '🤝'
+           </span>
+           ,
     ];
-
-    <span class="keyword">static</span> List&lt;<span class="keyword">int</span>&gt; get colors =&gt; [
-      <span class="number">0xFFEF4444</span>, <span class="number">0xFFF59E0B</span>, <span class="number">0xFF10B981</span>, <span class="number">0xFF3B82F6</span>,
-      <span class="number">0xFF8B5CF6</span>, <span class="number">0xFFEC4899</span>, <span class="number">0xFF14B8A6</span>, <span class="number">0xFFF97316</span>,
+           <span class="keyword">
+            static
+           </span>
+           List&lt;
+           <span class="keyword">
+            int
+           </span>
+           &gt; get colors =&gt; [
+           <span class="number">
+            0xFFEF4444
+           </span>
+           ,
+           <span class="number">
+            0xFFF59E0B
+           </span>
+           ,
+           <span class="number">
+            0xFF10B981
+           </span>
+           ,
+           <span class="number">
+            0xFF3B82F6
+           </span>
+           ,
+           <span class="number">
+            0xFF8B5CF6
+           </span>
+           ,
+           <span class="number">
+            0xFFEC4899
+           </span>
+           ,
+           <span class="number">
+            0xFF14B8A6
+           </span>
+           ,
+           <span class="number">
+            0xFFF97316
+           </span>
+           ,
     ];
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Habit Log Model (lib/models/habit_log.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/habit_log.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
-
-  <span class="annotation">@HiveType(typeId: 1)</span>
-<span class="keyword">class</span> <span class="function">HabitLog</span> {
-    <span class="annotation">@HiveField(0)</span>
-<span class="keyword">final</span> String habitId;
-
-    <span class="annotation">@HiveField(1)</span>
-<span class="keyword">final</span> DateTime date;
-
-    <span class="annotation">@HiveField(2)</span>
-<span class="keyword">final</span> <span class="keyword">bool</span> isCompleted;
-
-    <span class="function">HabitLog</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.habitId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.date,
-      <span class="keyword">required</span> <span class="keyword">this</span>.isCompleted,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Habit Log Model (lib/models/habit_log.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/habit_log.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:hive_flutter/hive_flutter.dart'
+           </span>
+           ;
+           <span class="annotation">
+            @HiveType(typeId: 1)
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HabitLog
+           </span>
+           {
+           <span class="annotation">
+            @HiveField(0)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           String habitId;
+           <span class="annotation">
+            @HiveField(1)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           DateTime date;
+           <span class="annotation">
+            @HiveField(2)
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isCompleted;
+           <span class="function">
+            HabitLog
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .habitId,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .date,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .isCompleted,
     });
-
-    <span class="function">HabitLog.completed</span>({
-      <span class="keyword">required</span> String habitId,
-    }) : <span class="keyword">this</span>(
+           <span class="function">
+            HabitLog.completed
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String habitId,
+    }) :
+           <span class="keyword">
+            this
+           </span>
+           (
       habitId: habitId,
-      date: DateTime.<span class="function">now</span>(),
-      isCompleted: <span class="keyword">true</span>,
+      date: DateTime.
+           <span class="function">
+            now
+           </span>
+           (),
+      isCompleted:
+           <span class="keyword">
+            true
+           </span>
+           ,
+    );
+           <span class="function">
+            HabitLog.incomplete
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           String habitId,
+    }) :
+           <span class="keyword">
+            this
+           </span>
+           (
+      habitId: habitId,
+      date: DateTime.
+           <span class="function">
+            now
+           </span>
+           (),
+      isCompleted:
+           <span class="keyword">
+            false
+           </span>
+           ,
     );
 
-    <span class="function">HabitLog.incomplete</span>({
-      <span class="keyword">required</span> String habitId,
-    }) : <span class="keyword">this</span>(
-      habitId: habitId,
-      date: DateTime.<span class="function">now</span>(),
-      isCompleted: <span class="keyword">false</span>,
-    );
-
-    HabitLog <span class="function">copyWith</span>({
+    HabitLog
+           <span class="function">
+            copyWith
+           </span>
+           ({
       String? habitId,
       DateTime? date,
-      <span class="keyword">bool</span>? isCompleted,
+           <span class="keyword">
+            bool
+           </span>
+           ? isCompleted,
     }) {
-      <span class="keyword">return</span> HabitLog(
-        habitId: habitId ?? <span class="keyword">this</span>.habitId,
-        date: date ?? <span class="keyword">this</span>.date,
-        isCompleted: isCompleted ?? <span class="keyword">this</span>.isCompleted,
+           <span class="keyword">
+            return
+           </span>
+           HabitLog(
+        habitId: habitId ??
+           <span class="keyword">
+            this
+           </span>
+           .habitId,
+        date: date ??
+           <span class="keyword">
+            this
+           </span>
+           .date,
+        isCompleted: isCompleted ??
+           <span class="keyword">
+            this
+           </span>
+           .isCompleted,
       );
     }
-
-    <span class="keyword">static</span> <span class="keyword">bool</span> <span class="function">isToday</span>(DateTime date) {
-      <span class="keyword">final</span> now = DateTime.<span class="function">now</span>();
-      <span class="keyword">return</span> date.year == now.year &amp;&amp;
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            isToday
+           </span>
+           (DateTime date) {
+           <span class="keyword">
+            final
+           </span>
+           now = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           date.year == now.year &amp;&amp;
           date.month == now.month &amp;&amp;
           date.day == now.day;
     }
-
-    <span class="keyword">static</span> DateTime <span class="function">getDateFor</span>(<span class="keyword">int</span> daysAgo) {
-      <span class="keyword">return</span> DateTime.<span class="function">now</span>().<span class="function">subtract</span>(Duration(days: daysAgo));
+           <span class="keyword">
+            static
+           </span>
+           DateTime
+           <span class="function">
+            getDateFor
+           </span>
+           (
+           <span class="keyword">
+            int
+           </span>
+           daysAgo) {
+           <span class="keyword">
+            return
+           </span>
+           DateTime.
+           <span class="function">
+            now
+           </span>
+           ().
+           <span class="function">
+            subtract
+           </span>
+           (Duration(days: daysAgo));
     }
-
-    <span class="keyword">static</span> List&lt;DateTime&gt; <span class="function">getLast7Days</span>() {
-      <span class="keyword">return</span> List.<span class="function">generate</span>(<span class="number">7</span>, (i) =&gt; <span class="function">getDateFor</span>(<span class="number">6</span> - i));
+           <span class="keyword">
+            static
+           </span>
+           List&lt;DateTime&gt;
+           <span class="function">
+            getLast7Days
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           List.
+           <span class="function">
+            generate
+           </span>
+           (
+           <span class="number">
+            7
+           </span>
+           , (i) =&gt;
+           <span class="function">
+            getDateFor
+           </span>
+           (
+           <span class="number">
+            6
+           </span>
+           - i));
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Hive Adapters (Generated)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/habit.g.dart (Generated)</span>
-<code>
-<span class="comment">// GENERATED CODE - DO NOT MODIFY BY HAND</span>
-<span class="keyword">part of</span> <span class="string">'habit.dart'</span>;
-
-  <span class="comment">// **************************************************************************</span>
-<span class="comment">// TypeAdapterGenerator</span>
-<span class="comment">// **************************************************************************</span>
-<span class="keyword">class</span> <span class="function">HabitAdapter</span> <span class="keyword">extends</span> TypeAdapter&lt;Habit&gt; {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Hive Adapters (Generated)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/habit.g.dart (Generated)
+          </span>
+          <code>
+           <span class="comment">
+            // GENERATED CODE - DO NOT MODIFY BY HAND
+           </span>
+           <span class="keyword">
+            part of
+           </span>
+           <span class="string">
+            'habit.dart'
+           </span>
+           ;
+           <span class="comment">
+            // **************************************************************************
+           </span>
+           <span class="comment">
+            // TypeAdapterGenerator
+           </span>
+           <span class="comment">
+            // **************************************************************************
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HabitAdapter
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           TypeAdapter&lt;Habit&gt; {
     @override
-    <span class="keyword">final</span> <span class="keyword">int</span> typeId = <span class="number">0</span>;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           typeId =
+           <span class="number">
+            0
+           </span>
+           ;
 
     @override
-    Habit <span class="function">read</span>(BinaryReader reader) {
-      <span class="keyword">final</span> numOfFields = reader.<span class="function">readByte</span>();
-      <span class="keyword">final</span> fields = &lt;<span class="keyword">int</span>, dynamic&gt;{};
-      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numOfFields; i++) {
-        <span class="keyword">final</span> index = reader.<span class="function">readByte</span>();
-        <span class="keyword">final</span> value = reader.<span class="function">read</span>();
+    Habit
+           <span class="function">
+            read
+           </span>
+           (BinaryReader reader) {
+           <span class="keyword">
+            final
+           </span>
+           numOfFields = reader.
+           <span class="function">
+            readByte
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           fields = &lt;
+           <span class="keyword">
+            int
+           </span>
+           , dynamic&gt;{};
+           <span class="keyword">
+            for
+           </span>
+           (
+           <span class="keyword">
+            int
+           </span>
+           i =
+           <span class="number">
+            0
+           </span>
+           ; i &lt; numOfFields; i++) {
+           <span class="keyword">
+            final
+           </span>
+           index = reader.
+           <span class="function">
+            readByte
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           value = reader.
+           <span class="function">
+            read
+           </span>
+           ();
         fields[index] = value;
       }
-      <span class="keyword">return</span> Habit(
-        id: fields[<span class="number">0</span>] <span class="keyword">as</span> String,
-        name: fields[<span class="number">1</span>] <span class="keyword">as</span> String,
-        icon: fields[<span class="number">2</span>] <span class="keyword">as</span> String,
-        colorValue: fields[<span class="number">3</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
-        createdAt: fields[<span class="number">4</span>] <span class="keyword">as</span> DateTime,
+           <span class="keyword">
+            return
+           </span>
+           Habit(
+        id: fields[
+           <span class="number">
+            0
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        name: fields[
+           <span class="number">
+            1
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        icon: fields[
+           <span class="number">
+            2
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        colorValue: fields[
+           <span class="number">
+            3
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           ,
+        createdAt: fields[
+           <span class="number">
+            4
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           DateTime,
       );
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">write</span>(BinaryWriter writer, Habit obj) {
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            write
+           </span>
+           (BinaryWriter writer, Habit obj) {
       writer
-        ..<span class="function">writeByte</span>(<span class="number">5</span>)
-        ..<span class="function">writeByte</span>(<span class="number">0</span>)
-        ..<span class="function">write</span>(obj.id)
-        ..<span class="function">writeByte</span>(<span class="number">1</span>)
-        ..<span class="function">write</span>(obj.name)
-        ..<span class="function">writeByte</span>(<span class="number">2</span>)
-        ..<span class="function">write</span>(obj.icon)
-        ..<span class="function">writeByte</span>(<span class="number">3</span>)
-        ..<span class="function">write</span>(obj.colorValue)
-        ..<span class="function">writeByte</span>(<span class="number">4</span>)
-        ..<span class="function">write</span>(obj.createdAt);
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            5
+           </span>
+           )
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            0
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.id)
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            1
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.name)
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            2
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.icon)
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            3
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.colorValue)
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            4
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.createdAt);
     }
 
     @override
-    <span class="keyword">int</span> get hashCode =&gt; typeId.hashCode;
+           <span class="keyword">
+            int
+           </span>
+           get hashCode =&gt; typeId.hashCode;
 
     @override
-    <span class="keyword">bool</span> <span class="function">operator ==</span>(Object other) =&gt;
-        other <span class="keyword">is</span> HabitAdapter &amp;&amp; other.typeId == typeId;
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            operator ==
+           </span>
+           (Object other) =&gt;
+        other
+           <span class="keyword">
+            is
+           </span>
+           HabitAdapter &amp;&amp; other.typeId == typeId;
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block">
-<span class="code-label">lib/models/habit_log.g.dart (Generated)</span>
-<code>
-<span class="comment">// GENERATED CODE - DO NOT MODIFY BY HAND</span>
-<span class="keyword">part of</span> <span class="string">'habit_log.dart'</span>;
-
-  <span class="comment">// **************************************************************************</span>
-<span class="comment">// TypeAdapterGenerator</span>
-<span class="comment">// **************************************************************************</span>
-<span class="keyword">class</span> <span class="function">HabitLogAdapter</span> <span class="keyword">extends</span> TypeAdapter&lt;HabitLog&gt; {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/habit_log.g.dart (Generated)
+          </span>
+          <code>
+           <span class="comment">
+            // GENERATED CODE - DO NOT MODIFY BY HAND
+           </span>
+           <span class="keyword">
+            part of
+           </span>
+           <span class="string">
+            'habit_log.dart'
+           </span>
+           ;
+           <span class="comment">
+            // **************************************************************************
+           </span>
+           <span class="comment">
+            // TypeAdapterGenerator
+           </span>
+           <span class="comment">
+            // **************************************************************************
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HabitLogAdapter
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           TypeAdapter&lt;HabitLog&gt; {
     @override
-    <span class="keyword">final</span> <span class="keyword">int</span> typeId = <span class="number">1</span>;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           typeId =
+           <span class="number">
+            1
+           </span>
+           ;
 
     @override
-    HabitLog <span class="function">read</span>(BinaryReader reader) {
-      <span class="keyword">final</span> numOfFields = reader.<span class="function">readByte</span>();
-      <span class="keyword">final</span> fields = &lt;<span class="keyword">int</span>, dynamic&gt;{};
-      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numOfFields; i++) {
-        <span class="keyword">final</span> index = reader.<span class="function">readByte</span>();
-        <span class="keyword">final</span> value = reader.<span class="function">read</span>();
+    HabitLog
+           <span class="function">
+            read
+           </span>
+           (BinaryReader reader) {
+           <span class="keyword">
+            final
+           </span>
+           numOfFields = reader.
+           <span class="function">
+            readByte
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           fields = &lt;
+           <span class="keyword">
+            int
+           </span>
+           , dynamic&gt;{};
+           <span class="keyword">
+            for
+           </span>
+           (
+           <span class="keyword">
+            int
+           </span>
+           i =
+           <span class="number">
+            0
+           </span>
+           ; i &lt; numOfFields; i++) {
+           <span class="keyword">
+            final
+           </span>
+           index = reader.
+           <span class="function">
+            readByte
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           value = reader.
+           <span class="function">
+            read
+           </span>
+           ();
         fields[index] = value;
       }
-      <span class="keyword">return</span> HabitLog(
-        habitId: fields[<span class="number">0</span>] <span class="keyword">as</span> String,
-        date: fields[<span class="number">1</span>] <span class="keyword">as</span> DateTime,
-        isCompleted: fields[<span class="number">2</span>] <span class="keyword">as</span> <span class="keyword">bool</span>,
+           <span class="keyword">
+            return
+           </span>
+           HabitLog(
+        habitId: fields[
+           <span class="number">
+            0
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           String,
+        date: fields[
+           <span class="number">
+            1
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           DateTime,
+        isCompleted: fields[
+           <span class="number">
+            2
+           </span>
+           ]
+           <span class="keyword">
+            as
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           ,
       );
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">write</span>(BinaryWriter writer, HabitLog obj) {
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            write
+           </span>
+           (BinaryWriter writer, HabitLog obj) {
       writer
-        ..<span class="function">writeByte</span>(<span class="number">3</span>)
-        ..<span class="function">writeByte</span>(<span class="number">0</span>)
-        ..<span class="function">write</span>(obj.habitId)
-        ..<span class="function">writeByte</span>(<span class="number">1</span>)
-        ..<span class="function">write</span>(obj.date)
-        ..<span class="function">writeByte</span>(<span class="number">2</span>)
-        ..<span class="function">write</span>(obj.isCompleted);
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            3
+           </span>
+           )
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            0
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.habitId)
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            1
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.date)
+        ..
+           <span class="function">
+            writeByte
+           </span>
+           (
+           <span class="number">
+            2
+           </span>
+           )
+        ..
+           <span class="function">
+            write
+           </span>
+           (obj.isCompleted);
     }
 
     @override
-    <span class="keyword">int</span> get hashCode =&gt; typeId.hashCode;
+           <span class="keyword">
+            int
+           </span>
+           get hashCode =&gt; typeId.hashCode;
 
     @override
-    <span class="keyword">bool</span> <span class="function">operator ==</span>(Object other) =&gt;
-        other <span class="keyword">is</span> HabitLogAdapter &amp;&amp; other.typeId == typeId;
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            operator ==
+           </span>
+           (Object other) =&gt;
+        other
+           <span class="keyword">
+            is
+           </span>
+           HabitLogAdapter &amp;&amp; other.typeId == typeId;
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Habit Provider (lib/providers/habit_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/habit_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/habit.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/habit_log.dart'</span>;
-
-  <span class="keyword">final</span> habitBoxProvider = Provider&lt;Box&lt;Habit&gt;&gt;((ref) {
-    <span class="keyword">return</span> Hive.<span class="function">box</span>&lt;Habit&gt;(<span class="string">'habits'</span>);
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Habit Provider (lib/providers/habit_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/habit_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:hive_flutter/hive_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/habit.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/habit_log.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           habitBoxProvider = Provider&lt;Box&lt;Habit&gt;&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           Hive.
+           <span class="function">
+            box
+           </span>
+           &lt;Habit&gt;(
+           <span class="string">
+            'habits'
+           </span>
+           );
   });
-
-  <span class="keyword">final</span> habitLogBoxProvider = Provider&lt;Box&lt;HabitLog&gt;&gt;((ref) {
-    <span class="keyword">return</span> Hive.<span class="function">box</span>&lt;HabitLog&gt;(<span class="string">'habit_logs'</span>);
+           <span class="keyword">
+            final
+           </span>
+           habitLogBoxProvider = Provider&lt;Box&lt;HabitLog&gt;&gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           Hive.
+           <span class="function">
+            box
+           </span>
+           &lt;HabitLog&gt;(
+           <span class="string">
+            'habit_logs'
+           </span>
+           );
   });
-
-  <span class="keyword">class</span> <span class="function">HabitNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;List&lt;Habit&gt;&gt; {
-    <span class="keyword">final</span> Box&lt;Habit&gt; _habitBox;
-    <span class="keyword">final</span> Box&lt;HabitLog&gt; _logBox;
-
-    <span class="function">HabitNotifier</span>(<span class="keyword">this</span>._habitBox, <span class="keyword">this</span>._logBox) : <span class="keyword">super</span>(<span class="keyword">const</span> []) {
-      <span class="function">_loadHabits</span>();
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HabitNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;List&lt;Habit&gt;&gt; {
+           <span class="keyword">
+            final
+           </span>
+           Box&lt;Habit&gt; _habitBox;
+           <span class="keyword">
+            final
+           </span>
+           Box&lt;HabitLog&gt; _logBox;
+           <span class="function">
+            HabitNotifier
+           </span>
+           (
+           <span class="keyword">
+            this
+           </span>
+           ._habitBox,
+           <span class="keyword">
+            this
+           </span>
+           ._logBox) :
+           <span class="keyword">
+            super
+           </span>
+           (
+           <span class="keyword">
+            const
+           </span>
+           []) {
+           <span class="function">
+            _loadHabits
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">_loadHabits</span>() {
-      state = _habitBox.values.<span class="function">toList</span>()
-        ..<span class="function">sort</span>((a, b) =&gt; a.createdAt.<span class="function">compareTo</span>(b.createdAt));
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _loadHabits
+           </span>
+           () {
+      state = _habitBox.values.
+           <span class="function">
+            toList
+           </span>
+           ()
+        ..
+           <span class="function">
+            sort
+           </span>
+           ((a, b) =&gt; a.createdAt.
+           <span class="function">
+            compareTo
+           </span>
+           (b.createdAt));
     }
-
-    <span class="keyword">void</span> <span class="function">addHabit</span>(String name, String icon, <span class="keyword">int</span> colorValue) {
-      <span class="keyword">final</span> habit = Habit.<span class="function">create</span>(
-        name: name.<span class="function">trim</span>(),
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            addHabit
+           </span>
+           (String name, String icon,
+           <span class="keyword">
+            int
+           </span>
+           colorValue) {
+           <span class="keyword">
+            final
+           </span>
+           habit = Habit.
+           <span class="function">
+            create
+           </span>
+           (
+        name: name.
+           <span class="function">
+            trim
+           </span>
+           (),
         icon: icon,
         colorValue: colorValue,
       );
-      _habitBox.<span class="function">add</span>(habit);
-      <span class="function">_loadHabits</span>();
+      _habitBox.
+           <span class="function">
+            add
+           </span>
+           (habit);
+           <span class="function">
+            _loadHabits
+           </span>
+           ();
     }
-
-    <span class="keyword">void</span> <span class="function">deleteHabit</span>(Habit habit) {
-      <span class="keyword">final</span> index = _habitBox.values.<span class="function">toList</span>().<span class="function">indexOf</span>(habit);
-      <span class="keyword">if</span> (index != -<span class="number">1</span>) {
-        <span class="comment">// Delete all logs for this habit</span>
-<span class="keyword">final</span> logsToDelete = _logBox.values
-            .<span class="function">where</span>((log) =&gt; log.habitId == habit.id)
-            .<span class="function">toList</span>();
-        <span class="keyword">for</span> (<span class="keyword">var</span> log <span class="keyword">in</span> logsToDelete) {
-          <span class="keyword">final</span> logIndex = _logBox.values.<span class="function">toList</span>().<span class="function">indexOf</span>(log);
-          <span class="keyword">if</span> (logIndex != -<span class="number">1</span>) {
-            _logBox.<span class="function">deleteAt</span>(logIndex);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            deleteHabit
+           </span>
+           (Habit habit) {
+           <span class="keyword">
+            final
+           </span>
+           index = _habitBox.values.
+           <span class="function">
+            toList
+           </span>
+           ().
+           <span class="function">
+            indexOf
+           </span>
+           (habit);
+           <span class="keyword">
+            if
+           </span>
+           (index != -
+           <span class="number">
+            1
+           </span>
+           ) {
+           <span class="comment">
+            // Delete all logs for this habit
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           logsToDelete = _logBox.values
+            .
+           <span class="function">
+            where
+           </span>
+           ((log) =&gt; log.habitId == habit.id)
+            .
+           <span class="function">
+            toList
+           </span>
+           ();
+           <span class="keyword">
+            for
+           </span>
+           (
+           <span class="keyword">
+            var
+           </span>
+           log
+           <span class="keyword">
+            in
+           </span>
+           logsToDelete) {
+           <span class="keyword">
+            final
+           </span>
+           logIndex = _logBox.values.
+           <span class="function">
+            toList
+           </span>
+           ().
+           <span class="function">
+            indexOf
+           </span>
+           (log);
+           <span class="keyword">
+            if
+           </span>
+           (logIndex != -
+           <span class="number">
+            1
+           </span>
+           ) {
+            _logBox.
+           <span class="function">
+            deleteAt
+           </span>
+           (logIndex);
           }
         }
-        _habitBox.<span class="function">deleteAt</span>(index);
-        <span class="function">_loadHabits</span>();
+        _habitBox.
+           <span class="function">
+            deleteAt
+           </span>
+           (index);
+           <span class="function">
+            _loadHabits
+           </span>
+           ();
       }
     }
-
-    <span class="keyword">void</span> <span class="function">toggleHabit</span>(String habitId) {
-      <span class="keyword">final</span> today = DateTime.<span class="function">now</span>();
-      <span class="keyword">final</span> existingLog = _logBox.values
-          .<span class="function">firstWhere</span>(
-            (log) =&gt; log.habitId == habitId &amp;&amp; <span class="function">_isSameDay</span>(log.date, today),
-            orElse: () =&gt; <span class="keyword">throw</span> Exception(<span class="string">'Log not found'</span>),
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            toggleHabit
+           </span>
+           (String habitId) {
+           <span class="keyword">
+            final
+           </span>
+           today = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           existingLog = _logBox.values
+          .
+           <span class="function">
+            firstWhere
+           </span>
+           (
+            (log) =&gt; log.habitId == habitId &amp;&amp;
+           <span class="function">
+            _isSameDay
+           </span>
+           (log.date, today),
+            orElse: () =&gt;
+           <span class="keyword">
+            throw
+           </span>
+           Exception(
+           <span class="string">
+            'Log not found'
+           </span>
+           ),
           );
-
-      <span class="keyword">final</span> index = _logBox.values.<span class="function">toList</span>().<span class="function">indexOf</span>(existingLog);
-      <span class="keyword">if</span> (index != -<span class="number">1</span>) {
-        <span class="keyword">final</span> updatedLog = existingLog.<span class="function">copyWith</span>(
+           <span class="keyword">
+            final
+           </span>
+           index = _logBox.values.
+           <span class="function">
+            toList
+           </span>
+           ().
+           <span class="function">
+            indexOf
+           </span>
+           (existingLog);
+           <span class="keyword">
+            if
+           </span>
+           (index != -
+           <span class="number">
+            1
+           </span>
+           ) {
+           <span class="keyword">
+            final
+           </span>
+           updatedLog = existingLog.
+           <span class="function">
+            copyWith
+           </span>
+           (
           isCompleted: !existingLog.isCompleted,
         );
-        _logBox.<span class="function">putAt</span>(index, updatedLog);
+        _logBox.
+           <span class="function">
+            putAt
+           </span>
+           (index, updatedLog);
       }
     }
-
-    <span class="keyword">bool</span> <span class="function">_isSameDay</span>(DateTime a, DateTime b) {
-      <span class="keyword">return</span> a.year == b.year &amp;&amp; a.month == b.month &amp;&amp; a.day == b.day;
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            _isSameDay
+           </span>
+           (DateTime a, DateTime b) {
+           <span class="keyword">
+            return
+           </span>
+           a.year == b.year &amp;&amp; a.month == b.month &amp;&amp; a.day == b.day;
     }
-
-    <span class="keyword">int</span> <span class="function">getStreak</span>(String habitId) {
-      <span class="keyword">final</span> logs = _logBox.values
-          .<span class="function">where</span>((log) =&gt; log.habitId == habitId)
-          .<span class="function">toList</span>()
-        ..<span class="function">sort</span>((a, b) =&gt; b.date.<span class="function">compareTo</span>(a.date));
-
-      <span class="keyword">if</span> (logs.<span class="function">isEmpty</span>) <span class="keyword">return</span> <span class="number">0</span>;
-
-      <span class="keyword">int</span> streak = <span class="number">0</span>;
-      DateTime currentDate = DateTime.<span class="function">now</span>();
-
-      <span class="keyword">for</span> (<span class="keyword">var</span> log <span class="keyword">in</span> logs) {
-        <span class="keyword">if</span> (!<span class="function">_isSameDay</span>(log.date, currentDate) &amp;&amp;
-            currentDate.<span class="function">difference</span>(log.date).inDays &gt; <span class="number">1</span>) {
-          <span class="keyword">break</span>;
+           <span class="keyword">
+            int
+           </span>
+           <span class="function">
+            getStreak
+           </span>
+           (String habitId) {
+           <span class="keyword">
+            final
+           </span>
+           logs = _logBox.values
+          .
+           <span class="function">
+            where
+           </span>
+           ((log) =&gt; log.habitId == habitId)
+          .
+           <span class="function">
+            toList
+           </span>
+           ()
+        ..
+           <span class="function">
+            sort
+           </span>
+           ((a, b) =&gt; b.date.
+           <span class="function">
+            compareTo
+           </span>
+           (a.date));
+           <span class="keyword">
+            if
+           </span>
+           (logs.
+           <span class="function">
+            isEmpty
+           </span>
+           )
+           <span class="keyword">
+            return
+           </span>
+           <span class="number">
+            0
+           </span>
+           ;
+           <span class="keyword">
+            int
+           </span>
+           streak =
+           <span class="number">
+            0
+           </span>
+           ;
+      DateTime currentDate = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            for
+           </span>
+           (
+           <span class="keyword">
+            var
+           </span>
+           log
+           <span class="keyword">
+            in
+           </span>
+           logs) {
+           <span class="keyword">
+            if
+           </span>
+           (!
+           <span class="function">
+            _isSameDay
+           </span>
+           (log.date, currentDate) &amp;&amp;
+            currentDate.
+           <span class="function">
+            difference
+           </span>
+           (log.date).inDays &gt;
+           <span class="number">
+            1
+           </span>
+           ) {
+           <span class="keyword">
+            break
+           </span>
+           ;
         }
-        <span class="keyword">if</span> (log.isCompleted) {
+           <span class="keyword">
+            if
+           </span>
+           (log.isCompleted) {
           streak++;
           currentDate = log.date;
-        } <span class="keyword">else</span> {
-          <span class="keyword">break</span>;
+        }
+           <span class="keyword">
+            else
+           </span>
+           {
+           <span class="keyword">
+            break
+           </span>
+           ;
         }
       }
-
-      <span class="keyword">return</span> streak;
+           <span class="keyword">
+            return
+           </span>
+           streak;
     }
-
-    <span class="keyword">bool</span> <span class="function">isCompletedToday</span>(String habitId) {
-      <span class="keyword">final</span> today = DateTime.<span class="function">now</span>();
-      <span class="keyword">final</span> log = _logBox.values.<span class="function">firstWhere</span>(
-        (log) =&gt; log.habitId == habitId &amp;&amp; <span class="function">_isSameDay</span>(log.date, today),
-        orElse: () =&gt; <span class="function">HabitLog.incomplete</span>(habitId: habitId),
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            isCompletedToday
+           </span>
+           (String habitId) {
+           <span class="keyword">
+            final
+           </span>
+           today = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           log = _logBox.values.
+           <span class="function">
+            firstWhere
+           </span>
+           (
+        (log) =&gt; log.habitId == habitId &amp;&amp;
+           <span class="function">
+            _isSameDay
+           </span>
+           (log.date, today),
+        orElse: () =&gt;
+           <span class="function">
+            HabitLog.incomplete
+           </span>
+           (habitId: habitId),
       );
-      <span class="keyword">return</span> log.isCompleted;
+           <span class="keyword">
+            return
+           </span>
+           log.isCompleted;
     }
-
-    <span class="keyword">bool</span> <span class="function">wasCompletedOn</span>(String habitId, DateTime date) {
-      <span class="keyword">final</span> log = _logBox.values.<span class="function">firstWhere</span>(
-        (log) =&gt; log.habitId == habitId &amp;&amp; <span class="function">_isSameDay</span>(log.date, date),
-        orElse: () =&gt; <span class="function">HabitLog.incomplete</span>(habitId: habitId),
+           <span class="keyword">
+            bool
+           </span>
+           <span class="function">
+            wasCompletedOn
+           </span>
+           (String habitId, DateTime date) {
+           <span class="keyword">
+            final
+           </span>
+           log = _logBox.values.
+           <span class="function">
+            firstWhere
+           </span>
+           (
+        (log) =&gt; log.habitId == habitId &amp;&amp;
+           <span class="function">
+            _isSameDay
+           </span>
+           (log.date, date),
+        orElse: () =&gt;
+           <span class="function">
+            HabitLog.incomplete
+           </span>
+           (habitId: habitId),
       );
-      <span class="keyword">return</span> log.isCompleted;
+           <span class="keyword">
+            return
+           </span>
+           log.isCompleted;
     }
-
-    <span class="keyword">void</span> <span class="function">ensureTodayLog</span>(String habitId) {
-      <span class="keyword">final</span> today = DateTime.<span class="function">now</span>();
-      <span class="keyword">final</span> exists = _logBox.values.<span class="function">any</span>(
-        (log) =&gt; log.habitId == habitId &amp;&amp; <span class="function">_isSameDay</span>(log.date, today),
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            ensureTodayLog
+           </span>
+           (String habitId) {
+           <span class="keyword">
+            final
+           </span>
+           today = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           exists = _logBox.values.
+           <span class="function">
+            any
+           </span>
+           (
+        (log) =&gt; log.habitId == habitId &amp;&amp;
+           <span class="function">
+            _isSameDay
+           </span>
+           (log.date, today),
       );
-      <span class="keyword">if</span> (!exists) {
-        _logBox.<span class="function">add</span>(
-          <span class="function">HabitLog.incomplete</span>(habitId: habitId),
+           <span class="keyword">
+            if
+           </span>
+           (!exists) {
+        _logBox.
+           <span class="function">
+            add
+           </span>
+           (
+           <span class="function">
+            HabitLog.incomplete
+           </span>
+           (habitId: habitId),
         );
       }
     }
   }
-
-  <span class="keyword">final</span> habitProvider = StateNotifierProvider&lt;HabitNotifier, List&lt;Habit&gt;&gt;((ref) {
-    <span class="keyword">final</span> habitBox = ref.<span class="function">watch</span>(habitBoxProvider);
-    <span class="keyword">final</span> logBox = ref.<span class="function">watch</span>(habitLogBoxProvider);
-    <span class="keyword">return</span> <span class="function">HabitNotifier</span>(habitBox, logBox);
+           <span class="keyword">
+            final
+           </span>
+           habitProvider = StateNotifierProvider&lt;HabitNotifier, List&lt;Habit&gt;&gt;((ref) {
+           <span class="keyword">
+            final
+           </span>
+           habitBox = ref.
+           <span class="function">
+            watch
+           </span>
+           (habitBoxProvider);
+           <span class="keyword">
+            final
+           </span>
+           logBox = ref.
+           <span class="function">
+            watch
+           </span>
+           (habitLogBoxProvider);
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            HabitNotifier
+           </span>
+           (habitBox, logBox);
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Main App (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:hive_flutter/hive_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'models/habit.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'models/habit_log.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/home_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() <span class="keyword">async</span> {
-    WidgetsFlutterBinding.<span class="function">ensureInitialized</span>();
-    <span class="keyword">await</span> Hive.<span class="function">initFlutter</span>();
-    Hive.<span class="function">registerAdapter</span>(HabitAdapter());
-    Hive.<span class="function">registerAdapter</span>(HabitLogAdapter());
-    <span class="keyword">await</span> Hive.<span class="function">openBox</span>&lt;Habit&gt;(<span class="string">'habits'</span>);
-    <span class="keyword">await</span> Hive.<span class="function">openBox</span>&lt;HabitLog&gt;(<span class="string">'habit_logs'</span>);
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Main App (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:hive_flutter/hive_flutter.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'models/habit.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'models/habit_log.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/home_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+    WidgetsFlutterBinding.
+           <span class="function">
+            ensureInitialized
+           </span>
+           ();
+           <span class="keyword">
+            await
+           </span>
+           Hive.
+           <span class="function">
+            initFlutter
+           </span>
+           ();
+    Hive.
+           <span class="function">
+            registerAdapter
+           </span>
+           (HabitAdapter());
+    Hive.
+           <span class="function">
+            registerAdapter
+           </span>
+           (HabitLogAdapter());
+           <span class="keyword">
+            await
+           </span>
+           Hive.
+           <span class="function">
+            openBox
+           </span>
+           &lt;Habit&gt;(
+           <span class="string">
+            'habits'
+           </span>
+           );
+           <span class="keyword">
+            await
+           </span>
+           Hive.
+           <span class="function">
+            openBox
+           </span>
+           &lt;HabitLog&gt;(
+           <span class="string">
+            'habit_logs'
+           </span>
+           );
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Habit Tracker'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Habit Tracker'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
-        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
+        debugShowCheckedModeBanner:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">7. Home Screen (lib/screens/home_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/home_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/habit.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/habit_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'add_habit_screen.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/habit_card.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/weekly_chart.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          7. Home Screen (lib/screens/home_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/home_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/habit.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/habit_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'add_habit_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/habit_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/weekly_chart.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">int</span> _selectedIndex = <span class="number">0</span>;
-
-    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Widget&gt; _screens = [
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            int
+           </span>
+           _selectedIndex =
+           <span class="number">
+            0
+           </span>
+           ;
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Widget&gt; _screens = [
       _HabitsListScreen(),
       _WeeklyViewScreen(),
     ];
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'✅ Habit Tracker'</span>),
+          title: Text(
+           <span class="string">
+            '✅ Habit Tracker'
+           </span>
+           ),
           backgroundColor: Colors.purple,
           foregroundColor: Colors.white,
           actions: [
             IconButton(
-              onPressed: () =&gt; ref.<span class="function">invalidate</span>(habitProvider),
+              onPressed: () =&gt; ref.
+           <span class="function">
+            invalidate
+           </span>
+           (habitProvider),
               icon: Icon(Icons.refresh),
-              tooltip: <span class="string">'Refresh'</span>,
+              tooltip:
+           <span class="string">
+            'Refresh'
+           </span>
+           ,
             ),
           ],
         ),
@@ -1037,82 +2836,193 @@
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: (index) =&gt; setState(() =&gt; _selectedIndex = index),
-          items: <span class="keyword">const</span> [
+          items:
+           <span class="keyword">
+            const
+           </span>
+           [
             BottomNavigationBarItem(
               icon: Icon(Icons.dashboard),
-              label: <span class="string">'Dashboard'</span>,
+              label:
+           <span class="string">
+            'Dashboard'
+           </span>
+           ,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
-              label: <span class="string">'Weekly View'</span>,
+              label:
+           <span class="string">
+            'Weekly View'
+           </span>
+           ,
             ),
           ],
           selectedItemColor: Colors.purple,
         ),
-        floatingActionButton: _selectedIndex == <span class="number">0</span>
-            ? FloatingActionButton(
+        floatingActionButton: _selectedIndex ==
+           <span class="number">
+            0
+           </span>
+           ? FloatingActionButton(
                 onPressed: () =&gt; _navigateToAddHabit(context),
                 backgroundColor: Colors.purple,
                 foregroundColor: Colors.white,
                 child: Icon(Icons.add),
               )
-            : <span class="keyword">null</span>,
+            :
+           <span class="keyword">
+            null
+           </span>
+           ,
       );
     }
-
-    <span class="keyword">void</span> _navigateToAddHabit(BuildContext context) {
-      Navigator.<span class="function">push</span>(
+           <span class="keyword">
+            void
+           </span>
+           _navigateToAddHabit(BuildContext context) {
+      Navigator.
+           <span class="function">
+            push
+           </span>
+           (
         context,
         MaterialPageRoute(builder: (_) =&gt; AddHabitScreen()),
       );
     }
   }
-
-  <span class="comment">// Habits List Screen</span>
-<span class="keyword">class</span> <span class="function">_HabitsListScreen</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">_HabitsListScreen</span>();
+           <span class="comment">
+            // Habits List Screen
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HabitsListScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            _HabitsListScreen
+           </span>
+           ();
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> habits = ref.<span class="function">watch</span>(habitProvider);
-
-      <span class="keyword">if</span> (habits.<span class="function">isEmpty</span>) {
-        <span class="keyword">return</span> Center(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           habits = ref.
+           <span class="function">
+            watch
+           </span>
+           (habitProvider);
+           <span class="keyword">
+            if
+           </span>
+           (habits.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.favorite_border,
-                size: <span class="number">80</span>,
-                color: Colors.grey[<span class="number">300</span>],
+                size:
+           <span class="number">
+            80
+           </span>
+           ,
+                color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
               ),
-              SizedBox(height: <span class="number">16</span>),
+              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
               Text(
-                <span class="string">'No habits yet'</span>,
+           <span class="string">
+            'No habits yet'
+           </span>
+           ,
                 style: TextStyle(
-                  fontSize: <span class="number">20</span>,
+                  fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[<span class="number">600</span>],
+                  color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                 ),
               ),
-              SizedBox(height: <span class="number">8</span>),
+              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
               Text(
-                <span class="string">'Start building good habits today!'</span>,
+           <span class="string">
+            'Start building good habits today!'
+           </span>
+           ,
                 style: TextStyle(
-                  color: Colors.grey[<span class="number">500</span>],
-                  fontSize: <span class="number">14</span>,
+                  color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
+                  fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                 ),
               ),
-              SizedBox(height: <span class="number">24</span>),
+              SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
               ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.<span class="function">push</span>(
+                  Navigator.
+           <span class="function">
+            push
+           </span>
+           (
                     context,
                     MaterialPageRoute(builder: (_) =&gt; AddHabitScreen()),
                   );
                 },
                 icon: Icon(Icons.add),
-                label: Text(<span class="string">'Create Habit'</span>),
+                label: Text(
+           <span class="string">
+            'Create Habit'
+           </span>
+           ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   foregroundColor: Colors.white,
@@ -1122,36 +3032,96 @@
           ),
         );
       }
-
-      <span class="keyword">return</span> ListView.<span class="function">builder</span>(
-        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
-        itemCount: habits.<span class="function">length</span>,
+           <span class="keyword">
+            return
+           </span>
+           ListView.
+           <span class="function">
+            builder
+           </span>
+           (
+        padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
+        itemCount: habits.
+           <span class="function">
+            length
+           </span>
+           ,
         itemBuilder: (context, index) {
-          <span class="keyword">final</span> habit = habits[index];
-          <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(habitProvider.notifier);
-
-          <span class="comment">// Ensure today's log exists</span>
-          notifier.<span class="function">ensureTodayLog</span>(habit.id);
-
-          <span class="keyword">final</span> streak = notifier.<span class="function">getStreak</span>(habit.id);
-          <span class="keyword">final</span> isCompletedToday = notifier.<span class="function">isCompletedToday</span>(habit.id);
-
-          <span class="keyword">return</span> HabitCard(
+           <span class="keyword">
+            final
+           </span>
+           habit = habits[index];
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (habitProvider.notifier);
+           <span class="comment">
+            // Ensure today's log exists
+           </span>
+           notifier.
+           <span class="function">
+            ensureTodayLog
+           </span>
+           (habit.id);
+           <span class="keyword">
+            final
+           </span>
+           streak = notifier.
+           <span class="function">
+            getStreak
+           </span>
+           (habit.id);
+           <span class="keyword">
+            final
+           </span>
+           isCompletedToday = notifier.
+           <span class="function">
+            isCompletedToday
+           </span>
+           (habit.id);
+           <span class="keyword">
+            return
+           </span>
+           HabitCard(
             habit: habit,
             streak: streak,
             isCompletedToday: isCompletedToday,
             onToggle: () {
-              notifier.<span class="function">toggleHabit</span>(habit.id);
+              notifier.
+           <span class="function">
+            toggleHabit
+           </span>
+           (habit.id);
             },
             onDelete: () {
-              <span class="function">_showDeleteDialog</span>(context, ref, habit);
+           <span class="function">
+            _showDeleteDialog
+           </span>
+           (context, ref, habit);
             },
           );
         },
       );
     }
-
-    <span class="keyword">void</span> <span class="function">_showDeleteDialog</span>(
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _showDeleteDialog
+           </span>
+           (
       BuildContext context,
       WidgetRef ref,
       Habit habit,
@@ -1159,25 +3129,67 @@
       showDialog(
         context: context,
         builder: (context) =&gt; AlertDialog(
-          title: Text(<span class="string">'Delete Habit'</span>),
+          title: Text(
+           <span class="string">
+            'Delete Habit'
+           </span>
+           ),
           content: Text(
-            <span class="string">'Are you sure you want to delete "${habit.name}"? All progress will be lost.'</span>,
+           <span class="string">
+            'Are you sure you want to delete "${habit.name}"? All progress will be lost.'
+           </span>
+           ,
           ),
           actions: [
             TextButton(
-              onPressed: () =&gt; Navigator.<span class="function">pop</span>(context),
-              child: Text(<span class="string">'Cancel'</span>),
+              onPressed: () =&gt; Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context),
+              child: Text(
+           <span class="string">
+            'Cancel'
+           </span>
+           ),
             ),
             TextButton(
               onPressed: () {
-                ref.<span class="function">read</span>(habitProvider.notifier).<span class="function">deleteHabit</span>(habit);
-                Navigator.<span class="function">pop</span>(context);
-                ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-                  SnackBar(content: Text(<span class="string">'Habit deleted'</span>)),
+                ref.
+           <span class="function">
+            read
+           </span>
+           (habitProvider.notifier).
+           <span class="function">
+            deleteHabit
+           </span>
+           (habit);
+                Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context);
+                ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+                  SnackBar(content: Text(
+           <span class="string">
+            'Habit deleted'
+           </span>
+           )),
                 );
               },
               child: Text(
-                <span class="string">'Delete'</span>,
+           <span class="string">
+            'Delete'
+           </span>
+           ,
                 style: TextStyle(color: Colors.red),
               ),
             ),
@@ -1186,58 +3198,178 @@
       );
     }
   }
-
-  <span class="comment">// Weekly View Screen</span>
-<span class="keyword">class</span> <span class="function">_WeeklyViewScreen</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">_WeeklyViewScreen</span>();
+           <span class="comment">
+            // Weekly View Screen
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _WeeklyViewScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            _WeeklyViewScreen
+           </span>
+           ();
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> habits = ref.<span class="function">watch</span>(habitProvider);
-
-      <span class="keyword">if</span> (habits.<span class="function">isEmpty</span>) {
-        <span class="keyword">return</span> Center(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           habits = ref.
+           <span class="function">
+            watch
+           </span>
+           (habitProvider);
+           <span class="keyword">
+            if
+           </span>
+           (habits.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.calendar_today,
-                size: <span class="number">80</span>,
-                color: Colors.grey[<span class="number">300</span>],
+                size:
+           <span class="number">
+            80
+           </span>
+           ,
+                color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
               ),
-              SizedBox(height: <span class="number">16</span>),
+              SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
               Text(
-                <span class="string">'No habits to show'</span>,
+           <span class="string">
+            'No habits to show'
+           </span>
+           ,
                 style: TextStyle(
-                  fontSize: <span class="number">20</span>,
+                  fontSize:
+           <span class="number">
+            20
+           </span>
+           ,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[<span class="number">600</span>],
+                  color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                 ),
               ),
-              SizedBox(height: <span class="number">8</span>),
+              SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
               Text(
-                <span class="string">'Create a habit to see weekly progress'</span>,
+           <span class="string">
+            'Create a habit to see weekly progress'
+           </span>
+           ,
                 style: TextStyle(
-                  color: Colors.grey[<span class="number">500</span>],
-                  fontSize: <span class="number">14</span>,
+                  color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
+                  fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                 ),
               ),
             ],
           ),
         );
       }
-
-      <span class="keyword">return</span> ListView.<span class="function">builder</span>(
-        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
-        itemCount: habits.<span class="function">length</span>,
+           <span class="keyword">
+            return
+           </span>
+           ListView.
+           <span class="function">
+            builder
+           </span>
+           (
+        padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
+        itemCount: habits.
+           <span class="function">
+            length
+           </span>
+           ,
         itemBuilder: (context, index) {
-          <span class="keyword">final</span> habit = habits[index];
-          <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(habitProvider.notifier);
-
-          <span class="keyword">return</span> Card(
-            margin: EdgeInsets.<span class="function">only</span>(bottom: <span class="number">12</span>),
+           <span class="keyword">
+            final
+           </span>
+           habit = habits[index];
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (habitProvider.notifier);
+           <span class="keyword">
+            return
+           </span>
+           Card(
+            margin: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (bottom:
+           <span class="number">
+            12
+           </span>
+           ),
             child: Padding(
-              padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+              padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1245,37 +3377,96 @@
                     children: [
                       Text(
                         habit.icon,
-                        style: TextStyle(fontSize: <span class="number">24</span>),
+                        style: TextStyle(fontSize:
+           <span class="number">
+            24
+           </span>
+           ),
                       ),
-                      SizedBox(width: <span class="number">12</span>),
+                      SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                       Text(
                         habit.name,
                         style: TextStyle(
-                          fontSize: <span class="number">16</span>,
+                          fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Spacer(),
                       Container(
-                        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">12</span>, vertical: <span class="number">4</span>),
+                        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            12
+           </span>
+           , vertical:
+           <span class="number">
+            4
+           </span>
+           ),
                         decoration: BoxDecoration(
-                          color: habit.<span class="function">getColor</span>().<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                          color: habit.
+           <span class="function">
+            getColor
+           </span>
+           ().
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                         ),
                         child: Text(
-                          <span class="string">'🔥 ${notifier.getStreak(habit.id)}'</span>,
+           <span class="string">
+            '🔥 ${notifier.getStreak(habit.id)}'
+           </span>
+           ,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: habit.<span class="function">getColor</span>(),
+                            color: habit.
+           <span class="function">
+            getColor
+           </span>
+           (),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: <span class="number">12</span>),
+                  SizedBox(height:
+           <span class="number">
+            12
+           </span>
+           ),
                   WeeklyChart(
                     habitId: habit.id,
-                    color: habit.<span class="function">getColor</span>(),
+                    color: habit.
+           <span class="function">
+            getColor
+           </span>
+           (),
                   ),
                 ],
               ),
@@ -1285,68 +3476,239 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">8. Habit Card Widget (lib/screens/widgets/habit_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/habit_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/habit.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">HabitCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Habit habit;
-    <span class="keyword">final</span> <span class="keyword">int</span> streak;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isCompletedToday;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function() onToggle;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function() onDelete;
-
-    <span class="keyword">const</span> <span class="function">HabitCard</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.habit,
-      <span class="keyword">required</span> <span class="keyword">this</span>.streak,
-      <span class="keyword">required</span> <span class="keyword">this</span>.isCompletedToday,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onToggle,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onDelete,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          8. Habit Card Widget (lib/screens/widgets/habit_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/habit_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/habit.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HabitCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Habit habit;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           streak;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            bool
+           </span>
+           isCompletedToday;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function() onToggle;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            void
+           </span>
+           Function() onDelete;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HabitCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .habit,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .streak,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .isCompletedToday,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onToggle,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .onDelete,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> color = habit.<span class="function">getColor</span>();
-
-      <span class="keyword">return</span> Card(
-        margin: EdgeInsets.<span class="function">only</span>(bottom: <span class="number">12</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           color = habit.
+           <span class="function">
+            getColor
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        margin: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (bottom:
+           <span class="number">
+            12
+           </span>
+           ),
         child: Dismissible(
           key: Key(habit.id),
-          direction: DismissDirection.<span class="function">endToStart</span>,
+          direction: DismissDirection.
+           <span class="function">
+            endToStart
+           </span>
+           ,
           background: Container(
             color: Colors.red,
-            alignment: Alignment.<span class="function">centerRight</span>,
-            padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">20</span>),
+            alignment: Alignment.
+           <span class="function">
+            centerRight
+           </span>
+           ,
+            padding: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (right:
+           <span class="number">
+            20
+           </span>
+           ),
             child: Icon(Icons.delete, color: Colors.white),
           ),
           onDismissed: (_) =&gt; onDelete(),
           child: ListTile(
-            contentPadding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            contentPadding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
             leading: Container(
-              width: <span class="number">48</span>,
-              height: <span class="number">48</span>,
+              width:
+           <span class="number">
+            48
+           </span>
+           ,
+              height:
+           <span class="number">
+            48
+           </span>
+           ,
               decoration: BoxDecoration(
-                color: color.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                shape: BoxShape.<span class="function">circle</span>,
+                color: color.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                shape: BoxShape.
+           <span class="function">
+            circle
+           </span>
+           ,
               ),
               child: Center(
                 child: Text(
                   habit.icon,
-                  style: TextStyle(fontSize: <span class="number">24</span>),
+                  style: TextStyle(fontSize:
+           <span class="number">
+            24
+           </span>
+           ),
                 ),
               ),
             ),
             title: Text(
               habit.name,
               style: TextStyle(
-                fontSize: <span class="number">16</span>,
+                fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1354,15 +3716,46 @@
               children: [
                 Icon(
                   Icons.local_fire_department,
-                  color: streak &gt; <span class="number">0</span> ? Colors.orange : Colors.grey[<span class="number">400</span>],
-                  size: <span class="number">16</span>,
+                  color: streak &gt;
+           <span class="number">
+            0
+           </span>
+           ? Colors.orange : Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
+                  size:
+           <span class="number">
+            16
+           </span>
+           ,
                 ),
-                SizedBox(width: <span class="number">4</span>),
+                SizedBox(width:
+           <span class="number">
+            4
+           </span>
+           ),
                 Text(
-                  <span class="string">'$streak day${streak != 1 ? 's' : ''}'</span>,
+           <span class="string">
+            '$streak day${streak != 1 ? 's' : ''}'
+           </span>
+           ,
                   style: TextStyle(
-                    color: streak &gt; <span class="number">0</span> ? Colors.orange : Colors.grey[<span class="number">400</span>],
-                    fontWeight: streak &gt; <span class="number">0</span> ? FontWeight.w600 : FontWeight.normal,
+                    color: streak &gt;
+           <span class="number">
+            0
+           </span>
+           ? Colors.orange : Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
+                    fontWeight: streak &gt;
+           <span class="number">
+            0
+           </span>
+           ? FontWeight.w600 : FontWeight.normal,
                   ),
                 ),
               ],
@@ -1370,18 +3763,50 @@
             trailing: GestureDetector(
               onTap: onToggle,
               child: Container(
-                width: <span class="number">56</span>,
-                height: <span class="number">32</span>,
+                width:
+           <span class="number">
+            56
+           </span>
+           ,
+                height:
+           <span class="number">
+            32
+           </span>
+           ,
                 decoration: BoxDecoration(
                   color: isCompletedToday
                       ? color
-                      : Colors.grey[<span class="number">300</span>],
-                  borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">16</span>),
+                      : Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ],
+                  borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                 ),
                 child: Center(
                   child: isCompletedToday
-                      ? Icon(Icons.check, color: Colors.white, size: <span class="number">20</span>)
-                      : Icon(Icons.add, color: Colors.grey[<span class="number">500</span>], size: <span class="number">20</span>),
+                      ? Icon(Icons.check, color: Colors.white, size:
+           <span class="number">
+            20
+           </span>
+           )
+                      : Icon(Icons.add, color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ], size:
+           <span class="number">
+            20
+           </span>
+           ),
                 ),
               ),
             ),
@@ -1390,67 +3815,253 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">9. Weekly Chart Widget (lib/screens/widgets/weekly_chart.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/weekly_chart.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/habit_log.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../providers/habit_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">WeeklyChart</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">final</span> String habitId;
-    <span class="keyword">final</span> Color color;
-
-    <span class="keyword">const</span> <span class="function">WeeklyChart</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.habitId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.color,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          9. Weekly Chart Widget (lib/screens/widgets/weekly_chart.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/weekly_chart.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:intl/intl.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/habit_log.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../providers/habit_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            WeeklyChart
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            final
+           </span>
+           String habitId;
+           <span class="keyword">
+            final
+           </span>
+           Color color;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            WeeklyChart
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .habitId,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .color,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(habitProvider.notifier);
-      <span class="keyword">final</span> weekDays = HabitLog.<span class="function">getLast7Days</span>();
-      <span class="keyword">final</span> dayNames = <span class="keyword">const</span> ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-      <span class="keyword">return</span> Row(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (habitProvider.notifier);
+           <span class="keyword">
+            final
+           </span>
+           weekDays = HabitLog.
+           <span class="function">
+            getLast7Days
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           dayNames =
+           <span class="keyword">
+            const
+           </span>
+           ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+           <span class="keyword">
+            return
+           </span>
+           Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.<span class="function">generate</span>(<span class="number">7</span>, (index) {
-          <span class="keyword">final</span> date = weekDays[index];
-          <span class="keyword">final</span> isCompleted = notifier.<span class="function">wasCompletedOn</span>(habitId, date);
-          <span class="keyword">final</span> isToday = HabitLog.<span class="function">isToday</span>(date);
-          <span class="keyword">final</span> dayName = dayNames[date.weekday - <span class="number">1</span>];
-
-          <span class="keyword">return</span> Column(
+        children: List.
+           <span class="function">
+            generate
+           </span>
+           (
+           <span class="number">
+            7
+           </span>
+           , (index) {
+           <span class="keyword">
+            final
+           </span>
+           date = weekDays[index];
+           <span class="keyword">
+            final
+           </span>
+           isCompleted = notifier.
+           <span class="function">
+            wasCompletedOn
+           </span>
+           (habitId, date);
+           <span class="keyword">
+            final
+           </span>
+           isToday = HabitLog.
+           <span class="function">
+            isToday
+           </span>
+           (date);
+           <span class="keyword">
+            final
+           </span>
+           dayName = dayNames[date.weekday -
+           <span class="number">
+            1
+           </span>
+           ];
+           <span class="keyword">
+            return
+           </span>
+           Column(
             children: [
               Container(
-                width: <span class="number">32</span>,
-                height: <span class="number">32</span>,
+                width:
+           <span class="number">
+            32
+           </span>
+           ,
+                height:
+           <span class="number">
+            32
+           </span>
+           ,
                 decoration: BoxDecoration(
-                  color: isCompleted ? color : Colors.grey[<span class="number">200</span>],
-                  shape: BoxShape.<span class="function">circle</span>,
+                  color: isCompleted ? color : Colors.grey[
+           <span class="number">
+            200
+           </span>
+           ],
+                  shape: BoxShape.
+           <span class="function">
+            circle
+           </span>
+           ,
                   border: isToday
-                      ? Border.<span class="function">all</span>(color: color, width: <span class="number">2</span>)
-                      : <span class="keyword">null</span>,
+                      ? Border.
+           <span class="function">
+            all
+           </span>
+           (color: color, width:
+           <span class="number">
+            2
+           </span>
+           )
+                      :
+           <span class="keyword">
+            null
+           </span>
+           ,
                 ),
                 child: Center(
                   child: isCompleted
-                      ? Icon(Icons.check, color: Colors.white, size: <span class="number">16</span>)
-                      : <span class="keyword">null</span>,
+                      ? Icon(Icons.check, color: Colors.white, size:
+           <span class="number">
+            16
+           </span>
+           )
+                      :
+           <span class="keyword">
+            null
+           </span>
+           ,
                 ),
               ),
-              SizedBox(height: <span class="number">4</span>),
+              SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
               Text(
                 dayName,
                 style: TextStyle(
-                  fontSize: <span class="number">10</span>,
-                  color: isToday ? color : Colors.grey[<span class="number">500</span>],
+                  fontSize:
+           <span class="number">
+            10
+           </span>
+           ,
+                  color: isToday ? color : Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ],
                   fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
@@ -1460,144 +4071,463 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">10. Add Habit Screen (lib/screens/add_habit_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/add_habit_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/habit.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/habit_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">AddHabitScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">AddHabitScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          10. Add Habit Screen (lib/screens/add_habit_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/add_habit_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/habit.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/habit_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AddHabitScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            AddHabitScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;AddHabitScreen&gt; <span class="function">createState</span>() =&gt; _AddHabitScreenState();
+    ConsumerState&lt;AddHabitScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _AddHabitScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AddHabitScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;AddHabitScreen&gt; {
-    <span class="keyword">final</span> _formKey = GlobalKey&lt;FormState&gt;();
-    <span class="keyword">final</span> _nameController = TextEditingController();
-    String _selectedIcon = Habit.icons[<span class="number">0</span>];
-    <span class="keyword">int</span> _selectedColor = Habit.colors[<span class="number">0</span>];
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _AddHabitScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;AddHabitScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           _formKey = GlobalKey&lt;FormState&gt;();
+           <span class="keyword">
+            final
+           </span>
+           _nameController = TextEditingController();
+    String _selectedIcon = Habit.icons[
+           <span class="number">
+            0
+           </span>
+           ];
+           <span class="keyword">
+            int
+           </span>
+           _selectedColor = Habit.colors[
+           <span class="number">
+            0
+           </span>
+           ];
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ;
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _nameController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _nameController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Create Habit'</span>),
+          title: Text(
+           <span class="string">
+            'Create Habit'
+           </span>
+           ),
           backgroundColor: Colors.purple,
           foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                <span class="comment">// Name</span>
-                TextFormField(
+           <span class="comment">
+            // Name
+           </span>
+           TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                    labelText: <span class="string">'Habit Name'</span>,
+                    labelText:
+           <span class="string">
+            'Habit Name'
+           </span>
+           ,
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.edit),
-                    hintText: <span class="string">'e.g., Exercise, Reading'</span>,
+                    hintText:
+           <span class="string">
+            'e.g., Exercise, Reading'
+           </span>
+           ,
                   ),
                   validator: (value) {
-                    <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-                      <span class="keyword">return</span> <span class="string">'Please enter a habit name'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter a habit name'
+           </span>
+           ;
                     }
-                    <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                   },
-                  autofocus: <span class="keyword">true</span>,
+                  autofocus:
+           <span class="keyword">
+            true
+           </span>
+           ,
                   textInputAction: TextInputAction.done,
                 ),
-                SizedBox(height: <span class="number">24</span>),
-
-                <span class="comment">// Icon Selection</span>
-                Text(
-                  <span class="string">'Choose an Icon'</span>,
+                SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Icon Selection
+           </span>
+           Text(
+           <span class="string">
+            'Choose an Icon'
+           </span>
+           ,
                   style: TextStyle(
-                    fontSize: <span class="number">14</span>,
+                    fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                     fontWeight: FontWeight.w600,
-                    color: Colors.grey[<span class="number">600</span>],
+                    color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                   ),
                 ),
-                SizedBox(height: <span class="number">8</span>),
+                SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                 Wrap(
-                  spacing: <span class="number">8</span>,
-                  runSpacing: <span class="number">8</span>,
-                  children: Habit.icons.<span class="function">map</span>((icon) {
-                    <span class="keyword">final</span> isSelected = icon == _selectedIcon;
-                    <span class="keyword">return</span> GestureDetector(
+                  spacing:
+           <span class="number">
+            8
+           </span>
+           ,
+                  runSpacing:
+           <span class="number">
+            8
+           </span>
+           ,
+                  children: Habit.icons.
+           <span class="function">
+            map
+           </span>
+           ((icon) {
+           <span class="keyword">
+            final
+           </span>
+           isSelected = icon == _selectedIcon;
+           <span class="keyword">
+            return
+           </span>
+           GestureDetector(
                       onTap: () =&gt; setState(() =&gt; _selectedIcon = icon),
                       child: Container(
-                        width: <span class="number">48</span>,
-                        height: <span class="number">48</span>,
+                        width:
+           <span class="number">
+            48
+           </span>
+           ,
+                        height:
+           <span class="number">
+            48
+           </span>
+           ,
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? Color(_selectedColor).<span class="function">withOpacity</span>(<span class="number">0.1</span>)
-                              : Colors.grey[<span class="number">100</span>],
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-                          border: Border.<span class="function">all</span>(
+                              ? Color(_selectedColor).
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           )
+                              : Colors.grey[
+           <span class="number">
+            100
+           </span>
+           ],
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                          border: Border.
+           <span class="function">
+            all
+           </span>
+           (
                             color: isSelected
                                 ? Color(_selectedColor)
-                                : Colors.grey[<span class="number">300</span>]!,
-                            width: isSelected ? <span class="number">2</span> : <span class="number">1</span>,
+                                : Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]!,
+                            width: isSelected ?
+           <span class="number">
+            2
+           </span>
+           :
+           <span class="number">
+            1
+           </span>
+           ,
                           ),
                         ),
                         child: Center(
                           child: Text(
                             icon,
-                            style: TextStyle(fontSize: <span class="number">24</span>),
+                            style: TextStyle(fontSize:
+           <span class="number">
+            24
+           </span>
+           ),
                           ),
                         ),
                       ),
                     );
-                  }).<span class="function">toList</span>(),
+                  }).
+           <span class="function">
+            toList
+           </span>
+           (),
                 ),
-                SizedBox(height: <span class="number">24</span>),
-
-                <span class="comment">// Color Selection</span>
-                Text(
-                  <span class="string">'Choose a Color'</span>,
+                SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Color Selection
+           </span>
+           Text(
+           <span class="string">
+            'Choose a Color'
+           </span>
+           ,
                   style: TextStyle(
-                    fontSize: <span class="number">14</span>,
+                    fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
                     fontWeight: FontWeight.w600,
-                    color: Colors.grey[<span class="number">600</span>],
+                    color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                   ),
                 ),
-                SizedBox(height: <span class="number">8</span>),
+                SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                 Wrap(
-                  spacing: <span class="number">8</span>,
-                  runSpacing: <span class="number">8</span>,
-                  children: Habit.colors.<span class="function">map</span>((colorValue) {
-                    <span class="keyword">final</span> isSelected = colorValue == _selectedColor;
-                    <span class="keyword">final</span> color = Color(colorValue);
-                    <span class="keyword">return</span> GestureDetector(
+                  spacing:
+           <span class="number">
+            8
+           </span>
+           ,
+                  runSpacing:
+           <span class="number">
+            8
+           </span>
+           ,
+                  children: Habit.colors.
+           <span class="function">
+            map
+           </span>
+           ((colorValue) {
+           <span class="keyword">
+            final
+           </span>
+           isSelected = colorValue == _selectedColor;
+           <span class="keyword">
+            final
+           </span>
+           color = Color(colorValue);
+           <span class="keyword">
+            return
+           </span>
+           GestureDetector(
                       onTap: () =&gt; setState(() =&gt; _selectedColor = colorValue),
                       child: Container(
-                        width: <span class="number">44</span>,
-                        height: <span class="number">44</span>,
+                        width:
+           <span class="number">
+            44
+           </span>
+           ,
+                        height:
+           <span class="number">
+            44
+           </span>
+           ,
                         decoration: BoxDecoration(
                           color: color,
-                          shape: BoxShape.<span class="function">circle</span>,
-                          border: Border.<span class="function">all</span>(
+                          shape: BoxShape.
+           <span class="function">
+            circle
+           </span>
+           ,
+                          border: Border.
+           <span class="function">
+            all
+           </span>
+           (
                             color: isSelected ? Colors.black : Colors.transparent,
-                            width: <span class="number">3</span>,
+                            width:
+           <span class="number">
+            3
+           </span>
+           ,
                           ),
                         ),
                         child: isSelected
@@ -1605,66 +4535,188 @@
                                 child: Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: <span class="number">20</span>,
+                                  size:
+           <span class="number">
+            20
+           </span>
+           ,
                                 ),
                               )
-                            : <span class="keyword">null</span>,
+                            :
+           <span class="keyword">
+            null
+           </span>
+           ,
                       ),
                     );
-                  }).<span class="function">toList</span>(),
+                  }).
+           <span class="function">
+            toList
+           </span>
+           (),
                 ),
-                SizedBox(height: <span class="number">32</span>),
-
-                <span class="comment">// Preview</span>
-                Container(
-                  padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                SizedBox(height:
+           <span class="number">
+            32
+           </span>
+           ),
+           <span class="comment">
+            // Preview
+           </span>
+           Container(
+                  padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
                   decoration: BoxDecoration(
-                    color: Colors.grey[<span class="number">50</span>],
-                    borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-                    border: Border.<span class="function">all</span>(color: Colors.grey[<span class="number">200</span>]!),
+                    color: Colors.grey[
+           <span class="number">
+            50
+           </span>
+           ],
+                    borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+                    border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.grey[
+           <span class="number">
+            200
+           </span>
+           ]!),
                   ),
                   child: Row(
                     children: [
                       Container(
-                        width: <span class="number">40</span>,
-                        height: <span class="number">40</span>,
+                        width:
+           <span class="number">
+            40
+           </span>
+           ,
+                        height:
+           <span class="number">
+            40
+           </span>
+           ,
                         decoration: BoxDecoration(
-                          color: Color(_selectedColor).<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                          shape: BoxShape.<span class="function">circle</span>,
+                          color: Color(_selectedColor).
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                          shape: BoxShape.
+           <span class="function">
+            circle
+           </span>
+           ,
                         ),
                         child: Center(
                           child: Text(
                             _selectedIcon,
-                            style: TextStyle(fontSize: <span class="number">20</span>),
+                            style: TextStyle(fontSize:
+           <span class="number">
+            20
+           </span>
+           ),
                           ),
                         ),
                       ),
-                      SizedBox(width: <span class="number">12</span>),
+                      SizedBox(width:
+           <span class="number">
+            12
+           </span>
+           ),
                       Expanded(
                         child: Text(
-                          _nameController.text.<span class="function">isNotEmpty</span>
-                              ? _nameController.text
-                              : <span class="string">'Preview'</span>,
+                          _nameController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? _nameController.text
+                              :
+           <span class="string">
+            'Preview'
+           </span>
+           ,
                           style: TextStyle(
-                            fontSize: <span class="number">16</span>,
+                            fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
                             fontWeight: FontWeight.bold,
-                            color: _nameController.text.<span class="function">isNotEmpty</span>
-                                ? Colors.black
-                                : Colors.grey[<span class="number">400</span>],
+                            color: _nameController.text.
+           <span class="function">
+            isNotEmpty
+           </span>
+           ? Colors.black
+                                : Colors.grey[
+           <span class="number">
+            400
+           </span>
+           ],
                           ),
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.<span class="function">symmetric</span>(
-                          horizontal: <span class="number">12</span>,
-                          vertical: <span class="number">4</span>,
+                        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (
+                          horizontal:
+           <span class="number">
+            12
+           </span>
+           ,
+                          vertical:
+           <span class="number">
+            4
+           </span>
+           ,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(_selectedColor).<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-                          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+                          color: Color(_selectedColor).
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+                          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
                         ),
                         child: Text(
-                          <span class="string">'🔥 0'</span>,
+           <span class="string">
+            '🔥 0'
+           </span>
+           ,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color(_selectedColor),
@@ -1674,24 +4726,52 @@
                     ],
                   ),
                 ),
-                SizedBox(height: <span class="number">24</span>),
-
-                <span class="comment">// Submit button</span>
-                _isLoading
+                SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Submit button
+           </span>
+           _isLoading
                     ? Center(child: CircularProgressIndicator())
                     : ElevatedButton(
                         onPressed: () =&gt; _saveHabit(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
                           foregroundColor: Colors.white,
-                          padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">16</span>),
+                          padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            16
+           </span>
+           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                            borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                           ),
                         ),
                         child: Text(
-                          <span class="string">'Create Habit'</span>,
-                          style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'Create Habit'
+           </span>
+           ,
+                          style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , fontWeight: FontWeight.bold),
                         ),
                       ),
               ],
@@ -1700,97 +4780,246 @@
         ),
       );
     }
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _saveHabit
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            if
+           </span>
+           (!_formKey.
+           <span class="function">
+            currentState
+           </span>
+           ()!.
+           <span class="function">
+            validate
+           </span>
+           ())
+           <span class="keyword">
+            return
+           </span>
+           ;
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           );
 
-    <span class="keyword">void</span> <span class="function">_saveHabit</span>(BuildContext context) {
-      <span class="keyword">if</span> (!_formKey.<span class="function">currentState</span>()!.<span class="function">validate</span>()) <span class="keyword">return</span>;
-
-      <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">true</span>);
-
-      Future.<span class="function">delayed</span>(Duration(milliseconds: <span class="number">500</span>), () {
-        ref.<span class="function">read</span>(habitProvider.notifier).<span class="function">addHabit</span>(
-          _nameController.text.<span class="function">trim</span>(),
+      Future.
+           <span class="function">
+            delayed
+           </span>
+           (Duration(milliseconds:
+           <span class="number">
+            500
+           </span>
+           ), () {
+        ref.
+           <span class="function">
+            read
+           </span>
+           (habitProvider.notifier).
+           <span class="function">
+            addHabit
+           </span>
+           (
+          _nameController.text.
+           <span class="function">
+            trim
+           </span>
+           (),
           _selectedIcon,
           _selectedColor,
         );
-        Navigator.<span class="function">pop</span>(context);
+        Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context);
       });
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>Hive Local Storage</strong> – Two boxes: habits and habit logs</li>
-<li><strong>Streak Calculation</strong> – Counting consecutive completed days</li>
-<li><strong>Date Logic</strong> – Checking today's completion, weekly history</li>
-<li><strong>Riverpod State Management</strong> – StateNotifier for habit data</li>
-<li><strong>Visual Indicators</strong> – Weekly chart showing completion history</li>
-<li><strong>CRUD Operations</strong> – Create, delete, and toggle habits</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge2-expense-tracker-pro.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge4-bookmark-manager.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://pub.dev/packages/hive" rel="noopener" target="_blank">Hive Package</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            Hive Local Storage
+           </strong>
+           – Two boxes: habits and habit logs
+          </li>
+          <li>
+           <strong>
+            Streak Calculation
+           </strong>
+           – Counting consecutive completed days
+          </li>
+          <li>
+           <strong>
+            Date Logic
+           </strong>
+           – Checking today's completion, weekly history
+          </li>
+          <li>
+           <strong>
+            Riverpod State Management
+           </strong>
+           – StateNotifier for habit data
+          </li>
+          <li>
+           <strong>
+            Visual Indicators
+           </strong>
+           – Weekly chart showing completion history
+          </li>
+          <li>
+           <strong>
+            CRUD Operations
+           </strong>
+           – Create, delete, and toggle habits
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge2-expense-tracker-pro.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge4-bookmark-manager.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/hive" rel="noopener" target="_blank">
+         Hive Package
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1898,8 +5127,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1972,5 +5201,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

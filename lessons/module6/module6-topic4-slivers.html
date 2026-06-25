@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Slivers – Module 6 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn about Slivers in Flutter. Create fancy scrolling effects like elastic scrolling, collapsing headers, and custom scroll behaviors with slivers." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Slivers – Module 6 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn about Slivers in Flutter. Create fancy scrolling effects like elastic scrolling, collapsing headers, and custom scroll behaviors with slivers." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -592,9 +593,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -657,236 +658,532 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module6-advanced-flutter.html">Module 6</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 4</span>
-</div>
-<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 4</div>
-<h1>Slivers</h1>
-<p class="topic-subtitle">
-            Building fancy scrolling effects — from collapsing headers to elastic scrolling — using Flutter's sliver system.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
-<i class="fas fa-globe"></i> Flutter Slivers Docs
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
-<i class="fas fa-book"></i> Slivers Guide
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT ARE SLIVERS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Are Slivers?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            A <strong>sliver</strong> is a portion of a scrollable area that you can define to behave in a
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module6-advanced-flutter.html">
+        Module 6
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 4
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-star">
+       </i>
+       Module 6
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 4
+      </div>
+      <h1>
+       Slivers
+      </h1>
+      <p class="topic-subtitle">
+       Building fancy scrolling effects — from collapsing headers to elastic scrolling — using Flutter's sliver system.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Flutter Slivers Docs
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Slivers Guide
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT ARE SLIVERS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Are Slivers?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       A
+       <strong>
+        sliver
+       </strong>
+       is a portion of a scrollable area that you can define to behave in a
             special way. Slivers are the building blocks of custom scrolling in Flutter — they give you
-            <strong>fine-grained control</strong> over how your scrollable content behaves.
-          </p>
-<div class="concept-card info">
-<h4>💡 Key Concept</h4>
-<p>
-              Think of slivers as <strong>"scrollable pieces"</strong> that can be combined to create
-              complex scrolling effects. Unlike <code>ListView</code> or <code>GridView</code> which
-              are self-contained, slivers are <strong>components</strong> that can be arranged in a
-              <code>CustomScrollView</code> to create custom scroll experiences.
-            </p>
-</div>
-<div class="sliver-types">
-<div class="sliver-type" style="border-color: #3B82F6;">
-<div class="type-icon">📱</div>
-<div class="type-name">SliverAppBar</div>
-<div class="type-desc">Collapsible app bar that expands/contracts</div>
-<div class="type-example">Medium-style profile headers</div>
-</div>
-<div class="sliver-type" style="border-color: #10B981;">
-<div class="type-icon">📋</div>
-<div class="type-name">SliverList</div>
-<div class="type-desc">Scrollable list of items</div>
-<div class="type-example">Standard list with custom headers</div>
-</div>
-<div class="sliver-type" style="border-color: #8B5CF6;">
-<div class="type-icon">📊</div>
-<div class="type-name">SliverGrid</div>
-<div class="type-desc">Scrollable grid of items</div>
-<div class="type-example">Pinterest-style layout</div>
-</div>
-<div class="sliver-type" style="border-color: #F59E0B;">
-<div class="type-icon">📌</div>
-<div class="type-name">SliverPersistentHeader</div>
-<div class="type-desc">Header that stays visible while scrolling</div>
-<div class="type-example">Sticky section headers</div>
-</div>
-<div class="sliver-type" style="border-color: #EF4444;">
-<div class="type-icon">🔄</div>
-<div class="type-name">SliverToBoxAdapter</div>
-<div class="type-desc">Wrap a regular widget as a sliver</div>
-<div class="type-example">Mix static content with scrollable content</div>
-</div>
-<div class="sliver-type" style="border-color: #10B981;">
-<div class="type-icon">📐</div>
-<div class="type-name">SliverPadding</div>
-<div class="type-desc">Add padding around slivers</div>
-<div class="type-example">Add spacing between slivers</div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 2: CUSTOM SCROLL VIEW ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">CustomScrollView</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>CustomScrollView</code> is the container that holds your slivers. It's the
-            <strong>root</strong> of any sliver-based scrolling implementation.
-          </p>
-<div class="structure-diagram">
-<span class="box">CustomScrollView</span>
-<span class="arrow">→</span>
-<span class="box">slivers: [</span>
-<br/>
-<span class="box" style="background: #3B82F6; margin-left: 1.5rem;">SliverAppBar</span>
-<span class="box" style="background: #10B981;">SliverList</span>
-<span class="box" style="background: #8B5CF6;">SliverGrid</span>
-<span class="box" style="background: #F59E0B;">SliverPersistentHeader</span>
-<br/>
-<span class="box">]</span>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Basic CustomScrollView Structure</span>
-<code>
-<span class="keyword">return</span> Scaffold(
+       <strong>
+        fine-grained control
+       </strong>
+       over how your scrollable content behaves.
+      </p>
+      <div class="concept-card info">
+       <h4>
+        💡 Key Concept
+       </h4>
+       <p>
+        Think of slivers as
+        <strong>
+         "scrollable pieces"
+        </strong>
+        that can be combined to create
+              complex scrolling effects. Unlike
+        <code>
+         ListView
+        </code>
+        or
+        <code>
+         GridView
+        </code>
+        which
+              are self-contained, slivers are
+        <strong>
+         components
+        </strong>
+        that can be arranged in a
+        <code>
+         CustomScrollView
+        </code>
+        to create custom scroll experiences.
+       </p>
+      </div>
+      <div class="sliver-types">
+       <div class="sliver-type" style="border-color: #3B82F6;">
+        <div class="type-icon">
+         📱
+        </div>
+        <div class="type-name">
+         SliverAppBar
+        </div>
+        <div class="type-desc">
+         Collapsible app bar that expands/contracts
+        </div>
+        <div class="type-example">
+         Medium-style profile headers
+        </div>
+       </div>
+       <div class="sliver-type" style="border-color: #10B981;">
+        <div class="type-icon">
+         📋
+        </div>
+        <div class="type-name">
+         SliverList
+        </div>
+        <div class="type-desc">
+         Scrollable list of items
+        </div>
+        <div class="type-example">
+         Standard list with custom headers
+        </div>
+       </div>
+       <div class="sliver-type" style="border-color: #8B5CF6;">
+        <div class="type-icon">
+         📊
+        </div>
+        <div class="type-name">
+         SliverGrid
+        </div>
+        <div class="type-desc">
+         Scrollable grid of items
+        </div>
+        <div class="type-example">
+         Pinterest-style layout
+        </div>
+       </div>
+       <div class="sliver-type" style="border-color: #F59E0B;">
+        <div class="type-icon">
+         📌
+        </div>
+        <div class="type-name">
+         SliverPersistentHeader
+        </div>
+        <div class="type-desc">
+         Header that stays visible while scrolling
+        </div>
+        <div class="type-example">
+         Sticky section headers
+        </div>
+       </div>
+       <div class="sliver-type" style="border-color: #EF4444;">
+        <div class="type-icon">
+         🔄
+        </div>
+        <div class="type-name">
+         SliverToBoxAdapter
+        </div>
+        <div class="type-desc">
+         Wrap a regular widget as a sliver
+        </div>
+        <div class="type-example">
+         Mix static content with scrollable content
+        </div>
+       </div>
+       <div class="sliver-type" style="border-color: #10B981;">
+        <div class="type-icon">
+         📐
+        </div>
+        <div class="type-name">
+         SliverPadding
+        </div>
+        <div class="type-desc">
+         Add padding around slivers
+        </div>
+        <div class="type-example">
+         Add spacing between slivers
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: CUSTOM SCROLL VIEW ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        CustomScrollView
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        CustomScrollView
+       </code>
+       is the container that holds your slivers. It's the
+       <strong>
+        root
+       </strong>
+       of any sliver-based scrolling implementation.
+      </p>
+      <div class="structure-diagram">
+       <span class="box">
+        CustomScrollView
+       </span>
+       <span class="arrow">
+        →
+       </span>
+       <span class="box">
+        slivers: [
+       </span>
+       <br/>
+       <span class="box" style="background: #3B82F6; margin-left: 1.5rem;">
+        SliverAppBar
+       </span>
+       <span class="box" style="background: #10B981;">
+        SliverList
+       </span>
+       <span class="box" style="background: #8B5CF6;">
+        SliverGrid
+       </span>
+       <span class="box" style="background: #F59E0B;">
+        SliverPersistentHeader
+       </span>
+       <br/>
+       <span class="box">
+        ]
+       </span>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Basic CustomScrollView Structure
+       </span>
+       <code>
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
     body: CustomScrollView(
       slivers: [
-        <span class="comment">// 1. App Bar (collapsible)</span>
+        <span class="comment">
+         // 1. App Bar (collapsible)
+        </span>
         SliverAppBar(
-          title: Text(<span class="string">'My Page'</span>),
-          floating: <span class="keyword">true</span>,
-          expandedHeight: <span class="number">200</span>,
+          title: Text(
+        <span class="string">
+         'My Page'
+        </span>
+        ),
+          floating:
+        <span class="keyword">
+         true
+        </span>
+        ,
+          expandedHeight:
+        <span class="number">
+         200
+        </span>
+        ,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text(<span class="string">'Collapsing Header'</span>),
-            background: Image.network(<span class="string">'https://example.com/header.jpg'</span>),
+            title: Text(
+        <span class="string">
+         'Collapsing Header'
+        </span>
+        ),
+            background: Image.network(
+        <span class="string">
+         'https://example.com/header.jpg'
+        </span>
+        ),
           ),
         ),
-
-        <span class="comment">// 2. A regular widget (non-scrollable)</span>
+        <span class="comment">
+         // 2. A regular widget (non-scrollable)
+        </span>
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
-            child: Text(<span class="string">'Section Header'</span>),
+            padding: EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16
+        </span>
+        ),
+            child: Text(
+        <span class="string">
+         'Section Header'
+        </span>
+        ),
           ),
         ),
-
-        <span class="comment">// 3. Scrollable list of items</span>
+        <span class="comment">
+         // 3. Scrollable list of items
+        </span>
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) =&gt; ListTile(
-              title: Text(<span class="string">'Item $index'</span>),
+              title: Text(
+        <span class="string">
+         'Item $index'
+        </span>
+        ),
             ),
-            childCount: <span class="number">100</span>,
+            childCount:
+        <span class="number">
+         100
+        </span>
+        ,
           ),
         ),
-
-        <span class="comment">// 4. Another regular widget</span>
+        <span class="comment">
+         // 4. Another regular widget
+        </span>
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            padding: EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16
+        </span>
+        ),
             child: ElevatedButton(
               onPressed: () {},
-              child: Text(<span class="string">'Load More'</span>),
+              child: Text(
+        <span class="string">
+         'Load More'
+        </span>
+        ),
             ),
           ),
         ),
       ],
     ),
   );
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 3: SLIVER APP BAR ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">SliverAppBar</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>SliverAppBar</code> is one of the most commonly used slivers. It creates a
-            <strong>collapsible app bar</strong> that can expand and contract as the user scrolls.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">Advanced SliverAppBar Example</span>
-<code>
-  SliverAppBar(
-    <span class="comment">// Basic configuration</span>
-    title: Text(<span class="string">'Profile'</span>),
-    centerTitle: <span class="keyword">true</span>,
-
-    <span class="comment">// Expand/collapse behavior</span>
-    expandedHeight: <span class="number">300</span>,
-    collapsedHeight: <span class="number">80</span>,
-    floating: <span class="keyword">true</span>,
-    pinned: <span class="keyword">true</span>,
-    snap: <span class="keyword">false</span>,
-
-    <span class="comment">// Background</span>
-    flexibleSpace: FlexibleSpaceBar(
-      title: Text(<span class="string">'John Doe'</span>),
-      centerTitle: <span class="keyword">true</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: SLIVER APP BAR ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        SliverAppBar
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        SliverAppBar
+       </code>
+       is one of the most commonly used slivers. It creates a
+       <strong>
+        collapsible app bar
+       </strong>
+       that can expand and contract as the user scrolls.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Advanced SliverAppBar Example
+       </span>
+       <code>
+        SliverAppBar(
+        <span class="comment">
+         // Basic configuration
+        </span>
+        title: Text(
+        <span class="string">
+         'Profile'
+        </span>
+        ),
+    centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
+        <span class="comment">
+         // Expand/collapse behavior
+        </span>
+        expandedHeight:
+        <span class="number">
+         300
+        </span>
+        ,
+    collapsedHeight:
+        <span class="number">
+         80
+        </span>
+        ,
+    floating:
+        <span class="keyword">
+         true
+        </span>
+        ,
+    pinned:
+        <span class="keyword">
+         true
+        </span>
+        ,
+    snap:
+        <span class="keyword">
+         false
+        </span>
+        ,
+        <span class="comment">
+         // Background
+        </span>
+        flexibleSpace: FlexibleSpaceBar(
+      title: Text(
+        <span class="string">
+         'John Doe'
+        </span>
+        ),
+      centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
       background: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -898,164 +1195,429 @@
         child: Align(
           alignment: Alignment.bottomCenter,
           child: CircleAvatar(
-            radius: <span class="number">50</span>,
-            backgroundImage: NetworkImage(<span class="string">'https://i.pravatar.cc/150?img=1'</span>),
+            radius:
+        <span class="number">
+         50
+        </span>
+        ,
+            backgroundImage: NetworkImage(
+        <span class="string">
+         'https://i.pravatar.cc/150?img=1'
+        </span>
+        ),
           ),
         ),
       ),
     ),
-
-    <span class="comment">// Actions</span>
-    actions: [
+        <span class="comment">
+         // Actions
+        </span>
+        actions: [
       IconButton(
         icon: Icon(Icons.settings),
         onPressed: () {},
       ),
     ],
-
-    <span class="comment">// Bottom widget</span>
-    bottom: PreferredSize(
-      preferredSize: Size.fromHeight(<span class="number">50</span>),
+        <span class="comment">
+         // Bottom widget
+        </span>
+        bottom: PreferredSize(
+      preferredSize: Size.fromHeight(
+        <span class="number">
+         50
+        </span>
+        ),
       child: Container(
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(<span class="string">'Posts: 42'</span>),
-            Text(<span class="string">'Followers: 1.2K'</span>),
-            Text(<span class="string">'Following: 89'</span>),
+            Text(
+        <span class="string">
+         'Posts: 42'
+        </span>
+        ),
+            Text(
+        <span class="string">
+         'Followers: 1.2K'
+        </span>
+        ),
+            Text(
+        <span class="string">
+         'Following: 89'
+        </span>
+        ),
           ],
         ),
       ),
     ),
   )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 SliverAppBar Properties</h4>
-<ul>
-<li><strong>floating</strong> – App bar reappears when scrolling up</li>
-<li><strong>pinned</strong> – App bar stays at the top when collapsed</li>
-<li><strong>snap</strong> – App bar snaps open when partially scrolled</li>
-<li><strong>expandedHeight</strong> – Height when fully expanded</li>
-<li><strong>collapsedHeight</strong> – Height when fully collapsed</li>
-<li><strong>flexibleSpace</strong> – Content that scales with the app bar</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 4: SLIVER LIST AND GRID ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">SliverList and SliverGrid</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>SliverList</code> and <code>SliverGrid</code> are the scrollable content slivers
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 SliverAppBar Properties
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          floating
+         </strong>
+         – App bar reappears when scrolling up
+        </li>
+        <li>
+         <strong>
+          pinned
+         </strong>
+         – App bar stays at the top when collapsed
+        </li>
+        <li>
+         <strong>
+          snap
+         </strong>
+         – App bar snaps open when partially scrolled
+        </li>
+        <li>
+         <strong>
+          expandedHeight
+         </strong>
+         – Height when fully expanded
+        </li>
+        <li>
+         <strong>
+          collapsedHeight
+         </strong>
+         – Height when fully collapsed
+        </li>
+        <li>
+         <strong>
+          flexibleSpace
+         </strong>
+         – Content that scales with the app bar
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: SLIVER LIST AND GRID ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        SliverList and SliverGrid
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        SliverList
+       </code>
+       and
+       <code>
+        SliverGrid
+       </code>
+       are the scrollable content slivers
             that display collections of items.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">SliverList with Delegate</span>
-<code>
-  SliverList(
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        SliverList with Delegate
+       </span>
+       <code>
+        SliverList(
     delegate: SliverChildBuilderDelegate(
       (context, index) {
-        <span class="keyword">return</span> Container(
-          height: <span class="number">60</span>,
-          margin: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">4</span>),
-          color: Colors.primaries[index % Colors.primaries.<span class="function">length</span>],
+        <span class="keyword">
+         return
+        </span>
+        Container(
+          height:
+        <span class="number">
+         60
+        </span>
+        ,
+          margin: EdgeInsets.
+        <span class="function">
+         symmetric
+        </span>
+        (vertical:
+        <span class="number">
+         4
+        </span>
+        ),
+          color: Colors.primaries[index % Colors.primaries.
+        <span class="function">
+         length
+        </span>
+        ],
           child: Center(
             child: Text(
-              <span class="string">'Item $index'</span>,
+        <span class="string">
+         'Item $index'
+        </span>
+        ,
               style: TextStyle(color: Colors.white),
             ),
           ),
         );
       },
-      childCount: <span class="number">50</span>,
+      childCount:
+        <span class="number">
+         50
+        </span>
+        ,
     ),
   )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">SliverGrid with Delegate</span>
-<code>
-  SliverGrid(
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        SliverGrid with Delegate
+       </span>
+       <code>
+        SliverGrid(
     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: <span class="number">200</span>,
-      mainAxisSpacing: <span class="number">10</span>,
-      crossAxisSpacing: <span class="number">10</span>,
-      childAspectRatio: <span class="number">1.0</span>,
+      maxCrossAxisExtent:
+        <span class="number">
+         200
+        </span>
+        ,
+      mainAxisSpacing:
+        <span class="number">
+         10
+        </span>
+        ,
+      crossAxisSpacing:
+        <span class="number">
+         10
+        </span>
+        ,
+      childAspectRatio:
+        <span class="number">
+         1.0
+        </span>
+        ,
     ),
     delegate: SliverChildBuilderDelegate(
       (context, index) {
-        <span class="keyword">return</span> Container(
+        <span class="keyword">
+         return
+        </span>
+        Container(
           decoration: BoxDecoration(
-            color: Colors.primaries[index % Colors.primaries.<span class="function">length</span>],
-            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+            color: Colors.primaries[index % Colors.primaries.
+        <span class="function">
+         length
+        </span>
+        ],
+            borderRadius: BorderRadius.
+        <span class="function">
+         circular
+        </span>
+        (
+        <span class="number">
+         8
+        </span>
+        ),
           ),
           child: Center(
             child: Text(
-              <span class="string">'$index'</span>,
+        <span class="string">
+         '$index'
+        </span>
+        ,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: <span class="number">24</span>,
+                fontSize:
+        <span class="number">
+         24
+        </span>
+        ,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
         );
       },
-      childCount: <span class="number">30</span>,
+      childCount:
+        <span class="number">
+         30
+        </span>
+        ,
     ),
   )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 Delegate Options</h4>
-<ul>
-<li><strong>SliverChildBuilderDelegate</strong> – Build items lazily (recommended)</li>
-<li><strong>SliverChildListDelegate</strong> – Provide a pre-built list of children</li>
-<li><strong>SliverChildBuilderDelegate</strong> – Better for large lists (lazy loading)</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 5: STICKY HEADERS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">SliverPersistentHeader</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>SliverPersistentHeader</code> creates a header that <strong>sticks</strong> to the top
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 Delegate Options
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          SliverChildBuilderDelegate
+         </strong>
+         – Build items lazily (recommended)
+        </li>
+        <li>
+         <strong>
+          SliverChildListDelegate
+         </strong>
+         – Provide a pre-built list of children
+        </li>
+        <li>
+         <strong>
+          SliverChildBuilderDelegate
+         </strong>
+         – Better for large lists (lazy loading)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: STICKY HEADERS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        SliverPersistentHeader
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        SliverPersistentHeader
+       </code>
+       creates a header that
+       <strong>
+        sticks
+       </strong>
+       to the top
             of the scroll view as you scroll past it. This is perfect for section headers, sticky tabs,
             or any content that should remain visible.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">SliverPersistentHeader with Sticky Tabs</span>
-<code>
-<span class="keyword">class</span> <span class="function">StickyHeaderDelegate</span> <span class="keyword">extends</span> SliverPersistentHeaderDelegate {
-    <span class="keyword">final</span> String title;
-
-    <span class="function">StickyHeaderDelegate</span>(<span class="keyword">this</span>.title);
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        SliverPersistentHeader with Sticky Tabs
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         StickyHeaderDelegate
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        SliverPersistentHeaderDelegate {
+        <span class="keyword">
+         final
+        </span>
+        String title;
+        <span class="function">
+         StickyHeaderDelegate
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .title);
 
     @override
-    Widget <span class="function">build</span>(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (
       BuildContext context,
-      <span class="keyword">double</span> shrinkOffset,
-      <span class="keyword">bool</span> overlapsContent,
+        <span class="keyword">
+         double
+        </span>
+        shrinkOffset,
+        <span class="keyword">
+         bool
+        </span>
+        overlapsContent,
     ) {
-      <span class="keyword">return</span> Container(
+        <span class="keyword">
+         return
+        </span>
+        Container(
         color: Colors.blue,
-        padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">12</span>, horizontal: <span class="number">16</span>),
+        padding: EdgeInsets.
+        <span class="function">
+         symmetric
+        </span>
+        (vertical:
+        <span class="number">
+         12
+        </span>
+        , horizontal:
+        <span class="number">
+         16
+        </span>
+        ),
         child: Row(
           children: [
             Icon(Icons.label, color: Colors.white),
-            SizedBox(width: <span class="number">8</span>),
+            SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
             Text(
               title,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: <span class="number">18</span>,
+                fontSize:
+        <span class="number">
+         18
+        </span>
+        ,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1065,147 +1627,378 @@
     }
 
     @override
-    <span class="keyword">double</span> get maxExtent =&gt; <span class="number">60</span>;
+        <span class="keyword">
+         double
+        </span>
+        get maxExtent =&gt;
+        <span class="number">
+         60
+        </span>
+        ;
 
     @override
-    <span class="keyword">double</span> get minExtent =&gt; <span class="number">60</span>;
+        <span class="keyword">
+         double
+        </span>
+        get minExtent =&gt;
+        <span class="number">
+         60
+        </span>
+        ;
 
     @override
-    <span class="keyword">bool</span> shouldRebuild(StickyHeaderDelegate oldDelegate) {
-      <span class="keyword">return</span> title != oldDelegate.title;
+        <span class="keyword">
+         bool
+        </span>
+        shouldRebuild(StickyHeaderDelegate oldDelegate) {
+        <span class="keyword">
+         return
+        </span>
+        title != oldDelegate.title;
     }
   }
-
-  <span class="comment">// Usage in CustomScrollView</span>
-  CustomScrollView(
+        <span class="comment">
+         // Usage in CustomScrollView
+        </span>
+        CustomScrollView(
     slivers: [
       SliverToBoxAdapter(
-        child: Text(<span class="string">'Section 1'</span>),
-      ),
-      SliverPersistentHeader(
-        delegate: StickyHeaderDelegate(<span class="string">'Category A'</span>),
-      ),
-      SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) =&gt; ListTile(title: Text(<span class="string">'Item $index'</span>)),
-          childCount: <span class="number">10</span>,
+        child: Text(
+        <span class="string">
+         'Section 1'
+        </span>
         ),
       ),
       SliverPersistentHeader(
-        delegate: StickyHeaderDelegate(<span class="string">'Category B'</span>),
+        delegate: StickyHeaderDelegate(
+        <span class="string">
+         'Category A'
+        </span>
+        ),
       ),
       SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) =&gt; ListTile(title: Text(<span class="string">'Item $index'</span>)),
-          childCount: <span class="number">10</span>,
+          (context, index) =&gt; ListTile(title: Text(
+        <span class="string">
+         'Item $index'
+        </span>
+        )),
+          childCount:
+        <span class="number">
+         10
+        </span>
+        ,
+        ),
+      ),
+      SliverPersistentHeader(
+        delegate: StickyHeaderDelegate(
+        <span class="string">
+         'Category B'
+        </span>
+        ),
+      ),
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) =&gt; ListTile(title: Text(
+        <span class="string">
+         'Item $index'
+        </span>
+        )),
+          childCount:
+        <span class="number">
+         10
+        </span>
+        ,
         ),
       ),
     ],
   )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ When to Use SliverPersistentHeader</h4>
-<ul>
-<li><strong>Sticky section headers</strong> – Like a contacts list (A, B, C...)</li>
-<li><strong>Sticky tabs</strong> – Tab bar that stays at the top</li>
-<li><strong>Sticky search bars</strong> – Search field that scrolls with content</li>
-<li><strong>Sticky filters</strong> – Filter options that remain accessible</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 6: MIXING SLIVERS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Mixing Slivers</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            The real power of slivers comes from <strong>combining</strong> different types to create
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ When to Use SliverPersistentHeader
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Sticky section headers
+         </strong>
+         – Like a contacts list (A, B, C...)
+        </li>
+        <li>
+         <strong>
+          Sticky tabs
+         </strong>
+         – Tab bar that stays at the top
+        </li>
+        <li>
+         <strong>
+          Sticky search bars
+         </strong>
+         – Search field that scrolls with content
+        </li>
+        <li>
+         <strong>
+          Sticky filters
+         </strong>
+         – Filter options that remain accessible
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: MIXING SLIVERS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Mixing Slivers
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       The real power of slivers comes from
+       <strong>
+        combining
+       </strong>
+       different types to create
             complex, polished scrolling experiences.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">Complete Example: Profile Page</span>
-<code>
-<span class="keyword">class</span> <span class="function">ProfilePage</span> <span class="keyword">extends</span> StatelessWidget {
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Complete Example: Profile Page
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ProfilePage
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         body: CustomScrollView(
           slivers: [
-            <span class="comment">// 1. Collapsible App Bar</span>
-            SliverAppBar(
-              expandedHeight: <span class="number">250</span>,
-              floating: <span class="keyword">true</span>,
-              pinned: <span class="keyword">true</span>,
+        <span class="comment">
+         // 1. Collapsible App Bar
+        </span>
+        SliverAppBar(
+              expandedHeight:
+        <span class="number">
+         250
+        </span>
+        ,
+              floating:
+        <span class="keyword">
+         true
+        </span>
+        ,
+              pinned:
+        <span class="keyword">
+         true
+        </span>
+        ,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(<span class="string">'Profile'</span>),
+                title: Text(
+        <span class="string">
+         'Profile'
+        </span>
+        ),
                 background: Image.network(
-                  <span class="string">'https://example.com/cover.jpg'</span>,
+        <span class="string">
+         'https://example.com/cover.jpg'
+        </span>
+        ,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-
-            <span class="comment">// 2. Profile Info (static)</span>
-            SliverToBoxAdapter(
+        <span class="comment">
+         // 2. Profile Info (static)
+        </span>
+        SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+                padding: EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16
+        </span>
+        ),
                 child: Column(
                   children: [
                     Text(
-                      <span class="string">'John Doe'</span>,
-                      style: TextStyle(fontSize: <span class="number">24</span>, fontWeight: FontWeight.bold),
+        <span class="string">
+         'John Doe'
+        </span>
+        ,
+                      style: TextStyle(fontSize:
+        <span class="number">
+         24
+        </span>
+        , fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      <span class="string">'Flutter Developer'</span>,
-                      style: TextStyle(fontSize: <span class="number">16</span>, color: Colors.grey[<span class="number">600</span>]),
+        <span class="string">
+         'Flutter Developer'
+        </span>
+        ,
+                      style: TextStyle(fontSize:
+        <span class="number">
+         16
+        </span>
+        , color: Colors.grey[
+        <span class="number">
+         600
+        </span>
+        ]),
                     ),
-                    SizedBox(height: <span class="number">16</span>),
+                    SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildStat(<span class="string">'Posts'</span>, <span class="string">'42'</span>),
-                        _buildStat(<span class="string">'Followers'</span>, <span class="string">'1.2K'</span>),
-                        _buildStat(<span class="string">'Following'</span>, <span class="string">'89'</span>),
+                        _buildStat(
+        <span class="string">
+         'Posts'
+        </span>
+        ,
+        <span class="string">
+         '42'
+        </span>
+        ),
+                        _buildStat(
+        <span class="string">
+         'Followers'
+        </span>
+        ,
+        <span class="string">
+         '1.2K'
+        </span>
+        ),
+                        _buildStat(
+        <span class="string">
+         'Following'
+        </span>
+        ,
+        <span class="string">
+         '89'
+        </span>
+        ),
                       ],
                     ),
-                    SizedBox(height: <span class="number">16</span>),
+                    SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                     ElevatedButton(
                       onPressed: () {},
-                      child: Text(<span class="string">'Follow'</span>),
+                      child: Text(
+        <span class="string">
+         'Follow'
+        </span>
+        ),
                     ),
                   ],
                 ),
               ),
             ),
-
-            <span class="comment">// 3. Sticky Tab Bar</span>
-            SliverPersistentHeader(
+        <span class="comment">
+         // 3. Sticky Tab Bar
+        </span>
+        SliverPersistentHeader(
               delegate: _TabHeaderDelegate(),
-              pinned: <span class="keyword">true</span>,
+              pinned:
+        <span class="keyword">
+         true
+        </span>
+        ,
             ),
-
-            <span class="comment">// 4. Content (Grid view)</span>
-            SliverGrid(
+        <span class="comment">
+         // 4. Content (Grid view)
+        </span>
+        SliverGrid(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: <span class="number">150</span>,
-                mainAxisSpacing: <span class="number">2</span>,
-                crossAxisSpacing: <span class="number">2</span>,
+                maxCrossAxisExtent:
+        <span class="number">
+         150
+        </span>
+        ,
+                mainAxisSpacing:
+        <span class="number">
+         2
+        </span>
+        ,
+                crossAxisSpacing:
+        <span class="number">
+         2
+        </span>
+        ,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  <span class="keyword">return</span> Container(
-                    color: Colors.primaries[index % Colors.primaries.<span class="function">length</span>],
+        <span class="keyword">
+         return
+        </span>
+        Container(
+                    color: Colors.primaries[index % Colors.primaries.
+        <span class="function">
+         length
+        </span>
+        ],
                     child: Center(
                       child: Text(
-                        <span class="string">'${index + 1}'</span>,
-                        style: TextStyle(color: Colors.white, fontSize: <span class="number">20</span>),
+        <span class="string">
+         '${index + 1}'
+        </span>
+        ,
+                        style: TextStyle(color: Colors.white, fontSize:
+        <span class="number">
+         20
+        </span>
+        ),
                       ),
                     ),
                   );
                 },
-                childCount: <span class="number">50</span>,
+                childCount:
+        <span class="number">
+         50
+        </span>
+        ,
               ),
             ),
           ],
@@ -1213,52 +2006,148 @@
       );
     }
 
-    Widget <span class="function">_buildStat</span>(String label, String value) {
-      <span class="keyword">return</span> Column(
+    Widget
+        <span class="function">
+         _buildStat
+        </span>
+        (String label, String value) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
         children: [
           Text(
             value,
-            style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        , fontWeight: FontWeight.bold),
           ),
-          Text(label, style: TextStyle(color: Colors.grey[<span class="number">600</span>])),
+          Text(label, style: TextStyle(color: Colors.grey[
+        <span class="number">
+         600
+        </span>
+        ])),
         ],
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">_TabHeaderDelegate</span> <span class="keyword">extends</span> SliverPersistentHeaderDelegate {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _TabHeaderDelegate
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        SliverPersistentHeaderDelegate {
     @override
-    Widget <span class="function">build</span>(BuildContext context, <span class="keyword">double</span> shrinkOffset, <span class="keyword">bool</span> overlapsContent) {
-      <span class="keyword">return</span> Container(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context,
+        <span class="keyword">
+         double
+        </span>
+        shrinkOffset,
+        <span class="keyword">
+         bool
+        </span>
+        overlapsContent) {
+        <span class="keyword">
+         return
+        </span>
+        Container(
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildTab(<span class="string">'Posts'</span>, <span class="keyword">true</span>),
-            _buildTab(<span class="string">'Photos'</span>, <span class="keyword">false</span>),
-            _buildTab(<span class="string">'Videos'</span>, <span class="keyword">false</span>),
+            _buildTab(
+        <span class="string">
+         'Posts'
+        </span>
+        ,
+        <span class="keyword">
+         true
+        </span>
+        ),
+            _buildTab(
+        <span class="string">
+         'Photos'
+        </span>
+        ,
+        <span class="keyword">
+         false
+        </span>
+        ),
+            _buildTab(
+        <span class="string">
+         'Videos'
+        </span>
+        ,
+        <span class="keyword">
+         false
+        </span>
+        ),
           ],
         ),
       );
     }
 
-    Widget <span class="function">_buildTab</span>(String text, <span class="keyword">bool</span> isActive) {
-      <span class="keyword">return</span> Padding(
-        padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">12</span>),
+    Widget
+        <span class="function">
+         _buildTab
+        </span>
+        (String text,
+        <span class="keyword">
+         bool
+        </span>
+        isActive) {
+        <span class="keyword">
+         return
+        </span>
+        Padding(
+        padding: EdgeInsets.
+        <span class="function">
+         symmetric
+        </span>
+        (vertical:
+        <span class="number">
+         12
+        </span>
+        ),
         child: Column(
           children: [
             Text(
               text,
               style: TextStyle(
-                fontSize: <span class="number">16</span>,
+                fontSize:
+        <span class="number">
+         16
+        </span>
+        ,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
                 color: isActive ? Colors.blue : Colors.grey,
               ),
             ),
-            <span class="keyword">if</span> (isActive)
+        <span class="keyword">
+         if
+        </span>
+        (isActive)
               Container(
-                height: <span class="number">2</span>,
-                width: <span class="number">30</span>,
+                height:
+        <span class="number">
+         2
+        </span>
+        ,
+                width:
+        <span class="number">
+         30
+        </span>
+        ,
                 color: Colors.blue,
               ),
           ],
@@ -1267,222 +2156,507 @@
     }
 
     @override
-    <span class="keyword">double</span> get maxExtent =&gt; <span class="number">50</span>;
+        <span class="keyword">
+         double
+        </span>
+        get maxExtent =&gt;
+        <span class="number">
+         50
+        </span>
+        ;
 
     @override
-    <span class="keyword">double</span> get minExtent =&gt; <span class="number">50</span>;
+        <span class="keyword">
+         double
+        </span>
+        get minExtent =&gt;
+        <span class="number">
+         50
+        </span>
+        ;
 
     @override
-    <span class="keyword">bool</span> shouldRebuild(_TabHeaderDelegate oldDelegate) =&gt; <span class="keyword">false</span>;
+        <span class="keyword">
+         bool
+        </span>
+        shouldRebuild(_TabHeaderDelegate oldDelegate) =&gt;
+        <span class="keyword">
+         false
+        </span>
+        ;
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 7: STEP-BY-STEP IMPLEMENTATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Implementation</span>
-<span class="divider-line"></span>
-</div>
-<p>Follow these steps to implement slivers in your Flutter app:</p>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Start with CustomScrollView</strong> – Replace <code>ListView</code> with <code>CustomScrollView</code>
-</div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Add SliverAppBar</strong> – Create a collapsible app bar at the top
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Add static content</strong> – Use <code>SliverToBoxAdapter</code> for non-scrollable widgets
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Add scrollable content</strong> – Use <code>SliverList</code> or <code>SliverGrid</code>
-</div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Add sticky headers</strong> – Use <code>SliverPersistentHeader</code> for section headers
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">6.</span>
-<div class="step-text">
-<strong>Add spacing</strong> – Use <code>SliverPadding</code> to add space between slivers
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">7.</span>
-<div class="step-text">
-<strong>Test and refine</strong> – Adjust heights, behaviors, and animations
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not using SliverToBoxAdapter for regular widgets</div>
-<p>
-              You can't put regular widgets directly in <code>CustomScrollView.slivers</code>.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Wrap with SliverToBoxAdapter</div>
-<p>
-              Use <code>SliverToBoxAdapter(child: YourWidget())</code> to add regular widgets to a sliver list.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Forgetting to implement shouldRebuild</div>
-<p>
-              Not implementing <code>shouldRebuild</code> in custom delegates can cause unnecessary rebuilds.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Implement shouldRebuild</div>
-<p>
-              Always implement <code>shouldRebuild</code> in your custom delegates to control when they rebuild.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Using SliverChildListDelegate for large lists</div>
-<p>
-<code>SliverChildListDelegate</code> builds all children at once, which is inefficient for large lists.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use SliverChildBuilderDelegate</div>
-<p>
-              Use <code>SliverChildBuilderDelegate</code> for lazy loading of large lists.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 4: Hardcoding heights</div>
-<p>
-              Hardcoding heights in slivers can cause layout issues on different screen sizes.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use responsive heights</div>
-<p>
-              Use <code>MediaQuery</code>, <code>LayoutBuilder</code>, or dynamic calculations for sliver heights.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 9: RESOURCES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Resources</span>
-<span class="divider-line"></span>
-</div>
-<div class="resources-box">
-<h4>📚 Learning Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">Flutter Slivers Docs</a> – Official documentation</li>
-<li><a href="https://medium.com/flutter-community/slivers-demystified-6ff68ab0296f" target="_blank">Slivers, Demystified</a> – Medium article</li>
-<li><a href="https://www.youtube.com/watch?v=p7dF3QaBZjc" target="_blank">SliverAppBar Widget of the Week</a> – 1-minute video</li>
-<li><a href="https://www.youtube.com/watch?v=OrVg6qgQ_wY" target="_blank">SliverList and SliverGrid Widget of the Week</a> – 1-minute video</li>
-</ul>
-</div>
-<div class="resources-box" style="margin-top: 1rem;">
-<h4>🔗 Related Lessons</h4>
-<ul>
-<li><a href="module6-topic2-animations.html">Animations</a> – Combine slivers with animations</li>
-<li><a href="module6-topic1-custom-widgets.html">Custom Widgets</a> – Building reusable components</li>
-<li><a href="../module6-advanced-flutter.html">Module 6 Overview</a> – All advanced topics</li>
-</ul>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-<strong>Slivers</strong> are the building blocks of custom scrolling in Flutter. Using
-            <code>CustomScrollView</code> with different sliver types — <code>SliverAppBar</code>,
-            <code>SliverList</code>, <code>SliverGrid</code>, and <code>SliverPersistentHeader</code> —
-            you can create <strong>fancy scrolling effects</strong> like collapsing headers, sticky
-            sections, and elastic scrolling. Always use <code>SliverChildBuilderDelegate</code> for
-            large lists and implement <code>shouldRebuild</code> in custom delegates for performance.
-          </p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module6-topic3-hero-animations.html">
-<i class="fas fa-arrow-left"></i> Previous: Hero Animations
-          </a>
-<a class="btn btn-primary btn-sm" href="module6-topic5-performance-optimization.html">
-            Next: Performance Optimization <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" rel="noopener" target="_blank">Flutter Slivers Docs</a></li>
-<li><a href="https://docs.flutter.dev/ui/layout/scrolling" rel="noopener" target="_blank">Scrollable Layouts</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
-<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: STEP-BY-STEP IMPLEMENTATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Implementation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Follow these steps to implement slivers in your Flutter app:
+      </p>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Start with CustomScrollView
+         </strong>
+         – Replace
+         <code>
+          ListView
+         </code>
+         with
+         <code>
+          CustomScrollView
+         </code>
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add SliverAppBar
+         </strong>
+         – Create a collapsible app bar at the top
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add static content
+         </strong>
+         – Use
+         <code>
+          SliverToBoxAdapter
+         </code>
+         for non-scrollable widgets
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add scrollable content
+         </strong>
+         – Use
+         <code>
+          SliverList
+         </code>
+         or
+         <code>
+          SliverGrid
+         </code>
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add sticky headers
+         </strong>
+         – Use
+         <code>
+          SliverPersistentHeader
+         </code>
+         for section headers
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         6.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add spacing
+         </strong>
+         – Use
+         <code>
+          SliverPadding
+         </code>
+         to add space between slivers
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         7.
+        </span>
+        <div class="step-text">
+         <strong>
+          Test and refine
+         </strong>
+         – Adjust heights, behaviors, and animations
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not using SliverToBoxAdapter for regular widgets
+       </div>
+       <p>
+        You can't put regular widgets directly in
+        <code>
+         CustomScrollView.slivers
+        </code>
+        .
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Wrap with SliverToBoxAdapter
+       </div>
+       <p>
+        Use
+        <code>
+         SliverToBoxAdapter(child: YourWidget())
+        </code>
+        to add regular widgets to a sliver list.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Forgetting to implement shouldRebuild
+       </div>
+       <p>
+        Not implementing
+        <code>
+         shouldRebuild
+        </code>
+        in custom delegates can cause unnecessary rebuilds.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Implement shouldRebuild
+       </div>
+       <p>
+        Always implement
+        <code>
+         shouldRebuild
+        </code>
+        in your custom delegates to control when they rebuild.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Using SliverChildListDelegate for large lists
+       </div>
+       <p>
+        <code>
+         SliverChildListDelegate
+        </code>
+        builds all children at once, which is inefficient for large lists.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use SliverChildBuilderDelegate
+       </div>
+       <p>
+        Use
+        <code>
+         SliverChildBuilderDelegate
+        </code>
+        for lazy loading of large lists.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 4: Hardcoding heights
+       </div>
+       <p>
+        Hardcoding heights in slivers can cause layout issues on different screen sizes.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use responsive heights
+       </div>
+       <p>
+        Use
+        <code>
+         MediaQuery
+        </code>
+        ,
+        <code>
+         LayoutBuilder
+        </code>
+        , or dynamic calculations for sliver heights.
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 9: RESOURCES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Resources
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="resources-box">
+       <h4>
+        📚 Learning Resources
+       </h4>
+       <ul>
+        <li>
+         <a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" target="_blank">
+          Flutter Slivers Docs
+         </a>
+         – Official documentation
+        </li>
+        <li>
+         <a href="https://medium.com/flutter-community/slivers-demystified-6ff68ab0296f" target="_blank">
+          Slivers, Demystified
+         </a>
+         – Medium article
+        </li>
+        <li>
+         <a href="https://www.youtube.com/watch?v=p7dF3QaBZjc" target="_blank">
+          SliverAppBar Widget of the Week
+         </a>
+         – 1-minute video
+        </li>
+        <li>
+         <a href="https://www.youtube.com/watch?v=OrVg6qgQ_wY" target="_blank">
+          SliverList and SliverGrid Widget of the Week
+         </a>
+         – 1-minute video
+        </li>
+       </ul>
+      </div>
+      <div class="resources-box" style="margin-top: 1rem;">
+       <h4>
+        🔗 Related Lessons
+       </h4>
+       <ul>
+        <li>
+         <a href="module6-topic2-animations.html">
+          Animations
+         </a>
+         – Combine slivers with animations
+        </li>
+        <li>
+         <a href="module6-topic1-custom-widgets.html">
+          Custom Widgets
+         </a>
+         – Building reusable components
+        </li>
+        <li>
+         <a href="../module6-advanced-flutter.html">
+          Module 6 Overview
+         </a>
+         – All advanced topics
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       <strong>
+        Slivers
+       </strong>
+       are the building blocks of custom scrolling in Flutter. Using
+       <code>
+        CustomScrollView
+       </code>
+       with different sliver types —
+       <code>
+        SliverAppBar
+       </code>
+       ,
+       <code>
+        SliverList
+       </code>
+       ,
+       <code>
+        SliverGrid
+       </code>
+       , and
+       <code>
+        SliverPersistentHeader
+       </code>
+       —
+            you can create
+       <strong>
+        fancy scrolling effects
+       </strong>
+       like collapsing headers, sticky
+            sections, and elastic scrolling. Always use
+       <code>
+        SliverChildBuilderDelegate
+       </code>
+       for
+            large lists and implement
+       <code>
+        shouldRebuild
+       </code>
+       in custom delegates for performance.
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module6-topic3-hero-animations.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Hero Animations
+      </a>
+      <a class="btn btn-primary btn-sm" href="module6-topic5-performance-optimization.html">
+       Next: Performance Optimization
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module6-advanced-flutter.html">
+         Module 6
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" rel="noopener" target="_blank">
+         Flutter Slivers Docs
+        </a>
+       </li>
+       <li>
+        <a href="https://docs.flutter.dev/ui/layout/scrolling" rel="noopener" target="_blank">
+         Scrollable Layouts
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+         Flutter GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/ui/layout/scrolling/slivers" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1595,8 +2769,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1669,8 +2843,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1743,5 +2918,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Database (PostgreSQL) – Module 4 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to work with PostgreSQL in Supabase. Master CRUD operations, queries, relationships, and filtering in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Database (PostgreSQL) – Module 4 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to work with PostgreSQL in Supabase. Master CRUD operations, queries, relationships, and filtering in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -527,9 +528,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -592,147 +593,300 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module4-state-management.html">Module 4</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 3</span>
-</div>
-<span class="module-badge"><i class="fas fa-database"></i> Module 4</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 3</div>
-<h1>Database (PostgreSQL)</h1>
-<p class="topic-subtitle">
-            Working with PostgreSQL in Supabase — tables, CRUD operations, queries, and relationships.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://supabase.com/docs/guides/database" target="_blank">
-<i class="fas fa-globe"></i> Supabase Database Overview
-            </a>
-<a class="doc-badge" href="https://supabase.com/docs/reference/dart/select" target="_blank">
-<i class="fas fa-book"></i> Querying Data
-            </a>
-<a class="doc-badge" href="https://supabase.com/docs/reference/dart/insert" target="_blank">
-<i class="fas fa-book"></i> Insert Data
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: POSTGRESQL IN SUPABASE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">PostgreSQL in Supabase</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Supabase uses <strong>PostgreSQL</strong> as its database — the world's most advanced open-source relational database.
-            Unlike Firestore (NoSQL), PostgreSQL is a <strong>relational database</strong> with:
-          </p>
-<ul>
-<li><strong>Tables</strong> – Structured data with rows and columns</li>
-<li><strong>Relationships</strong> – Foreign keys and JOINs</li>
-<li><strong>SQL</strong> – Powerful query language</li>
-<li><strong>Transactions</strong> – ACID compliance</li>
-<li><strong>Indexes</strong> – Fast queries</li>
-<li><strong>Constraints</strong> – Data integrity</li>
-</ul>
-<div class="concept-card success">
-<h4>✅ PostgreSQL vs Firestore (NoSQL)</h4>
-<ul>
-<li><strong>PostgreSQL</strong> – Relational, complex queries, transactions, strong consistency</li>
-<li><strong>Firestore</strong> – Document-based, simpler queries, eventual consistency</li>
-<li><strong>PostgreSQL</strong> – Better for complex data relationships</li>
-<li><strong>Firestore</strong> – Better for simple, hierarchical data</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: DATABASE SCHEMA ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Database Schema</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            A database schema defines the structure of your data. Here's a common schema for a blog app:
-          </p>
-<div class="schema-grid">
-<div class="schema-item" style="border-left: 3px solid #3B82F6;">
-<div class="schema-name">users</div>
-<div class="schema-desc">id (UUID), email, username, created_at</div>
-</div>
-<div class="schema-item" style="border-left: 3px solid #10B981;">
-<div class="schema-name">posts</div>
-<div class="schema-desc">id, user_id (FK), title, content, created_at</div>
-</div>
-<div class="schema-item" style="border-left: 3px solid #F59E0B;">
-<div class="schema-name">comments</div>
-<div class="schema-desc">id, post_id (FK), user_id (FK), content, created_at</div>
-</div>
-<div class="schema-item" style="border-left: 3px solid #8B5CF6;">
-<div class="schema-name">likes</div>
-<div class="schema-desc">id, post_id (FK), user_id (FK), created_at</div>
-</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">SQL – Create Tables</span>
-<code>
-<span class="comment">-- Users table (extends Supabase auth.users)</span>
-  CREATE TABLE public.profiles (
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module4-state-management.html">
+        Module 4
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 3
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-database">
+       </i>
+       Module 4
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 3
+      </div>
+      <h1>
+       Database (PostgreSQL)
+      </h1>
+      <p class="topic-subtitle">
+       Working with PostgreSQL in Supabase — tables, CRUD operations, queries, and relationships.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://supabase.com/docs/guides/database" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Supabase Database Overview
+       </a>
+       <a class="doc-badge" href="https://supabase.com/docs/reference/dart/select" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Querying Data
+       </a>
+       <a class="doc-badge" href="https://supabase.com/docs/reference/dart/insert" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Insert Data
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: POSTGRESQL IN SUPABASE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        PostgreSQL in Supabase
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Supabase uses
+       <strong>
+        PostgreSQL
+       </strong>
+       as its database — the world's most advanced open-source relational database.
+            Unlike Firestore (NoSQL), PostgreSQL is a
+       <strong>
+        relational database
+       </strong>
+       with:
+      </p>
+      <ul>
+       <li>
+        <strong>
+         Tables
+        </strong>
+        – Structured data with rows and columns
+       </li>
+       <li>
+        <strong>
+         Relationships
+        </strong>
+        – Foreign keys and JOINs
+       </li>
+       <li>
+        <strong>
+         SQL
+        </strong>
+        – Powerful query language
+       </li>
+       <li>
+        <strong>
+         Transactions
+        </strong>
+        – ACID compliance
+       </li>
+       <li>
+        <strong>
+         Indexes
+        </strong>
+        – Fast queries
+       </li>
+       <li>
+        <strong>
+         Constraints
+        </strong>
+        – Data integrity
+       </li>
+      </ul>
+      <div class="concept-card success">
+       <h4>
+        ✅ PostgreSQL vs Firestore (NoSQL)
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          PostgreSQL
+         </strong>
+         – Relational, complex queries, transactions, strong consistency
+        </li>
+        <li>
+         <strong>
+          Firestore
+         </strong>
+         – Document-based, simpler queries, eventual consistency
+        </li>
+        <li>
+         <strong>
+          PostgreSQL
+         </strong>
+         – Better for complex data relationships
+        </li>
+        <li>
+         <strong>
+          Firestore
+         </strong>
+         – Better for simple, hierarchical data
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: DATABASE SCHEMA ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Database Schema
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       A database schema defines the structure of your data. Here's a common schema for a blog app:
+      </p>
+      <div class="schema-grid">
+       <div class="schema-item" style="border-left: 3px solid #3B82F6;">
+        <div class="schema-name">
+         users
+        </div>
+        <div class="schema-desc">
+         id (UUID), email, username, created_at
+        </div>
+       </div>
+       <div class="schema-item" style="border-left: 3px solid #10B981;">
+        <div class="schema-name">
+         posts
+        </div>
+        <div class="schema-desc">
+         id, user_id (FK), title, content, created_at
+        </div>
+       </div>
+       <div class="schema-item" style="border-left: 3px solid #F59E0B;">
+        <div class="schema-name">
+         comments
+        </div>
+        <div class="schema-desc">
+         id, post_id (FK), user_id (FK), content, created_at
+        </div>
+       </div>
+       <div class="schema-item" style="border-left: 3px solid #8B5CF6;">
+        <div class="schema-name">
+         likes
+        </div>
+        <div class="schema-desc">
+         id, post_id (FK), user_id (FK), created_at
+        </div>
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        SQL – Create Tables
+       </span>
+       <code>
+        <span class="comment">
+         -- Users table (extends Supabase auth.users)
+        </span>
+        CREATE TABLE public.profiles (
     id UUID REFERENCES auth.users(id) PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
     full_name TEXT,
     avatar_url TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()
   );
-
-  <span class="comment">-- Posts table</span>
-  CREATE TABLE public.posts (
+        <span class="comment">
+         -- Posts table
+        </span>
+        CREATE TABLE public.posts (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
@@ -740,444 +894,1463 @@
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
   );
-
-  <span class="comment">-- Comments table</span>
-  CREATE TABLE public.comments (
+        <span class="comment">
+         -- Comments table
+        </span>
+        CREATE TABLE public.comments (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     post_id UUID REFERENCES public.posts(id) ON DELETE CASCADE,
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
   );
-
-  <span class="comment">-- Likes table</span>
-  CREATE TABLE public.likes (
+        <span class="comment">
+         -- Likes table
+        </span>
+        CREATE TABLE public.likes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     post_id UUID REFERENCES public.posts(id) ON DELETE CASCADE,
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(post_id, user_id)
   );
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 3: CRUD OPERATIONS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">CRUD Operations</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Supabase provides a fluent API for CRUD operations. Here's how to perform them in Flutter.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/post_service.dart – CRUD Operations</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">PostService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="comment">// ----- CREATE (INSERT) -----</span>
-<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">createPost</span>({
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> String title,
-      <span class="keyword">required</span> String content,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: CRUD OPERATIONS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        CRUD Operations
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Supabase provides a fluent API for CRUD operations. Here's how to perform them in Flutter.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/post_service.dart – CRUD Operations
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         PostService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="comment">
+         // ----- CREATE (INSERT) -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         createPost
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String userId,
+        <span class="keyword">
+         required
+        </span>
+        String title,
+        <span class="keyword">
+         required
+        </span>
+        String content,
     }) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
           .insert({
-            <span class="string">'user_id'</span>: userId,
-            <span class="string">'title'</span>: title,
-            <span class="string">'content'</span>: content,
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
+        <span class="string">
+         'title'
+        </span>
+        : title,
+        <span class="string">
+         'content'
+        </span>
+        : content,
           })
           .select()
           .single();
-
-      <span class="keyword">return</span> response;
+        <span class="keyword">
+         return
+        </span>
+        response;
     }
-
-    <span class="comment">// ----- READ (SELECT) -----</span>
-<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getAllPosts</span>() async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'*, profiles(username, full_name)'</span>)
-          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>);
-
-      <span class="keyword">return</span> response;
+        <span class="comment">
+         // ----- READ (SELECT) -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         getAllPosts
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*, profiles(username, full_name)'
+        </span>
+        )
+          .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         false
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        response;
     }
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">getPostById</span>(String id) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'*, profiles(username, full_name), comments(*, profiles(username))'</span>)
-          .eq(<span class="string">'id'</span>, id)
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         getPostById
+        </span>
+        (String id) async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*, profiles(username, full_name), comments(*, profiles(username))'
+        </span>
+        )
+          .eq(
+        <span class="string">
+         'id'
+        </span>
+        , id)
           .single();
-
-      <span class="keyword">return</span> response;
+        <span class="keyword">
+         return
+        </span>
+        response;
     }
-
-    <span class="comment">// ----- UPDATE -----</span>
-<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">updatePost</span>({
-      <span class="keyword">required</span> String id,
-      <span class="keyword">required</span> String title,
-      <span class="keyword">required</span> String content,
+        <span class="comment">
+         // ----- UPDATE -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         updatePost
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String id,
+        <span class="keyword">
+         required
+        </span>
+        String title,
+        <span class="keyword">
+         required
+        </span>
+        String content,
     }) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
           .update({
-            <span class="string">'title'</span>: title,
-            <span class="string">'content'</span>: content,
-            <span class="string">'updated_at'</span>: DateTime.now().toIso8601String(),
+        <span class="string">
+         'title'
+        </span>
+        : title,
+        <span class="string">
+         'content'
+        </span>
+        : content,
+        <span class="string">
+         'updated_at'
+        </span>
+        : DateTime.now().toIso8601String(),
           })
-          .eq(<span class="string">'id'</span>, id)
+          .eq(
+        <span class="string">
+         'id'
+        </span>
+        , id)
           .select()
           .single();
-
-      <span class="keyword">return</span> response;
+        <span class="keyword">
+         return
+        </span>
+        response;
     }
-
-    <span class="comment">// ----- DELETE -----</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deletePost</span>(String id) async {
-      <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
+        <span class="comment">
+         // ----- DELETE -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         deletePost
+        </span>
+        (String id) async {
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
           .delete()
-          .eq(<span class="string">'id'</span>, id);
+          .eq(
+        <span class="string">
+         'id'
+        </span>
+        , id);
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 4: QUERYING DATA ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Querying Data</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Supabase supports powerful query operations including filtering, sorting, and limiting.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/query_service.dart – Advanced Queries</span>
-<code>
-<span class="keyword">class</span> <span class="function">QueryService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="comment">// ----- FILTERING -----</span>
-<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">filterPosts</span>({
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: QUERYING DATA ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Querying Data
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Supabase supports powerful query operations including filtering, sorting, and limiting.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/query_service.dart – Advanced Queries
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         QueryService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="comment">
+         // ----- FILTERING -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         filterPosts
+        </span>
+        ({
       String? userId,
       String? searchQuery,
       DateTime? fromDate,
       DateTime? toDate,
     }) async {
-      <span class="keyword">var</span> query = client.from(<span class="string">'posts'</span>).select(<span class="string">'*, profiles(username)'</span>);
-
-      <span class="keyword">if</span> (userId != <span class="keyword">null</span>) {
-        query = query.eq(<span class="string">'user_id'</span>, userId);
+        <span class="keyword">
+         var
+        </span>
+        query = client.from(
+        <span class="string">
+         'posts'
+        </span>
+        ).select(
+        <span class="string">
+         '*, profiles(username)'
+        </span>
+        );
+        <span class="keyword">
+         if
+        </span>
+        (userId !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        query = query.eq(
+        <span class="string">
+         'user_id'
+        </span>
+        , userId);
       }
-
-      <span class="keyword">if</span> (searchQuery != <span class="keyword">null</span> &amp;&amp; searchQuery.isNotEmpty) {
-        query = query.ilike(<span class="string">'title'</span>, <span class="string">'%$searchQuery%'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (searchQuery !=
+        <span class="keyword">
+         null
+        </span>
+        &amp;&amp; searchQuery.isNotEmpty) {
+        query = query.ilike(
+        <span class="string">
+         'title'
+        </span>
+        ,
+        <span class="string">
+         '%$searchQuery%'
+        </span>
+        );
       }
-
-      <span class="keyword">if</span> (fromDate != <span class="keyword">null</span>) {
-        query = query.gte(<span class="string">'created_at'</span>, fromDate.toIso8601String());
+        <span class="keyword">
+         if
+        </span>
+        (fromDate !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        query = query.gte(
+        <span class="string">
+         'created_at'
+        </span>
+        , fromDate.toIso8601String());
       }
-
-      <span class="keyword">if</span> (toDate != <span class="keyword">null</span>) {
-        query = query.lte(<span class="string">'created_at'</span>, toDate.toIso8601String());
+        <span class="keyword">
+         if
+        </span>
+        (toDate !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        query = query.lte(
+        <span class="string">
+         'created_at'
+        </span>
+        , toDate.toIso8601String());
       }
-
-      <span class="keyword">return</span> <span class="keyword">await</span> query.order(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>);
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        query.order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         false
+        </span>
+        );
     }
-
-    <span class="comment">// ----- PAGINATION -----</span>
-<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getPostsPaginated</span>({
-      <span class="keyword">required</span> <span class="keyword">int</span> page,
-      <span class="keyword">required</span> <span class="keyword">int</span> pageSize,
+        <span class="comment">
+         // ----- PAGINATION -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         getPostsPaginated
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        page,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        pageSize,
     }) async {
-      <span class="keyword">final</span> from = (page - <span class="number">1</span>) * pageSize;
-      <span class="keyword">final</span> to = from + pageSize - <span class="number">1</span>;
-
-      <span class="keyword">return</span> <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'*, profiles(username)'</span>)
-          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>)
+        <span class="keyword">
+         final
+        </span>
+        from = (page -
+        <span class="number">
+         1
+        </span>
+        ) * pageSize;
+        <span class="keyword">
+         final
+        </span>
+        to = from + pageSize -
+        <span class="number">
+         1
+        </span>
+        ;
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*, profiles(username)'
+        </span>
+        )
+          .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         false
+        </span>
+        )
           .range(from, to);
     }
-
-    <span class="comment">// ----- AGGREGATION -----</span>
-<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">getPostStats</span>() async {
-      <span class="comment">// Get total posts</span>
-<span class="keyword">final</span> countResponse = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'*'</span>, count: CountOption.exact)
-          .limit(<span class="number">0</span>);
-
-      <span class="comment">// Get posts by user</span>
-<span class="keyword">final</span> userPosts = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'user_id, count'</span>)
-          .groupBy(<span class="string">'user_id'</span>);
-
-      <span class="keyword">return</span> {
-        <span class="string">'totalPosts'</span>: countResponse.count,
-        <span class="string">'postsByUser'</span>: userPosts,
+        <span class="comment">
+         // ----- AGGREGATION -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         getPostStats
+        </span>
+        () async {
+        <span class="comment">
+         // Get total posts
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        countResponse =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*'
+        </span>
+        , count: CountOption.exact)
+          .limit(
+        <span class="number">
+         0
+        </span>
+        );
+        <span class="comment">
+         // Get posts by user
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        userPosts =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         'user_id, count'
+        </span>
+        )
+          .groupBy(
+        <span class="string">
+         'user_id'
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'totalPosts'
+        </span>
+        : countResponse.count,
+        <span class="string">
+         'postsByUser'
+        </span>
+        : userPosts,
       };
     }
-
-    <span class="comment">// ----- COMPLEX QUERY WITH JOIN -----</span>
-<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getPostsWithCommentsCount</span>() async {
-      <span class="keyword">return</span> <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'*, profiles(username), comments(count)'</span>)
-          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>);
+        <span class="comment">
+         // ----- COMPLEX QUERY WITH JOIN -----
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         getPostsWithCommentsCount
+        </span>
+        () async {
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*, profiles(username), comments(count)'
+        </span>
+        )
+          .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         false
+        </span>
+        );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: RELATIONSHIPS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Relationships (Foreign Keys)</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            PostgreSQL supports powerful relationships between tables using foreign keys.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/models/relationship_example.dart – Relationships</span>
-<code>
-<span class="comment">// One-to-Many: User → Posts</span>
-<span class="keyword">final</span> userWithPosts = <span class="keyword">await</span> client
-      .from(<span class="string">'profiles'</span>)
-      .select(<span class="string">'*, posts(*)'</span>)
-      .eq(<span class="string">'id'</span>, userId)
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: RELATIONSHIPS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Relationships (Foreign Keys)
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       PostgreSQL supports powerful relationships between tables using foreign keys.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/models/relationship_example.dart – Relationships
+       </span>
+       <code>
+        <span class="comment">
+         // One-to-Many: User → Posts
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        userWithPosts =
+        <span class="keyword">
+         await
+        </span>
+        client
+      .from(
+        <span class="string">
+         'profiles'
+        </span>
+        )
+      .select(
+        <span class="string">
+         '*, posts(*)'
+        </span>
+        )
+      .eq(
+        <span class="string">
+         'id'
+        </span>
+        , userId)
       .single();
-
-  <span class="comment">// Many-to-One: Post → User (with foreign key)</span>
-<span class="keyword">final</span> postWithUser = <span class="keyword">await</span> client
-      .from(<span class="string">'posts'</span>)
-      .select(<span class="string">'*, profiles(username, full_name)'</span>)
-      .eq(<span class="string">'id'</span>, postId)
+        <span class="comment">
+         // Many-to-One: Post → User (with foreign key)
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        postWithUser =
+        <span class="keyword">
+         await
+        </span>
+        client
+      .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+      .select(
+        <span class="string">
+         '*, profiles(username, full_name)'
+        </span>
+        )
+      .eq(
+        <span class="string">
+         'id'
+        </span>
+        , postId)
       .single();
-
-  <span class="comment">// Many-to-Many: Posts ↔ Users (through likes table)</span>
-<span class="keyword">final</span> likedPosts = <span class="keyword">await</span> client
-      .from(<span class="string">'likes'</span>)
-      .select(<span class="string">'posts(*, profiles(username))'</span>)
-      .eq(<span class="string">'user_id'</span>, userId)
-      .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>);
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>🔑 Foreign Key Types</h4>
-<ul>
-<li><strong>ON DELETE CASCADE</strong> – Delete child rows when parent is deleted</li>
-<li><strong>ON DELETE SET NULL</strong> – Set foreign key to NULL when parent is deleted</li>
-<li><strong>ON DELETE RESTRICT</strong> – Prevent deletion if child rows exist</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 6: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Blog App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete blog app using Supabase PostgreSQL with all CRUD operations.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Complete Blog App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 1. MAIN</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">void</span> <span class="function">main</span>() async {
-    <span class="keyword">await</span> Supabase.initialize(
-      url: <span class="string">'https://your-project.supabase.co'</span>,
-      anonKey: <span class="string">'your-anon-key'</span>,
+        <span class="comment">
+         // Many-to-Many: Posts ↔ Users (through likes table)
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        likedPosts =
+        <span class="keyword">
+         await
+        </span>
+        client
+      .from(
+        <span class="string">
+         'likes'
+        </span>
+        )
+      .select(
+        <span class="string">
+         'posts(*, profiles(username))'
+        </span>
+        )
+      .eq(
+        <span class="string">
+         'user_id'
+        </span>
+        , userId)
+      .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         false
+        </span>
+        );
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        🔑 Foreign Key Types
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          ON DELETE CASCADE
+         </strong>
+         – Delete child rows when parent is deleted
+        </li>
+        <li>
+         <strong>
+          ON DELETE SET NULL
+         </strong>
+         – Set foreign key to NULL when parent is deleted
+        </li>
+        <li>
+         <strong>
+          ON DELETE RESTRICT
+         </strong>
+         – Prevent deletion if child rows exist
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Blog App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete blog app using Supabase PostgreSQL with all CRUD operations.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Complete Blog App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:intl/intl.dart'
+        </span>
+        ;
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 1. MAIN
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        Supabase.initialize(
+      url:
+        <span class="string">
+         'https://your-project.supabase.co'
+        </span>
+        ,
+      anonKey:
+        <span class="string">
+         'your-anon-key'
+        </span>
+        ,
     );
-    runApp(<span class="function">MyApp</span>());
+    runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Blog App'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Blog App'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         home: BlogListScreen(),
       );
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 2. SERVICES</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">BlogService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getPosts</span>() async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
-          .select(<span class="string">'*, profiles(username, full_name)'</span>)
-          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">false</span>);
-
-      <span class="keyword">return</span> response;
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 2. SERVICES
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         BlogService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         getPosts
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
+          .select(
+        <span class="string">
+         '*, profiles(username, full_name)'
+        </span>
+        )
+          .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         false
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        response;
     }
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">createPost</span>({
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> String title,
-      <span class="keyword">required</span> String content,
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         createPost
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String userId,
+        <span class="keyword">
+         required
+        </span>
+        String title,
+        <span class="keyword">
+         required
+        </span>
+        String content,
     }) async {
-      <span class="keyword">return</span> <span class="keyword">await</span> client
-          .from(<span class="string">'posts'</span>)
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'posts'
+        </span>
+        )
           .insert({
-            <span class="string">'user_id'</span>: userId,
-            <span class="string">'title'</span>: title,
-            <span class="string">'content'</span>: content,
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
+        <span class="string">
+         'title'
+        </span>
+        : title,
+        <span class="string">
+         'content'
+        </span>
+        : content,
           })
           .select()
           .single();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deletePost</span>(String id) async {
-      <span class="keyword">await</span> client.from(<span class="string">'posts'</span>).delete().eq(<span class="string">'id'</span>, id);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         deletePost
+        </span>
+        (String id) async {
+        <span class="keyword">
+         await
+        </span>
+        client.from(
+        <span class="string">
+         'posts'
+        </span>
+        ).delete().eq(
+        <span class="string">
+         'id'
+        </span>
+        , id);
     }
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">toggleLike</span>({
-      <span class="keyword">required</span> String postId,
-      <span class="keyword">required</span> String userId,
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         toggleLike
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String postId,
+        <span class="keyword">
+         required
+        </span>
+        String userId,
     }) async {
-      <span class="comment">// Check if like exists</span>
-<span class="keyword">final</span> existing = <span class="keyword">await</span> client
-          .from(<span class="string">'likes'</span>)
+        <span class="comment">
+         // Check if like exists
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        existing =
+        <span class="keyword">
+         await
+        </span>
+        client
+          .from(
+        <span class="string">
+         'likes'
+        </span>
+        )
           .select()
-          .eq(<span class="string">'post_id'</span>, postId)
-          .eq(<span class="string">'user_id'</span>, userId)
+          .eq(
+        <span class="string">
+         'post_id'
+        </span>
+        , postId)
+          .eq(
+        <span class="string">
+         'user_id'
+        </span>
+        , userId)
           .maybeSingle();
-
-      <span class="keyword">if</span> (existing != <span class="keyword">null</span>) {
-        <span class="comment">// Unlike</span>
-<span class="keyword">await</span> client
-            .from(<span class="string">'likes'</span>)
+        <span class="keyword">
+         if
+        </span>
+        (existing !=
+        <span class="keyword">
+         null
+        </span>
+        ) {
+        <span class="comment">
+         // Unlike
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        client
+            .from(
+        <span class="string">
+         'likes'
+        </span>
+        )
             .delete()
-            .eq(<span class="string">'post_id'</span>, postId)
-            .eq(<span class="string">'user_id'</span>, userId);
-        <span class="keyword">return</span> {<span class="string">'liked'</span>: <span class="keyword">false</span>};
-      } <span class="keyword">else</span> {
-        <span class="comment">// Like</span>
-<span class="keyword">await</span> client
-            .from(<span class="string">'likes'</span>)
+            .eq(
+        <span class="string">
+         'post_id'
+        </span>
+        , postId)
+            .eq(
+        <span class="string">
+         'user_id'
+        </span>
+        , userId);
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'liked'
+        </span>
+        :
+        <span class="keyword">
+         false
+        </span>
+        };
+      }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="comment">
+         // Like
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        client
+            .from(
+        <span class="string">
+         'likes'
+        </span>
+        )
             .insert({
-              <span class="string">'post_id'</span>: postId,
-              <span class="string">'user_id'</span>: userId,
+        <span class="string">
+         'post_id'
+        </span>
+        : postId,
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
             });
-        <span class="keyword">return</span> {<span class="string">'liked'</span>: <span class="keyword">true</span>};
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'liked'
+        </span>
+        :
+        <span class="keyword">
+         true
+        </span>
+        };
       }
     }
   }
-
-  <span class="comment">// ==========================================</span>
-<span class="comment">// 3. UI</span>
-<span class="comment">// ==========================================</span>
-<span class="keyword">class</span> <span class="function">BlogListScreen</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="comment">
+         // 3. UI
+        </span>
+        <span class="comment">
+         // ==========================================
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         BlogListScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;BlogListScreen&gt; <span class="function">createState</span>() =&gt; _BlogListScreenState();
+    State&lt;BlogListScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _BlogListScreenState();
   }
-
-  <span class="keyword">class</span> _BlogListScreenState <span class="keyword">extends</span> State&lt;BlogListScreen&gt; {
-    <span class="keyword">final</span> BlogService _blogService = BlogService();
+        <span class="keyword">
+         class
+        </span>
+        _BlogListScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;BlogListScreen&gt; {
+        <span class="keyword">
+         final
+        </span>
+        BlogService _blogService = BlogService();
     List&lt;Map&lt;String, dynamic&gt;&gt; _posts = [];
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">true</span>;
-    <span class="keyword">bool</span> _hasError = <span class="keyword">false</span>;
+        <span class="keyword">
+         bool
+        </span>
+        _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        <span class="keyword">
+         bool
+        </span>
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
     String? _errorMessage;
-
-    <span class="keyword">final</span> TextEditingController _titleController = TextEditingController();
-    <span class="keyword">final</span> TextEditingController _contentController = TextEditingController();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _titleController = TextEditingController();
+        <span class="keyword">
+         final
+        </span>
+        TextEditingController _contentController = TextEditingController();
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
       _loadPosts();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_loadPosts</span>() async {
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _loadPosts
+        </span>
+        () async {
       setState(() {
-        _isLoading = <span class="keyword">true</span>;
-        _hasError = <span class="keyword">false</span>;
+        _isLoading =
+        <span class="keyword">
+         true
+        </span>
+        ;
+        _hasError =
+        <span class="keyword">
+         false
+        </span>
+        ;
       });
-
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> posts = <span class="keyword">await</span> _blogService.getPosts();
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        posts =
+        <span class="keyword">
+         await
+        </span>
+        _blogService.getPosts();
         setState(() {
           _posts = posts;
-          _isLoading = <span class="keyword">false</span>;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
         });
-      } <span class="keyword">catch</span> (e) {
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
         setState(() {
-          _isLoading = <span class="keyword">false</span>;
-          _hasError = <span class="keyword">true</span>;
+          _isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ;
+          _hasError =
+        <span class="keyword">
+         true
+        </span>
+        ;
           _errorMessage = e.toString();
         });
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_createPost</span>() async {
-      <span class="keyword">final</span> title = _titleController.text.trim();
-      <span class="keyword">final</span> content = _contentController.text.trim();
-
-      <span class="keyword">if</span> (title.isEmpty || content.isEmpty) <span class="keyword">return</span>;
-
-      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
-      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
-
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> _blogService.createPost(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _createPost
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        title = _titleController.text.trim();
+        <span class="keyword">
+         final
+        </span>
+        content = _contentController.text.trim();
+        <span class="keyword">
+         if
+        </span>
+        (title.isEmpty || content.isEmpty)
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        user = Supabase.instance.client.auth.currentUser;
+        <span class="keyword">
+         if
+        </span>
+        (user ==
+        <span class="keyword">
+         null
+        </span>
+        )
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        _blogService.createPost(
           userId: user.id,
           title: title,
           content: content,
         );
         _titleController.clear();
         _contentController.clear();
-        <span class="keyword">await</span> _loadPosts();
+        <span class="keyword">
+         await
+        </span>
+        _loadPosts();
         Navigator.pop(context);
-      } <span class="keyword">catch</span> (e) {
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(<span class="string">'Error: $e'</span>), backgroundColor: Colors.red),
+          SnackBar(content: Text(
+        <span class="string">
+         'Error: $e'
+        </span>
+        ), backgroundColor: Colors.red),
         );
       }
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_deletePost</span>(String id) async {
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _deletePost
+        </span>
+        (String id) async {
       showDialog(
         context: context,
         builder: (context) =&gt; AlertDialog(
-          title: Text(<span class="string">'Delete Post'</span>),
-          content: Text(<span class="string">'Are you sure you want to delete this post?'</span>),
+          title: Text(
+        <span class="string">
+         'Delete Post'
+        </span>
+        ),
+          content: Text(
+        <span class="string">
+         'Are you sure you want to delete this post?'
+        </span>
+        ),
           actions: [
             TextButton(
               onPressed: () =&gt; Navigator.pop(context),
-              child: Text(<span class="string">'Cancel'</span>),
+              child: Text(
+        <span class="string">
+         'Cancel'
+        </span>
+        ),
             ),
             ElevatedButton(
               onPressed: () async {
-                <span class="keyword">await</span> _blogService.deletePost(id);
+        <span class="keyword">
+         await
+        </span>
+        _blogService.deletePost(id);
                 Navigator.pop(context);
-                <span class="keyword">await</span> _loadPosts();
+        <span class="keyword">
+         await
+        </span>
+        _loadPosts();
               },
-              child: Text(<span class="string">'Delete'</span>),
+              child: Text(
+        <span class="string">
+         'Delete'
+        </span>
+        ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
@@ -1186,49 +2359,111 @@
         ),
       );
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_toggleLike</span>(String postId) async {
-      <span class="keyword">final</span> user = Supabase.instance.client.auth.currentUser;
-      <span class="keyword">if</span> (user == <span class="keyword">null</span>) <span class="keyword">return</span>;
-
-      <span class="keyword">await</span> _blogService.toggleLike(postId: postId, userId: user.id);
-      <span class="keyword">await</span> _loadPosts();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         _toggleLike
+        </span>
+        (String postId) async {
+        <span class="keyword">
+         final
+        </span>
+        user = Supabase.instance.client.auth.currentUser;
+        <span class="keyword">
+         if
+        </span>
+        (user ==
+        <span class="keyword">
+         null
+        </span>
+        )
+        <span class="keyword">
+         return
+        </span>
+        ;
+        <span class="keyword">
+         await
+        </span>
+        _blogService.toggleLike(postId: postId, userId: user.id);
+        <span class="keyword">
+         await
+        </span>
+        _loadPosts();
     }
-
-    <span class="keyword">void</span> <span class="function">_showCreateDialog</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _showCreateDialog
+        </span>
+        () {
       showDialog(
         context: context,
         builder: (context) =&gt; AlertDialog(
-          title: Text(<span class="string">'Create Post'</span>),
+          title: Text(
+        <span class="string">
+         'Create Post'
+        </span>
+        ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _titleController,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Title...'</span>,
+                  hintText:
+        <span class="string">
+         'Title...'
+        </span>
+        ,
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: <span class="number">8</span>),
+              SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
               TextField(
                 controller: _contentController,
                 decoration: InputDecoration(
-                  hintText: <span class="string">'Content...'</span>,
+                  hintText:
+        <span class="string">
+         'Content...'
+        </span>
+        ,
                   border: OutlineInputBorder(),
                 ),
-                maxLines: <span class="number">5</span>,
+                maxLines:
+        <span class="number">
+         5
+        </span>
+        ,
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () =&gt; Navigator.pop(context),
-              child: Text(<span class="string">'Cancel'</span>),
+              child: Text(
+        <span class="string">
+         'Cancel'
+        </span>
+        ),
             ),
             ElevatedButton(
               onPressed: _createPost,
-              child: Text(<span class="string">'Publish'</span>),
+              child: Text(
+        <span class="string">
+         'Publish'
+        </span>
+        ),
             ),
           ],
         ),
@@ -1236,11 +2471,26 @@
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'📝 Blog'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         '📝 Blog'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
@@ -1255,13 +2505,33 @@
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
-                        SizedBox(height: <span class="number">16</span>),
-                        Text(_errorMessage ?? <span class="string">'Error loading posts'</span>),
-                        SizedBox(height: <span class="number">16</span>),
+                        Icon(Icons.error, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.red),
+                        SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+                        Text(_errorMessage ??
+        <span class="string">
+         'Error loading posts'
+        </span>
+        ),
+                        SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                         ElevatedButton(
                           onPressed: _loadPosts,
-                          child: Text(<span class="string">'Retry'</span>),
+                          child: Text(
+        <span class="string">
+         'Retry'
+        </span>
+        ),
                         ),
                       ],
                     ),
@@ -1271,45 +2541,133 @@
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.post_add, size: <span class="number">80</span>, color: Colors.grey.shade400),
-                            SizedBox(height: <span class="number">16</span>),
+                            Icon(Icons.post_add, size:
+        <span class="number">
+         80
+        </span>
+        , color: Colors.grey.shade400),
+                            SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                             Text(
-                              <span class="string">'No posts yet'</span>,
-                              style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.w600),
+        <span class="string">
+         'No posts yet'
+        </span>
+        ,
+                              style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        , fontWeight: FontWeight.w600),
                             ),
                             Text(
-                              <span class="string">'Be the first to publish!'</span>,
+        <span class="string">
+         'Be the first to publish!'
+        </span>
+        ,
                               style: TextStyle(color: Colors.grey.shade400),
                             ),
                           ],
                         ),
                       )
                     : ListView.builder(
-                        padding: EdgeInsets.all(<span class="number">8</span>),
+                        padding: EdgeInsets.all(
+        <span class="number">
+         8
+        </span>
+        ),
                         itemCount: _posts.length,
                         itemBuilder: (context, index) {
-                          <span class="keyword">final</span> post = _posts[index];
-                          <span class="keyword">final</span> profile = post[<span class="string">'profiles'</span>] <span class="keyword">as</span> Map&lt;String, dynamic&gt;?;
-                          <span class="keyword">final</span> username = profile?[<span class="string">'username'</span>] ?? <span class="string">'Unknown'</span>;
-                          <span class="keyword">final</span> createdAt = DateTime.parse(post[<span class="string">'created_at'</span>]);
-
-                          <span class="keyword">return</span> Card(
-                            margin: EdgeInsets.symmetric(horizontal: <span class="number">8</span>, vertical: <span class="number">4</span>),
+        <span class="keyword">
+         final
+        </span>
+        post = _posts[index];
+        <span class="keyword">
+         final
+        </span>
+        profile = post[
+        <span class="string">
+         'profiles'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;?;
+        <span class="keyword">
+         final
+        </span>
+        username = profile?[
+        <span class="string">
+         'username'
+        </span>
+        ] ??
+        <span class="string">
+         'Unknown'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        createdAt = DateTime.parse(post[
+        <span class="string">
+         'created_at'
+        </span>
+        ]);
+        <span class="keyword">
+         return
+        </span>
+        Card(
+                            margin: EdgeInsets.symmetric(horizontal:
+        <span class="number">
+         8
+        </span>
+        , vertical:
+        <span class="number">
+         4
+        </span>
+        ),
                             child: Padding(
-                              padding: EdgeInsets.all(<span class="number">12</span>),
+                              padding: EdgeInsets.all(
+        <span class="number">
+         12
+        </span>
+        ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
                                       CircleAvatar(
-                                        radius: <span class="number">16</span>,
+                                        radius:
+        <span class="number">
+         16
+        </span>
+        ,
                                         child: Text(
-                                          username.isNotEmpty ? username[<span class="number">0</span>].toUpperCase() : <span class="string">'?'</span>,
-                                          style: TextStyle(fontSize: <span class="number">12</span>),
+                                          username.isNotEmpty ? username[
+        <span class="number">
+         0
+        </span>
+        ].toUpperCase() :
+        <span class="string">
+         '?'
+        </span>
+        ,
+                                          style: TextStyle(fontSize:
+        <span class="number">
+         12
+        </span>
+        ),
                                         ),
                                       ),
-                                      SizedBox(width: <span class="number">8</span>),
+                                      SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
                                       Text(
                                         username,
                                         style: TextStyle(fontWeight: FontWeight.w600),
@@ -1317,38 +2675,97 @@
                                       Spacer(),
                                       Text(
                                         DateFormat('MMM d, yyyy').format(createdAt),
-                                        style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey.shade500),
+                                        style: TextStyle(fontSize:
+        <span class="number">
+         12
+        </span>
+        , color: Colors.grey.shade500),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: <span class="number">8</span>),
+                                  SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
                                   Text(
-                                    post[<span class="string">'title'</span>],
-                                    style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+                                    post[
+        <span class="string">
+         'title'
+        </span>
+        ],
+                                    style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(height: <span class="number">4</span>),
+                                  SizedBox(height:
+        <span class="number">
+         4
+        </span>
+        ),
                                   Text(
-                                    post[<span class="string">'content'</span>],
+                                    post[
+        <span class="string">
+         'content'
+        </span>
+        ],
                                     style: TextStyle(color: Colors.grey.shade700),
-                                    maxLines: <span class="number">3</span>,
+                                    maxLines:
+        <span class="number">
+         3
+        </span>
+        ,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  SizedBox(height: <span class="number">12</span>),
+                                  SizedBox(height:
+        <span class="number">
+         12
+        </span>
+        ),
                                   Row(
                                     children: [
                                       IconButton(
-                                        icon: Icon(Icons.favorite_border, size: <span class="number">20</span>),
-                                        onPressed: () =&gt; _toggleLike(post[<span class="string">'id'</span>]),
+                                        icon: Icon(Icons.favorite_border, size:
+        <span class="number">
+         20
+        </span>
+        ),
+                                        onPressed: () =&gt; _toggleLike(post[
+        <span class="string">
+         'id'
+        </span>
+        ]),
                                       ),
-                                      SizedBox(width: <span class="number">4</span>),
+                                      SizedBox(width:
+        <span class="number">
+         4
+        </span>
+        ),
                                       Text(
-                                        '0', <span class="comment">// Like count would come from the database</span>
-                                        style: TextStyle(fontSize: <span class="number">14</span>),
+                                        '0',
+        <span class="comment">
+         // Like count would come from the database
+        </span>
+        style: TextStyle(fontSize:
+        <span class="number">
+         14
+        </span>
+        ),
                                       ),
                                       Spacer(),
                                       IconButton(
-                                        icon: Icon(Icons.delete, size: <span class="number">20</span>, color: Colors.red),
-                                        onPressed: () =&gt; _deletePost(post[<span class="string">'id'</span>]),
+                                        icon: Icon(Icons.delete, size:
+        <span class="number">
+         20
+        </span>
+        , color: Colors.red),
+                                        onPressed: () =&gt; _deletePost(post[
+        <span class="string">
+         'id'
+        </span>
+        ]),
                                       ),
                                     ],
                                   ),
@@ -1365,170 +2782,374 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 7: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Define your schema</strong> – Create tables in the Supabase SQL Editor with proper relationships and constraints.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Create the service</strong> – Build a service class that wraps all database operations.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>INSERT (Create)</strong> – Use <code>.insert()</code> with <code>.select()</code> to create and return data.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>SELECT (Read)</strong> – Use <code>.select()</code> with relationships using dot notation (<code>'*, profiles(username)'</code>).
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>UPDATE</strong> – Use <code>.update()</code> with <code>.eq()</code> and <code>.select()</code>.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">6.</span>
-<div class="step-text">
-<strong>DELETE</strong> – Use <code>.delete()</code> with <code>.eq()</code> to remove rows.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not using .select() after insert/update</div>
-<p>
-              Without <code>.select()</code>, you won't get the created/updated data back with default values like <code>created_at</code>.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use .select() after mutations</div>
-<p>
-<code>.insert(data).select().single()</code> returns the newly created row.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Not handling null relationships</div>
-<p>
-              When using <code>.select('*, profiles(username)')</code>, the <code>profiles</code> field may be null if no related profile exists.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Handle null relationships</div>
-<p>
-              Use <code>profile?['username'] ?? 'Unknown'</code> to handle null values safely.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not using RLS policies</div>
-<p>
-              Without Row Level Security, users can read and modify data they shouldn't have access to.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always enable RLS</div>
-<p>
-              Enable RLS in the Supabase dashboard and create policies for each table and operation.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Supabase uses <strong>PostgreSQL</strong> for data storage, providing <strong>powerful relational database</strong>
-            capabilities. You can perform <strong>CRUD operations</strong> with a fluent API, <strong>complex queries</strong>
-            with filtering and sorting, and <strong>relationships</strong> with foreign keys.
-            <strong>Always use .select() after mutations to get the updated data.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module4-topic2-authentication.html">
-<i class="fas fa-arrow-left"></i> Previous: Authentication
-          </a>
-<a class="btn btn-primary btn-sm" href="module4-topic4-storage.html">
-            Next: Storage <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module4-state-management.html">Module 4</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://supabase.com/docs/guides/database" rel="noopener" target="_blank">Supabase Database</a></li>
-<li><a href="https://supabase.com/docs/reference/dart/select" rel="noopener" target="_blank">Querying Data</a></li>
-<li><a href="https://supabase.com/docs/reference/dart/insert" rel="noopener" target="_blank">Insert Data</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Define your schema
+         </strong>
+         – Create tables in the Supabase SQL Editor with proper relationships and constraints.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create the service
+         </strong>
+         – Build a service class that wraps all database operations.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          INSERT (Create)
+         </strong>
+         – Use
+         <code>
+          .insert()
+         </code>
+         with
+         <code>
+          .select()
+         </code>
+         to create and return data.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          SELECT (Read)
+         </strong>
+         – Use
+         <code>
+          .select()
+         </code>
+         with relationships using dot notation (
+         <code>
+          '*, profiles(username)'
+         </code>
+         ).
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          UPDATE
+         </strong>
+         – Use
+         <code>
+          .update()
+         </code>
+         with
+         <code>
+          .eq()
+         </code>
+         and
+         <code>
+          .select()
+         </code>
+         .
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         6.
+        </span>
+        <div class="step-text">
+         <strong>
+          DELETE
+         </strong>
+         – Use
+         <code>
+          .delete()
+         </code>
+         with
+         <code>
+          .eq()
+         </code>
+         to remove rows.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not using .select() after insert/update
+       </div>
+       <p>
+        Without
+        <code>
+         .select()
+        </code>
+        , you won't get the created/updated data back with default values like
+        <code>
+         created_at
+        </code>
+        .
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use .select() after mutations
+       </div>
+       <p>
+        <code>
+         .insert(data).select().single()
+        </code>
+        returns the newly created row.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Not handling null relationships
+       </div>
+       <p>
+        When using
+        <code>
+         .select('*, profiles(username)')
+        </code>
+        , the
+        <code>
+         profiles
+        </code>
+        field may be null if no related profile exists.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Handle null relationships
+       </div>
+       <p>
+        Use
+        <code>
+         profile?['username'] ?? 'Unknown'
+        </code>
+        to handle null values safely.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not using RLS policies
+       </div>
+       <p>
+        Without Row Level Security, users can read and modify data they shouldn't have access to.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always enable RLS
+       </div>
+       <p>
+        Enable RLS in the Supabase dashboard and create policies for each table and operation.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Supabase uses
+       <strong>
+        PostgreSQL
+       </strong>
+       for data storage, providing
+       <strong>
+        powerful relational database
+       </strong>
+       capabilities. You can perform
+       <strong>
+        CRUD operations
+       </strong>
+       with a fluent API,
+       <strong>
+        complex queries
+       </strong>
+       with filtering and sorting, and
+       <strong>
+        relationships
+       </strong>
+       with foreign keys.
+       <strong>
+        Always use .select() after mutations to get the updated data.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module4-topic2-authentication.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Authentication
+      </a>
+      <a class="btn btn-primary btn-sm" href="module4-topic4-storage.html">
+       Next: Storage
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module4-state-management.html">
+         Module 4
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://supabase.com/docs/guides/database" rel="noopener" target="_blank">
+         Supabase Database
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com/docs/reference/dart/select" rel="noopener" target="_blank">
+         Querying Data
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com/docs/reference/dart/insert" rel="noopener" target="_blank">
+         Insert Data
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/supabase" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/supabase" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">
+       Supabase Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1641,8 +3262,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1715,8 +3336,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1789,5 +3411,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

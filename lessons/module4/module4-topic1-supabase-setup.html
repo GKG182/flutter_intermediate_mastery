@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Supabase Setup – Module 4 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to set up Supabase for Flutter development. Create a project, get API keys, and connect your Flutter app to Supabase." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Supabase Setup – Module 4 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to set up Supabase for Flutter development. Create a project, get API keys, and connect your Flutter app to Supabase." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -530,9 +531,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -595,541 +596,1325 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module4-state-management.html">Module 4</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 1</span>
-</div>
-<span class="module-badge"><i class="fas fa-database"></i> Module 4</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 1</div>
-<h1>Supabase Setup</h1>
-<p class="topic-subtitle">
-            Setting up Supabase — the open-source Firebase alternative — for your Flutter applications.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://supabase.com/docs/guides/getting-started/quickstarts/flutter" target="_blank">
-<i class="fas fa-globe"></i> Supabase Flutter Quickstart
-            </a>
-<a class="doc-badge" href="https://pub.dev/packages/supabase_flutter" target="_blank">
-<i class="fas fa-box"></i> supabase_flutter package
-            </a>
-<a class="doc-badge" href="https://supabase.com/docs/reference/dart/introduction" target="_blank">
-<i class="fas fa-book"></i> Flutter SDK Docs
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT IS SUPABASE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Is Supabase?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Supabase</strong> is an open-source Firebase alternative that provides a full backend
-            solution for your Flutter apps. It's built on top of <strong>PostgreSQL</strong>, the world's
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module4-state-management.html">
+        Module 4
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 1
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-database">
+       </i>
+       Module 4
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 1
+      </div>
+      <h1>
+       Supabase Setup
+      </h1>
+      <p class="topic-subtitle">
+       Setting up Supabase — the open-source Firebase alternative — for your Flutter applications.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://supabase.com/docs/guides/getting-started/quickstarts/flutter" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Supabase Flutter Quickstart
+       </a>
+       <a class="doc-badge" href="https://pub.dev/packages/supabase_flutter" target="_blank">
+        <i class="fas fa-box">
+        </i>
+        supabase_flutter package
+       </a>
+       <a class="doc-badge" href="https://supabase.com/docs/reference/dart/introduction" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Flutter SDK Docs
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT IS SUPABASE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Is Supabase?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Supabase
+       </strong>
+       is an open-source Firebase alternative that provides a full backend
+            solution for your Flutter apps. It's built on top of
+       <strong>
+        PostgreSQL
+       </strong>
+       , the world's
             most trusted relational database, and offers:
-          </p>
-<div class="features-grid">
-<div class="feature-item" style="border-left: 3px solid #10B981;">
-<div class="feature-icon">🔐</div>
-<div class="feature-name">Authentication</div>
-<div class="feature-desc">Email, password, magic links, OAuth providers</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #3B82F6;">
-<div class="feature-icon">🗄️</div>
-<div class="feature-name">PostgreSQL Database</div>
-<div class="feature-desc">Full relational database with realtime subscriptions</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #F59E0B;">
-<div class="feature-icon">📁</div>
-<div class="feature-name">Storage</div>
-<div class="feature-desc">File storage with public and private buckets</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #8B5CF6;">
-<div class="feature-icon">🔄</div>
-<div class="feature-name">Realtime</div>
-<div class="feature-desc">Live database changes and presence tracking</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #EF4444;">
-<div class="feature-icon">🛡️</div>
-<div class="feature-name">Row Level Security</div>
-<div class="feature-desc">Fine-grained access control policies</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #10B981;">
-<div class="feature-icon">⚡</div>
-<div class="feature-name">Edge Functions</div>
-<div class="feature-desc">Serverless functions with TypeScript support</div>
-</div>
-</div>
-<div class="concept-card success">
-<h4>✅ Why Supabase Over Firebase?</h4>
-<ul>
-<li><strong>PostgreSQL</strong> – Real relational database with advanced querying</li>
-<li><strong>Open Source</strong> – Self-hostable, no vendor lock-in</li>
-<li><strong>Better Pricing</strong> – Free tier includes 500MB database, 1GB storage, 2GB bandwidth</li>
-<li><strong>SQL</strong> – Use SQL directly for complex queries</li>
-<li><strong>Real Realtime</strong> – Full CRUD subscriptions, not just Firestore-like</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: CREATING A SUPABASE PROJECT ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Creating a Supabase Project</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            To get started with Supabase, you need to create an account and set up your first project.
-          </p>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Sign up</strong> – Go to <a href="https://supabase.com" style="color: var(--primary);" target="_blank">supabase.com</a> and create a free account with GitHub or email.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Create a new project</strong> – Click "New Project" and fill in the details:
-                <ul style="margin-top: 0.25rem; padding-left: 1.25rem;">
-<li><strong>Name</strong> – e.g., "my_flutter_app"</li>
-<li><strong>Database Password</strong> – Choose a strong password</li>
-<li><strong>Region</strong> – Choose the closest region to your users</li>
-<li><strong>Pricing Plan</strong> – Free tier works for learning</li>
-</ul>
-</div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Wait for setup</strong> – Supabase will provision your PostgreSQL database (takes 1-2 minutes).
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Get your API keys</strong> – Once the project is ready, go to the "Settings" → "API" section.
+      </p>
+      <div class="features-grid">
+       <div class="feature-item" style="border-left: 3px solid #10B981;">
+        <div class="feature-icon">
+         🔐
+        </div>
+        <div class="feature-name">
+         Authentication
+        </div>
+        <div class="feature-desc">
+         Email, password, magic links, OAuth providers
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #3B82F6;">
+        <div class="feature-icon">
+         🗄️
+        </div>
+        <div class="feature-name">
+         PostgreSQL Database
+        </div>
+        <div class="feature-desc">
+         Full relational database with realtime subscriptions
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #F59E0B;">
+        <div class="feature-icon">
+         📁
+        </div>
+        <div class="feature-name">
+         Storage
+        </div>
+        <div class="feature-desc">
+         File storage with public and private buckets
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #8B5CF6;">
+        <div class="feature-icon">
+         🔄
+        </div>
+        <div class="feature-name">
+         Realtime
+        </div>
+        <div class="feature-desc">
+         Live database changes and presence tracking
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #EF4444;">
+        <div class="feature-icon">
+         🛡️
+        </div>
+        <div class="feature-name">
+         Row Level Security
+        </div>
+        <div class="feature-desc">
+         Fine-grained access control policies
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #10B981;">
+        <div class="feature-icon">
+         ⚡
+        </div>
+        <div class="feature-name">
+         Edge Functions
+        </div>
+        <div class="feature-desc">
+         Serverless functions with TypeScript support
+        </div>
+       </div>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Why Supabase Over Firebase?
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          PostgreSQL
+         </strong>
+         – Real relational database with advanced querying
+        </li>
+        <li>
+         <strong>
+          Open Source
+         </strong>
+         – Self-hostable, no vendor lock-in
+        </li>
+        <li>
+         <strong>
+          Better Pricing
+         </strong>
+         – Free tier includes 500MB database, 1GB storage, 2GB bandwidth
+        </li>
+        <li>
+         <strong>
+          SQL
+         </strong>
+         – Use SQL directly for complex queries
+        </li>
+        <li>
+         <strong>
+          Real Realtime
+         </strong>
+         – Full CRUD subscriptions, not just Firestore-like
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: CREATING A SUPABASE PROJECT ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Creating a Supabase Project
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       To get started with Supabase, you need to create an account and set up your first project.
+      </p>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Sign up
+         </strong>
+         – Go to
+         <a href="https://supabase.com" style="color: var(--primary);" target="_blank">
+          supabase.com
+         </a>
+         and create a free account with GitHub or email.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create a new project
+         </strong>
+         – Click "New Project" and fill in the details:
+         <ul style="margin-top: 0.25rem; padding-left: 1.25rem;">
+          <li>
+           <strong>
+            Name
+           </strong>
+           – e.g., "my_flutter_app"
+          </li>
+          <li>
+           <strong>
+            Database Password
+           </strong>
+           – Choose a strong password
+          </li>
+          <li>
+           <strong>
+            Region
+           </strong>
+           – Choose the closest region to your users
+          </li>
+          <li>
+           <strong>
+            Pricing Plan
+           </strong>
+           – Free tier works for learning
+          </li>
+         </ul>
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Wait for setup
+         </strong>
+         – Supabase will provision your PostgreSQL database (takes 1-2 minutes).
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Get your API keys
+         </strong>
+         – Once the project is ready, go to the "Settings" → "API" section.
                 You'll find:
-                <ul style="margin-top: 0.25rem; padding-left: 1.25rem;">
-<li><strong>Project URL</strong> – <code>https://your-project.supabase.co</code></li>
-<li><strong>anon public key</strong> – Used for client-side requests</li>
-<li><strong>service_role key</strong> – Used for server-side/admin operations (keep secret!)</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="concept-card warning">
-<h4>⚠️ Important: API Keys</h4>
-<ul>
-<li><strong>anon key</strong> – Safe to use in client-side Flutter apps. This key is limited by Row Level Security policies.</li>
-<li><strong>service_role key</strong> – Never expose this in client-side code! It bypasses all RLS policies.</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 3: CONNECTING FLUTTER TO SUPABASE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Connecting Flutter to Supabase</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            To connect your Flutter app to Supabase, you need to add the <code>supabase_flutter</code> package
+         <ul style="margin-top: 0.25rem; padding-left: 1.25rem;">
+          <li>
+           <strong>
+            Project URL
+           </strong>
+           –
+           <code>
+            https://your-project.supabase.co
+           </code>
+          </li>
+          <li>
+           <strong>
+            anon public key
+           </strong>
+           – Used for client-side requests
+          </li>
+          <li>
+           <strong>
+            service_role key
+           </strong>
+           – Used for server-side/admin operations (keep secret!)
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="concept-card warning">
+       <h4>
+        ⚠️ Important: API Keys
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          anon key
+         </strong>
+         – Safe to use in client-side Flutter apps. This key is limited by Row Level Security policies.
+        </li>
+        <li>
+         <strong>
+          service_role key
+         </strong>
+         – Never expose this in client-side code! It bypasses all RLS policies.
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: CONNECTING FLUTTER TO SUPABASE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Connecting Flutter to Supabase
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       To connect your Flutter app to Supabase, you need to add the
+       <code>
+        supabase_flutter
+       </code>
+       package
             and configure it with your project credentials.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">pubspec.yaml – Add Dependencies</span>
-<code>
-  dependencies:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        pubspec.yaml – Add Dependencies
+       </span>
+       <code>
+        dependencies:
     flutter:
       sdk: flutter
     supabase_flutter: ^2.8.0
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Initialize Supabase</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Initialize Supabase
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () async {
+        <span class="comment">
+         // Initialize Supabase before running the app
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        Supabase.initialize(
+      url:
+        <span class="string">
+         'https://your-project.supabase.co'
+        </span>
+        ,
+        <span class="comment">
+         // Replace with your project URL
+        </span>
+        anonKey:
+        <span class="string">
+         'your-anon-key'
+        </span>
+        ,
+        <span class="comment">
+         // Replace with your anon key
+        </span>
+        );
 
-  <span class="keyword">void</span> <span class="function">main</span>() async {
-    <span class="comment">// Initialize Supabase before running the app</span>
-<span class="keyword">await</span> Supabase.initialize(
-      url: <span class="string">'https://your-project.supabase.co'</span>, <span class="comment">// Replace with your project URL</span>
-      anonKey: <span class="string">'your-anon-key'</span>, <span class="comment">// Replace with your anon key</span>
-    );
-
-    runApp(<span class="function">MyApp</span>());
+    runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Supabase Flutter'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Supabase Flutter'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         home: HomePage(),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">HomePage</span> <span class="keyword">extends</span> StatelessWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         HomePage
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="comment">// Check if user is already logged in</span>
-<span class="keyword">final</span> session = Supabase.instance.client.auth.currentSession;
-
-      <span class="keyword">return</span> Scaffold(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="comment">
+         // Check if user is already logged in
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        session = Supabase.instance.client.auth.currentSession;
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Supabase Demo'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         'Supabase Demo'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
         ),
         body: Center(
-          child: session != <span class="keyword">null</span>
-              ? Text(<span class="string">'Welcome, ${session.user.email}'</span>)
-              : Text(<span class="string">'Not logged in'</span>),
+          child: session !=
+        <span class="keyword">
+         null
+        </span>
+        ? Text(
+        <span class="string">
+         'Welcome, ${session.user.email}'
+        </span>
+        )
+              : Text(
+        <span class="string">
+         'Not logged in'
+        </span>
+        ),
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 Using Environment Variables (Recommended)</h4>
-<p>
-              For production apps, store your Supabase credentials in environment variables:
-            </p>
-<div class="code-block collapsed" style="margin-top: 0.5rem; padding: 0.75rem;"><span class="code-label">Source Code</span>
-<code>
-<span class="comment">// lib/constants/env.dart</span>
-<span class="keyword">class</span> <span class="function">Env</span> {
-    <span class="keyword">static</span> <span class="keyword">const</span> String supabaseUrl = String.fromEnvironment(<span class="string">'SUPABASE_URL'</span>);
-    <span class="keyword">static</span> <span class="keyword">const</span> String supabaseAnonKey = String.fromEnvironment(<span class="string">'SUPABASE_ANON_KEY'</span>);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 Using Environment Variables (Recommended)
+       </h4>
+       <p>
+        For production apps, store your Supabase credentials in environment variables:
+       </p>
+       <div class="code-block collapsed" style="margin-top: 0.5rem; padding: 0.75rem;">
+        <span class="code-label">
+         Source Code
+        </span>
+        <code>
+         <span class="comment">
+          // lib/constants/env.dart
+         </span>
+         <span class="keyword">
+          class
+         </span>
+         <span class="function">
+          Env
+         </span>
+         {
+         <span class="keyword">
+          static
+         </span>
+         <span class="keyword">
+          const
+         </span>
+         String supabaseUrl = String.fromEnvironment(
+         <span class="string">
+          'SUPABASE_URL'
+         </span>
+         );
+         <span class="keyword">
+          static
+         </span>
+         <span class="keyword">
+          const
+         </span>
+         String supabaseAnonKey = String.fromEnvironment(
+         <span class="string">
+          'SUPABASE_ANON_KEY'
+         </span>
+         );
   }
-              </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<p style="margin-top: 0.5rem;">
-              Then run with: <code>flutter run --dart-define=SUPABASE_URL=your-url --dart-define=SUPABASE_ANON_KEY=your-key</code>
-</p>
-</div>
-</div>
-<!-- ===== SECTION 4: VERIFYING CONNECTION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Verifying Your Connection</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            To verify that your Flutter app is correctly connected to Supabase, you can make a simple query
+        </code>
+        <button class="copy-btn">
+         <i class="fas fa-copy">
+         </i>
+         Copy
+        </button>
+        <button class="toggle-expand-btn">
+         <i class="fas fa-expand">
+         </i>
+         Expand
+        </button>
+        <button class="collapse-btn">
+         <i class="fas fa-chevron-up">
+         </i>
+         Collapse
+        </button>
+       </div>
+       <p style="margin-top: 0.5rem;">
+        Then run with:
+        <code>
+         flutter run --dart-define=SUPABASE_URL=your-url --dart-define=SUPABASE_ANON_KEY=your-key
+        </code>
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: VERIFYING CONNECTION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Verifying Your Connection
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       To verify that your Flutter app is correctly connected to Supabase, you can make a simple query
             to fetch data from a table.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/services/connection_test.dart – Test Connection</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ConnectionTestService</span> {
-    <span class="keyword">final</span> SupabaseClient client = Supabase.instance.client;
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">bool</span>&gt; <span class="function">testConnection</span>() async {
-      <span class="keyword">try</span> {
-        <span class="comment">// Try to fetch a single row from a table</span>
-<span class="comment">// This will throw an error if the table doesn't exist yet, but</span>
-<span class="comment">// that's okay — it means the connection is working!</span>
-<span class="keyword">final</span> response = await client
-            .from(<span class="string">'your_table_name'</span>)
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/services/connection_test.dart – Test Connection
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ConnectionTestService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client = Supabase.instance.client;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         bool
+        </span>
+        &gt;
+        <span class="function">
+         testConnection
+        </span>
+        () async {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="comment">
+         // Try to fetch a single row from a table
+        </span>
+        <span class="comment">
+         // This will throw an error if the table doesn't exist yet, but
+        </span>
+        <span class="comment">
+         // that's okay — it means the connection is working!
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        response = await client
+            .from(
+        <span class="string">
+         'your_table_name'
+        </span>
+        )
             .select()
-            .limit(<span class="number">1</span>);
-
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-      } <span class="keyword">catch</span> (e) {
-        <span class="comment">// If error is about the table not existing, connection worked</span>
-<span class="keyword">if</span> (e.toString().contains(<span class="string">'relation'</span>) &amp;&amp;
-            e.toString().contains(<span class="string">'does not exist'</span>)) {
-          <span class="keyword">return</span> <span class="keyword">true</span>;
+            .limit(
+        <span class="number">
+         1
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        <span class="comment">
+         // If error is about the table not existing, connection worked
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (e.toString().contains(
+        <span class="string">
+         'relation'
+        </span>
+        ) &amp;&amp;
+            e.toString().contains(
+        <span class="string">
+         'does not exist'
+        </span>
+        )) {
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         true
+        </span>
+        ;
         }
-        <span class="comment">// If it's a different error, something else went wrong</span>
-<span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="comment">
+         // If it's a different error, something else went wrong
+        </span>
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         false
+        </span>
+        ;
       }
     }
-
-    <span class="comment">// Simple health check</span>
-<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">healthCheck</span>() async {
-      <span class="keyword">try</span> {
-        <span class="keyword">final</span> response = await client.rest.get(
-          Uri.parse(<span class="string">'${client.rest.url}/health'</span>),
+        <span class="comment">
+         // Simple health check
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         healthCheck
+        </span>
+        () async {
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        response = await client.rest.get(
+          Uri.parse(
+        <span class="string">
+         '${client.rest.url}/health'
+        </span>
+        ),
         );
-        <span class="keyword">return</span> {<span class="string">'status'</span>: <span class="string">'ok'</span>, <span class="string">'data'</span>: response.body};
-      } <span class="keyword">catch</span> (e) {
-        <span class="keyword">return</span> {<span class="string">'status'</span>: <span class="string">'error'</span>, <span class="string">'message'</span>: e.toString()};
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'status'
+        </span>
+        :
+        <span class="string">
+         'ok'
+        </span>
+        ,
+        <span class="string">
+         'data'
+        </span>
+        : response.body};
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'status'
+        </span>
+        :
+        <span class="string">
+         'error'
+        </span>
+        ,
+        <span class="string">
+         'message'
+        </span>
+        : e.toString()};
       }
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Add the dependency</strong> – Add <code>supabase_flutter</code> to your <code>pubspec.yaml</code>.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Initialize Supabase</strong> – Call <code>Supabase.initialize()</code> before running the app,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add the dependency
+         </strong>
+         – Add
+         <code>
+          supabase_flutter
+         </code>
+         to your
+         <code>
+          pubspec.yaml
+         </code>
+         .
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Initialize Supabase
+         </strong>
+         – Call
+         <code>
+          Supabase.initialize()
+         </code>
+         before running the app,
                 passing your project URL and anon key.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Access the client</strong> – Use <code>Supabase.instance.client</code> to access the
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Access the client
+         </strong>
+         – Use
+         <code>
+          Supabase.instance.client
+         </code>
+         to access the
                 Supabase client anywhere in your app.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Check authentication state</strong> – Use <code>Supabase.instance.client.auth.currentSession</code>
-                to check if a user is logged in.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 6: RECOMMENDED PACKAGES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Recommended Packages</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            These packages work great with Supabase and are recommended for production apps:
-          </p>
-<div class="comparison-grid">
-<div class="compare-item">
-<h4 style="color: #3B82F6;">go_router</h4>
-<ul>
-<li>Declarative routing</li>
-<li>Deep linking support</li>
-<li>Auth guards</li>
-<li>Nested routes</li>
-</ul>
-</div>
-<div class="compare-item">
-<h4 style="color: #8B5CF6;">flutter_riverpod</h4>
-<ul>
-<li>State management</li>
-<li>Dependency injection</li>
-<li>Providers for Supabase</li>
-<li>AsyncValue handling</li>
-</ul>
-</div>
-<div class="compare-item">
-<h4 style="color: #10B981;">freezed</h4>
-<ul>
-<li>Immutable data classes</li>
-<li>Union types</li>
-<li>JSON serialization</li>
-<li>CopyWith methods</li>
-</ul>
-</div>
-<div class="compare-item">
-<h4 style="color: #F59E0B;">cached_network_image</h4>
-<ul>
-<li>Image caching</li>
-<li>Placeholder widgets</li>
-<li>Error handling</li>
-<li>Memory management</li>
-</ul>
-</div>
-</div>
-<div class="concept-card info">
-<h4>📦 Package Versions</h4>
-<ul>
-<li><code>supabase_flutter: ^2.8.0</code></li>
-<li><code>go_router: ^14.0.0</code></li>
-<li><code>flutter_riverpod: ^2.5.0</code></li>
-<li><code>freezed_annotation: ^2.4.0</code></li>
-<li><code>json_serializable: ^6.7.0</code></li>
-<li><code>cached_network_image: ^3.3.0</code></li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Using the service_role key in client-side code</div>
-<p>
-              The <code>service_role</code> key bypasses all security policies. Never expose it in your Flutter app.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use anon key for client-side</div>
-<p>
-              Always use the <code>anon</code> key in your Flutter app. It's safe and respects Row Level Security policies.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Not initializing Supabase before runApp</div>
-<p>
-              If you try to use Supabase before calling <code>Supabase.initialize()</code>, you'll get an error.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Initialize in main</div>
-<p>
-              Always call <code>await Supabase.initialize()</code> before <code>runApp()</code>.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Hardcoding credentials in source code</div>
-<p>
-              Hardcoding your Supabase URL and anon key in your source code makes it harder to manage different environments.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use environment variables</div>
-<p>
-              Use <code>--dart-define</code> or a <code>.env</code> file with <code>flutter_dotenv</code> to manage credentials.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Supabase is a <strong>powerful open-source Firebase alternative</strong> built on PostgreSQL.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Check authentication state
+         </strong>
+         – Use
+         <code>
+          Supabase.instance.client.auth.currentSession
+         </code>
+         to check if a user is logged in.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: RECOMMENDED PACKAGES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Recommended Packages
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       These packages work great with Supabase and are recommended for production apps:
+      </p>
+      <div class="comparison-grid">
+       <div class="compare-item">
+        <h4 style="color: #3B82F6;">
+         go_router
+        </h4>
+        <ul>
+         <li>
+          Declarative routing
+         </li>
+         <li>
+          Deep linking support
+         </li>
+         <li>
+          Auth guards
+         </li>
+         <li>
+          Nested routes
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: #8B5CF6;">
+         flutter_riverpod
+        </h4>
+        <ul>
+         <li>
+          State management
+         </li>
+         <li>
+          Dependency injection
+         </li>
+         <li>
+          Providers for Supabase
+         </li>
+         <li>
+          AsyncValue handling
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: #10B981;">
+         freezed
+        </h4>
+        <ul>
+         <li>
+          Immutable data classes
+         </li>
+         <li>
+          Union types
+         </li>
+         <li>
+          JSON serialization
+         </li>
+         <li>
+          CopyWith methods
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: #F59E0B;">
+         cached_network_image
+        </h4>
+        <ul>
+         <li>
+          Image caching
+         </li>
+         <li>
+          Placeholder widgets
+         </li>
+         <li>
+          Error handling
+         </li>
+         <li>
+          Memory management
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        📦 Package Versions
+       </h4>
+       <ul>
+        <li>
+         <code>
+          supabase_flutter: ^2.8.0
+         </code>
+        </li>
+        <li>
+         <code>
+          go_router: ^14.0.0
+         </code>
+        </li>
+        <li>
+         <code>
+          flutter_riverpod: ^2.5.0
+         </code>
+        </li>
+        <li>
+         <code>
+          freezed_annotation: ^2.4.0
+         </code>
+        </li>
+        <li>
+         <code>
+          json_serializable: ^6.7.0
+         </code>
+        </li>
+        <li>
+         <code>
+          cached_network_image: ^3.3.0
+         </code>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Using the service_role key in client-side code
+       </div>
+       <p>
+        The
+        <code>
+         service_role
+        </code>
+        key bypasses all security policies. Never expose it in your Flutter app.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use anon key for client-side
+       </div>
+       <p>
+        Always use the
+        <code>
+         anon
+        </code>
+        key in your Flutter app. It's safe and respects Row Level Security policies.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Not initializing Supabase before runApp
+       </div>
+       <p>
+        If you try to use Supabase before calling
+        <code>
+         Supabase.initialize()
+        </code>
+        , you'll get an error.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Initialize in main
+       </div>
+       <p>
+        Always call
+        <code>
+         await Supabase.initialize()
+        </code>
+        before
+        <code>
+         runApp()
+        </code>
+        .
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Hardcoding credentials in source code
+       </div>
+       <p>
+        Hardcoding your Supabase URL and anon key in your source code makes it harder to manage different environments.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use environment variables
+       </div>
+       <p>
+        Use
+        <code>
+         --dart-define
+        </code>
+        or a
+        <code>
+         .env
+        </code>
+        file with
+        <code>
+         flutter_dotenv
+        </code>
+        to manage credentials.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Supabase is a
+       <strong>
+        powerful open-source Firebase alternative
+       </strong>
+       built on PostgreSQL.
             Setting up your Flutter app with Supabase is simple: create a project, get your API keys,
-            and initialize the client. <strong>Always use the anon key for client-side code and store
-            credentials securely using environment variables.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="../module4-state-management.html">
-<i class="fas fa-arrow-left"></i> Back to Module 4
-          </a>
-<a class="btn btn-primary btn-sm" href="module4-topic2-authentication.html">
-            Next: Authentication <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module4-state-management.html">Module 4</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://supabase.com" rel="noopener" target="_blank">Supabase</a></li>
-<li><a href="https://pub.dev/packages/supabase_flutter" rel="noopener" target="_blank">supabase_flutter</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/supabase" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/supabase" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">Supabase Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+            and initialize the client.
+       <strong>
+        Always use the anon key for client-side code and store
+            credentials securely using environment variables.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="../module4-state-management.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Back to Module 4
+      </a>
+      <a class="btn btn-primary btn-sm" href="module4-topic2-authentication.html">
+       Next: Authentication
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module4-state-management.html">
+         Module 4
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://supabase.com" rel="noopener" target="_blank">
+         Supabase
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/supabase_flutter" rel="noopener" target="_blank">
+         supabase_flutter
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/supabase/supabase" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/supabase" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/supabase" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://supabase.com/docs" style="color: var(--text-muted);" target="_blank">
+       Supabase Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1242,8 +2027,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1316,8 +2101,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1390,5 +2176,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

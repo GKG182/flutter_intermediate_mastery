@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Local State – Module 1 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to manage local (ephemeral) state in Flutter using StatefulWidget and setState(). Understand when to use local state vs app state." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Local State – Module 1 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to manage local (ephemeral) state in Flutter using StatefulWidget and setState(). Understand when to use local state vs app state." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
     /* Lesson Navigation */
     .lesson-nav {
       display: flex;
@@ -602,10 +603,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         color: #ffffff !important;
     }
-    
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -668,254 +668,662 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a "="" class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a "="" class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a module1-topic1-why-state-management.html"="">Module 1</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 2</span>
-</div>
-<span class="module-badge"><i class="fas fa-book-open"></i> Module 1</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 2</div>
-<h1>Local State</h1>
-<p class="topic-subtitle">
-            Managing ephemeral state with StatefulWidget and setState() — the foundation of interactive Flutter apps.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/ui/interactivity" target="_blank">
-<i class="fas fa-book"></i> Flutter Docs – Interactivity &amp; State
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/ephemeral-vs-app" target="_blank">
-<i class="fas fa-book"></i> Ephemeral vs App State
-            </a>
-<a class="doc-badge" href="https://www.youtube.com/@flutterdev" target="_blank">
-<i class="fab fa-youtube"></i> Flutter Dev – Widget State Explained
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: RECAP ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Recap: What Is Local State?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            In the previous topic, we learned that state can be split into two types: <strong>ephemeral state</strong>
-            (also called local or UI state) and <strong>app state</strong>.
-          </p>
-<div class="concept-card">
-<h4>📦 Local (Ephemeral) State</h4>
-<p>
-<strong>Local state</strong> is state that is <em>neatly contained in a single widget</em> and doesn't
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a module1-topic1-why-state-management.html"="">
+        Module 1
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 2
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-book-open">
+       </i>
+       Module 1
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 2
+      </div>
+      <h1>
+       Local State
+      </h1>
+      <p class="topic-subtitle">
+       Managing ephemeral state with StatefulWidget and setState() — the foundation of interactive Flutter apps.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/interactivity" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Flutter Docs – Interactivity &amp; State
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/ephemeral-vs-app" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Ephemeral vs App State
+       </a>
+       <a class="doc-badge" href="https://www.youtube.com/@flutterdev" target="_blank">
+        <i class="fab fa-youtube">
+        </i>
+        Flutter Dev – Widget State Explained
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: RECAP ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Recap: What Is Local State?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       In the previous topic, we learned that state can be split into two types:
+       <strong>
+        ephemeral state
+       </strong>
+       (also called local or UI state) and
+       <strong>
+        app state
+       </strong>
+       .
+      </p>
+      <div class="concept-card">
+       <h4>
+        📦 Local (Ephemeral) State
+       </h4>
+       <p>
+        <strong>
+         Local state
+        </strong>
+        is state that is
+        <em>
+         neatly contained in a single widget
+        </em>
+        and doesn't
               need to be shared with other parts of your app. It's temporary, local to a specific widget subtree,
               and doesn't need to be persisted across app restarts.
-            </p>
-<ul>
-<li>✓ Managed with <code>StatefulWidget</code> and <code>setState()</code></li>
-<li>✓ Perfect for UI interactions like toggles, animations, and form inputs</li>
-<li>✓ No need for complex state management solutions</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: STATEFULWIDGET ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">StatefulWidget: The Container for Local State</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            A <code>StatefulWidget</code> is a widget that can <strong>change its appearance</strong> in response to
+       </p>
+       <ul>
+        <li>
+         ✓ Managed with
+         <code>
+          StatefulWidget
+         </code>
+         and
+         <code>
+          setState()
+         </code>
+        </li>
+        <li>
+         ✓ Perfect for UI interactions like toggles, animations, and form inputs
+        </li>
+        <li>
+         ✓ No need for complex state management solutions
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: STATEFULWIDGET ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        StatefulWidget: The Container for Local State
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       A
+       <code>
+        StatefulWidget
+       </code>
+       is a widget that can
+       <strong>
+        change its appearance
+       </strong>
+       in response to
             events triggered by user interactions or data changes. It does this by maintaining a separate
-            <code>State</code> object that holds the mutable state.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">The Anatomy of a StatefulWidget</span>
-<code>
-<span class="comment">// 1. The StatefulWidget class (immutable)</span>
-<span class="keyword">class</span> <span class="function">CounterWidget</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">const</span> CounterWidget({super.key});
+       <code>
+        State
+       </code>
+       object that holds the mutable state.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        The Anatomy of a StatefulWidget
+       </span>
+       <code>
+        <span class="comment">
+         // 1. The StatefulWidget class (immutable)
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         CounterWidget
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
+        <span class="keyword">
+         const
+        </span>
+        CounterWidget({super.key});
 
     @override
-    State&lt;CounterWidget&gt; <span class="function">createState</span>() =&gt; _CounterWidgetState();
+    State&lt;CounterWidget&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _CounterWidgetState();
   }
-
-  <span class="comment">// 2. The State class (mutable — holds the state)</span>
-<span class="keyword">class</span> _CounterWidgetState <span class="keyword">extends</span> State&lt;CounterWidget&gt; {
-    <span class="keyword">int</span> _count = <span class="number">0</span>; <span class="comment">// 👈 This is the local state</span>
-<span class="keyword">void</span> <span class="function">_increment</span>() {
+        <span class="comment">
+         // 2. The State class (mutable — holds the state)
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        _CounterWidgetState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;CounterWidget&gt; {
+        <span class="keyword">
+         int
+        </span>
+        _count =
+        <span class="number">
+         0
+        </span>
+        ;
+        <span class="comment">
+         // 👈 This is the local state
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _increment
+        </span>
+        () {
       setState(() {
-        _count++; <span class="comment">// 👈 Changing state inside setState</span>
-      });
+        _count++;
+        <span class="comment">
+         // 👈 Changing state inside setState
+        </span>
+        });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Row(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Row(
         children: [
-          Text(<span class="string">'$_count'</span>),
+          Text(
+        <span class="string">
+         '$_count'
+        </span>
+        ),
           ElevatedButton(
             onPressed: _increment,
-            child: Text(<span class="string">'Add'</span>),
+            child: Text(
+        <span class="string">
+         'Add'
+        </span>
+        ),
           ),
         ],
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ Two Classes, One Purpose</h4>
-<p>
-              Every <code>StatefulWidget</code> comes in two parts: the <strong>widget class</strong> (immutable, defines
-              the configuration) and the <strong>state class</strong> (mutable, holds the state and builds the UI).
-              The framework manages the state object and calls <code>build()</code> whenever the state changes.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 3: SETSTATE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">setState(): The Heart of Local State</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<code>setState()</code> is the method you call to tell the framework that the state of your widget has changed.
-            When you call <code>setState()</code>, two things happen:
-          </p>
-<ul>
-<li><strong>1.</strong> The code inside the callback runs (where you update your state variables)</li>
-<li><strong>2.</strong> The framework schedules a rebuild of the widget (calls <code>build()</code> again)</li>
-</ul>
-<div class="concept-card warning">
-<h4>⚠️ Critical Rule</h4>
-<p>
-<strong>Only call <code>setState()</code> inside the State class.</strong> Never call it from outside the State class.
-              Also, <strong>never call <code>setState()</code> in <code>initState()</code> or <code>build()</code></strong>
-              — this will cause infinite rebuild loops.
-            </p>
-</div>
-<h3>How setState() Works</h3>
-<div class="concept-card info">
-<h4>🔄 The Rebuild Flow</h4>
-<ul>
-<li><strong>User interaction</strong> triggers an event (e.g., button tap)</li>
-<li>Event handler calls <code>setState()</code> with a callback</li>
-<li><strong>Inside the callback:</strong> you update the state variables</li>
-<li><strong>After the callback:</strong> the framework marks the widget as "dirty"</li>
-<li><strong>Next frame:</strong> the framework calls <code>build()</code> to rebuild the widget with the new state</li>
-<li><strong>UI updates</strong> to reflect the new state</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 4: FULL EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: A Simple Counter</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Let's look at a complete, runnable example of a counter app that uses local state.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Two Classes, One Purpose
+       </h4>
+       <p>
+        Every
+        <code>
+         StatefulWidget
+        </code>
+        comes in two parts: the
+        <strong>
+         widget class
+        </strong>
+        (immutable, defines
+              the configuration) and the
+        <strong>
+         state class
+        </strong>
+        (mutable, holds the state and builds the UI).
+              The framework manages the state object and calls
+        <code>
+         build()
+        </code>
+        whenever the state changes.
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: SETSTATE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        setState(): The Heart of Local State
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <code>
+        setState()
+       </code>
+       is the method you call to tell the framework that the state of your widget has changed.
+            When you call
+       <code>
+        setState()
+       </code>
+       , two things happen:
+      </p>
+      <ul>
+       <li>
+        <strong>
+         1.
+        </strong>
+        The code inside the callback runs (where you update your state variables)
+       </li>
+       <li>
+        <strong>
+         2.
+        </strong>
+        The framework schedules a rebuild of the widget (calls
+        <code>
+         build()
+        </code>
+        again)
+       </li>
+      </ul>
+      <div class="concept-card warning">
+       <h4>
+        ⚠️ Critical Rule
+       </h4>
+       <p>
+        <strong>
+         Only call
+         <code>
+          setState()
+         </code>
+         inside the State class.
+        </strong>
+        Never call it from outside the State class.
+              Also,
+        <strong>
+         never call
+         <code>
+          setState()
+         </code>
+         in
+         <code>
+          initState()
+         </code>
+         or
+         <code>
+          build()
+         </code>
+        </strong>
+        — this will cause infinite rebuild loops.
+       </p>
+      </div>
+      <h3>
+       How setState() Works
+      </h3>
+      <div class="concept-card info">
+       <h4>
+        🔄 The Rebuild Flow
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          User interaction
+         </strong>
+         triggers an event (e.g., button tap)
+        </li>
+        <li>
+         Event handler calls
+         <code>
+          setState()
+         </code>
+         with a callback
+        </li>
+        <li>
+         <strong>
+          Inside the callback:
+         </strong>
+         you update the state variables
+        </li>
+        <li>
+         <strong>
+          After the callback:
+         </strong>
+         the framework marks the widget as "dirty"
+        </li>
+        <li>
+         <strong>
+          Next frame:
+         </strong>
+         the framework calls
+         <code>
+          build()
+         </code>
+         to rebuild the widget with the new state
+        </li>
+        <li>
+         <strong>
+          UI updates
+         </strong>
+         to reflect the new state
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: FULL EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: A Simple Counter
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Let's look at a complete, runnable example of a counter app that uses local state.
             This is the classic "Hello World" of state management.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Full Counter App</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() =&gt; runApp(<span class="function">MyApp</span>());
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Full Counter App
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () =&gt; runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        home: <span class="function">CounterScreen</span>(),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        home:
+        <span class="function">
+         CounterScreen
+        </span>
+        (),
       );
     }
   }
-
-  <span class="keyword">class</span> <span class="function">CounterScreen</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         CounterScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;CounterScreen&gt; <span class="function">createState</span>() =&gt; _CounterScreenState();
+    State&lt;CounterScreen&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _CounterScreenState();
   }
-
-  <span class="keyword">class</span> _CounterScreenState <span class="keyword">extends</span> State&lt;CounterScreen&gt; {
-    <span class="keyword">int</span> _counter = <span class="number">0</span>; <span class="comment">// 👈 Local state</span>
-<span class="keyword">void</span> <span class="function">_incrementCounter</span>() {
+        <span class="keyword">
+         class
+        </span>
+        _CounterScreenState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;CounterScreen&gt; {
+        <span class="keyword">
+         int
+        </span>
+        _counter =
+        <span class="number">
+         0
+        </span>
+        ;
+        <span class="comment">
+         // 👈 Local state
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _incrementCounter
+        </span>
+        () {
       setState(() {
-        _counter++; <span class="comment">// Update the state</span>
+        _counter++;
+        <span class="comment">
+         // Update the state
+        </span>
+        });
+    }
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _decrementCounter
+        </span>
+        () {
+      setState(() {
+        <span class="keyword">
+         if
+        </span>
+        (_counter &gt;
+        <span class="number">
+         0
+        </span>
+        ) _counter--;
       });
     }
-
-    <span class="keyword">void</span> <span class="function">_decrementCounter</span>() {
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _resetCounter
+        </span>
+        () {
       setState(() {
-        <span class="keyword">if</span> (_counter &gt; <span class="number">0</span>) _counter--;
-      });
-    }
-
-    <span class="keyword">void</span> <span class="function">_resetCounter</span>() {
-      setState(() {
-        _counter = <span class="number">0</span>;
+        _counter =
+        <span class="number">
+         0
+        </span>
+        ;
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
-        appBar: AppBar(title: Text(<span class="string">'Counter App Pro'</span>)),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
+        appBar: AppBar(title: Text(
+        <span class="string">
+         'Counter App Pro'
+        </span>
+        )),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(<span class="string">'You have pushed the button:'</span>),
               Text(
-                <span class="string">'$_counter'</span>,
+        <span class="string">
+         'You have pushed the button:'
+        </span>
+        ),
+              Text(
+        <span class="string">
+         '$_counter'
+        </span>
+        ,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               Row(
@@ -923,17 +1331,37 @@
                 children: [
                   ElevatedButton(
                     onPressed: _incrementCounter,
-                    child: Text(<span class="string">'Increment'</span>),
+                    child: Text(
+        <span class="string">
+         'Increment'
+        </span>
+        ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
                   ElevatedButton(
                     onPressed: _decrementCounter,
-                    child: Text(<span class="string">'Decrement'</span>),
+                    child: Text(
+        <span class="string">
+         'Decrement'
+        </span>
+        ),
                   ),
-                  SizedBox(width: <span class="number">8</span>),
+                  SizedBox(width:
+        <span class="number">
+         8
+        </span>
+        ),
                   ElevatedButton(
                     onPressed: _resetCounter,
-                    child: Text(<span class="string">'Reset'</span>),
+                    child: Text(
+        <span class="string">
+         'Reset'
+        </span>
+        ),
                   ),
                 ],
               ),
@@ -943,276 +1371,608 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>The StatefulWidget class</strong> – <code>CounterScreen</code> extends <code>StatefulWidget</code>.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          The StatefulWidget class
+         </strong>
+         –
+         <code>
+          CounterScreen
+         </code>
+         extends
+         <code>
+          StatefulWidget
+         </code>
+         .
                 It's the immutable configuration of the widget.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>createState()</strong> – This method returns the state object (<code>_CounterScreenState</code>)
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          createState()
+         </strong>
+         – This method returns the state object (
+         <code>
+          _CounterScreenState
+         </code>
+         )
                 that will manage the mutable state for this widget.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>The State class</strong> – <code>_CounterScreenState</code> holds the mutable state.
-                The underscore (<code>_</code>) makes it private to the library.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>State field</strong> – <code>_counter</code> is the local state. It's initialized to 0 and
-                changed only inside <code>setState()</code> callbacks.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Event handlers</strong> – <code>_incrementCounter</code>, <code>_decrementCounter</code>,
-                and <code>_resetCounter</code> wrap their state changes in <code>setState()</code>.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">6.</span>
-<div class="step-text">
-<strong>build() method</strong> – Uses <code>_counter</code> to display the current count.
-                When <code>setState()</code> is called, this method is re‑executed with the updated <code>_counter</code> value.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 6: LIFECYCLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">The Lifecycle of a StatefulWidget</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Understanding the lifecycle of a <code>StatefulWidget</code> is crucial for managing resources
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          The State class
+         </strong>
+         –
+         <code>
+          _CounterScreenState
+         </code>
+         holds the mutable state.
+                The underscore (
+         <code>
+          _
+         </code>
+         ) makes it private to the library.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          State field
+         </strong>
+         –
+         <code>
+          _counter
+         </code>
+         is the local state. It's initialized to 0 and
+                changed only inside
+         <code>
+          setState()
+         </code>
+         callbacks.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Event handlers
+         </strong>
+         –
+         <code>
+          _incrementCounter
+         </code>
+         ,
+         <code>
+          _decrementCounter
+         </code>
+         ,
+                and
+         <code>
+          _resetCounter
+         </code>
+         wrap their state changes in
+         <code>
+          setState()
+         </code>
+         .
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         6.
+        </span>
+        <div class="step-text">
+         <strong>
+          build() method
+         </strong>
+         – Uses
+         <code>
+          _counter
+         </code>
+         to display the current count.
+                When
+         <code>
+          setState()
+         </code>
+         is called, this method is re‑executed with the updated
+         <code>
+          _counter
+         </code>
+         value.
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: LIFECYCLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        The Lifecycle of a StatefulWidget
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Understanding the lifecycle of a
+       <code>
+        StatefulWidget
+       </code>
+       is crucial for managing resources
             and avoiding bugs. Here are the most important lifecycle methods:
-          </p>
-<div class="lifecycle-grid">
-<div class="lifecycle-item">
-<div class="lifecycle-icon">🔄</div>
-<div class="lifecycle-name">createState()</div>
-<div class="lifecycle-desc">Called when the widget is inserted into the tree</div>
-</div>
-<div class="lifecycle-item">
-<div class="lifecycle-icon">🚀</div>
-<div class="lifecycle-name">initState()</div>
-<div class="lifecycle-desc">Called once when the state object is created</div>
-</div>
-<div class="lifecycle-item">
-<div class="lifecycle-icon">📦</div>
-<div class="lifecycle-name">didChangeDependencies()</div>
-<div class="lifecycle-desc">Called when dependencies change</div>
-</div>
-<div class="lifecycle-item">
-<div class="lifecycle-icon">🖌️</div>
-<div class="lifecycle-name">build()</div>
-<div class="lifecycle-desc">Called every time the widget needs to rebuild</div>
-</div>
-<div class="lifecycle-item">
-<div class="lifecycle-icon">♻️</div>
-<div class="lifecycle-name">didUpdateWidget()</div>
-<div class="lifecycle-desc">Called when parent widget rebuilds with new config</div>
-</div>
-<div class="lifecycle-item">
-<div class="lifecycle-icon">🗑️</div>
-<div class="lifecycle-name">dispose()</div>
-<div class="lifecycle-desc">Called when the state object is removed from the tree</div>
-</div>
-</div>
-<div class="concept-card warning">
-<h4>⚠️ Important: initState() and dispose()</h4>
-<p>
-<strong>Always override <code>initState()</code> and <code>dispose()</code> in pairs.</strong>
-              Use <code>initState()</code> to initialize controllers, listeners, or animations.
-              Use <code>dispose()</code> to clean them up and prevent memory leaks.
-              <strong>Never call <code>setState()</code> in <code>initState()</code></strong> — the widget hasn't been built yet.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Calling setState() outside the State class</div>
-<p>
-              You cannot call <code>setState()</code> from outside the State class. Keep all state logic inside the State class.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Call setState() inside the State class</div>
-<p>
-              All state changes should be triggered from within the State class, typically in event handlers.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Using setState() for app-wide state</div>
-<p>
-              If multiple widgets need access to the same data, that's <strong>app state</strong>, not local state.
-              Using <code>setState()</code> for app state leads to prop drilling and hard-to-maintain code.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use state management for app state</div>
-<p>
-              For state that needs to be shared across widgets, use a state management solution like Riverpod,
+      </p>
+      <div class="lifecycle-grid">
+       <div class="lifecycle-item">
+        <div class="lifecycle-icon">
+         🔄
+        </div>
+        <div class="lifecycle-name">
+         createState()
+        </div>
+        <div class="lifecycle-desc">
+         Called when the widget is inserted into the tree
+        </div>
+       </div>
+       <div class="lifecycle-item">
+        <div class="lifecycle-icon">
+         🚀
+        </div>
+        <div class="lifecycle-name">
+         initState()
+        </div>
+        <div class="lifecycle-desc">
+         Called once when the state object is created
+        </div>
+       </div>
+       <div class="lifecycle-item">
+        <div class="lifecycle-icon">
+         📦
+        </div>
+        <div class="lifecycle-name">
+         didChangeDependencies()
+        </div>
+        <div class="lifecycle-desc">
+         Called when dependencies change
+        </div>
+       </div>
+       <div class="lifecycle-item">
+        <div class="lifecycle-icon">
+         🖌️
+        </div>
+        <div class="lifecycle-name">
+         build()
+        </div>
+        <div class="lifecycle-desc">
+         Called every time the widget needs to rebuild
+        </div>
+       </div>
+       <div class="lifecycle-item">
+        <div class="lifecycle-icon">
+         ♻️
+        </div>
+        <div class="lifecycle-name">
+         didUpdateWidget()
+        </div>
+        <div class="lifecycle-desc">
+         Called when parent widget rebuilds with new config
+        </div>
+       </div>
+       <div class="lifecycle-item">
+        <div class="lifecycle-icon">
+         🗑️
+        </div>
+        <div class="lifecycle-name">
+         dispose()
+        </div>
+        <div class="lifecycle-desc">
+         Called when the state object is removed from the tree
+        </div>
+       </div>
+      </div>
+      <div class="concept-card warning">
+       <h4>
+        ⚠️ Important: initState() and dispose()
+       </h4>
+       <p>
+        <strong>
+         Always override
+         <code>
+          initState()
+         </code>
+         and
+         <code>
+          dispose()
+         </code>
+         in pairs.
+        </strong>
+        Use
+        <code>
+         initState()
+        </code>
+        to initialize controllers, listeners, or animations.
+              Use
+        <code>
+         dispose()
+        </code>
+        to clean them up and prevent memory leaks.
+        <strong>
+         Never call
+         <code>
+          setState()
+         </code>
+         in
+         <code>
+          initState()
+         </code>
+        </strong>
+        — the widget hasn't been built yet.
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Calling setState() outside the State class
+       </div>
+       <p>
+        You cannot call
+        <code>
+         setState()
+        </code>
+        from outside the State class. Keep all state logic inside the State class.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Call setState() inside the State class
+       </div>
+       <p>
+        All state changes should be triggered from within the State class, typically in event handlers.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Using setState() for app-wide state
+       </div>
+       <p>
+        If multiple widgets need access to the same data, that's
+        <strong>
+         app state
+        </strong>
+        , not local state.
+              Using
+        <code>
+         setState()
+        </code>
+        for app state leads to prop drilling and hard-to-maintain code.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use state management for app state
+       </div>
+       <p>
+        For state that needs to be shared across widgets, use a state management solution like Riverpod,
               Provider, or BLoC. We'll cover this in later topics.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Calling setState() in initState() or build()</div>
-<p>
-              This causes an infinite rebuild loop. The widget rebuilds, which triggers <code>setState()</code>,
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Calling setState() in initState() or build()
+       </div>
+       <p>
+        This causes an infinite rebuild loop. The widget rebuilds, which triggers
+        <code>
+         setState()
+        </code>
+        ,
               which triggers another rebuild, and so on.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use initState() for initialization, not state changes</div>
-<p>
-              Use <code>initState()</code> to initialize controllers, streams, or animations. Use event handlers
-              (like button callbacks) to call <code>setState()</code>.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 8: WHEN TO USE LOCAL STATE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">When to Use Local State vs App State</span>
-<span class="divider-line"></span>
-</div>
-<div class="comparison-grid">
-<div class="compare-item">
-<h4 style="color: var(--primary);">✅ Use Local State When</h4>
-<ul>
-<li>The state is only needed within a single widget</li>
-<li>No other widget needs to know about the state</li>
-<li>The state is temporary (e.g., animation progress, toggle state)</li>
-<li>You don't need to persist the state between sessions</li>
-</ul>
-<p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
-<strong>Example:</strong> Checkbox state, TabController index, TextField input
-              </p>
-</div>
-<div class="compare-item">
-<h4 style="color: var(--secondary);">🔀 Use App State When</h4>
-<ul>
-<li>Multiple widgets need access to the same data</li>
-<li>State needs to be persisted across sessions</li>
-<li>State changes need to update multiple parts of the UI</li>
-<li>The state is complex and requires structured management</li>
-</ul>
-<p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
-<strong>Example:</strong> User authentication, shopping cart, app settings
-              </p>
-</div>
-</div>
-<div class="concept-card success">
-<h4>💡 Pro Tip: Start with Local State, Evolve When Needed</h4>
-<p>
-              It's perfectly fine to start with <code>StatefulWidget</code> and <code>setState()</code>.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use initState() for initialization, not state changes
+       </div>
+       <p>
+        Use
+        <code>
+         initState()
+        </code>
+        to initialize controllers, streams, or animations. Use event handlers
+              (like button callbacks) to call
+        <code>
+         setState()
+        </code>
+        .
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: WHEN TO USE LOCAL STATE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        When to Use Local State vs App State
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="comparison-grid">
+       <div class="compare-item">
+        <h4 style="color: var(--primary);">
+         ✅ Use Local State When
+        </h4>
+        <ul>
+         <li>
+          The state is only needed within a single widget
+         </li>
+         <li>
+          No other widget needs to know about the state
+         </li>
+         <li>
+          The state is temporary (e.g., animation progress, toggle state)
+         </li>
+         <li>
+          You don't need to persist the state between sessions
+         </li>
+        </ul>
+        <p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
+         <strong>
+          Example:
+         </strong>
+         Checkbox state, TabController index, TextField input
+        </p>
+       </div>
+       <div class="compare-item">
+        <h4 style="color: var(--secondary);">
+         🔀 Use App State When
+        </h4>
+        <ul>
+         <li>
+          Multiple widgets need access to the same data
+         </li>
+         <li>
+          State needs to be persisted across sessions
+         </li>
+         <li>
+          State changes need to update multiple parts of the UI
+         </li>
+         <li>
+          The state is complex and requires structured management
+         </li>
+        </ul>
+        <p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 0.5rem;">
+         <strong>
+          Example:
+         </strong>
+         User authentication, shopping cart, app settings
+        </p>
+       </div>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        💡 Pro Tip: Start with Local State, Evolve When Needed
+       </h4>
+       <p>
+        It's perfectly fine to start with
+        <code>
+         StatefulWidget
+        </code>
+        and
+        <code>
+         setState()
+        </code>
+        .
               When you find yourself passing callbacks down multiple levels or duplicating state, it's time to
-              consider a state management solution. <strong>Don't over-engineer prematurely.</strong>
-</p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            Local state is managed with <code>StatefulWidget</code> and <code>setState()</code>.
+              consider a state management solution.
+        <strong>
+         Don't over-engineer prematurely.
+        </strong>
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       Local state is managed with
+       <code>
+        StatefulWidget
+       </code>
+       and
+       <code>
+        setState()
+       </code>
+       .
             It's perfect for UI interactions that don't need to be shared across widgets.
             Use it for what it's good for, and reach for a state management solution when your app grows.
-            <strong>When in doubt, ask: "Does another widget need to know about this state?"</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module1-topic1-why-state-management.html">
-<i class="fas fa-arrow-left"></i> Previous: Why State Management
-          </a>
-<a class="btn btn-primary btn-sm" href="module1-topic3-global-state.html">
-            Next: Global State <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
-            Take our Dart Course →
-          </a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a module1-topic1-why-state-management.html"="">Getting Started</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/ui/interactivity" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       <strong>
+        When in doubt, ask: "Does another widget need to know about this state?"
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module1-topic1-why-state-management.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Why State Management
+      </a>
+      <a class="btn btn-primary btn-sm" href="module1-topic3-global-state.html">
+       Next: Global State
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a module1-topic1-why-state-management.html"="">
+         Getting Started
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/ui/interactivity" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1270,8 +2030,8 @@
       });
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1344,8 +2104,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1418,5 +2179,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Refactor Chat App – Module 5 Project | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Refactor the Chat App using Clean Architecture principles. Apply Repository Pattern, Dependency Injection, and Feature-First Architecture to build a maintainable real-time chat application." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Refactor Chat App – Module 5 Project | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Refactor the Chat App using Clean Architecture principles. Apply Repository Pattern, Dependency Injection, and Feature-First Architecture to build a maintainable real-time chat application." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -654,9 +655,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -719,168 +720,350 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="module5-topic1-architecture-overview.html">Module 5</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Project</span>
-</div>
-<span class="module-badge"><i class="fas fa-archway"></i> Module 5</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Project</div>
-<h1>Refactor Chat App</h1>
-<p class="topic-subtitle">
-            Apply Clean Architecture principles to refactor the real-time Chat App into a maintainable, testable, and scalable Flutter application.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<span class="project-badge"><i class="fas fa-project-diagram"></i> Refactoring Project</span>
-<span class="real-time-badge"><i class="fas fa-bolt"></i> Realtime</span>
-<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
-<i class="fas fa-globe"></i> Flutter Architecture Guide
-            </a>
-<a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
-<i class="fas fa-box"></i> GetIt Package
-            </a>
-<a class="doc-badge" href="https://supabase.com/docs/guides/realtime" target="_blank">
-<i class="fas fa-bolt"></i> Supabase Realtime
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: PROJECT OVERVIEW ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Project Overview</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            In this project, you'll refactor the <strong>Chat App</strong> built in Module 4
-            (<a href="../module4/project-realtime-chat-app.html" style="color: var(--primary);">Realtime Chat App Project</a>)
-            using Clean Architecture principles. The Chat App uses <strong>Supabase Realtime</strong>
-            for live messaging, making it an excellent candidate for applying Clean Architecture
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="module5-topic1-architecture-overview.html">
+        Module 5
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Project
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-archway">
+       </i>
+       Module 5
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Project
+      </div>
+      <h1>
+       Refactor Chat App
+      </h1>
+      <p class="topic-subtitle">
+       Apply Clean Architecture principles to refactor the real-time Chat App into a maintainable, testable, and scalable Flutter application.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <span class="project-badge">
+        <i class="fas fa-project-diagram">
+        </i>
+        Refactoring Project
+       </span>
+       <span class="real-time-badge">
+        <i class="fas fa-bolt">
+        </i>
+        Realtime
+       </span>
+       <a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Flutter Architecture Guide
+       </a>
+       <a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
+        <i class="fas fa-box">
+        </i>
+        GetIt Package
+       </a>
+       <a class="doc-badge" href="https://supabase.com/docs/guides/realtime" target="_blank">
+        <i class="fas fa-bolt">
+        </i>
+        Supabase Realtime
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: PROJECT OVERVIEW ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Project Overview
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       In this project, you'll refactor the
+       <strong>
+        Chat App
+       </strong>
+       built in Module 4
+            (
+       <a href="../module4/project-realtime-chat-app.html" style="color: var(--primary);">
+        Realtime Chat App Project
+       </a>
+       )
+            using Clean Architecture principles. The Chat App uses
+       <strong>
+        Supabase Realtime
+       </strong>
+       for live messaging, making it an excellent candidate for applying Clean Architecture
             patterns to handle real-time data streams.
-          </p>
-<div class="prereq-box">
-<h4>📚 Prerequisites</h4>
-<ul>
-<li>Completed <a href="../module4/project-realtime-chat-app.html">Realtime Chat App Project</a> from Module 4</li>
-<li>Understanding of <a href="module5-topic1-architecture-overview.html">Architecture Overview</a></li>
-<li>Understanding of <a href="module5-topic2-repository-pattern.html">Repository Pattern</a></li>
-<li>Understanding of <a href="module5-topic3-dependency-injection.html">Dependency Injection</a></li>
-<li>Understanding of <a href="module5-topic4-feature-first-architecture.html">Feature-First Architecture</a></li>
-<li>Familiarity with Supabase Realtime subscriptions</li>
-</ul>
-</div>
-<div class="concept-card info">
-<h4>🎯 Learning Objectives</h4>
-<ul>
-<li>Apply Clean Architecture to a real-time application</li>
-<li>Implement Repository Pattern with real-time data streams</li>
-<li>Handle Supabase Realtime subscriptions in the repository layer</li>
-<li>Use Stream-based state management in the ViewModel</li>
-<li>Set up dependency injection with GetIt for real-time services</li>
-<li>Organize code using Feature-First Architecture</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 2: BEFORE VS AFTER ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Before vs After</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Let's compare the original Chat App structure with the refactored version:
-          </p>
-<div class="comparison-grid">
-<div class="compare-item" style="border-left: 4px solid #EF4444;">
-<h4 style="color: #EF4444;">❌ Before (Module 4)</h4>
-<ul>
-<li>Supabase subscriptions in widget code</li>
-<li>UI and real-time logic tightly coupled</li>
-<li>No clear separation of concerns</li>
-<li>Hard to test (can't mock Supabase)</li>
-<li>No abstraction for real-time data</li>
-<li>Code scattered across files</li>
-<li>Difficult to switch backends</li>
-</ul>
-</div>
-<div class="compare-item" style="border-left: 4px solid #10B981;">
-<h4 style="color: #10B981;">✅ After (Clean Architecture)</h4>
-<ul>
-<li>Supabase subscriptions in data sources</li>
-<li>UI separated from real-time logic</li>
-<li>Clear data/domain/presentation separation</li>
-<li>Easy to test with mock repositories</li>
-<li>Stream-based data flow through repository</li>
-<li>Feature-based organization</li>
-<li>Backend-agnostic domain layer</li>
-</ul>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 3: NEW DIRECTORY STRUCTURE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">New Directory Structure</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            The refactored Chat App follows Feature-First Architecture with two main features:
-            <strong>auth</strong> and <strong>chat</strong>. Here's the structure:
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/ – New Feature Structure</span>
-<code>
-  lib/features/
-  ├── auth/                              <span class="comment">// Authentication Feature</span>
-  │   ├── data/
+      </p>
+      <div class="prereq-box">
+       <h4>
+        📚 Prerequisites
+       </h4>
+       <ul>
+        <li>
+         Completed
+         <a href="../module4/project-realtime-chat-app.html">
+          Realtime Chat App Project
+         </a>
+         from Module 4
+        </li>
+        <li>
+         Understanding of
+         <a href="module5-topic1-architecture-overview.html">
+          Architecture Overview
+         </a>
+        </li>
+        <li>
+         Understanding of
+         <a href="module5-topic2-repository-pattern.html">
+          Repository Pattern
+         </a>
+        </li>
+        <li>
+         Understanding of
+         <a href="module5-topic3-dependency-injection.html">
+          Dependency Injection
+         </a>
+        </li>
+        <li>
+         Understanding of
+         <a href="module5-topic4-feature-first-architecture.html">
+          Feature-First Architecture
+         </a>
+        </li>
+        <li>
+         Familiarity with Supabase Realtime subscriptions
+        </li>
+       </ul>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        🎯 Learning Objectives
+       </h4>
+       <ul>
+        <li>
+         Apply Clean Architecture to a real-time application
+        </li>
+        <li>
+         Implement Repository Pattern with real-time data streams
+        </li>
+        <li>
+         Handle Supabase Realtime subscriptions in the repository layer
+        </li>
+        <li>
+         Use Stream-based state management in the ViewModel
+        </li>
+        <li>
+         Set up dependency injection with GetIt for real-time services
+        </li>
+        <li>
+         Organize code using Feature-First Architecture
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: BEFORE VS AFTER ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Before vs After
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Let's compare the original Chat App structure with the refactored version:
+      </p>
+      <div class="comparison-grid">
+       <div class="compare-item" style="border-left: 4px solid #EF4444;">
+        <h4 style="color: #EF4444;">
+         ❌ Before (Module 4)
+        </h4>
+        <ul>
+         <li>
+          Supabase subscriptions in widget code
+         </li>
+         <li>
+          UI and real-time logic tightly coupled
+         </li>
+         <li>
+          No clear separation of concerns
+         </li>
+         <li>
+          Hard to test (can't mock Supabase)
+         </li>
+         <li>
+          No abstraction for real-time data
+         </li>
+         <li>
+          Code scattered across files
+         </li>
+         <li>
+          Difficult to switch backends
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item" style="border-left: 4px solid #10B981;">
+        <h4 style="color: #10B981;">
+         ✅ After (Clean Architecture)
+        </h4>
+        <ul>
+         <li>
+          Supabase subscriptions in data sources
+         </li>
+         <li>
+          UI separated from real-time logic
+         </li>
+         <li>
+          Clear data/domain/presentation separation
+         </li>
+         <li>
+          Easy to test with mock repositories
+         </li>
+         <li>
+          Stream-based data flow through repository
+         </li>
+         <li>
+          Feature-based organization
+         </li>
+         <li>
+          Backend-agnostic domain layer
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: NEW DIRECTORY STRUCTURE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        New Directory Structure
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       The refactored Chat App follows Feature-First Architecture with two main features:
+       <strong>
+        auth
+       </strong>
+       and
+       <strong>
+        chat
+       </strong>
+       . Here's the structure:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/ – New Feature Structure
+       </span>
+       <code>
+        lib/features/
+  ├── auth/
+        <span class="comment">
+         // Authentication Feature
+        </span>
+        │   ├── data/
   │   │   ├── datasources/
   │   │   │   └── auth_remote_datasource.dart
   │   │   ├── models/
@@ -904,11 +1087,17 @@
   │   │       └── auth_viewmodel.dart
   │   └── auth_di.dart
   │
-  └── chat/                              <span class="comment">// Chat Feature</span>
-      ├── data/
+  └── chat/
+        <span class="comment">
+         // Chat Feature
+        </span>
+        ├── data/
       │   ├── datasources/
-      │   │   └── chat_remote_datasource.dart   <span class="comment">// Supabase Realtime</span>
-      │   ├── models/
+      │   │   └── chat_remote_datasource.dart
+        <span class="comment">
+         // Supabase Realtime
+        </span>
+        │   ├── models/
       │   │   └── message_dto.dart
       │   └── repositories/
       │       └── chat_repository_impl.dart
@@ -930,55 +1119,125 @@
       │   └── viewmodels/
       │       └── chat_viewmodel.dart
       └── chat_di.dart
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="architecture-layer">
-<div class="layer-title">📊 Data Layer</div>
-<div class="layer-desc">Handles Supabase Realtime subscriptions, API calls, and DTOs</div>
-<div class="layer-components">
-<span>ChatRemoteDataSource</span>
-<span>AuthRemoteDataSource</span>
-<span>ChatRepositoryImpl</span>
-<span>MessageDTO</span>
-</div>
-</div>
-<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
-<div class="architecture-layer" style="border-left-color: #8B5CF6;">
-<div class="layer-title">🧠 Domain Layer</div>
-<div class="layer-desc">Contains business logic, use cases, and domain models</div>
-<div class="layer-components">
-<span>Message (Model)</span>
-<span>User (Model)</span>
-<span>ChatRepository (Interface)</span>
-<span>SendMessageUseCase</span>
-<span>GetMessagesUseCase</span>
-<span>SubscribeUseCase</span>
-</div>
-</div>
-<div class="layer-arrow"><i class="fas fa-arrow-down"></i></div>
-<div class="architecture-layer" style="border-left-color: #3B82F6;">
-<div class="layer-title">🎨 Presentation Layer</div>
-<div class="layer-desc">UI components and Stream-based state management</div>
-<div class="layer-components">
-<span>ChatScreen</span>
-<span>MessageBubble</span>
-<span>ChatViewModel</span>
-<span>AuthViewModel</span>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 4: STEP-BY-STEP REFACTORING ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Refactoring</span>
-<span class="divider-line"></span>
-</div>
-<h3>Step 1: Create Feature Structure</h3>
-<p>Create the new folder structure for both auth and chat features:</p>
-<div class="code-block collapsed">
-<span class="code-label">Terminal – Create folders</span>
-<code>
-  # Auth feature
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="architecture-layer">
+       <div class="layer-title">
+        📊 Data Layer
+       </div>
+       <div class="layer-desc">
+        Handles Supabase Realtime subscriptions, API calls, and DTOs
+       </div>
+       <div class="layer-components">
+        <span>
+         ChatRemoteDataSource
+        </span>
+        <span>
+         AuthRemoteDataSource
+        </span>
+        <span>
+         ChatRepositoryImpl
+        </span>
+        <span>
+         MessageDTO
+        </span>
+       </div>
+      </div>
+      <div class="layer-arrow">
+       <i class="fas fa-arrow-down">
+       </i>
+      </div>
+      <div class="architecture-layer" style="border-left-color: #8B5CF6;">
+       <div class="layer-title">
+        🧠 Domain Layer
+       </div>
+       <div class="layer-desc">
+        Contains business logic, use cases, and domain models
+       </div>
+       <div class="layer-components">
+        <span>
+         Message (Model)
+        </span>
+        <span>
+         User (Model)
+        </span>
+        <span>
+         ChatRepository (Interface)
+        </span>
+        <span>
+         SendMessageUseCase
+        </span>
+        <span>
+         GetMessagesUseCase
+        </span>
+        <span>
+         SubscribeUseCase
+        </span>
+       </div>
+      </div>
+      <div class="layer-arrow">
+       <i class="fas fa-arrow-down">
+       </i>
+      </div>
+      <div class="architecture-layer" style="border-left-color: #3B82F6;">
+       <div class="layer-title">
+        🎨 Presentation Layer
+       </div>
+       <div class="layer-desc">
+        UI components and Stream-based state management
+       </div>
+       <div class="layer-components">
+        <span>
+         ChatScreen
+        </span>
+        <span>
+         MessageBubble
+        </span>
+        <span>
+         ChatViewModel
+        </span>
+        <span>
+         AuthViewModel
+        </span>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: STEP-BY-STEP REFACTORING ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Refactoring
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <h3>
+       Step 1: Create Feature Structure
+      </h3>
+      <p>
+       Create the new folder structure for both auth and chat features:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Terminal – Create folders
+       </span>
+       <code>
+        # Auth feature
   mkdir -p lib/features/auth/data/datasources
   mkdir -p lib/features/auth/data/models
   mkdir -p lib/features/auth/data/repositories
@@ -998,447 +1257,1771 @@
   mkdir -p lib/features/chat/presentation/screens
   mkdir -p lib/features/chat/presentation/widgets
   mkdir -p lib/features/chat/presentation/viewmodels
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 2: Define Domain Models</h3>
-<p>Create domain models for Message and User:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/domain/models/message.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">Message</span> {
-    <span class="keyword">final</span> String id;
-    <span class="keyword">final</span> String content;
-    <span class="keyword">final</span> String userId;
-    <span class="keyword">final</span> String userName;
-    <span class="keyword">final</span> DateTime timestamp;
-
-    <span class="function">Message</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.content,
-      <span class="keyword">required</span> <span class="keyword">this</span>.userId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.userName,
-      <span class="keyword">required</span> <span class="keyword">this</span>.timestamp,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 2: Define Domain Models
+      </h3>
+      <p>
+       Create domain models for Message and User:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/domain/models/message.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         Message
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        String id;
+        <span class="keyword">
+         final
+        </span>
+        String content;
+        <span class="keyword">
+         final
+        </span>
+        String userId;
+        <span class="keyword">
+         final
+        </span>
+        String userName;
+        <span class="keyword">
+         final
+        </span>
+        DateTime timestamp;
+        <span class="function">
+         Message
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .id,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .content,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .userId,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .userName,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .timestamp,
     });
-
-    <span class="keyword">factory</span> Message.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Message(
-        id: json[<span class="string">'id'</span>] <span class="keyword">as</span> String,
-        content: json[<span class="string">'content'</span>] <span class="keyword">as</span> String,
-        userId: json[<span class="string">'user_id'</span>] <span class="keyword">as</span> String,
-        userName: json[<span class="string">'user_name'</span>] <span class="keyword">as</span> String,
-        timestamp: DateTime.<span class="function">parse</span>(json[<span class="string">'created_at'</span>] <span class="keyword">as</span> String),
+        <span class="keyword">
+         factory
+        </span>
+        Message.
+        <span class="function">
+         fromJson
+        </span>
+        (Map&lt;String, dynamic&gt; json) {
+        <span class="keyword">
+         return
+        </span>
+        Message(
+        id: json[
+        <span class="string">
+         'id'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
+        content: json[
+        <span class="string">
+         'content'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
+        userId: json[
+        <span class="string">
+         'user_id'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
+        userName: json[
+        <span class="string">
+         'user_name'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
+        timestamp: DateTime.
+        <span class="function">
+         parse
+        </span>
+        (json[
+        <span class="string">
+         'created_at'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String),
       );
     }
 
-    Map&lt;String, dynamic&gt; <span class="function">toJson</span>() {
-      <span class="keyword">return</span> {
-        <span class="string">'id'</span>: id,
-        <span class="string">'content'</span>: content,
-        <span class="string">'user_id'</span>: userId,
-        <span class="string">'user_name'</span>: userName,
-        <span class="string">'created_at'</span>: timestamp.<span class="function">toIso8601String</span>(),
+    Map&lt;String, dynamic&gt;
+        <span class="function">
+         toJson
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        {
+        <span class="string">
+         'id'
+        </span>
+        : id,
+        <span class="string">
+         'content'
+        </span>
+        : content,
+        <span class="string">
+         'user_id'
+        </span>
+        : userId,
+        <span class="string">
+         'user_name'
+        </span>
+        : userName,
+        <span class="string">
+         'created_at'
+        </span>
+        : timestamp.
+        <span class="function">
+         toIso8601String
+        </span>
+        (),
       };
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/auth/domain/models/user.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">User</span> {
-    <span class="keyword">final</span> String id;
-    <span class="keyword">final</span> String email;
-    <span class="keyword">final</span> String? userName;
-
-    <span class="function">User</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.email,
-      <span class="keyword">this</span>.userName,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/auth/domain/models/user.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         User
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        String id;
+        <span class="keyword">
+         final
+        </span>
+        String email;
+        <span class="keyword">
+         final
+        </span>
+        String? userName;
+        <span class="function">
+         User
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .id,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .email,
+        <span class="keyword">
+         this
+        </span>
+        .userName,
     });
-
-    <span class="keyword">factory</span> User.<span class="function">fromJson</span>(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> User(
-        id: json[<span class="string">'id'</span>] <span class="keyword">as</span> String,
-        email: json[<span class="string">'email'</span>] <span class="keyword">as</span> String,
-        userName: json[<span class="string">'user_name'</span>] <span class="keyword">as</span> String?,
+        <span class="keyword">
+         factory
+        </span>
+        User.
+        <span class="function">
+         fromJson
+        </span>
+        (Map&lt;String, dynamic&gt; json) {
+        <span class="keyword">
+         return
+        </span>
+        User(
+        id: json[
+        <span class="string">
+         'id'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
+        email: json[
+        <span class="string">
+         'email'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
+        userName: json[
+        <span class="string">
+         'user_name'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String?,
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 3: Create Remote Data Sources</h3>
-<p>Move Supabase interactions to data sources:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/data/datasources/chat_remote_datasource.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'dart:async'</span>;
-
-  <span class="keyword">class</span> <span class="function">ChatRemoteDataSource</span> {
-    <span class="keyword">final</span> SupabaseClient client;
-
-    <span class="function">ChatRemoteDataSource</span>(<span class="keyword">this</span>.client);
-
-    <span class="keyword">static</span> <span class="keyword">const</span> String messagesTable = <span class="string">'messages'</span>;
-
-    <span class="comment">/// Subscribe to real-time messages</span>
-<span class="keyword">Stream</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">subscribeToMessages</span>() {
-      <span class="keyword">return</span> client
-          .<span class="function">channel</span>(<span class="string">'realtime:messages'</span>)
-          .<span class="function">onPostgresChanges</span>(
-            event: PostgresChangeEvent.<span class="function">all</span>,
-            schema: <span class="string">'public'</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 3: Create Remote Data Sources
+      </h3>
+      <p>
+       Move Supabase interactions to data sources:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/data/datasources/chat_remote_datasource.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatRemoteDataSource
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client;
+        <span class="function">
+         ChatRemoteDataSource
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .client);
+        <span class="keyword">
+         static
+        </span>
+        <span class="keyword">
+         const
+        </span>
+        String messagesTable =
+        <span class="string">
+         'messages'
+        </span>
+        ;
+        <span class="comment">
+         /// Subscribe to real-time messages
+        </span>
+        <span class="keyword">
+         Stream
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         subscribeToMessages
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        client
+          .
+        <span class="function">
+         channel
+        </span>
+        (
+        <span class="string">
+         'realtime:messages'
+        </span>
+        )
+          .
+        <span class="function">
+         onPostgresChanges
+        </span>
+        (
+            event: PostgresChangeEvent.
+        <span class="function">
+         all
+        </span>
+        ,
+            schema:
+        <span class="string">
+         'public'
+        </span>
+        ,
             table: messagesTable,
             callback: (payload) {
-              <span class="comment">// Handle real-time updates</span>
-            },
+        <span class="comment">
+         // Handle real-time updates
+        </span>
+        },
           )
-          .<span class="function">subscribe</span>()
-          .<span class="function">asStream</span>()
-          .<span class="function">map</span>((event) {
-            <span class="comment">// Transform the event to a list of messages</span>
-<span class="comment">// This is simplified - in practice you'd maintain state</span>
-<span class="keyword">return</span> [];
+          .
+        <span class="function">
+         subscribe
+        </span>
+        ()
+          .
+        <span class="function">
+         asStream
+        </span>
+        ()
+          .
+        <span class="function">
+         map
+        </span>
+        ((event) {
+        <span class="comment">
+         // Transform the event to a list of messages
+        </span>
+        <span class="comment">
+         // This is simplified - in practice you'd maintain state
+        </span>
+        <span class="keyword">
+         return
+        </span>
+        [];
           });
     }
-
-    <span class="comment">/// Send a message</span>
-<span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">sendMessage</span>(Map&lt;String, dynamic&gt; messageData) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
+        <span class="comment">
+         /// Send a message
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         sendMessage
+        </span>
+        (Map&lt;String, dynamic&gt; messageData) async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
           .from(messagesTable)
-          .<span class="function">insert</span>(messageData)
-          .<span class="function">select</span>()
-          .<span class="function">single</span>();
-
-      <span class="keyword">return</span> response;
+          .
+        <span class="function">
+         insert
+        </span>
+        (messageData)
+          .
+        <span class="function">
+         select
+        </span>
+        ()
+          .
+        <span class="function">
+         single
+        </span>
+        ();
+        <span class="keyword">
+         return
+        </span>
+        response;
     }
-
-    <span class="comment">/// Get all messages</span>
-<span class="keyword">Future</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">getMessages</span>() async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client
+        <span class="comment">
+         /// Get all messages
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         getMessages
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client
           .from(messagesTable)
-          .<span class="function">select</span>()
-          .order(<span class="string">'created_at'</span>, ascending: <span class="keyword">true</span>);
-
-      <span class="keyword">return</span> List&lt;Map&lt;String, dynamic&gt;&gt;.from(response);
+          .
+        <span class="function">
+         select
+        </span>
+        ()
+          .order(
+        <span class="string">
+         'created_at'
+        </span>
+        , ascending:
+        <span class="keyword">
+         true
+        </span>
+        );
+        <span class="keyword">
+         return
+        </span>
+        List&lt;Map&lt;String, dynamic&gt;&gt;.from(response);
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/auth/data/datasources/auth_remote_datasource.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">AuthRemoteDataSource</span> {
-    <span class="keyword">final</span> SupabaseClient client;
-
-    <span class="function">AuthRemoteDataSource</span>(<span class="keyword">this</span>.client);
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">login</span>(String email, String password) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client.auth.<span class="function">signInWithPassword</span>(
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/auth/data/datasources/auth_remote_datasource.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         AuthRemoteDataSource
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        SupabaseClient client;
+        <span class="function">
+         AuthRemoteDataSource
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .client);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         login
+        </span>
+        (String email, String password) async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.auth.
+        <span class="function">
+         signInWithPassword
+        </span>
+        (
         email: email,
         password: password,
       );
-      <span class="keyword">return</span> response.user!.<span class="function">toJson</span>();
+        <span class="keyword">
+         return
+        </span>
+        response.user!.
+        <span class="function">
+         toJson
+        </span>
+        ();
     }
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">register</span>(String email, String password) async {
-      <span class="keyword">final</span> response = <span class="keyword">await</span> client.auth.<span class="function">signUp</span>(
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         register
+        </span>
+        (String email, String password) async {
+        <span class="keyword">
+         final
+        </span>
+        response =
+        <span class="keyword">
+         await
+        </span>
+        client.auth.
+        <span class="function">
+         signUp
+        </span>
+        (
         email: email,
         password: password,
       );
-      <span class="keyword">return</span> response.user!.<span class="function">toJson</span>();
+        <span class="keyword">
+         return
+        </span>
+        response.user!.
+        <span class="function">
+         toJson
+        </span>
+        ();
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">logout</span>() async {
-      <span class="keyword">await</span> client.auth.<span class="function">signOut</span>();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         logout
+        </span>
+        () async {
+        <span class="keyword">
+         await
+        </span>
+        client.auth.
+        <span class="function">
+         signOut
+        </span>
+        ();
     }
-
-    <span class="keyword">Map</span>&lt;String, dynamic&gt;? <span class="function">getCurrentUser</span>() {
-      <span class="keyword">final</span> user = client.auth.currentUser;
-      <span class="keyword">return</span> user?.<span class="function">toJson</span>();
+        <span class="keyword">
+         Map
+        </span>
+        &lt;String, dynamic&gt;?
+        <span class="function">
+         getCurrentUser
+        </span>
+        () {
+        <span class="keyword">
+         final
+        </span>
+        user = client.auth.currentUser;
+        <span class="keyword">
+         return
+        </span>
+        user?.
+        <span class="function">
+         toJson
+        </span>
+        ();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 4: Implement Repositories</h3>
-<p>Create repository interfaces and implementations:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/domain/repositories/chat_repository.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'../models/message.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'dart:async'</span>;
-
-  <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="function">ChatRepository</span> {
-    <span class="keyword">Future</span>&lt;List&lt;Message&gt;&gt; <span class="function">getMessages</span>();
-    <span class="keyword">Future</span>&lt;Message&gt; <span class="function">sendMessage</span>(Message message);
-    <span class="keyword">Stream</span>&lt;List&lt;Message&gt;&gt; <span class="function">subscribeToMessages</span>();
-    <span class="keyword">void</span> <span class="function">dispose</span>();
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 4: Implement Repositories
+      </h3>
+      <p>
+       Create repository interfaces and implementations:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/domain/repositories/chat_repository.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../models/message.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         abstract
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatRepository
+        </span>
+        {
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Message&gt;&gt;
+        <span class="function">
+         getMessages
+        </span>
+        ();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Message&gt;
+        <span class="function">
+         sendMessage
+        </span>
+        (Message message);
+        <span class="keyword">
+         Stream
+        </span>
+        &lt;List&lt;Message&gt;&gt;
+        <span class="function">
+         subscribeToMessages
+        </span>
+        ();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        ();
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/data/repositories/chat_repository_impl.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'../../domain/repositories/chat_repository.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../domain/models/message.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../datasources/chat_remote_datasource.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ChatRepositoryImpl</span> <span class="keyword">implements</span> ChatRepository {
-    <span class="keyword">final</span> ChatRemoteDataSource remoteDataSource;
-    <span class="keyword">final</span> StreamController&lt;List&lt;Message&gt;&gt; _messageStreamController =
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/data/repositories/chat_repository_impl.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../domain/repositories/chat_repository.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../domain/models/message.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../datasources/chat_remote_datasource.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatRepositoryImpl
+        </span>
+        <span class="keyword">
+         implements
+        </span>
+        ChatRepository {
+        <span class="keyword">
+         final
+        </span>
+        ChatRemoteDataSource remoteDataSource;
+        <span class="keyword">
+         final
+        </span>
+        StreamController&lt;List&lt;Message&gt;&gt; _messageStreamController =
         StreamController&lt;List&lt;Message&gt;&gt;.broadcast();
-
-    <span class="keyword">List</span>&lt;Message&gt; _messages = [];
-
-    <span class="function">ChatRepositoryImpl</span>(<span class="keyword">this</span>.remoteDataSource) {
-      <span class="comment">// Start listening to real-time updates</span>
-      _listenToRealtime();
+        <span class="keyword">
+         List
+        </span>
+        &lt;Message&gt; _messages = [];
+        <span class="function">
+         ChatRepositoryImpl
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .remoteDataSource) {
+        <span class="comment">
+         // Start listening to real-time updates
+        </span>
+        _listenToRealtime();
     }
-
-    <span class="keyword">void</span> <span class="function">_listenToRealtime</span>() {
-      remoteDataSource.<span class="function">subscribeToMessages</span>().<span class="function">listen</span>((newMessages) {
-        <span class="comment">// Update the message list</span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _listenToRealtime
+        </span>
+        () {
+      remoteDataSource.
+        <span class="function">
+         subscribeToMessages
+        </span>
+        ().
+        <span class="function">
+         listen
+        </span>
+        ((newMessages) {
+        <span class="comment">
+         // Update the message list
+        </span>
         _messages = newMessages
-            .<span class="function">map</span>((data) =&gt; Message.<span class="function">fromJson</span>(data))
-            .<span class="function">toList</span>();
-        _messageStreamController.<span class="function">add</span>(_messages);
+            .
+        <span class="function">
+         map
+        </span>
+        ((data) =&gt; Message.
+        <span class="function">
+         fromJson
+        </span>
+        (data))
+            .
+        <span class="function">
+         toList
+        </span>
+        ();
+        _messageStreamController.
+        <span class="function">
+         add
+        </span>
+        (_messages);
       });
     }
 
     @override
-    <span class="keyword">Future</span>&lt;List&lt;Message&gt;&gt; <span class="function">getMessages</span>() async {
-      <span class="keyword">if</span> (_messages.<span class="function">isNotEmpty</span>) {
-        <span class="keyword">return</span> _messages;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;List&lt;Message&gt;&gt;
+        <span class="function">
+         getMessages
+        </span>
+        () async {
+        <span class="keyword">
+         if
+        </span>
+        (_messages.
+        <span class="function">
+         isNotEmpty
+        </span>
+        ) {
+        <span class="keyword">
+         return
+        </span>
+        _messages;
       }
-
-      <span class="keyword">final</span> data = <span class="keyword">await</span> remoteDataSource.<span class="function">getMessages</span>();
-      _messages = data.<span class="function">map</span>((json) =&gt; Message.<span class="function">fromJson</span>(json)).<span class="function">toList</span>();
-      <span class="keyword">return</span> _messages;
+        <span class="keyword">
+         final
+        </span>
+        data =
+        <span class="keyword">
+         await
+        </span>
+        remoteDataSource.
+        <span class="function">
+         getMessages
+        </span>
+        ();
+      _messages = data.
+        <span class="function">
+         map
+        </span>
+        ((json) =&gt; Message.
+        <span class="function">
+         fromJson
+        </span>
+        (json)).
+        <span class="function">
+         toList
+        </span>
+        ();
+        <span class="keyword">
+         return
+        </span>
+        _messages;
     }
 
     @override
-    <span class="keyword">Future</span>&lt;Message&gt; <span class="function">sendMessage</span>(Message message) async {
-      <span class="keyword">final</span> data = <span class="keyword">await</span> remoteDataSource.<span class="function">sendMessage</span>(message.<span class="function">toJson</span>());
-      <span class="keyword">final</span> newMessage = Message.<span class="function">fromJson</span>(data);
-
-      <span class="comment">// Add to local list and notify listeners</span>
-      _messages = [..._messages, newMessage];
-      _messageStreamController.<span class="function">add</span>(_messages);
-
-      <span class="keyword">return</span> newMessage;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Message&gt;
+        <span class="function">
+         sendMessage
+        </span>
+        (Message message) async {
+        <span class="keyword">
+         final
+        </span>
+        data =
+        <span class="keyword">
+         await
+        </span>
+        remoteDataSource.
+        <span class="function">
+         sendMessage
+        </span>
+        (message.
+        <span class="function">
+         toJson
+        </span>
+        ());
+        <span class="keyword">
+         final
+        </span>
+        newMessage = Message.
+        <span class="function">
+         fromJson
+        </span>
+        (data);
+        <span class="comment">
+         // Add to local list and notify listeners
+        </span>
+        _messages = [..._messages, newMessage];
+      _messageStreamController.
+        <span class="function">
+         add
+        </span>
+        (_messages);
+        <span class="keyword">
+         return
+        </span>
+        newMessage;
     }
 
     @override
-    <span class="keyword">Stream</span>&lt;List&lt;Message&gt;&gt; <span class="function">subscribeToMessages</span>() {
-      <span class="keyword">return</span> _messageStreamController.stream;
+        <span class="keyword">
+         Stream
+        </span>
+        &lt;List&lt;Message&gt;&gt;
+        <span class="function">
+         subscribeToMessages
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        _messageStreamController.stream;
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _messageStreamController.<span class="function">close</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
+      _messageStreamController.
+        <span class="function">
+         close
+        </span>
+        ();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 5: Create Use Cases</h3>
-<p>Move business logic into use cases:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/domain/usecases/send_message_usecase.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'../repositories/chat_repository.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/message.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">SendMessageUseCase</span> {
-    <span class="keyword">final</span> ChatRepository repository;
-
-    <span class="function">SendMessageUseCase</span>(<span class="keyword">this</span>.repository);
-
-    <span class="keyword">Future</span>&lt;Message&gt; <span class="function">execute</span>({
-      <span class="keyword">required</span> String content,
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> String userName,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 5: Create Use Cases
+      </h3>
+      <p>
+       Move business logic into use cases:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/domain/usecases/send_message_usecase.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../repositories/chat_repository.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../models/message.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         SendMessageUseCase
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        ChatRepository repository;
+        <span class="function">
+         SendMessageUseCase
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .repository);
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Message&gt;
+        <span class="function">
+         execute
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String content,
+        <span class="keyword">
+         required
+        </span>
+        String userId,
+        <span class="keyword">
+         required
+        </span>
+        String userName,
     }) async {
-      <span class="keyword">if</span> (content.<span class="function">isEmpty</span>) {
-        <span class="keyword">throw</span> ArgumentError(<span class="string">'Message content cannot be empty'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (content.
+        <span class="function">
+         isEmpty
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        ArgumentError(
+        <span class="string">
+         'Message content cannot be empty'
+        </span>
+        );
       }
-
-      <span class="keyword">final</span> message = Message(
-        id: <span class="string">''</span>, <span class="comment">// Will be generated by backend</span>
+        <span class="keyword">
+         final
+        </span>
+        message = Message(
+        id:
+        <span class="string">
+         ''
+        </span>
+        ,
+        <span class="comment">
+         // Will be generated by backend
+        </span>
         content: content,
         userId: userId,
         userName: userName,
-        timestamp: DateTime.<span class="function">now</span>(),
+        timestamp: DateTime.
+        <span class="function">
+         now
+        </span>
+        (),
       );
-
-      <span class="keyword">return</span> <span class="keyword">await</span> repository.<span class="function">sendMessage</span>(message);
+        <span class="keyword">
+         return
+        </span>
+        <span class="keyword">
+         await
+        </span>
+        repository.
+        <span class="function">
+         sendMessage
+        </span>
+        (message);
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/domain/usecases/subscribe_to_messages_usecase.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'../repositories/chat_repository.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/message.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">SubscribeToMessagesUseCase</span> {
-    <span class="keyword">final</span> ChatRepository repository;
-
-    <span class="function">SubscribeToMessagesUseCase</span>(<span class="keyword">this</span>.repository);
-
-    <span class="keyword">Stream</span>&lt;List&lt;Message&gt;&gt; <span class="function">execute</span>() {
-      <span class="keyword">return</span> repository.<span class="function">subscribeToMessages</span>();
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/domain/usecases/subscribe_to_messages_usecase.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../repositories/chat_repository.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../models/message.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         SubscribeToMessagesUseCase
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        ChatRepository repository;
+        <span class="function">
+         SubscribeToMessagesUseCase
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .repository);
+        <span class="keyword">
+         Stream
+        </span>
+        &lt;List&lt;Message&gt;&gt;
+        <span class="function">
+         execute
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        repository.
+        <span class="function">
+         subscribeToMessages
+        </span>
+        ();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 6: Create ViewModels</h3>
-<p>Manage state and interact with use cases using Stream-based state management:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/presentation/viewmodels/chat_viewmodel.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:async'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../../domain/usecases/send_message_usecase.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../../domain/usecases/subscribe_to_messages_usecase.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../../domain/models/message.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ChatViewModel</span> <span class="keyword">extends</span> StateNotifier&lt;ChatState&gt; {
-    <span class="keyword">final</span> SendMessageUseCase sendMessageUseCase;
-    <span class="keyword">final</span> SubscribeToMessagesUseCase subscribeToMessagesUseCase;
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 6: Create ViewModels
+      </h3>
+      <p>
+       Manage state and interact with use cases using Stream-based state management:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/presentation/viewmodels/chat_viewmodel.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:async'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter_riverpod/flutter_riverpod.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../../domain/usecases/send_message_usecase.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../../domain/usecases/subscribe_to_messages_usecase.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../../domain/models/message.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatViewModel
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StateNotifier&lt;ChatState&gt; {
+        <span class="keyword">
+         final
+        </span>
+        SendMessageUseCase sendMessageUseCase;
+        <span class="keyword">
+         final
+        </span>
+        SubscribeToMessagesUseCase subscribeToMessagesUseCase;
     StreamSubscription&lt;List&lt;Message&gt;&gt;? _subscription;
-
-    <span class="function">ChatViewModel</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.sendMessageUseCase,
-      <span class="keyword">required</span> <span class="keyword">this</span>.subscribeToMessagesUseCase,
-    }) : <span class="keyword">super</span>(ChatState.<span class="function">initial</span>()) {
-      <span class="function">_listenToMessages</span>();
+        <span class="function">
+         ChatViewModel
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .sendMessageUseCase,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .subscribeToMessagesUseCase,
+    }) :
+        <span class="keyword">
+         super
+        </span>
+        (ChatState.
+        <span class="function">
+         initial
+        </span>
+        ()) {
+        <span class="function">
+         _listenToMessages
+        </span>
+        ();
     }
-
-    <span class="keyword">void</span> <span class="function">_listenToMessages</span>() {
-      _subscription = subscribeToMessagesUseCase.<span class="function">execute</span>().<span class="function">listen</span>(
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _listenToMessages
+        </span>
+        () {
+      _subscription = subscribeToMessagesUseCase.
+        <span class="function">
+         execute
+        </span>
+        ().
+        <span class="function">
+         listen
+        </span>
+        (
         (messages) {
-          state = state.<span class="function">copyWith</span>(
+          state = state.
+        <span class="function">
+         copyWith
+        </span>
+        (
             messages: messages,
-            isLoading: <span class="keyword">false</span>,
-            error: <span class="keyword">null</span>,
+            isLoading:
+        <span class="keyword">
+         false
+        </span>
+        ,
+            error:
+        <span class="keyword">
+         null
+        </span>
+        ,
           );
         },
         onError: (error) {
-          state = state.<span class="function">copyWith</span>(
-            isLoading: <span class="keyword">false</span>,
-            error: error.<span class="function">toString</span>(),
+          state = state.
+        <span class="function">
+         copyWith
+        </span>
+        (
+            isLoading:
+        <span class="keyword">
+         false
+        </span>
+        ,
+            error: error.
+        <span class="function">
+         toString
+        </span>
+        (),
           );
         },
       );
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">sendMessage</span>({
-      <span class="keyword">required</span> String content,
-      <span class="keyword">required</span> String userId,
-      <span class="keyword">required</span> String userName,
+        <span class="keyword">
+         Future
+        </span>
+        &lt;
+        <span class="keyword">
+         void
+        </span>
+        &gt;
+        <span class="function">
+         sendMessage
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        String content,
+        <span class="keyword">
+         required
+        </span>
+        String userId,
+        <span class="keyword">
+         required
+        </span>
+        String userName,
     }) async {
-      <span class="keyword">try</span> {
-        <span class="keyword">await</span> sendMessageUseCase.<span class="function">execute</span>(
+        <span class="keyword">
+         try
+        </span>
+        {
+        <span class="keyword">
+         await
+        </span>
+        sendMessageUseCase.
+        <span class="function">
+         execute
+        </span>
+        (
           content: content,
           userId: userId,
           userName: userName,
         );
-      } <span class="keyword">catch</span> (e) {
-        state = state.<span class="function">copyWith</span>(error: e.<span class="function">toString</span>());
+      }
+        <span class="keyword">
+         catch
+        </span>
+        (e) {
+        state = state.
+        <span class="function">
+         copyWith
+        </span>
+        (error: e.
+        <span class="function">
+         toString
+        </span>
+        ());
       }
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _subscription?.<span class="function">cancel</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
+      _subscription?.
+        <span class="function">
+         cancel
+        </span>
+        ();
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         dispose
+        </span>
+        ();
     }
   }
-
-  <span class="keyword">class</span> <span class="function">ChatState</span> {
-    <span class="keyword">final</span> <span class="keyword">bool</span> isLoading;
-    <span class="keyword">final</span> List&lt;Message&gt; messages;
-    <span class="keyword">final</span> String? error;
-
-    <span class="function">ChatState</span>({
-      <span class="keyword">this</span>.isLoading = <span class="keyword">false</span>,
-      <span class="keyword">this</span>.messages = <span class="keyword">const</span> [],
-      <span class="keyword">this</span>.error,
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatState
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         bool
+        </span>
+        isLoading;
+        <span class="keyword">
+         final
+        </span>
+        List&lt;Message&gt; messages;
+        <span class="keyword">
+         final
+        </span>
+        String? error;
+        <span class="function">
+         ChatState
+        </span>
+        ({
+        <span class="keyword">
+         this
+        </span>
+        .isLoading =
+        <span class="keyword">
+         false
+        </span>
+        ,
+        <span class="keyword">
+         this
+        </span>
+        .messages =
+        <span class="keyword">
+         const
+        </span>
+        [],
+        <span class="keyword">
+         this
+        </span>
+        .error,
     });
+        <span class="keyword">
+         factory
+        </span>
+        ChatState.
+        <span class="function">
+         initial
+        </span>
+        () =&gt; ChatState(isLoading:
+        <span class="keyword">
+         true
+        </span>
+        );
 
-    <span class="keyword">factory</span> ChatState.<span class="function">initial</span>() =&gt; ChatState(isLoading: <span class="keyword">true</span>);
-
-    ChatState <span class="function">copyWith</span>({
-      <span class="keyword">bool</span>? isLoading,
+    ChatState
+        <span class="function">
+         copyWith
+        </span>
+        ({
+        <span class="keyword">
+         bool
+        </span>
+        ? isLoading,
       List&lt;Message&gt;? messages,
       String? error,
     }) {
-      <span class="keyword">return</span> ChatState(
-        isLoading: isLoading ?? <span class="keyword">this</span>.isLoading,
-        messages: messages ?? <span class="keyword">this</span>.messages,
-        error: error ?? <span class="keyword">this</span>.error,
+        <span class="keyword">
+         return
+        </span>
+        ChatState(
+        isLoading: isLoading ??
+        <span class="keyword">
+         this
+        </span>
+        .isLoading,
+        messages: messages ??
+        <span class="keyword">
+         this
+        </span>
+        .messages,
+        error: error ??
+        <span class="keyword">
+         this
+        </span>
+        .error,
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 7: Create UI Components</h3>
-<p>Refactor the UI to use the ViewModel:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/presentation/screens/chat_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../viewmodels/chat_viewmodel.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../widgets/message_bubble.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../widgets/message_input.dart'</span>;
-
-  <span class="keyword">final</span> chatViewModelProvider = StateNotifierProvider&lt;ChatViewModel, ChatState&gt;((ref) {
-    <span class="keyword">return</span> ChatViewModel(
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 7: Create UI Components
+      </h3>
+      <p>
+       Refactor the UI to use the ViewModel:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/presentation/screens/chat_screen.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter_riverpod/flutter_riverpod.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../viewmodels/chat_viewmodel.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../widgets/message_bubble.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../widgets/message_input.dart'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        chatViewModelProvider = StateNotifierProvider&lt;ChatViewModel, ChatState&gt;((ref) {
+        <span class="keyword">
+         return
+        </span>
+        ChatViewModel(
       sendMessageUseCase: getIt&lt;SendMessageUseCase&gt;(),
       subscribeToMessagesUseCase: getIt&lt;SubscribeToMessagesUseCase&gt;(),
     );
   });
-
-  <span class="keyword">class</span> <span class="function">ChatScreen</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">final</span> String userId;
-    <span class="keyword">final</span> String userName;
-
-    <span class="function">ChatScreen</span>({<span class="keyword">required</span> <span class="keyword">this</span>.userId, <span class="keyword">required</span> <span class="keyword">this</span>.userName});
-
-    <span class="keyword">final</span> ScrollController _scrollController = ScrollController();
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatScreen
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        ConsumerWidget {
+        <span class="keyword">
+         final
+        </span>
+        String userId;
+        <span class="keyword">
+         final
+        </span>
+        String userName;
+        <span class="function">
+         ChatScreen
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .userId,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .userName});
+        <span class="keyword">
+         final
+        </span>
+        ScrollController _scrollController = ScrollController();
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> state = ref.<span class="function">watch</span>(chatViewModelProvider);
-      <span class="keyword">final</span> viewModel = ref.<span class="function">read</span>(chatViewModelProvider.notifier);
-
-      <span class="comment">// Auto-scroll to bottom when new messages arrive</span>
-      WidgetsBinding.instance.<span class="function">addPostFrameCallback</span>((_) {
-        <span class="keyword">if</span> (_scrollController.hasClients) {
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context, WidgetRef ref) {
+        <span class="keyword">
+         final
+        </span>
+        state = ref.
+        <span class="function">
+         watch
+        </span>
+        (chatViewModelProvider);
+        <span class="keyword">
+         final
+        </span>
+        viewModel = ref.
+        <span class="function">
+         read
+        </span>
+        (chatViewModelProvider.notifier);
+        <span class="comment">
+         // Auto-scroll to bottom when new messages arrive
+        </span>
+        WidgetsBinding.instance.
+        <span class="function">
+         addPostFrameCallback
+        </span>
+        ((_) {
+        <span class="keyword">
+         if
+        </span>
+        (_scrollController.hasClients) {
           _scrollController.animateTo(
             _scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: <span class="number">300</span>),
+            duration: Duration(milliseconds:
+        <span class="number">
+         300
+        </span>
+        ),
             curve: Curves.easeOut,
           );
         }
       });
-
-      <span class="keyword">return</span> Scaffold(
+        <span class="keyword">
+         return
+        </span>
+        Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'Chat'</span>),
-          centerTitle: <span class="keyword">true</span>,
+          title: Text(
+        <span class="string">
+         'Chat'
+        </span>
+        ),
+          centerTitle:
+        <span class="keyword">
+         true
+        </span>
+        ,
           actions: [
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
-                <span class="comment">// Handle logout</span>
-              },
+        <span class="comment">
+         // Handle logout
+        </span>
+        },
             ),
           ],
         ),
@@ -1447,16 +3030,44 @@
             Expanded(
               child: state.isLoading
                   ? Center(child: CircularProgressIndicator())
-                  : state.error != <span class="keyword">null</span>
-                      ? Center(child: Text(<span class="string">'Error: ${state.error}'</span>))
+                  : state.error !=
+        <span class="keyword">
+         null
+        </span>
+        ? Center(child: Text(
+        <span class="string">
+         'Error: ${state.error}'
+        </span>
+        ))
                       : ListView.builder(
                           controller: _scrollController,
-                          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16.0</span>),
-                          itemCount: state.messages.<span class="function">length</span>,
+                          padding: EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16.0
+        </span>
+        ),
+                          itemCount: state.messages.
+        <span class="function">
+         length
+        </span>
+        ,
                           itemBuilder: (context, index) {
-                            <span class="keyword">final</span> message = state.messages[index];
-                            <span class="keyword">final</span> isMe = message.userId == userId;
-                            <span class="keyword">return</span> MessageBubble(
+        <span class="keyword">
+         final
+        </span>
+        message = state.messages[index];
+        <span class="keyword">
+         final
+        </span>
+        isMe = message.userId == userId;
+        <span class="keyword">
+         return
+        </span>
+        MessageBubble(
                               message: message,
                               isMe: isMe,
                             );
@@ -1465,7 +3076,11 @@
             ),
             MessageInput(
               onSend: (content) {
-                viewModel.<span class="function">sendMessage</span>(
+                viewModel.
+        <span class="function">
+         sendMessage
+        </span>
+        (
                   content: content,
                   userId: userId,
                   userName: userName,
@@ -1478,342 +3093,1078 @@
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _scrollController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
+      _scrollController.
+        <span class="function">
+         dispose
+        </span>
+        ();
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         dispose
+        </span>
+        ();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Step 8: Set Up Dependency Injection</h3>
-<p>Register all dependencies with GetIt:</p>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/chat_di.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:supabase_flutter/supabase_flutter.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'data/datasources/chat_remote_datasource.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'data/repositories/chat_repository_impl.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'domain/repositories/chat_repository.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'domain/usecases/send_message_usecase.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'domain/usecases/subscribe_to_messages_usecase.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'presentation/viewmodels/chat_viewmodel.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">ChatFeatureModule</span> {
-    <span class="keyword">final</span> GetIt getIt;
-
-    <span class="function">ChatFeatureModule</span>(<span class="keyword">this</span>.getIt);
-
-    <span class="keyword">void</span> <span class="function">register</span>() {
-      <span class="comment">// Data Source</span>
-      getIt.<span class="function">registerLazySingleton</span>&lt;ChatRemoteDataSource&gt;(<span class="function">()</span> {
-        <span class="keyword">return</span> ChatRemoteDataSource(Supabase.instance.client);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Step 8: Set Up Dependency Injection
+      </h3>
+      <p>
+       Register all dependencies with GetIt:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/chat_di.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:get_it/get_it.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:supabase_flutter/supabase_flutter.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'data/datasources/chat_remote_datasource.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'data/repositories/chat_repository_impl.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'domain/repositories/chat_repository.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'domain/usecases/send_message_usecase.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'domain/usecases/subscribe_to_messages_usecase.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'presentation/viewmodels/chat_viewmodel.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ChatFeatureModule
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        GetIt getIt;
+        <span class="function">
+         ChatFeatureModule
+        </span>
+        (
+        <span class="keyword">
+         this
+        </span>
+        .getIt);
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         register
+        </span>
+        () {
+        <span class="comment">
+         // Data Source
+        </span>
+        getIt.
+        <span class="function">
+         registerLazySingleton
+        </span>
+        &lt;ChatRemoteDataSource&gt;(
+        <span class="function">
+         ()
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        ChatRemoteDataSource(Supabase.instance.client);
+      });
+        <span class="comment">
+         // Repository
+        </span>
+        getIt.
+        <span class="function">
+         registerLazySingleton
+        </span>
+        &lt;ChatRepository&gt;(
+        <span class="function">
+         ()
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        ChatRepositoryImpl(getIt&lt;ChatRemoteDataSource&gt;());
+      });
+        <span class="comment">
+         // Use Cases
+        </span>
+        getIt.
+        <span class="function">
+         registerFactory
+        </span>
+        &lt;SendMessageUseCase&gt;(
+        <span class="function">
+         ()
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        SendMessageUseCase(getIt&lt;ChatRepository&gt;());
       });
 
-      <span class="comment">// Repository</span>
-      getIt.<span class="function">registerLazySingleton</span>&lt;ChatRepository&gt;(<span class="function">()</span> {
-        <span class="keyword">return</span> ChatRepositoryImpl(getIt&lt;ChatRemoteDataSource&gt;());
+      getIt.
+        <span class="function">
+         registerFactory
+        </span>
+        &lt;SubscribeToMessagesUseCase&gt;(
+        <span class="function">
+         ()
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        SubscribeToMessagesUseCase(getIt&lt;ChatRepository&gt;());
       });
-
-      <span class="comment">// Use Cases</span>
-      getIt.<span class="function">registerFactory</span>&lt;SendMessageUseCase&gt;(<span class="function">()</span> {
-        <span class="keyword">return</span> SendMessageUseCase(getIt&lt;ChatRepository&gt;());
-      });
-
-      getIt.<span class="function">registerFactory</span>&lt;SubscribeToMessagesUseCase&gt;(<span class="function">()</span> {
-        <span class="keyword">return</span> SubscribeToMessagesUseCase(getIt&lt;ChatRepository&gt;());
-      });
-
-      <span class="comment">// ViewModel</span>
-      getIt.<span class="function">registerFactory</span>&lt;ChatViewModel&gt;(<span class="function">()</span> {
-        <span class="keyword">return</span> ChatViewModel(
+        <span class="comment">
+         // ViewModel
+        </span>
+        getIt.
+        <span class="function">
+         registerFactory
+        </span>
+        &lt;ChatViewModel&gt;(
+        <span class="function">
+         ()
+        </span>
+        {
+        <span class="keyword">
+         return
+        </span>
+        ChatViewModel(
           sendMessageUseCase: getIt&lt;SendMessageUseCase&gt;(),
           subscribeToMessagesUseCase: getIt&lt;SubscribeToMessagesUseCase&gt;(),
         );
       });
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">lib/di/service_locator.dart – Register All Features</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:get_it/get_it.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../features/auth/auth_di.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../features/chat/chat_di.dart'</span>;
-
-  <span class="keyword">final</span> getIt = GetIt.instance;
-
-  <span class="keyword">void</span> <span class="function">setupServiceLocator</span>() {
-    <span class="comment">// Register each feature module</span>
-    AuthFeatureModule(getIt).<span class="function">register</span>();
-    ChatFeatureModule(getIt).<span class="function">register</span>();
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/di/service_locator.dart – Register All Features
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:get_it/get_it.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../features/auth/auth_di.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../features/chat/chat_di.dart'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        getIt = GetIt.instance;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         setupServiceLocator
+        </span>
+        () {
+        <span class="comment">
+         // Register each feature module
+        </span>
+        AuthFeatureModule(getIt).
+        <span class="function">
+         register
+        </span>
+        ();
+    ChatFeatureModule(getIt).
+        <span class="function">
+         register
+        </span>
+        ();
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: HANDLING REAL-TIME STREAMS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Handling Real-Time Streams</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            One of the key challenges in the Chat App is handling <strong>real-time data streams</strong>.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: HANDLING REAL-TIME STREAMS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Handling Real-Time Streams
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       One of the key challenges in the Chat App is handling
+       <strong>
+        real-time data streams
+       </strong>
+       .
             Here's how Clean Architecture helps manage this complexity:
-          </p>
-<div class="concept-card info">
-<h4>💡 Stream Management Strategy</h4>
-<ul>
-<li><strong>Data Source</strong> – Creates the Supabase Realtime subscription</li>
-<li><strong>Repository</strong> – Maintains the stream and message state</li>
-<li><strong>Use Case</strong> – Provides the stream to the ViewModel</li>
-<li><strong>ViewModel</strong> – Listens to the stream and updates UI state</li>
-<li><strong>UI</strong> – Reacts to state changes from the ViewModel</li>
-</ul>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">lib/features/chat/data/datasources/chat_remote_datasource.dart – Stream Implementation</span>
-<code>
-<span class="comment">// The data source returns a Stream of raw data</span>
-<span class="keyword">Stream</span>&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; <span class="function">subscribeToMessages</span>() {
-    <span class="keyword">final</span> controller = StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;.broadcast();
-
-    <span class="keyword">final</span> subscription = client
-        .<span class="function">channel</span>(<span class="string">'realtime:messages'</span>)
-        .<span class="function">onPostgresChanges</span>(
-          event: PostgresChangeEvent.<span class="function">all</span>,
-          schema: <span class="string">'public'</span>,
-          table: <span class="string">'messages'</span>,
+      </p>
+      <div class="concept-card info">
+       <h4>
+        💡 Stream Management Strategy
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Data Source
+         </strong>
+         – Creates the Supabase Realtime subscription
+        </li>
+        <li>
+         <strong>
+          Repository
+         </strong>
+         – Maintains the stream and message state
+        </li>
+        <li>
+         <strong>
+          Use Case
+         </strong>
+         – Provides the stream to the ViewModel
+        </li>
+        <li>
+         <strong>
+          ViewModel
+         </strong>
+         – Listens to the stream and updates UI state
+        </li>
+        <li>
+         <strong>
+          UI
+         </strong>
+         – Reacts to state changes from the ViewModel
+        </li>
+       </ul>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/features/chat/data/datasources/chat_remote_datasource.dart – Stream Implementation
+       </span>
+       <code>
+        <span class="comment">
+         // The data source returns a Stream of raw data
+        </span>
+        <span class="keyword">
+         Stream
+        </span>
+        &lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;
+        <span class="function">
+         subscribeToMessages
+        </span>
+        () {
+        <span class="keyword">
+         final
+        </span>
+        controller = StreamController&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt;.broadcast();
+        <span class="keyword">
+         final
+        </span>
+        subscription = client
+        .
+        <span class="function">
+         channel
+        </span>
+        (
+        <span class="string">
+         'realtime:messages'
+        </span>
+        )
+        .
+        <span class="function">
+         onPostgresChanges
+        </span>
+        (
+          event: PostgresChangeEvent.
+        <span class="function">
+         all
+        </span>
+        ,
+          schema:
+        <span class="string">
+         'public'
+        </span>
+        ,
+          table:
+        <span class="string">
+         'messages'
+        </span>
+        ,
           callback: (payload) {
-            <span class="comment">// When a change happens, fetch all messages</span>
-<span class="function">_fetchAllMessages</span>().<span class="function">then</span>((messages) {
-              controller.<span class="function">add</span>(messages);
+        <span class="comment">
+         // When a change happens, fetch all messages
+        </span>
+        <span class="function">
+         _fetchAllMessages
+        </span>
+        ().
+        <span class="function">
+         then
+        </span>
+        ((messages) {
+              controller.
+        <span class="function">
+         add
+        </span>
+        (messages);
             });
           },
         )
-        .<span class="function">subscribe</span>();
-
-    <span class="comment">// Clean up on cancel</span>
-    controller.onCancel = () {
-      subscription.<span class="function">unsubscribe</span>();
+        .
+        <span class="function">
+         subscribe
+        </span>
+        ();
+        <span class="comment">
+         // Clean up on cancel
+        </span>
+        controller.onCancel = () {
+      subscription.
+        <span class="function">
+         unsubscribe
+        </span>
+        ();
     };
-
-    <span class="keyword">return</span> controller.stream;
+        <span class="keyword">
+         return
+        </span>
+        controller.stream;
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ Stream Management Benefits</h4>
-<ul>
-<li><strong>Clean separation</strong> – Stream logic isolated in data layer</li>
-<li><strong>Testability</strong> – Streams can be mocked in tests</li>
-<li><strong>Memory safety</strong> – Proper disposal of subscriptions</li>
-<li><strong>Reactive UI</strong> – UI automatically updates with new messages</li>
-<li><strong>Backend agnostic</strong> – Domain layer doesn't know about Supabase</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 6: PROJECT CHECKLIST ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Project Checklist</span>
-<span class="divider-line"></span>
-</div>
-<p>Complete these tasks to successfully refactor the Chat App:</p>
-<ul class="checklist">
-<li>Create the feature folder structure (auth and chat)</li>
-<li>Define domain models (Message, User)</li>
-<li>Implement remote data sources (Supabase Realtime)</li>
-<li>Create repository interfaces</li>
-<li>Implement repositories with stream management</li>
-<li>Create use cases (SendMessage, Subscribe, etc.)</li>
-<li>Create ViewModels with Stream-based state management</li>
-<li>Refactor UI to use ViewModel</li>
-<li>Set up dependency injection with GetIt</li>
-<li>Test real-time functionality</li>
-<li>Verify proper disposal of subscriptions</li>
-</ul>
-</div>
-<!-- ===== SECTION 7: TESTING THE REFACTORED APP ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Testing the Refactored App</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Testing real-time applications is easier with Clean Architecture because you can
-            <strong>mock the stream</strong> at the repository level:
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">test/features/chat/domain/usecases/send_message_usecase_test.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:test/test.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:mockito/mockito.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../../../lib/features/chat/domain/usecases/send_message_usecase.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../../../lib/features/chat/domain/repositories/chat_repository.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../../../lib/features/chat/domain/models/message.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">MockChatRepository</span> <span class="keyword">extends</span> Mock <span class="keyword">implements</span> ChatRepository {}
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    <span class="keyword">late</span> MockChatRepository mockRepository;
-    <span class="keyword">late</span> SendMessageUseCase useCase;
-
-    <span class="function">setUp</span>(() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Stream Management Benefits
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Clean separation
+         </strong>
+         – Stream logic isolated in data layer
+        </li>
+        <li>
+         <strong>
+          Testability
+         </strong>
+         – Streams can be mocked in tests
+        </li>
+        <li>
+         <strong>
+          Memory safety
+         </strong>
+         – Proper disposal of subscriptions
+        </li>
+        <li>
+         <strong>
+          Reactive UI
+         </strong>
+         – UI automatically updates with new messages
+        </li>
+        <li>
+         <strong>
+          Backend agnostic
+         </strong>
+         – Domain layer doesn't know about Supabase
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: PROJECT CHECKLIST ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Project Checklist
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Complete these tasks to successfully refactor the Chat App:
+      </p>
+      <ul class="checklist">
+       <li>
+        Create the feature folder structure (auth and chat)
+       </li>
+       <li>
+        Define domain models (Message, User)
+       </li>
+       <li>
+        Implement remote data sources (Supabase Realtime)
+       </li>
+       <li>
+        Create repository interfaces
+       </li>
+       <li>
+        Implement repositories with stream management
+       </li>
+       <li>
+        Create use cases (SendMessage, Subscribe, etc.)
+       </li>
+       <li>
+        Create ViewModels with Stream-based state management
+       </li>
+       <li>
+        Refactor UI to use ViewModel
+       </li>
+       <li>
+        Set up dependency injection with GetIt
+       </li>
+       <li>
+        Test real-time functionality
+       </li>
+       <li>
+        Verify proper disposal of subscriptions
+       </li>
+      </ul>
+     </div>
+     <!-- ===== SECTION 7: TESTING THE REFACTORED APP ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Testing the Refactored App
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Testing real-time applications is easier with Clean Architecture because you can
+       <strong>
+        mock the stream
+       </strong>
+       at the repository level:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        test/features/chat/domain/usecases/send_message_usecase_test.dart
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:test/test.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:mockito/mockito.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../../../lib/features/chat/domain/usecases/send_message_usecase.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../../../lib/features/chat/domain/repositories/chat_repository.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         '../../../../lib/features/chat/domain/models/message.dart'
+        </span>
+        ;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MockChatRepository
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        Mock
+        <span class="keyword">
+         implements
+        </span>
+        ChatRepository {}
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () {
+        <span class="keyword">
+         late
+        </span>
+        MockChatRepository mockRepository;
+        <span class="keyword">
+         late
+        </span>
+        SendMessageUseCase useCase;
+        <span class="function">
+         setUp
+        </span>
+        (() {
       mockRepository = MockChatRepository();
       useCase = SendMessageUseCase(mockRepository);
     });
-
-    <span class="function">test</span>(<span class="string">'sends a message successfully'</span>, () async {
-      <span class="comment">// Arrange</span>
-<span class="keyword">final</span> expectedMessage = Message(
-        id: <span class="string">'1'</span>,
-        content: <span class="string">'Hello World'</span>,
-        userId: <span class="string">'user1'</span>,
-        userName: <span class="string">'Alice'</span>,
-        timestamp: DateTime.<span class="function">now</span>(),
+        <span class="function">
+         test
+        </span>
+        (
+        <span class="string">
+         'sends a message successfully'
+        </span>
+        , () async {
+        <span class="comment">
+         // Arrange
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        expectedMessage = Message(
+        id:
+        <span class="string">
+         '1'
+        </span>
+        ,
+        content:
+        <span class="string">
+         'Hello World'
+        </span>
+        ,
+        userId:
+        <span class="string">
+         'user1'
+        </span>
+        ,
+        userName:
+        <span class="string">
+         'Alice'
+        </span>
+        ,
+        timestamp: DateTime.
+        <span class="function">
+         now
+        </span>
+        (),
       );
 
-      when(mockRepository.<span class="function">sendMessage</span>(any))
+      when(mockRepository.
+        <span class="function">
+         sendMessage
+        </span>
+        (any))
           .thenAnswer((_) async =&gt; expectedMessage);
-
-      <span class="comment">// Act</span>
-<span class="keyword">final</span> result = <span class="keyword">await</span> useCase.<span class="function">execute</span>(
-        content: <span class="string">'Hello World'</span>,
-        userId: <span class="string">'user1'</span>,
-        userName: <span class="string">'Alice'</span>,
+        <span class="comment">
+         // Act
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        result =
+        <span class="keyword">
+         await
+        </span>
+        useCase.
+        <span class="function">
+         execute
+        </span>
+        (
+        content:
+        <span class="string">
+         'Hello World'
+        </span>
+        ,
+        userId:
+        <span class="string">
+         'user1'
+        </span>
+        ,
+        userName:
+        <span class="string">
+         'Alice'
+        </span>
+        ,
       );
-
-      <span class="comment">// Assert</span>
-      expect(result, expectedMessage);
-      verify(mockRepository.<span class="function">sendMessage</span>(any)).<span class="function">called</span>(<span class="number">1</span>);
+        <span class="comment">
+         // Assert
+        </span>
+        expect(result, expectedMessage);
+      verify(mockRepository.
+        <span class="function">
+         sendMessage
+        </span>
+        (any)).
+        <span class="function">
+         called
+        </span>
+        (
+        <span class="number">
+         1
+        </span>
+        );
     });
-
-    <span class="function">test</span>(<span class="string">'throws ArgumentError when content is empty'</span>, () async {
+        <span class="function">
+         test
+        </span>
+        (
+        <span class="string">
+         'throws ArgumentError when content is empty'
+        </span>
+        , () async {
       expect(
-        () =&gt; useCase.<span class="function">execute</span>(
-          content: <span class="string">''</span>,
-          userId: <span class="string">'user1'</span>,
-          userName: <span class="string">'Alice'</span>,
+        () =&gt; useCase.
+        <span class="function">
+         execute
+        </span>
+        (
+          content:
+        <span class="string">
+         ''
+        </span>
+        ,
+          userId:
+        <span class="string">
+         'user1'
+        </span>
+        ,
+          userName:
+        <span class="string">
+         'Alice'
+        </span>
+        ,
         ),
         throwsA(isA&lt;ArgumentError&gt;()),
       );
     });
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ Testing Benefits Achieved</h4>
-<ul>
-<li><strong>Mock streams</strong> – Repository streams can be mocked for testing</li>
-<li><strong>Isolated tests</strong> – Use cases tested independently of real-time infrastructure</li>
-<li><strong>Edge cases</strong> – Easy to test error conditions in streams</li>
-<li><strong>Business logic</strong> – Tested without Supabase connection</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 8: RESOURCES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Resources</span>
-<span class="divider-line"></span>
-</div>
-<div class="resources-box">
-<h4>📚 Learning Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/app-architecture" target="_blank">Flutter Architecture Guide</a> – Official Flutter documentation</li>
-<li><a href="https://pub.dev/packages/get_it" target="_blank">GetIt Package</a> – Service locator for dependency injection</li>
-<li><a href="https://supabase.com/docs/guides/realtime" target="_blank">Supabase Realtime</a> – Real-time subscriptions</li>
-<li><a href="https://riverpod.dev" target="_blank">Riverpod</a> – Reactive state management</li>
-</ul>
-</div>
-<div class="resources-box" style="margin-top: 1rem;">
-<h4>🔗 Related Lessons</h4>
-<ul>
-<li><a href="../module4/project-realtime-chat-app.html">Original Realtime Chat App Project</a> – The app you're refactoring</li>
-<li><a href="module5-topic1-architecture-overview.html">Architecture Overview</a> – Clean Architecture principles</li>
-<li><a href="module5-topic2-repository-pattern.html">Repository Pattern</a> – Data access abstraction</li>
-<li><a href="module5-topic3-dependency-injection.html">Dependency Injection</a> – Managing dependencies with GetIt</li>
-<li><a href="module5-topic4-feature-first-architecture.html">Feature-First Architecture</a> – Organizing by features</li>
-</ul>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Project Summary</h3>
-<p>
-            You've successfully refactored the <strong>Realtime Chat App</strong> using
-            <strong>Clean Architecture</strong> principles! The app now has clear separation between
-            <strong>data</strong>, <strong>domain</strong>, and <strong>presentation</strong> layers.
-            Real-time streams are managed in the repository layer, making them <strong>testable</strong>
-            and <strong>maintainable</strong>. The <strong>Feature-First</strong> structure keeps
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Testing Benefits Achieved
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Mock streams
+         </strong>
+         – Repository streams can be mocked for testing
+        </li>
+        <li>
+         <strong>
+          Isolated tests
+         </strong>
+         – Use cases tested independently of real-time infrastructure
+        </li>
+        <li>
+         <strong>
+          Edge cases
+         </strong>
+         – Easy to test error conditions in streams
+        </li>
+        <li>
+         <strong>
+          Business logic
+         </strong>
+         – Tested without Supabase connection
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: RESOURCES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Resources
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="resources-box">
+       <h4>
+        📚 Learning Resources
+       </h4>
+       <ul>
+        <li>
+         <a href="https://docs.flutter.dev/app-architecture" target="_blank">
+          Flutter Architecture Guide
+         </a>
+         – Official Flutter documentation
+        </li>
+        <li>
+         <a href="https://pub.dev/packages/get_it" target="_blank">
+          GetIt Package
+         </a>
+         – Service locator for dependency injection
+        </li>
+        <li>
+         <a href="https://supabase.com/docs/guides/realtime" target="_blank">
+          Supabase Realtime
+         </a>
+         – Real-time subscriptions
+        </li>
+        <li>
+         <a href="https://riverpod.dev" target="_blank">
+          Riverpod
+         </a>
+         – Reactive state management
+        </li>
+       </ul>
+      </div>
+      <div class="resources-box" style="margin-top: 1rem;">
+       <h4>
+        🔗 Related Lessons
+       </h4>
+       <ul>
+        <li>
+         <a href="../module4/project-realtime-chat-app.html">
+          Original Realtime Chat App Project
+         </a>
+         – The app you're refactoring
+        </li>
+        <li>
+         <a href="module5-topic1-architecture-overview.html">
+          Architecture Overview
+         </a>
+         – Clean Architecture principles
+        </li>
+        <li>
+         <a href="module5-topic2-repository-pattern.html">
+          Repository Pattern
+         </a>
+         – Data access abstraction
+        </li>
+        <li>
+         <a href="module5-topic3-dependency-injection.html">
+          Dependency Injection
+         </a>
+         – Managing dependencies with GetIt
+        </li>
+        <li>
+         <a href="module5-topic4-feature-first-architecture.html">
+          Feature-First Architecture
+         </a>
+         – Organizing by features
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Project Summary
+      </h3>
+      <p>
+       You've successfully refactored the
+       <strong>
+        Realtime Chat App
+       </strong>
+       using
+       <strong>
+        Clean Architecture
+       </strong>
+       principles! The app now has clear separation between
+       <strong>
+        data
+       </strong>
+       ,
+       <strong>
+        domain
+       </strong>
+       , and
+       <strong>
+        presentation
+       </strong>
+       layers.
+            Real-time streams are managed in the repository layer, making them
+       <strong>
+        testable
+       </strong>
+       and
+       <strong>
+        maintainable
+       </strong>
+       . The
+       <strong>
+        Feature-First
+       </strong>
+       structure keeps
             authentication and chat features organized and scalable.
-          </p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="project-refactor-weather-app.html">
-<i class="fas fa-arrow-left"></i> Previous: Refactor Weather App
-          </a>
-<a btn="" btn-primary="" btn-sm"="" href="module5-topic1-architecture-overview.html class=">
-            Back to Module 5 <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="module5-topic1-architecture-overview.html">Module 5</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">Flutter Architecture</a></li>
-<li><a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">GetIt Package</a></li>
-<li><a href="https://supabase.com/docs/guides/realtime" rel="noopener" target="_blank">Supabase Realtime</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
-<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">Flutter Official Architecture Guide</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="project-refactor-weather-app.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Refactor Weather App
+      </a>
+      <a btn="" btn-primary="" btn-sm"="" href="module5-topic1-architecture-overview.html class=">
+       Back to Module 5
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="module5-topic1-architecture-overview.html">
+         Module 5
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">
+         Flutter Architecture
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">
+         GetIt Package
+        </a>
+       </li>
+       <li>
+        <a href="https://supabase.com/docs/guides/realtime" rel="noopener" target="_blank">
+         Supabase Realtime
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+         Flutter GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Architecture Guide
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1926,8 +4277,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -2000,8 +4351,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -2074,5 +4426,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

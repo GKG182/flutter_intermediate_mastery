@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Expense Tracker Pro – Module 3 Challenge | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Build an Expense Tracker Pro app using SQLite for local storage in Flutter." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .challenge-container { max-width: 900px; margin: 0 auto; }
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Expense Tracker Pro – Module 3 Challenge | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Build an Expense Tracker Pro app using SQLite for local storage in Flutter." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .challenge-container { max-width: 900px; margin: 0 auto; }
 
     .top-nav {
       display: flex;
@@ -343,8 +344,8 @@
       .code-block code { font-size: var(--font-sm); }
     }
   </style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -407,139 +408,386 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== NO SIDEBAR ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html"><span class="logo-text">Flutter Intermediate</span></a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link active" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<main>
-<section class="page-section">
-<div class="container">
-<div class="challenge-container">
-<div class="top-nav">
-<a class="back-link" href="../../challenges.html">
-<i class="fas fa-arrow-left"></i> Back to Challenges
-            </a>
-<span class="challenge-badge">
-<i class="fas fa-puzzle-piece"></i>
-              Module 3 · Challenge 2
-            </span>
-</div>
-<div class="challenge-header">
-<h1>Expense Tracker Pro</h1>
-<div class="challenge-meta">
-<span class="meta-item"><strong>Difficulty:</strong> <span class="difficulty-badge medium">Medium</span></span>
-<span class="meta-item"><strong>Module:</strong> Local Storage</span>
-<span class="meta-item"><strong>Concepts:</strong> SQLite, CRUD, Query Filtering, Charts</span>
-<span class="meta-item"><strong>Est. Time:</strong> 40-50 min</span>
-<span class="meta-item"><span class="storage-tag">🗄️ SQLite</span></span>
-</div>
-</div>
-<div class="challenge-section">
-<h2>📋 Challenge Description</h2>
-<p>
-              Build an <strong>Expense Tracker Pro</strong> app that allows users to
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== NO SIDEBAR ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link active" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <div class="challenge-container">
+      <div class="top-nav">
+       <a class="back-link" href="../../challenges.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Back to Challenges
+       </a>
+       <span class="challenge-badge">
+        <i class="fas fa-puzzle-piece">
+        </i>
+        Module 3 · Challenge 2
+       </span>
+      </div>
+      <div class="challenge-header">
+       <h1>
+        Expense Tracker Pro
+       </h1>
+       <div class="challenge-meta">
+        <span class="meta-item">
+         <strong>
+          Difficulty:
+         </strong>
+         <span class="difficulty-badge medium">
+          Medium
+         </span>
+        </span>
+        <span class="meta-item">
+         <strong>
+          Module:
+         </strong>
+         Local Storage
+        </span>
+        <span class="meta-item">
+         <strong>
+          Concepts:
+         </strong>
+         SQLite, CRUD, Query Filtering, Charts
+        </span>
+        <span class="meta-item">
+         <strong>
+          Est. Time:
+         </strong>
+         40-50 min
+        </span>
+        <span class="meta-item">
+         <span class="storage-tag">
+          🗄️ SQLite
+         </span>
+        </span>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        📋 Challenge Description
+       </h2>
+       <p>
+        Build an
+        <strong>
+         Expense Tracker Pro
+        </strong>
+        app that allows users to
               track their income and expenses. All data should be stored locally using
-              <strong>SQLite</strong> with the <strong>sqflite</strong> package.
-            </p>
-<div class="requirements-box">
-<h4>✅ Requirements</h4>
-<ul>
-<li>Create an <strong>Expense</strong> model with <code>id</code>, <code>title</code>, <code>amount</code>, <code>category</code>, <code>type</code> (income/expense), <code>date</code></li>
-<li>Implement <strong>CRUD operations</strong> using SQLite</li>
-<li>Use <strong>sqflite</strong> package for database operations</li>
-<li>Use <strong>Riverpod</strong> for state management</li>
-<li>Show a <strong>summary dashboard</strong> with:
-                  <ul>
-<li>Total income</li>
-<li>Total expenses</li>
-<li>Net balance</li>
-</ul>
-</li>
-<li>Display a <strong>list of transactions</strong> sorted by date</li>
-<li>Add <strong>filter by category</strong> functionality</li>
-<li>Add <strong>filter by date range</strong> (optional)</li>
-<li>Include a <strong>chart</strong> showing spending by category</li>
-<li>Handle <strong>empty state</strong> when no transactions exist</li>
-</ul>
-</div>
-<div class="api-box">
-<h4>🗄️ SQLite Setup</h4>
-<p><strong>sqflite</strong> is a SQLite plugin for Flutter with full SQL support.</p>
-<div class="endpoint">flutter pub add sqflite path_provider</div>
-<div class="api-note">
-                💡 <strong>Note:</strong> SQLite provides powerful querying capabilities for filtering and aggregating data.
-              </div>
-</div>
-<div class="resources-box">
-<h4>📚 Resources</h4>
-<ul>
-<li><a href="https://pub.dev/packages/sqflite" target="_blank">sqflite Package</a></li>
-<li><a href="https://pub.dev/packages/path_provider" target="_blank">path_provider</a></li>
-<li><a href="https://docs.flutter.dev/cookbook/persistence/sqlite" target="_blank">Flutter SQLite Cookbook</a></li>
-<li><a href="https://pub.dev/packages/fl_chart" target="_blank">fl_chart for charts</a></li>
-</ul>
-</div>
-</div>
-<div class="challenge-section">
-<div class="hint-box" id="hintBox">
-<div class="hint-header">
-<i class="fas fa-lightbulb"></i>
-<span>Need a hint? Click here</span>
-</div>
-<div class="hint-content" id="hintContent">
-<p>
-                  💡 <strong>Hint:</strong> Create a database helper class with methods for <code>insert</code>, <code>update</code>, <code>delete</code>, and <code>query</code>.
-                  Use <code>FutureProvider</code> for the list of transactions and summary data.
-                  For charts, use <code>fl_chart</code> package to display a pie chart of spending by category.
-                </p>
-</div>
-</div>
-</div>
-<div class="challenge-section">
-<h2>💡 Solution</h2>
-<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-              👇 Click the button below to reveal the full solution code.
-            </p>
-<div class="solution-box" id="solutionBox">
-<div class="solution-header" id="solutionToggle">
-<span class="solution-title">
-<i class="fas fa-code"></i>
-                  Show Solution
-                </span>
-<span class="solution-toggle"><i class="fas fa-chevron-down"></i></span>
-</div>
-<div class="solution-body" id="solutionBody">
-<h4 style="margin-top: 0; color: var(--text);">1. pubspec.yaml</h4>
-<div class="code-block">
-<span class="code-label">pubspec.yaml</span>
-<code>
-  dependencies:
+        <strong>
+         SQLite
+        </strong>
+        with the
+        <strong>
+         sqflite
+        </strong>
+        package.
+       </p>
+       <div class="requirements-box">
+        <h4>
+         ✅ Requirements
+        </h4>
+        <ul>
+         <li>
+          Create an
+          <strong>
+           Expense
+          </strong>
+          model with
+          <code>
+           id
+          </code>
+          ,
+          <code>
+           title
+          </code>
+          ,
+          <code>
+           amount
+          </code>
+          ,
+          <code>
+           category
+          </code>
+          ,
+          <code>
+           type
+          </code>
+          (income/expense),
+          <code>
+           date
+          </code>
+         </li>
+         <li>
+          Implement
+          <strong>
+           CRUD operations
+          </strong>
+          using SQLite
+         </li>
+         <li>
+          Use
+          <strong>
+           sqflite
+          </strong>
+          package for database operations
+         </li>
+         <li>
+          Use
+          <strong>
+           Riverpod
+          </strong>
+          for state management
+         </li>
+         <li>
+          Show a
+          <strong>
+           summary dashboard
+          </strong>
+          with:
+          <ul>
+           <li>
+            Total income
+           </li>
+           <li>
+            Total expenses
+           </li>
+           <li>
+            Net balance
+           </li>
+          </ul>
+         </li>
+         <li>
+          Display a
+          <strong>
+           list of transactions
+          </strong>
+          sorted by date
+         </li>
+         <li>
+          Add
+          <strong>
+           filter by category
+          </strong>
+          functionality
+         </li>
+         <li>
+          Add
+          <strong>
+           filter by date range
+          </strong>
+          (optional)
+         </li>
+         <li>
+          Include a
+          <strong>
+           chart
+          </strong>
+          showing spending by category
+         </li>
+         <li>
+          Handle
+          <strong>
+           empty state
+          </strong>
+          when no transactions exist
+         </li>
+        </ul>
+       </div>
+       <div class="api-box">
+        <h4>
+         🗄️ SQLite Setup
+        </h4>
+        <p>
+         <strong>
+          sqflite
+         </strong>
+         is a SQLite plugin for Flutter with full SQL support.
+        </p>
+        <div class="endpoint">
+         flutter pub add sqflite path_provider
+        </div>
+        <div class="api-note">
+         💡
+         <strong>
+          Note:
+         </strong>
+         SQLite provides powerful querying capabilities for filtering and aggregating data.
+        </div>
+       </div>
+       <div class="resources-box">
+        <h4>
+         📚 Resources
+        </h4>
+        <ul>
+         <li>
+          <a href="https://pub.dev/packages/sqflite" target="_blank">
+           sqflite Package
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/path_provider" target="_blank">
+           path_provider
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.flutter.dev/cookbook/persistence/sqlite" target="_blank">
+           Flutter SQLite Cookbook
+          </a>
+         </li>
+         <li>
+          <a href="https://pub.dev/packages/fl_chart" target="_blank">
+           fl_chart for charts
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <div class="hint-box" id="hintBox">
+        <div class="hint-header">
+         <i class="fas fa-lightbulb">
+         </i>
+         <span>
+          Need a hint? Click here
+         </span>
+        </div>
+        <div class="hint-content" id="hintContent">
+         <p>
+          💡
+          <strong>
+           Hint:
+          </strong>
+          Create a database helper class with methods for
+          <code>
+           insert
+          </code>
+          ,
+          <code>
+           update
+          </code>
+          ,
+          <code>
+           delete
+          </code>
+          , and
+          <code>
+           query
+          </code>
+          .
+                  Use
+          <code>
+           FutureProvider
+          </code>
+          for the list of transactions and summary data.
+                  For charts, use
+          <code>
+           fl_chart
+          </code>
+          package to display a pie chart of spending by category.
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="challenge-section">
+       <h2>
+        💡 Solution
+       </h2>
+       <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        👇 Click the button below to reveal the full solution code.
+       </p>
+       <div class="solution-box" id="solutionBox">
+        <div class="solution-header" id="solutionToggle">
+         <span class="solution-title">
+          <i class="fas fa-code">
+          </i>
+          Show Solution
+         </span>
+         <span class="solution-toggle">
+          <i class="fas fa-chevron-down">
+          </i>
+         </span>
+        </div>
+        <div class="solution-body" id="solutionBody">
+         <h4 style="margin-top: 0; color: var(--text);">
+          1. pubspec.yaml
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           pubspec.yaml
+          </span>
+          <code>
+           dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.5.1
@@ -551,124 +799,500 @@
   dev_dependencies:
     flutter_test:
       sdk: flutter
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">2. Expense Model (lib/models/expense.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/models/expense.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">Expense</span> {
-    <span class="keyword">final</span> <span class="keyword">int</span>? id;
-    <span class="keyword">final</span> String title;
-    <span class="keyword">final</span> <span class="keyword">double</span> amount;
-    <span class="keyword">final</span> String category;
-    <span class="keyword">final</span> String type; <span class="comment">// 'income' or 'expense'</span>
-<span class="keyword">final</span> DateTime date;
-
-    <span class="function">Expense</span>({
-      <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
-      <span class="keyword">required</span> <span class="keyword">this</span>.amount,
-      <span class="keyword">required</span> <span class="keyword">this</span>.category,
-      <span class="keyword">required</span> <span class="keyword">this</span>.type,
-      <span class="keyword">required</span> <span class="keyword">this</span>.date,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          2. Expense Model (lib/models/expense.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/models/expense.dart
+          </span>
+          <code>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            Expense
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            int
+           </span>
+           ? id;
+           <span class="keyword">
+            final
+           </span>
+           String title;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            double
+           </span>
+           amount;
+           <span class="keyword">
+            final
+           </span>
+           String category;
+           <span class="keyword">
+            final
+           </span>
+           String type;
+           <span class="comment">
+            // 'income' or 'expense'
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           DateTime date;
+           <span class="function">
+            Expense
+           </span>
+           ({
+           <span class="keyword">
+            this
+           </span>
+           .id,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .title,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .amount,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .category,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .type,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .date,
     });
 
-    Map&lt;String, dynamic&gt; <span class="function">toMap</span>() {
-      <span class="keyword">return</span> {
-        <span class="string">'id'</span>: id,
-        <span class="string">'title'</span>: title,
-        <span class="string">'amount'</span>: amount,
-        <span class="string">'category'</span>: category,
-        <span class="string">'type'</span>: type,
-        <span class="string">'date'</span>: date.<span class="function">toIso8601String</span>(),
+    Map&lt;String, dynamic&gt;
+           <span class="function">
+            toMap
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           {
+           <span class="string">
+            'id'
+           </span>
+           : id,
+           <span class="string">
+            'title'
+           </span>
+           : title,
+           <span class="string">
+            'amount'
+           </span>
+           : amount,
+           <span class="string">
+            'category'
+           </span>
+           : category,
+           <span class="string">
+            'type'
+           </span>
+           : type,
+           <span class="string">
+            'date'
+           </span>
+           : date.
+           <span class="function">
+            toIso8601String
+           </span>
+           (),
       };
     }
-
-    <span class="keyword">factory</span> Expense.<span class="function">fromMap</span>(Map&lt;String, dynamic&gt; map) {
-      <span class="keyword">return</span> Expense(
-        id: map[<span class="string">'id'</span>],
-        title: map[<span class="string">'title'</span>],
-        amount: map[<span class="string">'amount'</span>],
-        category: map[<span class="string">'category'</span>],
-        type: map[<span class="string">'type'</span>],
-        date: DateTime.<span class="function">parse</span>(map[<span class="string">'date'</span>]),
+           <span class="keyword">
+            factory
+           </span>
+           Expense.
+           <span class="function">
+            fromMap
+           </span>
+           (Map&lt;String, dynamic&gt; map) {
+           <span class="keyword">
+            return
+           </span>
+           Expense(
+        id: map[
+           <span class="string">
+            'id'
+           </span>
+           ],
+        title: map[
+           <span class="string">
+            'title'
+           </span>
+           ],
+        amount: map[
+           <span class="string">
+            'amount'
+           </span>
+           ],
+        category: map[
+           <span class="string">
+            'category'
+           </span>
+           ],
+        type: map[
+           <span class="string">
+            'type'
+           </span>
+           ],
+        date: DateTime.
+           <span class="function">
+            parse
+           </span>
+           (map[
+           <span class="string">
+            'date'
+           </span>
+           ]),
       );
     }
 
-    String <span class="function">getFormattedDate</span>() {
-      <span class="keyword">return</span> DateFormat.<span class="function">yMMMd</span>().<span class="function">add_jm</span>().<span class="function">format</span>(date);
+    String
+           <span class="function">
+            getFormattedDate
+           </span>
+           () {
+           <span class="keyword">
+            return
+           </span>
+           DateFormat.
+           <span class="function">
+            yMMMd
+           </span>
+           ().
+           <span class="function">
+            add_jm
+           </span>
+           ().
+           <span class="function">
+            format
+           </span>
+           (date);
     }
-
-    <span class="keyword">static</span> List&lt;String&gt; get categories =&gt; [
-      <span class="string">'Food &amp; Dining'</span>,
-      <span class="string">'Transportation'</span>,
-      <span class="string">'Shopping'</span>,
-      <span class="string">'Entertainment'</span>,
-      <span class="string">'Bills &amp; Utilities'</span>,
-      <span class="string">'Health &amp; Fitness'</span>,
-      <span class="string">'Education'</span>,
-      <span class="string">'Other'</span>,
+           <span class="keyword">
+            static
+           </span>
+           List&lt;String&gt; get categories =&gt; [
+           <span class="string">
+            'Food &amp; Dining'
+           </span>
+           ,
+           <span class="string">
+            'Transportation'
+           </span>
+           ,
+           <span class="string">
+            'Shopping'
+           </span>
+           ,
+           <span class="string">
+            'Entertainment'
+           </span>
+           ,
+           <span class="string">
+            'Bills &amp; Utilities'
+           </span>
+           ,
+           <span class="string">
+            'Health &amp; Fitness'
+           </span>
+           ,
+           <span class="string">
+            'Education'
+           </span>
+           ,
+           <span class="string">
+            'Other'
+           </span>
+           ,
     ];
-
-    <span class="keyword">static</span> List&lt;String&gt; get incomeCategories =&gt; [
-      <span class="string">'Salary'</span>,
-      <span class="string">'Freelance'</span>,
-      <span class="string">'Investment'</span>,
-      <span class="string">'Gift'</span>,
-      <span class="string">'Other'</span>,
+           <span class="keyword">
+            static
+           </span>
+           List&lt;String&gt; get incomeCategories =&gt; [
+           <span class="string">
+            'Salary'
+           </span>
+           ,
+           <span class="string">
+            'Freelance'
+           </span>
+           ,
+           <span class="string">
+            'Investment'
+           </span>
+           ,
+           <span class="string">
+            'Gift'
+           </span>
+           ,
+           <span class="string">
+            'Other'
+           </span>
+           ,
     ];
-
-    <span class="keyword">static</span> List&lt;String&gt; get expenseCategories =&gt; [
-      <span class="string">'Food &amp; Dining'</span>,
-      <span class="string">'Transportation'</span>,
-      <span class="string">'Shopping'</span>,
-      <span class="string">'Entertainment'</span>,
-      <span class="string">'Bills &amp; Utilities'</span>,
-      <span class="string">'Health &amp; Fitness'</span>,
-      <span class="string">'Education'</span>,
-      <span class="string">'Other'</span>,
+           <span class="keyword">
+            static
+           </span>
+           List&lt;String&gt; get expenseCategories =&gt; [
+           <span class="string">
+            'Food &amp; Dining'
+           </span>
+           ,
+           <span class="string">
+            'Transportation'
+           </span>
+           ,
+           <span class="string">
+            'Shopping'
+           </span>
+           ,
+           <span class="string">
+            'Entertainment'
+           </span>
+           ,
+           <span class="string">
+            'Bills &amp; Utilities'
+           </span>
+           ,
+           <span class="string">
+            'Health &amp; Fitness'
+           </span>
+           ,
+           <span class="string">
+            'Education'
+           </span>
+           ,
+           <span class="string">
+            'Other'
+           </span>
+           ,
     ];
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">3. Database Helper (lib/database/database_helper.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/database/database_helper.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:sqflite/sqflite.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:path/path.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/expense.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">DatabaseHelper</span> {
-    <span class="keyword">static</span> <span class="keyword">final</span> DatabaseHelper _instance = DatabaseHelper._internal();
-    <span class="keyword">static</span> Database? _database;
-
-    <span class="function">DatabaseHelper._internal</span>();
-
-    <span class="keyword">factory</span> <span class="function">DatabaseHelper</span>() =&gt; _instance;
-
-    <span class="keyword">Future</span>&lt;Database&gt; <span class="function">get database</span> async {
-      <span class="keyword">if</span> (_database != <span class="keyword">null</span>) <span class="keyword">return</span> _database!;
-      _database = <span class="keyword">await</span> <span class="function">_initDatabase</span>();
-      <span class="keyword">return</span> _database!;
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          3. Database Helper (lib/database/database_helper.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/database/database_helper.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:sqflite/sqflite.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:path/path.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/expense.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            DatabaseHelper
+           </span>
+           {
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           DatabaseHelper _instance = DatabaseHelper._internal();
+           <span class="keyword">
+            static
+           </span>
+           Database? _database;
+           <span class="function">
+            DatabaseHelper._internal
+           </span>
+           ();
+           <span class="keyword">
+            factory
+           </span>
+           <span class="function">
+            DatabaseHelper
+           </span>
+           () =&gt; _instance;
+           <span class="keyword">
+            Future
+           </span>
+           &lt;Database&gt;
+           <span class="function">
+            get database
+           </span>
+           async {
+           <span class="keyword">
+            if
+           </span>
+           (_database !=
+           <span class="keyword">
+            null
+           </span>
+           )
+           <span class="keyword">
+            return
+           </span>
+           _database!;
+      _database =
+           <span class="keyword">
+            await
+           </span>
+           <span class="function">
+            _initDatabase
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           _database!;
     }
-
-    <span class="keyword">Future</span>&lt;Database&gt; <span class="function">_initDatabase</span>() <span class="keyword">async</span> {
-      String path = <span class="keyword">await</span> getDatabasesPath();
-      String dbPath = <span class="function">join</span>(path, <span class="string">'expenses.db'</span>);
-
-      <span class="keyword">return</span> <span class="keyword">await</span> openDatabase(
+           <span class="keyword">
+            Future
+           </span>
+           &lt;Database&gt;
+           <span class="function">
+            _initDatabase
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      String path =
+           <span class="keyword">
+            await
+           </span>
+           getDatabasesPath();
+      String dbPath =
+           <span class="function">
+            join
+           </span>
+           (path,
+           <span class="string">
+            'expenses.db'
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           openDatabase(
         dbPath,
-        version: <span class="number">1</span>,
-        onCreate: <span class="function">_onCreate</span>,
+        version:
+           <span class="number">
+            1
+           </span>
+           ,
+        onCreate:
+           <span class="function">
+            _onCreate
+           </span>
+           ,
       );
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">_onCreate</span>(Database db, <span class="keyword">int</span> version) <span class="keyword">async</span> {
-      <span class="keyword">await</span> db.<span class="function">execute</span>(<span class="string">'''
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            _onCreate
+           </span>
+           (Database db,
+           <span class="keyword">
+            int
+           </span>
+           version)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            execute
+           </span>
+           (
+           <span class="string">
+            '''
         CREATE TABLE expenses(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           title TEXT NOT NULL,
@@ -677,285 +1301,1282 @@
           type TEXT NOT NULL,
           date TEXT NOT NULL
         )
-      '''</span>);
+      '''
+           </span>
+           );
     }
-
-    <span class="comment">// CRUD Operations</span>
-<span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">insertExpense</span>(Expense expense) <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">return</span> <span class="keyword">await</span> db.<span class="function">insert</span>(
-        <span class="string">'expenses'</span>,
-        expense.<span class="function">toMap</span>(),
-        conflictAlgorithm: ConflictAlgorithm.<span class="function">replace</span>,
+           <span class="comment">
+            // CRUD Operations
+           </span>
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            int
+           </span>
+           &gt;
+           <span class="function">
+            insertExpense
+           </span>
+           (Expense expense)
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            insert
+           </span>
+           (
+           <span class="string">
+            'expenses'
+           </span>
+           ,
+        expense.
+           <span class="function">
+            toMap
+           </span>
+           (),
+        conflictAlgorithm: ConflictAlgorithm.
+           <span class="function">
+            replace
+           </span>
+           ,
       );
     }
-
-    <span class="keyword">Future</span>&lt;List&lt;Expense&gt;&gt; <span class="function">getAllExpenses</span>() <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.<span class="function">query</span>(
-        <span class="string">'expenses'</span>,
-        orderBy: <span class="string">'date DESC'</span>,
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Expense&gt;&gt;
+           <span class="function">
+            getAllExpenses
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Map&lt;String, dynamic&gt;&gt; maps =
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            query
+           </span>
+           (
+           <span class="string">
+            'expenses'
+           </span>
+           ,
+        orderBy:
+           <span class="string">
+            'date DESC'
+           </span>
+           ,
       );
-      <span class="keyword">return</span> List.<span class="function">generate</span>(
-        maps.<span class="function">length</span>,
-        (i) =&gt; Expense.<span class="function">fromMap</span>(maps[i]),
+           <span class="keyword">
+            return
+           </span>
+           List.
+           <span class="function">
+            generate
+           </span>
+           (
+        maps.
+           <span class="function">
+            length
+           </span>
+           ,
+        (i) =&gt; Expense.
+           <span class="function">
+            fromMap
+           </span>
+           (maps[i]),
       );
     }
-
-    <span class="keyword">Future</span>&lt;List&lt;Expense&gt;&gt; <span class="function">getExpensesByCategory</span>(String category) <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.<span class="function">query</span>(
-        <span class="string">'expenses'</span>,
-        where: <span class="string">'category = ?'</span>,
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Expense&gt;&gt;
+           <span class="function">
+            getExpensesByCategory
+           </span>
+           (String category)
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Map&lt;String, dynamic&gt;&gt; maps =
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            query
+           </span>
+           (
+           <span class="string">
+            'expenses'
+           </span>
+           ,
+        where:
+           <span class="string">
+            'category = ?'
+           </span>
+           ,
         whereArgs: [category],
-        orderBy: <span class="string">'date DESC'</span>,
+        orderBy:
+           <span class="string">
+            'date DESC'
+           </span>
+           ,
       );
-      <span class="keyword">return</span> List.<span class="function">generate</span>(
-        maps.<span class="function">length</span>,
-        (i) =&gt; Expense.<span class="function">fromMap</span>(maps[i]),
+           <span class="keyword">
+            return
+           </span>
+           List.
+           <span class="function">
+            generate
+           </span>
+           (
+        maps.
+           <span class="function">
+            length
+           </span>
+           ,
+        (i) =&gt; Expense.
+           <span class="function">
+            fromMap
+           </span>
+           (maps[i]),
       );
     }
-
-    <span class="keyword">Future</span>&lt;List&lt;Expense&gt;&gt; <span class="function">getExpensesByType</span>(String type) <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; maps = <span class="keyword">await</span> db.<span class="function">query</span>(
-        <span class="string">'expenses'</span>,
-        where: <span class="string">'type = ?'</span>,
+           <span class="keyword">
+            Future
+           </span>
+           &lt;List&lt;Expense&gt;&gt;
+           <span class="function">
+            getExpensesByType
+           </span>
+           (String type)
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Map&lt;String, dynamic&gt;&gt; maps =
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            query
+           </span>
+           (
+           <span class="string">
+            'expenses'
+           </span>
+           ,
+        where:
+           <span class="string">
+            'type = ?'
+           </span>
+           ,
         whereArgs: [type],
-        orderBy: <span class="string">'date DESC'</span>,
+        orderBy:
+           <span class="string">
+            'date DESC'
+           </span>
+           ,
       );
-      <span class="keyword">return</span> List.<span class="function">generate</span>(
-        maps.<span class="function">length</span>,
-        (i) =&gt; Expense.<span class="function">fromMap</span>(maps[i]),
+           <span class="keyword">
+            return
+           </span>
+           List.
+           <span class="function">
+            generate
+           </span>
+           (
+        maps.
+           <span class="function">
+            length
+           </span>
+           ,
+        (i) =&gt; Expense.
+           <span class="function">
+            fromMap
+           </span>
+           (maps[i]),
       );
     }
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, double&gt;&gt; <span class="function">getCategorySpending</span>() <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; results = <span class="keyword">await</span> db.<span class="function">rawQuery</span>(<span class="string">'''
+           <span class="keyword">
+            Future
+           </span>
+           &lt;Map&lt;String, double&gt;&gt;
+           <span class="function">
+            getCategorySpending
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Map&lt;String, dynamic&gt;&gt; results =
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            rawQuery
+           </span>
+           (
+           <span class="string">
+            '''
         SELECT category, SUM(amount) as total
         FROM expenses
         WHERE type = 'expense'
         GROUP BY category
         ORDER BY total DESC
-      '''</span>);
+      '''
+           </span>
+           );
 
       Map&lt;String, double&gt; spending = {};
-      <span class="keyword">for</span> (<span class="keyword">var</span> row <span class="keyword">in</span> results) {
-        spending[row[<span class="string">'category'</span>]] = row[<span class="string">'total'</span>];
+           <span class="keyword">
+            for
+           </span>
+           (
+           <span class="keyword">
+            var
+           </span>
+           row
+           <span class="keyword">
+            in
+           </span>
+           results) {
+        spending[row[
+           <span class="string">
+            'category'
+           </span>
+           ]] = row[
+           <span class="string">
+            'total'
+           </span>
+           ];
       }
-      <span class="keyword">return</span> spending;
+           <span class="keyword">
+            return
+           </span>
+           spending;
     }
-
-    <span class="keyword">Future</span>&lt;Map&lt;String, double&gt;&gt; <span class="function">getSummary</span>() <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">final</span> List&lt;Map&lt;String, dynamic&gt;&gt; results = <span class="keyword">await</span> db.<span class="function">rawQuery</span>(<span class="string">'''
+           <span class="keyword">
+            Future
+           </span>
+           &lt;Map&lt;String, double&gt;&gt;
+           <span class="function">
+            getSummary
+           </span>
+           ()
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Map&lt;String, dynamic&gt;&gt; results =
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            rawQuery
+           </span>
+           (
+           <span class="string">
+            '''
         SELECT
           SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as total_income,
           SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as total_expense
         FROM expenses
-      '''</span>);
-
-      <span class="keyword">return</span> {
-        <span class="string">'total_income'</span>: results[<span class="number">0</span>][<span class="string">'total_income'</span>] ?? <span class="number">0.0</span>,
-        <span class="string">'total_expense'</span>: results[<span class="number">0</span>][<span class="string">'total_expense'</span>] ?? <span class="number">0.0</span>,
+      '''
+           </span>
+           );
+           <span class="keyword">
+            return
+           </span>
+           {
+           <span class="string">
+            'total_income'
+           </span>
+           : results[
+           <span class="number">
+            0
+           </span>
+           ][
+           <span class="string">
+            'total_income'
+           </span>
+           ] ??
+           <span class="number">
+            0.0
+           </span>
+           ,
+           <span class="string">
+            'total_expense'
+           </span>
+           : results[
+           <span class="number">
+            0
+           </span>
+           ][
+           <span class="string">
+            'total_expense'
+           </span>
+           ] ??
+           <span class="number">
+            0.0
+           </span>
+           ,
       };
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">updateExpense</span>(Expense expense) <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">return</span> <span class="keyword">await</span> db.<span class="function">update</span>(
-        <span class="string">'expenses'</span>,
-        expense.<span class="function">toMap</span>(),
-        where: <span class="string">'id = ?'</span>,
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            int
+           </span>
+           &gt;
+           <span class="function">
+            updateExpense
+           </span>
+           (Expense expense)
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            update
+           </span>
+           (
+           <span class="string">
+            'expenses'
+           </span>
+           ,
+        expense.
+           <span class="function">
+            toMap
+           </span>
+           (),
+        where:
+           <span class="string">
+            'id = ?'
+           </span>
+           ,
         whereArgs: [expense.id],
       );
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">int</span>&gt; <span class="function">deleteExpense</span>(<span class="keyword">int</span> id) <span class="keyword">async</span> {
-      Database db = <span class="keyword">await</span> <span class="keyword">this</span>.database;
-      <span class="keyword">return</span> <span class="keyword">await</span> db.<span class="function">delete</span>(
-        <span class="string">'expenses'</span>,
-        where: <span class="string">'id = ?'</span>,
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            int
+           </span>
+           &gt;
+           <span class="function">
+            deleteExpense
+           </span>
+           (
+           <span class="keyword">
+            int
+           </span>
+           id)
+           <span class="keyword">
+            async
+           </span>
+           {
+      Database db =
+           <span class="keyword">
+            await
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .database;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           db.
+           <span class="function">
+            delete
+           </span>
+           (
+           <span class="string">
+            'expenses'
+           </span>
+           ,
+        where:
+           <span class="string">
+            'id = ?'
+           </span>
+           ,
         whereArgs: [id],
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">4. Expense Providers (lib/providers/expense_provider.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/providers/expense_provider.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/expense.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../database/database_helper.dart'</span>;
-
-  <span class="keyword">final</span> dbHelper = DatabaseHelper();
-
-  <span class="comment">// State for filtering</span>
-<span class="keyword">final</span> filterCategoryProvider = StateProvider&lt;String?&gt;((ref) =&gt; <span class="keyword">null</span>);
-  <span class="keyword">final</span> filterTypeProvider = StateProvider&lt;String?&gt;((ref) =&gt; <span class="keyword">null</span>);
-
-  <span class="keyword">final</span> expenseListProvider = FutureProvider&lt;List&lt;Expense&gt;&gt;((ref) <span class="keyword">async</span> {
-    <span class="keyword">final</span> category = ref.<span class="function">watch</span>(filterCategoryProvider);
-    <span class="keyword">final</span> type = ref.<span class="function">watch</span>(filterTypeProvider);
-
-    <span class="keyword">if</span> (category != <span class="keyword">null</span>) {
-      <span class="keyword">return</span> <span class="keyword">await</span> dbHelper.<span class="function">getExpensesByCategory</span>(category);
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          4. Expense Providers (lib/providers/expense_provider.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/providers/expense_provider.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/expense.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../database/database_helper.dart'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           dbHelper = DatabaseHelper();
+           <span class="comment">
+            // State for filtering
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           filterCategoryProvider = StateProvider&lt;String?&gt;((ref) =&gt;
+           <span class="keyword">
+            null
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           filterTypeProvider = StateProvider&lt;String?&gt;((ref) =&gt;
+           <span class="keyword">
+            null
+           </span>
+           );
+           <span class="keyword">
+            final
+           </span>
+           expenseListProvider = FutureProvider&lt;List&lt;Expense&gt;&gt;((ref)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           category = ref.
+           <span class="function">
+            watch
+           </span>
+           (filterCategoryProvider);
+           <span class="keyword">
+            final
+           </span>
+           type = ref.
+           <span class="function">
+            watch
+           </span>
+           (filterTypeProvider);
+           <span class="keyword">
+            if
+           </span>
+           (category !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            getExpensesByCategory
+           </span>
+           (category);
     }
-    <span class="keyword">if</span> (type != <span class="keyword">null</span>) {
-      <span class="keyword">return</span> <span class="keyword">await</span> dbHelper.<span class="function">getExpensesByType</span>(type);
+           <span class="keyword">
+            if
+           </span>
+           (type !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            getExpensesByType
+           </span>
+           (type);
     }
-    <span class="keyword">return</span> <span class="keyword">await</span> dbHelper.<span class="function">getAllExpenses</span>();
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            getAllExpenses
+           </span>
+           ();
   });
-
-  <span class="keyword">final</span> summaryProvider = FutureProvider&lt;Map&lt;String, double&gt;&gt;((ref) <span class="keyword">async</span> {
-    <span class="keyword">return</span> <span class="keyword">await</span> dbHelper.<span class="function">getSummary</span>();
+           <span class="keyword">
+            final
+           </span>
+           summaryProvider = FutureProvider&lt;Map&lt;String, double&gt;&gt;((ref)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            getSummary
+           </span>
+           ();
   });
-
-  <span class="keyword">final</span> categorySpendingProvider = FutureProvider&lt;Map&lt;String, double&gt;&gt;((ref) <span class="keyword">async</span> {
-    <span class="keyword">return</span> <span class="keyword">await</span> dbHelper.<span class="function">getCategorySpending</span>();
+           <span class="keyword">
+            final
+           </span>
+           categorySpendingProvider = FutureProvider&lt;Map&lt;String, double&gt;&gt;((ref)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            getCategorySpending
+           </span>
+           ();
   });
-
-  <span class="keyword">class</span> <span class="function">ExpenseNotifier</span> <span class="keyword">extends</span> StateNotifier&lt;<span class="keyword">void</span>&gt; {
-    <span class="keyword">final</span> Ref ref;
-
-    <span class="function">ExpenseNotifier</span>(<span class="keyword">this</span>.ref) : <span class="keyword">super</span>(<span class="keyword">null</span>);
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">addExpense</span>(Expense expense) <span class="keyword">async</span> {
-      <span class="keyword">await</span> dbHelper.<span class="function">insertExpense</span>(expense);
-      ref.<span class="function">invalidate</span>(expenseListProvider);
-      ref.<span class="function">invalidate</span>(summaryProvider);
-      ref.<span class="function">invalidate</span>(categorySpendingProvider);
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            ExpenseNotifier
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StateNotifier&lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt; {
+           <span class="keyword">
+            final
+           </span>
+           Ref ref;
+           <span class="function">
+            ExpenseNotifier
+           </span>
+           (
+           <span class="keyword">
+            this
+           </span>
+           .ref) :
+           <span class="keyword">
+            super
+           </span>
+           (
+           <span class="keyword">
+            null
+           </span>
+           );
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            addExpense
+           </span>
+           (Expense expense)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            insertExpense
+           </span>
+           (expense);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (summaryProvider);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (categorySpendingProvider);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">updateExpense</span>(Expense expense) <span class="keyword">async</span> {
-      <span class="keyword">await</span> dbHelper.<span class="function">updateExpense</span>(expense);
-      ref.<span class="function">invalidate</span>(expenseListProvider);
-      ref.<span class="function">invalidate</span>(summaryProvider);
-      ref.<span class="function">invalidate</span>(categorySpendingProvider);
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            updateExpense
+           </span>
+           (Expense expense)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            updateExpense
+           </span>
+           (expense);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (summaryProvider);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (categorySpendingProvider);
     }
-
-    <span class="keyword">Future</span>&lt;<span class="keyword">void</span>&gt; <span class="function">deleteExpense</span>(<span class="keyword">int</span> id) <span class="keyword">async</span> {
-      <span class="keyword">await</span> dbHelper.<span class="function">deleteExpense</span>(id);
-      ref.<span class="function">invalidate</span>(expenseListProvider);
-      ref.<span class="function">invalidate</span>(summaryProvider);
-      ref.<span class="function">invalidate</span>(categorySpendingProvider);
+           <span class="keyword">
+            Future
+           </span>
+           &lt;
+           <span class="keyword">
+            void
+           </span>
+           &gt;
+           <span class="function">
+            deleteExpense
+           </span>
+           (
+           <span class="keyword">
+            int
+           </span>
+           id)
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            await
+           </span>
+           dbHelper.
+           <span class="function">
+            deleteExpense
+           </span>
+           (id);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (summaryProvider);
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (categorySpendingProvider);
     }
-
-    <span class="keyword">void</span> <span class="function">clearFilters</span>() {
-      ref.<span class="function">read</span>(filterCategoryProvider.notifier).state = <span class="keyword">null</span>;
-      ref.<span class="function">read</span>(filterTypeProvider.notifier).state = <span class="keyword">null</span>;
-      ref.<span class="function">invalidate</span>(expenseListProvider);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            clearFilters
+           </span>
+           () {
+      ref.
+           <span class="function">
+            read
+           </span>
+           (filterCategoryProvider.notifier).state =
+           <span class="keyword">
+            null
+           </span>
+           ;
+      ref.
+           <span class="function">
+            read
+           </span>
+           (filterTypeProvider.notifier).state =
+           <span class="keyword">
+            null
+           </span>
+           ;
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider);
     }
-
-    <span class="keyword">void</span> <span class="function">setCategoryFilter</span>(String? category) {
-      ref.<span class="function">read</span>(filterCategoryProvider.notifier).state = category;
-      ref.<span class="function">read</span>(filterTypeProvider.notifier).state = <span class="keyword">null</span>;
-      ref.<span class="function">invalidate</span>(expenseListProvider);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            setCategoryFilter
+           </span>
+           (String? category) {
+      ref.
+           <span class="function">
+            read
+           </span>
+           (filterCategoryProvider.notifier).state = category;
+      ref.
+           <span class="function">
+            read
+           </span>
+           (filterTypeProvider.notifier).state =
+           <span class="keyword">
+            null
+           </span>
+           ;
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider);
     }
-
-    <span class="keyword">void</span> <span class="function">setTypeFilter</span>(String? type) {
-      ref.<span class="function">read</span>(filterTypeProvider.notifier).state = type;
-      ref.<span class="function">read</span>(filterCategoryProvider.notifier).state = <span class="keyword">null</span>;
-      ref.<span class="function">invalidate</span>(expenseListProvider);
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            setTypeFilter
+           </span>
+           (String? type) {
+      ref.
+           <span class="function">
+            read
+           </span>
+           (filterTypeProvider.notifier).state = type;
+      ref.
+           <span class="function">
+            read
+           </span>
+           (filterCategoryProvider.notifier).state =
+           <span class="keyword">
+            null
+           </span>
+           ;
+      ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider);
     }
   }
-
-  <span class="keyword">final</span> expenseNotifierProvider =
-      StateNotifierProvider&lt;ExpenseNotifier, <span class="keyword">void</span>&gt;((ref) {
-    <span class="keyword">return</span> <span class="function">ExpenseNotifier</span>(ref);
+           <span class="keyword">
+            final
+           </span>
+           expenseNotifierProvider =
+      StateNotifierProvider&lt;ExpenseNotifier,
+           <span class="keyword">
+            void
+           </span>
+           &gt;((ref) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="function">
+            ExpenseNotifier
+           </span>
+           (ref);
   });
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">5. Main App (lib/main.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/main.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'screens/home_screen.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    runApp(<span class="keyword">const</span> ProviderScope(child: MyApp()));
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          5. Main App (lib/main.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/main.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'screens/home_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            main
+           </span>
+           () {
+    runApp(
+           <span class="keyword">
+            const
+           </span>
+           ProviderScope(child: MyApp()));
   }
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">const</span> <span class="function">MyApp</span>({<span class="keyword">super</span>.key});
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            MyApp
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Expense Tracker'</span>,
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           MaterialApp(
+        title:
+           <span class="string">
+            'Expense Tracker'
+           </span>
+           ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-          useMaterial3: <span class="keyword">true</span>,
+          useMaterial3:
+           <span class="keyword">
+            true
+           </span>
+           ,
         ),
-        home: <span class="keyword">const</span> HomeScreen(),
-        debugShowCheckedModeBanner: <span class="keyword">false</span>,
+        home:
+           <span class="keyword">
+            const
+           </span>
+           HomeScreen(),
+        debugShowCheckedModeBanner:
+           <span class="keyword">
+            false
+           </span>
+           ,
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">6. Home Screen (lib/screens/home_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/home_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/expense.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/expense_provider.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'add_edit_expense_screen.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/summary_card.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/category_chart.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'widgets/filter_dropdown.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">HomeScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">HomeScreen</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          6. Home Screen (lib/screens/home_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/home_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:intl/intl.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/expense.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/expense_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'add_edit_expense_screen.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/summary_card.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/category_chart.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'widgets/filter_dropdown.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            HomeScreen
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;HomeScreen&gt; <span class="function">createState</span>() =&gt; _HomeScreenState();
+    ConsumerState&lt;HomeScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _HomeScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_HomeScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;HomeScreen&gt; {
-    <span class="keyword">int</span> _selectedIndex = <span class="number">0</span>;
-
-    <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Widget&gt; _screens = [
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _HomeScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;HomeScreen&gt; {
+           <span class="keyword">
+            int
+           </span>
+           _selectedIndex =
+           <span class="number">
+            0
+           </span>
+           ;
+           <span class="keyword">
+            static
+           </span>
+           <span class="keyword">
+            final
+           </span>
+           List&lt;Widget&gt; _screens = [
       _TransactionListScreen(),
       _ChartScreen(),
     ];
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(<span class="string">'💰 Expense Tracker'</span>),
+          title: Text(
+           <span class="string">
+            '💰 Expense Tracker'
+           </span>
+           ),
           backgroundColor: Colors.teal,
           foregroundColor: Colors.white,
           actions: [
             IconButton(
               onPressed: () {
-                ref.<span class="function">read</span>(expenseNotifierProvider.notifier).<span class="function">clearFilters</span>();
+                ref.
+           <span class="function">
+            read
+           </span>
+           (expenseNotifierProvider.notifier).
+           <span class="function">
+            clearFilters
+           </span>
+           ();
               },
               icon: Icon(Icons.clear_all),
-              tooltip: <span class="string">'Clear Filters'</span>,
+              tooltip:
+           <span class="string">
+            'Clear Filters'
+           </span>
+           ,
             ),
             IconButton(
-              onPressed: () =&gt; ref.<span class="function">invalidate</span>(expenseListProvider),
+              onPressed: () =&gt; ref.
+           <span class="function">
+            invalidate
+           </span>
+           (expenseListProvider),
               icon: Icon(Icons.refresh),
-              tooltip: <span class="string">'Refresh'</span>,
+              tooltip:
+           <span class="string">
+            'Refresh'
+           </span>
+           ,
             ),
           ],
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(<span class="number">60</span>),
+            preferredSize: Size.fromHeight(
+           <span class="number">
+            60
+           </span>
+           ),
             child: Padding(
-              padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">8</span>),
+              padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           , vertical:
+           <span class="number">
+            8
+           </span>
+           ),
               child: FilterDropdown(),
             ),
           ),
@@ -964,59 +2585,144 @@
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: (index) =&gt; setState(() =&gt; _selectedIndex = index),
-          items: <span class="keyword">const</span> [
+          items:
+           <span class="keyword">
+            const
+           </span>
+           [
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
-              label: <span class="string">'Transactions'</span>,
+              label:
+           <span class="string">
+            'Transactions'
+           </span>
+           ,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.pie_chart),
-              label: <span class="string">'Analytics'</span>,
+              label:
+           <span class="string">
+            'Analytics'
+           </span>
+           ,
             ),
           ],
           selectedItemColor: Colors.teal,
         ),
-        floatingActionButton: _selectedIndex == <span class="number">0</span>
-            ? FloatingActionButton(
+        floatingActionButton: _selectedIndex ==
+           <span class="number">
+            0
+           </span>
+           ? FloatingActionButton(
                 onPressed: () =&gt; _navigateToAddExpense(context),
                 backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
                 child: Icon(Icons.add),
               )
-            : <span class="keyword">null</span>,
+            :
+           <span class="keyword">
+            null
+           </span>
+           ,
       );
     }
-
-    <span class="keyword">void</span> _navigateToAddExpense(BuildContext context) {
-      Navigator.<span class="function">push</span>(
+           <span class="keyword">
+            void
+           </span>
+           _navigateToAddExpense(BuildContext context) {
+      Navigator.
+           <span class="function">
+            push
+           </span>
+           (
         context,
         MaterialPageRoute(builder: (_) =&gt; AddEditExpenseScreen()),
       );
     }
   }
-
-  <span class="comment">// Transaction List Screen</span>
-<span class="keyword">class</span> <span class="function">_TransactionListScreen</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">_TransactionListScreen</span>();
+           <span class="comment">
+            // Transaction List Screen
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _TransactionListScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            _TransactionListScreen
+           </span>
+           ();
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> expensesAsync = ref.<span class="function">watch</span>(expenseListProvider);
-      <span class="keyword">final</span> summaryAsync = ref.<span class="function">watch</span>(summaryProvider);
-
-      <span class="keyword">return</span> CustomScrollView(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           expensesAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (expenseListProvider);
+           <span class="keyword">
+            final
+           </span>
+           summaryAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (summaryProvider);
+           <span class="keyword">
+            return
+           </span>
+           CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: summaryAsync.<span class="function">when</span>(
+            child: summaryAsync.
+           <span class="function">
+            when
+           </span>
+           (
               loading: () =&gt; _buildLoadingSummary(),
               error: (_, __) =&gt; SizedBox.shrink(),
               data: (summary) =&gt; SummaryCard(
-                totalIncome: summary[<span class="string">'total_income'</span>] ?? <span class="number">0</span>,
-                totalExpense: summary[<span class="string">'total_expense'</span>] ?? <span class="number">0</span>,
+                totalIncome: summary[
+           <span class="string">
+            'total_income'
+           </span>
+           ] ??
+           <span class="number">
+            0
+           </span>
+           ,
+                totalExpense: summary[
+           <span class="string">
+            'total_expense'
+           </span>
+           ] ??
+           <span class="number">
+            0
+           </span>
+           ,
               ),
             ),
           ),
-          expensesAsync.<span class="function">when</span>(
+          expensesAsync.
+           <span class="function">
+            when
+           </span>
+           (
             loading: () =&gt; SliverFillRemaining(
               child: Center(child: CircularProgressIndicator()),
             ),
@@ -1025,69 +2731,204 @@
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.error_outline, size: <span class="number">64</span>, color: Colors.red[<span class="number">300</span>]),
-                    SizedBox(height: <span class="number">16</span>),
+                    Icon(Icons.error_outline, size:
+           <span class="number">
+            64
+           </span>
+           , color: Colors.red[
+           <span class="number">
+            300
+           </span>
+           ]),
+                    SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                     Text(
-                      <span class="string">'Error loading expenses'</span>,
-                      style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+           <span class="string">
+            'Error loading expenses'
+           </span>
+           ,
+                      style: TextStyle(fontSize:
+           <span class="number">
+            18
+           </span>
+           , fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: <span class="number">8</span>),
+                    SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                     Text(
-                      error.<span class="function">toString</span>(),
+                      error.
+           <span class="function">
+            toString
+           </span>
+           (),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey[<span class="number">600</span>]),
+                      style: TextStyle(color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                     ),
                   ],
                 ),
               ),
             ),
             data: (expenses) {
-              <span class="keyword">if</span> (expenses.<span class="function">isEmpty</span>) {
-                <span class="keyword">return</span> SliverFillRemaining(
+           <span class="keyword">
+            if
+           </span>
+           (expenses.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           SliverFillRemaining(
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.account_balance_wallet, size: <span class="number">80</span>, color: Colors.grey[<span class="number">300</span>]),
-                        SizedBox(height: <span class="number">16</span>),
+                        Icon(Icons.account_balance_wallet, size:
+           <span class="number">
+            80
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]),
+                        SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                         Text(
-                          <span class="string">'No transactions yet'</span>,
-                          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold, color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'No transactions yet'
+           </span>
+           ,
+                          style: TextStyle(fontSize:
+           <span class="number">
+            20
+           </span>
+           , fontWeight: FontWeight.bold, color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                         ),
-                        SizedBox(height: <span class="number">8</span>),
+                        SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                         Text(
-                          <span class="string">'Tap + to add your first transaction'</span>,
-                          style: TextStyle(color: Colors.grey[<span class="number">500</span>], fontSize: <span class="number">14</span>),
+           <span class="string">
+            'Tap + to add your first transaction'
+           </span>
+           ,
+                          style: TextStyle(color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ], fontSize:
+           <span class="number">
+            14
+           </span>
+           ),
                         ),
                       ],
                     ),
                   ),
                 );
               }
-              <span class="keyword">return</span> SliverList(
+           <span class="keyword">
+            return
+           </span>
+           SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    <span class="keyword">final</span> expense = expenses[index];
-                    <span class="keyword">return</span> Dismissible(
-                      key: Key(expense.id.<span class="function">toString</span>()),
-                      direction: DismissDirection.<span class="function">endToStart</span>,
+           <span class="keyword">
+            final
+           </span>
+           expense = expenses[index];
+           <span class="keyword">
+            return
+           </span>
+           Dismissible(
+                      key: Key(expense.id.
+           <span class="function">
+            toString
+           </span>
+           ()),
+                      direction: DismissDirection.
+           <span class="function">
+            endToStart
+           </span>
+           ,
                       background: Container(
                         color: Colors.red,
-                        alignment: Alignment.<span class="function">centerRight</span>,
-                        padding: EdgeInsets.<span class="function">only</span>(right: <span class="number">20</span>),
+                        alignment: Alignment.
+           <span class="function">
+            centerRight
+           </span>
+           ,
+                        padding: EdgeInsets.
+           <span class="function">
+            only
+           </span>
+           (right:
+           <span class="number">
+            20
+           </span>
+           ),
                         child: Icon(Icons.delete, color: Colors.white),
                       ),
                       onDismissed: (_) {
-                        <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(expenseNotifierProvider.notifier);
-                        notifier.<span class="function">deleteExpense</span>(expense.id!);
-                        ScaffoldMessenger.<span class="function">of</span>(context).<span class="function">showSnackBar</span>(
-                          SnackBar(content: Text(<span class="string">'Expense deleted'</span>)),
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (expenseNotifierProvider.notifier);
+                        notifier.
+           <span class="function">
+            deleteExpense
+           </span>
+           (expense.id!);
+                        ScaffoldMessenger.
+           <span class="function">
+            of
+           </span>
+           (context).
+           <span class="function">
+            showSnackBar
+           </span>
+           (
+                          SnackBar(content: Text(
+           <span class="string">
+            'Expense deleted'
+           </span>
+           )),
                         );
                       },
                       child: _buildExpenseTile(context, ref, expense),
                     );
                   },
-                  itemCount: expenses.<span class="function">length</span>,
+                  itemCount: expenses.
+           <span class="function">
+            length
+           </span>
+           ,
                 ),
               );
             },
@@ -1097,31 +2938,78 @@
     }
 
     Widget _buildLoadingSummary() {
-      <span class="keyword">return</span> Padding(
-        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+           <span class="keyword">
+            return
+           </span>
+           Padding(
+        padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
         child: Card(
-          elevation: <span class="number">4</span>,
+          elevation:
+           <span class="number">
+            4
+           </span>
+           ,
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
-                    Text(<span class="string">'Income'</span>, style: TextStyle(color: Colors.green)),
-                    SizedBox(height: <span class="number">8</span>),
+                    Text(
+           <span class="string">
+            'Income'
+           </span>
+           , style: TextStyle(color: Colors.green)),
+                    SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                     SizedBox(
-                      width: <span class="number">80</span>,
+                      width:
+           <span class="number">
+            80
+           </span>
+           ,
                       child: LinearProgressIndicator(),
                     ),
                   ],
                 ),
                 Column(
                   children: [
-                    Text(<span class="string">'Expense'</span>, style: TextStyle(color: Colors.red)),
-                    SizedBox(height: <span class="number">8</span>),
+                    Text(
+           <span class="string">
+            'Expense'
+           </span>
+           , style: TextStyle(color: Colors.red)),
+                    SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                     SizedBox(
-                      width: <span class="number">80</span>,
+                      width:
+           <span class="number">
+            80
+           </span>
+           ,
                       child: LinearProgressIndicator(),
                     ),
                   ],
@@ -1134,15 +3022,58 @@
     }
 
     Widget _buildExpenseTile(BuildContext context, WidgetRef ref, Expense expense) {
-      <span class="keyword">final</span> isIncome = expense.type == <span class="string">'income'</span>;
-      <span class="keyword">final</span> color = isIncome ? Colors.green : Colors.red;
-      <span class="keyword">final</span> prefix = isIncome ? <span class="string">'+'</span> : <span class="string">'-'</span>;
-
-      <span class="keyword">return</span> Card(
-        margin: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">16</span>, vertical: <span class="number">4</span>),
+           <span class="keyword">
+            final
+           </span>
+           isIncome = expense.type ==
+           <span class="string">
+            'income'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           color = isIncome ? Colors.green : Colors.red;
+           <span class="keyword">
+            final
+           </span>
+           prefix = isIncome ?
+           <span class="string">
+            '+'
+           </span>
+           :
+           <span class="string">
+            '-'
+           </span>
+           ;
+           <span class="keyword">
+            return
+           </span>
+           Card(
+        margin: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            16
+           </span>
+           , vertical:
+           <span class="number">
+            4
+           </span>
+           ),
         child: ListTile(
           leading: CircleAvatar(
-            backgroundColor: color.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
+            backgroundColor: color.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
             child: Icon(
               isIncome ? Icons.arrow_upward : Icons.arrow_downward,
               color: color,
@@ -1151,7 +3082,11 @@
           title: Text(
             expense.title,
             style: TextStyle(fontWeight: FontWeight.w600),
-            maxLines: <span class="number">1</span>,
+            maxLines:
+           <span class="number">
+            1
+           </span>
+           ,
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Column(
@@ -1159,24 +3094,55 @@
             children: [
               Text(
                 expense.category,
-                style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">600</span>]),
+                style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
               ),
               Text(
-                expense.<span class="function">getFormattedDate</span>(),
-                style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey[<span class="number">500</span>]),
+                expense.
+           <span class="function">
+            getFormattedDate
+           </span>
+           (),
+                style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ]),
               ),
             ],
           ),
           trailing: Text(
-            <span class="string">'$prefix\$${expense.amount.toStringAsFixed(2)}'</span>,
+           <span class="string">
+            '$prefix\$${expense.amount.toStringAsFixed(2)}'
+           </span>
+           ,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: <span class="number">16</span>,
+              fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
               color: color,
             ),
           ),
           onTap: () {
-            Navigator.<span class="function">push</span>(
+            Navigator.
+           <span class="function">
+            push
+           </span>
+           (
               context,
               MaterialPageRoute(
                 builder: (_) =&gt; AddEditExpenseScreen(expense: expense),
@@ -1187,83 +3153,307 @@
       );
     }
   }
-
-  <span class="comment">// Chart Screen</span>
-<span class="keyword">class</span> <span class="function">_ChartScreen</span> <span class="keyword">extends</span> ConsumerWidget {
-    <span class="keyword">const</span> <span class="function">_ChartScreen</span>();
+           <span class="comment">
+            // Chart Screen
+           </span>
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _ChartScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            _ChartScreen
+           </span>
+           ();
 
     @override
-    Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
-      <span class="keyword">final</span> spendingAsync = ref.<span class="function">watch</span>(categorySpendingProvider);
-
-      <span class="keyword">return</span> Center(
-        child: spendingAsync.<span class="function">when</span>(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context, WidgetRef ref) {
+           <span class="keyword">
+            final
+           </span>
+           spendingAsync = ref.
+           <span class="function">
+            watch
+           </span>
+           (categorySpendingProvider);
+           <span class="keyword">
+            return
+           </span>
+           Center(
+        child: spendingAsync.
+           <span class="function">
+            when
+           </span>
+           (
           loading: () =&gt; CircularProgressIndicator(),
-          error: (error, stack) =&gt; Text(<span class="string">'Error loading chart data'</span>),
+          error: (error, stack) =&gt; Text(
+           <span class="string">
+            'Error loading chart data'
+           </span>
+           ),
           data: (spending) {
-            <span class="keyword">if</span> (spending.<span class="function">isEmpty</span>) {
-              <span class="keyword">return</span> Column(
+           <span class="keyword">
+            if
+           </span>
+           (spending.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.pie_chart_outline, size: <span class="number">80</span>, color: Colors.grey[<span class="number">300</span>]),
-                  SizedBox(height: <span class="number">16</span>),
+                  Icon(Icons.pie_chart_outline, size:
+           <span class="number">
+            80
+           </span>
+           , color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]),
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                   Text(
-                    <span class="string">'No spending data yet'</span>,
-                    style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold, color: Colors.grey[<span class="number">600</span>]),
+           <span class="string">
+            'No spending data yet'
+           </span>
+           ,
+                    style: TextStyle(fontSize:
+           <span class="number">
+            20
+           </span>
+           , fontWeight: FontWeight.bold, color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ]),
                   ),
-                  SizedBox(height: <span class="number">8</span>),
+                  SizedBox(height:
+           <span class="number">
+            8
+           </span>
+           ),
                   Text(
-                    <span class="string">'Add some expenses to see the chart'</span>,
-                    style: TextStyle(color: Colors.grey[<span class="number">500</span>], fontSize: <span class="number">14</span>),
+           <span class="string">
+            'Add some expenses to see the chart'
+           </span>
+           ,
+                    style: TextStyle(color: Colors.grey[
+           <span class="number">
+            500
+           </span>
+           ], fontSize:
+           <span class="number">
+            14
+           </span>
+           ),
                   ),
                 ],
               );
             }
-            <span class="keyword">return</span> CategoryChart(spending: spending);
+           <span class="keyword">
+            return
+           </span>
+           CategoryChart(spending: spending);
           },
         ),
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">7. Add/Edit Expense Screen (lib/screens/add_edit_expense_screen.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/add_edit_expense_screen.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../models/expense.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../providers/expense_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">AddEditExpenseScreen</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">final</span> Expense? expense;
-
-    <span class="keyword">const</span> <span class="function">AddEditExpenseScreen</span>({<span class="keyword">this</span>.expense, <span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          7. Add/Edit Expense Screen (lib/screens/add_edit_expense_screen.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/add_edit_expense_screen.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../models/expense.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../providers/expense_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            AddEditExpenseScreen
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            final
+           </span>
+           Expense? expense;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            AddEditExpenseScreen
+           </span>
+           ({
+           <span class="keyword">
+            this
+           </span>
+           .expense,
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;AddEditExpenseScreen&gt; <span class="function">createState</span>() =&gt; _AddEditExpenseScreenState();
+    ConsumerState&lt;AddEditExpenseScreen&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _AddEditExpenseScreenState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AddEditExpenseScreenState</span> <span class="keyword">extends</span> ConsumerState&lt;AddEditExpenseScreen&gt; {
-    <span class="keyword">final</span> _formKey = GlobalKey&lt;FormState&gt;();
-    <span class="keyword">final</span> _titleController = TextEditingController();
-    <span class="keyword">final</span> _amountController = TextEditingController();
-    <span class="keyword">String</span> _selectedType = <span class="string">'expense'</span>;
-    <span class="keyword">String</span> _selectedCategory = <span class="string">'Food &amp; Dining'</span>;
-    DateTime _selectedDate = DateTime.<span class="function">now</span>();
-    <span class="keyword">bool</span> _isLoading = <span class="keyword">false</span>;
-
-    <span class="keyword">bool</span> get isEditing =&gt; widget.expense != <span class="keyword">null</span>;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _AddEditExpenseScreenState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;AddEditExpenseScreen&gt; {
+           <span class="keyword">
+            final
+           </span>
+           _formKey = GlobalKey&lt;FormState&gt;();
+           <span class="keyword">
+            final
+           </span>
+           _titleController = TextEditingController();
+           <span class="keyword">
+            final
+           </span>
+           _amountController = TextEditingController();
+           <span class="keyword">
+            String
+           </span>
+           _selectedType =
+           <span class="string">
+            'expense'
+           </span>
+           ;
+           <span class="keyword">
+            String
+           </span>
+           _selectedCategory =
+           <span class="string">
+            'Food &amp; Dining'
+           </span>
+           ;
+    DateTime _selectedDate = DateTime.
+           <span class="function">
+            now
+           </span>
+           ();
+           <span class="keyword">
+            bool
+           </span>
+           _isLoading =
+           <span class="keyword">
+            false
+           </span>
+           ;
+           <span class="keyword">
+            bool
+           </span>
+           get isEditing =&gt; widget.expense !=
+           <span class="keyword">
+            null
+           </span>
+           ;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
-      <span class="keyword">if</span> (isEditing) {
-        <span class="keyword">final</span> e = widget.expense!;
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            initState
+           </span>
+           () {
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            initState
+           </span>
+           ();
+           <span class="keyword">
+            if
+           </span>
+           (isEditing) {
+           <span class="keyword">
+            final
+           </span>
+           e = widget.expense!;
         _titleController.text = e.title;
-        _amountController.text = e.amount.<span class="function">toString</span>();
+        _amountController.text = e.amount.
+           <span class="function">
+            toString
+           </span>
+           ();
         _selectedType = e.type;
         _selectedCategory = e.category;
         _selectedDate = e.date;
@@ -1271,159 +3461,477 @@
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _titleController.<span class="function">dispose</span>();
-      _amountController.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            dispose
+           </span>
+           () {
+      _titleController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+      _amountController.
+           <span class="function">
+            dispose
+           </span>
+           ();
+           <span class="keyword">
+            super
+           </span>
+           .
+           <span class="function">
+            dispose
+           </span>
+           ();
     }
 
     List&lt;String&gt; get availableCategories =&gt;
-        _selectedType == <span class="string">'income'</span>
-            ? Expense.incomeCategories
+        _selectedType ==
+           <span class="string">
+            'income'
+           </span>
+           ? Expense.incomeCategories
             : Expense.expenseCategories;
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Scaffold(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Scaffold(
         appBar: AppBar(
-          title: Text(isEditing ? <span class="string">'Edit Transaction'</span> : <span class="string">'Add Transaction'</span>),
+          title: Text(isEditing ?
+           <span class="string">
+            'Edit Transaction'
+           </span>
+           :
+           <span class="string">
+            'Add Transaction'
+           </span>
+           ),
           backgroundColor: Colors.teal,
           foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+          padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  <span class="comment">// Type toggle</span>
-                  SegmentedButton&lt;String&gt;(
-                    segments: <span class="keyword">const</span> [
+           <span class="comment">
+            // Type toggle
+           </span>
+           SegmentedButton&lt;String&gt;(
+                    segments:
+           <span class="keyword">
+            const
+           </span>
+           [
                       ButtonSegment(
-                        value: <span class="string">'income'</span>,
-                        label: Text(<span class="string">'Income'</span>),
-                        icon: Icon(Icons.arrow_upward, size: <span class="number">16</span>),
+                        value:
+           <span class="string">
+            'income'
+           </span>
+           ,
+                        label: Text(
+           <span class="string">
+            'Income'
+           </span>
+           ),
+                        icon: Icon(Icons.arrow_upward, size:
+           <span class="number">
+            16
+           </span>
+           ),
                       ),
                       ButtonSegment(
-                        value: <span class="string">'expense'</span>,
-                        label: Text(<span class="string">'Expense'</span>),
-                        icon: Icon(Icons.arrow_downward, size: <span class="number">16</span>),
+                        value:
+           <span class="string">
+            'expense'
+           </span>
+           ,
+                        label: Text(
+           <span class="string">
+            'Expense'
+           </span>
+           ),
+                        icon: Icon(Icons.arrow_downward, size:
+           <span class="number">
+            16
+           </span>
+           ),
                       ),
                     ],
                     selected: {_selectedType},
                     onSelectionChanged: (Set&lt;String&gt; newSelection) {
-                      <span class="function">setState</span>(() {
-                        _selectedType = newSelection.<span class="function">first</span>;
-                        _selectedCategory = availableCategories.<span class="function">first</span>;
+           <span class="function">
+            setState
+           </span>
+           (() {
+                        _selectedType = newSelection.
+           <span class="function">
+            first
+           </span>
+           ;
+                        _selectedCategory = availableCategories.
+           <span class="function">
+            first
+           </span>
+           ;
                       });
                     },
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Title</span>
-                  TextFormField(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Title
+           </span>
+           TextFormField(
                     controller: _titleController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Title'</span>,
+                      labelText:
+           <span class="string">
+            'Title'
+           </span>
+           ,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.title),
                     ),
                     validator: (value) {
-                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please enter a title'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter a title'
+           </span>
+           ;
                       }
-                      <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                     },
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Amount</span>
-                  TextFormField(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Amount
+           </span>
+           TextFormField(
                     controller: _amountController,
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Amount'</span>,
+                      labelText:
+           <span class="string">
+            'Amount'
+           </span>
+           ,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.attach_money),
                     ),
-                    keyboardType: TextInputType.<span class="function">numberWithOptions</span>(decimal: <span class="keyword">true</span>),
+                    keyboardType: TextInputType.
+           <span class="function">
+            numberWithOptions
+           </span>
+           (decimal:
+           <span class="keyword">
+            true
+           </span>
+           ),
                     validator: (value) {
-                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">trim</span>().<span class="function">isEmpty</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please enter an amount'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            trim
+           </span>
+           ().
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter an amount'
+           </span>
+           ;
                       }
-                      <span class="keyword">if</span> (<span class="keyword">double</span>.<span class="function">tryParse</span>(value) == <span class="keyword">null</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please enter a valid number'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (
+           <span class="keyword">
+            double
+           </span>
+           .
+           <span class="function">
+            tryParse
+           </span>
+           (value) ==
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please enter a valid number'
+           </span>
+           ;
                       }
-                      <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                     },
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Category</span>
-                  DropdownButtonFormField&lt;String&gt;(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Category
+           </span>
+           DropdownButtonFormField&lt;String&gt;(
                     value: _selectedCategory,
-                    items: availableCategories.<span class="function">map</span>((category) {
-                      <span class="keyword">return</span> DropdownMenuItem(
+                    items: availableCategories.
+           <span class="function">
+            map
+           </span>
+           ((category) {
+           <span class="keyword">
+            return
+           </span>
+           DropdownMenuItem(
                         value: category,
                         child: Text(category),
                       );
-                    }).<span class="function">toList</span>(),
+                    }).
+           <span class="function">
+            toList
+           </span>
+           (),
                     onChanged: (value) {
-                      <span class="function">setState</span>(() =&gt; _selectedCategory = value!);
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _selectedCategory = value!);
                     },
                     decoration: InputDecoration(
-                      labelText: <span class="string">'Category'</span>,
+                      labelText:
+           <span class="string">
+            'Category'
+           </span>
+           ,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.category),
                     ),
                     validator: (value) {
-                      <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.<span class="function">isEmpty</span>) {
-                        <span class="keyword">return</span> <span class="string">'Please select a category'</span>;
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           || value.
+           <span class="function">
+            isEmpty
+           </span>
+           ) {
+           <span class="keyword">
+            return
+           </span>
+           <span class="string">
+            'Please select a category'
+           </span>
+           ;
                       }
-                      <span class="keyword">return</span> <span class="keyword">null</span>;
+           <span class="keyword">
+            return
+           </span>
+           <span class="keyword">
+            null
+           </span>
+           ;
                     },
                   ),
-                  SizedBox(height: <span class="number">16</span>),
-
-                  <span class="comment">// Date</span>
-                  ListTile(
+                  SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
+           <span class="comment">
+            // Date
+           </span>
+           ListTile(
                     leading: Icon(Icons.calendar_today),
-                    title: Text(<span class="string">'Date'</span>),
+                    title: Text(
+           <span class="string">
+            'Date'
+           </span>
+           ),
                     subtitle: Text(
-                      DateFormat.<span class="function">yMMMd</span>().<span class="function">format</span>(_selectedDate),
+                      DateFormat.
+           <span class="function">
+            yMMMd
+           </span>
+           ().
+           <span class="function">
+            format
+           </span>
+           (_selectedDate),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios, size: <span class="number">16</span>),
-                    onTap: () <span class="keyword">async</span> {
-                      <span class="keyword">final</span> date = <span class="keyword">await</span> showDatePicker(
+                    trailing: Icon(Icons.arrow_forward_ios, size:
+           <span class="number">
+            16
+           </span>
+           ),
+                    onTap: ()
+           <span class="keyword">
+            async
+           </span>
+           {
+           <span class="keyword">
+            final
+           </span>
+           date =
+           <span class="keyword">
+            await
+           </span>
+           showDatePicker(
                         context: context,
                         initialDate: _selectedDate,
-                        firstDate: DateTime(<span class="number">2020</span>),
-                        lastDate: DateTime.<span class="function">now</span>(),
+                        firstDate: DateTime(
+           <span class="number">
+            2020
+           </span>
+           ),
+                        lastDate: DateTime.
+           <span class="function">
+            now
+           </span>
+           (),
                       );
-                      <span class="keyword">if</span> (date != <span class="keyword">null</span>) {
-                        <span class="function">setState</span>(() =&gt; _selectedDate = date);
+           <span class="keyword">
+            if
+           </span>
+           (date !=
+           <span class="keyword">
+            null
+           </span>
+           ) {
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _selectedDate = date);
                       }
                     },
                   ),
-                  SizedBox(height: <span class="number">24</span>),
-
-                  <span class="comment">// Save button</span>
-                  _isLoading
+                  SizedBox(height:
+           <span class="number">
+            24
+           </span>
+           ),
+           <span class="comment">
+            // Save button
+           </span>
+           _isLoading
                       ? Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: () =&gt; _saveExpense(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.teal,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.<span class="function">symmetric</span>(vertical: <span class="number">16</span>),
+                            padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (vertical:
+           <span class="number">
+            16
+           </span>
+           ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
+                              borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
                             ),
                           ),
                           child: Text(
-                            isEditing ? <span class="string">'Update Transaction'</span> : <span class="string">'Add Transaction'</span>,
-                            style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.bold),
+                            isEditing ?
+           <span class="string">
+            'Update Transaction'
+           </span>
+           :
+           <span class="string">
+            'Add Transaction'
+           </span>
+           ,
+                            style: TextStyle(fontSize:
+           <span class="number">
+            16
+           </span>
+           , fontWeight: FontWeight.bold),
                           ),
                         ),
                 ],
@@ -1433,91 +3941,302 @@
         ),
       );
     }
-
-    <span class="keyword">void</span> <span class="function">_saveExpense</span>(BuildContext context) {
-      <span class="keyword">if</span> (!_formKey.<span class="function">currentState</span>()!.<span class="function">validate</span>()) <span class="keyword">return</span>;
-
-      <span class="keyword">final</span> expense = Expense(
-        id: isEditing ? widget.expense!.id : <span class="keyword">null</span>,
-        title: _titleController.text.<span class="function">trim</span>(),
-        amount: <span class="keyword">double</span>.<span class="function">parse</span>(_amountController.text.<span class="function">trim</span>()),
+           <span class="keyword">
+            void
+           </span>
+           <span class="function">
+            _saveExpense
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            if
+           </span>
+           (!_formKey.
+           <span class="function">
+            currentState
+           </span>
+           ()!.
+           <span class="function">
+            validate
+           </span>
+           ())
+           <span class="keyword">
+            return
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           expense = Expense(
+        id: isEditing ? widget.expense!.id :
+           <span class="keyword">
+            null
+           </span>
+           ,
+        title: _titleController.text.
+           <span class="function">
+            trim
+           </span>
+           (),
+        amount:
+           <span class="keyword">
+            double
+           </span>
+           .
+           <span class="function">
+            parse
+           </span>
+           (_amountController.text.
+           <span class="function">
+            trim
+           </span>
+           ()),
         category: _selectedCategory,
         type: _selectedType,
         date: _selectedDate,
       );
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _isLoading =
+           <span class="keyword">
+            true
+           </span>
+           );
 
-      <span class="function">setState</span>(() =&gt; _isLoading = <span class="keyword">true</span>);
-
-      Future.<span class="function">delayed</span>(Duration(milliseconds: <span class="number">500</span>), () {
-        <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(expenseNotifierProvider.notifier);
-        <span class="keyword">if</span> (isEditing) {
-          notifier.<span class="function">updateExpense</span>(expense);
-        } <span class="keyword">else</span> {
-          notifier.<span class="function">addExpense</span>(expense);
+      Future.
+           <span class="function">
+            delayed
+           </span>
+           (Duration(milliseconds:
+           <span class="number">
+            500
+           </span>
+           ), () {
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (expenseNotifierProvider.notifier);
+           <span class="keyword">
+            if
+           </span>
+           (isEditing) {
+          notifier.
+           <span class="function">
+            updateExpense
+           </span>
+           (expense);
         }
-        Navigator.<span class="function">pop</span>(context);
+           <span class="keyword">
+            else
+           </span>
+           {
+          notifier.
+           <span class="function">
+            addExpense
+           </span>
+           (expense);
+        }
+        Navigator.
+           <span class="function">
+            pop
+           </span>
+           (context);
       });
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">8. Summary Card Widget (lib/screens/widgets/summary_card.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/summary_card.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">SummaryCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> <span class="keyword">double</span> totalIncome;
-    <span class="keyword">final</span> <span class="keyword">double</span> totalExpense;
-
-    <span class="keyword">const</span> <span class="function">SummaryCard</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.totalIncome,
-      <span class="keyword">required</span> <span class="keyword">this</span>.totalExpense,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          8. Summary Card Widget (lib/screens/widgets/summary_card.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/summary_card.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            SummaryCard
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            double
+           </span>
+           totalIncome;
+           <span class="keyword">
+            final
+           </span>
+           <span class="keyword">
+            double
+           </span>
+           totalExpense;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            SummaryCard
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .totalIncome,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .totalExpense,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">final</span> balance = totalIncome - totalExpense;
-      <span class="keyword">final</span> isPositive = balance &gt;= <span class="number">0</span>;
-
-      <span class="keyword">return</span> Padding(
-        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            final
+           </span>
+           balance = totalIncome - totalExpense;
+           <span class="keyword">
+            final
+           </span>
+           isPositive = balance &gt;=
+           <span class="number">
+            0
+           </span>
+           ;
+           <span class="keyword">
+            return
+           </span>
+           Padding(
+        padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
         child: Card(
-          elevation: <span class="number">4</span>,
+          elevation:
+           <span class="number">
+            4
+           </span>
+           ,
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">20</span>),
+            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            20
+           </span>
+           ),
             child: Column(
               children: [
                 Text(
-                  <span class="string">'Total Balance'</span>,
+           <span class="string">
+            'Total Balance'
+           </span>
+           ,
                   style: TextStyle(
-                    fontSize: <span class="number">14</span>,
-                    color: Colors.grey[<span class="number">600</span>],
+                    fontSize:
+           <span class="number">
+            14
+           </span>
+           ,
+                    color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
                   ),
                 ),
-                SizedBox(height: <span class="number">4</span>),
+                SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
                 Text(
-                  <span class="string">'\$${balance.toStringAsFixed(2)}'</span>,
+           <span class="string">
+            '\$${balance.toStringAsFixed(2)}'
+           </span>
+           ,
                   style: TextStyle(
-                    fontSize: <span class="number">28</span>,
+                    fontSize:
+           <span class="number">
+            28
+           </span>
+           ,
                     fontWeight: FontWeight.bold,
                     color: isPositive ? Colors.green : Colors.red,
                   ),
                 ),
-                SizedBox(height: <span class="number">16</span>),
+                SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _buildSummaryItem(
-                      label: <span class="string">'Income'</span>,
+                      label:
+           <span class="string">
+            'Income'
+           </span>
+           ,
                       amount: totalIncome,
                       color: Colors.green,
                     ),
                     _buildSummaryItem(
-                      label: <span class="string">'Expense'</span>,
+                      label:
+           <span class="string">
+            'Expense'
+           </span>
+           ,
                       amount: totalExpense,
                       color: Colors.red,
                     ),
@@ -1531,24 +4250,58 @@
     }
 
     Widget _buildSummaryItem({
-      <span class="keyword">required</span> String label,
-      <span class="keyword">required</span> <span class="keyword">double</span> amount,
-      <span class="keyword">required</span> Color color,
+           <span class="keyword">
+            required
+           </span>
+           String label,
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            double
+           </span>
+           amount,
+           <span class="keyword">
+            required
+           </span>
+           Color color,
     }) {
-      <span class="keyword">return</span> Column(
+           <span class="keyword">
+            return
+           </span>
+           Column(
         children: [
           Text(
             label,
             style: TextStyle(
-              fontSize: <span class="number">12</span>,
-              color: Colors.grey[<span class="number">600</span>],
+              fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
+              color: Colors.grey[
+           <span class="number">
+            600
+           </span>
+           ],
             ),
           ),
-          SizedBox(height: <span class="number">4</span>),
+          SizedBox(height:
+           <span class="number">
+            4
+           </span>
+           ),
           Text(
-            <span class="string">'\$${amount.toStringAsFixed(2)}'</span>,
+           <span class="string">
+            '\$${amount.toStringAsFixed(2)}'
+           </span>
+           ,
             style: TextStyle(
-              fontSize: <span class="number">16</span>,
+              fontSize:
+           <span class="number">
+            16
+           </span>
+           ,
               fontWeight: FontWeight.bold,
               color: color,
             ),
@@ -1557,48 +4310,150 @@
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">9. Category Chart Widget (lib/screens/widgets/category_chart.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/category_chart.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:fl_chart/fl_chart.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'dart:math'</span>;
-
-  <span class="keyword">class</span> <span class="function">CategoryChart</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Map&lt;String, double&gt; spending;
-
-    <span class="keyword">const</span> <span class="function">CategoryChart</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.spending,
-      <span class="keyword">super</span>.key,
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          9. Category Chart Widget (lib/screens/widgets/category_chart.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/category_chart.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:fl_chart/fl_chart.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'dart:math'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            CategoryChart
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           StatelessWidget {
+           <span class="keyword">
+            final
+           </span>
+           Map&lt;String, double&gt; spending;
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            CategoryChart
+           </span>
+           ({
+           <span class="keyword">
+            required
+           </span>
+           <span class="keyword">
+            this
+           </span>
+           .spending,
+           <span class="keyword">
+            super
+           </span>
+           .key,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Padding(
-        padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Padding(
+        padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
         child: Card(
-          elevation: <span class="number">4</span>,
+          elevation:
+           <span class="number">
+            4
+           </span>
+           ,
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            padding: EdgeInsets.
+           <span class="function">
+            all
+           </span>
+           (
+           <span class="number">
+            16
+           </span>
+           ),
             child: Column(
               children: [
                 Text(
-                  <span class="string">'Spending by Category'</span>,
+           <span class="string">
+            'Spending by Category'
+           </span>
+           ,
                   style: TextStyle(
-                    fontSize: <span class="number">18</span>,
+                    fontSize:
+           <span class="number">
+            18
+           </span>
+           ,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: <span class="number">16</span>),
+                SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                 SizedBox(
-                  height: <span class="number">250</span>,
+                  height:
+           <span class="number">
+            250
+           </span>
+           ,
                   child: _buildPieChart(),
                 ),
-                SizedBox(height: <span class="number">16</span>),
+                SizedBox(height:
+           <span class="number">
+            16
+           </span>
+           ),
                 _buildLegend(),
               ],
             ),
@@ -1608,7 +4463,10 @@
     }
 
     Widget _buildPieChart() {
-      <span class="keyword">final</span> colors = [
+           <span class="keyword">
+            final
+           </span>
+           colors = [
         Colors.blue,
         Colors.red,
         Colors.green,
@@ -1618,38 +4476,134 @@
         Colors.teal,
         Colors.amber,
       ];
-
-      <span class="keyword">final</span> entries = spending.entries.<span class="function">toList</span>();
-      <span class="keyword">final</span> total = entries.<span class="function">fold</span>(<span class="number">0.0</span>, (sum, e) =&gt; sum + e.value);
-
-      <span class="keyword">return</span> PieChart(
+           <span class="keyword">
+            final
+           </span>
+           entries = spending.entries.
+           <span class="function">
+            toList
+           </span>
+           ();
+           <span class="keyword">
+            final
+           </span>
+           total = entries.
+           <span class="function">
+            fold
+           </span>
+           (
+           <span class="number">
+            0.0
+           </span>
+           , (sum, e) =&gt; sum + e.value);
+           <span class="keyword">
+            return
+           </span>
+           PieChart(
         PieChartData(
-          sections: entries.<span class="function">asMap</span>().<span class="function">entries</span>.<span class="function">map</span>((entry) {
-            <span class="keyword">final</span> index = entry.key;
-            <span class="keyword">final</span> name = entry.value.key;
-            <span class="keyword">final</span> amount = entry.value.value;
-            <span class="keyword">final</span> percentage = total &gt; <span class="number">0</span> ? (amount / total) * <span class="number">100</span> : <span class="number">0.0</span>;
-
-            <span class="keyword">return</span> PieChartSectionData(
-              color: colors[index % colors.<span class="function">length</span>],
+          sections: entries.
+           <span class="function">
+            asMap
+           </span>
+           ().
+           <span class="function">
+            entries
+           </span>
+           .
+           <span class="function">
+            map
+           </span>
+           ((entry) {
+           <span class="keyword">
+            final
+           </span>
+           index = entry.key;
+           <span class="keyword">
+            final
+           </span>
+           name = entry.value.key;
+           <span class="keyword">
+            final
+           </span>
+           amount = entry.value.value;
+           <span class="keyword">
+            final
+           </span>
+           percentage = total &gt;
+           <span class="number">
+            0
+           </span>
+           ? (amount / total) *
+           <span class="number">
+            100
+           </span>
+           :
+           <span class="number">
+            0.0
+           </span>
+           ;
+           <span class="keyword">
+            return
+           </span>
+           PieChartSectionData(
+              color: colors[index % colors.
+           <span class="function">
+            length
+           </span>
+           ],
               value: amount,
-              title: percentage &gt; <span class="number">5</span> ? <span class="string">'\${amount.toStringAsFixed(0)}'</span> : <span class="string">''</span>,
-              radius: <span class="number">100</span>,
+              title: percentage &gt;
+           <span class="number">
+            5
+           </span>
+           ?
+           <span class="string">
+            '\${amount.toStringAsFixed(0)}'
+           </span>
+           :
+           <span class="string">
+            ''
+           </span>
+           ,
+              radius:
+           <span class="number">
+            100
+           </span>
+           ,
               titleStyle: TextStyle(
-                fontSize: <span class="number">12</span>,
+                fontSize:
+           <span class="number">
+            12
+           </span>
+           ,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             );
-          }).<span class="function">toList</span>(),
-          sectionsSpace: <span class="number">2</span>,
-          centerSpaceRadius: <span class="number">40</span>,
+          }).
+           <span class="function">
+            toList
+           </span>
+           (),
+          sectionsSpace:
+           <span class="number">
+            2
+           </span>
+           ,
+          centerSpaceRadius:
+           <span class="number">
+            40
+           </span>
+           ,
         ),
       );
     }
 
     Widget _buildLegend() {
-      <span class="keyword">final</span> colors = [
+           <span class="keyword">
+            final
+           </span>
+           colors = [
         Colors.blue,
         Colors.red,
         Colors.green,
@@ -1659,191 +4613,610 @@
         Colors.teal,
         Colors.amber,
       ];
-
-      <span class="keyword">final</span> entries = spending.entries.<span class="function">toList</span>();
-
-      <span class="keyword">return</span> Wrap(
-        spacing: <span class="number">8</span>,
-        runSpacing: <span class="number">8</span>,
-        alignment: WrapAlignment.<span class="function">center</span>,
-        children: entries.<span class="function">asMap</span>().<span class="function">entries</span>.<span class="function">map</span>((entry) {
-          <span class="keyword">final</span> index = entry.key;
-          <span class="keyword">final</span> name = entry.value.key;
-          <span class="keyword">final</span> color = colors[index % colors.<span class="function">length</span>];
-
-          <span class="keyword">return</span> Container(
-            padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>, vertical: <span class="number">4</span>),
+           <span class="keyword">
+            final
+           </span>
+           entries = spending.entries.
+           <span class="function">
+            toList
+           </span>
+           ();
+           <span class="keyword">
+            return
+           </span>
+           Wrap(
+        spacing:
+           <span class="number">
+            8
+           </span>
+           ,
+        runSpacing:
+           <span class="number">
+            8
+           </span>
+           ,
+        alignment: WrapAlignment.
+           <span class="function">
+            center
+           </span>
+           ,
+        children: entries.
+           <span class="function">
+            asMap
+           </span>
+           ().
+           <span class="function">
+            entries
+           </span>
+           .
+           <span class="function">
+            map
+           </span>
+           ((entry) {
+           <span class="keyword">
+            final
+           </span>
+           index = entry.key;
+           <span class="keyword">
+            final
+           </span>
+           name = entry.value.key;
+           <span class="keyword">
+            final
+           </span>
+           color = colors[index % colors.
+           <span class="function">
+            length
+           </span>
+           ];
+           <span class="keyword">
+            return
+           </span>
+           Container(
+            padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            8
+           </span>
+           , vertical:
+           <span class="number">
+            4
+           </span>
+           ),
             decoration: BoxDecoration(
-              color: color.<span class="function">withOpacity</span>(<span class="number">0.1</span>),
-              borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
-              border: Border.<span class="function">all</span>(color: color.<span class="function">withOpacity</span>(<span class="number">0.3</span>)),
+              color: color.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.1
+           </span>
+           ),
+              borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            12
+           </span>
+           ),
+              border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: color.
+           <span class="function">
+            withOpacity
+           </span>
+           (
+           <span class="number">
+            0.3
+           </span>
+           )),
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.<span class="function">min</span>,
+              mainAxisSize: MainAxisSize.
+           <span class="function">
+            min
+           </span>
+           ,
               children: [
                 Container(
-                  width: <span class="number">12</span>,
-                  height: <span class="number">12</span>,
+                  width:
+           <span class="number">
+            12
+           </span>
+           ,
+                  height:
+           <span class="number">
+            12
+           </span>
+           ,
                   decoration: BoxDecoration(
                     color: color,
-                    shape: BoxShape.<span class="function">circle</span>,
+                    shape: BoxShape.
+           <span class="function">
+            circle
+           </span>
+           ,
                   ),
                 ),
-                SizedBox(width: <span class="number">4</span>),
+                SizedBox(width:
+           <span class="number">
+            4
+           </span>
+           ),
                 Text(
                   name,
-                  style: TextStyle(fontSize: <span class="number">12</span>),
+                  style: TextStyle(fontSize:
+           <span class="number">
+            12
+           </span>
+           ),
                 ),
               ],
             ),
           );
-        }).<span class="function">toList</span>(),
+        }).
+           <span class="function">
+            toList
+           </span>
+           (),
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">10. Filter Dropdown Widget (lib/screens/widgets/filter_dropdown.dart)</h4>
-<div class="code-block">
-<span class="code-label">lib/screens/widgets/filter_dropdown.dart</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../models/expense.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'../../providers/expense_provider.dart'</span>;
-
-  <span class="keyword">class</span> <span class="function">FilterDropdown</span> <span class="keyword">extends</span> ConsumerStatefulWidget {
-    <span class="keyword">const</span> <span class="function">FilterDropdown</span>({<span class="keyword">super</span>.key});
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          10. Filter Dropdown Widget (lib/screens/widgets/filter_dropdown.dart)
+         </h4>
+         <div class="code-block">
+          <span class="code-label">
+           lib/screens/widgets/filter_dropdown.dart
+          </span>
+          <code>
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter/material.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            'package:flutter_riverpod/flutter_riverpod.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../models/expense.dart'
+           </span>
+           ;
+           <span class="keyword">
+            import
+           </span>
+           <span class="string">
+            '../../providers/expense_provider.dart'
+           </span>
+           ;
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            FilterDropdown
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerStatefulWidget {
+           <span class="keyword">
+            const
+           </span>
+           <span class="function">
+            FilterDropdown
+           </span>
+           ({
+           <span class="keyword">
+            super
+           </span>
+           .key});
 
     @override
-    ConsumerState&lt;FilterDropdown&gt; <span class="function">createState</span>() =&gt; _FilterDropdownState();
+    ConsumerState&lt;FilterDropdown&gt;
+           <span class="function">
+            createState
+           </span>
+           () =&gt; _FilterDropdownState();
   }
-
-  <span class="keyword">class</span> <span class="function">_FilterDropdownState</span> <span class="keyword">extends</span> ConsumerState&lt;FilterDropdown&gt; {
-    String _selectedFilter = <span class="string">'All'</span>;
-
-    <span class="keyword">final</span> List&lt;String&gt; _filterOptions = [
-      <span class="string">'All'</span>,
-      <span class="string">'Income'</span>,
-      <span class="string">'Expense'</span>,
+           <span class="keyword">
+            class
+           </span>
+           <span class="function">
+            _FilterDropdownState
+           </span>
+           <span class="keyword">
+            extends
+           </span>
+           ConsumerState&lt;FilterDropdown&gt; {
+    String _selectedFilter =
+           <span class="string">
+            'All'
+           </span>
+           ;
+           <span class="keyword">
+            final
+           </span>
+           List&lt;String&gt; _filterOptions = [
+           <span class="string">
+            'All'
+           </span>
+           ,
+           <span class="string">
+            'Income'
+           </span>
+           ,
+           <span class="string">
+            'Expense'
+           </span>
+           ,
       ...Expense.categories,
     ];
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Container(
+    Widget
+           <span class="function">
+            build
+           </span>
+           (BuildContext context) {
+           <span class="keyword">
+            return
+           </span>
+           Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">8</span>),
-          border: Border.<span class="function">all</span>(color: Colors.grey[<span class="number">300</span>]!),
+          borderRadius: BorderRadius.
+           <span class="function">
+            circular
+           </span>
+           (
+           <span class="number">
+            8
+           </span>
+           ),
+          border: Border.
+           <span class="function">
+            all
+           </span>
+           (color: Colors.grey[
+           <span class="number">
+            300
+           </span>
+           ]!),
         ),
-        padding: EdgeInsets.<span class="function">symmetric</span>(horizontal: <span class="number">8</span>),
+        padding: EdgeInsets.
+           <span class="function">
+            symmetric
+           </span>
+           (horizontal:
+           <span class="number">
+            8
+           </span>
+           ),
         child: DropdownButton&lt;String&gt;(
           value: _selectedFilter,
-          isExpanded: <span class="keyword">true</span>,
+          isExpanded:
+           <span class="keyword">
+            true
+           </span>
+           ,
           underline: SizedBox(),
           icon: Icon(Icons.filter_list),
-          items: _filterOptions.<span class="function">map</span>((option) {
-            <span class="keyword">return</span> DropdownMenuItem(
+          items: _filterOptions.
+           <span class="function">
+            map
+           </span>
+           ((option) {
+           <span class="keyword">
+            return
+           </span>
+           DropdownMenuItem(
               value: option,
               child: Text(option),
             );
-          }).<span class="function">toList</span>(),
+          }).
+           <span class="function">
+            toList
+           </span>
+           (),
           onChanged: (value) {
-            <span class="keyword">if</span> (value == <span class="keyword">null</span>) <span class="keyword">return</span>;
-            <span class="function">setState</span>(() =&gt; _selectedFilter = value);
-
-            <span class="keyword">final</span> notifier = ref.<span class="function">read</span>(expenseNotifierProvider.notifier);
-            <span class="keyword">if</span> (value == <span class="string">'All'</span>) {
-              notifier.<span class="function">clearFilters</span>();
-            } <span class="keyword">else</span> <span class="keyword">if</span> (value == <span class="string">'Income'</span>) {
-              notifier.<span class="function">setTypeFilter</span>(<span class="string">'income'</span>);
-            } <span class="keyword">else</span> <span class="keyword">if</span> (value == <span class="string">'Expense'</span>) {
-              notifier.<span class="function">setTypeFilter</span>(<span class="string">'expense'</span>);
-            } <span class="keyword">else</span> {
-              notifier.<span class="function">setCategoryFilter</span>(value);
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="keyword">
+            null
+           </span>
+           )
+           <span class="keyword">
+            return
+           </span>
+           ;
+           <span class="function">
+            setState
+           </span>
+           (() =&gt; _selectedFilter = value);
+           <span class="keyword">
+            final
+           </span>
+           notifier = ref.
+           <span class="function">
+            read
+           </span>
+           (expenseNotifierProvider.notifier);
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="string">
+            'All'
+           </span>
+           ) {
+              notifier.
+           <span class="function">
+            clearFilters
+           </span>
+           ();
+            }
+           <span class="keyword">
+            else
+           </span>
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="string">
+            'Income'
+           </span>
+           ) {
+              notifier.
+           <span class="function">
+            setTypeFilter
+           </span>
+           (
+           <span class="string">
+            'income'
+           </span>
+           );
+            }
+           <span class="keyword">
+            else
+           </span>
+           <span class="keyword">
+            if
+           </span>
+           (value ==
+           <span class="string">
+            'Expense'
+           </span>
+           ) {
+              notifier.
+           <span class="function">
+            setTypeFilter
+           </span>
+           (
+           <span class="string">
+            'expense'
+           </span>
+           );
+            }
+           <span class="keyword">
+            else
+           </span>
+           {
+              notifier.
+           <span class="function">
+            setCategoryFilter
+           </span>
+           (value);
             }
           },
         ),
       );
     }
   }
-                  </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-<button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h4 style="color: var(--text);">✅ Key Concepts Demonstrated</h4>
-<ul style="font-size: var(--font-sm); color: var(--text-secondary);">
-<li><strong>SQLite with sqflite</strong> – Full SQL support for local database</li>
-<li><strong>Complex Queries</strong> – Aggregation, filtering, and grouping</li>
-<li><strong>CRUD Operations</strong> – Full create, read, update, delete</li>
-<li><strong>Riverpod</strong> – FutureProvider for async data, StateNotifier for actions</li>
-<li><strong>Data Visualization</strong> – Pie charts with fl_chart</li>
-<li><strong>Filtering</strong> – Category and type filters with dropdown</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="challenge1-offline-notes-app.html">
-<i class="fas fa-arrow-left"></i> Previous Challenge
-            </a>
-<button class="btn-complete-challenge" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
-            </button>
-<a class="btn btn-primary btn-sm" href="challenge3-habit-tracker.html">
-              Next Challenge <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../../challenges.html">Challenges</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://riverpod.dev" rel="noopener" target="_blank">Riverpod</a></li>
-<li><a href="https://pub.dev/packages/sqflite" rel="noopener" target="_blank">sqflite Package</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-</div>
-</div>
-</footer>
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+          </code>
+          <button class="copy-btn">
+           <i class="fas fa-copy">
+           </i>
+           Copy
+          </button>
+          <button class="collapse-btn">
+           <i class="fas fa-chevron-up">
+           </i>
+           Collapse
+          </button>
+         </div>
+         <h4 style="color: var(--text);">
+          ✅ Key Concepts Demonstrated
+         </h4>
+         <ul style="font-size: var(--font-sm); color: var(--text-secondary);">
+          <li>
+           <strong>
+            SQLite with sqflite
+           </strong>
+           – Full SQL support for local database
+          </li>
+          <li>
+           <strong>
+            Complex Queries
+           </strong>
+           – Aggregation, filtering, and grouping
+          </li>
+          <li>
+           <strong>
+            CRUD Operations
+           </strong>
+           – Full create, read, update, delete
+          </li>
+          <li>
+           <strong>
+            Riverpod
+           </strong>
+           – FutureProvider for async data, StateNotifier for actions
+          </li>
+          <li>
+           <strong>
+            Data Visualization
+           </strong>
+           – Pie charts with fl_chart
+          </li>
+          <li>
+           <strong>
+            Filtering
+           </strong>
+           – Category and type filters with dropdown
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+      <div class="nav-buttons">
+       <a class="btn btn-outline btn-sm" href="challenge1-offline-notes-app.html">
+        <i class="fas fa-arrow-left">
+        </i>
+        Previous Challenge
+       </a>
+       <button class="btn-complete-challenge" id="markCompleteBtn">
+        <i class="fas fa-check-circle">
+        </i>
+        Mark Complete
+       </button>
+       <a class="btn btn-primary btn-sm" href="challenge3-habit-tracker.html">
+        Next Challenge
+        <i class="fas fa-arrow-right">
+        </i>
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../../challenges.html">
+         Challenges
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+         Riverpod
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/sqflite" rel="noopener" target="_blank">
+         sqflite Package
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -1951,8 +5324,8 @@
       }
     });
   </script>
-<script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -2025,5 +5398,6 @@
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

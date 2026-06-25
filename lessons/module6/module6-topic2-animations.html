@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Animations – Module 6 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn animations in Flutter. Understand implicit and explicit animations, AnimationController, Tween, CurvedAnimation, and how to create smooth, engaging UI animations." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Animations – Module 6 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn animations in Flutter. Understand implicit and explicit animations, AnimationController, Tween, CurvedAnimation, and how to create smooth, engaging UI animations." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -602,9 +603,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -667,243 +668,590 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module6-advanced-flutter.html">Module 6</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 2</span>
-</div>
-<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 2</div>
-<h1>Animations</h1>
-<p class="topic-subtitle">
-            Creating smooth, engaging animations in Flutter — from simple fades to complex physics-based motion.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
-<i class="fas fa-globe"></i> Flutter Animation Docs
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
-<i class="fas fa-book"></i> Animation Guide
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHY ANIMATIONS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Why Animations?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Well-designed animations make a UI feel more <strong>intuitive</strong>, contribute to the
-            slick look and feel of a polished app, and <strong>improve the user experience</strong>.
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module6-advanced-flutter.html">
+        Module 6
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 2
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-star">
+       </i>
+       Module 6
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 2
+      </div>
+      <h1>
+       Animations
+      </h1>
+      <p class="topic-subtitle">
+       Creating smooth, engaging animations in Flutter — from simple fades to complex physics-based motion.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Flutter Animation Docs
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Animation Guide
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHY ANIMATIONS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Why Animations?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Well-designed animations make a UI feel more
+       <strong>
+        intuitive
+       </strong>
+       , contribute to the
+            slick look and feel of a polished app, and
+       <strong>
+        improve the user experience
+       </strong>
+       .
             Flutter's animation support makes it easy to implement a variety of animation types.
-          </p>
-<div class="concept-card info">
-<h4>💡 Key Insight</h4>
-<p>
-              Animations aren't just about making things look pretty — they provide <strong>feedback</strong>,
-              <strong>guide attention</strong>, and <strong>communicate state changes</strong> to users.
+      </p>
+      <div class="concept-card info">
+       <h4>
+        💡 Key Insight
+       </h4>
+       <p>
+        Animations aren't just about making things look pretty — they provide
+        <strong>
+         feedback
+        </strong>
+        ,
+        <strong>
+         guide attention
+        </strong>
+        , and
+        <strong>
+         communicate state changes
+        </strong>
+        to users.
               A well-animated app feels more responsive and professional.
-            </p>
-</div>
-<div class="features-grid">
-<div class="feature-item" style="border-left: 3px solid #10B981;">
-<div class="feature-icon">🎯</div>
-<div class="feature-name">Focus Attention</div>
-<div class="feature-desc">Guide users to important UI elements</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #3B82F6;">
-<div class="feature-icon">🔄</div>
-<div class="feature-name">Provide Feedback</div>
-<div class="feature-desc">Show users their actions are recognized</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #8B5CF6;">
-<div class="feature-icon">📱</div>
-<div class="feature-name">Feel Responsive</div>
-<div class="feature-desc">Make apps feel smooth and polished</div>
-</div>
-<div class="feature-item" style="border-left: 3px solid #F59E0B;">
-<div class="feature-icon">🧭</div>
-<div class="feature-name">Communicate State</div>
-<div class="feature-desc">Show transitions between app states</div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 2: IMPLICIT VS EXPLICIT ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Implicit vs Explicit Animations</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Flutter provides two main approaches to animations: <strong>implicit</strong> and
-            <strong>explicit</strong>. Understanding the difference is key to choosing the right approach.
-          </p>
-<div class="comparison-grid">
-<div class="compare-item" style="border-left: 4px solid #10B981;">
-<h4 style="color: #10B981;">Implicit Animations</h4>
-<ul>
-<li>Framework handles the animation</li>
-<li>Set target values, Flutter animates to them</li>
-<li>Easiest to implement</li>
-<li>Less control, but less code</li>
-<li>Example: <code>AnimatedContainer</code>, <code>AnimatedOpacity</code></li>
-</ul>
-</div>
-<div class="compare-item" style="border-left: 4px solid #8B5CF6;">
-<h4 style="color: #8B5CF6;">Explicit Animations</h4>
-<ul>
-<li>You control the animation</li>
-<li>Use <code>AnimationController</code></li>
-<li>More complex, but full control</li>
-<li>Can pause, reverse, and loop</li>
-<li>Example: <code>AnimatedBuilder</code>, custom animations</li>
-</ul>
-</div>
-</div>
-<div class="decision-tree">
-<h4 style="margin-bottom: 0.5rem;">🤔 How to Choose?</h4>
-<div class="tree-item">
-<span class="arrow">→</span> Can you use a pre-built implicit animation?
-              <div class="indent">
-<span class="arrow">✅</span> Yes → Use <strong>Implicit Animation</strong> (AnimatedContainer, AnimatedOpacity, etc.)
-              </div>
-<div class="indent">
-<span class="arrow">❌</span> No → Need custom animation?
-                <div class="indent">
-<span class="arrow">→</span> Use <strong>Explicit Animation</strong> with AnimationController
-                </div>
-</div>
-</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Implicit Animation Example</span>
-<code>
-<span class="keyword">class</span> <span class="function">AnimatedBox</span> <span class="keyword">extends</span> StatefulWidget {
+       </p>
+      </div>
+      <div class="features-grid">
+       <div class="feature-item" style="border-left: 3px solid #10B981;">
+        <div class="feature-icon">
+         🎯
+        </div>
+        <div class="feature-name">
+         Focus Attention
+        </div>
+        <div class="feature-desc">
+         Guide users to important UI elements
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #3B82F6;">
+        <div class="feature-icon">
+         🔄
+        </div>
+        <div class="feature-name">
+         Provide Feedback
+        </div>
+        <div class="feature-desc">
+         Show users their actions are recognized
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #8B5CF6;">
+        <div class="feature-icon">
+         📱
+        </div>
+        <div class="feature-name">
+         Feel Responsive
+        </div>
+        <div class="feature-desc">
+         Make apps feel smooth and polished
+        </div>
+       </div>
+       <div class="feature-item" style="border-left: 3px solid #F59E0B;">
+        <div class="feature-icon">
+         🧭
+        </div>
+        <div class="feature-name">
+         Communicate State
+        </div>
+        <div class="feature-desc">
+         Show transitions between app states
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: IMPLICIT VS EXPLICIT ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Implicit vs Explicit Animations
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Flutter provides two main approaches to animations:
+       <strong>
+        implicit
+       </strong>
+       and
+       <strong>
+        explicit
+       </strong>
+       . Understanding the difference is key to choosing the right approach.
+      </p>
+      <div class="comparison-grid">
+       <div class="compare-item" style="border-left: 4px solid #10B981;">
+        <h4 style="color: #10B981;">
+         Implicit Animations
+        </h4>
+        <ul>
+         <li>
+          Framework handles the animation
+         </li>
+         <li>
+          Set target values, Flutter animates to them
+         </li>
+         <li>
+          Easiest to implement
+         </li>
+         <li>
+          Less control, but less code
+         </li>
+         <li>
+          Example:
+          <code>
+           AnimatedContainer
+          </code>
+          ,
+          <code>
+           AnimatedOpacity
+          </code>
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item" style="border-left: 4px solid #8B5CF6;">
+        <h4 style="color: #8B5CF6;">
+         Explicit Animations
+        </h4>
+        <ul>
+         <li>
+          You control the animation
+         </li>
+         <li>
+          Use
+          <code>
+           AnimationController
+          </code>
+         </li>
+         <li>
+          More complex, but full control
+         </li>
+         <li>
+          Can pause, reverse, and loop
+         </li>
+         <li>
+          Example:
+          <code>
+           AnimatedBuilder
+          </code>
+          , custom animations
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="decision-tree">
+       <h4 style="margin-bottom: 0.5rem;">
+        🤔 How to Choose?
+       </h4>
+       <div class="tree-item">
+        <span class="arrow">
+         →
+        </span>
+        Can you use a pre-built implicit animation?
+        <div class="indent">
+         <span class="arrow">
+          ✅
+         </span>
+         Yes → Use
+         <strong>
+          Implicit Animation
+         </strong>
+         (AnimatedContainer, AnimatedOpacity, etc.)
+        </div>
+        <div class="indent">
+         <span class="arrow">
+          ❌
+         </span>
+         No → Need custom animation?
+         <div class="indent">
+          <span class="arrow">
+           →
+          </span>
+          Use
+          <strong>
+           Explicit Animation
+          </strong>
+          with AnimationController
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Implicit Animation Example
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         AnimatedBox
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    _AnimatedBoxState <span class="function">createState</span>() =&gt; _AnimatedBoxState();
+    _AnimatedBoxState
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _AnimatedBoxState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AnimatedBoxState</span> <span class="keyword">extends</span> State&lt;AnimatedBox&gt; {
-    <span class="keyword">double</span> _size = <span class="number">100</span>;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _AnimatedBoxState
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;AnimatedBox&gt; {
+        <span class="keyword">
+         double
+        </span>
+        _size =
+        <span class="number">
+         100
+        </span>
+        ;
     Color _color = Colors.blue;
-
-    <span class="keyword">void</span> <span class="function">_toggle</span>() {
-      <span class="function">setState</span>(() {
-        _size = _size == <span class="number">100</span> ? <span class="number">200</span> : <span class="number">100</span>;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _toggle
+        </span>
+        () {
+        <span class="function">
+         setState
+        </span>
+        (() {
+        _size = _size ==
+        <span class="number">
+         100
+        </span>
+        ?
+        <span class="number">
+         200
+        </span>
+        :
+        <span class="number">
+         100
+        </span>
+        ;
         _color = _color == Colors.blue ? Colors.red : Colors.blue;
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Column(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
         children: [
           AnimatedContainer(
             width: _size,
             height: _size,
             color: _color,
-            duration: Duration(milliseconds: <span class="number">500</span>),
+            duration: Duration(milliseconds:
+        <span class="number">
+         500
+        </span>
+        ),
             curve: Curves.easeInOut,
           ),
           ElevatedButton(
             onPressed: _toggle,
-            child: Text(<span class="string">'Toggle'</span>),
+            child: Text(
+        <span class="string">
+         'Toggle'
+        </span>
+        ),
           ),
         ],
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Explicit Animation Example</span>
-<code>
-<span class="keyword">class</span> <span class="function">ExplicitAnimation</span> <span class="keyword">extends</span> StatefulWidget {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Explicit Animation Example
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ExplicitAnimation
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    _ExplicitAnimationState <span class="function">createState</span>() =&gt; _ExplicitAnimationState();
+    _ExplicitAnimationState
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _ExplicitAnimationState();
   }
-
-  <span class="keyword">class</span> <span class="function">_ExplicitAnimationState</span> <span class="keyword">extends</span> State&lt;ExplicitAnimation&gt;
-      <span class="keyword">with</span> SingleTickerProviderStateMixin {
-    <span class="keyword">late</span> AnimationController _controller;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _ExplicitAnimationState
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;ExplicitAnimation&gt;
+        <span class="keyword">
+         with
+        </span>
+        SingleTickerProviderStateMixin {
+        <span class="keyword">
+         late
+        </span>
+        AnimationController _controller;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         initState
+        </span>
+        ();
       _controller = AnimationController(
-        duration: Duration(seconds: <span class="number">2</span>),
-        vsync: <span class="keyword">this</span>,
+        duration: Duration(seconds:
+        <span class="number">
+         2
+        </span>
+        ),
+        vsync:
+        <span class="keyword">
+         this
+        </span>
+        ,
       );
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
+      _controller.
+        <span class="function">
+         dispose
+        </span>
+        ();
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         dispose
+        </span>
+        ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Column(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
         children: [
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
-              <span class="keyword">return</span> Transform.scale(
+        <span class="keyword">
+         return
+        </span>
+        Transform.scale(
                 scale: _controller.value,
                 child: Container(
-                  width: <span class="number">100</span>,
-                  height: <span class="number">100</span>,
+                  width:
+        <span class="number">
+         100
+        </span>
+        ,
+                  height:
+        <span class="number">
+         100
+        </span>
+        ,
                   color: Colors.purple,
                 ),
               );
@@ -913,16 +1261,40 @@
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () =&gt; _controller.<span class="function">forward</span>(),
-                child: Text(<span class="string">'Play'</span>),
+                onPressed: () =&gt; _controller.
+        <span class="function">
+         forward
+        </span>
+        (),
+                child: Text(
+        <span class="string">
+         'Play'
+        </span>
+        ),
               ),
               ElevatedButton(
-                onPressed: () =&gt; _controller.<span class="function">reverse</span>(),
-                child: Text(<span class="string">'Reverse'</span>),
+                onPressed: () =&gt; _controller.
+        <span class="function">
+         reverse
+        </span>
+        (),
+                child: Text(
+        <span class="string">
+         'Reverse'
+        </span>
+        ),
               ),
               ElevatedButton(
-                onPressed: () =&gt; _controller.<span class="function">reset</span>(),
-                child: Text(<span class="string">'Reset'</span>),
+                onPressed: () =&gt; _controller.
+        <span class="function">
+         reset
+        </span>
+        (),
+                child: Text(
+        <span class="string">
+         'Reset'
+        </span>
+        ),
               ),
             ],
           ),
@@ -930,336 +1302,1112 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 3: ANIMATION TYPES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Animation Types</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Flutter supports two main types of animations: <strong>tween-based</strong> and
-            <strong>physics-based</strong>.
-          </p>
-<div class="animation-types">
-<div class="animation-type" style="border-color: #3B82F6;">
-<div class="type-icon">📊</div>
-<div class="type-name">Tween Animation</div>
-<div class="type-desc">
-                Defines beginning and ending points with a timeline and curve.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: ANIMATION TYPES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Animation Types
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Flutter supports two main types of animations:
+       <strong>
+        tween-based
+       </strong>
+       and
+       <strong>
+        physics-based
+       </strong>
+       .
+      </p>
+      <div class="animation-types">
+       <div class="animation-type" style="border-color: #3B82F6;">
+        <div class="type-icon">
+         📊
+        </div>
+        <div class="type-name">
+         Tween Animation
+        </div>
+        <div class="type-desc">
+         Defines beginning and ending points with a timeline and curve.
                 The framework calculates the transition between points.
-              </div>
-</div>
-<div class="animation-type" style="border-color: #F59E0B;">
-<div class="type-icon">⚡</div>
-<div class="type-name">Physics-Based Animation</div>
-<div class="type-desc">
-                Models motion to resemble real-world behavior (spring, friction, gravity).
+        </div>
+       </div>
+       <div class="animation-type" style="border-color: #F59E0B;">
+        <div class="type-icon">
+         ⚡
+        </div>
+        <div class="type-name">
+         Physics-Based Animation
+        </div>
+        <div class="type-desc">
+         Models motion to resemble real-world behavior (spring, friction, gravity).
                 Feels more natural and responsive.
-              </div>
-</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Tween Animation Example</span>
-<code>
-<span class="keyword">final</span> controller = AnimationController(
-    duration: Duration(seconds: <span class="number">2</span>),
-    vsync: <span class="keyword">this</span>,
+        </div>
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Tween Animation Example
+       </span>
+       <code>
+        <span class="keyword">
+         final
+        </span>
+        controller = AnimationController(
+    duration: Duration(seconds:
+        <span class="number">
+         2
+        </span>
+        ),
+    vsync:
+        <span class="keyword">
+         this
+        </span>
+        ,
   );
-
-  <span class="keyword">final</span> animation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">300</span>).<span class="function">animate</span>(
+        <span class="keyword">
+         final
+        </span>
+        animation = Tween&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt;(begin:
+        <span class="number">
+         0
+        </span>
+        , end:
+        <span class="number">
+         300
+        </span>
+        ).
+        <span class="function">
+         animate
+        </span>
+        (
     CurvedAnimation(
       parent: controller,
       curve: Curves.easeInOut,
     ),
   );
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Physics-Based Animation Example</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:flutter/physics.dart'</span>;
-
-  <span class="keyword">final</span> controller = AnimationController(
-    duration: Duration(seconds: <span class="number">2</span>),
-    vsync: <span class="keyword">this</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Physics-Based Animation Example
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/physics.dart'
+        </span>
+        ;
+        <span class="keyword">
+         final
+        </span>
+        controller = AnimationController(
+    duration: Duration(seconds:
+        <span class="number">
+         2
+        </span>
+        ),
+    vsync:
+        <span class="keyword">
+         this
+        </span>
+        ,
   );
-
-  <span class="keyword">final</span> spring = SpringSimulation(
+        <span class="keyword">
+         final
+        </span>
+        spring = SpringSimulation(
     spring: SpringDescription(
-      mass: <span class="number">1</span>,
-      stiffness: <span class="number">100</span>,
-      damping: <span class="number">10</span>,
+      mass:
+        <span class="number">
+         1
+        </span>
+        ,
+      stiffness:
+        <span class="number">
+         100
+        </span>
+        ,
+      damping:
+        <span class="number">
+         10
+        </span>
+        ,
     ),
-    start: <span class="number">0</span>,
-    end: <span class="number">300</span>,
-    velocity: <span class="number">0</span>,
+    start:
+        <span class="number">
+         0
+        </span>
+        ,
+    end:
+        <span class="number">
+         300
+        </span>
+        ,
+    velocity:
+        <span class="number">
+         0
+        </span>
+        ,
   );
 
-  controller.<span class="function">animateWith</span>(spring);
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 4: ANIMATION CLASSES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Essential Animation Classes</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Flutter's animation system is built on several key classes that work together:
-          </p>
-<h3>AnimationController</h3>
-<p>
-            A special <code>Animation</code> object that generates new values on each frame.
+  controller.
+        <span class="function">
+         animateWith
+        </span>
+        (spring);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: ANIMATION CLASSES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Essential Animation Classes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Flutter's animation system is built on several key classes that work together:
+      </p>
+      <h3>
+       AnimationController
+      </h3>
+      <p>
+       A special
+       <code>
+        Animation
+       </code>
+       object that generates new values on each frame.
             It produces values from 0.0 to 1.0 over a given duration.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">AnimationController Setup</span>
-<code>
-<span class="keyword">class</span> <span class="function">MyWidget</span> <span class="keyword">extends</span> StatefulWidget {
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        AnimationController Setup
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyWidget
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    _MyWidgetState <span class="function">createState</span>() =&gt; _MyWidgetState();
+    _MyWidgetState
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _MyWidgetState();
   }
-
-  <span class="keyword">class</span> <span class="function">_MyWidgetState</span> <span class="keyword">extends</span> State&lt;MyWidget&gt;
-      <span class="keyword">with</span> SingleTickerProviderStateMixin {
-    <span class="keyword">late</span> AnimationController _controller;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _MyWidgetState
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;MyWidget&gt;
+        <span class="keyword">
+         with
+        </span>
+        SingleTickerProviderStateMixin {
+        <span class="keyword">
+         late
+        </span>
+        AnimationController _controller;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         initState
+        </span>
+        ();
       _controller = AnimationController(
-        vsync: <span class="keyword">this</span>, <span class="comment">// Required for performance</span>
-        duration: Duration(seconds: <span class="number">1</span>),
+        vsync:
+        <span class="keyword">
+         this
+        </span>
+        ,
+        <span class="comment">
+         // Required for performance
+        </span>
+        duration: Duration(seconds:
+        <span class="number">
+         1
+        </span>
+        ),
       );
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>(); <span class="comment">// Always dispose!</span>
-<span class="keyword">super</span>.<span class="function">dispose</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
+      _controller.
+        <span class="function">
+         dispose
+        </span>
+        ();
+        <span class="comment">
+         // Always dispose!
+        </span>
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         dispose
+        </span>
+        ();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>Tween</h3>
-<p>
-            Defines the interpolation between two values. While <code>AnimationController</code>
-            produces values from 0.0 to 1.0, <code>Tween</code> maps these to your desired range or type.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">Common Tween Types</span>
-<code>
-<span class="comment">// Double Tween</span>
-<span class="keyword">final</span> tween = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">200</span>);
-
-  <span class="comment">// Color Tween</span>
-<span class="keyword">final</span> colorTween = ColorTween(begin: Colors.blue, end: Colors.red);
-
-  <span class="comment">// Size Tween</span>
-<span class="keyword">final</span> sizeTween = Tween&lt;Size&gt;(
-    begin: Size(<span class="number">50</span>, <span class="number">50</span>),
-    end: Size(<span class="number">200</span>, <span class="number">200</span>),
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       Tween
+      </h3>
+      <p>
+       Defines the interpolation between two values. While
+       <code>
+        AnimationController
+       </code>
+       produces values from 0.0 to 1.0,
+       <code>
+        Tween
+       </code>
+       maps these to your desired range or type.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Common Tween Types
+       </span>
+       <code>
+        <span class="comment">
+         // Double Tween
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        tween = Tween&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt;(begin:
+        <span class="number">
+         0
+        </span>
+        , end:
+        <span class="number">
+         200
+        </span>
+        );
+        <span class="comment">
+         // Color Tween
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        colorTween = ColorTween(begin: Colors.blue, end: Colors.red);
+        <span class="comment">
+         // Size Tween
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        sizeTween = Tween&lt;Size&gt;(
+    begin: Size(
+        <span class="number">
+         50
+        </span>
+        ,
+        <span class="number">
+         50
+        </span>
+        ),
+    end: Size(
+        <span class="number">
+         200
+        </span>
+        ,
+        <span class="number">
+         200
+        </span>
+        ),
   );
-
-  <span class="comment">// Int Tween</span>
-<span class="keyword">final</span> intTween = IntTween(begin: <span class="number">0</span>, end: <span class="number">100</span>);
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>CurvedAnimation</h3>
-<p>
-            Applies a non-linear curve to an animation's progress. Flutter provides many
-            pre-defined curves in the <code>Curves</code> class.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">Using CurvedAnimation</span>
-<code>
-<span class="keyword">final</span> curvedAnimation = CurvedAnimation(
+        <span class="comment">
+         // Int Tween
+        </span>
+        <span class="keyword">
+         final
+        </span>
+        intTween = IntTween(begin:
+        <span class="number">
+         0
+        </span>
+        , end:
+        <span class="number">
+         100
+        </span>
+        );
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       CurvedAnimation
+      </h3>
+      <p>
+       Applies a non-linear curve to an animation's progress. Flutter provides many
+            pre-defined curves in the
+       <code>
+        Curves
+       </code>
+       class.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Using CurvedAnimation
+       </span>
+       <code>
+        <span class="keyword">
+         final
+        </span>
+        curvedAnimation = CurvedAnimation(
     parent: _controller,
     curve: Curves.easeInOut,
-    reverseCurve: Curves.easeOutIn, <span class="comment">// Optional</span>
-  );
-
-  <span class="keyword">final</span> animation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">100</span>)
-      .<span class="function">animate</span>(curvedAnimation);
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="curve-list">
-<span class="curve-item">Curves.linear</span>
-<span class="curve-item">Curves.easeIn</span>
-<span class="curve-item">Curves.easeOut</span>
-<span class="curve-item">Curves.easeInOut</span>
-<span class="curve-item">Curves.bounceIn</span>
-<span class="curve-item">Curves.bounceOut</span>
-<span class="curve-item">Curves.elasticIn</span>
-<span class="curve-item">Curves.elasticOut</span>
-<span class="curve-item">Curves.fastOutSlowIn</span>
-<span class="curve-item">Curves.decelerate</span>
-</div>
-</div>
-<!-- ===== SECTION 5: COMMON ANIMATION PATTERNS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Animation Patterns</span>
-<span class="divider-line"></span>
-</div>
-<h3>1. Fade In/Out</h3>
-<div class="code-block collapsed">
-<span class="code-label">Fade Animation</span>
-<code>
-<span class="keyword">class</span> <span class="function">FadeAnimation</span> <span class="keyword">extends</span> StatefulWidget {
+    reverseCurve: Curves.easeOutIn,
+        <span class="comment">
+         // Optional
+        </span>
+        );
+        <span class="keyword">
+         final
+        </span>
+        animation = Tween&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt;(begin:
+        <span class="number">
+         0
+        </span>
+        , end:
+        <span class="number">
+         100
+        </span>
+        )
+      .
+        <span class="function">
+         animate
+        </span>
+        (curvedAnimation);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="curve-list">
+       <span class="curve-item">
+        Curves.linear
+       </span>
+       <span class="curve-item">
+        Curves.easeIn
+       </span>
+       <span class="curve-item">
+        Curves.easeOut
+       </span>
+       <span class="curve-item">
+        Curves.easeInOut
+       </span>
+       <span class="curve-item">
+        Curves.bounceIn
+       </span>
+       <span class="curve-item">
+        Curves.bounceOut
+       </span>
+       <span class="curve-item">
+        Curves.elasticIn
+       </span>
+       <span class="curve-item">
+        Curves.elasticOut
+       </span>
+       <span class="curve-item">
+        Curves.fastOutSlowIn
+       </span>
+       <span class="curve-item">
+        Curves.decelerate
+       </span>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: COMMON ANIMATION PATTERNS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Animation Patterns
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <h3>
+       1. Fade In/Out
+      </h3>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Fade Animation
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         FadeAnimation
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    _FadeAnimationState <span class="function">createState</span>() =&gt; _FadeAnimationState();
+    _FadeAnimationState
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _FadeAnimationState();
   }
-
-  <span class="keyword">class</span> <span class="function">_FadeAnimationState</span> <span class="keyword">extends</span> State&lt;FadeAnimation&gt;
-      <span class="keyword">with</span> SingleTickerProviderStateMixin {
-    <span class="keyword">late</span> AnimationController _controller;
-    <span class="keyword">late</span> Animation&lt;<span class="keyword">double</span>&gt; _animation;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _FadeAnimationState
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;FadeAnimation&gt;
+        <span class="keyword">
+         with
+        </span>
+        SingleTickerProviderStateMixin {
+        <span class="keyword">
+         late
+        </span>
+        AnimationController _controller;
+        <span class="keyword">
+         late
+        </span>
+        Animation&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt; _animation;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.<span class="function">initState</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         initState
+        </span>
+        ();
       _controller = AnimationController(
-        duration: Duration(seconds: <span class="number">2</span>),
-        vsync: <span class="keyword">this</span>,
+        duration: Duration(seconds:
+        <span class="number">
+         2
+        </span>
+        ),
+        vsync:
+        <span class="keyword">
+         this
+        </span>
+        ,
       );
-      _animation = Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">1</span>)
-          .<span class="function">animate</span>(_controller);
+      _animation = Tween&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt;(begin:
+        <span class="number">
+         0
+        </span>
+        , end:
+        <span class="number">
+         1
+        </span>
+        )
+          .
+        <span class="function">
+         animate
+        </span>
+        (_controller);
     }
 
     @override
-    <span class="keyword">void</span> <span class="function">dispose</span>() {
-      _controller.<span class="function">dispose</span>();
-      <span class="keyword">super</span>.<span class="function">dispose</span>();
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         dispose
+        </span>
+        () {
+      _controller.
+        <span class="function">
+         dispose
+        </span>
+        ();
+        <span class="keyword">
+         super
+        </span>
+        .
+        <span class="function">
+         dispose
+        </span>
+        ();
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Column(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
         children: [
           FadeTransition(
             opacity: _animation,
-            child: FlutterLogo(size: <span class="number">100</span>),
+            child: FlutterLogo(size:
+        <span class="number">
+         100
+        </span>
+        ),
           ),
           ElevatedButton(
             onPressed: () {
-              <span class="keyword">if</span> (_controller.status == AnimationStatus.completed) {
-                _controller.<span class="function">reverse</span>();
-              } <span class="keyword">else</span> {
-                _controller.<span class="function">forward</span>();
+        <span class="keyword">
+         if
+        </span>
+        (_controller.status == AnimationStatus.completed) {
+                _controller.
+        <span class="function">
+         reverse
+        </span>
+        ();
+              }
+        <span class="keyword">
+         else
+        </span>
+        {
+                _controller.
+        <span class="function">
+         forward
+        </span>
+        ();
               }
             },
-            child: Text(<span class="string">'Toggle Fade'</span>),
+            child: Text(
+        <span class="string">
+         'Toggle Fade'
+        </span>
+        ),
           ),
         ],
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>2. Scale Animation</h3>
-<div class="code-block collapsed">
-<span class="code-label">Scale Animation</span>
-<code>
-<span class="keyword">class</span> <span class="function">ScaleAnimation</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> AnimationController controller;
-
-    <span class="function">ScaleAnimation</span>({<span class="keyword">required</span> <span class="keyword">this</span>.controller});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       2. Scale Animation
+      </h3>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Scale Animation
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ScaleAnimation
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        AnimationController controller;
+        <span class="function">
+         ScaleAnimation
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .controller});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> ScaleTransition(
-        scale: Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0.5</span>, end: <span class="number">1.5</span>)
-            .<span class="function">animate</span>(CurvedAnimation(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        ScaleTransition(
+        scale: Tween&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt;(begin:
+        <span class="number">
+         0.5
+        </span>
+        , end:
+        <span class="number">
+         1.5
+        </span>
+        )
+            .
+        <span class="function">
+         animate
+        </span>
+        (CurvedAnimation(
           parent: controller,
           curve: Curves.easeOutBack,
         )),
         child: Container(
-          width: <span class="number">100</span>,
-          height: <span class="number">100</span>,
+          width:
+        <span class="number">
+         100
+        </span>
+        ,
+          height:
+        <span class="number">
+         100
+        </span>
+        ,
           color: Colors.green,
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>3. Rotation Animation</h3>
-<div class="code-block collapsed">
-<span class="code-label">Rotation Animation</span>
-<code>
-<span class="keyword">class</span> <span class="function">RotationAnimation</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> AnimationController controller;
-
-    <span class="function">RotationAnimation</span>({<span class="keyword">required</span> <span class="keyword">this</span>.controller});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       3. Rotation Animation
+      </h3>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Rotation Animation
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         RotationAnimation
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        AnimationController controller;
+        <span class="function">
+         RotationAnimation
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .controller});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> RotationTransition(
-        turns: Tween&lt;<span class="keyword">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">1</span>)
-            .<span class="function">animate</span>(controller),
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        RotationTransition(
+        turns: Tween&lt;
+        <span class="keyword">
+         double
+        </span>
+        &gt;(begin:
+        <span class="number">
+         0
+        </span>
+        , end:
+        <span class="number">
+         1
+        </span>
+        )
+            .
+        <span class="function">
+         animate
+        </span>
+        (controller),
         child: Container(
-          width: <span class="number">100</span>,
-          height: <span class="number">100</span>,
+          width:
+        <span class="number">
+         100
+        </span>
+        ,
+          height:
+        <span class="number">
+         100
+        </span>
+        ,
           color: Colors.orange,
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>4. Animated List</h3>
-<div class="code-block collapsed">
-<span class="code-label">AnimatedList Example</span>
-<code>
-<span class="keyword">class</span> <span class="function">AnimatedListWidget</span> <span class="keyword">extends</span> StatefulWidget {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       4. Animated List
+      </h3>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        AnimatedList Example
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         AnimatedListWidget
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    _AnimatedListWidgetState <span class="function">createState</span>() =&gt; _AnimatedListWidgetState();
+    _AnimatedListWidgetState
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _AnimatedListWidgetState();
   }
-
-  <span class="keyword">class</span> <span class="function">_AnimatedListWidgetState</span> <span class="keyword">extends</span> State&lt;AnimatedListWidget&gt; {
-    <span class="keyword">final</span> GlobalKey&lt;AnimatedListState&gt; _listKey = GlobalKey&lt;AnimatedListState&gt;();
-    <span class="keyword">final</span> List&lt;String&gt; _items = [];
-    <span class="keyword">int</span> _counter = <span class="number">0</span>;
-
-    <span class="keyword">void</span> <span class="function">_addItem</span>() {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _AnimatedListWidgetState
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;AnimatedListWidget&gt; {
+        <span class="keyword">
+         final
+        </span>
+        GlobalKey&lt;AnimatedListState&gt; _listKey = GlobalKey&lt;AnimatedListState&gt;();
+        <span class="keyword">
+         final
+        </span>
+        List&lt;String&gt; _items = [];
+        <span class="keyword">
+         int
+        </span>
+        _counter =
+        <span class="number">
+         0
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _addItem
+        </span>
+        () {
       _counter++;
-      _items.<span class="function">insert</span>(<span class="number">0</span>, <span class="string">'Item $_counter'</span>);
-      _listKey.currentState?.<span class="function">insertItem</span>(<span class="number">0</span>);
+      _items.
+        <span class="function">
+         insert
+        </span>
+        (
+        <span class="number">
+         0
+        </span>
+        ,
+        <span class="string">
+         'Item $_counter'
+        </span>
+        );
+      _listKey.currentState?.
+        <span class="function">
+         insertItem
+        </span>
+        (
+        <span class="number">
+         0
+        </span>
+        );
     }
-
-    <span class="keyword">void</span> <span class="function">_removeItem</span>(<span class="keyword">int</span> index) {
-      _items.<span class="function">removeAt</span>(index);
-      _listKey.currentState?.<span class="function">removeItem</span>(
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _removeItem
+        </span>
+        (
+        <span class="keyword">
+         int
+        </span>
+        index) {
+      _items.
+        <span class="function">
+         removeAt
+        </span>
+        (index);
+      _listKey.currentState?.
+        <span class="function">
+         removeItem
+        </span>
+        (
         index,
         (context, animation) {
-          <span class="keyword">return</span> SizeTransition(
+        <span class="keyword">
+         return
+        </span>
+        SizeTransition(
             sizeFactor: animation,
-            child: Card(child: ListTile(title: Text(<span class="string">'Removing...'</span>))),
+            child: Card(child: ListTile(title: Text(
+        <span class="string">
+         'Removing...'
+        </span>
+        ))),
           );
         },
-        duration: Duration(milliseconds: <span class="number">300</span>),
+        duration: Duration(milliseconds:
+        <span class="number">
+         300
+        </span>
+        ),
       );
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Column(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
         children: [
           ElevatedButton(
             onPressed: _addItem,
-            child: Text(<span class="string">'Add Item'</span>),
+            child: Text(
+        <span class="string">
+         'Add Item'
+        </span>
+        ),
           ),
           Expanded(
             child: AnimatedList(
               key: _listKey,
-              initialItemCount: _items.<span class="function">length</span>,
+              initialItemCount: _items.
+        <span class="function">
+         length
+        </span>
+        ,
               itemBuilder: (context, index, animation) {
-                <span class="keyword">return</span> SizeTransition(
+        <span class="keyword">
+         return
+        </span>
+        SizeTransition(
                   sizeFactor: animation,
                   child: ListTile(
                     title: Text(_items[index]),
@@ -1276,190 +2424,401 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Implementation</span>
-<span class="divider-line"></span>
-</div>
-<p>Follow these steps to implement animations in your Flutter app:</p>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Choose your approach</strong> – Implicit for simple animations, Explicit for custom control
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Create AnimationController</strong> – Add <code>SingleTickerProviderStateMixin</code> to your state
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Define Tweens</strong> – Map 0.0-1.0 to your desired values
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Apply curves</strong> – Use <code>CurvedAnimation</code> for non-linear motion
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Use AnimatedBuilder or built-in transitions</strong> – Rebuild only the animated parts
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">6.</span>
-<div class="step-text">
-<strong>Control the animation</strong> – Call <code>forward()</code>, <code>reverse()</code>, or <code>repeat()</code>
-</div>
-</div>
-<div class="step-item">
-<span class="step-number">7.</span>
-<div class="step-text">
-<strong>Dispose</strong> – Always call <code>dispose()</code> on controllers
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Forgetting to dispose AnimationController</div>
-<p>
-              Not disposing <code>AnimationController</code> causes memory leaks and performance issues.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always dispose</div>
-<p>
-              Always call <code>_controller.dispose()</code> in <code>dispose()</code> method of your State.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Using setState in animation listeners</div>
-<p>
-              Calling <code>setState()</code> in animation listeners rebuilds too much and hurts performance.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use AnimatedBuilder</div>
-<p>
-              Use <code>AnimatedBuilder</code> or <code>AnimatedWidget</code> to rebuild only the animated parts.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Hardcoding durations</div>
-<p>
-              Hardcoding animation durations makes it harder to adjust for different devices and preferences.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use theme or constants</div>
-<p>
-              Define animation durations in a central place or use Theme data for consistent timing.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 4: Over-animating</div>
-<p>
-              Adding animations everywhere can make the app feel slow and overwhelming.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use animations purposefully</div>
-<p>
-              Use animations to guide attention, provide feedback, and communicate state changes — not just for decoration.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-<strong>Animations</strong> are essential for creating polished, intuitive Flutter apps.
-            Use <strong>implicit animations</strong> for simple cases and <strong>explicit animations</strong>
-            with <code>AnimationController</code> for full control. Remember to <strong>dispose</strong>
-            your controllers and use <strong>curves</strong> for natural-looking motion. Always animate
-            with purpose — to <strong>guide attention</strong>, <strong>provide feedback</strong>, or
-            <strong>communicate state changes</strong>.
-          </p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module6-topic1-custom-widgets.html">
-<i class="fas fa-arrow-left"></i> Previous: Custom Widgets
-          </a>
-<a class="btn btn-primary btn-sm" href="module6-topic3-hero-animations.html">
-            Next: Hero Animations <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">Flutter Animation Docs</a></li>
-<li><a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">Animation Guide</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
-<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/ui/animations" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Implementation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Follow these steps to implement animations in your Flutter app:
+      </p>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Choose your approach
+         </strong>
+         – Implicit for simple animations, Explicit for custom control
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create AnimationController
+         </strong>
+         – Add
+         <code>
+          SingleTickerProviderStateMixin
+         </code>
+         to your state
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Define Tweens
+         </strong>
+         – Map 0.0-1.0 to your desired values
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Apply curves
+         </strong>
+         – Use
+         <code>
+          CurvedAnimation
+         </code>
+         for non-linear motion
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Use AnimatedBuilder or built-in transitions
+         </strong>
+         – Rebuild only the animated parts
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         6.
+        </span>
+        <div class="step-text">
+         <strong>
+          Control the animation
+         </strong>
+         – Call
+         <code>
+          forward()
+         </code>
+         ,
+         <code>
+          reverse()
+         </code>
+         , or
+         <code>
+          repeat()
+         </code>
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         7.
+        </span>
+        <div class="step-text">
+         <strong>
+          Dispose
+         </strong>
+         – Always call
+         <code>
+          dispose()
+         </code>
+         on controllers
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Forgetting to dispose AnimationController
+       </div>
+       <p>
+        Not disposing
+        <code>
+         AnimationController
+        </code>
+        causes memory leaks and performance issues.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always dispose
+       </div>
+       <p>
+        Always call
+        <code>
+         _controller.dispose()
+        </code>
+        in
+        <code>
+         dispose()
+        </code>
+        method of your State.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Using setState in animation listeners
+       </div>
+       <p>
+        Calling
+        <code>
+         setState()
+        </code>
+        in animation listeners rebuilds too much and hurts performance.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use AnimatedBuilder
+       </div>
+       <p>
+        Use
+        <code>
+         AnimatedBuilder
+        </code>
+        or
+        <code>
+         AnimatedWidget
+        </code>
+        to rebuild only the animated parts.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Hardcoding durations
+       </div>
+       <p>
+        Hardcoding animation durations makes it harder to adjust for different devices and preferences.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use theme or constants
+       </div>
+       <p>
+        Define animation durations in a central place or use Theme data for consistent timing.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 4: Over-animating
+       </div>
+       <p>
+        Adding animations everywhere can make the app feel slow and overwhelming.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use animations purposefully
+       </div>
+       <p>
+        Use animations to guide attention, provide feedback, and communicate state changes — not just for decoration.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       <strong>
+        Animations
+       </strong>
+       are essential for creating polished, intuitive Flutter apps.
+            Use
+       <strong>
+        implicit animations
+       </strong>
+       for simple cases and
+       <strong>
+        explicit animations
+       </strong>
+       with
+       <code>
+        AnimationController
+       </code>
+       for full control. Remember to
+       <strong>
+        dispose
+       </strong>
+       your controllers and use
+       <strong>
+        curves
+       </strong>
+       for natural-looking motion. Always animate
+            with purpose — to
+       <strong>
+        guide attention
+       </strong>
+       ,
+       <strong>
+        provide feedback
+       </strong>
+       , or
+       <strong>
+        communicate state changes
+       </strong>
+       .
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module6-topic1-custom-widgets.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Previous: Custom Widgets
+      </a>
+      <a class="btn btn-primary btn-sm" href="module6-topic3-hero-animations.html">
+       Next: Hero Animations
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module6-advanced-flutter.html">
+         Module 6
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
+         Flutter Animation Docs
+        </a>
+       </li>
+       <li>
+        <a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
+         Animation Guide
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+         Flutter GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/ui/animations" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1572,8 +2931,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1646,8 +3005,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1720,5 +3080,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

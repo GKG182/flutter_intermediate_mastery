@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Custom Widgets – Module 6 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to create custom widgets in Flutter. Understand StatelessWidget, StatefulWidget, composition, and when to use each approach." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Custom Widgets – Module 6 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to create custom widgets in Flutter. Understand StatelessWidget, StatefulWidget, composition, and when to use each approach." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
 
     .lesson-nav {
       display: flex;
@@ -571,9 +572,9 @@
         right: 4.8rem;
     }
 }
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -636,373 +637,1008 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="../module6-advanced-flutter.html">Module 6</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 1</span>
-</div>
-<span class="module-badge"><i class="fas fa-star"></i> Module 6</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 1</div>
-<h1>Custom Widgets</h1>
-<p class="topic-subtitle">
-            Building reusable, composable widgets in Flutter — the foundation of every great Flutter app.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://docs.flutter.dev/ui/widgets" target="_blank">
-<i class="fas fa-globe"></i> Flutter Widget Catalog
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/ui/widgets" target="_blank">
-<i class="fas fa-book"></i> Widget Docs
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT ARE CUSTOM WIDGETS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Are Custom Widgets?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>Custom widgets</strong> are the building blocks of Flutter applications. While Flutter
-            provides a rich set of built-in widgets (like <code>Container</code>, <code>Row</code>,
-            <code>Column</code>, <code>Text</code>, etc.), you'll quickly find that you need to create
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="../module6-advanced-flutter.html">
+        Module 6
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 1
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-star">
+       </i>
+       Module 6
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 1
+      </div>
+      <h1>
+       Custom Widgets
+      </h1>
+      <p class="topic-subtitle">
+       Building reusable, composable widgets in Flutter — the foundation of every great Flutter app.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/widgets" target="_blank">
+        <i class="fas fa-globe">
+        </i>
+        Flutter Widget Catalog
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/ui/widgets" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Widget Docs
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT ARE CUSTOM WIDGETS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Are Custom Widgets?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        Custom widgets
+       </strong>
+       are the building blocks of Flutter applications. While Flutter
+            provides a rich set of built-in widgets (like
+       <code>
+        Container
+       </code>
+       ,
+       <code>
+        Row
+       </code>
+       ,
+       <code>
+        Column
+       </code>
+       ,
+       <code>
+        Text
+       </code>
+       , etc.), you'll quickly find that you need to create
             your own widgets to encapsulate reusable UI components and business logic.
-          </p>
-<div class="concept-card info">
-<h4>💡 Key Concept</h4>
-<p>
-              In Flutter, <strong>everything is a widget</strong>. Custom widgets allow you to
-              <strong>compose</strong> existing widgets into new, reusable components. This is the
+      </p>
+      <div class="concept-card info">
+       <h4>
+        💡 Key Concept
+       </h4>
+       <p>
+        In Flutter,
+        <strong>
+         everything is a widget
+        </strong>
+        . Custom widgets allow you to
+        <strong>
+         compose
+        </strong>
+        existing widgets into new, reusable components. This is the
               core philosophy of Flutter — building UIs by composing widgets.
-            </p>
-</div>
-<div class="widget-types">
-<div class="widget-type" style="border-color: #3B82F6;">
-<div class="type-icon">📄</div>
-<div class="type-name">StatelessWidget</div>
-<div class="type-desc">Widgets that don't change state</div>
-<div class="type-when">Use when the UI depends only on constructor parameters</div>
-</div>
-<div class="widget-type" style="border-color: #8B5CF6;">
-<div class="type-icon">🔄</div>
-<div class="type-name">StatefulWidget</div>
-<div class="type-desc">Widgets that can change state</div>
-<div class="type-when">Use when the UI needs to update dynamically</div>
-</div>
-<div class="widget-type" style="border-color: #10B981;">
-<div class="type-icon">🔧</div>
-<div class="type-name">Composition</div>
-<div class="type-desc">Building widgets from other widgets</div>
-<div class="type-when">Always prefer composition over inheritance</div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 2: STATELESS VS STATEFUL ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Stateless vs Stateful</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Understanding when to use <strong>StatelessWidget</strong> vs <strong>StatefulWidget</strong>
-            is crucial for building efficient Flutter apps.
-          </p>
-<div class="comparison-grid">
-<div class="compare-item" style="border-left: 4px solid #3B82F6;">
-<h4 style="color: #3B82F6;">StatelessWidget</h4>
-<ul>
-<li>Immutable — properties can't change</li>
-<li>Build method runs once unless parent rebuilds</li>
-<li>Perfect for presentation-only widgets</li>
-<li>More performant</li>
-<li>Example: <code>Text</code>, <code>Icon</code>, <code>Container</code></li>
-</ul>
-</div>
-<div class="compare-item" style="border-left: 4px solid #8B5CF6;">
-<h4 style="color: #8B5CF6;">StatefulWidget</h4>
-<ul>
-<li>Mutable — can change over time</li>
-<li>Has a separate State object</li>
-<li>Can call <code>setState()</code> to rebuild</li>
-<li>More complex lifecycle</li>
-<li>Example: <code>Checkbox</code>, <code>TextField</code>, animations</li>
-</ul>
-</div>
-</div>
-<div class="code-block collapsed">
-<span class="code-label">Stateless Widget Example</span>
-<code>
-<span class="keyword">class</span> <span class="function">CustomButton</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> String text;
-    <span class="keyword">final</span> VoidCallback onPressed;
-    <span class="keyword">final</span> Color color;
-
-    <span class="function">CustomButton</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.text,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onPressed,
-      <span class="keyword">this</span>.color = Colors.blue,
+       </p>
+      </div>
+      <div class="widget-types">
+       <div class="widget-type" style="border-color: #3B82F6;">
+        <div class="type-icon">
+         📄
+        </div>
+        <div class="type-name">
+         StatelessWidget
+        </div>
+        <div class="type-desc">
+         Widgets that don't change state
+        </div>
+        <div class="type-when">
+         Use when the UI depends only on constructor parameters
+        </div>
+       </div>
+       <div class="widget-type" style="border-color: #8B5CF6;">
+        <div class="type-icon">
+         🔄
+        </div>
+        <div class="type-name">
+         StatefulWidget
+        </div>
+        <div class="type-desc">
+         Widgets that can change state
+        </div>
+        <div class="type-when">
+         Use when the UI needs to update dynamically
+        </div>
+       </div>
+       <div class="widget-type" style="border-color: #10B981;">
+        <div class="type-icon">
+         🔧
+        </div>
+        <div class="type-name">
+         Composition
+        </div>
+        <div class="type-desc">
+         Building widgets from other widgets
+        </div>
+        <div class="type-when">
+         Always prefer composition over inheritance
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: STATELESS VS STATEFUL ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Stateless vs Stateful
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Understanding when to use
+       <strong>
+        StatelessWidget
+       </strong>
+       vs
+       <strong>
+        StatefulWidget
+       </strong>
+       is crucial for building efficient Flutter apps.
+      </p>
+      <div class="comparison-grid">
+       <div class="compare-item" style="border-left: 4px solid #3B82F6;">
+        <h4 style="color: #3B82F6;">
+         StatelessWidget
+        </h4>
+        <ul>
+         <li>
+          Immutable — properties can't change
+         </li>
+         <li>
+          Build method runs once unless parent rebuilds
+         </li>
+         <li>
+          Perfect for presentation-only widgets
+         </li>
+         <li>
+          More performant
+         </li>
+         <li>
+          Example:
+          <code>
+           Text
+          </code>
+          ,
+          <code>
+           Icon
+          </code>
+          ,
+          <code>
+           Container
+          </code>
+         </li>
+        </ul>
+       </div>
+       <div class="compare-item" style="border-left: 4px solid #8B5CF6;">
+        <h4 style="color: #8B5CF6;">
+         StatefulWidget
+        </h4>
+        <ul>
+         <li>
+          Mutable — can change over time
+         </li>
+         <li>
+          Has a separate State object
+         </li>
+         <li>
+          Can call
+          <code>
+           setState()
+          </code>
+          to rebuild
+         </li>
+         <li>
+          More complex lifecycle
+         </li>
+         <li>
+          Example:
+          <code>
+           Checkbox
+          </code>
+          ,
+          <code>
+           TextField
+          </code>
+          , animations
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Stateless Widget Example
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         CustomButton
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        String text;
+        <span class="keyword">
+         final
+        </span>
+        VoidCallback onPressed;
+        <span class="keyword">
+         final
+        </span>
+        Color color;
+        <span class="function">
+         CustomButton
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .text,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .onPressed,
+        <span class="keyword">
+         this
+        </span>
+        .color = Colors.blue,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> ElevatedButton(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        ElevatedButton(
         style: ElevatedButton.styleFrom(backgroundColor: color),
         onPressed: onPressed,
         child: Text(text),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Stateful Widget Example</span>
-<code>
-<span class="keyword">class</span> <span class="function">CounterWidget</span> <span class="keyword">extends</span> StatefulWidget {
-    <span class="keyword">final</span> String label;
-
-    <span class="function">CounterWidget</span>({<span class="keyword">required</span> <span class="keyword">this</span>.label});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Stateful Widget Example
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         CounterWidget
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
+        <span class="keyword">
+         final
+        </span>
+        String label;
+        <span class="function">
+         CounterWidget
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .label});
 
     @override
-    _CounterWidgetState <span class="function">createState</span>() =&gt; _CounterWidgetState();
+    _CounterWidgetState
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _CounterWidgetState();
   }
-
-  <span class="keyword">class</span> <span class="function">_CounterWidgetState</span> <span class="keyword">extends</span> State&lt;CounterWidget&gt; {
-    <span class="keyword">int</span> _count = <span class="number">0</span>;
-
-    <span class="keyword">void</span> <span class="function">_increment</span>() {
-      <span class="function">setState</span>(() {
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         _CounterWidgetState
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;CounterWidget&gt; {
+        <span class="keyword">
+         int
+        </span>
+        _count =
+        <span class="number">
+         0
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         _increment
+        </span>
+        () {
+        <span class="function">
+         setState
+        </span>
+        (() {
         _count++;
       });
     }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Column(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
         children: [
-          Text(<span class="string">'${widget.label}: $_count'</span>),
+          Text(
+        <span class="string">
+         '${widget.label}: $_count'
+        </span>
+        ),
           ElevatedButton(
             onPressed: _increment,
-            child: Text(<span class="string">'Increment'</span>),
+            child: Text(
+        <span class="string">
+         'Increment'
+        </span>
+        ),
           ),
         ],
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ Best Practice: Prefer Stateless</h4>
-<p>
-              Always start with a <strong>StatelessWidget</strong>. Only switch to StatefulWidget
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Best Practice: Prefer Stateless
+       </h4>
+       <p>
+        Always start with a
+        <strong>
+         StatelessWidget
+        </strong>
+        . Only switch to StatefulWidget
               when you need to manage local state that changes over time. This keeps your code
               simpler and more performant.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 3: COMPOSITION OVER INHERITANCE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Composition Over Inheritance</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            In Flutter, <strong>composition</strong> is preferred over inheritance. Instead of
-            extending a widget to customize it, you <strong>compose</strong> it with other widgets.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">❌ Bad: Inheritance (Don't do this)</span>
-<code>
-<span class="comment">// DON'T extend a widget to customize it</span>
-<span class="keyword">class</span> <span class="function">MyCustomButton</span> <span class="keyword">extends</span> ElevatedButton {
-    <span class="function">MyCustomButton</span>({
-      <span class="keyword">required</span> VoidCallback onPressed,
-      <span class="keyword">required</span> Widget child,
-    }) : <span class="keyword">super</span>(
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: COMPOSITION OVER INHERITANCE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Composition Over Inheritance
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       In Flutter,
+       <strong>
+        composition
+       </strong>
+       is preferred over inheritance. Instead of
+            extending a widget to customize it, you
+       <strong>
+        compose
+       </strong>
+       it with other widgets.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        ❌ Bad: Inheritance (Don't do this)
+       </span>
+       <code>
+        <span class="comment">
+         // DON'T extend a widget to customize it
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyCustomButton
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        ElevatedButton {
+        <span class="function">
+         MyCustomButton
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        VoidCallback onPressed,
+        <span class="keyword">
+         required
+        </span>
+        Widget child,
+    }) :
+        <span class="keyword">
+         super
+        </span>
+        (
       onPressed: onPressed,
       child: child,
     );
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">✅ Good: Composition (Do this)</span>
-<code>
-<span class="comment">// Compose widgets to build new ones</span>
-<span class="keyword">class</span> <span class="function">MyCustomButton</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> VoidCallback onPressed;
-    <span class="keyword">final</span> String text;
-
-    <span class="function">MyCustomButton</span>({<span class="keyword">required</span> <span class="keyword">this</span>.onPressed, <span class="keyword">required</span> <span class="keyword">this</span>.text});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        ✅ Good: Composition (Do this)
+       </span>
+       <code>
+        <span class="comment">
+         // Compose widgets to build new ones
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyCustomButton
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        VoidCallback onPressed;
+        <span class="keyword">
+         final
+        </span>
+        String text;
+        <span class="function">
+         MyCustomButton
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .onPressed,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .text});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> ElevatedButton(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.purple,
-          padding: EdgeInsets.<span class="function">symmetric</span>(
-            horizontal: <span class="number">32</span>,
-            vertical: <span class="number">16</span>,
+          padding: EdgeInsets.
+        <span class="function">
+         symmetric
+        </span>
+        (
+            horizontal:
+        <span class="number">
+         32
+        </span>
+        ,
+            vertical:
+        <span class="number">
+         16
+        </span>
+        ,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+            borderRadius: BorderRadius.
+        <span class="function">
+         circular
+        </span>
+        (
+        <span class="number">
+         12
+        </span>
+        ),
           ),
         ),
         child: Text(
           text,
-          style: TextStyle(fontSize: <span class="number">18</span>, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize:
+        <span class="number">
+         18
+        </span>
+        , fontWeight: FontWeight.bold),
         ),
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>💡 Why Composition?</h4>
-<ul>
-<li><strong>Flexibility</strong> – You can combine widgets in any way</li>
-<li><strong>Reusability</strong> – Composed widgets can be used in many places</li>
-<li><strong>Testability</strong> – Smaller, focused widgets are easier to test</li>
-<li><strong>Maintainability</strong> – Changes are isolated to specific widgets</li>
-<li><strong>Performance</strong> – Composition is more efficient than deep inheritance</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 4: BUILDING COMPLEX UIs ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Building Complex UIs</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Custom widgets shine when building complex, reusable UI components. Here's how to
-            build a <strong>User Profile Card</strong> that can be reused across your app:
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/profile_card.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">ProfileCard</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> String name;
-    <span class="keyword">final</span> String email;
-    <span class="keyword">final</span> String avatarUrl;
-    <span class="keyword">final</span> VoidCallback onTap;
-    <span class="keyword">final</span> <span class="keyword">bool</span> isOnline;
-
-    <span class="function">ProfileCard</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.name,
-      <span class="keyword">required</span> <span class="keyword">this</span>.email,
-      <span class="keyword">required</span> <span class="keyword">this</span>.avatarUrl,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
-      <span class="keyword">this</span>.isOnline = <span class="keyword">false</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        💡 Why Composition?
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Flexibility
+         </strong>
+         – You can combine widgets in any way
+        </li>
+        <li>
+         <strong>
+          Reusability
+         </strong>
+         – Composed widgets can be used in many places
+        </li>
+        <li>
+         <strong>
+          Testability
+         </strong>
+         – Smaller, focused widgets are easier to test
+        </li>
+        <li>
+         <strong>
+          Maintainability
+         </strong>
+         – Changes are isolated to specific widgets
+        </li>
+        <li>
+         <strong>
+          Performance
+         </strong>
+         – Composition is more efficient than deep inheritance
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: BUILDING COMPLEX UIs ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Building Complex UIs
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Custom widgets shine when building complex, reusable UI components. Here's how to
+            build a
+       <strong>
+        User Profile Card
+       </strong>
+       that can be reused across your app:
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/profile_card.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         ProfileCard
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        String name;
+        <span class="keyword">
+         final
+        </span>
+        String email;
+        <span class="keyword">
+         final
+        </span>
+        String avatarUrl;
+        <span class="keyword">
+         final
+        </span>
+        VoidCallback onTap;
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         bool
+        </span>
+        isOnline;
+        <span class="function">
+         ProfileCard
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .name,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .email,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .avatarUrl,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .onTap,
+        <span class="keyword">
+         this
+        </span>
+        .isOnline =
+        <span class="keyword">
+         false
+        </span>
+        ,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Card(
-        elevation: <span class="number">4</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Card(
+        elevation:
+        <span class="number">
+         4
+        </span>
+        ,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+          borderRadius: BorderRadius.
+        <span class="function">
+         circular
+        </span>
+        (
+        <span class="number">
+         12
+        </span>
+        ),
         ),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.<span class="function">circular</span>(<span class="number">12</span>),
+          borderRadius: BorderRadius.
+        <span class="function">
+         circular
+        </span>
+        (
+        <span class="number">
+         12
+        </span>
+        ),
           child: Padding(
-            padding: EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
+            padding: EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16
+        </span>
+        ),
             child: Row(
               children: [
-                <span class="comment">// Avatar with online indicator</span>
-                Stack(
+        <span class="comment">
+         // Avatar with online indicator
+        </span>
+        Stack(
                   children: [
                     CircleAvatar(
-                      radius: <span class="number">30</span>,
+                      radius:
+        <span class="number">
+         30
+        </span>
+        ,
                       backgroundImage: NetworkImage(avatarUrl),
                     ),
-                    <span class="keyword">if</span> (isOnline)
+        <span class="keyword">
+         if
+        </span>
+        (isOnline)
                       Positioned(
-                        bottom: <span class="number">0</span>,
-                        right: <span class="number">0</span>,
+                        bottom:
+        <span class="number">
+         0
+        </span>
+        ,
+                        right:
+        <span class="number">
+         0
+        </span>
+        ,
                         child: Container(
-                          width: <span class="number">14</span>,
-                          height: <span class="number">14</span>,
+                          width:
+        <span class="number">
+         14
+        </span>
+        ,
+                          height:
+        <span class="number">
+         14
+        </span>
+        ,
                           decoration: BoxDecoration(
                             color: Colors.green,
                             shape: BoxShape.circle,
-                            border: Border.<span class="function">all</span>(
+                            border: Border.
+        <span class="function">
+         all
+        </span>
+        (
                               color: Colors.white,
-                              width: <span class="number">2</span>,
+                              width:
+        <span class="number">
+         2
+        </span>
+        ,
                             ),
                           ),
                         ),
                       ),
                   ],
                 ),
-                SizedBox(width: <span class="number">16</span>),
-                <span class="comment">// User info</span>
-                Expanded(
+                SizedBox(width:
+        <span class="number">
+         16
+        </span>
+        ),
+        <span class="comment">
+         // User info
+        </span>
+        Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         name,
                         style: TextStyle(
-                          fontSize: <span class="number">18</span>,
+                          fontSize:
+        <span class="number">
+         18
+        </span>
+        ,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         email,
                         style: TextStyle(
-                          fontSize: <span class="number">14</span>,
-                          color: Colors.grey[<span class="number">600</span>],
+                          fontSize:
+        <span class="number">
+         14
+        </span>
+        ,
+                          color: Colors.grey[
+        <span class="number">
+         600
+        </span>
+        ],
                         ),
                       ),
                     ],
@@ -1010,7 +1646,11 @@
                 ),
                 Icon(
                   Icons.chevron_right,
-                  color: Colors.grey[<span class="number">400</span>],
+                  color: Colors.grey[
+        <span class="number">
+         400
+        </span>
+        ],
                 ),
               ],
             ),
@@ -1019,54 +1659,183 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Using the Profile Card</span>
-<code>
-<span class="comment">// Usage in any screen</span>
-  ProfileCard(
-    name: <span class="string">'John Doe'</span>,
-    email: <span class="string">'john@example.com'</span>,
-    avatarUrl: <span class="string">'https://i.pravatar.cc/150?img=1'</span>,
-    isOnline: <span class="keyword">true</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Using the Profile Card
+       </span>
+       <code>
+        <span class="comment">
+         // Usage in any screen
+        </span>
+        ProfileCard(
+    name:
+        <span class="string">
+         'John Doe'
+        </span>
+        ,
+    email:
+        <span class="string">
+         'john@example.com'
+        </span>
+        ,
+    avatarUrl:
+        <span class="string">
+         'https://i.pravatar.cc/150?img=1'
+        </span>
+        ,
+    isOnline:
+        <span class="keyword">
+         true
+        </span>
+        ,
     onTap: () {
-      <span class="comment">// Navigate to user profile</span>
-      Navigator.<span class="function">push</span>(context, MaterialPageRoute(
-        builder: (context) =&gt; UserProfileScreen(userId: <span class="string">'123'</span>),
+        <span class="comment">
+         // Navigate to user profile
+        </span>
+        Navigator.
+        <span class="function">
+         push
+        </span>
+        (context, MaterialPageRoute(
+        builder: (context) =&gt; UserProfileScreen(userId:
+        <span class="string">
+         '123'
+        </span>
+        ),
       ));
     },
   )
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 5: CUSTOM WIDGET DESIGN PATTERNS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Custom Widget Design Patterns</span>
-<span class="divider-line"></span>
-</div>
-<h3>1. The "Container" Pattern</h3>
-<p>
-            Create widgets that accept a <code>child</code> and wrap it with styling, layout, or behavior.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/card_container.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">CardContainer</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> Widget child;
-    <span class="keyword">final</span> EdgeInsets padding;
-    <span class="keyword">final</span> <span class="keyword">double</span> elevation;
-
-    <span class="function">CardContainer</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.child,
-      <span class="keyword">this</span>.padding = <span class="keyword">const</span> EdgeInsets.<span class="function">all</span>(<span class="number">16</span>),
-      <span class="keyword">this</span>.elevation = <span class="number">2</span>,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: CUSTOM WIDGET DESIGN PATTERNS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Custom Widget Design Patterns
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <h3>
+       1. The "Container" Pattern
+      </h3>
+      <p>
+       Create widgets that accept a
+       <code>
+        child
+       </code>
+       and wrap it with styling, layout, or behavior.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/card_container.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         CardContainer
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        Widget child;
+        <span class="keyword">
+         final
+        </span>
+        EdgeInsets padding;
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         double
+        </span>
+        elevation;
+        <span class="function">
+         CardContainer
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .child,
+        <span class="keyword">
+         this
+        </span>
+        .padding =
+        <span class="keyword">
+         const
+        </span>
+        EdgeInsets.
+        <span class="function">
+         all
+        </span>
+        (
+        <span class="number">
+         16
+        </span>
+        ),
+        <span class="keyword">
+         this
+        </span>
+        .elevation =
+        <span class="number">
+         2
+        </span>
+        ,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> Card(
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        Card(
         elevation: elevation,
         child: Padding(
           padding: padding,
@@ -1075,28 +1844,98 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>2. The "List View" Pattern</h3>
-<p>
-            Create reusable list builders for consistent data display.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/user_list.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">UserList</span> <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> List&lt;User&gt; users;
-    <span class="keyword">final</span> <span class="keyword">void</span> Function(User) onUserTap;
-
-    <span class="function">UserList</span>({<span class="keyword">required</span> <span class="keyword">this</span>.users, <span class="keyword">required</span> <span class="keyword">this</span>.onUserTap});
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       2. The "List View" Pattern
+      </h3>
+      <p>
+       Create reusable list builders for consistent data display.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/user_list.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         UserList
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        List&lt;User&gt; users;
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        Function(User) onUserTap;
+        <span class="function">
+         UserList
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .users,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .onUserTap});
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> ListView.builder(
-        itemCount: users.<span class="function">length</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        ListView.builder(
+        itemCount: users.
+        <span class="function">
+         length
+        </span>
+        ,
         itemBuilder: (context, index) {
-          <span class="keyword">final</span> user = users[index];
-          <span class="keyword">return</span> ProfileCard(
+        <span class="keyword">
+         final
+        </span>
+        user = users[index];
+        <span class="keyword">
+         return
+        </span>
+        ProfileCard(
             name: user.name,
             email: user.email,
             avatarUrl: user.avatarUrl,
@@ -1107,259 +1946,564 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<h3>3. The "Loading State" Pattern</h3>
-<p>
-            Build widgets that handle loading, error, and success states.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/widgets/async_content.dart</span>
-<code>
-<span class="keyword">class</span> <span class="function">AsyncContent</span>&lt;T&gt; <span class="keyword">extends</span> StatelessWidget {
-    <span class="keyword">final</span> AsyncSnapshot&lt;T&gt; snapshot;
-    <span class="keyword">final</span> Widget Function(T data) onSuccess;
-    <span class="keyword">final</span> Widget Function(String error)? onError;
-    <span class="keyword">final</span> Widget? onLoading;
-
-    <span class="function">AsyncContent</span>({
-      <span class="keyword">required</span> <span class="keyword">this</span>.snapshot,
-      <span class="keyword">required</span> <span class="keyword">this</span>.onSuccess,
-      <span class="keyword">this</span>.onError,
-      <span class="keyword">this</span>.onLoading,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <h3>
+       3. The "Loading State" Pattern
+      </h3>
+      <p>
+       Build widgets that handle loading, error, and success states.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/widgets/async_content.dart
+       </span>
+       <code>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         AsyncContent
+        </span>
+        &lt;T&gt;
+        <span class="keyword">
+         extends
+        </span>
+        StatelessWidget {
+        <span class="keyword">
+         final
+        </span>
+        AsyncSnapshot&lt;T&gt; snapshot;
+        <span class="keyword">
+         final
+        </span>
+        Widget Function(T data) onSuccess;
+        <span class="keyword">
+         final
+        </span>
+        Widget Function(String error)? onError;
+        <span class="keyword">
+         final
+        </span>
+        Widget? onLoading;
+        <span class="function">
+         AsyncContent
+        </span>
+        ({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .snapshot,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .onSuccess,
+        <span class="keyword">
+         this
+        </span>
+        .onError,
+        <span class="keyword">
+         this
+        </span>
+        .onLoading,
     });
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">if</span> (snapshot.connectionState == ConnectionState.waiting) {
-        <span class="keyword">return</span> onLoading ?? Center(child: CircularProgressIndicator());
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         if
+        </span>
+        (snapshot.connectionState == ConnectionState.waiting) {
+        <span class="keyword">
+         return
+        </span>
+        onLoading ?? Center(child: CircularProgressIndicator());
       }
-
-      <span class="keyword">if</span> (snapshot.hasError) {
-        <span class="keyword">return</span> onError?.<span class="function">call</span>(snapshot.error.<span class="function">toString</span>()) ??
-            Center(child: Text(<span class="string">'Error: ${snapshot.error}'</span>));
+        <span class="keyword">
+         if
+        </span>
+        (snapshot.hasError) {
+        <span class="keyword">
+         return
+        </span>
+        onError?.
+        <span class="function">
+         call
+        </span>
+        (snapshot.error.
+        <span class="function">
+         toString
+        </span>
+        ()) ??
+            Center(child: Text(
+        <span class="string">
+         'Error: ${snapshot.error}'
+        </span>
+        ));
       }
-
-      <span class="keyword">if</span> (snapshot.hasData) {
-        <span class="keyword">return</span> onSuccess.<span class="function">call</span>(snapshot.data!);
+        <span class="keyword">
+         if
+        </span>
+        (snapshot.hasData) {
+        <span class="keyword">
+         return
+        </span>
+        onSuccess.
+        <span class="function">
+         call
+        </span>
+        (snapshot.data!);
       }
-
-      <span class="keyword">return</span> SizedBox.shrink();
+        <span class="keyword">
+         return
+        </span>
+        SizedBox.shrink();
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 6: WIDGET OF THE WEEK ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Widget of the Week</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            The Flutter team produces <strong>Widget of the Week</strong> videos — short, 1-minute
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: WIDGET OF THE WEEK ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Widget of the Week
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       The Flutter team produces
+       <strong>
+        Widget of the Week
+       </strong>
+       videos — short, 1-minute
             explainer videos covering individual widgets. These are excellent resources for learning
             about specific widgets and how to use them.
-          </p>
-<div class="concept-card info">
-<h4>🎥 Popular Widget Videos</h4>
-<ul>
-<li><strong>Container</strong> – The most common layout widget</li>
-<li><strong>Row &amp; Column</strong> – Flexible layout in one dimension</li>
-<li><strong>Stack</strong> – Overlapping widgets</li>
-<li><strong>ListView</strong> – Scrollable list of widgets</li>
-<li><strong>GridView</strong> – Scrollable grid of widgets</li>
-<li><strong>FutureBuilder</strong> – Async data handling</li>
-<li><strong>StreamBuilder</strong> – Real-time data handling</li>
-<li><strong>Hero</strong> – Shared element transitions</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 7: STEP-BY-STEP IMPLEMENTATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Implementation</span>
-<span class="divider-line"></span>
-</div>
-<p>Follow these steps to create your own custom widgets:</p>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Identify reusable UI patterns</strong> – Look for UI elements that repeat across your app
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Design the widget interface</strong> – Define required and optional parameters
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Start with StatelessWidget</strong> – Use StatelessWidget unless you need local state
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Compose existing widgets</strong> – Build your widget using Flutter's built-in widgets
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Use const constructors</strong> – Make your widget <code>const</code> when possible for performance
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">6.</span>
-<div class="step-text">
-<strong>Add documentation</strong> – Document your widget's purpose and parameters
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">7.</span>
-<div class="step-text">
-<strong>Test in isolation</strong> – Test your widget in a separate screen or storybook
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 8: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Using StatefulWidget when Stateless is enough</div>
-<p>
-              Not every widget that accepts data needs to be Stateful. If the widget doesn't change
+      </p>
+      <div class="concept-card info">
+       <h4>
+        🎥 Popular Widget Videos
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Container
+         </strong>
+         – The most common layout widget
+        </li>
+        <li>
+         <strong>
+          Row &amp; Column
+         </strong>
+         – Flexible layout in one dimension
+        </li>
+        <li>
+         <strong>
+          Stack
+         </strong>
+         – Overlapping widgets
+        </li>
+        <li>
+         <strong>
+          ListView
+         </strong>
+         – Scrollable list of widgets
+        </li>
+        <li>
+         <strong>
+          GridView
+         </strong>
+         – Scrollable grid of widgets
+        </li>
+        <li>
+         <strong>
+          FutureBuilder
+         </strong>
+         – Async data handling
+        </li>
+        <li>
+         <strong>
+          StreamBuilder
+         </strong>
+         – Real-time data handling
+        </li>
+        <li>
+         <strong>
+          Hero
+         </strong>
+         – Shared element transitions
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: STEP-BY-STEP IMPLEMENTATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Implementation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Follow these steps to create your own custom widgets:
+      </p>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Identify reusable UI patterns
+         </strong>
+         – Look for UI elements that repeat across your app
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Design the widget interface
+         </strong>
+         – Define required and optional parameters
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Start with StatelessWidget
+         </strong>
+         – Use StatelessWidget unless you need local state
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Compose existing widgets
+         </strong>
+         – Build your widget using Flutter's built-in widgets
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Use const constructors
+         </strong>
+         – Make your widget
+         <code>
+          const
+         </code>
+         when possible for performance
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         6.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add documentation
+         </strong>
+         – Document your widget's purpose and parameters
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         7.
+        </span>
+        <div class="step-text">
+         <strong>
+          Test in isolation
+         </strong>
+         – Test your widget in a separate screen or storybook
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Using StatefulWidget when Stateless is enough
+       </div>
+       <p>
+        Not every widget that accepts data needs to be Stateful. If the widget doesn't change
               its own state, use StatelessWidget.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Start with StatelessWidget</div>
-<p>
-              Always start with StatelessWidget. Only switch to StatefulWidget when you need to manage
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Start with StatelessWidget
+       </div>
+       <p>
+        Always start with StatelessWidget. Only switch to StatefulWidget when you need to manage
               local state that changes over time.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Using inheritance instead of composition</div>
-<p>
-              Extending widgets to customize them leads to brittle code and makes it harder to change
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Using inheritance instead of composition
+       </div>
+       <p>
+        Extending widgets to customize them leads to brittle code and makes it harder to change
               the implementation.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Compose widgets</div>
-<p>
-              Build custom widgets by combining existing widgets. This is more flexible and maintainable.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Not making widgets const</div>
-<p>
-              Non-const widgets are rebuilt every frame, even when nothing changes, hurting performance.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Use const constructors</div>
-<p>
-              Make your widget's constructor <code>const</code> when possible. This allows Flutter to
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Compose widgets
+       </div>
+       <p>
+        Build custom widgets by combining existing widgets. This is more flexible and maintainable.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Not making widgets const
+       </div>
+       <p>
+        Non-const widgets are rebuilt every frame, even when nothing changes, hurting performance.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Use const constructors
+       </div>
+       <p>
+        Make your widget's constructor
+        <code>
+         const
+        </code>
+        when possible. This allows Flutter to
               optimize rebuilds.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 4: Mixing business logic with UI</div>
-<p>
-              Putting business logic inside widgets makes them harder to test and reuse.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Separate concerns</div>
-<p>
-              Use ViewModels, BLoCs, or providers for business logic. Keep widgets focused on
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 4: Mixing business logic with UI
+       </div>
+       <p>
+        Putting business logic inside widgets makes them harder to test and reuse.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Separate concerns
+       </div>
+       <p>
+        Use ViewModels, BLoCs, or providers for business logic. Keep widgets focused on
               presentation.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-<strong>Custom widgets</strong> are the foundation of Flutter development. By
-            <strong>composing</strong> existing widgets into new ones, you can build reusable,
-            maintainable, and performant UIs. Always <strong>prefer StatelessWidget</strong> over
-            StatefulWidget and <strong>composition over inheritance</strong>. Use <code>const</code>
-            constructors for performance and keep your widgets focused on presentation.
-          </p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="../module6-advanced-flutter.html">
-<i class="fas fa-arrow-left"></i> Back to Module 6
-          </a>
-<a class="btn btn-primary btn-sm" href="module6-topic2-animations.html">
-            Next: Animations <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="../module6-advanced-flutter.html">Module 6</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://docs.flutter.dev/ui/widgets" rel="noopener" target="_blank">Flutter Widget Catalog</a></li>
-<li><a href="https://docs.flutter.dev/ui" rel="noopener" target="_blank">Flutter UI Docs</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">Flutter GitHub</a></li>
-<li><a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/ui/widgets" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       <strong>
+        Custom widgets
+       </strong>
+       are the foundation of Flutter development. By
+       <strong>
+        composing
+       </strong>
+       existing widgets into new ones, you can build reusable,
+            maintainable, and performant UIs. Always
+       <strong>
+        prefer StatelessWidget
+       </strong>
+       over
+            StatefulWidget and
+       <strong>
+        composition over inheritance
+       </strong>
+       . Use
+       <code>
+        const
+       </code>
+       constructors for performance and keep your widgets focused on presentation.
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="../module6-advanced-flutter.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Back to Module 6
+      </a>
+      <a class="btn btn-primary btn-sm" href="module6-topic2-animations.html">
+       Next: Animations
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="../module6-advanced-flutter.html">
+         Module 6
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://docs.flutter.dev/ui/widgets" rel="noopener" target="_blank">
+         Flutter Widget Catalog
+        </a>
+       </li>
+       <li>
+        <a href="https://docs.flutter.dev/ui" rel="noopener" target="_blank">
+         Flutter UI Docs
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+         Flutter GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/ui/widgets" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
         .then(res => res.text())
@@ -1472,8 +2616,8 @@
       }
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1546,8 +2690,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1620,5 +2765,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>

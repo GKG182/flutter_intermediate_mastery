@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>HTTP Requests – Module 2 | Flutter Intermediate Mastery</title>
-<!-- SEO -->
-<meta content="Learn how to make HTTP requests in Flutter using the http package. Fetch data from REST APIs, handle responses, and parse JSON." name="description"/>
-<!-- CSS -->
-<link href="../../styles/main.css" rel="stylesheet"/>
-<link href="../../styles/components.css" rel="stylesheet"/>
-<link href="../../styles/utilities.css" rel="stylesheet"/>
-<link href="../../styles/dark_mode.css" rel="stylesheet"/>
-<link href="../../styles/animations.css" rel="stylesheet"/>
-<link href="../../styles/sidebar.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    /* ===== LESSON-SPECIFIC STYLES ===== */
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   HTTP Requests – Module 2 | Flutter Intermediate Mastery
+  </title>
+  <!-- SEO -->
+  <meta content="Learn how to make HTTP requests in Flutter using the http package. Fetch data from REST APIs, handle responses, and parse JSON." name="description"/>
+  <!-- CSS -->
+  <link href="../../styles/main.css" rel="stylesheet"/>
+  <link href="../../styles/components.css" rel="stylesheet"/>
+  <link href="../../styles/utilities.css" rel="stylesheet"/>
+  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
+  <link href="../../styles/animations.css" rel="stylesheet"/>
+  <link href="../../styles/sidebar.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -570,10 +571,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         color: #ffffff !important;
     }
-    
-</style>
-<style id="dynamic-code-block-styles">
-    /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
+  </style>
+  <style id="dynamic-code-block-styles">
+   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
     .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
@@ -636,422 +636,1253 @@
       border-color: rgba(16, 185, 129, 0.3);
       color: #10B981;
     }
-    </style></head>
-<body>
-<!-- ===== SIDEBAR ===== -->
-<div id="sidebarContainer"></div>
-<!-- ===== HEADER ===== -->
-<header class="header-nav">
-<div class="container nav-container">
-<a class="logo" href="../../index.html">
-<span class="logo-text">Flutter Intermediate</span>
-</a>
-<ul class="nav-links">
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-<div class="nav-actions">
-<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-<span class="theme-icon">🌙</span>
-</button>
-<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-<span class="hamburger"></span>
-</button>
-</div>
-</div>
-<div class="mobile-menu" id="mobile-menu">
-<ul>
-<li><a class="nav-link" href="../../index.html">Home</a></li>
-<li><a class="nav-link" href="../../roadmap.html">Roadmap</a></li>
-<li><a class="nav-link" href="../../quiz.html">Quiz</a></li>
-<li><a "="" class="nav-link" href="../../challenges.html">Challenges</a></li>
-</ul>
-</div>
-</header>
-<!-- ===== MARK COMPLETE BUTTON ===== -->
-<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-<i class="fas fa-check-circle"></i> Mark Complete
+  </style>
+  <link href="../../assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <!-- ===== SIDEBAR ===== -->
+  <div id="sidebarContainer">
+  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="header-nav">
+   <div class="container nav-container">
+    <a class="logo" href="../../index.html">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a "="" class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
+    </div>
+   </div>
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link" href="../../index.html">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="../../quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a "="" class="nav-link" href="../../challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <!-- ===== MARK COMPLETE BUTTON ===== -->
+  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+   <i class="fas fa-check-circle">
+   </i>
+   Mark Complete
   </button>
-<!-- ===== LESSON CONTENT ===== -->
-<main>
-<section class="page-section">
-<div class="container">
-<!-- Lesson Navigation -->
-<div class="lesson-nav">
-<div class="breadcrumb">
-<a href="../../index.html">Home</a>
-<span style="color: var(--text-muted);"> / </span>
-<a href="module2-topic1-http-requests.html">Module 2</a>
-<span style="color: var(--text-muted);"> / </span>
-<span style="color: var(--text-secondary);">Topic 1</span>
-</div>
-<span class="module-badge"><i class="fas fa-globe"></i> Module 2</span>
-</div>
-<!-- Topic Header -->
-<div class="topic-header">
-<div class="topic-number">Topic 1</div>
-<h1>HTTP Requests</h1>
-<p class="topic-subtitle">
-            Making network requests in Flutter using the http package — the foundation of API integration.
-          </p>
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-<a class="doc-badge" href="https://pub.dev/packages/http" target="_blank">
-<i class="fas fa-box"></i> http package on pub.dev
-            </a>
-<a class="doc-badge" href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
-<i class="fas fa-book"></i> Flutter Docs – Fetch Data
-            </a>
-</div>
-</div>
-<!-- ===== SECTION 1: WHAT ARE HTTP REQUESTS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">What Are HTTP Requests?</span>
-<span class="divider-line"></span>
-</div>
-<p>
-<strong>HTTP (Hypertext Transfer Protocol)</strong> is the foundation of data communication on the web.
-            In Flutter, HTTP requests are how your app <strong>talks to servers</strong> and <strong>exchanges data</strong>
-            with APIs (Application Programming Interfaces).
-          </p>
-<p>
-            When you make an HTTP request, you're essentially asking a server to:
-          </p>
-<ul>
-<li><strong>GET</strong> — Retrieve data (e.g., fetch a list of users)</li>
-<li><strong>POST</strong> — Send new data (e.g., create a new user account)</li>
-<li><strong>PUT</strong> — Update existing data (e.g., edit a user profile)</li>
-<li><strong>DELETE</strong> — Remove data (e.g., delete a user account)</li>
-</ul>
-<div class="concept-card success">
-<h4>✅ The Big Idea</h4>
-<p>
-              HTTP requests are how your Flutter app <strong>connects to the internet</strong> and
-              <strong>fetches or sends data</strong>. Without them, your app would be isolated and unable to
+  <!-- ===== LESSON CONTENT ===== -->
+  <main>
+   <section class="page-section">
+    <div class="container">
+     <!-- Lesson Navigation -->
+     <div class="lesson-nav">
+      <div class="breadcrumb">
+       <a href="../../index.html">
+        Home
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <a href="module2-topic1-http-requests.html">
+        Module 2
+       </a>
+       <span style="color: var(--text-muted);">
+        /
+       </span>
+       <span style="color: var(--text-secondary);">
+        Topic 1
+       </span>
+      </div>
+      <span class="module-badge">
+       <i class="fas fa-globe">
+       </i>
+       Module 2
+      </span>
+     </div>
+     <!-- Topic Header -->
+     <div class="topic-header">
+      <div class="topic-number">
+       Topic 1
+      </div>
+      <h1>
+       HTTP Requests
+      </h1>
+      <p class="topic-subtitle">
+       Making network requests in Flutter using the http package — the foundation of API integration.
+      </p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+       <a class="doc-badge" href="https://pub.dev/packages/http" target="_blank">
+        <i class="fas fa-box">
+        </i>
+        http package on pub.dev
+       </a>
+       <a class="doc-badge" href="https://docs.flutter.dev/cookbook/networking/fetch-data" target="_blank">
+        <i class="fas fa-book">
+        </i>
+        Flutter Docs – Fetch Data
+       </a>
+      </div>
+     </div>
+     <!-- ===== SECTION 1: WHAT ARE HTTP REQUESTS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        What Are HTTP Requests?
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       <strong>
+        HTTP (Hypertext Transfer Protocol)
+       </strong>
+       is the foundation of data communication on the web.
+            In Flutter, HTTP requests are how your app
+       <strong>
+        talks to servers
+       </strong>
+       and
+       <strong>
+        exchanges data
+       </strong>
+       with APIs (Application Programming Interfaces).
+      </p>
+      <p>
+       When you make an HTTP request, you're essentially asking a server to:
+      </p>
+      <ul>
+       <li>
+        <strong>
+         GET
+        </strong>
+        — Retrieve data (e.g., fetch a list of users)
+       </li>
+       <li>
+        <strong>
+         POST
+        </strong>
+        — Send new data (e.g., create a new user account)
+       </li>
+       <li>
+        <strong>
+         PUT
+        </strong>
+        — Update existing data (e.g., edit a user profile)
+       </li>
+       <li>
+        <strong>
+         DELETE
+        </strong>
+        — Remove data (e.g., delete a user account)
+       </li>
+      </ul>
+      <div class="concept-card success">
+       <h4>
+        ✅ The Big Idea
+       </h4>
+       <p>
+        HTTP requests are how your Flutter app
+        <strong>
+         connects to the internet
+        </strong>
+        and
+        <strong>
+         fetches or sends data
+        </strong>
+        . Without them, your app would be isolated and unable to
               display dynamic content, user data, or interact with web services.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 2: COMMON HTTP METHODS ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common HTTP Methods</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            HTTP defines several methods (verbs) that indicate the desired action to be performed on a resource.
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 2: COMMON HTTP METHODS ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common HTTP Methods
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       HTTP defines several methods (verbs) that indicate the desired action to be performed on a resource.
             Here are the most common ones you'll use in Flutter:
-          </p>
-<div class="http-methods-grid">
-<div class="http-method-item" style="border-left: 3px solid #3B82F6;">
-<div class="method-name">GET</div>
-<div class="method-desc">Retrieve data from the server</div>
-</div>
-<div class="http-method-item" style="border-left: 3px solid #10B981;">
-<div class="method-name">POST</div>
-<div class="method-desc">Send new data to the server</div>
-</div>
-<div class="http-method-item" style="border-left: 3px solid #F59E0B;">
-<div class="method-name">PUT</div>
-<div class="method-desc">Update existing data (full replace)</div>
-</div>
-<div class="http-method-item" style="border-left: 3px solid #8B5CF6;">
-<div class="method-name">PATCH</div>
-<div class="method-desc">Partially update existing data</div>
-</div>
-<div class="http-method-item" style="border-left: 3px solid #EF4444;">
-<div class="method-name">DELETE</div>
-<div class="method-desc">Remove data from the server</div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 3: THE HTTP PACKAGE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">The http Package</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            The <a href="https://pub.dev/packages/http" style="color: var(--primary);" target="_blank">http package</a>
-            is the <strong>official and most popular</strong> way to make HTTP requests in Flutter and Dart.
+      </p>
+      <div class="http-methods-grid">
+       <div class="http-method-item" style="border-left: 3px solid #3B82F6;">
+        <div class="method-name">
+         GET
+        </div>
+        <div class="method-desc">
+         Retrieve data from the server
+        </div>
+       </div>
+       <div class="http-method-item" style="border-left: 3px solid #10B981;">
+        <div class="method-name">
+         POST
+        </div>
+        <div class="method-desc">
+         Send new data to the server
+        </div>
+       </div>
+       <div class="http-method-item" style="border-left: 3px solid #F59E0B;">
+        <div class="method-name">
+         PUT
+        </div>
+        <div class="method-desc">
+         Update existing data (full replace)
+        </div>
+       </div>
+       <div class="http-method-item" style="border-left: 3px solid #8B5CF6;">
+        <div class="method-name">
+         PATCH
+        </div>
+        <div class="method-desc">
+         Partially update existing data
+        </div>
+       </div>
+       <div class="http-method-item" style="border-left: 3px solid #EF4444;">
+        <div class="method-name">
+         DELETE
+        </div>
+        <div class="method-desc">
+         Remove data from the server
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 3: THE HTTP PACKAGE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        The http Package
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       The
+       <a href="https://pub.dev/packages/http" style="color: var(--primary);" target="_blank">
+        http package
+       </a>
+       is the
+       <strong>
+        official and most popular
+       </strong>
+       way to make HTTP requests in Flutter and Dart.
             It provides a simple, composable, and Future-based API for working with HTTP resources.
-          </p>
-<div class="concept-card info">
-<h4>📦 Why the http Package?</h4>
-<ul>
-<li><strong>Official</strong> – Maintained by the Dart team</li>
-<li><strong>Multi-platform</strong> – Works on mobile, desktop, and web</li>
-<li><strong>Simple API</strong> – Easy to use with top-level functions</li>
-<li><strong>Composable</strong> – Can be extended with custom clients</li>
-<li><strong>Testable</strong> – Supports mocking for unit tests</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 4: SETUP ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Setting Up the http Package</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Before you can make HTTP requests, you need to add the <code>http</code> package to your project
+      </p>
+      <div class="concept-card info">
+       <h4>
+        📦 Why the http Package?
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Official
+         </strong>
+         – Maintained by the Dart team
+        </li>
+        <li>
+         <strong>
+          Multi-platform
+         </strong>
+         – Works on mobile, desktop, and web
+        </li>
+        <li>
+         <strong>
+          Simple API
+         </strong>
+         – Easy to use with top-level functions
+        </li>
+        <li>
+         <strong>
+          Composable
+         </strong>
+         – Can be extended with custom clients
+        </li>
+        <li>
+         <strong>
+          Testable
+         </strong>
+         – Supports mocking for unit tests
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 4: SETUP ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Setting Up the http Package
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Before you can make HTTP requests, you need to add the
+       <code>
+        http
+       </code>
+       package to your project
             and configure your app's permissions.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">Step 1: Add the dependency</span>
-<code>
-  # Run this command in your terminal
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Step 1: Add the dependency
+       </span>
+       <code>
+        # Run this command in your terminal
   flutter pub add http
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Step 2: Import the package</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Step 3: Add Internet permission (Android)</span>
-<code>
-<span class="comment">&lt;!-- AndroidManifest.xml --&gt;</span>
-  &lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">Step 4: Add network permission (macOS)</span>
-<code>
-<span class="comment">&lt;!-- macos/Runner/DebugProfile.entitlements --&gt;</span>
-  &lt;key&gt;com.apple.security.network.client&lt;/key&gt;
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Step 2: Import the package
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Step 3: Add Internet permission (Android)
+       </span>
+       <code>
+        <span class="comment">
+         &lt;!-- AndroidManifest.xml --&gt;
+        </span>
+        &lt;uses-permission android:name=
+        <span class="string">
+         "android.permission.INTERNET"
+        </span>
+        /&gt;
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        Step 4: Add network permission (macOS)
+       </span>
+       <code>
+        <span class="comment">
+         &lt;!-- macos/Runner/DebugProfile.entitlements --&gt;
+        </span>
+        &lt;key&gt;com.apple.security.network.client&lt;/key&gt;
   &lt;true/&gt;
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card warning">
-<h4>⚠️ Important</h4>
-<p>
-<strong>Always check your platform permissions!</strong> Android requires the Internet permission,
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card warning">
+       <h4>
+        ⚠️ Important
+       </h4>
+       <p>
+        <strong>
+         Always check your platform permissions!
+        </strong>
+        Android requires the Internet permission,
               and macOS requires the network client entitlement. Without these, your HTTP requests will fail.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 5: MAKING A GET REQUEST ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Making a GET Request</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            The most common HTTP request is <strong>GET</strong>, which retrieves data from a server.
-            Here's how to make a GET request using the <code>http</code> package.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/fetch_data.dart – Basic GET Request</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-
-  <span class="comment">// Make a GET request</span>
-<span class="keyword">Future</span>&lt;http.Response&gt; <span class="function">fetchAlbum</span>() {
-    <span class="keyword">return</span> http.get(
-      Uri.parse(<span class="string">'https://jsonplaceholder.typicode.com/albums/1'</span>),
-      headers: {<span class="string">'Accept'</span>: <span class="string">'application/json'</span>},
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 5: MAKING A GET REQUEST ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Making a GET Request
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       The most common HTTP request is
+       <strong>
+        GET
+       </strong>
+       , which retrieves data from a server.
+            Here's how to make a GET request using the
+       <code>
+        http
+       </code>
+       package.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/fetch_data.dart – Basic GET Request
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="comment">
+         // Make a GET request
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;http.Response&gt;
+        <span class="function">
+         fetchAlbum
+        </span>
+        () {
+        <span class="keyword">
+         return
+        </span>
+        http.get(
+      Uri.parse(
+        <span class="string">
+         'https://jsonplaceholder.typicode.com/albums/1'
+        </span>
+        ),
+      headers: {
+        <span class="string">
+         'Accept'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
     );
   }
-
-  <span class="comment">// Using the response</span>
-<span class="keyword">void</span> <span class="function">main</span>() async {
-    <span class="keyword">final</span> response = await fetchAlbum();
-    print(<span class="string">'Status: ${response.statusCode}'</span>);
-    print(<span class="string">'Body: ${response.body}'</span>);
+        <span class="comment">
+         // Using the response
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response = await fetchAlbum();
+    print(
+        <span class="string">
+         'Status: ${response.statusCode}'
+        </span>
+        );
+    print(
+        <span class="string">
+         'Body: ${response.body}'
+        </span>
+        );
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card info">
-<h4>🔑 Key Points</h4>
-<ul>
-<li><strong>Uri.parse()</strong> – Converts a string URL to a <code>Uri</code> object</li>
-<li><strong>headers</strong> – Optional headers like <code>Accept</code> or <code>Authorization</code></li>
-<li><strong>Future</strong> – The request is asynchronous, so it returns a <code>Future</code></li>
-<li><strong>response.statusCode</strong> – 200 means success, 404 means not found</li>
-<li><strong>response.body</strong> – The raw response data (usually JSON)</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 6: HANDLING RESPONSES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Handling HTTP Responses</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            When you make an HTTP request, the server responds with a <strong>status code</strong> and a <strong>body</strong>.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card info">
+       <h4>
+        🔑 Key Points
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          Uri.parse()
+         </strong>
+         – Converts a string URL to a
+         <code>
+          Uri
+         </code>
+         object
+        </li>
+        <li>
+         <strong>
+          headers
+         </strong>
+         – Optional headers like
+         <code>
+          Accept
+         </code>
+         or
+         <code>
+          Authorization
+         </code>
+        </li>
+        <li>
+         <strong>
+          Future
+         </strong>
+         – The request is asynchronous, so it returns a
+         <code>
+          Future
+         </code>
+        </li>
+        <li>
+         <strong>
+          response.statusCode
+         </strong>
+         – 200 means success, 404 means not found
+        </li>
+        <li>
+         <strong>
+          response.body
+         </strong>
+         – The raw response data (usually JSON)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 6: HANDLING RESPONSES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Handling HTTP Responses
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       When you make an HTTP request, the server responds with a
+       <strong>
+        status code
+       </strong>
+       and a
+       <strong>
+        body
+       </strong>
+       .
             You need to handle different scenarios:
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/fetch_data.dart – Handling Responses</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-
-  <span class="keyword">Future</span>&lt;Map&lt;String, dynamic&gt;&gt; <span class="function">fetchData</span>() async {
-    <span class="keyword">final</span> response = await http.get(
-      Uri.parse(<span class="string">'https://jsonplaceholder.typicode.com/albums/1'</span>),
-      headers: {<span class="string">'Accept'</span>: <span class="string">'application/json'</span>},
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/fetch_data.dart – Handling Responses
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Map&lt;String, dynamic&gt;&gt;
+        <span class="function">
+         fetchData
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response = await http.get(
+      Uri.parse(
+        <span class="string">
+         'https://jsonplaceholder.typicode.com/albums/1'
+        </span>
+        ),
+      headers: {
+        <span class="string">
+         'Accept'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
     );
-
-    <span class="comment">// Handle different status codes</span>
-<span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="comment">// Success – parse the JSON</span>
-<span class="keyword">return</span> jsonDecode(response.body) <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (response.statusCode == <span class="number">401</span>) {
-      <span class="keyword">throw</span> Exception(<span class="string">'Unauthorized: Please check your credentials'</span>);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (response.statusCode == <span class="number">404</span>) {
-      <span class="keyword">throw</span> Exception(<span class="string">'Not Found: The requested resource does not exist'</span>);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (response.statusCode &gt;= <span class="number">500</span>) {
-      <span class="keyword">throw</span> Exception(<span class="string">'Server Error: Please try again later'</span>);
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed with status code: ${response.statusCode}'</span>);
+        <span class="comment">
+         // Handle different status codes
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode ==
+        <span class="number">
+         200
+        </span>
+        ) {
+        <span class="comment">
+         // Success – parse the JSON
+        </span>
+        <span class="keyword">
+         return
+        </span>
+        jsonDecode(response.body)
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
+    }
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode ==
+        <span class="number">
+         401
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Unauthorized: Please check your credentials'
+        </span>
+        );
+    }
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode ==
+        <span class="number">
+         404
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Not Found: The requested resource does not exist'
+        </span>
+        );
+    }
+        <span class="keyword">
+         else
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode &gt;=
+        <span class="number">
+         500
+        </span>
+        ) {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Server Error: Please try again later'
+        </span>
+        );
+    }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed with status code: ${response.statusCode}'
+        </span>
+        );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card warning">
-<h4>⚠️ Common Status Codes</h4>
-<ul>
-<li><strong>200</strong> – Success (OK)</li>
-<li><strong>201</strong> – Created (POST successful)</li>
-<li><strong>400</strong> – Bad Request (invalid data)</li>
-<li><strong>401</strong> – Unauthorized (need to log in)</li>
-<li><strong>404</strong> – Not Found (resource doesn't exist)</li>
-<li><strong>500</strong> – Internal Server Error (server problem)</li>
-</ul>
-</div>
-</div>
-<!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Complete Example: Fetching an Album</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            Here's a complete example that fetches an album from the JSONPlaceholder API and displays it in a Flutter app.
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card warning">
+       <h4>
+        ⚠️ Common Status Codes
+       </h4>
+       <ul>
+        <li>
+         <strong>
+          200
+         </strong>
+         – Success (OK)
+        </li>
+        <li>
+         <strong>
+          201
+         </strong>
+         – Created (POST successful)
+        </li>
+        <li>
+         <strong>
+          400
+         </strong>
+         – Bad Request (invalid data)
+        </li>
+        <li>
+         <strong>
+          401
+         </strong>
+         – Unauthorized (need to log in)
+        </li>
+        <li>
+         <strong>
+          404
+         </strong>
+         – Not Found (resource doesn't exist)
+        </li>
+        <li>
+         <strong>
+          500
+         </strong>
+         – Internal Server Error (server problem)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Complete Example: Fetching an Album
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       Here's a complete example that fetches an album from the JSONPlaceholder API and displays it in a Flutter app.
             This follows the official Flutter cookbook recipe.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/main.dart – Complete Example</span>
-<code>
-<span class="keyword">import</span> <span class="string">'dart:convert'</span>;
-  <span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-
-  <span class="comment">// 1. Define the data model</span>
-<span class="keyword">class</span> <span class="function">Album</span> {
-    <span class="keyword">final</span> <span class="keyword">int</span> userId;
-    <span class="keyword">final</span> <span class="keyword">int</span> id;
-    <span class="keyword">final</span> String title;
-
-    <span class="keyword">const</span> Album({
-      <span class="keyword">required</span> <span class="keyword">this</span>.userId,
-      <span class="keyword">required</span> <span class="keyword">this</span>.id,
-      <span class="keyword">required</span> <span class="keyword">this</span>.title,
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/main.dart – Complete Example
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'dart:convert'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:flutter/material.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="comment">
+         // 1. Define the data model
+        </span>
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         Album
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        userId;
+        <span class="keyword">
+         final
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        id;
+        <span class="keyword">
+         final
+        </span>
+        String title;
+        <span class="keyword">
+         const
+        </span>
+        Album({
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .userId,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .id,
+        <span class="keyword">
+         required
+        </span>
+        <span class="keyword">
+         this
+        </span>
+        .title,
     });
-
-    <span class="comment">// Factory constructor for JSON parsing</span>
-    factory Album.fromJson(Map&lt;String, dynamic&gt; json) {
-      <span class="keyword">return</span> Album(
-        userId: json[<span class="string">'userId'</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
-        id: json[<span class="string">'id'</span>] <span class="keyword">as</span> <span class="keyword">int</span>,
-        title: json[<span class="string">'title'</span>] <span class="keyword">as</span> String,
+        <span class="comment">
+         // Factory constructor for JSON parsing
+        </span>
+        factory Album.fromJson(Map&lt;String, dynamic&gt; json) {
+        <span class="keyword">
+         return
+        </span>
+        Album(
+        userId: json[
+        <span class="string">
+         'userId'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        ,
+        id: json[
+        <span class="string">
+         'id'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        <span class="keyword">
+         int
+        </span>
+        ,
+        title: json[
+        <span class="string">
+         'title'
+        </span>
+        ]
+        <span class="keyword">
+         as
+        </span>
+        String,
       );
     }
   }
-
-  <span class="comment">// 2. Fetch function</span>
-<span class="keyword">Future</span>&lt;Album&gt; <span class="function">fetchAlbum</span>() async {
-    <span class="keyword">final</span> response = await http.get(
-      Uri.parse(<span class="string">'https://jsonplaceholder.typicode.com/albums/1'</span>),
-      headers: {<span class="string">'Accept'</span>: <span class="string">'application/json'</span>},
+        <span class="comment">
+         // 2. Fetch function
+        </span>
+        <span class="keyword">
+         Future
+        </span>
+        &lt;Album&gt;
+        <span class="function">
+         fetchAlbum
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response = await http.get(
+      Uri.parse(
+        <span class="string">
+         'https://jsonplaceholder.typicode.com/albums/1'
+        </span>
+        ),
+      headers: {
+        <span class="string">
+         'Accept'
+        </span>
+        :
+        <span class="string">
+         'application/json'
+        </span>
+        },
     );
-
-    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) {
-      <span class="keyword">final</span> data = jsonDecode(response.body) <span class="keyword">as</span> Map&lt;String, dynamic&gt;;
-      <span class="keyword">return</span> Album.fromJson(data);
-    } <span class="keyword">else</span> {
-      <span class="keyword">throw</span> Exception(<span class="string">'Failed to load album: ${response.statusCode}'</span>);
+        <span class="keyword">
+         if
+        </span>
+        (response.statusCode ==
+        <span class="number">
+         200
+        </span>
+        ) {
+        <span class="keyword">
+         final
+        </span>
+        data = jsonDecode(response.body)
+        <span class="keyword">
+         as
+        </span>
+        Map&lt;String, dynamic&gt;;
+        <span class="keyword">
+         return
+        </span>
+        Album.fromJson(data);
+    }
+        <span class="keyword">
+         else
+        </span>
+        {
+        <span class="keyword">
+         throw
+        </span>
+        Exception(
+        <span class="string">
+         'Failed to load album: ${response.statusCode}'
+        </span>
+        );
     }
   }
-
-  <span class="comment">// 3. Flutter UI</span>
-<span class="keyword">void</span> <span class="function">main</span>() =&gt; runApp(<span class="function">MyApp</span>());
-
-  <span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatefulWidget {
+        <span class="comment">
+         // 3. Flutter UI
+        </span>
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () =&gt; runApp(
+        <span class="function">
+         MyApp
+        </span>
+        ());
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         MyApp
+        </span>
+        <span class="keyword">
+         extends
+        </span>
+        StatefulWidget {
     @override
-    State&lt;MyApp&gt; <span class="function">createState</span>() =&gt; _MyAppState();
+    State&lt;MyApp&gt;
+        <span class="function">
+         createState
+        </span>
+        () =&gt; _MyAppState();
   }
-
-  <span class="keyword">class</span> _MyAppState <span class="keyword">extends</span> State&lt;MyApp&gt; {
-    <span class="keyword">late</span> Future&lt;Album&gt; futureAlbum;
+        <span class="keyword">
+         class
+        </span>
+        _MyAppState
+        <span class="keyword">
+         extends
+        </span>
+        State&lt;MyApp&gt; {
+        <span class="keyword">
+         late
+        </span>
+        Future&lt;Album&gt; futureAlbum;
 
     @override
-    <span class="keyword">void</span> <span class="function">initState</span>() {
-      <span class="keyword">super</span>.initState();
-      futureAlbum = fetchAlbum(); <span class="comment">// Fetch data once when the widget is created</span>
-    }
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         initState
+        </span>
+        () {
+        <span class="keyword">
+         super
+        </span>
+        .initState();
+      futureAlbum = fetchAlbum();
+        <span class="comment">
+         // Fetch data once when the widget is created
+        </span>
+        }
 
     @override
-    Widget <span class="function">build</span>(BuildContext context) {
-      <span class="keyword">return</span> MaterialApp(
-        title: <span class="string">'Fetch Data Example'</span>,
+    Widget
+        <span class="function">
+         build
+        </span>
+        (BuildContext context) {
+        <span class="keyword">
+         return
+        </span>
+        MaterialApp(
+        title:
+        <span class="string">
+         'Fetch Data Example'
+        </span>
+        ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
         home: Scaffold(
-          appBar: AppBar(title: Text(<span class="string">'Fetch Data Example'</span>)),
+          appBar: AppBar(title: Text(
+        <span class="string">
+         'Fetch Data Example'
+        </span>
+        )),
           body: Center(
             child: FutureBuilder&lt;Album&gt;(
               future: futureAlbum,
               builder: (context, snapshot) {
-                <span class="comment">// Loading state</span>
-<span class="keyword">if</span> (snapshot.connectionState == ConnectionState.waiting) {
-                  <span class="keyword">return</span> CircularProgressIndicator();
+        <span class="comment">
+         // Loading state
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (snapshot.connectionState == ConnectionState.waiting) {
+        <span class="keyword">
+         return
+        </span>
+        CircularProgressIndicator();
                 }
-
-                <span class="comment">// Error state</span>
-<span class="keyword">if</span> (snapshot.hasError) {
-                  <span class="keyword">return</span> Column(
+        <span class="comment">
+         // Error state
+        </span>
+        <span class="keyword">
+         if
+        </span>
+        (snapshot.hasError) {
+        <span class="keyword">
+         return
+        </span>
+        Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.error, size: <span class="number">64</span>, color: Colors.red),
-                      SizedBox(height: <span class="number">16</span>),
-                      Text(<span class="string">'${snapshot.error}'</span>),
-                      SizedBox(height: <span class="number">16</span>),
+                      Icon(Icons.error, size:
+        <span class="number">
+         64
+        </span>
+        , color: Colors.red),
+                      SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
+                      Text(
+        <span class="string">
+         '${snapshot.error}'
+        </span>
+        ),
+                      SizedBox(height:
+        <span class="number">
+         16
+        </span>
+        ),
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            futureAlbum = fetchAlbum(); <span class="comment">// Retry</span>
-                          });
+                            futureAlbum = fetchAlbum();
+        <span class="comment">
+         // Retry
+        </span>
+        });
                         },
-                        child: Text(<span class="string">'Retry'</span>),
+                        child: Text(
+        <span class="string">
+         'Retry'
+        </span>
+        ),
                       ),
                     ],
                   );
                 }
-
-                <span class="comment">// Data state</span>
-<span class="keyword">return</span> Card(
-                  margin: EdgeInsets.all(<span class="number">16</span>),
+        <span class="comment">
+         // Data state
+        </span>
+        <span class="keyword">
+         return
+        </span>
+        Card(
+                  margin: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
                   child: Padding(
-                    padding: EdgeInsets.all(<span class="number">16</span>),
+                    padding: EdgeInsets.all(
+        <span class="number">
+         16
+        </span>
+        ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           snapshot.data!.title,
-                          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize:
+        <span class="number">
+         20
+        </span>
+        , fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: <span class="number">8</span>),
-                        Text(<span class="string">'Album ID: ${snapshot.data!.id}'</span>),
-                        Text(<span class="string">'User ID: ${snapshot.data!.userId}'</span>),
+                        SizedBox(height:
+        <span class="number">
+         8
+        </span>
+        ),
+                        Text(
+        <span class="string">
+         'Album ID: ${snapshot.data!.id}'
+        </span>
+        ),
+                        Text(
+        <span class="string">
+         'User ID: ${snapshot.data!.userId}'
+        </span>
+        ),
                       ],
                     ),
                   ),
@@ -1063,230 +1894,554 @@
       );
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-</div>
-<!-- ===== SECTION 8: STEP-BY-STEP EXPLANATION ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Step-by-Step Explanation</span>
-<span class="divider-line"></span>
-</div>
-<div class="step-grid">
-<div class="step-item">
-<span class="step-number">1.</span>
-<div class="step-text">
-<strong>Add the http package</strong> – Run <code>flutter pub add http</code> to add the dependency.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">2.</span>
-<div class="step-text">
-<strong>Define the data model</strong> – Create an <code>Album</code> class with a <code>fromJson</code>
-                factory constructor to parse JSON data.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">3.</span>
-<div class="step-text">
-<strong>Create the fetch function</strong> – <code>fetchAlbum()</code> makes a GET request,
-                checks the status code, and parses the response into an <code>Album</code> object.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">4.</span>
-<div class="step-text">
-<strong>Call the function in initState</strong> – Store the <code>Future</code> in a state variable
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+     </div>
+     <!-- ===== SECTION 8: STEP-BY-STEP EXPLANATION ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Step-by-Step Explanation
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="step-grid">
+       <div class="step-item">
+        <span class="step-number">
+         1.
+        </span>
+        <div class="step-text">
+         <strong>
+          Add the http package
+         </strong>
+         – Run
+         <code>
+          flutter pub add http
+         </code>
+         to add the dependency.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         2.
+        </span>
+        <div class="step-text">
+         <strong>
+          Define the data model
+         </strong>
+         – Create an
+         <code>
+          Album
+         </code>
+         class with a
+         <code>
+          fromJson
+         </code>
+         factory constructor to parse JSON data.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         3.
+        </span>
+        <div class="step-text">
+         <strong>
+          Create the fetch function
+         </strong>
+         –
+         <code>
+          fetchAlbum()
+         </code>
+         makes a GET request,
+                checks the status code, and parses the response into an
+         <code>
+          Album
+         </code>
+         object.
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         4.
+        </span>
+        <div class="step-text">
+         <strong>
+          Call the function in initState
+         </strong>
+         – Store the
+         <code>
+          Future
+         </code>
+         in a state variable
                 and call it once when the widget is created.
-              </div>
-</div>
-<div class="step-item">
-<span class="step-number">5.</span>
-<div class="step-text">
-<strong>Display with FutureBuilder</strong> – Use <code>FutureBuilder</code> to handle loading,
+        </div>
+       </div>
+       <div class="step-item">
+        <span class="step-number">
+         5.
+        </span>
+        <div class="step-text">
+         <strong>
+          Display with FutureBuilder
+         </strong>
+         – Use
+         <code>
+          FutureBuilder
+         </code>
+         to handle loading,
                 error, and data states automatically.
-              </div>
-</div>
-</div>
-</div>
-<!-- ===== SECTION 9: TESTING ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Testing HTTP Requests</span>
-<span class="divider-line"></span>
-</div>
-<p>
-            For better testability, it's recommended to use a <code>Client</code> instance rather than
-            the top-level functions like <code>http.get()</code>. This makes it easier to mock HTTP requests in your tests.
-          </p>
-<div class="code-block collapsed">
-<span class="code-label">lib/data_service.dart – Testable Design</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:http/http.dart'</span> <span class="keyword">as</span> http;
-
-  <span class="keyword">class</span> <span class="function">DataService</span> {
-    <span class="keyword">final</span> http.Client client;
-
-    <span class="function">DataService</span>({http.Client? client}) : client = client ?? http.Client();
-
-    <span class="keyword">Future</span>&lt;String&gt; <span class="function">fetchData</span>() async {
-      <span class="keyword">final</span> response = await client.get(
-        Uri.parse(<span class="string">'https://example.com/data.json'</span>),
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- ===== SECTION 9: TESTING ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Testing HTTP Requests
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <p>
+       For better testability, it's recommended to use a
+       <code>
+        Client
+       </code>
+       instance rather than
+            the top-level functions like
+       <code>
+        http.get()
+       </code>
+       . This makes it easier to mock HTTP requests in your tests.
+      </p>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        lib/data_service.dart – Testable Design
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/http.dart'
+        </span>
+        <span class="keyword">
+         as
+        </span>
+        http;
+        <span class="keyword">
+         class
+        </span>
+        <span class="function">
+         DataService
+        </span>
+        {
+        <span class="keyword">
+         final
+        </span>
+        http.Client client;
+        <span class="function">
+         DataService
+        </span>
+        ({http.Client? client}) : client = client ?? http.Client();
+        <span class="keyword">
+         Future
+        </span>
+        &lt;String&gt;
+        <span class="function">
+         fetchData
+        </span>
+        () async {
+        <span class="keyword">
+         final
+        </span>
+        response = await client.get(
+        Uri.parse(
+        <span class="string">
+         'https://example.com/data.json'
+        </span>
+        ),
       );
-      <span class="keyword">return</span> response.body;
+        <span class="keyword">
+         return
+        </span>
+        response.body;
     }
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="code-block collapsed">
-<span class="code-label">test/data_service_test.dart – Mock Test</span>
-<code>
-<span class="keyword">import</span> <span class="string">'package:http/testing.dart'</span>;
-  <span class="keyword">import</span> <span class="string">'package:test/test.dart'</span>;
-
-  <span class="keyword">void</span> <span class="function">main</span>() {
-    test(<span class="string">'fetchData returns expected data'</span>, () async {
-      <span class="keyword">final</span> mockClient = MockClient((request) async {
-        <span class="keyword">return</span> http.Response(<span class="string">'{"key": "value"}'</span>, <span class="number">200</span>);
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="code-block collapsed">
+       <span class="code-label">
+        test/data_service_test.dart – Mock Test
+       </span>
+       <code>
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:http/testing.dart'
+        </span>
+        ;
+        <span class="keyword">
+         import
+        </span>
+        <span class="string">
+         'package:test/test.dart'
+        </span>
+        ;
+        <span class="keyword">
+         void
+        </span>
+        <span class="function">
+         main
+        </span>
+        () {
+    test(
+        <span class="string">
+         'fetchData returns expected data'
+        </span>
+        , () async {
+        <span class="keyword">
+         final
+        </span>
+        mockClient = MockClient((request) async {
+        <span class="keyword">
+         return
+        </span>
+        http.Response(
+        <span class="string">
+         '{"key": "value"}'
+        </span>
+        ,
+        <span class="number">
+         200
+        </span>
+        );
       });
+        <span class="keyword">
+         final
+        </span>
+        dataService = DataService(client: mockClient);
+        <span class="keyword">
+         final
+        </span>
+        result = await dataService.fetchData();
 
-      <span class="keyword">final</span> dataService = DataService(client: mockClient);
-      <span class="keyword">final</span> result = await dataService.fetchData();
-
-      expect(result, <span class="string">'{"key": "value"}'</span>);
+      expect(result,
+        <span class="string">
+         '{"key": "value"}'
+        </span>
+        );
     });
   }
-            </code>
-<button class="copy-btn"><i class="fas fa-copy"></i> Copy</button><button class="toggle-expand-btn"><i class="fas fa-expand"></i> Expand</button><button class="collapse-btn"><i class="fas fa-chevron-up"></i> Collapse</button></div>
-<div class="concept-card success">
-<h4>✅ Best Practice</h4>
-<p>
-<strong>Always use a Client instance for testability.</strong> Accept a <code>Client</code> parameter
+       </code>
+       <button class="copy-btn">
+        <i class="fas fa-copy">
+        </i>
+        Copy
+       </button>
+       <button class="toggle-expand-btn">
+        <i class="fas fa-expand">
+        </i>
+        Expand
+       </button>
+       <button class="collapse-btn">
+        <i class="fas fa-chevron-up">
+        </i>
+        Collapse
+       </button>
+      </div>
+      <div class="concept-card success">
+       <h4>
+        ✅ Best Practice
+       </h4>
+       <p>
+        <strong>
+         Always use a Client instance for testability.
+        </strong>
+        Accept a
+        <code>
+         Client
+        </code>
+        parameter
               in your service classes and use it instead of the top-level functions. This allows you to inject
               mock clients in your tests.
-            </p>
-</div>
-</div>
-<!-- ===== SECTION 10: COMMON MISTAKES ===== -->
-<div class="topic-section">
-<div class="section-divider">
-<span class="divider-label">Common Mistakes</span>
-<span class="divider-line"></span>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 1: Not handling status codes</div>
-<p>
-              Always check the <code>statusCode</code> before parsing the response. A 404 or 500 error will
+       </p>
+      </div>
+     </div>
+     <!-- ===== SECTION 10: COMMON MISTAKES ===== -->
+     <div class="topic-section">
+      <div class="section-divider">
+       <span class="divider-label">
+        Common Mistakes
+       </span>
+       <span class="divider-line">
+       </span>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 1: Not handling status codes
+       </div>
+       <p>
+        Always check the
+        <code>
+         statusCode
+        </code>
+        before parsing the response. A 404 or 500 error will
               contain error information, not the data you expect.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Always check status codes</div>
-<p>
-              Use <code>if (response.statusCode == 200)</code> before parsing, and throw exceptions for other status codes.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 2: Forgetting platform permissions</div>
-<p>
-              Android needs the Internet permission, and macOS needs the network client entitlement.
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Always check status codes
+       </div>
+       <p>
+        Use
+        <code>
+         if (response.statusCode == 200)
+        </code>
+        before parsing, and throw exceptions for other status codes.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 2: Forgetting platform permissions
+       </div>
+       <p>
+        Android needs the Internet permission, and macOS needs the network client entitlement.
               Without these, your requests will fail silently.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Configure permissions</div>
-<p>
-              Add <code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code> to
-              <code>AndroidManifest.xml</code> and the network client entitlement to your macOS files.
-            </p>
-</div>
-<div class="mistake-box">
-<div class="mistake-title">❌ Mistake 3: Making requests in build()</div>
-<p>
-              The <code>build()</code> method is called frequently. Making network requests inside it will
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Configure permissions
+       </div>
+       <p>
+        Add
+        <code>
+         &lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+        </code>
+        to
+        <code>
+         AndroidManifest.xml
+        </code>
+        and the network client entitlement to your macOS files.
+       </p>
+      </div>
+      <div class="mistake-box">
+       <div class="mistake-title">
+        ❌ Mistake 3: Making requests in build()
+       </div>
+       <p>
+        The
+        <code>
+         build()
+        </code>
+        method is called frequently. Making network requests inside it will
               cause unnecessary API calls and slow down your app.
-            </p>
-</div>
-<div class="good-box">
-<div class="good-title">✅ Correct: Make requests in initState()</div>
-<p>
-              Call your fetch function in <code>initState()</code> and store the <code>Future</code> in a state variable.
-            </p>
-</div>
-</div>
-<!-- ===== KEY TAKEAWAY ===== -->
-<div class="key-takeaway">
-<h3>🎯 Key Takeaway</h3>
-<p>
-            HTTP requests are the <strong>foundation of API integration</strong> in Flutter. The <code>http</code>
-            package provides a simple, powerful way to make GET, POST, PUT, and DELETE requests.
-            <strong>Always check status codes, handle errors, and use a Client for testability.</strong>
-</p>
-</div>
-<!-- ===== NAVIGATION BUTTONS ===== -->
-<div class="nav-buttons">
-<a class="btn btn-outline btn-sm" href="module2-topic1-http-requests.html">
-<i class="fas fa-arrow-left"></i> Back to Module 2
-          </a>
-<a class="btn btn-primary btn-sm" href="module2-topic2-rest-apis.html">
-            Next: REST APIs <i class="fas fa-arrow-right"></i>
-</a>
-</div>
-</div>
-</section>
-</main>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand">
-<div class="company-brand">
-<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-<span class="nekoverse-text">NekoVerse</span>
-</div>
-<p class="company-tagline">Building cross-platform educational experiences.</p>
-<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">Take our Dart Course →</a>
-</div>
-<div class="footer-links">
-<h4>Course</h4>
-<ul>
-<li><a href="../../roadmap.html">Curriculum</a></li>
-<li><a href="module2-topic1-http-requests.html">Module 2</a></li>
-<li><a href="../../roadmap.html">Projects</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Resources</h4>
-<ul>
-<li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-<li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-<li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-<li><a href="https://pub.dev/packages/http" rel="noopener" target="_blank">http package</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Community</h4>
-<ul>
-<li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-<li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-<li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource.</p>
-<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
-          Based on <a href="https://docs.flutter.dev/cookbook/networking/fetch-data" style="color: var(--text-muted);" target="_blank">Flutter Official Documentation</a> &amp; <a href="https://pub.dev/packages/http" style="color: var(--text-muted);" target="_blank">http package</a>
-</div>
-</div>
-</div>
-</footer>
-<!-- ===== JAVASCRIPT ===== -->
-<script src="../../js/theme.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/sidebar.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+       </p>
+      </div>
+      <div class="good-box">
+       <div class="good-title">
+        ✅ Correct: Make requests in initState()
+       </div>
+       <p>
+        Call your fetch function in
+        <code>
+         initState()
+        </code>
+        and store the
+        <code>
+         Future
+        </code>
+        in a state variable.
+       </p>
+      </div>
+     </div>
+     <!-- ===== KEY TAKEAWAY ===== -->
+     <div class="key-takeaway">
+      <h3>
+       🎯 Key Takeaway
+      </h3>
+      <p>
+       HTTP requests are the
+       <strong>
+        foundation of API integration
+       </strong>
+       in Flutter. The
+       <code>
+        http
+       </code>
+       package provides a simple, powerful way to make GET, POST, PUT, and DELETE requests.
+       <strong>
+        Always check status codes, handle errors, and use a Client for testability.
+       </strong>
+      </p>
+     </div>
+     <!-- ===== NAVIGATION BUTTONS ===== -->
+     <div class="nav-buttons">
+      <a class="btn btn-outline btn-sm" href="module2-topic1-http-requests.html">
+       <i class="fas fa-arrow-left">
+       </i>
+       Back to Module 2
+      </a>
+      <a class="btn btn-primary btn-sm" href="module2-topic2-rest-apis.html">
+       Next: REST APIs
+       <i class="fas fa-arrow-right">
+       </i>
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
+      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="../../roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="module2-topic1-http-requests.html">
+         Module 2
+        </a>
+       </li>
+       <li>
+        <a href="../../roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev/packages/http" rel="noopener" target="_blank">
+         http package
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
+     </p>
+     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+      Based on
+      <a href="https://docs.flutter.dev/cookbook/networking/fetch-data" style="color: var(--text-muted);" target="_blank">
+       Flutter Official Documentation
+      </a>
+      &amp;
+      <a href="https://pub.dev/packages/http" style="color: var(--text-muted);" target="_blank">
+       http package
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="../../js/theme.js">
+  </script>
+  <script src="../../js/navigation.js">
+  </script>
+  <script src="../../js/sidebar.js">
+  </script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../../components/sidebar.html')
         .then(res => res.text())
@@ -1341,8 +2496,8 @@
       });
     });
   </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -1415,8 +2570,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(tempTextArea);
     }
 });
-</script><script id="dynamic-code-block-engine">
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script id="dynamic-code-block-engine">
+   document.addEventListener('DOMContentLoaded', function() {
       // --- Collapse & Expand Engine ---
       const collapseButtons = document.querySelectorAll('.collapse-btn');
       collapseButtons.forEach(function(btn) {
@@ -1489,5 +2645,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
       }
     });
-    </script></body>
+  </script>
+ </body>
 </html>
