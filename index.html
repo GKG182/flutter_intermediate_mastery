@@ -1,322 +1,634 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flutter Intermediate Mastery – Learn Flutter Through Projects</title>
-
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Flutter Intermediate Mastery – Learn Flutter Through Projects
+  </title>
   <!-- SEO -->
-  <meta name="description" content="Project-based Flutter course for intermediate developers. Build real apps and become job-ready." />
-
+  <meta content="Project-based Flutter course for intermediate developers. Build real apps and become job-ready." name="description"/>
   <!-- CSS -->
-  <link rel="stylesheet" href="styles/main.css" />
-  <link rel="stylesheet" href="styles/components.css" />
-  <link rel="stylesheet" href="styles/utilities.css" />
-  <link rel="stylesheet" href="styles/dark_mode.css" />
-  <link rel="stylesheet" href="styles/animations.css" />
-
+  <link href="styles/main.css" rel="stylesheet"/>
+  <link href="styles/components.css" rel="stylesheet"/>
+  <link href="styles/utilities.css" rel="stylesheet"/>
+  <link href="styles/dark_mode.css" rel="stylesheet"/>
+  <link href="styles/animations.css" rel="stylesheet"/>
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
-<body>
-
-  <canvas id="bg-3d" aria-hidden="true"></canvas>
-
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="assets/download.png" rel="icon"/>
+ </head>
+ <body>
+  <canvas aria-hidden="true" id="bg-3d">
+  </canvas>
   <!-- ===== HEADER – Clean, minimal ===== -->
   <header class="header-nav">
-    <div class="container nav-container">
-      <a href="/" class="logo">
-        <span class="logo-text">Flutter Intermediate</span>
+   <div class="container nav-container">
+    <a class="logo" href="/">
+     <span class="logo-text">
+      Flutter Intermediate
+     </span>
+    </a>
+    <ul class="nav-links">
+     <li>
+      <a class="nav-link active" href="/">
+       Home
       </a>
-      <ul class="nav-links">
-        <li><a href="/" class="nav-link active">Home</a></li>
-        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
-        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
-        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-          <span class="theme-icon">🌙</span>
-        </button>
-        <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
-          <span class="hamburger"></span>
-        </button>
-      </div>
+     </li>
+     <li>
+      <a class="nav-link" href="roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+    <div class="nav-actions">
+     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+      <span class="theme-icon">
+       🌙
+      </span>
+     </button>
+     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+      <span class="hamburger">
+      </span>
+     </button>
     </div>
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu">
-      <ul>
-        <li><a href="/" class="nav-link active">Home</a></li>
-        <li><a href="roadmap.html" class="nav-link">Roadmap</a></li>
-        <li><a href="quiz.html" class="nav-link">Quiz</a></li>
-        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
-      </ul>
-    </div>
+   </div>
+   <!-- Mobile Menu -->
+   <div class="mobile-menu" id="mobile-menu">
+    <ul>
+     <li>
+      <a class="nav-link active" href="/">
+       Home
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="roadmap.html">
+       Roadmap
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="quiz.html">
+       Quiz
+      </a>
+     </li>
+     <li>
+      <a class="nav-link" href="challenges.html">
+       Challenges
+      </a>
+     </li>
+    </ul>
+   </div>
   </header>
-
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-text">
-        <div class="hero-badge"><i class="fas fa-rocket"></i> Project‑Based</div>
-        <h1 class="hero-title">Master Intermediate <br /><span class="gradient-text">Flutter</span></h1>
-        <p class="hero-description">
-          Build 17 real‑world apps while learning state management, API integration, Supabase, clean architecture, and advanced UI. No fluff — just practical skills.
-        </p>
-        <div class="hero-actions">
-          <a href="roadmap.html" class="btn btn-primary btn-large"><i class="fas fa-map"></i> View Roadmap</a>
-          <a href="#modules" class="btn btn-outline btn-large"><i class="fas fa-chevron-down"></i> Explore</a>
-        </div>
-        <div class="hero-stats">
-          <div><span class="stat-number">6</span><span class="stat-label">Modules</span></div>
-          <div><span class="stat-number">17</span><span class="stat-label">Projects</span></div>
-          <div><span class="stat-number">50+</span><span class="stat-label">Lessons</span></div>
-        </div>
+   <div class="container hero-grid">
+    <div class="hero-text">
+     <div class="hero-badge">
+      <i class="fas fa-rocket">
+      </i>
+      Project‑Based
+     </div>
+     <h1 class="hero-title">
+      Master Intermediate
+      <br/>
+      <span class="gradient-text">
+       Flutter
+      </span>
+     </h1>
+     <p class="hero-description">
+      Build 17 real‑world apps while learning state management, API integration, Supabase, clean architecture, and advanced UI. No fluff — just practical skills.
+     </p>
+     <div class="hero-actions">
+      <a class="btn btn-primary btn-large" href="roadmap.html">
+       <i class="fas fa-map">
+       </i>
+       View Roadmap
+      </a>
+      <a class="btn btn-outline btn-large" href="#modules">
+       <i class="fas fa-chevron-down">
+       </i>
+       Explore
+      </a>
+     </div>
+     <div class="hero-stats">
+      <div>
+       <span class="stat-number">
+        6
+       </span>
+       <span class="stat-label">
+        Modules
+       </span>
       </div>
-      <div class="hero-visual">
-        <div class="floating-card card-1"><i class="fas fa-code"></i> Flutter</div>
-        <div class="floating-card card-2"><i class="fas fa-database"></i> Supabase</div>
-        <div class="floating-card card-3"><i class="fas fa-cloud"></i> REST API</div>
-        <div class="floating-card card-4"><i class="fas fa-mobile-alt"></i> Apps</div>
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
+      <div>
+       <span class="stat-number">
+        17
+       </span>
+       <span class="stat-label">
+        Projects
+       </span>
       </div>
+      <div>
+       <span class="stat-number">
+        50+
+       </span>
+       <span class="stat-label">
+        Lessons
+       </span>
+      </div>
+     </div>
     </div>
+    <div class="hero-visual">
+     <div class="floating-card card-1">
+      <i class="fas fa-code">
+      </i>
+      Flutter
+     </div>
+     <div class="floating-card card-2">
+      <i class="fas fa-database">
+      </i>
+      Supabase
+     </div>
+     <div class="floating-card card-3">
+      <i class="fas fa-cloud">
+      </i>
+      REST API
+     </div>
+     <div class="floating-card card-4">
+      <i class="fas fa-mobile-alt">
+      </i>
+      Apps
+     </div>
+     <div class="gradient-orb orb-1">
+     </div>
+     <div class="gradient-orb orb-2">
+     </div>
+    </div>
+   </div>
   </section>
-
   <!-- ===== TECH STACK ===== -->
   <section class="tech-stack">
-    <div class="container text-center">
-      <p class="tech-stack-label">Built with the tools real Flutter teams use</p>
-      <div class="tech-stack-inner">
-        <span class="tech-item"><i class="fas fa-layer-group"></i> Flutter</span>
-        <span class="tech-item"><i class="fas fa-bolt"></i> Dart</span>
-        <span class="tech-item"><i class="fas fa-fire"></i> Supabase</span>
-        <span class="tech-item"><i class="fas fa-code-branch"></i> Riverpod</span>
-        <span class="tech-item"><i class="fas fa-cloud"></i> REST APIs</span>
-        <span class="tech-item"><i class="fas fa-database"></i> SQLite</span>
-      </div>
+   <div class="container text-center">
+    <p class="tech-stack-label">
+     Built with the tools real Flutter teams use
+    </p>
+    <div class="tech-stack-inner">
+     <span class="tech-item">
+      <i class="fas fa-layer-group">
+      </i>
+      Flutter
+     </span>
+     <span class="tech-item">
+      <i class="fas fa-bolt">
+      </i>
+      Dart
+     </span>
+     <span class="tech-item">
+      <i class="fas fa-fire">
+      </i>
+      Supabase
+     </span>
+     <span class="tech-item">
+      <i class="fas fa-code-branch">
+      </i>
+      Riverpod
+     </span>
+     <span class="tech-item">
+      <i class="fas fa-cloud">
+      </i>
+      REST APIs
+     </span>
+     <span class="tech-item">
+      <i class="fas fa-database">
+      </i>
+      SQLite
+     </span>
     </div>
+   </div>
   </section>
-
   <!-- ===== FEATURES ===== -->
   <section class="features">
-    <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title">Why This Course?</h2>
-        <p class="section-subtitle">Learn by building, not by reading.</p>
-      </div>
+   <div class="container">
+    <div class="section-header text-center">
+     <h2 class="section-title">
+      Why This Course?
+     </h2>
+     <p class="section-subtitle">
+      Learn by building, not by reading.
+     </p>
     </div>
-    <div class="swipe-scroll" id="featuresScroll">
-      <div class="feature-card card swipe-card">
-        <div class="feature-icon"><i class="fas fa-project-diagram"></i></div>
-        <h3>Project‑Based</h3>
-        <p>Every concept is introduced through a complete, production‑ready application.</p>
-      </div>
-      <div class="feature-card card swipe-card">
-        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
-        <h3>Beginner Friendly</h3>
-        <p>Assumes you've completed a beginner Flutter course. Simple explanations for complex topics.</p>
-      </div>
-      <div class="feature-card card swipe-card">
-        <div class="feature-icon"><i class="fas fa-book-open"></i></div>
-        <h3>Official Docs</h3>
-        <p>Every lesson links to the official Flutter, Riverpod, and Supabase documentation.</p>
-      </div>
+   </div>
+   <div class="swipe-scroll" id="featuresScroll">
+    <div class="feature-card card swipe-card">
+     <div class="feature-icon">
+      <i class="fas fa-project-diagram">
+      </i>
+     </div>
+     <h3>
+      Project‑Based
+     </h3>
+     <p>
+      Every concept is introduced through a complete, production‑ready application.
+     </p>
     </div>
+    <div class="feature-card card swipe-card">
+     <div class="feature-icon">
+      <i class="fas fa-graduation-cap">
+      </i>
+     </div>
+     <h3>
+      Beginner Friendly
+     </h3>
+     <p>
+      Assumes you've completed a beginner Flutter course. Simple explanations for complex topics.
+     </p>
+    </div>
+    <div class="feature-card card swipe-card">
+     <div class="feature-icon">
+      <i class="fas fa-book-open">
+      </i>
+     </div>
+     <h3>
+      Official Docs
+     </h3>
+     <p>
+      Every lesson links to the official Flutter, Riverpod, and Supabase documentation.
+     </p>
+    </div>
+   </div>
   </section>
-
   <!-- ===== MODULES ===== -->
   <section class="modules" id="modules">
-    <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title">Course Modules</h2>
-        <p class="section-subtitle">From state management to advanced UI — a clear path to mastery.</p>
-      </div>
+   <div class="container">
+    <div class="section-header text-center">
+     <h2 class="section-title">
+      Course Modules
+     </h2>
+     <p class="section-subtitle">
+      From state management to advanced UI — a clear path to mastery.
+     </p>
     </div>
-    <div class="swipe-scroll modules-scroll" id="modulesScroll">
-      <!-- Module 1 -->
-      <div class="module-card card swipe-card">
-        <div class="module-number">01</div>
-        <h3>State Management</h3>
-        <p>Riverpod, providers, and state patterns through real projects.</p>
-        <div class="module-projects">
-          <span class="project-tag">Counter App Pro</span>
-          <span class="project-tag">Task Manager</span>
-          <span class="project-tag">Shopping Cart</span>
-        </div>
-        <a href="lessons/module1/module1-topic1-why-state-management.html" class="btn btn-primary btn-sm">Explore →</a>
-      </div>
-      <!-- Module 2 -->
-      <div class="module-card card swipe-card">
-        <div class="module-number">02</div>
-        <h3>API Integration</h3>
-        <p>HTTP, REST, JSON, pagination, caching — build a Weather App, Movie Explorer, and News Reader.</p>
-        <div class="module-projects">
-          <span class="project-tag">Weather App</span>
-          <span class="project-tag">Movie Explorer</span>
-          <span class="project-tag">News Reader</span>
-        </div>
-        <a href="lessons/module2/module2-topic1-http-requests.html" class="btn btn-primary btn-sm">Explore →</a>
-      </div>
-      <!-- Module 3 -->
-      <div class="module-card card swipe-card">
-        <div class="module-number">03</div>
-        <h3>Local Storage</h3>
-        <p>SharedPreferences, Hive, SQLite — build a Notes App, Expense Tracker, and Habit Tracker.</p>
-        <div class="module-projects">
-          <span class="project-tag">Notes App</span>
-          <span class="project-tag">Expense Tracker</span>
-          <span class="project-tag">Habit Tracker</span>
-        </div>
-        <a href="lessons/module3/module3-topic1-shared-preferences.html" class="btn btn-primary btn-sm">Explore →</a>
-      </div>
-      <!-- Module 4 -->
-      <div class="module-card card swipe-card">
-        <div class="module-number">04</div>
-        <h3>Supabase</h3>
-        <p>Auth, Firestore, Storage, Cloud Messaging — build an Auth App, Chat, and Instagram clone.</p>
-        <div class="module-projects">
-          <span class="project-tag">Auth App</span>
-          <span class="project-tag">Chat App</span>
-          <span class="project-tag">Instagram Clone</span>
-        </div>
-        <a href="lessons/module4/module4-topic1-supabase-setup.html" class="btn btn-primary btn-sm">Explore →</a>
-      </div>
-      <!-- Module 5 -->
-      <div class="module-card card swipe-card">
-        <div class="module-number">05</div>
-        <h3>Clean Architecture</h3>
-        <p>Repository pattern, dependency injection, and feature‑first structure by refactoring existing apps.</p>
-        <div class="module-projects">
-          <span class="project-tag">Refactor Weather</span>
-          <span class="project-tag">Refactor Chat</span>
-        </div>
-        <a href="lessons/module5/module5-topic1-architecture-overview.html" class="btn btn-primary btn-sm">Explore →</a>
-      </div>
-      <!-- Module 6 -->
-      <div class="module-card card swipe-card">
-        <div class="module-number">06</div>
-        <h3>Advanced Flutter</h3>
-        <p>Custom widgets, animations, Hero, slivers, performance, responsive design.</p>
-        <div class="module-projects">
-          <span class="project-tag">Animated Portfolio</span>
-          <span class="project-tag">E‑Commerce UI</span>
-          <span class="project-tag">Netflix UI</span>
-        </div>
-        <a href="lessons/module6/module6-topic1-custom-widgets.html" class="btn btn-primary btn-sm">Explore →</a>
-      </div>
+   </div>
+   <div class="swipe-scroll modules-scroll" id="modulesScroll">
+    <!-- Module 1 -->
+    <div class="module-card card swipe-card">
+     <div class="module-number">
+      01
+     </div>
+     <h3>
+      State Management
+     </h3>
+     <p>
+      Riverpod, providers, and state patterns through real projects.
+     </p>
+     <div class="module-projects">
+      <span class="project-tag">
+       Counter App Pro
+      </span>
+      <span class="project-tag">
+       Task Manager
+      </span>
+      <span class="project-tag">
+       Shopping Cart
+      </span>
+     </div>
+     <a class="btn btn-primary btn-sm" href="lessons/module1/module1-topic1-why-state-management.html">
+      Explore →
+     </a>
     </div>
-    <div class="container">
-      <div class="text-center mt-5">
-        <a href="roadmap.html" class="btn btn-secondary btn-large"><i class="fas fa-map-signs"></i> Full Roadmap</a>
-      </div>
+    <!-- Module 2 -->
+    <div class="module-card card swipe-card">
+     <div class="module-number">
+      02
+     </div>
+     <h3>
+      API Integration
+     </h3>
+     <p>
+      HTTP, REST, JSON, pagination, caching — build a Weather App, Movie Explorer, and News Reader.
+     </p>
+     <div class="module-projects">
+      <span class="project-tag">
+       Weather App
+      </span>
+      <span class="project-tag">
+       Movie Explorer
+      </span>
+      <span class="project-tag">
+       News Reader
+      </span>
+     </div>
+     <a class="btn btn-primary btn-sm" href="lessons/module2/module2-topic1-http-requests.html">
+      Explore →
+     </a>
     </div>
+    <!-- Module 3 -->
+    <div class="module-card card swipe-card">
+     <div class="module-number">
+      03
+     </div>
+     <h3>
+      Local Storage
+     </h3>
+     <p>
+      SharedPreferences, Hive, SQLite — build a Notes App, Expense Tracker, and Habit Tracker.
+     </p>
+     <div class="module-projects">
+      <span class="project-tag">
+       Notes App
+      </span>
+      <span class="project-tag">
+       Expense Tracker
+      </span>
+      <span class="project-tag">
+       Habit Tracker
+      </span>
+     </div>
+     <a class="btn btn-primary btn-sm" href="lessons/module3/module3-topic1-shared-preferences.html">
+      Explore →
+     </a>
+    </div>
+    <!-- Module 4 -->
+    <div class="module-card card swipe-card">
+     <div class="module-number">
+      04
+     </div>
+     <h3>
+      Supabase
+     </h3>
+     <p>
+      Auth, Firestore, Storage, Cloud Messaging — build an Auth App, Chat, and Instagram clone.
+     </p>
+     <div class="module-projects">
+      <span class="project-tag">
+       Auth App
+      </span>
+      <span class="project-tag">
+       Chat App
+      </span>
+      <span class="project-tag">
+       Instagram Clone
+      </span>
+     </div>
+     <a class="btn btn-primary btn-sm" href="lessons/module4/module4-topic1-supabase-setup.html">
+      Explore →
+     </a>
+    </div>
+    <!-- Module 5 -->
+    <div class="module-card card swipe-card">
+     <div class="module-number">
+      05
+     </div>
+     <h3>
+      Clean Architecture
+     </h3>
+     <p>
+      Repository pattern, dependency injection, and feature‑first structure by refactoring existing apps.
+     </p>
+     <div class="module-projects">
+      <span class="project-tag">
+       Refactor Weather
+      </span>
+      <span class="project-tag">
+       Refactor Chat
+      </span>
+     </div>
+     <a class="btn btn-primary btn-sm" href="lessons/module5/module5-topic1-architecture-overview.html">
+      Explore →
+     </a>
+    </div>
+    <!-- Module 6 -->
+    <div class="module-card card swipe-card">
+     <div class="module-number">
+      06
+     </div>
+     <h3>
+      Advanced Flutter
+     </h3>
+     <p>
+      Custom widgets, animations, Hero, slivers, performance, responsive design.
+     </p>
+     <div class="module-projects">
+      <span class="project-tag">
+       Animated Portfolio
+      </span>
+      <span class="project-tag">
+       E‑Commerce UI
+      </span>
+      <span class="project-tag">
+       Netflix UI
+      </span>
+     </div>
+     <a class="btn btn-primary btn-sm" href="lessons/module6/module6-topic1-custom-widgets.html">
+      Explore →
+     </a>
+    </div>
+   </div>
+   <div class="container">
+    <div class="text-center mt-5">
+     <a class="btn btn-secondary btn-large" href="roadmap.html">
+      <i class="fas fa-map-signs">
+      </i>
+      Full Roadmap
+     </a>
+    </div>
+   </div>
   </section>
-
   <!-- ===== FAQ ===== -->
   <section class="faq" id="faq">
-    <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title">Frequently Asked Questions</h2>
-        <p class="section-subtitle">Everything you need to know before you start.</p>
-      </div>
-      <div class="faq-list">
-        <details class="faq-item">
-          <summary>Do I need any prior Flutter experience?</summary>
-          <p>Yes — this course assumes you've already completed a beginner Flutter course and are comfortable with widgets, basic state, and navigation. If Flutter is completely new to you, start with the fundamentals first and come back here once the basics feel familiar.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What Flutter and Dart versions does this course use?</summary>
-          <p>The course is kept current with the latest stable Flutter and Dart releases, including sound null safety and Material 3 widgets, so what you build here matches what you'll see in real production codebases.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How long does it take to finish?</summary>
-          <p>Most learners work through all six modules and 17 projects in 6–10 weeks at a pace of a few hours a week. Everything is fully self-paced, so you can move faster or slower depending on your schedule.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do I get a certificate when I finish?</summary>
-          <p>Not at the moment — the focus here is on the 17 portfolio-ready projects themselves, which tend to carry a lot more weight with employers and clients than a completion certificate.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What if I get stuck on a lesson?</summary>
-          <p>Every lesson links directly to the official Flutter, Riverpod, and Supabase documentation, and the roadmap page tracks exactly where you are in the course so you always know what to tackle next.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is there a community to ask questions in?</summary>
-          <p>Yes — the Discord community linked in the footer is the best place to ask questions, share progress on your projects, and get a second pair of eyes when something isn't working.</p>
-        </details>
-      </div>
+   <div class="container">
+    <div class="section-header text-center">
+     <h2 class="section-title">
+      Frequently Asked Questions
+     </h2>
+     <p class="section-subtitle">
+      Everything you need to know before you start.
+     </p>
     </div>
+    <div class="faq-list">
+     <details class="faq-item">
+      <summary>
+       Do I need any prior Flutter experience?
+      </summary>
+      <p>
+       Yes — this course assumes you've already completed a beginner Flutter course and are comfortable with widgets, basic state, and navigation. If Flutter is completely new to you, start with the fundamentals first and come back here once the basics feel familiar.
+      </p>
+     </details>
+     <details class="faq-item">
+      <summary>
+       What Flutter and Dart versions does this course use?
+      </summary>
+      <p>
+       The course is kept current with the latest stable Flutter and Dart releases, including sound null safety and Material 3 widgets, so what you build here matches what you'll see in real production codebases.
+      </p>
+     </details>
+     <details class="faq-item">
+      <summary>
+       How long does it take to finish?
+      </summary>
+      <p>
+       Most learners work through all six modules and 17 projects in 6–10 weeks at a pace of a few hours a week. Everything is fully self-paced, so you can move faster or slower depending on your schedule.
+      </p>
+     </details>
+     <details class="faq-item">
+      <summary>
+       Do I get a certificate when I finish?
+      </summary>
+      <p>
+       Not at the moment — the focus here is on the 17 portfolio-ready projects themselves, which tend to carry a lot more weight with employers and clients than a completion certificate.
+      </p>
+     </details>
+     <details class="faq-item">
+      <summary>
+       What if I get stuck on a lesson?
+      </summary>
+      <p>
+       Every lesson links directly to the official Flutter, Riverpod, and Supabase documentation, and the roadmap page tracks exactly where you are in the course so you always know what to tackle next.
+      </p>
+     </details>
+     <details class="faq-item">
+      <summary>
+       Is there a community to ask questions in?
+      </summary>
+      <p>
+       Yes — the Discord community linked in the footer is the best place to ask questions, share progress on your projects, and get a second pair of eyes when something isn't working.
+      </p>
+     </details>
+    </div>
+   </div>
   </section>
-
   <!-- ===== CTA ===== -->
   <section class="cta">
-    <div class="container">
-      <div class="cta-box">
-        <h2>Ready to Become Job-Ready?</h2>
-        <p>Follow the roadmap, build all 17 projects, and walk away with a portfolio that proves you can ship real Flutter apps.</p>
-        <a href="roadmap.html" class="btn btn-light btn-large"><i class="fas fa-rocket"></i> Start the Roadmap</a>
-      </div>
+   <div class="container">
+    <div class="cta-box">
+     <h2>
+      Ready to Become Job-Ready?
+     </h2>
+     <p>
+      Follow the roadmap, build all 17 projects, and walk away with a portfolio that proves you can ship real Flutter apps.
+     </p>
+     <a class="btn btn-light btn-large" href="roadmap.html">
+      <i class="fas fa-rocket">
+      </i>
+      Start the Roadmap
+     </a>
     </div>
+   </div>
   </section>
-
   <!-- ===== FOOTER – NekoVerse branding, no portfolio ===== -->
   <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="company-brand">
-            <img alt="NekoVerse Logo" class="nekoverse-logo-img" src="assets/download.png" width="40" height="40" />
-            <span class="nekoverse-text">NekoVerse</span>
-          </div>
-          <p class="company-tagline">Building cross-platform educational experiences.</p>
-          <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
-            Take our Dart Course →
-          </a>
-        </div>
-        <div class="footer-links">
-          <h4>Course</h4>
-          <ul>
-            <li><a href="roadmap.html">Curriculum</a></li>
-            <li><a href="lessons/module1/module1-topic1-why-state-management.html">Getting Started</a></li>
-            <li><a href="roadmap.html">Projects</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="https://flutter.dev" rel="noopener" target="_blank">Flutter Official</a></li>
-            <li><a href="https://dart.dev" rel="noopener" target="_blank">Dart Language</a></li>
-            <li><a href="https://pub.dev" rel="noopener" target="_blank">pub.dev</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h4>Community</h4>
-          <ul>
-            <li><a href="https://github.com/flutter" rel="noopener" target="_blank">GitHub</a></li>
-            <li><a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">Twitter</a></li>
-            <li><a href="https://discord.gg/flutter" rel="noopener" target="_blank">Discord</a></li>
-          </ul>
-        </div>
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <div class="company-brand">
+       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="assets/download.png" width="40"/>
+       <span class="nekoverse-text">
+        NekoVerse
+       </span>
       </div>
-      <div class="footer-bottom">
-        <p>© 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.</p>
-      </div>
+      <p class="company-tagline">
+       Building cross-platform educational experiences.
+      </p>
+      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+       Take our Dart Course →
+      </a>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Course
+      </h4>
+      <ul>
+       <li>
+        <a href="roadmap.html">
+         Curriculum
+        </a>
+       </li>
+       <li>
+        <a href="lessons/module1/module1-topic1-why-state-management.html">
+         Getting Started
+        </a>
+       </li>
+       <li>
+        <a href="roadmap.html">
+         Projects
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Resources
+      </h4>
+      <ul>
+       <li>
+        <a href="https://flutter.dev" rel="noopener" target="_blank">
+         Flutter Official
+        </a>
+       </li>
+       <li>
+        <a href="https://dart.dev" rel="noopener" target="_blank">
+         Dart Language
+        </a>
+       </li>
+       <li>
+        <a href="https://pub.dev" rel="noopener" target="_blank">
+         pub.dev
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="footer-links">
+      <h4>
+       Community
+      </h4>
+      <ul>
+       <li>
+        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+         GitHub
+        </a>
+       </li>
+       <li>
+        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+         Twitter
+        </a>
+       </li>
+       <li>
+        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+         Discord
+        </a>
+       </li>
+      </ul>
+     </div>
     </div>
+    <div class="footer-bottom">
+     <p>
+      © 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.
+     </p>
+    </div>
+   </div>
   </footer>
-
   <!-- JavaScript -->
-  <script src="js/theme.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/theme.js">
+  </script>
+  <script src="js/navigation.js">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+  </script>
   <script>
-    // ===== 3D background (Three.js) =====
+   // ===== 3D background (Three.js) =====
     // Floating wireframe shapes + a soft particle field, fixed behind the
     // whole page. Pure decoration — wrapped so a blocked/failed CDN load
     // just leaves the plain CSS gradient background (no broken page).
@@ -446,7 +758,7 @@
     })();
   </script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
       const toggle = document.getElementById('theme-toggle');
       if (toggle) {
         const icon = toggle.querySelector('.theme-icon');
@@ -484,5 +796,5 @@
       });
     });
   </script>
-</body>
+ </body>
 </html>
