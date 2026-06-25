@@ -17,11 +17,16 @@ class CourseSidebar {
 
     // Storage key for progress
     this.STORAGE_KEY = 'flutter_intermediate_progress';
+    // Storage key for module states
+    this.MODULE_STATE_KEY = 'sidebar_module_states';
 
     // Track all lessons
     this.allLessons = [];
     this.lessonStatus = {};
     this.isCollapsed = false;
+    
+    // Track module states before collapse
+    this.moduleStatesBeforeCollapse = {};
 
     // Initialize
     this.init();
@@ -54,6 +59,9 @@ class CourseSidebar {
     if (savedCollapse === 'true' && window.innerWidth >= 1025) {
       this.toggleCollapse(true);
     }
+
+    // Restore module states if they exist
+    this.restoreModuleStates();
   }
 
   findAllLessons() {
@@ -90,6 +98,116 @@ class CourseSidebar {
 
   saveProgress() {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.lessonStatus));
+  }
+
+  // Save module states to localStorage
+  saveModuleStates() {
+    const modules = document.querySelectorAll('.sidebar-module');
+    const states = {};
+    modules.forEach((module, index) => {
+      const isCollapsed = module.classList.contains('collapsed');
+      states[index] = isCollapsed;
+    });
+    localStorage.setItem(this.MODULE_STATE_KEY, JSON.stringify(states));
+  }
+
+  // Restore module states from localStorage
+  restoreModuleStates() {
+    const saved = localStorage.getItem(this.MODULE_STATE_KEY);
+    if (!saved) return;
+    
+    try {
+      const states = JSON.parse(saved);
+      const modules = document.querySelectorAll('.sidebar-module');
+      modules.forEach((module, index) => {
+        if (states[index] !== undefined) {
+          const shouldBeCollapsed = states[index];
+          const toggle = module.querySelector('.module-toggle i');
+          const topicList = module.querySelector('.sidebar-topic-list');
+          
+          if (shouldBeCollapsed) {
+            module.classList.add('collapsed');
+            if (toggle) toggle.className = 'fas fa-chevron-right';
+            if (topicList) {
+              topicList.style.maxHeight = '0';
+            }
+          } else {
+            module.classList.remove('collapsed');
+            if (toggle) toggle.className = 'fas fa-chevron-down';
+            if (topicList) {
+              topicList.style.maxHeight = '2000px';
+              topicList.style.display = '';
+            }
+          }
+        }
+      });
+      
+      // Update the toggle all button text
+      this.updateToggleAllButtonText();
+    } catch (e) {
+      console.warn('Could not restore module states:', e);
+    }
+  }
+
+  // Save the current module states before collapsing sidebar
+  saveModuleStatesBeforeCollapse() {
+    const modules = document.querySelectorAll('.sidebar-module');
+    const states = {};
+    modules.forEach((module, index) => {
+      states[index] = module.classList.contains('collapsed');
+    });
+    this.moduleStatesBeforeCollapse = states;
+  }
+
+  // Restore module states after expanding sidebar
+  restoreModuleStatesAfterExpand() {
+    const modules = document.querySelectorAll('.sidebar-module');
+    modules.forEach((module, index) => {
+      const shouldBeCollapsed = this.moduleStatesBeforeCollapse[index] !== undefined 
+        ? this.moduleStatesBeforeCollapse[index] 
+        : false;
+      
+      const toggle = module.querySelector('.module-toggle i');
+      const topicList = module.querySelector('.sidebar-topic-list');
+      
+      if (shouldBeCollapsed) {
+        module.classList.add('collapsed');
+        if (toggle) toggle.className = 'fas fa-chevron-right';
+        if (topicList) {
+          topicList.style.maxHeight = '0';
+        }
+      } else {
+        module.classList.remove('collapsed');
+        if (toggle) toggle.className = 'fas fa-chevron-down';
+        if (topicList) {
+          topicList.style.maxHeight = '2000px';
+          topicList.style.display = '';
+        }
+      }
+    });
+    
+    // Update the toggle all button text
+    this.updateToggleAllButtonText();
+  }
+
+  // Update toggle all button text
+  updateToggleAllButtonText() {
+    const toggleAllBtn = document.getElementById('toggleAllModulesBtn');
+    if (!toggleAllBtn) return;
+    
+    const modules = document.querySelectorAll('.sidebar-module');
+    let anyCollapsed = false;
+    modules.forEach(module => {
+      if (module.classList.contains('collapsed')) {
+        anyCollapsed = true;
+      }
+    });
+    
+    if (anyCollapsed) {
+      toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Expand All';
+    } else {
+      toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Collapse All';
+    }
   }
 
   isLessonCompleted(lessonId) {
@@ -253,7 +371,40 @@ class CourseSidebar {
   toggleCollapse(forceState) {
     if (window.innerWidth < 1025) return;
 
+    const wasCollapsed = this.isCollapsed;
     this.isCollapsed = forceState !== undefined ? forceState : !this.isCollapsed;
+    
+    // If we're collapsing the sidebar
+    if (!wasCollapsed && this.isCollapsed) {
+      // Save current module states before collapsing
+      this.saveModuleStatesBeforeCollapse();
+      // Also save to localStorage for persistence
+      this.saveModuleStates();
+      
+      // Collapse all modules visually
+      const modules = document.querySelectorAll('.sidebar-module');
+      modules.forEach(module => {
+        module.classList.add('collapsed');
+        const toggle = module.querySelector('.module-toggle i');
+        if (toggle) toggle.className = 'fas fa-chevron-right';
+        const topicList = module.querySelector('.sidebar-topic-list');
+        if (topicList) {
+          topicList.style.maxHeight = '0';
+        }
+      });
+      
+      // Update toggle all button
+      this.updateToggleAllButtonText();
+    }
+    
+    // If we're expanding the sidebar
+    if (wasCollapsed && !this.isCollapsed) {
+      // Restore module states from before collapse
+      this.restoreModuleStatesAfterExpand();
+      // Also restore from localStorage for persistence
+      this.restoreModuleStates();
+    }
+
     this.sidebar.classList.toggle('collapsed', this.isCollapsed);
     localStorage.setItem('sidebar_collapsed', this.isCollapsed);
 
@@ -374,6 +525,8 @@ class CourseSidebar {
         this.sidebar.classList.remove('collapsed');
         this.isCollapsed = false;
         document.body.style.setProperty('--sidebar-width', '360px');
+        // Restore module states when sidebar is expanded on desktop
+        this.restoreModuleStates();
       }
       
       // Update collapse button icon
@@ -426,6 +579,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.courseSidebar = new CourseSidebar();
   }
 });
+
 // ==========================================
 // TOGGLE ALL MODULES - FIXED
 // ==========================================
@@ -499,6 +653,11 @@ function initToggleAllModules() {
     
     // Update button text
     updateToggleButtonText();
+    
+    // Save module states
+    if (window.courseSidebar) {
+      window.courseSidebar.saveModuleStates();
+    }
   });
 }
 
@@ -546,6 +705,11 @@ function initIndividualModuleToggle() {
         } else {
           toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Collapse All';
         }
+      }
+      
+      // Save module states
+      if (window.courseSidebar) {
+        window.courseSidebar.saveModuleStates();
       }
     });
   });
