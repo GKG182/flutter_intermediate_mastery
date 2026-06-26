@@ -40,15 +40,32 @@ class CourseSidebar {
     this.findAllLessons();
     this.updateAll();
     this.setupEventListeners();
-    this.highlightCurrentPage();
 
-    // Load initial sidebar collapse state (Desktop only)
-    const savedCollapse = localStorage.getItem(this.SIDEBAR_COLLAPSE_KEY);
-    if (savedCollapse === 'true' && window.innerWidth >= 1025) {
-      this.toggleCollapse(true);
+    // Load initial sidebar layout and states perfectly on mount (Desktop vs Mobile)
+    if (window.innerWidth >= 1025) {
+      this.sidebar.classList.add('open');
+      document.body.classList.add('has-sidebar');
+      
+      const savedCollapse = localStorage.getItem(this.SIDEBAR_COLLAPSE_KEY);
+      if (savedCollapse === 'true') {
+        this.sidebar.classList.add('collapsed');
+        this.isCollapsed = true;
+        document.body.style.setProperty('--sidebar-width', '60px');
+      } else {
+        this.sidebar.classList.remove('collapsed');
+        this.isCollapsed = false;
+        document.body.style.setProperty('--sidebar-width', '360px');
+        this.restoreModuleStates();
+      }
+      
+      const icon = this.collapseBtn?.querySelector('i');
+      if (icon) icon.className = this.isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
     } else {
       this.restoreModuleStates();
     }
+
+    // Highlight current page and auto-expand its parent module container
+    this.highlightCurrentPage();
 
     // Run scrolling after layout engine paint settles
     if (document.readyState === 'complete') {
@@ -281,11 +298,9 @@ class CourseSidebar {
   }
 
   isCurrentPage(lesson) {
-    // Normalizes paths to remove trailing slashes and file extensions
     const cleanPath = window.location.pathname.replace(/\/$/, '').split('/').pop().replace('.html', '');
     const cleanLesson = lesson.replace('.html', '');
     
-    // Handles root index paths securely
     if ((cleanPath === '' || cleanPath === 'index') && (cleanLesson === 'index' || cleanLesson === '')) {
       return true;
     }
@@ -300,7 +315,6 @@ class CourseSidebar {
       if (this.isCurrentPage(lesson)) {
         topic.classList.add('active');
         
-        // Force expand the container module for visibility
         const module = topic.closest('.sidebar-module');
         if (module) {
           this.setModuleCollapseState(module, false);
@@ -427,7 +441,7 @@ class CourseSidebar {
       }
     });
 
-    // Structural View Access Keyboard Navigation Shortcuts
+    // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
       if (e.key === 's' && !e.ctrlKey && !e.metaKey && !e.altKey && window.innerWidth <= 1024) {
         this.sidebar.classList.toggle('open');
