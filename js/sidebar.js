@@ -297,15 +297,37 @@ class CourseSidebar {
     if (this.completedCount) this.completedCount.textContent = completed;
   }
 
+  // Replace the isCurrentPage method in sidebar.js with this:
+
   isCurrentPage(lesson) {
-    const cleanPath = window.location.pathname.replace(/\/$/, '').split('/').pop().replace('.html', '');
-    const cleanLesson = lesson.replace('.html', '');
+    // Get the current page path
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+    // Get the lesson path from the sidebar link (relative path)
+    const link = document.querySelector(`.sidebar-topic[data-lesson="${lesson}"] a`);
+    if (!link) return false;
     
-    if ((cleanPath === '' || cleanPath === 'index') && (cleanLesson === 'index' || cleanLesson === '')) {
-      return true;
+    const lessonPath = link.getAttribute('href');
+    if (!lessonPath) return false;
+    
+    // Compare the full path (normalized)
+    const currentFull = currentPath.split('/').filter(p => p !== '');
+    const lessonFull = lessonPath.split('/').filter(p => p !== '');
+    
+    // If lessonFull is empty, it's probably an index page
+    if (lessonFull.length === 0) {
+      return currentFull.length === 0 || currentFull[currentFull.length - 1] === 'index.html';
     }
     
-    return cleanPath === cleanLesson;
+    // Compare the last part (filename) as fallback
+    const currentFile = currentFull.length > 0 ? currentFull[currentFull.length - 1].replace('.html', '') : '';
+    const lessonFile = lessonFull[lessonFull.length - 1].replace('.html', '');
+    
+    // Also check if the lesson path is in the current path
+    // This handles cases where the lesson is accessed from a different route
+    const lessonPathStr = lessonPath.replace(/^\//, '').replace(/\.html$/, '');
+    const currentPathStr = currentPath.replace(/^\//, '');
+    
+    return currentPathStr.includes(lessonPathStr) || currentFile === lessonFile;
   }
 
   highlightCurrentPage() {
