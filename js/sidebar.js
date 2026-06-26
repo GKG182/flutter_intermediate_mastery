@@ -1,67 +1,61 @@
 // ========================================
-// SIDEBAR.JS - Course Navigation Sidebar v2
+// SIDEBAR.JS - Course Navigation Sidebar v3
 // ========================================
 
 class CourseSidebar {
   constructor() {
+    // Core Elements
     this.sidebar = document.getElementById('courseSidebar');
+    if (!this.sidebar) return; // Guard clause if sidebar isn't on the page
+
     this.content = document.getElementById('sidebarContent');
     this.toggleBtn = document.getElementById('sidebarToggle');
     this.closeBtn = document.getElementById('sidebarClose');
     this.collapseBtn = document.getElementById('sidebarCollapseBtn');
     this.resetBtn = document.getElementById('resetProgressBtn');
+    this.toggleAllModulesBtn = document.getElementById('toggleAllModulesBtn');
+
+    // Progress Elements
     this.progressFill = document.getElementById('sidebarProgressFill');
     this.progressPercentage = document.getElementById('sidebarProgressPercentage');
     this.completedCount = document.getElementById('sidebarCompletedCount');
     this.totalCount = document.getElementById('sidebarTotalCount');
 
-    // Storage key for progress
+    // Storage Keys
     this.STORAGE_KEY = 'flutter_intermediate_progress';
-    // Storage key for module states
     this.MODULE_STATE_KEY = 'sidebar_module_states';
+    this.SIDEBAR_COLLAPSE_KEY = 'sidebar_collapsed';
 
-    // Track all lessons
+    // State Trackers
     this.allLessons = [];
     this.lessonStatus = {};
     this.isCollapsed = false;
-    
-    // Track module states before collapse
     this.moduleStatesBeforeCollapse = {};
 
-    // Initialize
     this.init();
   }
 
   init() {
-    // Load progress from localStorage
     this.loadProgress();
-
-    // Find all topics and their lessons
     this.findAllLessons();
-
-    // Update UI
     this.updateAll();
-
-    // Set up event listeners
     this.setupEventListeners();
-
-    // Highlight current page
     this.highlightCurrentPage();
 
-    // Auto-scroll to active topic
-    this.scrollToActive();
-
-    // Handle responsive
-    this.handleResponsive();
-
-    // Load collapse state
-    const savedCollapse = localStorage.getItem('sidebar_collapsed');
+    // Load initial sidebar collapse state (Desktop only)
+    const savedCollapse = localStorage.getItem(this.SIDEBAR_COLLAPSE_KEY);
     if (savedCollapse === 'true' && window.innerWidth >= 1025) {
       this.toggleCollapse(true);
+    } else {
+      this.restoreModuleStates();
     }
 
-    // Restore module states if they exist
-    this.restoreModuleStates();
+    // Run scrolling after layout engine paint settles
+    if (document.readyState === 'complete') {
+      this.scrollToActive();
+    } else {
+      window.addEventListener('load', () => this.scrollToActive());
+    }
   }
 
   findAllLessons() {
@@ -80,7 +74,9 @@ class CourseSidebar {
       }
     });
 
-    this.totalCount.textContent = this.allLessons.length;
+    if (this.totalCount) {
+      this.totalCount.textContent = this.allLessons.length;
+    }
   }
 
   loadProgress() {
@@ -100,18 +96,15 @@ class CourseSidebar {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.lessonStatus));
   }
 
-  // Save module states to localStorage
   saveModuleStates() {
     const modules = document.querySelectorAll('.sidebar-module');
     const states = {};
     modules.forEach((module, index) => {
-      const isCollapsed = module.classList.contains('collapsed');
-      states[index] = isCollapsed;
+      states[index] = module.classList.contains('collapsed');
     });
     localStorage.setItem(this.MODULE_STATE_KEY, JSON.stringify(states));
   }
 
-  // Restore module states from localStorage
   restoreModuleStates() {
     const saved = localStorage.getItem(this.MODULE_STATE_KEY);
     if (!saved) return;
@@ -121,79 +114,55 @@ class CourseSidebar {
       const modules = document.querySelectorAll('.sidebar-module');
       modules.forEach((module, index) => {
         if (states[index] !== undefined) {
-          const shouldBeCollapsed = states[index];
-          const toggle = module.querySelector('.module-toggle i');
-          const topicList = module.querySelector('.sidebar-topic-list');
-          
-          if (shouldBeCollapsed) {
-            module.classList.add('collapsed');
-            if (toggle) toggle.className = 'fas fa-chevron-right';
-            if (topicList) {
-              topicList.style.maxHeight = '0';
-            }
-          } else {
-            module.classList.remove('collapsed');
-            if (toggle) toggle.className = 'fas fa-chevron-down';
-            if (topicList) {
-              topicList.style.maxHeight = '2000px';
-              topicList.style.display = '';
-            }
-          }
+          this.setModuleCollapseState(module, states[index]);
         }
       });
       
-      // Update the toggle all button text
       this.updateToggleAllButtonText();
     } catch (e) {
       console.warn('Could not restore module states:', e);
     }
   }
 
-  // Save the current module states before collapsing sidebar
   saveModuleStatesBeforeCollapse() {
     const modules = document.querySelectorAll('.sidebar-module');
-    const states = {};
     modules.forEach((module, index) => {
-      states[index] = module.classList.contains('collapsed');
+      this.moduleStatesBeforeCollapse[index] = module.classList.contains('collapsed');
     });
-    this.moduleStatesBeforeCollapse = states;
   }
 
-  // Restore module states after expanding sidebar
   restoreModuleStatesAfterExpand() {
     const modules = document.querySelectorAll('.sidebar-module');
     modules.forEach((module, index) => {
       const shouldBeCollapsed = this.moduleStatesBeforeCollapse[index] !== undefined 
         ? this.moduleStatesBeforeCollapse[index] 
         : false;
-      
-      const toggle = module.querySelector('.module-toggle i');
-      const topicList = module.querySelector('.sidebar-topic-list');
-      
-      if (shouldBeCollapsed) {
-        module.classList.add('collapsed');
-        if (toggle) toggle.className = 'fas fa-chevron-right';
-        if (topicList) {
-          topicList.style.maxHeight = '0';
-        }
-      } else {
-        module.classList.remove('collapsed');
-        if (toggle) toggle.className = 'fas fa-chevron-down';
-        if (topicList) {
-          topicList.style.maxHeight = '2000px';
-          topicList.style.display = '';
-        }
-      }
+      this.setModuleCollapseState(module, shouldBeCollapsed);
     });
     
-    // Update the toggle all button text
     this.updateToggleAllButtonText();
   }
 
-  // Update toggle all button text
+  setModuleCollapseState(module, shouldCollapse) {
+    const toggle = module.querySelector('.module-toggle i');
+    const topicList = module.querySelector('.sidebar-topic-list');
+    
+    if (shouldCollapse) {
+      module.classList.add('collapsed');
+      if (toggle) toggle.className = 'fas fa-chevron-right';
+      if (topicList) topicList.style.maxHeight = '0';
+    } else {
+      module.classList.remove('collapsed');
+      if (toggle) toggle.className = 'fas fa-chevron-down';
+      if (topicList) {
+        topicList.style.maxHeight = '2000px';
+        topicList.style.display = '';
+      }
+    }
+  }
+
   updateToggleAllButtonText() {
-    const toggleAllBtn = document.getElementById('toggleAllModulesBtn');
-    if (!toggleAllBtn) return;
+    if (!this.toggleAllModulesBtn) return;
     
     const modules = document.querySelectorAll('.sidebar-module');
     let anyCollapsed = false;
@@ -204,9 +173,9 @@ class CourseSidebar {
     });
     
     if (anyCollapsed) {
-      toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Expand All';
+      this.toggleAllModulesBtn.innerHTML = '<i class="fas fa-layer-group"></i> Expand All';
     } else {
-      toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Collapse All';
+      this.toggleAllModulesBtn.innerHTML = '<i class="fas fa-layer-group"></i> Collapse All';
     }
   }
 
@@ -215,20 +184,13 @@ class CourseSidebar {
   }
 
   toggleLesson(lessonId) {
-    const current = this.isLessonCompleted(lessonId);
-    this.lessonStatus[lessonId] = !current;
+    this.lessonStatus[lessonId] = !this.isLessonCompleted(lessonId);
     this.saveProgress();
     this.updateAll();
   }
 
   markLessonComplete(lessonId) {
     this.lessonStatus[lessonId] = true;
-    this.saveProgress();
-    this.updateAll();
-  }
-
-  markLessonIncomplete(lessonId) {
-    this.lessonStatus[lessonId] = false;
     this.saveProgress();
     this.updateAll();
   }
@@ -252,13 +214,11 @@ class CourseSidebar {
     topics.forEach(topic => {
       const lesson = topic.dataset.lesson;
       const statusIcon = topic.querySelector('.topic-status i');
-      const topicId = topic.dataset.topic;
 
       if (lesson && statusIcon) {
         const completed = this.isLessonCompleted(lesson);
         const isActive = this.isCurrentPage(lesson);
 
-        // Remove all status classes
         statusIcon.className = 'fas fa-circle';
 
         if (completed) {
@@ -286,15 +246,11 @@ class CourseSidebar {
         const lesson = topic.dataset.lesson;
         if (lesson) {
           total++;
-          if (this.isLessonCompleted(lesson)) {
-            completed++;
-          }
+          if (this.isLessonCompleted(lesson)) completed++;
         }
       });
 
-      if (progressSpan) {
-        progressSpan.textContent = `${completed}/${total}`;
-      }
+      if (progressSpan) progressSpan.textContent = `${completed}/${total}`;
 
       if (statusSpan) {
         statusSpan.className = 'fas fa-circle';
@@ -314,22 +270,27 @@ class CourseSidebar {
     const total = this.allLessons.length;
 
     this.allLessons.forEach(item => {
-      if (this.isLessonCompleted(item.lesson)) {
-        completed++;
-      }
+      if (this.isLessonCompleted(item.lesson)) completed++;
     });
 
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-    this.progressFill.style.width = `${percentage}%`;
-    this.progressPercentage.textContent = `${percentage}%`;
-    this.completedCount.textContent = completed;
+    if (this.progressFill) this.progressFill.style.width = `${percentage}%`;
+    if (this.progressPercentage) this.progressPercentage.textContent = `${percentage}%`;
+    if (this.completedCount) this.completedCount.textContent = completed;
   }
 
   isCurrentPage(lesson) {
-    const currentPath = window.location.pathname.split('/').pop();
-    const lessonPath = `${lesson}.html`;
-    return currentPath === lessonPath;
+    // Normalizes paths to remove trailing slashes and file extensions
+    const cleanPath = window.location.pathname.replace(/\/$/, '').split('/').pop().replace('.html', '');
+    const cleanLesson = lesson.replace('.html', '');
+    
+    // Handles root index paths securely
+    if ((cleanPath === '' || cleanPath === 'index') && (cleanLesson === 'index' || cleanLesson === '')) {
+      return true;
+    }
+    
+    return cleanPath === cleanLesson;
   }
 
   highlightCurrentPage() {
@@ -338,34 +299,27 @@ class CourseSidebar {
       const lesson = topic.dataset.lesson;
       if (this.isCurrentPage(lesson)) {
         topic.classList.add('active');
-        // Expand parent module if collapsed
+        
+        // Force expand the container module for visibility
         const module = topic.closest('.sidebar-module');
         if (module) {
-          module.classList.remove('collapsed');
-          const toggle = module.querySelector('.module-toggle i');
-          if (toggle) toggle.className = 'fas fa-chevron-down';
-          const topicList = module.querySelector('.sidebar-topic-list');
-          if (topicList) {
-            topicList.style.maxHeight = '2000px';
-            topicList.style.display = '';
-          }
+          this.setModuleCollapseState(module, false);
         }
       } else {
         topic.classList.remove('active');
       }
     });
+    this.updateToggleAllButtonText();
   }
 
   scrollToActive() {
-    setTimeout(() => {
-      const activeTopic = document.querySelector('.sidebar-topic.active');
-      if (activeTopic) {
-        activeTopic.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }
-    }, 150);
+    const activeTopic = document.querySelector('.sidebar-topic.active');
+    if (activeTopic) {
+      activeTopic.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
   }
 
   toggleCollapse(forceState) {
@@ -374,45 +328,27 @@ class CourseSidebar {
     const wasCollapsed = this.isCollapsed;
     this.isCollapsed = forceState !== undefined ? forceState : !this.isCollapsed;
     
-    // If we're collapsing the sidebar
+    const modules = document.querySelectorAll('.sidebar-module');
+    
     if (!wasCollapsed && this.isCollapsed) {
-      // Save current module states before collapsing
       this.saveModuleStatesBeforeCollapse();
-      // Also save to localStorage for persistence
       this.saveModuleStates();
       
-      // Collapse all modules visually
-      const modules = document.querySelectorAll('.sidebar-module');
-      modules.forEach(module => {
-        module.classList.add('collapsed');
-        const toggle = module.querySelector('.module-toggle i');
-        if (toggle) toggle.className = 'fas fa-chevron-right';
-        const topicList = module.querySelector('.sidebar-topic-list');
-        if (topicList) {
-          topicList.style.maxHeight = '0';
-        }
-      });
-      
-      // Update toggle all button
+      modules.forEach(module => this.setModuleCollapseState(module, true));
       this.updateToggleAllButtonText();
     }
     
-    // If we're expanding the sidebar
     if (wasCollapsed && !this.isCollapsed) {
-      // Restore module states from before collapse
       this.restoreModuleStatesAfterExpand();
-      // Also restore from localStorage for persistence
       this.restoreModuleStates();
     }
 
     this.sidebar.classList.toggle('collapsed', this.isCollapsed);
-    localStorage.setItem('sidebar_collapsed', this.isCollapsed);
+    localStorage.setItem(this.SIDEBAR_COLLAPSE_KEY, this.isCollapsed);
 
-    // Update body class for main content margin
     document.body.classList.add('has-sidebar');
     document.body.style.setProperty('--sidebar-width', this.isCollapsed ? '60px' : '360px');
 
-    // Update collapse button icon
     const icon = this.collapseBtn?.querySelector('i');
     if (icon) {
       icon.className = this.isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
@@ -420,103 +356,99 @@ class CourseSidebar {
   }
 
   setupEventListeners() {
-    // Toggle sidebar (mobile)
-    if (this.toggleBtn) {
-      this.toggleBtn.addEventListener('click', () => {
-        this.sidebar.classList.toggle('open');
-        document.body.classList.toggle('sidebar-open');
-      });
-    }
+    // Mobile Open/Close
+    this.toggleBtn?.addEventListener('click', () => {
+      this.sidebar.classList.toggle('open');
+      document.body.classList.toggle('sidebar-open');
+    });
 
-    // Close sidebar (mobile)
-    if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => {
-        this.sidebar.classList.remove('open');
-        document.body.classList.remove('sidebar-open');
-      });
-    }
+    this.closeBtn?.addEventListener('click', () => {
+      this.sidebar.classList.remove('open');
+      document.body.classList.remove('sidebar-open');
+    });
 
-    // Collapse sidebar (desktop)
-    if (this.collapseBtn) {
-      this.collapseBtn.addEventListener('click', () => {
-        this.toggleCollapse();
-      });
-    }
+    // Desktop Collapse Sidebar Toggle
+    this.collapseBtn?.addEventListener('click', () => this.toggleCollapse());
 
-    // Reset progress
-    if (this.resetBtn) {
-      this.resetBtn.addEventListener('click', () => {
-        this.resetAllProgress();
-      });
-    }
+    // Reset Progress Action
+    this.resetBtn?.addEventListener('click', () => this.resetAllProgress());
 
-    // Double-click or Shift+Click on topic to toggle complete
-    const topics = document.querySelectorAll('.sidebar-topic a');
-    topics.forEach(link => {
-      link.addEventListener('dblclick', (e) => {
+    // Global Module Controls
+    this.toggleAllModulesBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const modules = document.querySelectorAll('.sidebar-module');
+      let anyCollapsed = false;
+      modules.forEach(m => { if (m.classList.contains('collapsed')) anyCollapsed = true; });
+
+      const shouldExpand = anyCollapsed;
+      modules.forEach(module => this.setModuleCollapseState(module, !shouldExpand));
+      
+      this.updateToggleAllButtonText();
+      this.saveModuleStates();
+    });
+
+    // Individual Inline Module Accordion Toggles
+    document.querySelectorAll('.sidebar-module-header').forEach(header => {
+      header.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const module = header.parentElement;
+        const isCurrentlyCollapsed = module.classList.contains('collapsed');
+        
+        this.setModuleCollapseState(module, !isCurrentlyCollapsed);
+        this.updateToggleAllButtonText();
+        this.saveModuleStates();
+      });
+    });
+
+    // Topic Double-Click / Shift-Click Complete Checks
+    document.querySelectorAll('.sidebar-topic a').forEach(link => {
+      const handleToggle = (e) => {
         const topic = link.closest('.sidebar-topic');
-        const lesson = topic.dataset.lesson;
+        const lesson = topic?.dataset.lesson;
         if (lesson) {
           this.toggleLesson(lesson);
           e.preventDefault();
         }
-      });
+      };
 
-      link.addEventListener('click', (e) => {
-        if (e.shiftKey) {
-          const topic = link.closest('.sidebar-topic');
-          const lesson = topic.dataset.lesson;
-          if (lesson) {
-            this.toggleLesson(lesson);
-            e.preventDefault();
-          }
-        }
-      });
+      link.addEventListener('dblclick', handleToggle);
+      link.addEventListener('click', (e) => { if (e.shiftKey) handleToggle(e); });
     });
 
-    // Close sidebar when clicking outside (mobile)
+    // Dismissal Click Outside (Mobile Overlay)
     document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 1024) {
-        const isSidebar = this.sidebar.contains(e.target);
-        const isToggle = this.toggleBtn.contains(e.target);
-        if (!isSidebar && !isToggle && this.sidebar.classList.contains('open')) {
+      if (window.innerWidth <= 1024 && this.sidebar?.classList.contains('open')) {
+        if (!this.sidebar.contains(e.target) && !this.toggleBtn?.contains(e.target)) {
           this.sidebar.classList.remove('open');
           document.body.classList.remove('sidebar-open');
         }
       }
     });
 
-    // Keyboard shortcuts
+    // Structural View Access Keyboard Navigation Shortcuts
     document.addEventListener('keydown', (e) => {
-      if (e.key === 's' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-        if (window.innerWidth <= 1024) {
-          this.sidebar.classList.toggle('open');
-          document.body.classList.toggle('sidebar-open');
-        }
+      if (e.key === 's' && !e.ctrlKey && !e.metaKey && !e.altKey && window.innerWidth <= 1024) {
+        this.sidebar.classList.toggle('open');
+        document.body.classList.toggle('sidebar-open');
       }
-      if (e.key === 'r' && e.shiftKey) {
-        this.resetAllProgress();
-      }
-      if (e.key === 'Escape' && this.sidebar.classList.contains('open')) {
+      if (e.key === 'r' && e.shiftKey) this.resetAllProgress();
+      if (e.key === 'Escape' && this.sidebar?.classList.contains('open')) {
         this.sidebar.classList.remove('open');
         document.body.classList.remove('sidebar-open');
       }
     });
 
-    // Resize handler
-    window.addEventListener('resize', () => {
-      this.handleResponsive();
-    });
+    window.addEventListener('resize', () => this.handleResponsive());
   }
 
   handleResponsive() {
-    // On desktop, always show sidebar
     if (window.innerWidth >= 1025) {
       this.sidebar.classList.add('open');
       document.body.classList.add('has-sidebar');
       
-      // Check collapse state
-      const savedCollapse = localStorage.getItem('sidebar_collapsed');
+      const savedCollapse = localStorage.getItem(this.SIDEBAR_COLLAPSE_KEY);
       if (savedCollapse === 'true') {
         this.sidebar.classList.add('collapsed');
         this.isCollapsed = true;
@@ -525,201 +457,23 @@ class CourseSidebar {
         this.sidebar.classList.remove('collapsed');
         this.isCollapsed = false;
         document.body.style.setProperty('--sidebar-width', '360px');
-        // Restore module states when sidebar is expanded on desktop
         this.restoreModuleStates();
       }
       
-      // Update collapse button icon
       const icon = this.collapseBtn?.querySelector('i');
-      if (icon) {
-        icon.className = this.isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
-      }
+      if (icon) icon.className = this.isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
     } else {
-      this.sidebar.classList.remove('open');
-      this.sidebar.classList.remove('collapsed');
+      this.sidebar.classList.remove('open', 'collapsed');
       document.body.classList.remove('has-sidebar');
       this.isCollapsed = false;
       document.body.style.setProperty('--sidebar-width', '0px');
     }
   }
-
-  // Public method to mark current lesson as complete
-  markCurrentLessonComplete() {
-    const activeTopic = document.querySelector('.sidebar-topic.active');
-    if (activeTopic) {
-      const lesson = activeTopic.dataset.lesson;
-      if (lesson) {
-        this.markLessonComplete(lesson);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // Public method to get progress data
-  getProgress() {
-    let completed = 0;
-    const total = this.allLessons.length;
-    this.allLessons.forEach(item => {
-      if (this.isLessonCompleted(item.lesson)) {
-        completed++;
-      }
-    });
-    return {
-      completed,
-      total,
-      percentage: total > 0 ? Math.round((completed / total) * 100) : 0
-    };
-  }
 }
 
-// Initialize sidebar when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+// Global initialization entry point when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('courseSidebar')) {
     window.courseSidebar = new CourseSidebar();
   }
-});
-
-// ==========================================
-// TOGGLE ALL MODULES - FIXED
-// ==========================================
-// This runs after the sidebar is initialized
-function initToggleAllModules() {
-  const toggleAllBtn = document.getElementById('toggleAllModulesBtn');
-  if (!toggleAllBtn) return;
-  
-  // Function to update button text based on current state
-  function updateToggleButtonText() {
-    const modules = document.querySelectorAll('.sidebar-module');
-    let anyCollapsed = false;
-    modules.forEach(module => {
-      if (module.classList.contains('collapsed')) {
-        anyCollapsed = true;
-      }
-    });
-    
-    if (anyCollapsed) {
-      toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Expand All';
-    } else {
-      toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Collapse All';
-    }
-  }
-  
-  // Initial button text
-  setTimeout(updateToggleButtonText, 100);
-  
-  // Remove any existing listeners by cloning and replacing
-  const newBtn = toggleAllBtn.cloneNode(true);
-  toggleAllBtn.parentNode.replaceChild(newBtn, toggleAllBtn);
-  
-  newBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const modules = document.querySelectorAll('.sidebar-module');
-    
-    // Check if any module is collapsed
-    let anyCollapsed = false;
-    modules.forEach(module => {
-      if (module.classList.contains('collapsed')) {
-        anyCollapsed = true;
-      }
-    });
-    
-    // If any are collapsed, expand all; otherwise collapse all
-    const shouldExpand = anyCollapsed;
-    
-    modules.forEach(module => {
-      const toggle = module.querySelector('.module-toggle i');
-      const topicList = module.querySelector('.sidebar-topic-list');
-      
-      if (shouldExpand) {
-        // Expand
-        module.classList.remove('collapsed');
-        if (toggle) toggle.className = 'fas fa-chevron-down';
-        if (topicList) {
-          topicList.style.maxHeight = '2000px';
-          topicList.style.display = '';
-        }
-      } else {
-        // Collapse
-        module.classList.add('collapsed');
-        if (toggle) toggle.className = 'fas fa-chevron-right';
-        if (topicList) {
-          topicList.style.maxHeight = '0';
-        }
-      }
-    });
-    
-    // Update button text
-    updateToggleButtonText();
-    
-    // Save module states
-    if (window.courseSidebar) {
-      window.courseSidebar.saveModuleStates();
-    }
-  });
-}
-
-// ==========================================
-// INDIVIDUAL MODULE TOGGLE - FIXED
-// ==========================================
-function initIndividualModuleToggle() {
-  document.querySelectorAll('.sidebar-module-header').forEach(header => {
-    // Remove any existing listeners by cloning and replacing
-    const newHeader = header.cloneNode(true);
-    header.parentNode.replaceChild(newHeader, header);
-    
-    newHeader.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const module = this.parentElement;
-      const toggle = this.querySelector('.module-toggle i');
-      const topicList = module.querySelector('.sidebar-topic-list');
-      
-      if (module.classList.contains('collapsed')) {
-        // Expand
-        module.classList.remove('collapsed');
-        if (toggle) toggle.className = 'fas fa-chevron-down';
-        if (topicList) {
-          topicList.style.maxHeight = '2000px';
-          topicList.style.display = '';
-        }
-      } else {
-        // Collapse
-        module.classList.add('collapsed');
-        if (toggle) toggle.className = 'fas fa-chevron-right';
-        if (topicList) {
-          topicList.style.maxHeight = '0';
-        }
-      }
-      
-      // Update the toggle all button text
-      const toggleAllBtn = document.getElementById('toggleAllModulesBtn');
-      if (toggleAllBtn) {
-        let anyCollapsed = false;
-        document.querySelectorAll('.sidebar-module').forEach(mod => {
-          if (mod.classList.contains('collapsed')) anyCollapsed = true;
-        });
-        if (anyCollapsed) {
-          toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Expand All';
-        } else {
-          toggleAllBtn.innerHTML = '<i class="fas fa-layer-group"></i> Collapse All';
-        }
-      }
-      
-      // Save module states
-      if (window.courseSidebar) {
-        window.courseSidebar.saveModuleStates();
-      }
-    });
-  });
-}
-
-// Run the initialization
-document.addEventListener('DOMContentLoaded', function() {
-  // Wait a bit for the sidebar to fully initialize
-  setTimeout(function() {
-    initToggleAllModules();
-    initIndividualModuleToggle();
-  }, 300);
 });
