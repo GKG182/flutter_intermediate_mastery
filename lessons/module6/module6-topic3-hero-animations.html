@@ -1,29 +1,54 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Hero Animations – Module 6 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn Hero animations in Flutter. Create shared element transitions between screens with the Hero widget for stunning, fluid navigation experiences." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn Hero animations in Flutter. Create shared element transitions between screens with the Hero widget for stunning, fluid navigation experiences." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
-
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -53,7 +78,6 @@
       font-size: var(--font-xs);
       font-weight: 600;
     }
-
     .topic-header {
       margin-bottom: 2rem;
       padding-bottom: 1rem;
@@ -76,7 +100,6 @@
       color: var(--text-secondary);
       max-width: 640px;
     }
-
     .doc-badge {
       display: inline-flex;
       align-items: center;
@@ -94,7 +117,6 @@
       background: rgba(124, 58, 237, 0.15);
       color: var(--primary-dark);
     }
-
     .section-divider {
       display: flex;
       align-items: center;
@@ -114,7 +136,6 @@
       letter-spacing: 0.05em;
       white-space: nowrap;
     }
-
     .concept-card {
       background: var(--background-secondary);
       border-radius: var(--radius);
@@ -147,7 +168,6 @@
     .concept-card ul li {
       margin-bottom: 0.25rem;
     }
-
     .code-block {
       position: relative;
       background: #1e1e2e;
@@ -191,7 +211,6 @@
     .code-block .type { color: #f9e2af; }
     .code-block .operator { color: #89b4fa; }
     .code-block .annotation { color: #f5c2e7; }
-
     .copy-btn {
       position: absolute;
       top: 0.4rem;
@@ -223,7 +242,6 @@
     .copy-btn i {
       font-size: 0.65rem;
     }
-
     .comparison-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -258,7 +276,6 @@
       color: var(--primary);
       font-weight: 700;
     }
-
     .key-takeaway {
       background: var(--primary-gradient);
       color: white;
@@ -278,7 +295,6 @@
       margin: 0 auto;
       font-size: var(--font-sm);
     }
-
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -288,7 +304,6 @@
       border-top: 1px solid var(--border);
       flex-wrap: wrap;
     }
-
     .mistake-box {
       background: rgba(239, 68, 68, 0.06);
       border: 1px solid rgba(239, 68, 68, 0.2);
@@ -306,7 +321,6 @@
       font-size: var(--font-sm);
       color: var(--text-secondary);
     }
-
     .good-box {
       background: rgba(16, 185, 129, 0.06);
       border: 1px solid rgba(16, 185, 129, 0.2);
@@ -324,7 +338,6 @@
       font-size: var(--font-sm);
       color: var(--text-secondary);
     }
-
     .mark-complete-btn {
       position: fixed;
       bottom: 2rem;
@@ -351,7 +364,6 @@
     .mark-complete-btn i {
       margin-right: 0.5rem;
     }
-
     .topic-section {
       margin-bottom: 2.5rem;
     }
@@ -373,7 +385,6 @@
       font-size: var(--font-sm);
       color: var(--text-secondary);
     }
-
     .step-grid {
       margin: 1.25rem 0;
     }
@@ -398,7 +409,6 @@
     .step-text strong {
       color: var(--text);
     }
-
     .features-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -425,7 +435,6 @@
       color: var(--text-muted);
       margin-top: 0.25rem;
     }
-
     .hero-types {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -452,7 +461,6 @@
       color: var(--text-secondary);
       margin-top: 0.25rem;
     }
-
     .flight-diagram {
       background: var(--background-secondary);
       border-radius: var(--radius);
@@ -475,7 +483,6 @@
       font-size: 1.5rem;
       margin: 0 0.5rem;
     }
-
     @media (max-width: 768px) {
       .comparison-grid,
       .features-grid,
@@ -514,7 +521,6 @@
         transform: rotate(90deg);
       }
     }
-
     @media (max-width: 480px) {
       .topic-header h1 {
         font-size: var(--font-2xl);
@@ -526,20 +532,17 @@
         font-size: var(--font-sm);
       }
     }
-  
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -553,47 +556,21 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -603,49 +580,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -656,149 +595,149 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="../module6-advanced-flutter.html">
+<a href="../module6-advanced-flutter.html">
         Module 6
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 3
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-star">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-star">
+</i>
        Module 6
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 3
       </div>
-      <h1>
+<h1>
        Hero Animations
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Creating seamless shared element transitions between screens using Flutter's Hero widget.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
-        <i class="fas fa-globe">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<i class="fas fa-globe">
+</i>
         Flutter Hero Docs
        </a>
-       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<i class="fas fa-book">
+</i>
         Hero Animation Guide
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHAT ARE HERO ANIMATIONS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT ARE HERO ANIMATIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         What Are Hero Animations?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
-       <strong>
+<span class="divider-line">
+</span>
+</div>
+<p>
+<strong>
         Hero animations
        </strong>
        (also called
@@ -810,11 +749,11 @@
             You've probably seen this many times — for example, tapping a product image in a list,
             and watching it smoothly transition to a larger version on the details screen.
       </p>
-      <div class="concept-card info">
-       <h4>
+<div class="concept-card info">
+<h4>
         💡 Key Concept
        </h4>
-       <p>
+<p>
         A Hero animation creates the illusion that a widget is
         <strong>
          shared
@@ -830,42 +769,42 @@
         </strong>
         . Flutter handles the animation between them automatically.
        </p>
-      </div>
-      <div class="hero-types">
-       <div class="hero-type" style="border-color: #3B82F6;">
-        <div class="type-icon">
+</div>
+<div class="hero-types">
+<div class="hero-type" style="border-color: #3B82F6;">
+<div class="type-icon">
          🔄
         </div>
-        <div class="type-name">
+<div class="type-name">
          Standard Hero
         </div>
-        <div class="type-desc">
+<div class="type-desc">
          Widget flies from one route to another, changing position and size. The most common type.
         </div>
-       </div>
-       <div class="hero-type" style="border-color: #8B5CF6;">
-        <div class="type-icon">
+</div>
+<div class="hero-type" style="border-color: #8B5CF6;">
+<div class="type-icon">
          ⭕➡️⬛
         </div>
-        <div class="type-name">
+<div class="type-name">
          Radial Hero
         </div>
-        <div class="type-desc">
+<div class="type-desc">
          Widget transforms shape during flight (e.g., circle to square) using clipping.
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: BASIC STRUCTURE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: BASIC STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Basic Structure
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Hero animations are implemented using two
        <code>
         Hero
@@ -877,29 +816,28 @@
        </strong>
        .
       </p>
-      <div class="flight-diagram">
-       <div class="step">
+<div class="flight-diagram">
+<div class="step">
         🏠 Source Route
        </div>
-       <span class="arrow">
+<span class="arrow">
         →
        </span>
-       <div class="step">
+<div class="step">
         🚀 Hero Flies
        </div>
-       <span class="arrow">
+<span class="arrow">
         →
        </span>
-       <div class="step">
+<div class="step">
         📍 Destination Route
        </div>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+</div>
+<div class="code-block collapsed"><span class="code-label">
         Basic Hero Structure
        </span>
-       <code>
-        <span class="comment">
+<code>
+<span class="comment">
          // SOURCE ROUTE (List Screen)
         </span>
         Hero(
@@ -958,66 +896,57 @@
         </span>
         ),
     ),
-  )
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+  )</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card success">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card success">
+<h4>
         ✅ Key Requirements
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           Same tag
          </strong>
          – Both Hero widgets must have identical tags
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Similar child widgets
          </strong>
          – The widgets should be visually similar
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Navigation triggers
          </strong>
          – The animation starts when you push/pop a route
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Unique tags
          </strong>
          – Each pair of heroes should have a unique tag
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 3: STANDARD HERO ANIMATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 3: STANDARD HERO ANIMATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Standard Hero Animation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        A
        <strong>
         standard hero animation
@@ -1025,309 +954,133 @@
        flies a widget from one route to another,
             usually changing position and size. Here's a complete example:
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/widgets/photo_hero.dart
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         PhotoHero
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         const
-        </span>
-        <span class="function">
-         PhotoHero
-        </span>
-        ({
-        <span class="keyword">
-         super
-        </span>
-        .key,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .photo,
-        <span class="keyword">
-         this
-        </span>
-        .onTap,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .width,
-    });
-        <span class="keyword">
-         final
-        </span>
-        String photo;
-        <span class="keyword">
-         final
-        </span>
-        VoidCallback? onTap;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         double
-        </span>
-        width;
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">PhotoHero</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">PhotoHero</span><span class="punctuation">({</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">key</span><span class="punctuation">,</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        SizedBox(
-        width: width,
-        child: Hero(
-          tag: photo,
-        <span class="comment">
-         // Use the photo path as the tag
-        </span>
-        child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onTap,
-              child: Image.asset(
-                photo,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">photo</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">onTap</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">width</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">photo</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">VoidCallback</span><span class="operator">?</span><span class="w"> </span><span class="name">onTap</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">double</span><span class="w"> </span><span class="name">width</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">SizedBox</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">width:</span><span class="w"> </span><span class="name">width</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">Hero</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">tag:</span><span class="w"> </span><span class="name">photo</span><span class="punctuation">,</span>
+
+<span class="w">        </span><span class="comment">// Use the photo path as the tag</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Material</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">transparent</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">InkWell</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">onTap:</span><span class="w"> </span><span class="name">onTap</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">Image</span><span class="punctuation">.</span><span class="name">asset</span><span class="punctuation">(</span><span class="name">photo</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">fit:</span><span class="w"> </span><span class="name">BoxFit</span><span class="punctuation">.</span><span class="name">contain</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/screens/home_screen.dart – Source Route
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         HomeScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Hero Animation'
-        </span>
-        )),
-        body: Center(
-          child: PhotoHero(
-            photo:
-        <span class="string">
-         'assets/flippers.png'
-        </span>
-        ,
-            width:
-        <span class="number">
-         300.0
-        </span>
-        ,
-            onTap: () {
-              Navigator.
-        <span class="function">
-         of
-        </span>
-        (context).
-        <span class="function">
-         push
-        </span>
-        (
-                MaterialPageRoute&lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;(
-                  builder: (context) {
-        <span class="keyword">
-         return
-        </span>
-        DetailScreen(photo:
-        <span class="string">
-         'assets/flippers.png'
-        </span>
-        );
-                  },
-                ),
-              );
-            },
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">HomeScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Hero Animation'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">PhotoHero</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">photo:</span><span class="w"> </span><span class="string">'assets/flippers.png'</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">width:</span><span class="w"> </span><span class="number">300.0</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">onTap:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">of</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">).</span><span class="name">push</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="name">MaterialPageRoute</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                  </span><span class="keyword">return</span><span class="w"> </span><span class="name">DetailScreen</span><span class="punctuation">(</span><span class="nl">photo:</span><span class="w"> </span><span class="string">'assets/flippers.png'</span><span class="punctuation">);</span>
+<span class="w">                </span><span class="punctuation">},</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">},</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/screens/detail_screen.dart – Destination Route
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         DetailScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        String photo;
-        <span class="function">
-         DetailScreen
-        </span>
-        ({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .photo});
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">DetailScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">photo</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Detail'
-        </span>
-        )),
-        body: Container(
-          color: Colors.lightBlueAccent,
-          padding: EdgeInsets.
-        <span class="function">
-         all
-        </span>
-        (
-        <span class="number">
-         16
-        </span>
-        ),
-          alignment: Alignment.topLeft,
-          child: PhotoHero(
-            photo: photo,
-            width:
-        <span class="number">
-         100.0
-        </span>
-        ,
-            onTap: () {
-              Navigator.
-        <span class="function">
-         of
-        </span>
-        (context).
-        <span class="function">
-         pop
-        </span>
-        ();
-            },
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="name">DetailScreen</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">photo</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Detail'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">lightBlueAccent</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">all</span><span class="punctuation">(</span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">alignment:</span><span class="w"> </span><span class="name">Alignment</span><span class="punctuation">.</span><span class="name">topLeft</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">PhotoHero</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">photo:</span><span class="w"> </span><span class="name">photo</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">width:</span><span class="w"> </span><span class="number">100.0</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">onTap:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">of</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">).</span><span class="name">pop</span><span class="punctuation">();</span>
+<span class="w">          </span><span class="punctuation">},</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card info">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card info">
+<h4>
         💡 Debugging Tip
        </h4>
-       <p>
+<p>
         Use
         <code>
          timeDilation = 5.0
@@ -1335,73 +1088,73 @@
         to slow down animations during development.
               This makes it easier to see what's happening during the transition.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: HOW HERO ANIMATIONS WORK ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 4: HOW HERO ANIMATIONS WORK ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         How Hero Animations Work
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Understanding what happens behind the scenes helps you debug and optimize hero animations.
       </p>
-      <div class="flight-diagram">
-       <div class="step">
+<div class="flight-diagram">
+<div class="step">
         1️⃣ Source hero in widget tree
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         2️⃣ Push new route → Animation starts
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         3️⃣ Flutter calculates flight path
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         4️⃣ Destination hero placed in overlay
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         5️⃣ Source hero moved offscreen
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         6️⃣ Hero flies to destination
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         7️⃣ Hero moved to destination route
        </div>
-       <span class="arrow">
+<span class="arrow">
         ⬇️
        </span>
-       <div class="step">
+<div class="step">
         8️⃣ Animation complete ✅
        </div>
-      </div>
-      <div class="concept-card info">
-       <h4>
+</div>
+<div class="concept-card info">
+<h4>
         🧠 Behind the Scenes
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          Flutter calculates the
          <strong>
           flight path
@@ -1410,42 +1163,41 @@
          <code>
           Tween&lt;Rect&gt;
          </code>
-        </li>
-        <li>
+</li>
+<li>
          By default, uses
          <code>
           MaterialRectArcTween
          </code>
          for curved motion
         </li>
-        <li>
+<li>
          The hero is rendered in an
          <strong>
           overlay
          </strong>
          during the animation
         </li>
-        <li>
+<li>
          Both source and destination widgets remain in their routes
         </li>
-        <li>
+<li>
          The animation is
          <strong>
           reversible
          </strong>
          when you pop the route
         </li>
-       </ul>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+</ul>
+</div>
+<div class="code-block collapsed"><span class="code-label">
         Customizing the Flight Path
        </span>
-       <code>
-        <span class="comment">
+<code>
+<span class="comment">
          // Custom RectTween for different flight behavior
         </span>
-        <span class="keyword">
+<span class="keyword">
          static
         </span>
         RectTween
@@ -1471,35 +1223,26 @@
         <span class="comment">
          // ...
         </span>
-        )
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+        )</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 5: RADIAL HERO ANIMATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 5: RADIAL HERO ANIMATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Radial Hero Animation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        A
        <strong>
         radial hero animation
@@ -1512,340 +1255,132 @@
        . This creates a more dramatic,
             polished transition.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/widgets/radial_expansion.dart
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:math'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        math;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         RadialExpansion
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         const
-        </span>
-        <span class="function">
-         RadialExpansion
-        </span>
-        ({
-        <span class="keyword">
-         super
-        </span>
-        .key,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .maxRadius,
-        <span class="keyword">
-         this
-        </span>
-        .child,
-    }) : clipRectSize =
-        <span class="number">
-         2.0
-        </span>
-        * (maxRadius / math.
-        <span class="function">
-         sqrt
-        </span>
-        (
-        <span class="number">
-         2
-        </span>
-        ));
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         double
-        </span>
-        maxRadius;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         double
-        </span>
-        clipRectSize;
-        <span class="keyword">
-         final
-        </span>
-        Widget? child;
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:math'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">math</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        ClipOval(
-        child: Center(
-          child: SizedBox(
-            width: clipRectSize,
-            height: clipRectSize,
-            child: ClipRect(
-              child: child,
-            ),
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">RadialExpansion</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">RadialExpansion</span><span class="punctuation">({</span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">key</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">maxRadius</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">child</span><span class="punctuation">})</span>
+<span class="w">    </span><span class="operator">:</span><span class="w"> </span><span class="name">clipRectSize</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="number">2.0</span><span class="w"> </span><span class="operator">*</span><span class="w"> </span><span class="punctuation">(</span><span class="name">maxRadius</span><span class="w"> </span><span class="operator">/</span><span class="w"> </span><span class="name">math</span><span class="punctuation">.</span><span class="name">sqrt</span><span class="punctuation">(</span><span class="number">2</span><span class="punctuation">));</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">double</span><span class="w"> </span><span class="name">maxRadius</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">double</span><span class="w"> </span><span class="name">clipRectSize</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Widget</span><span class="operator">?</span><span class="w"> </span><span class="name">child</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">ClipOval</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">SizedBox</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">width:</span><span class="w"> </span><span class="name">clipRectSize</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">height:</span><span class="w"> </span><span class="name">clipRectSize</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">ClipRect</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">child</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/widgets/photo.dart – For Radial Hero
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         Photo
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         const
-        </span>
-        <span class="function">
-         Photo
-        </span>
-        ({
-        <span class="keyword">
-         super
-        </span>
-        .key,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .photo,
-        <span class="keyword">
-         this
-        </span>
-        .color,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .onTap,
-    });
-        <span class="keyword">
-         final
-        </span>
-        String photo;
-        <span class="keyword">
-         final
-        </span>
-        Color? color;
-        <span class="keyword">
-         final
-        </span>
-        VoidCallback onTap;
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">Photo</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">Photo</span><span class="punctuation">({</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">key</span><span class="punctuation">,</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Material(
-        <span class="comment">
-         // Slightly opaque for transparency areas
-        </span>
-        color: Theme.
-        <span class="function">
-         of
-        </span>
-        (context).primaryColor.
-        <span class="function">
-         withValues
-        </span>
-        (alpha:
-        <span class="number">
-         0.25
-        </span>
-        ),
-        child: InkWell(
-          onTap: onTap,
-          child: Image.asset(
-            photo,
-            fit: BoxFit.contain,
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">photo</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">color</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">onTap</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">photo</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Color</span><span class="operator">?</span><span class="w"> </span><span class="name">color</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">VoidCallback</span><span class="w"> </span><span class="name">onTap</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Material</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="comment">// Slightly opaque for transparency areas</span>
+<span class="w">      </span><span class="nl">color:</span><span class="w"> </span><span class="name">Theme</span><span class="punctuation">.</span><span class="name">of</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">).</span><span class="name">primaryColor</span><span class="punctuation">.</span><span class="name">withValues</span><span class="punctuation">(</span><span class="nl">alpha:</span><span class="w"> </span><span class="number">0.25</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">InkWell</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">onTap:</span><span class="w"> </span><span class="name">onTap</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Image</span><span class="punctuation">.</span><span class="name">asset</span><span class="punctuation">(</span><span class="name">photo</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">fit:</span><span class="w"> </span><span class="name">BoxFit</span><span class="punctuation">.</span><span class="name">contain</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/screens/radial_hero_screen.dart – Using Radial Hero
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         RadialHeroScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         static
-        </span>
-        RectTween
-        <span class="function">
-         _createRectTween
-        </span>
-        (Rect? begin, Rect? end) {
-        <span class="keyword">
-         return
-        </span>
-        MaterialRectCenterArcTween(begin: begin, end: end);
-    }
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">RadialHeroScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="name">RectTween</span><span class="w"> </span><span class="name">_createRectTween</span><span class="punctuation">(</span><span class="name">Rect</span><span class="operator">?</span><span class="w"> </span><span class="name">begin</span><span class="punctuation">,</span><span class="w"> </span><span class="name">Rect</span><span class="operator">?</span><span class="w"> </span><span class="name">end</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialRectCenterArcTween</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="name">begin</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="name">end</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Radial Hero'
-        </span>
-        )),
-        body: Center(
-          child: Hero(
-            tag:
-        <span class="string">
-         'hero_photo'
-        </span>
-        ,
-            createRectTween: _createRectTween,
-            child: RadialExpansion(
-              maxRadius:
-        <span class="number">
-         150
-        </span>
-        ,
-              child: Photo(
-                photo:
-        <span class="string">
-         'assets/photo.jpg'
-        </span>
-        ,
-                onTap: () {
-                  Navigator.
-        <span class="function">
-         of
-        </span>
-        (context).
-        <span class="function">
-         pop
-        </span>
-        ();
-                },
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Radial Hero'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Hero</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">tag:</span><span class="w"> </span><span class="string">'hero_photo'</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">createRectTween:</span><span class="w"> </span><span class="name">_createRectTween</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">RadialExpansion</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">maxRadius:</span><span class="w"> </span><span class="number">150</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">Photo</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">photo:</span><span class="w"> </span><span class="string">'assets/photo.jpg'</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">onTap:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">of</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">).</span><span class="name">pop</span><span class="punctuation">();</span>
+<span class="w">              </span><span class="punctuation">},</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card info">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card info">
+<h4>
         💡 How Radial Heroes Work
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          Uses
          <strong>
           ClipOval
@@ -1856,75 +1391,75 @@
          </strong>
          together
         </li>
-        <li>
+<li>
          The intersection of the two clips creates the shape change
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           ClipOval
          </strong>
          scales from minRadius to maxRadius
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           ClipRect
          </strong>
          maintains constant size
         </li>
-        <li>
+<li>
          The result is a circle that "grows" into a square
         </li>
-        <li>
+<li>
          Use
          <code>
           MaterialRectCenterArcTween
          </code>
          to maintain aspect ratio
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Step-by-Step Implementation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Follow these steps to add hero animations to your app:
       </p>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Identify the shared element
          </strong>
          – Find a widget that appears on both screens
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Create a reusable widget
          </strong>
          – Build a widget that can be used on both screens
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Wrap with Hero
          </strong>
          – Wrap the widget with
@@ -1933,13 +1468,13 @@
          </code>
          on the source screen
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Add matching Hero
          </strong>
          – Wrap the same widget with
@@ -1948,35 +1483,35 @@
          </code>
          on the destination screen
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Use the same tag
          </strong>
          – Both heroes must have identical tags
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          6.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Set up navigation
          </strong>
          – Push the destination route to trigger the animation
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          7.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Test and refine
          </strong>
          – Use
@@ -1985,31 +1520,31 @@
          </code>
          to debug and adjust
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Different tags on source and destination
        </div>
-       <p>
+<p>
         If the tags don't match exactly, the hero animation won't work. The hero will just pop in/out.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use identical tags
        </div>
-       <p>
+<p>
         Always use the
         <strong>
          exact same
@@ -2017,20 +1552,20 @@
         tag on both Hero widgets. Use a unique identifier
               from your data model (e.g., product ID).
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Different widget trees
        </div>
-       <p>
+<p>
         If the hero's child widgets are too different, the transition can look jarring.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Similar widgets
        </div>
-       <p>
+<p>
         The heroes should have
         <strong>
          virtually identical
@@ -2038,115 +1573,115 @@
         widget trees for the smoothest
               animation. The same image with different sizes works well.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Not disposing controllers
        </div>
-       <p>
+<p>
         If you're using custom animations with controllers, forgetting to dispose them causes memory leaks.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Dispose controllers
        </div>
-       <p>
+<p>
         Always call
         <code>
          dispose()
         </code>
         on any animation controllers in your stateful widgets.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 4: Using non-unique tags
        </div>
-       <p>
+<p>
         If multiple heroes on the same screen share the same tag, Flutter doesn't know which one to animate.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Unique tags per hero pair
        </div>
-       <p>
+<p>
         Each pair of heroes should have a
         <strong>
          unique tag
         </strong>
         . Use the item's ID or a unique string.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 8: RESOURCES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 8: RESOURCES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Resources
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="resources-box">
-       <h4>
+<span class="divider-line">
+</span>
+</div>
+<div class="resources-box">
+<h4>
         📚 Learning Resources
        </h4>
-       <ul>
-        <li>
-         <a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
+<ul>
+<li>
+<a href="https://docs.flutter.dev/ui/animations/hero-animations" target="_blank">
           Flutter Hero Animations Guide
          </a>
          – Official documentation
         </li>
-        <li>
-         <a href="https://docs.flutter.dev/ui/animations" target="_blank">
+<li>
+<a href="https://docs.flutter.dev/ui/animations" target="_blank">
           Flutter Animation Docs
          </a>
          – Complete animation guide
         </li>
-        <li>
-         <a href="https://api.flutter.dev/flutter/widgets/Hero-class.html" target="_blank">
+<li>
+<a href="https://api.flutter.dev/flutter/widgets/Hero-class.html" target="_blank">
           Hero API Reference
          </a>
          – Detailed API documentation
         </li>
-       </ul>
-      </div>
-      <div class="resources-box" style="margin-top: 1rem;">
-       <h4>
+</ul>
+</div>
+<div class="resources-box" style="margin-top: 1rem;">
+<h4>
         🔗 Related Lessons
        </h4>
-       <ul>
-        <li>
-         <a href="module6-topic2-animations.html">
+<ul>
+<li>
+<a href="module6-topic2-animations.html">
           Animations
          </a>
          – Foundation of Flutter animations
         </li>
-        <li>
-         <a href="module6-topic1-custom-widgets.html">
+<li>
+<a href="module6-topic1-custom-widgets.html">
           Custom Widgets
          </a>
          – Building reusable widgets
         </li>
-        <li>
-         <a href="../module6-advanced-flutter.html">
+<li>
+<a href="../module6-advanced-flutter.html">
           Module 6 Overview
          </a>
          – All advanced topics
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</ul>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
-       <strong>
+<p>
+<strong>
         Hero animations
        </strong>
        are a powerful way to create seamless transitions between
@@ -2174,124 +1709,124 @@
        and keep the widget trees
             similar for the best results.
       </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module6-topic2-animations.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module6-topic2-animations.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Animations
       </a>
-      <a class="btn btn-primary btn-sm" href="module6-topic4-slivers.html">
+<a class="btn btn-primary btn-sm" href="module6-topic4-slivers.html">
        Next: Slivers
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="../module6-advanced-flutter.html">
+</li>
+<li>
+<a href="../module6-advanced-flutter.html">
          Module 6
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://docs.flutter.dev/ui/animations/hero-animations" rel="noopener" target="_blank">
          Hero Animations
         </a>
-       </li>
-       <li>
-        <a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
          Flutter Animations
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
          Flutter GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/ui/animations/hero-animations" style="color: var(--text-muted);" target="_blank">
        Flutter Official Documentation
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -2405,7 +1940,7 @@
       }
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -2480,25 +2015,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -2555,5 +2073,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

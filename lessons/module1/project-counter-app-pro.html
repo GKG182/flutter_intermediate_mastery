@@ -2,6 +2,32 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
+  <script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>
@@ -477,8 +503,7 @@
     }
   </style>
   <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -488,49 +513,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -773,7 +760,7 @@
       <span class="divider-line">
       </span>
      </div>
-     <div class="code-block collapsed" style="padding-top: 2.5rem !important;">
+     <div class="code-block collapsed">
       <span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
        lib/main.dart – Complete Counter App
       </span>
@@ -1709,24 +1696,15 @@
     );
   }
 }
-       </text(>
-      </code>
+       </text(></code>
       <button class="copy-btn">
        <i class="fas fa-copy">
        </i>
        Copy
       </button>
-      <button class="toggle-expand-btn">
-       <i class="fas fa-expand">
-       </i>
-       Expand
-      </button>
-      <button class="collapse-btn">
-       <i class="fas fa-chevron-up">
-       </i>
-       Collapse
-      </button>
-     </div>
+        <button class="toggle-expand-btn">
+            <i class="fas fa-expand"></i> Expand
+        </button></div>
      <!-- ===== EXPLANATION ===== -->
      <div class="section-divider">
       <span class="divider-label">
@@ -2203,23 +2181,6 @@
   </script>
   <script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {

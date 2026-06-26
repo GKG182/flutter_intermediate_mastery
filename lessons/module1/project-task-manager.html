@@ -1,27 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Project: Task Manager – Module 1 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Build a task manager app with Riverpod. Learn lists, providers, and CRUD operations." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Build a task manager app with Riverpod. Learn lists, providers, and CRUD operations." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* Same styles as project 1 plus project-specific overrides */
     .lesson-nav {
       display: flex;
@@ -494,9 +520,8 @@
         color: #ffffff !important;
     }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -506,49 +531,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -559,1614 +546,897 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a "="" class="nav-link" href="../../../challenges.html">
+</li>
+<li>
+<a "="" class="nav-link" href="../../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a "="" class="nav-link" href="../../../challenges.html">
+</li>
+<li>
+<a "="" class="nav-link" href="../../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this project as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this project as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== PROJECT CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== PROJECT CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="../../module1-topic1-why-state-management.html">
+<a href="../../module1-topic1-why-state-management.html">
         Module 1
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Project 2
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-code">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-code">
+</i>
        Project
       </span>
-     </div>
-     <!-- Project Header -->
-     <div class="project-header">
-      <div class="project-type">
+</div>
+<!-- Project Header -->
+<div class="project-header">
+<div class="project-type">
        📋 Project 2
       </div>
-      <h1>
+<h1>
        Task Manager
       </h1>
-      <p class="project-subtitle">
+<p class="project-subtitle">
        Build a full-featured task management app with CRUD operations using Riverpod StateNotifierProvider.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/cookbook" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/cookbook" target="_blank">
+<i class="fas fa-book">
+</i>
         Flutter Cookbook
        </a>
-       <a class="doc-badge" href="https://riverpod.dev" target="_blank">
-        <i class="fas fa-globe">
-        </i>
+<a class="doc-badge" href="https://riverpod.dev" target="_blank">
+<i class="fas fa-globe">
+</i>
         Riverpod
        </a>
-      </div>
-     </div>
-     <!-- ===== REQUIREMENTS ===== -->
-     <div class="section-divider">
-      <span class="divider-label">
+</div>
+</div>
+<!-- ===== REQUIREMENTS ===== -->
+<div class="section-divider">
+<span class="divider-label">
        📋 Requirements
       </span>
-      <span class="divider-line">
-      </span>
-     </div>
-     <div class="requirement-box">
-      <h4>
+<span class="divider-line">
+</span>
+</div>
+<div class="requirement-box">
+<h4>
        What You'll Build
       </h4>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          Add tasks
         </strong>
         – Create new tasks with a title and optional description
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          View tasks
         </strong>
         – Display all tasks in a list with their status
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Toggle completion
         </strong>
         – Mark tasks as complete/incomplete with a checkbox
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Delete tasks
         </strong>
         – Remove individual tasks with a delete button
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Filter tasks
         </strong>
         – Filter by All, Active, or Completed
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Task statistics
         </strong>
         – Show total, active, and completed counts
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Clear completed
         </strong>
         – Remove all completed tasks at once
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Edit tasks
         </strong>
         – Update task titles
        </li>
-      </ul>
-     </div>
-     <div class="requirement-box" style="border-left-color: #3B82F6;">
-      <h4>
+</ul>
+</div>
+<div class="requirement-box" style="border-left-color: #3B82F6;">
+<h4>
        Learning Objectives
       </h4>
-      <ul>
-       <li>
+<ul>
+<li>
         Use
         <code>
          StateNotifierProvider
         </code>
         for complex state
        </li>
-       <li>
+<li>
         Implement CRUD operations (Create, Read, Update, Delete)
        </li>
-       <li>
+<li>
         Work with immutable state and copyWith
        </li>
-       <li>
+<li>
         Filter and transform lists
        </li>
-       <li>
+<li>
         Build a multi-screen UI flow
        </li>
-      </ul>
-     </div>
-     <!-- ===== SOLUTION ===== -->
-     <div class="section-divider">
-      <span class="divider-label">
+</ul>
+</div>
+<!-- ===== SOLUTION ===== -->
+<div class="section-divider">
+<span class="divider-label">
        💻 Complete Solution
       </span>
-      <span class="divider-line">
-      </span>
-     </div>
-     <div class="code-block collapsed" style="padding-top: 2.5rem !important;">
-      <span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
+<span class="divider-line">
+</span>
+</div>
+<div class="code-block collapsed">
+<span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
        lib/main.dart – Complete Task Manager
       </span>
-      <code>
-       <span class="keyword">
-        import
-       </span>
-       <span class="string">
-        'package:flutter/material.dart'
-       </span>
-       ;
-       <span class="keyword">
-        import
-       </span>
-       <span class="string">
-        'package:flutter_riverpod/flutter_riverpod.dart'
-       </span>
-       ;
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 1. MODELS
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        enum
-       </span>
-       TaskFilter { all, active, completed }
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        Task
-       </span>
-       {
-       <span class="keyword">
-        final
-       </span>
-       String id;
-       <span class="keyword">
-        final
-       </span>
-       String title;
-       <span class="keyword">
-        final
-       </span>
-       String? description;
-       <span class="keyword">
-        final
-       </span>
-       bool isCompleted;
-       <span class="keyword">
-        final
-       </span>
-       DateTime createdAt;
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
 
-  Task({
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .id,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .title,
-       <span class="keyword">
-        this
-       </span>
-       .description,
-       <span class="keyword">
-        this
-       </span>
-       .isCompleted =
-       <span class="keyword">
-        false
-       </span>
-       ,
-       <span class="keyword">
-        DateTime
-       </span>
-       ? createdAt,
-  }) :
-       <span class="keyword">
-        this
-       </span>
-       .createdAt = createdAt ?? DateTime.now();
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span><span class="punctuation">;</span>
 
-  Task
-       <span class="function">
-        copyWith
-       </span>
-       ({
-    String? id,
-    String? title,
-    String? description,
-    bool? isCompleted,
-    DateTime? createdAt,
-  }) {
-       <span class="keyword">
-        return
-       </span>
-       Task(
-      id: id ??
-       <span class="keyword">
-        this
-       </span>
-       .id,
-      title: title ??
-       <span class="keyword">
-        this
-       </span>
-       .title,
-      description: description ??
-       <span class="keyword">
-        this
-       </span>
-       .description,
-      isCompleted: isCompleted ??
-       <span class="keyword">
-        this
-       </span>
-       .isCompleted,
-      createdAt: createdAt ??
-       <span class="keyword">
-        this
-       </span>
-       .createdAt,
-    );
-  }
-}
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 2. STATE
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        TaskState
-       </span>
-       {
-       <span class="keyword">
-        final
-       </span>
-       List&lt;Task&gt; tasks;
-       <span class="keyword">
-        final
-       </span>
-       TaskFilter filter;
-       <span class="keyword">
-        const
-       </span>
-       TaskState({
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .tasks,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .filter,
-  });
-       <span class="comment">
-        // Factory for initial state
-       </span>
-       factory TaskState.initial() {
-       <span class="keyword">
-        return
-       </span>
-       TaskState(
-      tasks: [],
-      filter: TaskFilter.all,
-    );
-  }
-       <span class="comment">
-        // Copy method
-       </span>
-       TaskState
-       <span class="function">
-        copyWith
-       </span>
-       ({
-    List&lt;Task&gt;? tasks,
-    TaskFilter? filter,
-  }) {
-       <span class="keyword">
-        return
-       </span>
-       TaskState(
-      tasks: tasks ??
-       <span class="keyword">
-        this
-       </span>
-       .tasks,
-      filter: filter ??
-       <span class="keyword">
-        this
-       </span>
-       .filter,
-    );
-  }
-       <span class="comment">
-        // Get filtered tasks
-       </span>
-       List&lt;Task&gt;
-       <span class="function">
-        getFilteredTasks
-       </span>
-       () {
-       <span class="keyword">
-        switch
-       </span>
-       (filter) {
-       <span class="keyword">
-        case
-       </span>
-       TaskFilter.all:
-       <span class="keyword">
-        return
-       </span>
-       tasks;
-       <span class="keyword">
-        case
-       </span>
-       TaskFilter.active:
-       <span class="keyword">
-        return
-       </span>
-       tasks.where((t) =&gt; !t.isCompleted).toList();
-       <span class="keyword">
-        case
-       </span>
-       TaskFilter.completed:
-       <span class="keyword">
-        return
-       </span>
-       tasks.where((t) =&gt; t.isCompleted).toList();
-    }
-  }
-       <span class="comment">
-        // Statistics
-       </span>
-       <span class="keyword">
-        int
-       </span>
-       <span class="function">
-        get
-       </span>
-       totalCount =&gt; tasks.length;
-       <span class="keyword">
-        int
-       </span>
-       <span class="function">
-        get
-       </span>
-       activeCount =&gt; tasks.where((t) =&gt; !t.isCompleted).length;
-       <span class="keyword">
-        int
-       </span>
-       <span class="function">
-        get
-       </span>
-       completedCount =&gt; tasks.where((t) =&gt; t.isCompleted).length;
-}
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 3. NOTIFIER
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        TaskNotifier
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       StateNotifier&lt;TaskState&gt; {
-  TaskNotifier() :
-       <span class="keyword">
-        super
-       </span>
-       (TaskState.initial());
-       <span class="comment">
-        // Add task
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        addTask
-       </span>
-       (String title, {String? description}) {
-       <span class="keyword">
-        if
-       </span>
-       (title.trim().isEmpty)
-       <span class="keyword">
-        return
-       </span>
-       ;
-       <span class="keyword">
-        final
-       </span>
-       task = Task(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      title: title.trim(),
-      description: description?.trim(),
-    );
+<span class="comment">// ==========================================</span>
 
-    state = state.copyWith(
-      tasks: [...state.tasks, task],
-    );
-  }
-       <span class="comment">
-        // Toggle completion
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        toggleTask
-       </span>
-       (String id) {
-    state = state.copyWith(
-      tasks: state.tasks.map((task) {
-       <span class="keyword">
-        if
-       </span>
-       (task.id == id) {
-       <span class="keyword">
-        return
-       </span>
-       task.copyWith(isCompleted: !task.isCompleted);
-        }
-       <span class="keyword">
-        return
-       </span>
-       task;
-      }).toList(),
-    );
-  }
-       <span class="comment">
-        // Delete task
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        deleteTask
-       </span>
-       (String id) {
-    state = state.copyWith(
-      tasks: state.tasks.where((task) =&gt; task.id != id).toList(),
-    );
-  }
-       <span class="comment">
-        // Update task
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        updateTask
-       </span>
-       (String id, String newTitle) {
-       <span class="keyword">
-        if
-       </span>
-       (newTitle.trim().isEmpty)
-       <span class="keyword">
-        return
-       </span>
-       ;
+<span class="comment">// 1. MODELS</span>
 
-    state = state.copyWith(
-      tasks: state.tasks.map((task) {
-       <span class="keyword">
-        if
-       </span>
-       (task.id == id) {
-       <span class="keyword">
-        return
-       </span>
-       task.copyWith(title: newTitle.trim());
-        }
-       <span class="keyword">
-        return
-       </span>
-       task;
-      }).toList(),
-    );
-  }
-       <span class="comment">
-        // Clear completed
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        clearCompleted
-       </span>
-       () {
-    state = state.copyWith(
-      tasks: state.tasks.where((task) =&gt; !task.isCompleted).toList(),
-    );
-  }
-       <span class="comment">
-        // Set filter
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        setFilter
-       </span>
-       (TaskFilter filter) {
-    state = state.copyWith(filter: filter);
-  }
-}
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 4. PROVIDER
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        final
-       </span>
-       taskProvider = StateNotifierProvider&lt;TaskNotifier, TaskState&gt;((ref) {
-       <span class="keyword">
-        return
-       </span>
-       TaskNotifier();
-});
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 5. UI
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        main
-       </span>
-       () {
-  runApp(
-    ProviderScope(
-      child: MyApp(),
-    ),
-  );
-}
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        MyApp
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       StatelessWidget {
-  @override
-  Widget
-       <span class="function">
-        build
-       </span>
-       (BuildContext context) {
-       <span class="keyword">
-        return
-       </span>
-       MaterialApp(
-      title:
-       <span class="string">
-        'Task Manager'
-       </span>
-       ,
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        useMaterial3:
-       <span class="keyword">
-        true
-       </span>
-       ,
-      ),
-      home: TaskScreen(),
-    );
-  }
-}
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        TaskScreen
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       ConsumerStatefulWidget {
-  @override
-  ConsumerState&lt;TaskScreen&gt;
-       <span class="function">
-        createState
-       </span>
-       () =&gt; _TaskScreenState();
-}
-       <span class="keyword">
-        class
-       </span>
-       _TaskScreenState
-       <span class="keyword">
-        extends
-       </span>
-       ConsumerState&lt;TaskScreen&gt; {
-       <span class="keyword">
-        final
-       </span>
-       TextEditingController _titleController = TextEditingController();
-       <span class="keyword">
-        final
-       </span>
-       TextEditingController _descriptionController = TextEditingController();
+<span class="comment">// ==========================================</span>
 
-  @override
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        dispose
-       </span>
-       () {
-    _titleController.dispose();
-    _descriptionController.dispose();
-       <span class="keyword">
-        super
-       </span>
-       .dispose();
-  }
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        _showAddDialog
-       </span>
-       () {
-    _titleController.clear();
-    _descriptionController.clear();
+<span class="name">enum</span><span class="w"> </span><span class="name">TaskFilter</span><span class="w"> </span><span class="punctuation">{</span><span class="w"> </span><span class="name">all</span><span class="punctuation">,</span><span class="w"> </span><span class="name">active</span><span class="punctuation">,</span><span class="w"> </span><span class="name">completed</span><span class="w"> </span><span class="punctuation">}</span>
 
-    showDialog(
-      context: context,
-      builder: (context) =&gt; AlertDialog(
-        title: Text(
-       <span class="string">
-        'Add Task'
-       </span>
-       ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                hintText:
-       <span class="string">
-        'Task title...'
-       </span>
-       ,
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height:
-       <span class="number">
-        8
-       </span>
-       ),
-            TextField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                hintText:
-       <span class="string">
-        'Description (optional)...'
-       </span>
-       ,
-                border: OutlineInputBorder(),
-              ),
-              maxLines:
-       <span class="number">
-        3
-       </span>
-       ,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () =&gt; Navigator.pop(context),
-            child: Text(
-       <span class="string">
-        'Cancel'
-       </span>
-       ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-       <span class="keyword">
-        if
-       </span>
-       (_titleController.text.isNotEmpty) {
-                ref.read(taskProvider.notifier).addTask(
-                  _titleController.text,
-                  description: _descriptionController.text,
-                );
-                Navigator.pop(context);
-              }
-            },
-            child: Text(
-       <span class="string">
-        'Add'
-       </span>
-       ),
-          ),
-        ],
-      ),
-    );
-  }
+<span class="keyword">class</span><span class="w"> </span><span class="class">Task</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">;</span>
 
-  @override
-  Widget
-       <span class="function">
-        build
-       </span>
-       (BuildContext context) {
-       <span class="keyword">
-        final
-       </span>
-       taskState = ref.watch(taskProvider);
-       <span class="keyword">
-        final
-       </span>
-       notifier = ref.read(taskProvider.notifier);
-       <span class="keyword">
-        final
-       </span>
-       filteredTasks = taskState.getFilteredTasks();
-       <span class="keyword">
-        return
-       </span>
-       Scaffold(
-      appBar: AppBar(
-        title: Text(
-       <span class="string">
-        'Task Manager'
-       </span>
-       ),
-        centerTitle:
-       <span class="keyword">
-        true
-       </span>
-       ,
-        elevation:
-       <span class="number">
-        0
-       </span>
-       ,
-        actions: [
-       <span class="keyword">
-        if
-       </span>
-       (taskState.completedCount &gt;
-       <span class="number">
-        0
-       </span>
-       )
-            IconButton(
-              icon: Icon(Icons.delete_sweep),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) =&gt; AlertDialog(
-                    title: Text(
-       <span class="string">
-        'Clear Completed'
-       </span>
-       ),
-                    content: Text(
-       <span class="string">
-        'Remove all completed tasks?'
-       </span>
-       ),
-                    actions: [
-                      TextButton(
-                        onPressed: () =&gt; Navigator.pop(context),
-                        child: Text(
-       <span class="string">
-        'Cancel'
-       </span>
-       ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          notifier.clearCompleted();
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-       <span class="string">
-        'Clear'
-       </span>
-       ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-        ],
-      ),
-      body: Column(
-        children: [
-       <span class="comment">
-        // Stats bar
-       </span>
-       Container(
-            padding: EdgeInsets.symmetric(horizontal:
-       <span class="number">
-        16
-       </span>
-       , vertical:
-       <span class="number">
-        12
-       </span>
-       ),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade50,
-              border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _StatChip(
-                  label:
-       <span class="string">
-        'Total'
-       </span>
-       ,
-                  count: taskState.totalCount,
-                  color: Colors.grey,
-                ),
-                _StatChip(
-                  label:
-       <span class="string">
-        'Active'
-       </span>
-       ,
-                  count: taskState.activeCount,
-                  color: Colors.blue,
-                ),
-                _StatChip(
-                  label:
-       <span class="string">
-        'Done'
-       </span>
-       ,
-                  count: taskState.completedCount,
-                  color: Colors.green,
-                ),
-              ],
-            ),
-          ),
-       <span class="comment">
-        // Filter tabs
-       </span>
-       Container(
-            padding: EdgeInsets.symmetric(horizontal:
-       <span class="number">
-        16
-       </span>
-       , vertical:
-       <span class="number">
-        8
-       </span>
-       ),
-            child: Row(
-              children: [
-                _FilterChip(
-                  label:
-       <span class="string">
-        'All'
-       </span>
-       ,
-                  filter: TaskFilter.all,
-                  currentFilter: taskState.filter,
-                  onTap: notifier.setFilter,
-                ),
-                _FilterChip(
-                  label:
-       <span class="string">
-        'Active'
-       </span>
-       ,
-                  filter: TaskFilter.active,
-                  currentFilter: taskState.filter,
-                  onTap: notifier.setFilter,
-                ),
-                _FilterChip(
-                  label:
-       <span class="string">
-        'Completed'
-       </span>
-       ,
-                  filter: TaskFilter.completed,
-                  currentFilter: taskState.filter,
-                  onTap: notifier.setFilter,
-                ),
-              ],
-            ),
-          ),
-       <span class="comment">
-        // Task list
-       </span>
-       Expanded(
-            child: filteredTasks.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.check_circle_outline,
-                          size:
-       <span class="number">
-        64
-       </span>
-       ,
-                          color: Colors.grey.shade400,
-                        ),
-                        SizedBox(height:
-       <span class="number">
-        16
-       </span>
-       ),
-                        Text(
-       <span class="string">
-        'No tasks yet'
-       </span>
-       ,
-                          style: TextStyle(
-                            fontSize:
-       <span class="number">
-        18
-       </span>
-       ,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                        SizedBox(height:
-       <span class="number">
-        8
-       </span>
-       ),
-                        Text(
-       <span class="string">
-        'Tap the + button to add one'
-       </span>
-       ,
-                          style: TextStyle(
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: filteredTasks.length,
-                    itemBuilder: (context, index) {
-       <span class="keyword">
-        final
-       </span>
-       task = filteredTasks[index];
-       <span class="keyword">
-        return
-       </span>
-       Card(
-                        margin: EdgeInsets.symmetric(horizontal:
-       <span class="number">
-        16
-       </span>
-       , vertical:
-       <span class="number">
-        4
-       </span>
-       ),
-                        child: ListTile(
-                          leading: Checkbox(
-                            value: task.isCompleted,
-                            onChanged: (_) =&gt; notifier.toggleTask(task.id),
-                          ),
-                          title: Text(
-                            task.title,
-                            style: TextStyle(
-                              decoration: task.isCompleted
-                                  ? TextDecoration.lineThrough
-                                  :
-       <span class="keyword">
-        null
-       </span>
-       ,
-                              color: task.isCompleted
-                                  ? Colors.grey.shade600
-                                  :
-       <span class="keyword">
-        null
-       </span>
-       ,
-                            ),
-                          ),
-                          subtitle: task.description !=
-       <span class="keyword">
-        null
-       </span>
-       ? Text(
-                                  task.description!,
-                                  style: TextStyle(
-                                    decoration: task.isCompleted
-                                        ? TextDecoration.lineThrough
-                                        :
-       <span class="keyword">
-        null
-       </span>
-       ,
-                                  ),
-                                )
-                              :
-       <span class="keyword">
-        null
-       </span>
-       ,
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.edit, size:
-       <span class="number">
-        20
-       </span>
-       ),
-                                onPressed: () {
-                                  _titleController.text = task.title;
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) =&gt; AlertDialog(
-                                      title: Text(
-       <span class="string">
-        'Edit Task'
-       </span>
-       ),
-                                      content: TextField(
-                                        controller: _titleController,
-                                        decoration: InputDecoration(
-                                          hintText:
-       <span class="string">
-        'Task title...'
-       </span>
-       ,
-                                          border: OutlineInputBorder(),
-                                        ),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =&gt; Navigator.pop(context),
-                                          child: Text(
-       <span class="string">
-        'Cancel'
-       </span>
-       ),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-       <span class="keyword">
-        if
-       </span>
-       (_titleController.text.isNotEmpty) {
-                                              notifier.updateTask(
-                                                task.id,
-                                                _titleController.text,
-                                              );
-                                              Navigator.pop(context);
-                                            }
-                                          },
-                                          child: Text(
-       <span class="string">
-        'Save'
-       </span>
-       ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete, size:
-       <span class="number">
-        20
-       </span>
-       , color: Colors.red),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) =&gt; AlertDialog(
-                                      title: Text(
-       <span class="string">
-        'Delete Task'
-       </span>
-       ),
-                                      content: Text(
-       <span class="string">
-        'Are you sure you want to delete this task?'
-       </span>
-       ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =&gt; Navigator.pop(context),
-                                          child: Text(
-       <span class="string">
-        'Cancel'
-       </span>
-       ),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            notifier.deleteTask(task.id);
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-       <span class="string">
-        'Delete'
-       </span>
-       ),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showAddDialog,
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 6. HELPER WIDGETS
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        _StatChip
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       StatelessWidget {
-       <span class="keyword">
-        final
-       </span>
-       String label;
-       <span class="keyword">
-        final
-       </span>
-       <span class="keyword">
-        int
-       </span>
-       count;
-       <span class="keyword">
-        final
-       </span>
-       Color color;
-       <span class="keyword">
-        const
-       </span>
-       _StatChip({
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .label,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .count,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .color,
-  });
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">title</span><span class="punctuation">;</span>
 
-  @override
-  Widget
-       <span class="function">
-        build
-       </span>
-       (BuildContext context) {
-       <span class="keyword">
-        return
-       </span>
-       Container(
-      padding: EdgeInsets.symmetric(horizontal:
-       <span class="number">
-        12
-       </span>
-       , vertical:
-       <span class="number">
-        4
-       </span>
-       ),
-      decoration: BoxDecoration(
-        color: color.withOpacity(
-       <span class="number">
-        0.1
-       </span>
-       ),
-        borderRadius: BorderRadius.circular(
-       <span class="number">
-        12
-       </span>
-       ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width:
-       <span class="number">
-        8
-       </span>
-       ,
-            height:
-       <span class="number">
-        8
-       </span>
-       ,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
-          ),
-          SizedBox(width:
-       <span class="number">
-        6
-       </span>
-       ),
-          Text(
-       <span class="string">
-        '$label: $count'
-       </span>
-       ,
-            style: TextStyle(
-              fontSize:
-       <span class="number">
-        14
-       </span>
-       ,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        _FilterChip
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       StatelessWidget {
-       <span class="keyword">
-        final
-       </span>
-       String label;
-       <span class="keyword">
-        final
-       </span>
-       TaskFilter filter;
-       <span class="keyword">
-        final
-       </span>
-       TaskFilter currentFilter;
-       <span class="keyword">
-        final
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       Function(TaskFilter) onTap;
-       <span class="keyword">
-        const
-       </span>
-       _FilterChip({
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .label,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .filter,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .currentFilter,
-       <span class="keyword">
-        required
-       </span>
-       <span class="keyword">
-        this
-       </span>
-       .onTap,
-  });
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">description</span><span class="punctuation">;</span>
 
-  @override
-  Widget
-       <span class="function">
-        build
-       </span>
-       (BuildContext context) {
-       <span class="keyword">
-        final
-       </span>
-       isSelected = filter == currentFilter;
-       <span class="keyword">
-        return
-       </span>
-       Padding(
-      padding: EdgeInsets.only(right:
-       <span class="number">
-        8
-       </span>
-       ),
-      child: GestureDetector(
-        onTap: () =&gt; onTap(filter),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal:
-       <span class="number">
-        16
-       </span>
-       , vertical:
-       <span class="number">
-        8
-       </span>
-       ),
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.purple : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(
-       <span class="number">
-        20
-       </span>
-       ),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.black87,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-      </code>
-      <button class="copy-btn">
-       <i class="fas fa-copy">
-       </i>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">bool</span><span class="w"> </span><span class="name">isCompleted</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">DateTime</span><span class="w"> </span><span class="name">createdAt</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">Task</span><span class="punctuation">({</span>
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">description</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="name">DateTime</span><span class="operator">?</span><span class="w"> </span><span class="name">createdAt</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="punctuation">})</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">createdAt</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">createdAt</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">DateTime</span><span class="punctuation">.</span><span class="name">now</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Task</span><span class="w"> </span><span class="name">copyWith</span><span class="punctuation">({</span>
+<span class="w">    </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">id</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">title</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">description</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="keyword">bool</span><span class="operator">?</span><span class="w"> </span><span class="name">isCompleted</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="name">DateTime</span><span class="operator">?</span><span class="w"> </span><span class="name">createdAt</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="punctuation">})</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Task</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">id:</span><span class="w"> </span><span class="name">id</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="name">title</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">description:</span><span class="w"> </span><span class="name">description</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">description</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">isCompleted:</span><span class="w"> </span><span class="name">isCompleted</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">createdAt:</span><span class="w"> </span><span class="name">createdAt</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">createdAt</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="comment">// 2. STATE</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">TaskState</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Task</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">TaskFilter</span><span class="w"> </span><span class="name">filter</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">TaskState</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">filter</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="comment">// Factory for initial state</span>
+
+<span class="w">  </span><span class="keyword">factory</span><span class="w"> </span><span class="name">TaskState</span><span class="punctuation">.</span><span class="name">initial</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">TaskState</span><span class="punctuation">(</span><span class="nl">tasks:</span><span class="w"> </span><span class="punctuation">[],</span><span class="w"> </span><span class="nl">filter:</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="name">all</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Copy method</span>
+
+<span class="w">  </span><span class="name">TaskState</span><span class="w"> </span><span class="name">copyWith</span><span class="punctuation">({</span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Task</span><span class="operator">&gt;?</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">,</span><span class="w"> </span><span class="name">TaskFilter</span><span class="operator">?</span><span class="w"> </span><span class="name">filter</span><span class="punctuation">})</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">TaskState</span><span class="punctuation">(</span><span class="nl">tasks:</span><span class="w"> </span><span class="name">tasks</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">filter:</span><span class="w"> </span><span class="name">filter</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">filter</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Get filtered tasks</span>
+
+<span class="w">  </span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Task</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">getFilteredTasks</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">switch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">filter</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">case</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="nl">all:</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">;</span>
+
+<span class="w">      </span><span class="keyword">case</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="nl">active:</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">where</span><span class="punctuation">((</span><span class="name">t</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="operator">!</span><span class="name">t</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">).</span><span class="name">toList</span><span class="punctuation">();</span>
+
+<span class="w">      </span><span class="keyword">case</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="nl">completed:</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">where</span><span class="punctuation">((</span><span class="name">t</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">t</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">).</span><span class="name">toList</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Statistics</span>
+
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="keyword">get</span><span class="w"> </span><span class="name">totalCount</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="keyword">get</span><span class="w"> </span><span class="name">activeCount</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">where</span><span class="punctuation">((</span><span class="name">t</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="operator">!</span><span class="name">t</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">).</span><span class="name">length</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="keyword">get</span><span class="w"> </span><span class="name">completedCount</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">where</span><span class="punctuation">((</span><span class="name">t</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">t</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">).</span><span class="name">length</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="comment">// 3. NOTIFIER</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">TaskNotifier</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StateNotifier</span><span class="operator">&lt;</span><span class="name">TaskState</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="name">TaskNotifier</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="keyword">super</span><span class="punctuation">(</span><span class="name">TaskState</span><span class="punctuation">.</span><span class="name">initial</span><span class="punctuation">());</span>
+
+<span class="w">  </span><span class="comment">// Add task</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">addTask</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">title</span><span class="punctuation">,</span><span class="w"> </span><span class="punctuation">{</span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">description</span><span class="punctuation">})</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">title</span><span class="punctuation">.</span><span class="name">trim</span><span class="punctuation">().</span><span class="name">isEmpty</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">return</span><span class="punctuation">;</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">task</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Task</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">id:</span><span class="w"> </span><span class="name">DateTime</span><span class="punctuation">.</span><span class="name">now</span><span class="punctuation">().</span><span class="name">millisecondsSinceEpoch</span><span class="punctuation">.</span><span class="name">toString</span><span class="punctuation">(),</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="name">title</span><span class="punctuation">.</span><span class="name">trim</span><span class="punctuation">(),</span>
+<span class="w">      </span><span class="nl">description:</span><span class="w"> </span><span class="name">description</span><span class="operator">?</span><span class="punctuation">.</span><span class="name">trim</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">tasks:</span><span class="w"> </span><span class="punctuation">[...</span><span class="name">state</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">,</span><span class="w"> </span><span class="name">task</span><span class="punctuation">]);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Toggle completion</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">toggleTask</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">tasks:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">map</span><span class="punctuation">((</span><span class="name">task</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">task</span><span class="punctuation">.</span><span class="name">id</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">id</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">isCompleted:</span><span class="w"> </span><span class="operator">!</span><span class="name">task</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">);</span>
+<span class="w">        </span><span class="punctuation">}</span>
+
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">task</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}).</span><span class="name">toList</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Delete task</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">deleteTask</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">tasks:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">where</span><span class="punctuation">((</span><span class="name">task</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">id</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="name">id</span><span class="punctuation">).</span><span class="name">toList</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Update task</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">updateTask</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">newTitle</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">newTitle</span><span class="punctuation">.</span><span class="name">trim</span><span class="punctuation">().</span><span class="name">isEmpty</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">return</span><span class="punctuation">;</span>
+
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">tasks:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">map</span><span class="punctuation">((</span><span class="name">task</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">task</span><span class="punctuation">.</span><span class="name">id</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">id</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">newTitle</span><span class="punctuation">.</span><span class="name">trim</span><span class="punctuation">());</span>
+<span class="w">        </span><span class="punctuation">}</span>
+
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">task</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}).</span><span class="name">toList</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Clear completed</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">clearCompleted</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">tasks:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">tasks</span><span class="punctuation">.</span><span class="name">where</span><span class="punctuation">((</span><span class="name">task</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="operator">!</span><span class="name">task</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">).</span><span class="name">toList</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Set filter</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">setFilter</span><span class="punctuation">(</span><span class="name">TaskFilter</span><span class="w"> </span><span class="name">filter</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">filter:</span><span class="w"> </span><span class="name">filter</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="comment">// 4. PROVIDER</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">taskProvider</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">StateNotifierProvider</span><span class="operator">&lt;</span><span class="name">TaskNotifier</span><span class="punctuation">,</span><span class="w"> </span><span class="name">TaskState</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">return</span><span class="w"> </span><span class="name">TaskNotifier</span><span class="punctuation">();</span>
+<span class="punctuation">});</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="comment">// 5. UI</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="name">runApp</span><span class="punctuation">(</span><span class="name">ProviderScope</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">MyApp</span><span class="punctuation">()));</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">MyApp</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialApp</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="string">'Task Manager'</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">theme:</span><span class="w"> </span><span class="name">ThemeData</span><span class="punctuation">(</span><span class="nl">primarySwatch:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">purple</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">useMaterial3:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">home:</span><span class="w"> </span><span class="name">TaskScreen</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">TaskScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">ConsumerStatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">ConsumerState</span><span class="operator">&lt;</span><span class="name">TaskScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_TaskScreenState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_TaskScreenState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">ConsumerState</span><span class="operator">&lt;</span><span class="name">TaskScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">TextEditingController</span><span class="w"> </span><span class="name">_titleController</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">TextEditingController</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">TextEditingController</span><span class="w"> </span><span class="name">_descriptionController</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">TextEditingController</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">dispose</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_titleController</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">_descriptionController</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">_showAddDialog</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_titleController</span><span class="punctuation">.</span><span class="name">clear</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">_descriptionController</span><span class="punctuation">.</span><span class="name">clear</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="name">showDialog</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">context:</span><span class="w"> </span><span class="name">context</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">AlertDialog</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Add Task'</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">content:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">mainAxisSize:</span><span class="w"> </span><span class="name">MainAxisSize</span><span class="punctuation">.</span><span class="name">min</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">            </span><span class="name">TextField</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">controller:</span><span class="w"> </span><span class="name">_titleController</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">InputDecoration</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">hintText:</span><span class="w"> </span><span class="string">'Task title...'</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">border:</span><span class="w"> </span><span class="name">OutlineInputBorder</span><span class="punctuation">(),</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">TextField</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">controller:</span><span class="w"> </span><span class="name">_descriptionController</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">InputDecoration</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">hintText:</span><span class="w"> </span><span class="string">'Description (optional)...'</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">border:</span><span class="w"> </span><span class="name">OutlineInputBorder</span><span class="punctuation">(),</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="nl">maxLines:</span><span class="w"> </span><span class="number">3</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">],</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">          </span><span class="name">TextButton</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Cancel'</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_titleController</span><span class="punctuation">.</span><span class="name">text</span><span class="punctuation">.</span><span class="name">isNotEmpty</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                </span><span class="name">ref</span>
+<span class="w">                    </span><span class="punctuation">.</span><span class="name">read</span><span class="punctuation">(</span><span class="name">taskProvider</span><span class="punctuation">.</span><span class="name">notifier</span><span class="punctuation">)</span>
+<span class="w">                    </span><span class="punctuation">.</span><span class="name">addTask</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="name">_titleController</span><span class="punctuation">.</span><span class="name">text</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">description:</span><span class="w"> </span><span class="name">_descriptionController</span><span class="punctuation">.</span><span class="name">text</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="punctuation">);</span>
+<span class="w">                </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">);</span>
+<span class="w">              </span><span class="punctuation">}</span>
+<span class="w">            </span><span class="punctuation">},</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Add'</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">],</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">taskState</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">watch</span><span class="punctuation">(</span><span class="name">taskProvider</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">notifier</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">read</span><span class="punctuation">(</span><span class="name">taskProvider</span><span class="punctuation">.</span><span class="name">notifier</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">filteredTasks</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">getFilteredTasks</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Task Manager'</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">centerTitle:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">elevation:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">completedCount</span><span class="w"> </span><span class="operator">&gt;</span><span class="w"> </span><span class="number">0</span><span class="punctuation">)</span>
+<span class="w">            </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">delete_sweep</span><span class="punctuation">),</span>
+<span class="w">              </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                </span><span class="name">showDialog</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">context:</span><span class="w"> </span><span class="name">context</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">AlertDialog</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Clear Completed'</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="nl">content:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Remove all completed tasks?'</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                      </span><span class="name">TextButton</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Cancel'</span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                          </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">clearCompleted</span><span class="punctuation">();</span>
+<span class="w">                          </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">);</span>
+<span class="w">                        </span><span class="punctuation">},</span>
+<span class="w">                        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Clear'</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="nl">style:</span><span class="w"> </span><span class="name">ElevatedButton</span><span class="punctuation">.</span><span class="name">styleFrom</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="nl">backgroundColor:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="punctuation">],</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">);</span>
+<span class="w">              </span><span class="punctuation">},</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">],</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">          </span><span class="comment">// Stats bar</span>
+<span class="w">          </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">12</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">BoxDecoration</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade50</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">border:</span><span class="w"> </span><span class="name">Border</span><span class="punctuation">(</span><span class="nl">bottom:</span><span class="w"> </span><span class="name">BorderSide</span><span class="punctuation">(</span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade200</span><span class="punctuation">)),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">spaceAround</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                </span><span class="name">_StatChip</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">label:</span><span class="w"> </span><span class="string">'Total'</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">count:</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">totalCount</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="name">_StatChip</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">label:</span><span class="w"> </span><span class="string">'Active'</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">count:</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">activeCount</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">blue</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="name">_StatChip</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">label:</span><span class="w"> </span><span class="string">'Done'</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">count:</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">completedCount</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">green</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">],</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+
+<span class="w">          </span><span class="comment">// Filter tabs</span>
+<span class="w">          </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                </span><span class="name">_FilterChip</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">label:</span><span class="w"> </span><span class="string">'All'</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">filter:</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="name">all</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">currentFilter:</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">filter</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">onTap:</span><span class="w"> </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">setFilter</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="name">_FilterChip</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">label:</span><span class="w"> </span><span class="string">'Active'</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">filter:</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="name">active</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">currentFilter:</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">filter</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">onTap:</span><span class="w"> </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">setFilter</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="name">_FilterChip</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">label:</span><span class="w"> </span><span class="string">'Completed'</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">filter:</span><span class="w"> </span><span class="name">TaskFilter</span><span class="punctuation">.</span><span class="name">completed</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">currentFilter:</span><span class="w"> </span><span class="name">taskState</span><span class="punctuation">.</span><span class="name">filter</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">onTap:</span><span class="w"> </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">setFilter</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">],</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+
+<span class="w">          </span><span class="comment">// Task list</span>
+<span class="w">          </span><span class="name">Expanded</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="name">filteredTasks</span><span class="punctuation">.</span><span class="name">isEmpty</span>
+<span class="w">                </span><span class="operator">?</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                        </span><span class="name">Icon</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">check_circle_outline</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">size:</span><span class="w"> </span><span class="number">64</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade400</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="string">'No tasks yet'</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                            </span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">18</span><span class="punctuation">,</span>
+<span class="w">                            </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade600</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="string">'Tap the + button to add one'</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade400</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="punctuation">],</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">)</span>
+<span class="w">                </span><span class="operator">:</span><span class="w"> </span><span class="name">ListView</span><span class="punctuation">.</span><span class="name">builder</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="nl">itemCount:</span><span class="w"> </span><span class="name">filteredTasks</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="nl">itemBuilder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">index</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                      </span><span class="keyword">final</span><span class="w"> </span><span class="name">task</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">filteredTasks</span><span class="punctuation">[</span><span class="name">index</span><span class="punctuation">];</span>
+
+<span class="w">                      </span><span class="keyword">return</span><span class="w"> </span><span class="name">Card</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">margin:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">4</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="nl">child:</span><span class="w"> </span><span class="name">ListTile</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="nl">leading:</span><span class="w"> </span><span class="name">Checkbox</span><span class="punctuation">(</span>
+<span class="w">                            </span><span class="nl">value:</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">isCompleted</span><span class="punctuation">,</span>
+<span class="w">                            </span><span class="nl">onChanged:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">toggleTask</span><span class="punctuation">(</span><span class="name">task</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">),</span>
+<span class="w">                          </span><span class="punctuation">),</span>
+<span class="w">                          </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                            </span><span class="name">task</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">,</span>
+<span class="w">                            </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                              </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">isCompleted</span>
+<span class="w">                                  </span><span class="operator">?</span><span class="w"> </span><span class="name">TextDecoration</span><span class="punctuation">.</span><span class="name">lineThrough</span>
+<span class="w">                                  </span><span class="operator">:</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">,</span>
+<span class="w">                              </span><span class="nl">color:</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">isCompleted</span>
+<span class="w">                                  </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade600</span>
+<span class="w">                                  </span><span class="operator">:</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">,</span>
+<span class="w">                            </span><span class="punctuation">),</span>
+<span class="w">                          </span><span class="punctuation">),</span>
+<span class="w">                          </span><span class="nl">subtitle:</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">description</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">                              </span><span class="operator">?</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                                  </span><span class="name">task</span><span class="punctuation">.</span><span class="name">description</span><span class="operator">!</span><span class="punctuation">,</span>
+<span class="w">                                  </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                                    </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">isCompleted</span>
+<span class="w">                                        </span><span class="operator">?</span><span class="w"> </span><span class="name">TextDecoration</span><span class="punctuation">.</span><span class="name">lineThrough</span>
+<span class="w">                                        </span><span class="operator">:</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">,</span>
+<span class="w">                                  </span><span class="punctuation">),</span>
+<span class="w">                                </span><span class="punctuation">)</span>
+<span class="w">                              </span><span class="operator">:</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">trailing:</span><span class="w"> </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">                            </span><span class="nl">mainAxisSize:</span><span class="w"> </span><span class="name">MainAxisSize</span><span class="punctuation">.</span><span class="name">min</span><span class="punctuation">,</span>
+<span class="w">                            </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                              </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">                                </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">edit</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">size:</span><span class="w"> </span><span class="number">20</span><span class="punctuation">),</span>
+<span class="w">                                </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                                  </span><span class="name">_titleController</span><span class="punctuation">.</span><span class="name">text</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">task</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">;</span>
+<span class="w">                                  </span><span class="name">showDialog</span><span class="punctuation">(</span>
+<span class="w">                                    </span><span class="nl">context:</span><span class="w"> </span><span class="name">context</span><span class="punctuation">,</span>
+<span class="w">                                    </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">AlertDialog</span><span class="punctuation">(</span>
+<span class="w">                                      </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Edit Task'</span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="nl">content:</span><span class="w"> </span><span class="name">TextField</span><span class="punctuation">(</span>
+<span class="w">                                        </span><span class="nl">controller:</span><span class="w"> </span><span class="name">_titleController</span><span class="punctuation">,</span>
+<span class="w">                                        </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">InputDecoration</span><span class="punctuation">(</span>
+<span class="w">                                          </span><span class="nl">hintText:</span><span class="w"> </span><span class="string">'Task title...'</span><span class="punctuation">,</span>
+<span class="w">                                          </span><span class="nl">border:</span><span class="w"> </span><span class="name">OutlineInputBorder</span><span class="punctuation">(),</span>
+<span class="w">                                        </span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                                        </span><span class="name">TextButton</span><span class="punctuation">(</span>
+<span class="w">                                          </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span>
+<span class="w">                                              </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">),</span>
+<span class="w">                                          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Cancel'</span><span class="punctuation">),</span>
+<span class="w">                                        </span><span class="punctuation">),</span>
+<span class="w">                                        </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">                                          </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                                            </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_titleController</span>
+<span class="w">                                                </span><span class="punctuation">.</span><span class="name">text</span>
+<span class="w">                                                </span><span class="punctuation">.</span><span class="name">isNotEmpty</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                                              </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">updateTask</span><span class="punctuation">(</span>
+<span class="w">                                                </span><span class="name">task</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">,</span>
+<span class="w">                                                </span><span class="name">_titleController</span><span class="punctuation">.</span><span class="name">text</span><span class="punctuation">,</span>
+<span class="w">                                              </span><span class="punctuation">);</span>
+<span class="w">                                              </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">);</span>
+<span class="w">                                            </span><span class="punctuation">}</span>
+<span class="w">                                          </span><span class="punctuation">},</span>
+<span class="w">                                          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Save'</span><span class="punctuation">),</span>
+<span class="w">                                        </span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="punctuation">],</span>
+<span class="w">                                    </span><span class="punctuation">),</span>
+<span class="w">                                  </span><span class="punctuation">);</span>
+<span class="w">                                </span><span class="punctuation">},</span>
+<span class="w">                              </span><span class="punctuation">),</span>
+<span class="w">                              </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">                                </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span>
+<span class="w">                                  </span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">delete</span><span class="punctuation">,</span>
+<span class="w">                                  </span><span class="nl">size:</span><span class="w"> </span><span class="number">20</span><span class="punctuation">,</span>
+<span class="w">                                  </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">,</span>
+<span class="w">                                </span><span class="punctuation">),</span>
+<span class="w">                                </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                                  </span><span class="name">showDialog</span><span class="punctuation">(</span>
+<span class="w">                                    </span><span class="nl">context:</span><span class="w"> </span><span class="name">context</span><span class="punctuation">,</span>
+<span class="w">                                    </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">AlertDialog</span><span class="punctuation">(</span>
+<span class="w">                                      </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Delete Task'</span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="nl">content:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                                        </span><span class="string">'Are you sure you want to delete this task?'</span><span class="punctuation">,</span>
+<span class="w">                                      </span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                                        </span><span class="name">TextButton</span><span class="punctuation">(</span>
+<span class="w">                                          </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span>
+<span class="w">                                              </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">),</span>
+<span class="w">                                          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Cancel'</span><span class="punctuation">),</span>
+<span class="w">                                        </span><span class="punctuation">),</span>
+<span class="w">                                        </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">                                          </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                                            </span><span class="name">notifier</span><span class="punctuation">.</span><span class="name">deleteTask</span><span class="punctuation">(</span><span class="name">task</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">);</span>
+<span class="w">                                            </span><span class="name">Navigator</span><span class="punctuation">.</span><span class="name">pop</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">);</span>
+<span class="w">                                          </span><span class="punctuation">},</span>
+<span class="w">                                          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Delete'</span><span class="punctuation">),</span>
+<span class="w">                                          </span><span class="nl">style:</span><span class="w"> </span><span class="name">ElevatedButton</span><span class="punctuation">.</span><span class="name">styleFrom</span><span class="punctuation">(</span>
+<span class="w">                                            </span><span class="nl">backgroundColor:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">,</span>
+<span class="w">                                          </span><span class="punctuation">),</span>
+<span class="w">                                        </span><span class="punctuation">),</span>
+<span class="w">                                      </span><span class="punctuation">],</span>
+<span class="w">                                    </span><span class="punctuation">),</span>
+<span class="w">                                  </span><span class="punctuation">);</span>
+<span class="w">                                </span><span class="punctuation">},</span>
+<span class="w">                              </span><span class="punctuation">),</span>
+<span class="w">                            </span><span class="punctuation">],</span>
+<span class="w">                          </span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="punctuation">);</span>
+<span class="w">                    </span><span class="punctuation">},</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">],</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">floatingActionButton:</span><span class="w"> </span><span class="name">FloatingActionButton</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_showAddDialog</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">add</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="comment">// 6. HELPER WIDGETS</span>
+
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_StatChip</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">label</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="w"> </span><span class="name">count</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Color</span><span class="w"> </span><span class="name">color</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">_StatChip</span><span class="punctuation">({</span>
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">label</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">count</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">color</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">12</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">4</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">BoxDecoration</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">color:</span><span class="w"> </span><span class="name">color</span><span class="punctuation">.</span><span class="name">withOpacity</span><span class="punctuation">(</span><span class="number">0.1</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">borderRadius:</span><span class="w"> </span><span class="name">BorderRadius</span><span class="punctuation">.</span><span class="name">circular</span><span class="punctuation">(</span><span class="number">12</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">          </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">width:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">height:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">BoxDecoration</span><span class="punctuation">(</span><span class="nl">color:</span><span class="w"> </span><span class="name">color</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">shape:</span><span class="w"> </span><span class="name">BoxShape</span><span class="punctuation">.</span><span class="name">circle</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">width:</span><span class="w"> </span><span class="number">6</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'</span><span class="si">$</span><span class="name">label</span><span class="string">: </span><span class="si">$</span><span class="name">count</span><span class="string">'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">14</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">fontWeight:</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">w600</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">],</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_FilterChip</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">label</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">TaskFilter</span><span class="w"> </span><span class="name">filter</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">TaskFilter</span><span class="w"> </span><span class="name">currentFilter</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">void</span><span class="w"> </span><span class="keyword">Function</span><span class="punctuation">(</span><span class="name">TaskFilter</span><span class="punctuation">)</span><span class="w"> </span><span class="name">onTap</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">_FilterChip</span><span class="punctuation">({</span>
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">label</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">filter</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">currentFilter</span><span class="punctuation">,</span>
+
+<span class="w">    </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">onTap</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">isSelected</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">filter</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">currentFilter</span><span class="punctuation">;</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Padding</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">only</span><span class="punctuation">(</span><span class="nl">right:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">GestureDetector</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">onTap:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">onTap</span><span class="punctuation">(</span><span class="name">filter</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="nl">decoration:</span><span class="w"> </span><span class="name">BoxDecoration</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">color:</span><span class="w"> </span><span class="name">isSelected</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">purple</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade200</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">borderRadius:</span><span class="w"> </span><span class="name">BorderRadius</span><span class="punctuation">.</span><span class="name">circular</span><span class="punctuation">(</span><span class="number">20</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="name">label</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">color:</span><span class="w"> </span><span class="name">isSelected</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">white</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">black87</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">fontWeight:</span><span class="w"> </span><span class="name">isSelected</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">bold</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">normal</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
        Copy
       </button>
-      <button class="toggle-expand-btn">
-       <i class="fas fa-expand">
-       </i>
-       Expand
-      </button>
-      <button class="collapse-btn">
-       <i class="fas fa-chevron-up">
-       </i>
-       Collapse
-      </button>
-     </div>
-     <!-- ===== EXPLANATION ===== -->
-     <div class="section-divider">
-      <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<!-- ===== EXPLANATION ===== -->
+<div class="section-divider">
+<span class="divider-label">
        📖 How This Solution Works
       </span>
-      <span class="divider-line">
-      </span>
-     </div>
-     <div class="solution-box">
-      <h4>
+<span class="divider-line">
+</span>
+</div>
+<div class="solution-box">
+<h4>
        Step-by-Step Explanation
       </h4>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          1. Models
         </strong>
         – The
@@ -2175,8 +1445,8 @@
         </code>
         class represents a task with id, title, description, and completion status.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          2. State
         </strong>
         –
@@ -2185,8 +1455,8 @@
         </code>
         holds the list of tasks and the current filter.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          3. Notifier
         </strong>
         –
@@ -2195,66 +1465,66 @@
         </code>
         contains all CRUD operations: add, toggle, delete, update, and clear completed.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          4. Filtering
         </strong>
         – Tasks can be filtered by All, Active, or Completed using the filter enum.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          5. UI
         </strong>
         – The task list displays tasks with checkboxes, edit/delete buttons, and statistics.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          6. Dialog Flow
         </strong>
         – Add, edit, and delete operations use dialogs for user confirmation.
        </li>
-      </ul>
-     </div>
-     <div class="explanation-grid">
-      <div class="explanation-item">
-       <div class="exp-number">
+</ul>
+</div>
+<div class="explanation-grid">
+<div class="explanation-item">
+<div class="exp-number">
         Immutable State
        </div>
-       <div class="exp-text">
+<div class="exp-text">
         All state updates create new copies using copyWith, ensuring predictable state changes.
        </div>
-      </div>
-      <div class="explanation-item">
-       <div class="exp-number">
+</div>
+<div class="explanation-item">
+<div class="exp-number">
         CRUD Operations
        </div>
-       <div class="exp-text">
+<div class="exp-text">
         The notifier provides methods for Create, Read, Update, and Delete operations.
        </div>
-      </div>
-      <div class="explanation-item">
-       <div class="exp-number">
+</div>
+<div class="explanation-item">
+<div class="exp-number">
         Filter Logic
        </div>
-       <div class="exp-text">
+<div class="exp-text">
         The filter determines which tasks are displayed without modifying the underlying list.
        </div>
-      </div>
-      <div class="explanation-item">
-       <div class="exp-number">
+</div>
+<div class="explanation-item">
+<div class="exp-number">
         Statistics
        </div>
-       <div class="exp-text">
+<div class="exp-text">
         Computed properties show total, active, and completed task counts.
        </div>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
+<p>
        This project demonstrates how to use
        <code>
         StateNotifierProvider
@@ -2263,118 +1533,118 @@
             The combination of immutable state, clear methods, and a separation of concerns makes the code
             maintainable and easy to extend with new features.
       </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="project-counter-app-pro.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="project-counter-app-pro.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Counter App Pro
       </a>
-      <a class="btn btn-primary btn-sm" href="project-shopping-cart-system.html">
+<a class="btn btn-primary btn-sm" href="project-shopping-cart-system.html">
        Next: Shopping Cart
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="../../module1-topic1-why-state-management.html">
+</li>
+<li>
+<a href="../../module1-topic1-why-state-management.html">
          Module 1
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://flutter.dev" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://flutter.dev" rel="noopener" target="_blank">
          Flutter Official
         </a>
-       </li>
-       <li>
-        <a href="https://dart.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://dart.dev" rel="noopener" target="_blank">
          Dart Language
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev" rel="noopener" target="_blank">
          pub.dev
         </a>
-       </li>
-       <li>
-        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://riverpod.dev" rel="noopener" target="_blank">
          Riverpod
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter" rel="noopener" target="_blank">
          GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/cookbook" style="color: var(--text-muted);" target="_blank">
        Flutter Cookbook
@@ -2383,18 +1653,18 @@
       <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">
        Riverpod
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       fetch('../../../components/sidebar.html')
         .then(res => res.text())
@@ -2554,7 +1824,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -2629,25 +1899,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -2704,5 +1957,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

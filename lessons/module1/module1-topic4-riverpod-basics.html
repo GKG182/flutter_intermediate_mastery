@@ -1,27 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Riverpod Basics – Module 1 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn the basics of Riverpod, a powerful state management library for Flutter. Understand providers, ref, and how to get started." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn the basics of Riverpod, a powerful state management library for Flutter. Understand providers, ref, and how to get started." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
     /* Lesson Navigation */
     .lesson-nav {
@@ -505,7 +531,6 @@
       }
     }
 /* High default limit for fully expanded blocks */
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
@@ -525,25 +550,6 @@
     transition: opacity 0.3s ease;
 }
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
@@ -554,25 +560,18 @@
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -586,45 +585,18 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
     /* ===== FIXED CODE BLOCK OVERRIDES ===== */
     .code-block {
         position: relative !important;
@@ -642,16 +614,6 @@
         font-size: var(--font-xs) !important;
         color: rgba(255, 255, 255, 0.6) !important;
     }
-    .toggle-expand-btn {
-        position: absolute !important;
-        top: 0.5rem !important;
-        right: 5.5rem !important; /* Positioned clearly left of copy button */
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 0.25rem 0.6rem !important;
-        border-radius: 4px !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-    }
     .copy-btn {
         position: absolute !important;
         top: 0.5rem !important;
@@ -667,9 +629,8 @@
         color: #ffffff !important;
     }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -679,49 +640,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -732,154 +655,154 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a "="" class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a "="" class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a "="" class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a "="" class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a module1-topic1-why-state-management.html"="">
+<a module1-topic1-why-state-management.html"="">
         Module 1
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 4
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-book-open">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-book-open">
+</i>
        Module 1
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 4
       </div>
-      <h1>
+<h1>
        Riverpod Basics
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Introducing Riverpod — a modern, robust, and testable state management library for Flutter.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://riverpod.dev" target="_blank">
-        <i class="fas fa-globe">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://riverpod.dev" target="_blank">
+<i class="fas fa-globe">
+</i>
         Riverpod.dev
        </a>
-       <a class="doc-badge" href="https://pub.dev/packages/flutter_riverpod" target="_blank">
-        <i class="fas fa-box">
-        </i>
+<a class="doc-badge" href="https://pub.dev/packages/flutter_riverpod" target="_blank">
+<i class="fas fa-box">
+</i>
         flutter_riverpod
        </a>
-       <a class="doc-badge" href="https://riverpod.dev/docs" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<a class="doc-badge" href="https://riverpod.dev/docs" target="_blank">
+<i class="fas fa-book">
+</i>
         Riverpod Docs
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHAT IS RIVERPOD ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS RIVERPOD ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         What Is Riverpod?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
-       <a href="https://riverpod.dev" style="color: var(--primary);" target="_blank">
+<span class="divider-line">
+</span>
+</div>
+<p>
+<a href="https://riverpod.dev" style="color: var(--primary);" target="_blank">
         Riverpod
        </a>
        is a state management
@@ -890,57 +813,57 @@
        </code>
        package but offers several improvements:
       </p>
-      <div class="feature-grid">
-       <div class="feature-item">
-        <div class="fi-icon">
+<div class="feature-grid">
+<div class="feature-item">
+<div class="fi-icon">
          🔒
         </div>
-        <div class="fi-name">
+<div class="fi-name">
          Compile‑time Safe
         </div>
-        <div class="fi-desc">
+<div class="fi-desc">
          Providers are defined globally, making them safe and easy to access.
         </div>
-       </div>
-       <div class="feature-item">
-        <div class="fi-icon">
+</div>
+<div class="feature-item">
+<div class="fi-icon">
          🧪
         </div>
-        <div class="fi-name">
+<div class="fi-name">
          Testable
         </div>
-        <div class="fi-desc">
+<div class="fi-desc">
          Providers can be overridden in tests for easier mocking.
         </div>
-       </div>
-       <div class="feature-item">
-        <div class="fi-icon">
+</div>
+<div class="feature-item">
+<div class="fi-icon">
          ⚡
         </div>
-        <div class="fi-name">
+<div class="fi-name">
          Performance
         </div>
-        <div class="fi-desc">
+<div class="fi-desc">
          Only widgets that depend on a provider rebuild when it changes.
         </div>
-       </div>
-       <div class="feature-item">
-        <div class="fi-icon">
+</div>
+<div class="feature-item">
+<div class="fi-icon">
          🔄
         </div>
-        <div class="fi-name">
+<div class="fi-name">
          No BuildContext Needed
         </div>
-        <div class="fi-desc">
+<div class="fi-desc">
          Providers can be accessed outside of widgets, making them more flexible.
         </div>
-       </div>
-      </div>
-      <div class="concept-card success">
-       <h4>
+</div>
+</div>
+<div class="concept-card success">
+<h4>
         ✅ Why Riverpod?
        </h4>
-       <p>
+<p>
         Riverpod was created because the original Provider package had some limitations:
               it relied heavily on
         <code>
@@ -963,26 +886,26 @@
         .
               It's now the recommended approach by the Flutter team for new projects.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: CORE CONCEPTS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 2: CORE CONCEPTS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Core Concepts of Riverpod
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Riverpod is built around a few key concepts. Understanding these is essential to using it effectively.
       </p>
-      <div class="core-concepts-grid">
-       <div class="core-concept-item">
-        <h4>
+<div class="core-concepts-grid">
+<div class="core-concept-item">
+<h4>
          1. Providers
         </h4>
-        <p>
+<p>
          A
          <strong>
           provider
@@ -990,242 +913,147 @@
          is a piece of logic that holds a value and can be listened to by widgets.
                 Providers are defined globally and can be accessed from anywhere in your app.
         </p>
-       </div>
-       <div class="core-concept-item">
-        <h4>
+</div>
+<div class="core-concept-item">
+<h4>
          2. Ref
         </h4>
-        <p>
-         <strong>
+<p>
+<strong>
           Ref
          </strong>
          (short for "reference") is the object that lets you read, watch, or listen to providers.
                 It's passed to the provider's creation function and is the primary way to interact with providers.
         </p>
-       </div>
-       <div class="core-concept-item">
-        <h4>
+</div>
+<div class="core-concept-item">
+<h4>
          3. ProviderScope
         </h4>
-        <p>
-         <strong>
+<p>
+<strong>
           ProviderScope
          </strong>
          is the root widget that makes Riverpod work. It stores the state
                 of all your providers and must be placed at the top of your widget tree.
         </p>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 3: SIMPLE EXAMPLE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: SIMPLE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Simple Example: A Riverpod Counter
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Let's start with a classic counter example using Riverpod. This will show you the basic structure
             of a Riverpod app.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         pubspec.yaml – Add the dependency
        </span>
-       <code>
+<code>
         dependencies:
     flutter:
       sdk: flutter
     flutter_riverpod: ^2.4.0
         <span class="comment">
          # Use the latest version
-        </span>
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+        </span></code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Full Riverpod Counter
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter/material.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter_riverpod/flutter_riverpod.dart'
-        </span>
-        ;
-        <span class="comment">
-         // 1. Define a provider that holds an integer
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        counterProvider = StateProvider&lt;int&gt;((ref) =&gt;
-        <span class="number">
-         0
-        </span>
-        );
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () {
-    runApp(
-        <span class="comment">
-         // 2. Wrap the app with ProviderScope
-        </span>
-        ProviderScope(
-        child: MyApp(),
-      ),
-    );
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MyApp
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        MaterialApp(
-        home: CounterScreen(),
-      );
-    }
-  }
-        <span class="comment">
-         // 3. Use ConsumerWidget instead of StatelessWidget
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         CounterScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        ConsumerWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context, WidgetRef ref) {
-        <span class="comment">
-         // 4. Watch the provider to get its current value and rebuild on changes
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        count = ref.watch(counterProvider);
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Riverpod Counter'
-        </span>
-        )),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-        <span class="string">
-         'Count: $count'
-        </span>
-        ),
-              ElevatedButton(
-                onPressed: () {
-        <span class="comment">
-         // 5. Use ref.read to get the provider's notifier and update the state
-        </span>
-        ref.read(counterProvider.notifier).state++;
-                },
-                child: Text(
-        <span class="string">
-         'Add'
-        </span>
-        ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span><span class="punctuation">;</span>
+
+<span class="comment">// 1. Define a provider that holds an integer</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">counterProvider</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">StateProvider</span><span class="operator">&lt;</span><span class="keyword">int</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="number">0</span><span class="punctuation">);</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="name">runApp</span><span class="punctuation">(</span>
+<span class="w">    </span><span class="comment">// 2. Wrap the app with ProviderScope</span>
+<span class="w">    </span><span class="name">ProviderScope</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">MyApp</span><span class="punctuation">()),</span>
+<span class="w">  </span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">MyApp</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialApp</span><span class="punctuation">(</span><span class="nl">home:</span><span class="w"> </span><span class="name">CounterScreen</span><span class="punctuation">());</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// 3. Use ConsumerWidget instead of StatelessWidget</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">CounterScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">ConsumerWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">WidgetRef</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="comment">// 4. Watch the provider to get its current value and rebuild on changes</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">count</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">watch</span><span class="punctuation">(</span><span class="name">counterProvider</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Riverpod Counter'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">            </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Count: </span><span class="si">$</span><span class="name">count</span><span class="string">'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                </span><span class="comment">// 5. Use ref.read to get the provider's notifier and update the state</span>
+
+<span class="w">                </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">read</span><span class="punctuation">(</span><span class="name">counterProvider</span><span class="punctuation">.</span><span class="name">notifier</span><span class="punctuation">).</span><span class="name">state</span><span class="operator">++</span><span class="punctuation">;</span>
+<span class="w">              </span><span class="punctuation">},</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Add'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">],</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: STEP-BY-STEP EXPLANATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 4: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Step-by-Step Explanation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<span class="divider-line">
+</span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Define a Provider
          </strong>
          –
@@ -1248,25 +1076,25 @@
          parameter
                 is the reference object we'll use to interact with other providers.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           ProviderScope
          </strong>
          – This widget is required for Riverpod to work. It stores the state of all providers
                 and manages their lifecycle. Without it, Riverpod won't work.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           ConsumerWidget
          </strong>
          – Instead of
@@ -1288,25 +1116,25 @@
          </code>
          method.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           ref.watch()
          </strong>
          – This tells Riverpod to listen to the provider. Whenever the provider's state changes,
                 this widget will rebuild. The current value is returned.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           ref.read()
          </strong>
          – This lets you read a provider without listening to it. We use it here to get the
@@ -1325,406 +1153,311 @@
          is typically used
                 inside event handlers or callbacks.
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 5: KEY RIVERPOD METHODS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 5: KEY RIVERPOD METHODS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Key Riverpod Methods
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Riverpod provides three main methods for interacting with providers:
       </p>
-      <div class="comparison-grid">
-       <div class="compare-item">
-        <h4 style="color: var(--primary);">
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: var(--primary);">
          👀 ref.watch()
         </h4>
-        <p style="font-size: var(--font-sm); color: var(--text-secondary);">
-         <strong>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+<strong>
           Use when:
          </strong>
          You want to read a provider and rebuild the widget when it changes.
         </p>
-        <ul>
-         <li>
+<ul>
+<li>
           Causes the widget to rebuild on changes
          </li>
-         <li>
+<li>
           Always use inside the
           <code>
            build()
           </code>
           method
          </li>
-         <li>
+<li>
           Provides the current value
          </li>
-        </ul>
-        <div class="code-block collapsed">
-         <span class="code-label">
+</ul>
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
-           final
-          </span>
-          count = ref.watch(counterProvider);
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">count</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">watch</span><span class="punctuation">(</span><span class="name">counterProvider</span><span class="punctuation">);</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="compare-item">
-        <h4 style="color: var(--secondary);">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="compare-item">
+<h4 style="color: var(--secondary);">
          📖 ref.read()
         </h4>
-        <p style="font-size: var(--font-sm); color: var(--text-secondary);">
-         <strong>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+<strong>
           Use when:
          </strong>
          You want to read a provider without rebuilding the widget.
         </p>
-        <ul>
-         <li>
+<ul>
+<li>
           Does NOT cause the widget to rebuild
          </li>
-         <li>
+<li>
           Used in event handlers, callbacks, and side effects
          </li>
-         <li>
+<li>
           Good for updating state from user actions
          </li>
-        </ul>
-        <div class="code-block collapsed">
-         <span class="code-label">
+</ul>
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          ref.read(counterProvider.notifier).state++;
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+<code>
+          ref.read(counterProvider.notifier).state++;</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="compare-item" style="grid-column: 1 / -1;">
-        <h4 style="color: #F59E0B;">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="compare-item" style="grid-column: 1 / -1;">
+<h4 style="color: #F59E0B;">
          🔔 ref.listen()
         </h4>
-        <p style="font-size: var(--font-sm); color: var(--text-secondary);">
-         <strong>
+<p style="font-size: var(--font-sm); color: var(--text-secondary);">
+<strong>
           Use when:
          </strong>
          You want to run side effects (like showing a snackbar) when a provider changes,
                 without rebuilding the widget.
         </p>
-        <ul>
-         <li>
+<ul>
+<li>
           Does NOT cause the widget to rebuild
          </li>
-         <li>
+<li>
           Runs a callback when the provider's state changes
          </li>
-         <li>
+<li>
           Perfect for navigation, showing dialogs, or logging
          </li>
-        </ul>
-        <div class="code-block collapsed">
-         <span class="code-label">
+</ul>
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
+<code>
           ref.listen&lt;int&gt;(counterProvider, (prev, next) {
           <br/>
           print('Count changed from $prev to $next');
           <br/>
-          });
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          });</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-      </div>
-      <div class="concept-card warning">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+</div>
+<div class="concept-card warning">
+<h4>
         ⚠️ Important: When to Use Each
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           Use
           <code>
            watch
           </code>
-         </strong>
+</strong>
          in
          <code>
           build()
          </code>
          to react to changes.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Use
           <code>
            read
           </code>
-         </strong>
+</strong>
          in event handlers to perform actions without rebuilding.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Use
           <code>
            listen
           </code>
-         </strong>
+</strong>
          for side effects that don't affect the UI directly.
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: TYPES OF PROVIDERS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 6: TYPES OF PROVIDERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Types of Providers
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Riverpod offers several types of providers for different use cases. Here's a quick overview:
       </p>
-      <div class="provider-type-grid">
-       <div class="provider-type-item">
-        <h4 style="color: var(--primary);">
+<div class="provider-type-grid">
+<div class="provider-type-item">
+<h4 style="color: var(--primary);">
          StateProvider
         </h4>
-        <p>
+<p>
          The simplest provider. Holds a mutable piece of state.
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
-           final
-          </span>
-          provider = StateProvider&lt;int&gt;((ref) =&gt; 0);
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">provider</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">StateProvider</span><span class="operator">&lt;</span><span class="keyword">int</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="number">0</span><span class="punctuation">);</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="provider-type-item">
-        <h4 style="color: #3B82F6;">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="provider-type-item">
+<h4 style="color: #3B82F6;">
          FutureProvider
         </h4>
-        <p>
+<p>
          Holds a
          <code>
           Future
          </code>
          . Handles loading and error states.
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
-           final
-          </span>
-          provider = FutureProvider&lt;User&gt;((ref) async {
-          <br/>
-          <span class="keyword">
-           return
-          </span>
-          await fetchUser();
-          <br/>
-          });
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">provider</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">FutureProvider</span><span class="operator">&lt;</span><span class="name">User</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">return</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">fetchUser</span><span class="punctuation">();</span>
+<span class="punctuation">});</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="provider-type-item">
-        <h4 style="color: #10B981;">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="provider-type-item">
+<h4 style="color: #10B981;">
          StreamProvider
         </h4>
-        <p>
+<p>
          Holds a
          <code>
           Stream
          </code>
          . Perfect for real‑time data.
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
-           final
-          </span>
-          provider = StreamProvider&lt;Message&gt;((ref) {
-          <br/>
-          <span class="keyword">
-           return
-          </span>
-          chatService.messagesStream;
-          <br/>
-          });
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">provider</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">StreamProvider</span><span class="operator">&lt;</span><span class="name">Message</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">return</span><span class="w"> </span><span class="name">chatService</span><span class="punctuation">.</span><span class="name">messagesStream</span><span class="punctuation">;</span>
+<span class="punctuation">});</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="provider-type-item">
-        <h4 style="color: #8B5CF6;">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="provider-type-item">
+<h4 style="color: #8B5CF6;">
          StateNotifierProvider
         </h4>
-        <p>
+<p>
          The most powerful provider. Manages complex state with methods.
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
-           final
-          </span>
-          provider = StateNotifierProvider&lt;TodoNotifier, TodoState&gt;((ref) {
-          <br/>
-          <span class="keyword">
-           return
-          </span>
-          TodoNotifier();
-          <br/>
-          });
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">provider</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">StateNotifierProvider</span><span class="operator">&lt;</span><span class="name">TodoNotifier</span><span class="punctuation">,</span><span class="w"> </span><span class="name">TodoState</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">return</span><span class="w"> </span><span class="name">TodoNotifier</span><span class="punctuation">();</span>
+<span class="punctuation">});</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-      </div>
-      <p>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+</div>
+<p>
        We'll cover each of these provider types in detail in the upcoming topics.
       </p>
-     </div>
-     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Forgetting ProviderScope
        </div>
-       <p>
+<p>
         If you forget to wrap your app with
         <code>
          ProviderScope
@@ -1736,24 +1469,24 @@
         </code>
         is at the root of your widget tree.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always wrap your app with ProviderScope
        </div>
-       <p>
-        <code>
+<p>
+<code>
          runApp(ProviderScope(child: MyApp()));
         </code>
         is the standard way to initialize Riverpod.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Using ref.watch() outside build()
        </div>
-       <p>
-        <code>
+<p>
+<code>
          ref.watch()
         </code>
         can only be called during the
@@ -1766,24 +1499,24 @@
         </code>
         creation function. Using it in event handlers will cause errors.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use ref.read() in event handlers
        </div>
-       <p>
+<p>
         For event handlers, use
         <code>
          ref.read(provider.notifier).state = newValue
         </code>
         to update state.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Mutating state directly without notifier
        </div>
-       <p>
+<p>
         With
         <code>
          StateProvider
@@ -1799,26 +1532,26 @@
         </code>
         without the notifier won't trigger rebuilds.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always use .notifier to update state
        </div>
-       <p>
+<p>
         Use
         <code>
          ref.read(provider.notifier).state = newValue
         </code>
         to properly update state.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
+<p>
        Riverpod is a modern, robust state management library that makes it easy to manage global state
             in Flutter apps. It introduces the concept of
        <strong>
@@ -1834,135 +1567,135 @@
        <strong>
         Start with StateProvider for simple state, and explore other provider types as needed.
        </strong>
-      </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module1-topic3-global-state.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module1-topic3-global-state.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Global State
       </a>
-      <a class="btn btn-primary btn-sm" href="module1-topic5-provider.html">
+<a class="btn btn-primary btn-sm" href="module1-topic5-provider.html">
        Next: Provider
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a module1-topic1-why-state-management.html"="">
+</li>
+<li>
+<a module1-topic1-why-state-management.html"="">
          Getting Started
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://flutter.dev" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://flutter.dev" rel="noopener" target="_blank">
          Flutter Official
         </a>
-       </li>
-       <li>
-        <a href="https://dart.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://dart.dev" rel="noopener" target="_blank">
          Dart Language
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev" rel="noopener" target="_blank">
          pub.dev
         </a>
-       </li>
-       <li>
-        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://riverpod.dev" rel="noopener" target="_blank">
          Riverpod
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter" rel="noopener" target="_blank">
          GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://riverpod.dev" style="color: var(--text-muted);" target="_blank">
        Riverpod Official Documentation
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -2021,7 +1754,7 @@
       });
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -2096,25 +1829,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -2171,5 +1887,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

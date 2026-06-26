@@ -4,7 +4,7 @@
 
 :root {
     /* Deeper Purple Theme */
-    --primary: #6D28D9;          /* deeper purple */
+    --primary: #6D28D9;
     --primary-dark: #4C1D95;
     --primary-light: #8B5CF6;
     --primary-gradient: linear-gradient(135deg, #6D28D9 0%, #7C3AED 50%, #EC4899 100%);
@@ -13,29 +13,31 @@
     --secondary-dark: #BE185D;
     --secondary-light: #F472B6;
 
-    --background: #FFFFFF;
-    --background-secondary: #F8FAFC;
-    --surface: #F1F5F9;
+    /* Light theme — NO pure white, all soft, warm tones */
+    --background: #F5F0FF;           /* Warm lavender */
+    --background-secondary: #EDE6F9;  /* Soft lavender */
+    --surface: #F8F4FF;              /* Warm off-white with purple tint */
+    --surface-soft: #F0EAF8;          /* Very soft lavender */
 
-    --text: #0F172A;
-    --text-secondary: #475569;
-    --text-muted: #94A3B8;
+    --text: #1E1B4B;                 /* Deep indigo */
+    --text-secondary: #4A4570;        /* Muted indigo */
+    --text-muted: #8A84A8;           /* Lavender-gray */
     --text-inverse: #FFFFFF;
 
-    --border: #E2E8F0;
-    --border-light: #F1F5F9;
-    --border-soft: rgba(15, 23, 42, 0.07);
+    --border: #DDD6EC;               /* Soft lavender border */
+    --border-light: #F0EAF8;         /* Very soft */
+    --border-soft: rgba(109, 40, 217, 0.08);
 
-    /* Glass surface tokens — used for the ambient background look */
-    --glass-bg: rgba(255, 255, 255, 0.6);
-    --glass-bg-strong: rgba(255, 255, 255, 0.78);
-    --glass-border: rgba(255, 255, 255, 0.5);
+    /* Glass surface tokens — warm, translucent */
+    --glass-bg: rgba(245, 240, 255, 0.75);
+    --glass-bg-strong: rgba(245, 240, 255, 0.88);
+    --glass-border: rgba(109, 40, 217, 0.06);
 
-    --shadow-sm: 0 2px 8px rgba(15,23,42,0.04);
-    --shadow: 0 6px 18px rgba(15,23,42,0.06);
-    --shadow-md: 0 10px 28px rgba(15,23,42,0.07);
-    --shadow-lg: 0 18px 40px rgba(15,23,42,0.09);
-    --shadow-xl: 0 28px 60px rgba(15,23,42,0.11);
+    --shadow-sm: 0 2px 8px rgba(109, 40, 217, 0.06);
+    --shadow: 0 6px 18px rgba(109, 40, 217, 0.07);
+    --shadow-md: 0 10px 28px rgba(109, 40, 217, 0.08);
+    --shadow-lg: 0 18px 40px rgba(109, 40, 217, 0.10);
+    --shadow-xl: 0 28px 60px rgba(109, 40, 217, 0.12);
 
     --radius-sm: 12px;
     --radius: 20px;
@@ -93,9 +95,9 @@ body::before {
     z-index: -1;
     pointer-events: none;
     background-image:
-        radial-gradient(ellipse 60% 50% at 12% 8%, rgba(109, 40, 217, 0.07), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 12% 8%, rgba(109, 40, 217, 0.08), transparent 60%),
         radial-gradient(ellipse 55% 45% at 90% 12%, rgba(236, 72, 153, 0.06), transparent 60%),
-        radial-gradient(ellipse 60% 55% at 50% 95%, rgba(139, 92, 246, 0.06), transparent 60%);
+        radial-gradient(ellipse 60% 55% at 50% 95%, rgba(139, 92, 246, 0.07), transparent 60%);
     transition: opacity 0.3s;
 }
 
@@ -170,14 +172,25 @@ a:hover { color: var(--primary-dark); }
     transform: translateY(-2px);
 }
 .btn-light {
-    background: white;
+    background: var(--surface-soft);
     color: var(--primary);
+    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.10);
 }
 .btn-light:hover {
-    background: rgba(255,255,255,0.9);
+    background: var(--background-secondary);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 8px 20px rgba(109, 40, 217, 0.15);
     color: var(--primary-dark);
+}
+.btn-success {
+    background: #10b981;
+    color: white;
+    border: none;
+}
+.btn-success:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    color: white;
 }
 .btn-large { padding: 0.9rem 2.25rem; font-size: var(--font-lg); }
 .btn-sm { padding: 0.45rem 1.15rem; font-size: var(--font-sm); }

@@ -1,27 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    JSON – Module 2 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn how to work with JSON in Flutter. Parse JSON data, convert between JSON and Dart objects, and handle complex nested structures." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn how to work with JSON in Flutter. Parse JSON data, convert between JSON and Dart objects, and handle complex nested structures." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
@@ -415,7 +441,6 @@
       }
     }
 /* High default limit for fully expanded blocks */
-
 /* Colapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
@@ -435,25 +460,6 @@
     transition: opacity 0.3s ease;
 }
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
@@ -464,25 +470,18 @@
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -496,45 +495,18 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
     /* ===== FIXED CODE BLOCK OVERRIDES ===== */
     .code-block {
         position: relative !important;
@@ -552,16 +524,6 @@
         font-size: var(--font-xs) !important;
         color: rgba(255, 255, 255, 0.6) !important;
     }
-    .toggle-expand-btn {
-        position: absolute !important;
-        top: 0.5rem !important;
-        right: 5.5rem !important; /* Positioned clearly left of copy button */
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 0.25rem 0.6rem !important;
-        border-radius: 4px !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-    }
     .copy-btn {
         position: absolute !important;
         top: 0.5rem !important;
@@ -577,9 +539,8 @@
         color: #ffffff !important;
     }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -589,49 +550,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -642,149 +565,149 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="../module2-state-management.html">
+<a href="../module2-state-management.html">
         Module 2
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 3
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-globe">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-globe">
+</i>
        Module 2
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 3
       </div>
-      <h1>
+<h1>
        JSON
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Understanding JSON — the universal data format for APIs and how to work with it in Flutter.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/serialization/json" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/serialization/json" target="_blank">
+<i class="fas fa-book">
+</i>
         Flutter Docs – JSON Serialization
        </a>
-       <a class="doc-badge" href="https://www.json.org" target="_blank">
-        <i class="fas fa-globe">
-        </i>
+<a class="doc-badge" href="https://www.json.org" target="_blank">
+<i class="fas fa-globe">
+</i>
         JSON.org
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHAT IS JSON ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS JSON ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         What Is JSON?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
-       <strong>
+<span class="divider-line">
+</span>
+</div>
+<p>
+<strong>
         JSON
        </strong>
        (JavaScript Object Notation) is a
@@ -798,38 +721,38 @@
        </strong>
        used by REST APIs to send and receive data.
       </p>
-      <div class="concept-card success">
-       <h4>
+<div class="concept-card success">
+<h4>
         🎯 Why JSON?
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           Universal
          </strong>
          – Used by almost every API and programming language
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Human-readable
          </strong>
          – Easy to understand and debug
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Lightweight
          </strong>
          – Minimal overhead compared to XML
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Language-independent
          </strong>
          – Works with Dart, JavaScript, Python, etc.
         </li>
-       </ul>
-      </div>
-      <p>
+</ul>
+</div>
+<p>
        JSON represents data as
        <strong>
         key-value pairs
@@ -841,11 +764,10 @@
        .
             Here's a simple example:
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Example JSON
        </span>
-       <code>
+<code>
         {
         <span class="string">
          "userId"
@@ -915,164 +837,124 @@
          "john@example.com"
         </span>
         }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+  }</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: JSON DATA TYPES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 2: JSON DATA TYPES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         JSON Data Types
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        JSON supports a small set of data types. Understanding these is essential for parsing JSON in Flutter.
       </p>
-      <div class="json-grid">
-       <div class="json-item">
-        <h4>
+<div class="json-grid">
+<div class="json-item">
+<h4>
          🔤 String
         </h4>
-        <p>
+<p>
          Text enclosed in double quotes
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="string">
+<code>
+<span class="string">
            "Hello, World!"
-          </span>
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          </span></code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="json-item">
-        <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="json-item">
+<h4>
          🔢 Number
         </h4>
-        <p>
+<p>
          Integer or floating-point values
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="number">
+<code>
+<span class="number">
            42
           </span>
-          <span class="comment">
+<span class="comment">
            or
           </span>
-          <span class="number">
+<span class="number">
            3.14
-          </span>
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          </span></code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="json-item">
-        <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="json-item">
+<h4>
          ✅ Boolean
         </h4>
-        <p>
+<p>
          True or false values
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
+<code>
+<span class="keyword">
            true
           </span>
-          <span class="comment">
+<span class="comment">
            or
           </span>
-          <span class="keyword">
+<span class="keyword">
            false
-          </span>
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          </span></code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="json-item">
-        <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="json-item">
+<h4>
          📦 Object
         </h4>
-        <p>
+<p>
          Key-value pairs enclosed in
          <code>
           { }
          </code>
-        </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+</p>
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
+<code>
           {
           <span class="string">
            "key"
@@ -1081,40 +963,30 @@
           <span class="string">
            "value"
           </span>
-          }
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          }</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="json-item">
-        <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="json-item">
+<h4>
          📋 Array
         </h4>
-        <p>
+<p>
          Ordered list enclosed in
          <code>
           [ ]
          </code>
-        </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+</p>
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
+<code>
           [
           <span class="string">
            "one"
@@ -1127,70 +999,51 @@
           <span class="string">
            "three"
           </span>
-          ]
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          ]</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-       <div class="json-item">
-        <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<div class="json-item">
+<h4>
          🚫 Null
         </h4>
-        <p>
+<p>
          Empty or missing value
         </p>
-        <div class="code-block collapsed">
-         <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
           Source Code
          </span>
-         <code>
-          <span class="keyword">
+<code>
+<span class="keyword">
            null
-          </span>
-         </code>
-         <button class="copy-btn">
-          <i class="fas fa-copy">
-          </i>
+          </span></code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
           Copy
          </button>
-         <button class="toggle-expand-btn">
-          <i class="fas fa-expand">
-          </i>
-          Expand
-         </button>
-         <button class="collapse-btn">
-          <i class="fas fa-chevron-up">
-          </i>
-          Collapse
-         </button>
-        </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 3: PARSING JSON IN DART ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: PARSING JSON IN DART ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Parsing JSON in Dart
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Dart provides the
        <code>
         dart:convert
@@ -1205,280 +1058,161 @@
        </code>
        functions for working with JSON.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/json_example.dart – Basic Parsing
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () {
-        <span class="comment">
-         // 1. JSON string (from an API response)
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        jsonString =
-        <span class="string">
-         '{"name": "John", "age": 30, "isStudent": false}'
-        </span>
-        ;
-        <span class="comment">
-         // 2. Parse JSON to Dart object (Map/String/List)
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        Map&lt;String, dynamic&gt; user = jsonDecode(jsonString);
-        <span class="comment">
-         // 3. Access values
-        </span>
-        print(user[
-        <span class="string">
-         'name'
-        </span>
-        ]);
-        <span class="comment">
-         // John
-        </span>
-        print(user[
-        <span class="string">
-         'age'
-        </span>
-        ]);
-        <span class="comment">
-         // 30
-        </span>
-        print(user[
-        <span class="string">
-         'isStudent'
-        </span>
-        ]);
-        <span class="comment">
-         // false
-        </span>
-        <span class="comment">
-         // 4. Convert Dart object back to JSON
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        String jsonOutput = jsonEncode(user);
-    print(jsonOutput);
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="comment">// 1. JSON string (from an API response)</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">jsonString</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'{"name": "John", "age": 30, "isStudent": false}'</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="comment">// 2. Parse JSON to Dart object (Map/String/List)</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">user</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">jsonString</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="comment">// 3. Access values</span>
+
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">[</span><span class="string">'name'</span><span class="punctuation">]);</span>
+
+<span class="w">  </span><span class="comment">// John</span>
+
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">[</span><span class="string">'age'</span><span class="punctuation">]);</span>
+
+<span class="w">  </span><span class="comment">// 30</span>
+
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">[</span><span class="string">'isStudent'</span><span class="punctuation">]);</span>
+
+<span class="w">  </span><span class="comment">// false</span>
+
+<span class="w">  </span><span class="comment">// 4. Convert Dart object back to JSON</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">jsonOutput</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonEncode</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">jsonOutput</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card info">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card info">
+<h4>
         📦 Important Types
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           jsonDecode()
          </strong>
          – Converts JSON string to Dart object
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           jsonEncode()
          </strong>
          – Converts Dart object to JSON string
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Map&lt;String, dynamic&gt;
          </strong>
          – Type for JSON objects
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           List&lt;dynamic&gt;
          </strong>
          – Type for JSON arrays
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           dynamic
          </strong>
          – Values can be String, int, bool, null, or nested Map/List
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: PARSING COMPLEX JSON ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 4: PARSING COMPLEX JSON ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Parsing Complex JSON
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Most real-world APIs return complex JSON with nested objects and arrays.
             Here's how to parse them.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/complex_json.dart
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () {
-        <span class="keyword">
-         final
-        </span>
-        jsonString =
-        <span class="string">
-         '''
-    {
-      "id": 1,
-      "title": "Flutter Developer",
-      "company": {
-        "name": "Tech Corp",
-        "location": "San Francisco"
-      },
-      "skills": ["Flutter", "Dart", "Supabase"],
-      "isRemote": true
-    }
-    '''
-        </span>
-        ;
-        <span class="comment">
-         // Parse the JSON
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        Map&lt;String, dynamic&gt; job = jsonDecode(jsonString);
-        <span class="comment">
-         // Access nested objects
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        company = job[
-        <span class="string">
-         'company'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-    print(company[
-        <span class="string">
-         'name'
-        </span>
-        ]);
-        <span class="comment">
-         // Tech Corp
-        </span>
-        <span class="comment">
-         // Access arrays
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        skills = job[
-        <span class="string">
-         'skills'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        List&lt;dynamic&gt;;
-    skills.forEach((skill) =&gt; print(skill));
-        <span class="comment">
-         // Handle null values safely
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        description = job[
-        <span class="string">
-         'description'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        String?;
-    print(description ??
-        <span class="string">
-         'No description provided'
-        </span>
-        );
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">jsonString</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'''</span>
+<span class="string">    {</span>
+<span class="string">      "id": 1,</span>
+<span class="string">      "title": "Flutter Developer",</span>
+<span class="string">      "company": {</span>
+<span class="string">        "name": "Tech Corp",</span>
+<span class="string">        "location": "San Francisco"</span>
+<span class="string">      },</span>
+<span class="string">      "skills": ["Flutter", "Dart", "Supabase"],</span>
+<span class="string">      "isRemote": true</span>
+<span class="string">    }</span>
+<span class="string">    '''</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="comment">// Parse the JSON</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">job</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">jsonString</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="comment">// Access nested objects</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">company</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">job</span><span class="punctuation">[</span><span class="string">'company'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">company</span><span class="punctuation">[</span><span class="string">'name'</span><span class="punctuation">]);</span>
+
+<span class="w">  </span><span class="comment">// Tech Corp</span>
+
+<span class="w">  </span><span class="comment">// Access arrays</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">skills</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">job</span><span class="punctuation">[</span><span class="string">'skills'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">skills</span><span class="punctuation">.</span><span class="name">forEach</span><span class="punctuation">((</span><span class="name">skill</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">print</span><span class="punctuation">(</span><span class="name">skill</span><span class="punctuation">));</span>
+
+<span class="w">  </span><span class="comment">// Handle null values safely</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">description</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">job</span><span class="punctuation">[</span><span class="string">'description'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">String</span><span class="operator">?</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">description</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="string">'No description provided'</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 5: CONVERTING JSON TO DART OBJECTS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 5: CONVERTING JSON TO DART OBJECTS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         JSON to Dart Objects
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        For better type safety, you should convert JSON data into
        <strong>
         strongly-typed Dart classes
@@ -1486,236 +1220,90 @@
        .
             This makes your code more maintainable and less error-prone.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/models/album.dart – Dart Model Class
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         Album
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        userId;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        id;
-        <span class="keyword">
-         final
-        </span>
-        String title;
-        <span class="keyword">
-         const
-        </span>
-        Album({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .userId,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .id,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .title,
-    });
-        <span class="comment">
-         // Convert JSON to Album object
-        </span>
-        factory Album.fromJson(Map&lt;String, dynamic&gt; json) {
-        <span class="keyword">
-         return
-        </span>
-        Album(
-        userId: json[
-        <span class="string">
-         'userId'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        ,
-        id: json[
-        <span class="string">
-         'id'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        ,
-        title: json[
-        <span class="string">
-         'title'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        String,
-      );
-    }
-        <span class="comment">
-         // Convert Album object to JSON
-        </span>
-        Map&lt;String, dynamic&gt;
-        <span class="function">
-         toJson
-        </span>
-        () {
-        <span class="keyword">
-         return
-        </span>
-        {
-        <span class="string">
-         'userId'
-        </span>
-        : userId,
-        <span class="string">
-         'id'
-        </span>
-        : id,
-        <span class="string">
-         'title'
-        </span>
-        : title,
-      };
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">Album</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="w"> </span><span class="name">userId</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="w"> </span><span class="name">id</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">title</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">userId</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="comment">// Convert JSON to Album object</span>
+
+<span class="w">  </span><span class="keyword">factory</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">.</span><span class="name">fromJson</span><span class="punctuation">(</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">json</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">userId:</span><span class="w"> </span><span class="name">json</span><span class="punctuation">[</span><span class="string">'userId'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">int</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">id:</span><span class="w"> </span><span class="name">json</span><span class="punctuation">[</span><span class="string">'id'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">int</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="name">json</span><span class="punctuation">[</span><span class="string">'title'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">String</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Convert Album object to JSON</span>
+
+<span class="w">  </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">toJson</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'userId'</span><span class="operator">:</span><span class="w"> </span><span class="name">userId</span><span class="punctuation">,</span><span class="w"> </span><span class="string">'id'</span><span class="operator">:</span><span class="w"> </span><span class="name">id</span><span class="punctuation">,</span><span class="w"> </span><span class="string">'title'</span><span class="operator">:</span><span class="w"> </span><span class="name">title</span><span class="punctuation">};</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Using the Model
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'models/album.dart'
-        </span>
-        ;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () {
-        <span class="keyword">
-         final
-        </span>
-        jsonString =
-        <span class="string">
-         '{"userId": 1, "id": 1, "title": "Sample Album"}'
-        </span>
-        ;
-        <span class="comment">
-         // Parse JSON and create Album object
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        Map&lt;String, dynamic&gt; jsonMap = jsonDecode(jsonString);
-        <span class="keyword">
-         final
-        </span>
-        Album album = Album.fromJson(jsonMap);
-        <span class="comment">
-         // Now we have a type-safe object
-        </span>
-        print(album.title);
-        <span class="comment">
-         // Sample Album
-        </span>
-        print(album.userId);
-        <span class="comment">
-         // 1
-        </span>
-        <span class="comment">
-         // Convert back to JSON
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        String jsonOutput = jsonEncode(album.toJson());
-    print(jsonOutput);
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'models/album.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">jsonString</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'{"userId": 1, "id": 1, "title": "Sample Album"}'</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="comment">// Parse JSON and create Album object</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">jsonMap</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">jsonString</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Album</span><span class="w"> </span><span class="name">album</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">.</span><span class="name">fromJson</span><span class="punctuation">(</span><span class="name">jsonMap</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="comment">// Now we have a type-safe object</span>
+
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">album</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="comment">// Sample Album</span>
+
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">album</span><span class="punctuation">.</span><span class="name">userId</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="comment">// 1</span>
+
+<span class="w">  </span><span class="comment">// Convert back to JSON</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">jsonOutput</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonEncode</span><span class="punctuation">(</span><span class="name">album</span><span class="punctuation">.</span><span class="name">toJson</span><span class="punctuation">());</span>
+<span class="w">  </span><span class="name">print</span><span class="punctuation">(</span><span class="name">jsonOutput</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card success">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card success">
+<h4>
         ✅ Best Practice
        </h4>
-       <p>
+<p>
         Always define
         <strong>
          strongly-typed Dart classes
@@ -1731,33 +1319,32 @@
         methods. This provides type safety, IDE autocomplete, and makes
               your code more maintainable.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: HANDLING LISTS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 6: HANDLING LISTS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Handling Lists of Objects
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Most APIs return
        <strong>
         lists of objects
        </strong>
        . Here's how to parse a list of albums.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/models/album.dart – List Handling
        </span>
-       <code>
-        <span class="comment">
+<code>
+<span class="comment">
          // Add this to the Album class
         </span>
-        <span class="keyword">
+<span class="keyword">
          static
         </span>
         List&lt;Album&gt; fromJsonList(List&lt;dynamic&gt; jsonList) {
@@ -1769,605 +1356,246 @@
         <span class="comment">
          // Usage:
         </span>
-        <span class="keyword">
+<span class="keyword">
          final
         </span>
-        List&lt;Album&gt; albums = Album.fromJsonList(jsonList);
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+        List&lt;Album&gt; albums = Album.fromJsonList(jsonList);</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Complete List Example
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'models/album.dart'
-        </span>
-        ;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () {
-        <span class="keyword">
-         final
-        </span>
-        jsonString =
-        <span class="string">
-         '''
-    [
-      {"userId": 1, "id": 1, "title": "Album 1"},
-      {"userId": 1, "id": 2, "title": "Album 2"},
-      {"userId": 2, "id": 3, "title": "Album 3"}
-    ]
-    '''
-        </span>
-        ;
-        <span class="comment">
-         // Parse list of albums
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        List&lt;dynamic&gt; jsonList = jsonDecode(jsonString);
-        <span class="keyword">
-         final
-        </span>
-        List&lt;Album&gt; albums = Album.fromJsonList(jsonList);
-        <span class="comment">
-         // Use the typed list
-        </span>
-        albums.forEach((album) {
-      print(
-        <span class="string">
-         '${album.id}: ${album.title}'
-        </span>
-        );
-    });
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'models/album.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">jsonString</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'''</span>
+<span class="string">    [</span>
+<span class="string">      {"userId": 1, "id": 1, "title": "Album 1"},</span>
+<span class="string">      {"userId": 1, "id": 2, "title": "Album 2"},</span>
+<span class="string">      {"userId": 2, "id": 3, "title": "Album 3"}</span>
+<span class="string">    ]</span>
+<span class="string">    '''</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="comment">// Parse list of albums</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">jsonList</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">jsonString</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Album</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">albums</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">.</span><span class="name">fromJsonList</span><span class="punctuation">(</span><span class="name">jsonList</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="comment">// Use the typed list</span>
+
+<span class="w">  </span><span class="name">albums</span><span class="punctuation">.</span><span class="name">forEach</span><span class="punctuation">((</span><span class="name">album</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">print</span><span class="punctuation">(</span><span class="string">'</span><span class="si">${</span><span class="name">album</span><span class="punctuation">.</span><span class="name">id</span><span class="si">}</span><span class="string">: </span><span class="si">${</span><span class="name">album</span><span class="punctuation">.</span><span class="name">title</span><span class="si">}</span><span class="string">'</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">});</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 7: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Complete Example: Albums App
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here's a complete Flutter app that fetches JSON data from an API, parses it into Dart objects,
             and displays it in a list.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Complete App
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter/material.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:http/http.dart'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        http;
-        <span class="comment">
-         // ----- Model -----
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         Album
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        userId;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        id;
-        <span class="keyword">
-         final
-        </span>
-        String title;
-        <span class="keyword">
-         const
-        </span>
-        Album({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .userId,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .id,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .title,
-    });
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
 
-    factory Album.fromJson(Map&lt;String, dynamic&gt; json) {
-        <span class="keyword">
-         return
-        </span>
-        Album(
-        userId: json[
-        <span class="string">
-         'userId'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        ,
-        id: json[
-        <span class="string">
-         'id'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        ,
-        title: json[
-        <span class="string">
-         'title'
-        </span>
-        ]
-        <span class="keyword">
-         as
-        </span>
-        String,
-      );
-    }
-        <span class="keyword">
-         static
-        </span>
-        List&lt;Album&gt; fromJsonList(List&lt;dynamic&gt; jsonList) {
-        <span class="keyword">
-         return
-        </span>
-        jsonList.map((json) =&gt; Album.fromJson(json)).toList();
-    }
-  }
-        <span class="comment">
-         // ----- API Service -----
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         AlbumService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        http.Client client;
-        <span class="function">
-         AlbumService
-        </span>
-        ({http.Client? client}) : client = client ?? http.Client();
-        <span class="keyword">
-         Future
-        </span>
-        &lt;List&lt;Album&gt;&gt;
-        <span class="function">
-         fetchAlbums
-        </span>
-        () async {
-        <span class="keyword">
-         final
-        </span>
-        response = await client.get(
-        Uri.parse(
-        <span class="string">
-         'https://jsonplaceholder.typicode.com/albums'
-        </span>
-        ),
-        headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-      );
-        <span class="keyword">
-         if
-        </span>
-        (response.statusCode ==
-        <span class="number">
-         200
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        List&lt;dynamic&gt; jsonList = jsonDecode(response.body);
-        <span class="keyword">
-         return
-        </span>
-        Album.fromJsonList(jsonList);
-      }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="keyword">
-         throw
-        </span>
-        Exception(
-        <span class="string">
-         'Failed to load albums'
-        </span>
-        );
-      }
-    }
-  }
-        <span class="comment">
-         // ----- Flutter UI -----
-        </span>
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () =&gt; runApp(
-        <span class="function">
-         MyApp
-        </span>
-        ());
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MyApp
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        MaterialApp(
-        title:
-        <span class="string">
-         'Albums App'
-        </span>
-        ,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
-        home: AlbumListScreen(),
-      );
-    }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         AlbumListScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    State&lt;AlbumListScreen&gt;
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _AlbumListScreenState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        _AlbumListScreenState
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;AlbumListScreen&gt; {
-        <span class="keyword">
-         late
-        </span>
-        Future&lt;List&lt;Album&gt;&gt; futureAlbums;
-        <span class="keyword">
-         final
-        </span>
-        AlbumService _service = AlbumService();
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .initState();
-      futureAlbums = _service.fetchAlbums();
-    }
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:http/http.dart'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">http</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(
-          title: Text(
-        <span class="string">
-         '📀 Albums'
-        </span>
-        ),
-          centerTitle:
-        <span class="keyword">
-         true
-        </span>
-        ,
-        ),
-        body: FutureBuilder&lt;List&lt;Album&gt;&gt;(
-          future: futureAlbums,
-          builder: (context, snapshot) {
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.connectionState == ConnectionState.waiting) {
-        <span class="keyword">
-         return
-        </span>
-        Center(child: CircularProgressIndicator());
-            }
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.hasError) {
-        <span class="keyword">
-         return
-        </span>
-        Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.error, size:
-        <span class="number">
-         64
-        </span>
-        , color: Colors.red),
-                    SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-                    Text(
-        <span class="string">
-         'Error: ${snapshot.error}'
-        </span>
-        ),
-                    SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          futureAlbums = _service.fetchAlbums();
-                        });
-                      },
-                      child: Text(
-        <span class="string">
-         'Retry'
-        </span>
-        ),
-                    ),
-                  ],
-                ),
-              );
-            }
-        <span class="keyword">
-         if
-        </span>
-        (!snapshot.hasData || snapshot.data!.isEmpty) {
-        <span class="keyword">
-         return
-        </span>
-        Center(child: Text(
-        <span class="string">
-         'No albums found'
-        </span>
-        ));
-            }
-        <span class="keyword">
-         final
-        </span>
-        albums = snapshot.data!;
-        <span class="keyword">
-         return
-        </span>
-        ListView.builder(
-              itemCount: albums.length,
-              itemBuilder: (context, index) {
-        <span class="keyword">
-         final
-        </span>
-        album = albums[index];
-        <span class="keyword">
-         return
-        </span>
-        Card(
-                  margin: EdgeInsets.symmetric(horizontal:
-        <span class="number">
-         16
-        </span>
-        , vertical:
-        <span class="number">
-         4
-        </span>
-        ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: Text(album.id.toString()),
-                    ),
-                    title: Text(album.title),
-                    subtitle: Text(
-        <span class="string">
-         'User ${album.userId}'
-        </span>
-        ),
-                    trailing: Icon(Icons.arrow_forward_ios, size:
-        <span class="number">
-         16
-        </span>
-        ),
-                  ),
-                );
-              },
-            );
-          },
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="comment">// ----- Model -----</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">Album</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="w"> </span><span class="name">userId</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="w"> </span><span class="name">id</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">title</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">const</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">userId</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="keyword">factory</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">.</span><span class="name">fromJson</span><span class="punctuation">(</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">json</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">userId:</span><span class="w"> </span><span class="name">json</span><span class="punctuation">[</span><span class="string">'userId'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">int</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">id:</span><span class="w"> </span><span class="name">json</span><span class="punctuation">[</span><span class="string">'id'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">int</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="name">json</span><span class="punctuation">[</span><span class="string">'title'</span><span class="punctuation">]</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="keyword">String</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Album</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">fromJsonList</span><span class="punctuation">(</span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">jsonList</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonList</span><span class="punctuation">.</span><span class="name">map</span><span class="punctuation">((</span><span class="name">json</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">.</span><span class="name">fromJson</span><span class="punctuation">(</span><span class="name">json</span><span class="punctuation">)).</span><span class="name">toList</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ----- API Service -----</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">AlbumService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="w"> </span><span class="name">client</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">AlbumService</span><span class="punctuation">({</span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="operator">?</span><span class="w"> </span><span class="name">client</span><span class="punctuation">})</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Album</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">fetchAlbums</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="string">'https://jsonplaceholder.typicode.com/albums'</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">    </span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">200</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">jsonList</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">Album</span><span class="punctuation">.</span><span class="name">fromJsonList</span><span class="punctuation">(</span><span class="name">jsonList</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">Exception</span><span class="punctuation">(</span><span class="string">'Failed to load albums'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ----- Flutter UI -----</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">runApp</span><span class="punctuation">(</span><span class="name">MyApp</span><span class="punctuation">());</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">MyApp</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialApp</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="string">'Albums App'</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">theme:</span><span class="w"> </span><span class="name">ThemeData</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">colorScheme:</span><span class="w"> </span><span class="name">ColorScheme</span><span class="punctuation">.</span><span class="name">fromSeed</span><span class="punctuation">(</span><span class="nl">seedColor:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">deepPurple</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">home:</span><span class="w"> </span><span class="name">AlbumListScreen</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">AlbumListScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">AlbumListScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_AlbumListScreenState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_AlbumListScreenState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">AlbumListScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Album</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">futureAlbums</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">AlbumService</span><span class="w"> </span><span class="name">_service</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">AlbumService</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">futureAlbums</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">fetchAlbums</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'📀 Albums'</span><span class="punctuation">),</span><span class="w"> </span><span class="nl">centerTitle:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">FutureBuilder</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="name">Album</span><span class="operator">&gt;&gt;</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">future:</span><span class="w"> </span><span class="name">futureAlbums</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">snapshot</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">connectionState</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">ConnectionState</span><span class="punctuation">.</span><span class="name">waiting</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">CircularProgressIndicator</span><span class="punctuation">());</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">hasError</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                  </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">error</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">size:</span><span class="w"> </span><span class="number">64</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Error: </span><span class="si">${</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">error</span><span class="si">}</span><span class="string">'</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                      </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                        </span><span class="name">futureAlbums</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">fetchAlbums</span><span class="punctuation">();</span>
+<span class="w">                      </span><span class="punctuation">});</span>
+<span class="w">                    </span><span class="punctuation">},</span>
+<span class="w">                    </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Retry'</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">],</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="operator">!</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">hasData</span><span class="w"> </span><span class="operator">||</span><span class="w"> </span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">data</span><span class="operator">!</span><span class="punctuation">.</span><span class="name">isEmpty</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'No albums found'</span><span class="punctuation">));</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="keyword">final</span><span class="w"> </span><span class="name">albums</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">data</span><span class="operator">!</span><span class="punctuation">;</span>
+
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">ListView</span><span class="punctuation">.</span><span class="name">builder</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">itemCount:</span><span class="w"> </span><span class="name">albums</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">itemBuilder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">index</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="keyword">final</span><span class="w"> </span><span class="name">album</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">albums</span><span class="punctuation">[</span><span class="name">index</span><span class="punctuation">];</span>
+
+<span class="w">              </span><span class="keyword">return</span><span class="w"> </span><span class="name">Card</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">margin:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">4</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="nl">child:</span><span class="w"> </span><span class="name">ListTile</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">leading:</span><span class="w"> </span><span class="name">CircleAvatar</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="name">album</span><span class="punctuation">.</span><span class="name">id</span><span class="punctuation">.</span><span class="name">toString</span><span class="punctuation">())),</span>
+<span class="w">                  </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="name">album</span><span class="punctuation">.</span><span class="name">title</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="nl">subtitle:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'User </span><span class="si">${</span><span class="name">album</span><span class="punctuation">.</span><span class="name">userId</span><span class="si">}</span><span class="string">'</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="nl">trailing:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">arrow_forward_ios</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">size:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">);</span>
+<span class="w">            </span><span class="punctuation">},</span>
+<span class="w">          </span><span class="punctuation">);</span>
+<span class="w">        </span><span class="punctuation">},</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 8: STEP-BY-STEP EXPLANATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 8: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Step-by-Step Explanation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<span class="divider-line">
+</span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Define the Model
          </strong>
          – Create an
@@ -2381,13 +1609,13 @@
          </code>
          factory constructor.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Parse the JSON
          </strong>
          – Use
@@ -2405,13 +1633,13 @@
          </code>
          ).
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Convert to Typed Objects
          </strong>
          – Use the
@@ -2429,13 +1657,13 @@
          </code>
          objects.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Handle Lists
          </strong>
          – Create a
@@ -2445,13 +1673,13 @@
          method to convert a list
                 of JSON objects into a typed list.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Display in UI
          </strong>
          – Use the typed list with
@@ -2461,24 +1689,24 @@
          to
                 display the data in a list view.
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 9: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 9: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Forgetting to cast types
        </div>
-       <p>
-        <code>
+<p>
+<code>
          jsonDecode()
         </code>
         returns
@@ -2495,12 +1723,12 @@
         </code>
         before accessing values.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always cast after parsing
        </div>
-       <p>
+<p>
         Use
         <code>
          jsonDecode(response.body) as Map&lt;String, dynamic&gt;
@@ -2511,24 +1739,24 @@
         </code>
         .
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Not handling null values
        </div>
-       <p>
+<p>
         JSON can contain
         <code>
          null
         </code>
         values. Accessing them without handling will crash your app.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use null-aware operators
        </div>
-       <p>
+<p>
         Use
         <code>
          json['field'] as String?
@@ -2539,12 +1767,12 @@
         </code>
         to handle null values safely.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Not checking status codes
        </div>
-       <p>
+<p>
         Always check
         <code>
          response.statusCode
@@ -2552,12 +1780,12 @@
         before parsing the JSON. A 404 or 500 error
               will contain error information, not the data you expect.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always check status codes
        </div>
-       <p>
+<p>
         Use
         <code>
          if (response.statusCode == 200)
@@ -2565,14 +1793,14 @@
         before parsing, and throw exceptions
               for other status codes.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
+<p>
        JSON is the
        <strong>
         universal data format
@@ -2595,134 +1823,134 @@
        </strong>
        for type safety and maintainability.
       </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module2-topic2-rest-apis.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module2-topic2-rest-apis.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: REST APIs
       </a>
-      <a class="btn btn-primary btn-sm" href="module2-topic4-serialization.html">
+<a class="btn btn-primary btn-sm" href="module2-topic4-serialization.html">
        Next: Serialization
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="../module2-state-management.html">
+</li>
+<li>
+<a href="../module2-state-management.html">
          Module 2
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://flutter.dev" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://flutter.dev" rel="noopener" target="_blank">
          Flutter Official
         </a>
-       </li>
-       <li>
-        <a href="https://dart.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://dart.dev" rel="noopener" target="_blank">
          Dart Language
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev" rel="noopener" target="_blank">
          pub.dev
         </a>
-       </li>
-       <li>
-        <a href="https://docs.flutter.dev/data-and-backend/serialization/json" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://docs.flutter.dev/data-and-backend/serialization/json" rel="noopener" target="_blank">
          JSON Serialization
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter" rel="noopener" target="_blank">
          GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/data-and-backend/serialization/json" style="color: var(--text-muted);" target="_blank">
        Flutter Official Documentation
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -2778,7 +2006,7 @@
       });
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -2853,25 +2081,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -2928,5 +2139,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

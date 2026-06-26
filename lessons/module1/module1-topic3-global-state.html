@@ -1,27 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Global State – Module 1 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn what global state is, why it's needed, and how to manage state shared across many widgets in Flutter." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn what global state is, why it's needed, and how to manage state shared across many widgets in Flutter." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
     /* Lesson Navigation */
     .lesson-nav {
@@ -444,7 +470,6 @@
       }
     }
 /* High default limit for fully expanded blocks */
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
@@ -464,25 +489,6 @@
     transition: opacity 0.3s ease;
 }
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
@@ -493,25 +499,18 @@
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -525,45 +524,18 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
     /* ===== FIXED CODE BLOCK OVERRIDES ===== */
     .code-block {
         position: relative !important;
@@ -581,16 +553,6 @@
         font-size: var(--font-xs) !important;
         color: rgba(255, 255, 255, 0.6) !important;
     }
-    .toggle-expand-btn {
-        position: absolute !important;
-        top: 0.5rem !important;
-        right: 5.5rem !important; /* Positioned clearly left of copy button */
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 0.25rem 0.6rem !important;
-        border-radius: 4px !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-    }
     .copy-btn {
         position: absolute !important;
         top: 0.5rem !important;
@@ -606,9 +568,8 @@
         color: #ffffff !important;
     }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -618,49 +579,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -671,148 +594,148 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a "="" class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a "="" class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a "="" class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a "="" class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a module1-topic1-why-state-management.html"="">
+<a module1-topic1-why-state-management.html"="">
         Module 1
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 3
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-book-open">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-book-open">
+</i>
        Module 1
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 3
       </div>
-      <h1>
+<h1>
        Global State
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Understanding state that is shared across many parts of your app — the foundation of scalable Flutter applications.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/intro" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/intro" target="_blank">
+<i class="fas fa-book">
+</i>
         Flutter Docs – State Management Introduction
        </a>
-       <a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/ephemeral-vs-app" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<a class="doc-badge" href="https://docs.flutter.dev/data-and-backend/state-mgmt/ephemeral-vs-app" target="_blank">
+<i class="fas fa-book">
+</i>
         Ephemeral vs App State
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHAT IS GLOBAL STATE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS GLOBAL STATE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         What Is Global State?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        In contrast to
        <strong>
         local (ephemeral) state
@@ -828,11 +751,11 @@
        ) is data that is shared across many parts of your application.
             It's the state that multiple widgets need to read, update, or react to.
       </p>
-      <div class="concept-card">
-       <h4>
+<div class="concept-card">
+<h4>
         🌐 Global State Defined
        </h4>
-       <p>
+<p>
         Global state is data that is
         <em>
          not
@@ -842,53 +765,53 @@
               It often represents the core data of your application, such as user authentication, preferences,
               or the contents of a shopping cart.
        </p>
-       <ul>
-        <li>
+<ul>
+<li>
          ✓ Used by multiple widgets in different parts of the app
         </li>
-        <li>
+<li>
          ✓ Often persisted across app restarts
         </li>
-        <li>
+<li>
          ✓ Managed with state management solutions (Riverpod, Provider, BLoC, etc.)
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: WHY GLOBAL STATE MATTERS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: WHY GLOBAL STATE MATTERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Why Global State Matters
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        As your app grows, you'll encounter scenarios where the same piece of data is needed in
             multiple places. For example:
       </p>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          User authentication status
         </strong>
         – needed in the login screen, profile page, and navigation drawer.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Shopping cart items
         </strong>
         – accessed in the product list, cart page, and checkout screen.
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Theme settings
         </strong>
         – used throughout the app to adjust UI colors and styles.
        </li>
-      </ul>
-      <p>
+</ul>
+<p>
        Without a proper way to share this data, you'd be forced to pass it down the widget tree through
             constructors — a pattern known as
        <strong>
@@ -896,278 +819,190 @@
        </strong>
        .
       </p>
-     </div>
-     <!-- ===== SECTION 3: THE PROBLEM OF PROP DRILLING ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+<!-- ===== SECTION 3: THE PROBLEM OF PROP DRILLING ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         The Problem of Prop Drilling
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Prop drilling is the practice of passing data from a parent widget down to child widgets that
             don't actually need the data themselves, but need to forward it to a deeper widget that does.
       </p>
-      <div class="concept-card warning">
-       <h4>
+<div class="concept-card warning">
+<h4>
         ⚠️ The Downsides of Prop Drilling
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           Boilerplate
          </strong>
          – you have to add parameters to many intermediate widgets.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Fragile code
          </strong>
          – changing the data structure requires updating many files.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Hard to maintain
          </strong>
          – it's unclear which widgets depend on the data.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Reduced testability
          </strong>
          – widgets become tightly coupled to the data flow.
         </li>
-       </ul>
-      </div>
-      <h3>
+</ul>
+</div>
+<h3>
        Example of Prop Drilling
       </h3>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/prop_drilling.dart – Bad Pattern
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         App
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        User user;
-    App({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .user});
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">App</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">User</span><span class="w"> </span><span class="name">user</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">App</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">user</span><span class="punctuation">});</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        HomeScreen(user: user);
-        <span class="comment">
-         // Passing down
-        </span>
-        }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         HomeScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        User user;
-    HomeScreen({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .user});
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">HomeScreen</span><span class="punctuation">(</span><span class="nl">user:</span><span class="w"> </span><span class="name">user</span><span class="punctuation">);</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        body: ProfileWidget(user: user),
-        <span class="comment">
-         // Passing down again
-        </span>
-        );
-    }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ProfileWidget
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        User user;
-    ProfileWidget({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .user});
+<span class="w">    </span><span class="comment">// Passing down</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Text(user.name);
-        <span class="comment">
-         // Finally used here
-        </span>
-        }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">HomeScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">User</span><span class="w"> </span><span class="name">user</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">HomeScreen</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">user</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">ProfileWidget</span><span class="punctuation">(</span><span class="nl">user:</span><span class="w"> </span><span class="name">user</span><span class="punctuation">),</span>
+
+<span class="w">      </span><span class="comment">// Passing down again</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">ProfileWidget</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">User</span><span class="w"> </span><span class="name">user</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">ProfileWidget</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">user</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">.</span><span class="name">name</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="comment">// Finally used here</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <p>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<p>
        This is a simple example; imagine a deep tree with 10 intermediate widgets. It's tedious and error-prone.
       </p>
-     </div>
-     <!-- ===== SECTION 4: OVERVIEW OF GLOBAL STATE SOLUTIONS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+<!-- ===== SECTION 4: OVERVIEW OF GLOBAL STATE SOLUTIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Global State Management Solutions
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Flutter provides several ways to make data available to many widgets without prop drilling.
             These solutions generally fall into three categories:
       </p>
-      <div class="solution-grid">
-       <div class="solution-item">
-        <div class="sol-icon">
+<div class="solution-grid">
+<div class="solution-item">
+<div class="sol-icon">
          🔗
         </div>
-        <div class="sol-name">
+<div class="sol-name">
          InheritedWidget
         </div>
-        <div class="sol-desc">
+<div class="sol-desc">
          The foundation of the framework — used by Theme, MediaQuery, etc.
         </div>
-       </div>
-       <div class="solution-item">
-        <div class="sol-icon">
+</div>
+<div class="solution-item">
+<div class="sol-icon">
          📦
         </div>
-        <div class="sol-name">
+<div class="sol-name">
          Provider
         </div>
-        <div class="sol-desc">
+<div class="sol-desc">
          A wrapper around InheritedWidget, simpler to use.
         </div>
-       </div>
-       <div class="solution-item">
-        <div class="sol-icon">
+</div>
+<div class="solution-item">
+<div class="sol-icon">
          🌊
         </div>
-        <div class="sol-name">
+<div class="sol-name">
          Riverpod
         </div>
-        <div class="sol-desc">
+<div class="sol-desc">
          A provider-like solution with more features and testability.
         </div>
-       </div>
-       <div class="solution-item">
-        <div class="sol-icon">
+</div>
+<div class="solution-item">
+<div class="sol-icon">
          🎯
         </div>
-        <div class="sol-name">
+<div class="sol-name">
          BLoC
         </div>
-        <div class="sol-desc">
+<div class="sol-desc">
          Business Logic Component — uses streams and events.
         </div>
-       </div>
-       <div class="solution-item">
-        <div class="sol-icon">
+</div>
+<div class="solution-item">
+<div class="sol-icon">
          ⚡
         </div>
-        <div class="sol-name">
+<div class="sol-name">
          GetX
         </div>
-        <div class="sol-desc">
+<div class="sol-desc">
          A lightweight solution with state management, routing, and more.
         </div>
-       </div>
-       <div class="solution-item">
-        <div class="sol-icon">
+</div>
+<div class="solution-item">
+<div class="sol-icon">
          🔄
         </div>
-        <div class="sol-name">
+<div class="sol-name">
          MobX
         </div>
-        <div class="sol-desc">
+<div class="sol-desc">
          Reactive state management based on observables.
         </div>
-       </div>
-      </div>
-      <p>
+</div>
+</div>
+<p>
        In this course, we'll focus on
        <strong>
         Riverpod
@@ -1176,17 +1011,17 @@
             by the Flutter team for new projects. However, understanding the concept of global state is independent
             of the tool you choose.
       </p>
-     </div>
-     <!-- ===== SECTION 5: SIMPLE EXAMPLE WITH PROVIDER ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+<!-- ===== SECTION 5: SIMPLE EXAMPLE WITH PROVIDER ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Simple Example: Using Provider
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        To illustrate how global state works, here's a minimal example using the
        <a href="https://pub.dev/packages/provider" style="color: var(--primary);" target="_blank">
         Provider
@@ -1194,197 +1029,96 @@
        package.
             This is a simple counter that can be accessed from multiple screens.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Using Provider
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter/material.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:provider/provider.dart'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         CounterModel
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        ChangeNotifier {
-        <span class="keyword">
-         int
-        </span>
-        _count =
-        <span class="number">
-         0
-        </span>
-        ;
-        <span class="keyword">
-         int
-        </span>
-        <span class="function">
-         get
-        </span>
-        count =&gt; _count;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         increment
-        </span>
-        () {
-      _count++;
-      notifyListeners();
-        <span class="comment">
-         // 👈 Notify widgets that depend on this model
-        </span>
-        }
-  }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () {
-    runApp(
-      ChangeNotifierProvider(
-        create: (_) =&gt; CounterModel(),
-        <span class="comment">
-         // 👈 Provide the global state
-        </span>
-        child: MyApp(),
-      ),
-    );
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MyApp
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        MaterialApp(
-        home: HomeScreen(),
-      );
-    }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         HomeScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         final
-        </span>
-        counter = Provider.of&lt;CounterModel&gt;(context);
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Global Counter'
-        </span>
-        )),
-        body: Center(
-          child: Column(
-            children: [
-              Text(
-        <span class="string">
-         'Count: ${counter.count}'
-        </span>
-        ),
-              ElevatedButton(
-                onPressed: counter.increment,
-                child: Text(
-        <span class="string">
-         'Add'
-        </span>
-        ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:provider/provider.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">CounterModel</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">ChangeNotifier</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="name">_count</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="number">0</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="keyword">get</span><span class="w"> </span><span class="name">count</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_count</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">increment</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_count</span><span class="operator">++</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="name">notifyListeners</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="comment">// 👈 Notify widgets that depend on this model</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="name">runApp</span><span class="punctuation">(</span>
+<span class="w">    </span><span class="name">ChangeNotifierProvider</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">create:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">CounterModel</span><span class="punctuation">(),</span>
+
+<span class="w">      </span><span class="comment">// 👈 Provide the global state</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">MyApp</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">),</span>
+<span class="w">  </span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">MyApp</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialApp</span><span class="punctuation">(</span><span class="nl">home:</span><span class="w"> </span><span class="name">HomeScreen</span><span class="punctuation">());</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">HomeScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">counter</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Provider</span><span class="punctuation">.</span><span class="name">of</span><span class="operator">&lt;</span><span class="name">CounterModel</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Global Counter'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">            </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Count: </span><span class="si">${</span><span class="name">counter</span><span class="punctuation">.</span><span class="name">count</span><span class="si">}</span><span class="string">'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">ElevatedButton</span><span class="punctuation">(</span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">counter</span><span class="punctuation">.</span><span class="name">increment</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Add'</span><span class="punctuation">)),</span>
+<span class="w">          </span><span class="punctuation">],</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card success">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card success">
+<h4>
         ✅ How This Works
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           CounterModel
          </strong>
          holds the global state and notifies listeners when it changes.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           ChangeNotifierProvider
          </strong>
          makes the model available to all widgets in its subtree.
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Provider.of&lt;CounterModel&gt;(context)
          </strong>
          gets the model and listens for changes.
         </li>
-        <li>
+<li>
          When
          <code>
           increment()
@@ -1395,66 +1129,66 @@
          </code>
          triggers a rebuild of any widget that depends on it.
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: WHEN TO USE GLOBAL STATE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 6: WHEN TO USE GLOBAL STATE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         When to Use Global State vs Local State
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="comparison-grid">
-       <div class="compare-item">
-        <h4 style="color: var(--primary);">
+<span class="divider-line">
+</span>
+</div>
+<div class="comparison-grid">
+<div class="compare-item">
+<h4 style="color: var(--primary);">
          📦 Local State
         </h4>
-        <ul>
-         <li>
+<ul>
+<li>
           Data used by a single widget
          </li>
-         <li>
+<li>
           No need to share across screens
          </li>
-         <li>
+<li>
           Temporary and not persisted
          </li>
-         <li>
+<li>
           Managed with
           <code>
            setState()
           </code>
-         </li>
-        </ul>
-       </div>
-       <div class="compare-item">
-        <h4 style="color: var(--secondary);">
+</li>
+</ul>
+</div>
+<div class="compare-item">
+<h4 style="color: var(--secondary);">
          🌐 Global State
         </h4>
-        <ul>
-         <li>
+<ul>
+<li>
           Data used by multiple widgets
          </li>
-         <li>
+<li>
           Shared across screens
          </li>
-         <li>
+<li>
           Often persisted (e.g., user session)
          </li>
-         <li>
+<li>
           Managed with state management solutions
          </li>
-        </ul>
-       </div>
-      </div>
-      <div class="concept-card info">
-       <h4>
+</ul>
+</div>
+</div>
+<div class="concept-card info">
+<h4>
         💡 Rule of Thumb
        </h4>
-       <p>
+<p>
         If two or more widgets need to read or modify the same piece of data, it's likely
         <strong>
          global state
@@ -1466,39 +1200,39 @@
         </strong>
         .
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: COMMON PITFALLS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON PITFALLS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Pitfalls
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Overusing global state for everything
        </div>
-       <p>
+<p>
         Not everything needs to be global. Overusing global state leads to unnecessary rebuilds and makes
               your app harder to reason about. Keep local state local when possible.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use global state only when needed
        </div>
-       <p>
+<p>
         Start with local state and only promote to global when you find yourself sharing data between widgets.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Mutating global state directly without notifying
        </div>
-       <p>
+<p>
         If you're using a model with
         <code>
          ChangeNotifier
@@ -1509,182 +1243,182 @@
         </code>
         after changing the state, or the UI won't update.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always notify listeners after state changes
        </div>
-       <p>
+<p>
         Wrap state mutations in methods that call
         <code>
          notifyListeners()
         </code>
         to ensure the UI reflects the new state.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Not disposing state objects
        </div>
-       <p>
+<p>
         If your global state holds resources like streams or controllers, you must dispose of them properly
               to prevent memory leaks.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Dispose of resources
        </div>
-       <p>
+<p>
         Implement
         <code>
          dispose()
         </code>
         in your state classes and call it when the widget is removed from the tree.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
+<p>
        Global state is shared across many parts of your app and is essential for building scalable applications.
             Avoid prop drilling by using a state management solution. In this course, we'll use Riverpod,
             but the concepts apply to any approach.
        <strong>
         Ask yourself: "Is this data needed in multiple places?"
        </strong>
-      </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module1-topic2-local-state.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module1-topic2-local-state.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Local State
       </a>
-      <a class="btn btn-primary btn-sm" href="module1-topic4-riverpod-basics.html">
+<a class="btn btn-primary btn-sm" href="module1-topic4-riverpod-basics.html">
        Next: Riverpod Basics
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a module1-topic1-why-state-management.html"="">
+</li>
+<li>
+<a module1-topic1-why-state-management.html"="">
          Getting Started
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://flutter.dev" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://flutter.dev" rel="noopener" target="_blank">
          Flutter Official
         </a>
-       </li>
-       <li>
-        <a href="https://dart.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://dart.dev" rel="noopener" target="_blank">
          Dart Language
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev" rel="noopener" target="_blank">
          pub.dev
         </a>
-       </li>
-       <li>
-        <a href="https://riverpod.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://riverpod.dev" rel="noopener" target="_blank">
          Riverpod
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter" rel="noopener" target="_blank">
          GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource. Flutter and Dart are trademarks of Google LLC.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/data-and-backend/state-mgmt" style="color: var(--text-muted);" target="_blank">
        Flutter Official Documentation
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -1743,7 +1477,7 @@
       });
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -1818,25 +1552,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -1893,5 +1610,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

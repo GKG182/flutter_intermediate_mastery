@@ -1,27 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Error Handling – Module 2 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn how to handle errors in Flutter network requests. Understand status codes, exceptions, timeouts, and user-friendly error messages." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn how to handle errors in Flutter network requests. Understand status codes, exceptions, timeouts, and user-friendly error messages." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
@@ -422,7 +448,6 @@
       }
     }
 /* High default limit for fully expanded blocks */
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
@@ -442,25 +467,6 @@
     transition: opacity 0.3s ease;
 }
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
@@ -471,25 +477,18 @@
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -503,45 +502,18 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
     /* ===== FIXED CODE BLOCK OVERRIDES ===== */
     .code-block {
         position: relative !important;
@@ -559,16 +531,6 @@
         font-size: var(--font-xs) !important;
         color: rgba(255, 255, 255, 0.6) !important;
     }
-    .toggle-expand-btn {
-        position: absolute !important;
-        top: 0.5rem !important;
-        right: 5.5rem !important; /* Positioned clearly left of copy button */
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 0.25rem 0.6rem !important;
-        border-radius: 4px !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-    }
     .copy-btn {
         position: absolute !important;
         top: 0.5rem !important;
@@ -584,9 +546,8 @@
         color: #ffffff !important;
     }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -596,49 +557,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -649,143 +572,143 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="../module2-state-management.html">
+<a href="../module2-state-management.html">
         Module 2
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 5
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-globe">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-globe">
+</i>
        Module 2
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 5
       </div>
-      <h1>
+<h1>
        Error Handling
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Handling network errors gracefully — from HTTP status codes to user-friendly error messages.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/testing/errors" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/testing/errors" target="_blank">
+<i class="fas fa-book">
+</i>
         Flutter Docs – Error Handling
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHY ERROR HANDLING MATTERS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHY ERROR HANDLING MATTERS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Why Error Handling Matters
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        When your app makes network requests,
        <strong>
         things can go wrong
@@ -797,717 +720,398 @@
        </strong>
        is essential for:
       </p>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          User experience
         </strong>
         – Show friendly error messages instead of crashing
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Debugging
         </strong>
         – Log errors for debugging and monitoring
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Recovery
         </strong>
         – Allow users to retry failed operations
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Reliability
         </strong>
         – Build apps that fail gracefully
        </li>
-      </ul>
-      <div class="concept-card error">
-       <h4>
+</ul>
+<div class="concept-card error">
+<h4>
         ⚠️ The Cost of Poor Error Handling
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          ❌ App crashes when a network request fails
         </li>
-        <li>
+<li>
          ❌ Users see confusing error messages
         </li>
-        <li>
+<li>
          ❌ No way to recover from errors
         </li>
-        <li>
+<li>
          ❌ Hard to debug issues in production
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: HTTP STATUS CODES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: HTTP STATUS CODES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         HTTP Status Codes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Understanding HTTP status codes is crucial for proper error handling. Here are the most common ones:
       </p>
-      <div class="status-code-grid">
-       <div class="status-code-item success">
-        <div class="code">
+<div class="status-code-grid">
+<div class="status-code-item success">
+<div class="code">
          200
         </div>
-        <div class="code-type">
+<div class="code-type">
          Success
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          OK – Request succeeded
         </div>
-       </div>
-       <div class="status-code-item success">
-        <div class="code">
+</div>
+<div class="status-code-item success">
+<div class="code">
          201
         </div>
-        <div class="code-type">
+<div class="code-type">
          Success
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Created – Resource created
         </div>
-       </div>
-       <div class="status-code-item success">
-        <div class="code">
+</div>
+<div class="status-code-item success">
+<div class="code">
          204
         </div>
-        <div class="code-type">
+<div class="code-type">
          Success
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          No Content – Deletion successful
         </div>
-       </div>
-       <div class="status-code-item client-error">
-        <div class="code">
+</div>
+<div class="status-code-item client-error">
+<div class="code">
          400
         </div>
-        <div class="code-type">
+<div class="code-type">
          Client Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Bad Request – Invalid data
         </div>
-       </div>
-       <div class="status-code-item client-error">
-        <div class="code">
+</div>
+<div class="status-code-item client-error">
+<div class="code">
          401
         </div>
-        <div class="code-type">
+<div class="code-type">
          Client Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Unauthorized – Need to log in
         </div>
-       </div>
-       <div class="status-code-item client-error">
-        <div class="code">
+</div>
+<div class="status-code-item client-error">
+<div class="code">
          403
         </div>
-        <div class="code-type">
+<div class="code-type">
          Client Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Forbidden – No permission
         </div>
-       </div>
-       <div class="status-code-item client-error">
-        <div class="code">
+</div>
+<div class="status-code-item client-error">
+<div class="code">
          404
         </div>
-        <div class="code-type">
+<div class="code-type">
          Client Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Not Found – Resource doesn't exist
         </div>
-       </div>
-       <div class="status-code-item client-error">
-        <div class="code">
+</div>
+<div class="status-code-item client-error">
+<div class="code">
          429
         </div>
-        <div class="code-type">
+<div class="code-type">
          Client Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Too Many Requests – Rate limited
         </div>
-       </div>
-       <div class="status-code-item server-error">
-        <div class="code">
+</div>
+<div class="status-code-item server-error">
+<div class="code">
          500
         </div>
-        <div class="code-type">
+<div class="code-type">
          Server Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Internal Server Error
         </div>
-       </div>
-       <div class="status-code-item server-error">
-        <div class="code">
+</div>
+<div class="status-code-item server-error">
+<div class="code">
          502
         </div>
-        <div class="code-type">
+<div class="code-type">
          Server Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Bad Gateway
         </div>
-       </div>
-       <div class="status-code-item server-error">
-        <div class="code">
+</div>
+<div class="status-code-item server-error">
+<div class="code">
          503
         </div>
-        <div class="code-type">
+<div class="code-type">
          Server Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Service Unavailable
         </div>
-       </div>
-       <div class="status-code-item server-error">
-        <div class="code">
+</div>
+<div class="status-code-item server-error">
+<div class="code">
          504
         </div>
-        <div class="code-type">
+<div class="code-type">
          Server Error
         </div>
-        <div class="code-desc">
+<div class="code-desc">
          Gateway Timeout
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 3: HANDLING STATUS CODES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: HANDLING STATUS CODES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Handling Status Codes in Flutter
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here's how to handle different status codes in your Flutter app with user-friendly messages.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/error_handling.dart – Status Code Handler
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:http/http.dart'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        http;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ApiException
-        </span>
-        <span class="keyword">
-         implements
-        </span>
-        Exception {
-        <span class="keyword">
-         final
-        </span>
-        String message;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        ? statusCode;
-        <span class="function">
-         ApiException
-        </span>
-        (
-        <span class="keyword">
-         this
-        </span>
-        .message, {
-        <span class="keyword">
-         this
-        </span>
-        .statusCode});
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
 
-    @override
-    String
-        <span class="function">
-         toString
-        </span>
-        () =&gt;
-        <span class="string">
-         'ApiException: $message'
-        </span>
-        ;
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ApiService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        http.Client client;
-        <span class="function">
-         ApiService
-        </span>
-        ({http.Client? client}) : client = client ?? http.Client();
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Map&lt;String, dynamic&gt;&gt;
-        <span class="function">
-         fetchData
-        </span>
-        () async {
-        <span class="keyword">
-         try
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        response = await client.get(
-          Uri.parse(
-        <span class="string">
-         'https://api.example.com/data'
-        </span>
-        ),
-          headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-        );
-        <span class="comment">
-         // Handle different status codes
-        </span>
-        <span class="keyword">
-         switch
-        </span>
-        (response.statusCode) {
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         200
-        </span>
-        :
-        <span class="comment">
-         // Success
-        </span>
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(response.body)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         400
-        </span>
-        :
-        <span class="comment">
-         // Bad Request
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Invalid request data. Please check your input.'
-        </span>
-        , statusCode:
-        <span class="number">
-         400
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         401
-        </span>
-        :
-        <span class="comment">
-         // Unauthorized
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Please log in to continue.'
-        </span>
-        , statusCode:
-        <span class="number">
-         401
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         403
-        </span>
-        :
-        <span class="comment">
-         // Forbidden
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'You don\'t have permission to access this resource.'
-        </span>
-        , statusCode:
-        <span class="number">
-         403
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         404
-        </span>
-        :
-        <span class="comment">
-         // Not Found
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'The requested resource was not found.'
-        </span>
-        , statusCode:
-        <span class="number">
-         404
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         429
-        </span>
-        :
-        <span class="comment">
-         // Too Many Requests
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Too many requests. Please wait a moment and try again.'
-        </span>
-        , statusCode:
-        <span class="number">
-         429
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="keyword">
-         var
-        </span>
-        code
-        <span class="keyword">
-         when
-        </span>
-        code &gt;=
-        <span class="number">
-         500
-        </span>
-        &amp;&amp; code &lt;
-        <span class="number">
-         600
-        </span>
-        :
-        <span class="comment">
-         // Server Errors
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Server error. Please try again later.'
-        </span>
-        ,
-              statusCode: response.statusCode,
-            );
-        <span class="keyword">
-         default
-        </span>
-        :
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Unexpected error: ${response.statusCode}'
-        </span>
-        ,
-              statusCode: response.statusCode,
-            );
-        }
-      }
-        <span class="keyword">
-         on
-        </span>
-        http.ClientException
-        <span class="keyword">
-         catch
-        </span>
-        (e) {
-        <span class="comment">
-         // Network errors (no internet, connection refused, etc.)
-        </span>
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Network error: ${e.message}'
-        </span>
-        );
-      }
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:http/http.dart'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">http</span><span class="punctuation">;</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">ApiException</span><span class="w"> </span><span class="keyword">implements</span><span class="w"> </span><span class="name">Exception</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">message</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="operator">?</span><span class="w"> </span><span class="name">statusCode</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">,</span><span class="w"> </span><span class="punctuation">{</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">String</span><span class="w"> </span><span class="name">toString</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="string">'ApiException: </span><span class="si">$</span><span class="name">message</span><span class="string">'</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">ApiService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="w"> </span><span class="name">client</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">ApiService</span><span class="punctuation">({</span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="operator">?</span><span class="w"> </span><span class="name">client</span><span class="punctuation">})</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">fetchData</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">try</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="string">'https://api.example.com/data'</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">      </span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="comment">// Handle different status codes</span>
+
+<span class="w">      </span><span class="keyword">switch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">200</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Success</span>
+
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">400</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Bad Request</span>
+
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Invalid request data. Please check your input.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">400</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">401</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Unauthorized</span>
+
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="string">'Please log in to continue.'</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">401</span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">403</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Forbidden</span>
+
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'You don</span><span class="string">\'</span><span class="string">t have permission to access this resource.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">403</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">404</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Not Found</span>
+
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'The requested resource was not found.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">404</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">429</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Too Many Requests</span>
+
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Too many requests. Please wait a moment and try again.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">429</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="keyword">var</span><span class="w"> </span><span class="name">code</span><span class="w"> </span><span class="name">when</span><span class="w"> </span><span class="name">code</span><span class="w"> </span><span class="operator">&gt;=</span><span class="w"> </span><span class="number">500</span><span class="w"> </span><span class="operator">&amp;&amp;</span><span class="w"> </span><span class="name">code</span><span class="w"> </span><span class="operator">&lt;</span><span class="w"> </span><span class="number">600</span><span class="operator">:</span>
+
+<span class="w">          </span><span class="comment">// Server Errors</span>
+
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Server error. Please try again later.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">default</span><span class="operator">:</span>
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Unexpected error: </span><span class="si">${</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="si">}</span><span class="string">'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+<span class="w">      </span><span class="punctuation">}</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">on</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">ClientException</span><span class="w"> </span><span class="keyword">catch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">e</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// Network errors (no internet, connection refused, etc.)</span>
+
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="string">'Network error: </span><span class="si">${</span><span class="name">e</span><span class="punctuation">.</span><span class="name">message</span><span class="si">}</span><span class="string">'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: NETWORK ERRORS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 4: NETWORK ERRORS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Network Errors
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Network errors happen when the device can't reach the server. Common causes include:
       </p>
-      <ul>
-       <li>
+<ul>
+<li>
         No internet connection
        </li>
-       <li>
+<li>
         Server is down
        </li>
-       <li>
+<li>
         Connection timeout
        </li>
-       <li>
+<li>
         DNS resolution failure
        </li>
-      </ul>
-      <div class="code-block collapsed">
-       <span class="code-label">
+</ul>
+<div class="code-block collapsed"><span class="code-label">
         lib/network_error_handling.dart
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         NetworkErrorHandler
-        </span>
-        {
-        <span class="keyword">
-         static
-        </span>
-        String
-        <span class="function">
-         getUserFriendlyMessage
-        </span>
-        (Object error) {
-        <span class="keyword">
-         if
-        </span>
-        (error
-        <span class="keyword">
-         is
-        </span>
-        ApiException) {
-        <span class="keyword">
-         return
-        </span>
-        error.message;
-      }
-        <span class="keyword">
-         if
-        </span>
-        (error
-        <span class="keyword">
-         is
-        </span>
-        http.ClientException) {
-        <span class="keyword">
-         if
-        </span>
-        (error.message.contains(
-        <span class="string">
-         'Failed host lookup'
-        </span>
-        )) {
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'Unable to connect to the server. Please check your internet connection.'
-        </span>
-        ;
-        }
-        <span class="keyword">
-         if
-        </span>
-        (error.message.contains(
-        <span class="string">
-         'Connection refused'
-        </span>
-        )) {
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'The server is not responding. Please try again later.'
-        </span>
-        ;
-        }
-        <span class="keyword">
-         if
-        </span>
-        (error.message.contains(
-        <span class="string">
-         'SocketException'
-        </span>
-        )) {
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'Network error. Please check your internet connection.'
-        </span>
-        ;
-        }
-        <span class="keyword">
-         if
-        </span>
-        (error.message.contains(
-        <span class="string">
-         'Timeout'
-        </span>
-        )) {
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'The request timed out. Please check your internet connection.'
-        </span>
-        ;
-        }
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'A network error occurred. Please try again.'
-        </span>
-        ;
-      }
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'An unexpected error occurred. Please try again.'
-        </span>
-        ;
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">NetworkErrorHandler</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">getUserFriendlyMessage</span><span class="punctuation">(</span><span class="keyword">Object</span><span class="w"> </span><span class="name">error</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="w"> </span><span class="keyword">is</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">error</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="w"> </span><span class="keyword">is</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">ClientException</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">.</span><span class="name">contains</span><span class="punctuation">(</span><span class="string">'Failed host lookup'</span><span class="punctuation">))</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="string">'Unable to connect to the server. Please check your internet connection.'</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">.</span><span class="name">contains</span><span class="punctuation">(</span><span class="string">'Connection refused'</span><span class="punctuation">))</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="string">'The server is not responding. Please try again later.'</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">.</span><span class="name">contains</span><span class="punctuation">(</span><span class="string">'SocketException'</span><span class="punctuation">))</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="string">'Network error. Please check your internet connection.'</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">.</span><span class="name">contains</span><span class="punctuation">(</span><span class="string">'Timeout'</span><span class="punctuation">))</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="string">'The request timed out. Please check your internet connection.'</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="string">'A network error occurred. Please try again.'</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="string">'An unexpected error occurred. Please try again.'</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="concept-card warning">
-       <h4>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="concept-card warning">
+<h4>
         ⏱️ Timeouts
        </h4>
-       <p>
+<p>
         Always set timeouts for network requests. A request that hangs indefinitely is a poor user experience.
               Use
         <code>
@@ -1515,347 +1119,182 @@
         </code>
         on your Future to set a maximum wait time.
        </p>
-       <div class="code-block collapsed" style="margin-top: 0.5rem; padding: 0.75rem;">
-        <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
          Source Code
         </span>
-        <code>
-         <span class="keyword">
-          final
-         </span>
-         response = await client.get(url).timeout(
-    Duration(seconds:
-         <span class="number">
-          10
-         </span>
-         ),
-    onTimeout: () =&gt;
-         <span class="keyword">
-          throw
-         </span>
-         ApiException(
-         <span class="string">
-          'Request timed out'
-         </span>
-         ),
-  );
-        </code>
-        <button class="copy-btn">
-         <i class="fas fa-copy">
-         </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span>
+<span class="w">    </span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">)</span>
+<span class="w">    </span><span class="punctuation">.</span><span class="name">timeout</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="number">10</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">onTimeout:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="string">'Request timed out'</span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
          Copy
         </button>
-        <button class="toggle-expand-btn">
-         <i class="fas fa-expand">
-         </i>
-         Expand
-        </button>
-        <button class="collapse-btn">
-         <i class="fas fa-chevron-up">
-         </i>
-         Collapse
-        </button>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 5: UI ERROR HANDLING ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+</div>
+<!-- ===== SECTION 5: UI ERROR HANDLING ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         UI Error Handling
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here's how to display errors in your Flutter UI with a
        <code>
         FutureBuilder
        </code>
        .
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – UI Error Handling
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter/material.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'error_handling.dart'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         DataScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    State&lt;DataScreen&gt;
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _DataScreenState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        _DataScreenState
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;DataScreen&gt; {
-        <span class="keyword">
-         late
-        </span>
-        Future&lt;Map&lt;String, dynamic&gt;&gt; futureData;
-        <span class="keyword">
-         final
-        </span>
-        ApiService _apiService = ApiService();
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .initState();
-      futureData = _apiService.fetchData();
-    }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         _retry
-        </span>
-        () {
-      setState(() {
-        futureData = _apiService.fetchData();
-      });
-    }
+<span class="keyword">import</span><span class="w"> </span><span class="string">'error_handling.dart'</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Data'
-        </span>
-        )),
-        body: FutureBuilder&lt;Map&lt;String, dynamic&gt;&gt;(
-          future: futureData,
-          builder: (context, snapshot) {
-        <span class="comment">
-         // --- Loading State ---
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.connectionState == ConnectionState.waiting) {
-        <span class="keyword">
-         return
-        </span>
-        Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-                    Text(
-        <span class="string">
-         'Loading data...'
-        </span>
-        ),
-                  ],
-                ),
-              );
-            }
-        <span class="comment">
-         // --- Error State ---
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.hasError) {
-        <span class="keyword">
-         final
-        </span>
-        errorMessage = NetworkErrorHandler.getUserFriendlyMessage(snapshot.error!);
-        <span class="keyword">
-         return
-        </span>
-        Center(
-                child: Padding(
-                  padding: EdgeInsets.all(
-        <span class="number">
-         24
-        </span>
-        ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        size:
-        <span class="number">
-         64
-        </span>
-        ,
-                        color: Colors.red.shade400,
-                      ),
-                      SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-                      Text(
-        <span class="string">
-         'Something went wrong'
-        </span>
-        ,
-                        style: TextStyle(
-                          fontSize:
-        <span class="number">
-         20
-        </span>
-        ,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height:
-        <span class="number">
-         8
-        </span>
-        ),
-                      Text(
-                        errorMessage,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize:
-        <span class="number">
-         16
-        </span>
-        ,
-                        ),
-                      ),
-                      SizedBox(height:
-        <span class="number">
-         24
-        </span>
-        ),
-                      ElevatedButton.icon(
-                        onPressed: _retry,
-                        icon: Icon(Icons.refresh),
-                        label: Text(
-        <span class="string">
-         'Try Again'
-        </span>
-        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-        <span class="comment">
-         // --- Data State ---
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.hasData) {
-        <span class="keyword">
-         return
-        </span>
-        Center(
-                child: Text(
-        <span class="string">
-         'Data loaded successfully!'
-        </span>
-        ),
-              );
-            }
-        <span class="comment">
-         // --- Fallback ---
-        </span>
-        <span class="keyword">
-         return
-        </span>
-        Center(child: Text(
-        <span class="string">
-         'No data available'
-        </span>
-        ));
-          },
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">DataScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">DataScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_DataScreenState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_DataScreenState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">DataScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">futureData</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">ApiService</span><span class="w"> </span><span class="name">_apiService</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ApiService</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">futureData</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_apiService</span><span class="punctuation">.</span><span class="name">fetchData</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">_retry</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="name">futureData</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_apiService</span><span class="punctuation">.</span><span class="name">fetchData</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="punctuation">});</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Data'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">FutureBuilder</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">future:</span><span class="w"> </span><span class="name">futureData</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">snapshot</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">          </span><span class="comment">// --- Loading State ---</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">connectionState</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">ConnectionState</span><span class="punctuation">.</span><span class="name">waiting</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                  </span><span class="name">CircularProgressIndicator</span><span class="punctuation">(),</span>
+<span class="w">                  </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Loading data...'</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">],</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="comment">// --- Error State ---</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">hasError</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">final</span><span class="w"> </span><span class="name">errorMessage</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">NetworkErrorHandler</span><span class="punctuation">.</span><span class="name">getUserFriendlyMessage</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">error</span><span class="operator">!</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="punctuation">);</span>
+
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Padding</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">all</span><span class="punctuation">(</span><span class="number">24</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                    </span><span class="name">Icon</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">error_outline</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">size:</span><span class="w"> </span><span class="number">64</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">.</span><span class="name">shade400</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="string">'Something went wrong'</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">20</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="nl">fontWeight:</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">bold</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="name">errorMessage</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">textAlign:</span><span class="w"> </span><span class="name">TextAlign</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade600</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">24</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">ElevatedButton</span><span class="punctuation">.</span><span class="name">icon</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_retry</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">refresh</span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="nl">label:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Try Again'</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">],</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="comment">// --- Data State ---</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">hasData</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Data loaded successfully!'</span><span class="punctuation">));</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="comment">// --- Fallback ---</span>
+
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'No data available'</span><span class="punctuation">));</span>
+<span class="w">        </span><span class="punctuation">},</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Step-by-Step Explanation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<span class="divider-line">
+</span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Define a custom exception
          </strong>
          – Create an
@@ -1865,13 +1304,13 @@
          class that holds
                 a user-friendly message and optional status code.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Handle status codes
          </strong>
          – Use a
@@ -1881,13 +1320,13 @@
          statement or conditionals to
                 handle different HTTP status codes with appropriate messages.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Catch network errors
          </strong>
          – Catch
@@ -1897,13 +1336,13 @@
          to handle
                 network connectivity issues.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Display errors in UI
          </strong>
          – Use
@@ -1913,793 +1352,363 @@
          to show loading,
                 error, and data states with user-friendly messages.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Provide retry functionality
          </strong>
          – Add a "Try Again" button that re-fetches the data.
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: BEST PRACTICES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: BEST PRACTICES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Error Handling Best Practices
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="concept-card success">
-       <h4>
+<span class="divider-line">
+</span>
+</div>
+<div class="concept-card success">
+<h4>
         ✅ Do's
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          Always handle loading, error, and data states
         </li>
-        <li>
+<li>
          Show user-friendly error messages (not technical jargon)
         </li>
-        <li>
+<li>
          Provide a way to retry failed operations
         </li>
-        <li>
+<li>
          Log errors for debugging and monitoring
         </li>
-        <li>
+<li>
          Set timeouts for network requests
         </li>
-        <li>
+<li>
          Check status codes before parsing responses
         </li>
-       </ul>
-      </div>
-      <div class="concept-card error">
-       <h4>
+</ul>
+</div>
+<div class="concept-card error">
+<h4>
         ❌ Don'ts
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          Don't ignore errors or swallow exceptions
         </li>
-        <li>
+<li>
          Don't show raw error messages (like stack traces) to users
         </li>
-        <li>
+<li>
          Don't assume the network is always available
         </li>
-        <li>
+<li>
          Don't parse responses without checking status codes
         </li>
-        <li>
+<li>
          Don't forget to handle network timeouts
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 8: COMPLETE EXAMPLE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 8: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Complete Example: Error Handling Demo
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here's a complete app that demonstrates all error handling concepts with a simulated API.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Complete Demo
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter/material.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:http/http.dart'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        http;
-        <span class="comment">
-         // ----- Custom Exception -----
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ApiException
-        </span>
-        <span class="keyword">
-         implements
-        </span>
-        Exception {
-        <span class="keyword">
-         final
-        </span>
-        String message;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        ? statusCode;
-        <span class="function">
-         ApiException
-        </span>
-        (
-        <span class="keyword">
-         this
-        </span>
-        .message, {
-        <span class="keyword">
-         this
-        </span>
-        .statusCode});
-    @override String
-        <span class="function">
-         toString
-        </span>
-        () =&gt;
-        <span class="string">
-         'ApiException: $message'
-        </span>
-        ;
-  }
-        <span class="comment">
-         // ----- API Service with Error Handling -----
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         UserService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        http.Client client;
-        <span class="function">
-         UserService
-        </span>
-        ({http.Client? client}) : client = client ?? http.Client();
-        <span class="keyword">
-         Future
-        </span>
-        &lt;List&lt;dynamic&gt;&gt;
-        <span class="function">
-         fetchUsers
-        </span>
-        () async {
-        <span class="keyword">
-         try
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        response = await client
-            .get(
-              Uri.parse(
-        <span class="string">
-         'https://jsonplaceholder.typicode.com/users'
-        </span>
-        ),
-              headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-            )
-            .timeout(Duration(seconds:
-        <span class="number">
-         10
-        </span>
-        ), onTimeout: () {
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Request timed out. Please check your connection.'
-        </span>
-        );
-            });
-        <span class="keyword">
-         switch
-        </span>
-        (response.statusCode) {
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         200
-        </span>
-        :
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(response.body)
-        <span class="keyword">
-         as
-        </span>
-        List&lt;dynamic&gt;;
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         401
-        </span>
-        :
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Please log in to view this content.'
-        </span>
-        , statusCode:
-        <span class="number">
-         401
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="number">
-         404
-        </span>
-        :
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'User data not found.'
-        </span>
-        , statusCode:
-        <span class="number">
-         404
-        </span>
-        );
-        <span class="keyword">
-         case
-        </span>
-        <span class="keyword">
-         var
-        </span>
-        code
-        <span class="keyword">
-         when
-        </span>
-        code &gt;=
-        <span class="number">
-         500
-        </span>
-        &amp;&amp; code &lt;
-        <span class="number">
-         600
-        </span>
-        :
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Server error. Please try again later.'
-        </span>
-        ,
-              statusCode: response.statusCode,
-            );
-        <span class="keyword">
-         default
-        </span>
-        :
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Unexpected error: ${response.statusCode}'
-        </span>
-        ,
-              statusCode: response.statusCode,
-            );
-        }
-      }
-        <span class="keyword">
-         on
-        </span>
-        http.ClientException
-        <span class="keyword">
-         catch
-        </span>
-        (e) {
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'Network error: ${e.message}'
-        </span>
-        );
-      }
-        <span class="keyword">
-         catch
-        </span>
-        (e) {
-        <span class="keyword">
-         throw
-        </span>
-        ApiException(
-        <span class="string">
-         'An unexpected error occurred'
-        </span>
-        );
-      }
-    }
-  }
-        <span class="comment">
-         // ----- Error Message Helper -----
-        </span>
-        String
-        <span class="function">
-         getErrorMessage
-        </span>
-        (Object error) {
-        <span class="keyword">
-         if
-        </span>
-        (error
-        <span class="keyword">
-         is
-        </span>
-        ApiException) {
-        <span class="keyword">
-         return
-        </span>
-        error.message;
-    }
-        <span class="keyword">
-         return
-        </span>
-        <span class="string">
-         'An unexpected error occurred. Please try again.'
-        </span>
-        ;
-  }
-        <span class="comment">
-         // ----- Flutter UI -----
-        </span>
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () =&gt; runApp(
-        <span class="function">
-         MyApp
-        </span>
-        ());
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MyApp
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        MaterialApp(
-        title:
-        <span class="string">
-         'Error Handling Demo'
-        </span>
-        ,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3:
-        <span class="keyword">
-         true
-        </span>
-        ,
-        ),
-        home: UserListScreen(),
-      );
-    }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         UserListScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    State&lt;UserListScreen&gt;
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _UserListScreenState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        _UserListScreenState
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;UserListScreen&gt; {
-        <span class="keyword">
-         late
-        </span>
-        Future&lt;List&lt;dynamic&gt;&gt; futureUsers;
-        <span class="keyword">
-         final
-        </span>
-        UserService _service = UserService();
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .initState();
-      futureUsers = _service.fetchUsers();
-    }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         _retry
-        </span>
-        () {
-      setState(() {
-        futureUsers = _service.fetchUsers();
-      });
-    }
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(
-          title: Text(
-        <span class="string">
-         '👤 Users'
-        </span>
-        ),
-          centerTitle:
-        <span class="keyword">
-         true
-        </span>
-        ,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: _retry,
-              tooltip:
-        <span class="string">
-         'Refresh'
-        </span>
-        ,
-            ),
-          ],
-        ),
-        body: FutureBuilder&lt;List&lt;dynamic&gt;&gt;(
-          future: futureUsers,
-          builder: (context, snapshot) {
-        <span class="comment">
-         // --- Loading ---
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.connectionState == ConnectionState.waiting) {
-        <span class="keyword">
-         return
-        </span>
-        Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-                    Text(
-        <span class="string">
-         'Loading users...'
-        </span>
-        ),
-                  ],
-                ),
-              );
-            }
-        <span class="comment">
-         // --- Error ---
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.hasError) {
-        <span class="keyword">
-         final
-        </span>
-        errorMessage = getErrorMessage(snapshot.error!);
-        <span class="keyword">
-         return
-        </span>
-        Center(
-                child: Padding(
-                  padding: EdgeInsets.all(
-        <span class="number">
-         24
-        </span>
-        ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        size:
-        <span class="number">
-         64
-        </span>
-        ,
-                        color: Colors.red.shade400,
-                      ),
-                      SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-                      Text(
-        <span class="string">
-         'Unable to load data'
-        </span>
-        ,
-                        style: TextStyle(fontSize:
-        <span class="number">
-         20
-        </span>
-        , fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height:
-        <span class="number">
-         8
-        </span>
-        ),
-                      Text(
-                        errorMessage,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey.shade600, fontSize:
-        <span class="number">
-         16
-        </span>
-        ),
-                      ),
-                      SizedBox(height:
-        <span class="number">
-         24
-        </span>
-        ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: _retry,
-                            icon: Icon(Icons.refresh),
-                            label: Text(
-        <span class="string">
-         'Retry'
-        </span>
-        ),
-                          ),
-                          SizedBox(width:
-        <span class="number">
-         12
-        </span>
-        ),
-                          if (snapshot.error
-        <span class="keyword">
-         is
-        </span>
-        ApiException &amp;&amp;
-                              snapshot.error.statusCode ==
-        <span class="number">
-         401
-        </span>
-        )
-                            ElevatedButton.icon(
-                              onPressed: () {
-        <span class="comment">
-         // Navigate to login
-        </span>
-        },
-                              icon: Icon(Icons.login),
-                              label: Text(
-        <span class="string">
-         'Log In'
-        </span>
-        ),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-        <span class="comment">
-         // --- Data ---
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (snapshot.hasData) {
-        <span class="keyword">
-         final
-        </span>
-        users = snapshot.data!;
-        <span class="keyword">
-         return
-        </span>
-        ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-        <span class="keyword">
-         final
-        </span>
-        user = users[index];
-        <span class="keyword">
-         return
-        </span>
-        Card(
-                    margin: EdgeInsets.symmetric(horizontal:
-        <span class="number">
-         16
-        </span>
-        , vertical:
-        <span class="number">
-         4
-        </span>
-        ),
-                    child: ListTile(
-                      leading: CircleAvatar(child: Text((index +
-        <span class="number">
-         1
-        </span>
-        ).toString())),
-                      title: Text(user[
-        <span class="string">
-         'name'
-        </span>
-        ] ??
-        <span class="string">
-         'Unknown'
-        </span>
-        ),
-                      subtitle: Text(user[
-        <span class="string">
-         'email'
-        </span>
-        ] ??
-        <span class="string">
-         'No email'
-        </span>
-        ),
-                    ),
-                  );
-                },
-              );
-            }
-        <span class="comment">
-         // --- Fallback ---
-        </span>
-        <span class="keyword">
-         return
-        </span>
-        Center(child: Text(
-        <span class="string">
-         'No data available'
-        </span>
-        ));
-          },
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:http/http.dart'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">http</span><span class="punctuation">;</span>
+
+<span class="comment">// ----- Custom Exception -----</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">ApiException</span><span class="w"> </span><span class="keyword">implements</span><span class="w"> </span><span class="name">Exception</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">message</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="operator">?</span><span class="w"> </span><span class="name">statusCode</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">,</span><span class="w"> </span><span class="punctuation">{</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">});</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">String</span><span class="w"> </span><span class="name">toString</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="string">'ApiException: </span><span class="si">$</span><span class="name">message</span><span class="string">'</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ----- API Service with Error Handling -----</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">UserService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="w"> </span><span class="name">client</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">UserService</span><span class="punctuation">({</span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="operator">?</span><span class="w"> </span><span class="name">client</span><span class="punctuation">})</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">fetchUsers</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">try</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span>
+<span class="w">          </span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="string">'https://jsonplaceholder.typicode.com/users'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">          </span><span class="punctuation">)</span>
+<span class="w">          </span><span class="punctuation">.</span><span class="name">timeout</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="number">10</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">onTimeout:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="string">'Request timed out. Please check your connection.'</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="punctuation">);</span>
+<span class="w">            </span><span class="punctuation">},</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">switch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">200</span><span class="operator">:</span>
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">401</span><span class="operator">:</span>
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Please log in to view this content.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">401</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="number">404</span><span class="operator">:</span>
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="string">'User data not found.'</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">statusCode:</span><span class="w"> </span><span class="number">404</span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">case</span><span class="w"> </span><span class="keyword">var</span><span class="w"> </span><span class="name">code</span><span class="w"> </span><span class="name">when</span><span class="w"> </span><span class="name">code</span><span class="w"> </span><span class="operator">&gt;=</span><span class="w"> </span><span class="number">500</span><span class="w"> </span><span class="operator">&amp;&amp;</span><span class="w"> </span><span class="name">code</span><span class="w"> </span><span class="operator">&lt;</span><span class="w"> </span><span class="number">600</span><span class="operator">:</span>
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Server error. Please try again later.'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">default</span><span class="operator">:</span>
+<span class="w">          </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="string">'Unexpected error: </span><span class="si">${</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="si">}</span><span class="string">'</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">statusCode:</span><span class="w"> </span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">);</span>
+<span class="w">      </span><span class="punctuation">}</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">on</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">ClientException</span><span class="w"> </span><span class="keyword">catch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">e</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="string">'Network error: </span><span class="si">${</span><span class="name">e</span><span class="punctuation">.</span><span class="name">message</span><span class="si">}</span><span class="string">'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">catch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">e</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">(</span><span class="string">'An unexpected error occurred'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ----- Error Message Helper -----</span>
+
+<span class="keyword">String</span><span class="w"> </span><span class="name">getErrorMessage</span><span class="punctuation">(</span><span class="keyword">Object</span><span class="w"> </span><span class="name">error</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">error</span><span class="w"> </span><span class="keyword">is</span><span class="w"> </span><span class="name">ApiException</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">error</span><span class="punctuation">.</span><span class="name">message</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">return</span><span class="w"> </span><span class="string">'An unexpected error occurred. Please try again.'</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// ----- Flutter UI -----</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">runApp</span><span class="punctuation">(</span><span class="name">MyApp</span><span class="punctuation">());</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">MyApp</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialApp</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="string">'Error Handling Demo'</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">theme:</span><span class="w"> </span><span class="name">ThemeData</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">colorScheme:</span><span class="w"> </span><span class="name">ColorScheme</span><span class="punctuation">.</span><span class="name">fromSeed</span><span class="punctuation">(</span><span class="nl">seedColor:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">deepPurple</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">useMaterial3:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">home:</span><span class="w"> </span><span class="name">UserListScreen</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">UserListScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">UserListScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_UserListScreenState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_UserListScreenState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">UserListScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">futureUsers</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">UserService</span><span class="w"> </span><span class="name">_service</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">UserService</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">futureUsers</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">fetchUsers</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">_retry</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="name">futureUsers</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">fetchUsers</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="punctuation">});</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'👤 Users'</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">centerTitle:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">          </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">refresh</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_retry</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">tooltip:</span><span class="w"> </span><span class="string">'Refresh'</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">],</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">FutureBuilder</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">future:</span><span class="w"> </span><span class="name">futureUsers</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">snapshot</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">          </span><span class="comment">// --- Loading ---</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">connectionState</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">ConnectionState</span><span class="punctuation">.</span><span class="name">waiting</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                  </span><span class="name">CircularProgressIndicator</span><span class="punctuation">(),</span>
+<span class="w">                  </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Loading users...'</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">],</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="comment">// --- Error ---</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">hasError</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">final</span><span class="w"> </span><span class="name">errorMessage</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">getErrorMessage</span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">error</span><span class="operator">!</span><span class="punctuation">);</span>
+
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Padding</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">all</span><span class="punctuation">(</span><span class="number">24</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                    </span><span class="name">Icon</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">error_outline</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">size:</span><span class="w"> </span><span class="number">64</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">.</span><span class="name">shade400</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="string">'Unable to load data'</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">20</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="nl">fontWeight:</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">bold</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="name">errorMessage</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">textAlign:</span><span class="w"> </span><span class="name">TextAlign</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                        </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade600</span><span class="punctuation">,</span>
+<span class="w">                        </span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">24</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">                      </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">                      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">                        </span><span class="name">ElevatedButton</span><span class="punctuation">.</span><span class="name">icon</span><span class="punctuation">(</span>
+<span class="w">                          </span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_retry</span><span class="punctuation">,</span>
+<span class="w">                          </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">refresh</span><span class="punctuation">),</span>
+<span class="w">                          </span><span class="nl">label:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Retry'</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">width:</span><span class="w"> </span><span class="number">12</span><span class="punctuation">),</span>
+<span class="w">                        </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">error</span><span class="w"> </span><span class="keyword">is</span><span class="w"> </span><span class="name">ApiException</span><span class="w"> </span><span class="operator">&amp;&amp;</span>
+<span class="w">                            </span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">error</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">401</span><span class="punctuation">)</span>
+<span class="w">                          </span><span class="name">ElevatedButton</span><span class="punctuation">.</span><span class="name">icon</span><span class="punctuation">(</span>
+<span class="w">                            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                              </span><span class="comment">// Navigate to login</span>
+<span class="w">                            </span><span class="punctuation">},</span>
+<span class="w">                            </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">login</span><span class="punctuation">),</span>
+<span class="w">                            </span><span class="nl">label:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Log In'</span><span class="punctuation">),</span>
+<span class="w">                          </span><span class="punctuation">),</span>
+<span class="w">                      </span><span class="punctuation">],</span>
+<span class="w">                    </span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">],</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="comment">// --- Data ---</span>
+
+<span class="w">          </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">hasData</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">final</span><span class="w"> </span><span class="name">users</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">snapshot</span><span class="punctuation">.</span><span class="name">data</span><span class="operator">!</span><span class="punctuation">;</span>
+
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">ListView</span><span class="punctuation">.</span><span class="name">builder</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">itemCount:</span><span class="w"> </span><span class="name">users</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">itemBuilder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">index</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">                </span><span class="keyword">final</span><span class="w"> </span><span class="name">user</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">users</span><span class="punctuation">[</span><span class="name">index</span><span class="punctuation">];</span>
+
+<span class="w">                </span><span class="keyword">return</span><span class="w"> </span><span class="name">Card</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">margin:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">4</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="nl">child:</span><span class="w"> </span><span class="name">ListTile</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="nl">leading:</span><span class="w"> </span><span class="name">CircleAvatar</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">((</span><span class="name">index</span><span class="w"> </span><span class="operator">+</span><span class="w"> </span><span class="number">1</span><span class="punctuation">).</span><span class="name">toString</span><span class="punctuation">())),</span>
+<span class="w">                    </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">[</span><span class="string">'name'</span><span class="punctuation">]</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="string">'Unknown'</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="nl">subtitle:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">[</span><span class="string">'email'</span><span class="punctuation">]</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="string">'No email'</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">);</span>
+<span class="w">              </span><span class="punctuation">},</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">}</span>
+
+<span class="w">          </span><span class="comment">// --- Fallback ---</span>
+
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'No data available'</span><span class="punctuation">));</span>
+<span class="w">        </span><span class="punctuation">},</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 9: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 9: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Not checking status codes
        </div>
-       <p>
+<p>
         Always check
         <code>
          response.statusCode
@@ -2707,12 +1716,12 @@
         before parsing the response body.
               A 404 or 500 response may not contain the expected JSON structure.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always check status codes
        </div>
-       <p>
+<p>
         Use
         <code>
          if (response.statusCode == 200)
@@ -2720,51 +1729,51 @@
         before parsing, and throw exceptions
               for other status codes.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Showing raw error messages to users
        </div>
-       <p>
+<p>
         Don't show
         <code>
          snapshot.error.toString()
         </code>
         directly. Users don't need to see stack traces.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Show user-friendly messages
        </div>
-       <p>
+<p>
         Map errors to user-friendly messages like "Network error. Please check your internet connection."
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Not providing retry functionality
        </div>
-       <p>
+<p>
         If a request fails, users should be able to retry without restarting the app.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always provide a retry button
        </div>
-       <p>
+<p>
         Add a "Retry" button in the error state that re-fetches the data.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
-       <strong>
+<p>
+<strong>
         Error handling is essential for a good user experience.
        </strong>
        Always handle
@@ -2783,135 +1792,135 @@
         Users will forgive errors if they understand
             what went wrong and can recover.
        </strong>
-      </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module2-topic4-serialization.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module2-topic4-serialization.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Serialization
       </a>
-      <a class="btn btn-primary btn-sm" href="module2-topic6-pagination.html">
+<a class="btn btn-primary btn-sm" href="module2-topic6-pagination.html">
        Next: Pagination
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="../module2-state-management.html">
+</li>
+<li>
+<a href="../module2-state-management.html">
          Module 2
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://flutter.dev" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://flutter.dev" rel="noopener" target="_blank">
          Flutter Official
         </a>
-       </li>
-       <li>
-        <a href="https://dart.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://dart.dev" rel="noopener" target="_blank">
          Dart Language
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev" rel="noopener" target="_blank">
          pub.dev
         </a>
-       </li>
-       <li>
-        <a href="https://docs.flutter.dev/testing/errors" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://docs.flutter.dev/testing/errors" rel="noopener" target="_blank">
          Flutter Error Handling
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter" rel="noopener" target="_blank">
          GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/testing/errors" style="color: var(--text-muted);" target="_blank">
        Flutter Official Documentation
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -2967,7 +1976,7 @@
       });
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -3042,25 +2051,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -3117,5 +2109,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

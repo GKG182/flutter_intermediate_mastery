@@ -1,29 +1,54 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Animations – Module 6 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn animations in Flutter. Understand implicit and explicit animations, AnimationController, Tween, CurvedAnimation, and how to create smooth, engaging UI animations." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn animations in Flutter. Understand implicit and explicit animations, AnimationController, Tween, CurvedAnimation, and how to create smooth, engaging UI animations." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
-
     .lesson-nav {
       display: flex;
       justify-content: space-between;
@@ -53,7 +78,6 @@
       font-size: var(--font-xs);
       font-weight: 600;
     }
-
     .topic-header {
       margin-bottom: 2rem;
       padding-bottom: 1rem;
@@ -76,7 +100,6 @@
       color: var(--text-secondary);
       max-width: 640px;
     }
-
     .doc-badge {
       display: inline-flex;
       align-items: center;
@@ -94,7 +117,6 @@
       background: rgba(124, 58, 237, 0.15);
       color: var(--primary-dark);
     }
-
     .section-divider {
       display: flex;
       align-items: center;
@@ -114,7 +136,6 @@
       letter-spacing: 0.05em;
       white-space: nowrap;
     }
-
     .concept-card {
       background: var(--background-secondary);
       border-radius: var(--radius);
@@ -147,7 +168,6 @@
     .concept-card ul li {
       margin-bottom: 0.25rem;
     }
-
     .code-block {
       position: relative;
       background: #1e1e2e;
@@ -191,7 +211,6 @@
     .code-block .type { color: #f9e2af; }
     .code-block .operator { color: #89b4fa; }
     .code-block .annotation { color: #f5c2e7; }
-
     .copy-btn {
       position: absolute;
       top: 0.4rem;
@@ -223,7 +242,6 @@
     .copy-btn i {
       font-size: 0.65rem;
     }
-
     .comparison-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -258,7 +276,6 @@
       color: var(--primary);
       font-weight: 700;
     }
-
     .key-takeaway {
       background: var(--primary-gradient);
       color: white;
@@ -278,7 +295,6 @@
       margin: 0 auto;
       font-size: var(--font-sm);
     }
-
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -288,7 +304,6 @@
       border-top: 1px solid var(--border);
       flex-wrap: wrap;
     }
-
     .mistake-box {
       background: rgba(239, 68, 68, 0.06);
       border: 1px solid rgba(239, 68, 68, 0.2);
@@ -306,7 +321,6 @@
       font-size: var(--font-sm);
       color: var(--text-secondary);
     }
-
     .good-box {
       background: rgba(16, 185, 129, 0.06);
       border: 1px solid rgba(16, 185, 129, 0.2);
@@ -324,7 +338,6 @@
       font-size: var(--font-sm);
       color: var(--text-secondary);
     }
-
     .mark-complete-btn {
       position: fixed;
       bottom: 2rem;
@@ -351,7 +364,6 @@
     .mark-complete-btn i {
       margin-right: 0.5rem;
     }
-
     .topic-section {
       margin-bottom: 2.5rem;
     }
@@ -373,7 +385,6 @@
       font-size: var(--font-sm);
       color: var(--text-secondary);
     }
-
     .step-grid {
       margin: 1.25rem 0;
     }
@@ -398,7 +409,6 @@
     .step-text strong {
       color: var(--text);
     }
-
     .features-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -425,7 +435,6 @@
       color: var(--text-muted);
       margin-top: 0.25rem;
     }
-
     .animation-types {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -452,7 +461,6 @@
       color: var(--text-secondary);
       margin-top: 0.25rem;
     }
-
     .decision-tree {
       background: var(--background-secondary);
       border-radius: var(--radius);
@@ -477,7 +485,6 @@
     .decision-tree .tree-item .indent {
       padding-left: 2rem;
     }
-
     .curve-list {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -492,7 +499,6 @@
       font-family: 'JetBrains Mono', monospace;
       border: 1px solid var(--border);
     }
-
     @media (max-width: 768px) {
       .comparison-grid,
       .features-grid,
@@ -527,7 +533,6 @@
         padding-left: 1rem;
       }
     }
-
     @media (max-width: 480px) {
       .topic-header h1 {
         font-size: var(--font-2xl);
@@ -539,20 +544,17 @@
         font-size: var(--font-sm);
       }
     }
-  
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -566,47 +568,21 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -616,49 +592,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -669,148 +607,148 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="../module6-advanced-flutter.html">
+<a href="../module6-advanced-flutter.html">
         Module 6
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 2
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-star">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-star">
+</i>
        Module 6
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 2
       </div>
-      <h1>
+<h1>
        Animations
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Creating smooth, engaging animations in Flutter — from simple fades to complex physics-based motion.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
-        <i class="fas fa-globe">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
+<i class="fas fa-globe">
+</i>
         Flutter Animation Docs
        </a>
-       <a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
-        <i class="fas fa-book">
-        </i>
+<a class="doc-badge" href="https://docs.flutter.dev/ui/animations" target="_blank">
+<i class="fas fa-book">
+</i>
         Animation Guide
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHY ANIMATIONS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHY ANIMATIONS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Why Animations?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Well-designed animations make a UI feel more
        <strong>
         intuitive
@@ -823,11 +761,11 @@
        .
             Flutter's animation support makes it easy to implement a variety of animation types.
       </p>
-      <div class="concept-card info">
-       <h4>
+<div class="concept-card info">
+<h4>
         💡 Key Insight
        </h4>
-       <p>
+<p>
         Animations aren't just about making things look pretty — they provide
         <strong>
          feedback
@@ -843,64 +781,64 @@
         to users.
               A well-animated app feels more responsive and professional.
        </p>
-      </div>
-      <div class="features-grid">
-       <div class="feature-item" style="border-left: 3px solid #10B981;">
-        <div class="feature-icon">
+</div>
+<div class="features-grid">
+<div class="feature-item" style="border-left: 3px solid #10B981;">
+<div class="feature-icon">
          🎯
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Focus Attention
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Guide users to important UI elements
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #3B82F6;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #3B82F6;">
+<div class="feature-icon">
          🔄
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Provide Feedback
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Show users their actions are recognized
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #8B5CF6;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #8B5CF6;">
+<div class="feature-icon">
          📱
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Feel Responsive
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Make apps feel smooth and polished
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #F59E0B;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #F59E0B;">
+<div class="feature-icon">
          🧭
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Communicate State
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Show transitions between app states
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: IMPLICIT VS EXPLICIT ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: IMPLICIT VS EXPLICIT ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Implicit vs Explicit Animations
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Flutter provides two main approaches to animations:
        <strong>
         implicit
@@ -911,25 +849,25 @@
        </strong>
        . Understanding the difference is key to choosing the right approach.
       </p>
-      <div class="comparison-grid">
-       <div class="compare-item" style="border-left: 4px solid #10B981;">
-        <h4 style="color: #10B981;">
+<div class="comparison-grid">
+<div class="compare-item" style="border-left: 4px solid #10B981;">
+<h4 style="color: #10B981;">
          Implicit Animations
         </h4>
-        <ul>
-         <li>
+<ul>
+<li>
           Framework handles the animation
          </li>
-         <li>
+<li>
           Set target values, Flutter animates to them
          </li>
-         <li>
+<li>
           Easiest to implement
          </li>
-         <li>
+<li>
           Less control, but less code
          </li>
-         <li>
+<li>
           Example:
           <code>
            AnimatedContainer
@@ -938,50 +876,50 @@
           <code>
            AnimatedOpacity
           </code>
-         </li>
-        </ul>
-       </div>
-       <div class="compare-item" style="border-left: 4px solid #8B5CF6;">
-        <h4 style="color: #8B5CF6;">
+</li>
+</ul>
+</div>
+<div class="compare-item" style="border-left: 4px solid #8B5CF6;">
+<h4 style="color: #8B5CF6;">
          Explicit Animations
         </h4>
-        <ul>
-         <li>
+<ul>
+<li>
           You control the animation
          </li>
-         <li>
+<li>
           Use
           <code>
            AnimationController
           </code>
-         </li>
-         <li>
+</li>
+<li>
           More complex, but full control
          </li>
-         <li>
+<li>
           Can pause, reverse, and loop
          </li>
-         <li>
+<li>
           Example:
           <code>
            AnimatedBuilder
           </code>
           , custom animations
          </li>
-        </ul>
-       </div>
-      </div>
-      <div class="decision-tree">
-       <h4 style="margin-bottom: 0.5rem;">
+</ul>
+</div>
+</div>
+<div class="decision-tree">
+<h4 style="margin-bottom: 0.5rem;">
         🤔 How to Choose?
        </h4>
-       <div class="tree-item">
-        <span class="arrow">
+<div class="tree-item">
+<span class="arrow">
          →
         </span>
         Can you use a pre-built implicit animation?
         <div class="indent">
-         <span class="arrow">
+<span class="arrow">
           ✅
          </span>
          Yes → Use
@@ -990,13 +928,13 @@
          </strong>
          (AnimatedContainer, AnimatedOpacity, etc.)
         </div>
-        <div class="indent">
-         <span class="arrow">
+<div class="indent">
+<span class="arrow">
           ❌
          </span>
          No → Need custom animation?
          <div class="indent">
-          <span class="arrow">
+<span class="arrow">
            →
           </span>
           Use
@@ -1005,331 +943,137 @@
           </strong>
           with AnimationController
          </div>
-        </div>
-       </div>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+</div>
+</div>
+</div>
+<div class="code-block collapsed"><span class="code-label">
         Implicit Animation Example
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         AnimatedBox
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    _AnimatedBoxState
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _AnimatedBoxState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _AnimatedBoxState
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;AnimatedBox&gt; {
-        <span class="keyword">
-         double
-        </span>
-        _size =
-        <span class="number">
-         100
-        </span>
-        ;
-    Color _color = Colors.blue;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         _toggle
-        </span>
-        () {
-        <span class="function">
-         setState
-        </span>
-        (() {
-        _size = _size ==
-        <span class="number">
-         100
-        </span>
-        ?
-        <span class="number">
-         200
-        </span>
-        :
-        <span class="number">
-         100
-        </span>
-        ;
-        _color = _color == Colors.blue ? Colors.red : Colors.blue;
-      });
-    }
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">AnimatedBox</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">_AnimatedBoxState</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_AnimatedBoxState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Column(
-        children: [
-          AnimatedContainer(
-            width: _size,
-            height: _size,
-            color: _color,
-            duration: Duration(milliseconds:
-        <span class="number">
-         500
-        </span>
-        ),
-            curve: Curves.easeInOut,
-          ),
-          ElevatedButton(
-            onPressed: _toggle,
-            child: Text(
-        <span class="string">
-         'Toggle'
-        </span>
-        ),
-          ),
-        ],
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">_AnimatedBoxState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">AnimatedBox</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">double</span><span class="w"> </span><span class="name">_size</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="number">100</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="name">Color</span><span class="w"> </span><span class="name">_color</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">blue</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">_toggle</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="name">_size</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_size</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">100</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="number">200</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="name">_color</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_color</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">blue</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">blue</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">});</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">        </span><span class="name">AnimatedContainer</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">width:</span><span class="w"> </span><span class="name">_size</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">height:</span><span class="w"> </span><span class="name">_size</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">color:</span><span class="w"> </span><span class="name">_color</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">duration:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">milliseconds:</span><span class="w"> </span><span class="number">500</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="nl">curve:</span><span class="w"> </span><span class="name">Curves</span><span class="punctuation">.</span><span class="name">easeInOut</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="name">ElevatedButton</span><span class="punctuation">(</span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_toggle</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Toggle'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="punctuation">],</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         Explicit Animation Example
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ExplicitAnimation
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    _ExplicitAnimationState
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _ExplicitAnimationState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _ExplicitAnimationState
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;ExplicitAnimation&gt;
-        <span class="keyword">
-         with
-        </span>
-        SingleTickerProviderStateMixin {
-        <span class="keyword">
-         late
-        </span>
-        AnimationController _controller;
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">ExplicitAnimation</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">_ExplicitAnimationState</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_ExplicitAnimationState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .
-        <span class="function">
-         initState
-        </span>
-        ();
-      _controller = AnimationController(
-        duration: Duration(seconds:
-        <span class="number">
-         2
-        </span>
-        ),
-        vsync:
-        <span class="keyword">
-         this
-        </span>
-        ,
-      );
-    }
+<span class="keyword">class</span><span class="w"> </span><span class="class">_ExplicitAnimationState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">ExplicitAnimation</span><span class="operator">&gt;</span>
+<span class="w">    </span><span class="keyword">with</span><span class="w"> </span><span class="name">SingleTickerProviderStateMixin</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">AnimationController</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         dispose
-        </span>
-        () {
-      _controller.
-        <span class="function">
-         dispose
-        </span>
-        ();
-        <span class="keyword">
-         super
-        </span>
-        .
-        <span class="function">
-         dispose
-        </span>
-        ();
-    }
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">_controller</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">AnimationController</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">duration:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="number">2</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">vsync:</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Column(
-        children: [
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-        <span class="keyword">
-         return
-        </span>
-        Transform.scale(
-                scale: _controller.value,
-                child: Container(
-                  width:
-        <span class="number">
-         100
-        </span>
-        ,
-                  height:
-        <span class="number">
-         100
-        </span>
-        ,
-                  color: Colors.purple,
-                ),
-              );
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () =&gt; _controller.
-        <span class="function">
-         forward
-        </span>
-        (),
-                child: Text(
-        <span class="string">
-         'Play'
-        </span>
-        ),
-              ),
-              ElevatedButton(
-                onPressed: () =&gt; _controller.
-        <span class="function">
-         reverse
-        </span>
-        (),
-                child: Text(
-        <span class="string">
-         'Reverse'
-        </span>
-        ),
-              ),
-              ElevatedButton(
-                onPressed: () =&gt; _controller.
-        <span class="function">
-         reset
-        </span>
-        (),
-                child: Text(
-        <span class="string">
-         'Reset'
-        </span>
-        ),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">dispose</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">        </span><span class="name">AnimatedBuilder</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">animation:</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">builder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">child</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">return</span><span class="w"> </span><span class="name">Transform</span><span class="punctuation">.</span><span class="name">scale</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">scale:</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">value</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Container</span><span class="punctuation">(</span><span class="nl">width:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">height:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">purple</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">);</span>
+<span class="w">          </span><span class="punctuation">},</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">            </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">forward</span><span class="punctuation">(),</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Play'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">reverse</span><span class="punctuation">(),</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Reverse'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">reset</span><span class="punctuation">(),</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Reset'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">],</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">],</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 3: ANIMATION TYPES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 3: ANIMATION TYPES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Animation Types
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Flutter supports two main types of animations:
        <strong>
         tween-based
@@ -1340,103 +1084,62 @@
        </strong>
        .
       </p>
-      <div class="animation-types">
-       <div class="animation-type" style="border-color: #3B82F6;">
-        <div class="type-icon">
+<div class="animation-types">
+<div class="animation-type" style="border-color: #3B82F6;">
+<div class="type-icon">
          📊
         </div>
-        <div class="type-name">
+<div class="type-name">
          Tween Animation
         </div>
-        <div class="type-desc">
+<div class="type-desc">
          Defines beginning and ending points with a timeline and curve.
                 The framework calculates the transition between points.
         </div>
-       </div>
-       <div class="animation-type" style="border-color: #F59E0B;">
-        <div class="type-icon">
+</div>
+<div class="animation-type" style="border-color: #F59E0B;">
+<div class="type-icon">
          ⚡
         </div>
-        <div class="type-name">
+<div class="type-name">
          Physics-Based Animation
         </div>
-        <div class="type-desc">
+<div class="type-desc">
          Models motion to resemble real-world behavior (spring, friction, gravity).
                 Feels more natural and responsive.
         </div>
-       </div>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+</div>
+</div>
+<div class="code-block collapsed"><span class="code-label">
         Tween Animation Example
        </span>
-       <code>
-        <span class="keyword">
-         final
-        </span>
-        controller = AnimationController(
-    duration: Duration(seconds:
-        <span class="number">
-         2
-        </span>
-        ),
-    vsync:
-        <span class="keyword">
-         this
-        </span>
-        ,
-  );
-        <span class="keyword">
-         final
-        </span>
-        animation = Tween&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt;(begin:
-        <span class="number">
-         0
-        </span>
-        , end:
-        <span class="number">
-         300
-        </span>
-        ).
-        <span class="function">
-         animate
-        </span>
-        (
-    CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeInOut,
-    ),
-  );
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">controller</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">AnimationController</span><span class="punctuation">(</span>
+<span class="w">  </span><span class="nl">duration:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="number">2</span><span class="punctuation">),</span>
+<span class="w">  </span><span class="nl">vsync:</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">,</span>
+<span class="punctuation">);</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">animation</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="punctuation">(</span>
+<span class="w">  </span><span class="nl">begin:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="nl">end:</span><span class="w"> </span><span class="number">300</span><span class="punctuation">,</span>
+<span class="punctuation">).</span><span class="name">animate</span><span class="punctuation">(</span><span class="name">CurvedAnimation</span><span class="punctuation">(</span><span class="nl">parent:</span><span class="w"> </span><span class="name">controller</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">curve:</span><span class="w"> </span><span class="name">Curves</span><span class="punctuation">.</span><span class="name">easeInOut</span><span class="punctuation">));</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         Physics-Based Animation Example
        </span>
-       <code>
-        <span class="keyword">
+<code>
+<span class="keyword">
          import
         </span>
-        <span class="string">
+<span class="string">
          'package:flutter/physics.dart'
         </span>
         ;
@@ -1497,41 +1200,32 @@
         <span class="function">
          animateWith
         </span>
-        (spring);
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+        (spring);</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: ANIMATION CLASSES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 4: ANIMATION CLASSES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Essential Animation Classes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Flutter's animation system is built on several key classes that work together:
       </p>
-      <h3>
+<h3>
        AnimationController
       </h3>
-      <p>
+<p>
        A special
        <code>
         Animation
@@ -1539,127 +1233,52 @@
        object that generates new values on each frame.
             It produces values from 0.0 to 1.0 over a given duration.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         AnimationController Setup
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MyWidget
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    _MyWidgetState
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _MyWidgetState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _MyWidgetState
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;MyWidget&gt;
-        <span class="keyword">
-         with
-        </span>
-        SingleTickerProviderStateMixin {
-        <span class="keyword">
-         late
-        </span>
-        AnimationController _controller;
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">MyWidget</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">_MyWidgetState</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_MyWidgetState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .
-        <span class="function">
-         initState
-        </span>
-        ();
-      _controller = AnimationController(
-        vsync:
-        <span class="keyword">
-         this
-        </span>
-        ,
-        <span class="comment">
-         // Required for performance
-        </span>
-        duration: Duration(seconds:
-        <span class="number">
-         1
-        </span>
-        ),
-      );
-    }
+<span class="keyword">class</span><span class="w"> </span><span class="class">_MyWidgetState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">MyWidget</span><span class="operator">&gt;</span>
+<span class="w">    </span><span class="keyword">with</span><span class="w"> </span><span class="name">SingleTickerProviderStateMixin</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">AnimationController</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         dispose
-        </span>
-        () {
-      _controller.
-        <span class="function">
-         dispose
-        </span>
-        ();
-        <span class="comment">
-         // Always dispose!
-        </span>
-        <span class="keyword">
-         super
-        </span>
-        .
-        <span class="function">
-         dispose
-        </span>
-        ();
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">_controller</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">AnimationController</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">vsync:</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">,</span>
+
+<span class="w">      </span><span class="comment">// Required for performance</span>
+<span class="w">      </span><span class="nl">duration:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="number">1</span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">dispose</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="comment">// Always dispose!</span>
+
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <h3>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<h3>
        Tween
       </h3>
-      <p>
+<p>
        Defines the interpolation between two values. While
        <code>
         AnimationController
@@ -1670,99 +1289,38 @@
        </code>
        maps these to your desired range or type.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Common Tween Types
        </span>
-       <code>
-        <span class="comment">
-         // Double Tween
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        tween = Tween&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt;(begin:
-        <span class="number">
-         0
-        </span>
-        , end:
-        <span class="number">
-         200
-        </span>
-        );
-        <span class="comment">
-         // Color Tween
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        colorTween = ColorTween(begin: Colors.blue, end: Colors.red);
-        <span class="comment">
-         // Size Tween
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        sizeTween = Tween&lt;Size&gt;(
-    begin: Size(
-        <span class="number">
-         50
-        </span>
-        ,
-        <span class="number">
-         50
-        </span>
-        ),
-    end: Size(
-        <span class="number">
-         200
-        </span>
-        ,
-        <span class="number">
-         200
-        </span>
-        ),
-  );
-        <span class="comment">
-         // Int Tween
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        intTween = IntTween(begin:
-        <span class="number">
-         0
-        </span>
-        , end:
-        <span class="number">
-         100
-        </span>
-        );
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="comment">// Double Tween</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">tween</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="number">200</span><span class="punctuation">);</span>
+
+<span class="comment">// Color Tween</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">colorTween</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ColorTween</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">blue</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">);</span>
+
+<span class="comment">// Size Tween</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">sizeTween</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="name">Size</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="name">Size</span><span class="punctuation">(</span><span class="number">50</span><span class="punctuation">,</span><span class="w"> </span><span class="number">50</span><span class="punctuation">),</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="name">Size</span><span class="punctuation">(</span><span class="number">200</span><span class="punctuation">,</span><span class="w"> </span><span class="number">200</span><span class="punctuation">));</span>
+
+<span class="comment">// Int Tween</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">intTween</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">IntTween</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">);</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <h3>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<h3>
        CurvedAnimation
       </h3>
-      <p>
+<p>
        Applies a non-linear curve to an animation's progress. Flutter provides many
             pre-defined curves in the
        <code>
@@ -1770,708 +1328,296 @@
        </code>
        class.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Using CurvedAnimation
        </span>
-       <code>
-        <span class="keyword">
-         final
-        </span>
-        curvedAnimation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeInOut,
-    reverseCurve: Curves.easeOutIn,
-        <span class="comment">
-         // Optional
-        </span>
-        );
-        <span class="keyword">
-         final
-        </span>
-        animation = Tween&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt;(begin:
-        <span class="number">
-         0
-        </span>
-        , end:
-        <span class="number">
-         100
-        </span>
-        )
-      .
-        <span class="function">
-         animate
-        </span>
-        (curvedAnimation);
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">final</span><span class="w"> </span><span class="name">curvedAnimation</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">CurvedAnimation</span><span class="punctuation">(</span>
+<span class="w">  </span><span class="nl">parent:</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="nl">curve:</span><span class="w"> </span><span class="name">Curves</span><span class="punctuation">.</span><span class="name">easeInOut</span><span class="punctuation">,</span>
+<span class="w">  </span><span class="nl">reverseCurve:</span><span class="w"> </span><span class="name">Curves</span><span class="punctuation">.</span><span class="name">easeOutIn</span><span class="punctuation">,</span>
+
+<span class="w">  </span><span class="comment">// Optional</span>
+<span class="punctuation">);</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">animation</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">).</span><span class="name">animate</span><span class="punctuation">(</span><span class="name">curvedAnimation</span><span class="punctuation">);</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="curve-list">
-       <span class="curve-item">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="curve-list">
+<span class="curve-item">
         Curves.linear
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.easeIn
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.easeOut
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.easeInOut
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.bounceIn
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.bounceOut
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.elasticIn
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.elasticOut
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.fastOutSlowIn
        </span>
-       <span class="curve-item">
+<span class="curve-item">
         Curves.decelerate
        </span>
-      </div>
-     </div>
-     <!-- ===== SECTION 5: COMMON ANIMATION PATTERNS ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 5: COMMON ANIMATION PATTERNS ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Animation Patterns
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <h3>
+<span class="divider-line">
+</span>
+</div>
+<h3>
        1. Fade In/Out
       </h3>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Fade Animation
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         FadeAnimation
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    _FadeAnimationState
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _FadeAnimationState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _FadeAnimationState
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;FadeAnimation&gt;
-        <span class="keyword">
-         with
-        </span>
-        SingleTickerProviderStateMixin {
-        <span class="keyword">
-         late
-        </span>
-        AnimationController _controller;
-        <span class="keyword">
-         late
-        </span>
-        Animation&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt; _animation;
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">FadeAnimation</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">_FadeAnimationState</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_FadeAnimationState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .
-        <span class="function">
-         initState
-        </span>
-        ();
-      _controller = AnimationController(
-        duration: Duration(seconds:
-        <span class="number">
-         2
-        </span>
-        ),
-        vsync:
-        <span class="keyword">
-         this
-        </span>
-        ,
-      );
-      _animation = Tween&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt;(begin:
-        <span class="number">
-         0
-        </span>
-        , end:
-        <span class="number">
-         1
-        </span>
-        )
-          .
-        <span class="function">
-         animate
-        </span>
-        (_controller);
-    }
+<span class="keyword">class</span><span class="w"> </span><span class="class">_FadeAnimationState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">FadeAnimation</span><span class="operator">&gt;</span>
+<span class="w">    </span><span class="keyword">with</span><span class="w"> </span><span class="name">SingleTickerProviderStateMixin</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">AnimationController</span><span class="w"> </span><span class="name">_controller</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         dispose
-        </span>
-        () {
-      _controller.
-        <span class="function">
-         dispose
-        </span>
-        ();
-        <span class="keyword">
-         super
-        </span>
-        .
-        <span class="function">
-         dispose
-        </span>
-        ();
-    }
+<span class="w">  </span><span class="keyword">late</span><span class="w"> </span><span class="name">Animation</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_animation</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Column(
-        children: [
-          FadeTransition(
-            opacity: _animation,
-            child: FlutterLogo(size:
-        <span class="number">
-         100
-        </span>
-        ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-        <span class="keyword">
-         if
-        </span>
-        (_controller.status == AnimationStatus.completed) {
-                _controller.
-        <span class="function">
-         reverse
-        </span>
-        ();
-              }
-        <span class="keyword">
-         else
-        </span>
-        {
-                _controller.
-        <span class="function">
-         forward
-        </span>
-        ();
-              }
-            },
-            child: Text(
-        <span class="string">
-         'Toggle Fade'
-        </span>
-        ),
-          ),
-        ],
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">_controller</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">AnimationController</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">duration:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="number">2</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">vsync:</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">    </span><span class="name">_animation</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="number">1</span><span class="punctuation">).</span><span class="name">animate</span><span class="punctuation">(</span><span class="name">_controller</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">dispose</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">dispose</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">        </span><span class="name">FadeTransition</span><span class="punctuation">(</span><span class="nl">opacity:</span><span class="w"> </span><span class="name">_animation</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">child:</span><span class="w"> </span><span class="name">FlutterLogo</span><span class="punctuation">(</span><span class="nl">size:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">)),</span>
+<span class="w">        </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">            </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">status</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="name">AnimationStatus</span><span class="punctuation">.</span><span class="name">completed</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">reverse</span><span class="punctuation">();</span>
+<span class="w">            </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="name">_controller</span><span class="punctuation">.</span><span class="name">forward</span><span class="punctuation">();</span>
+<span class="w">            </span><span class="punctuation">}</span>
+<span class="w">          </span><span class="punctuation">},</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Toggle Fade'</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">],</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <h3>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<h3>
        2. Scale Animation
       </h3>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Scale Animation
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ScaleAnimation
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        AnimationController controller;
-        <span class="function">
-         ScaleAnimation
-        </span>
-        ({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .controller});
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">ScaleAnimation</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">AnimationController</span><span class="w"> </span><span class="name">controller</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        ScaleTransition(
-        scale: Tween&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt;(begin:
-        <span class="number">
-         0.5
-        </span>
-        , end:
-        <span class="number">
-         1.5
-        </span>
-        )
-            .
-        <span class="function">
-         animate
-        </span>
-        (CurvedAnimation(
-          parent: controller,
-          curve: Curves.easeOutBack,
-        )),
-        child: Container(
-          width:
-        <span class="number">
-         100
-        </span>
-        ,
-          height:
-        <span class="number">
-         100
-        </span>
-        ,
-          color: Colors.green,
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="name">ScaleAnimation</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">controller</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">ScaleTransition</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">scale:</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">begin:</span><span class="w"> </span><span class="number">0.5</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">end:</span><span class="w"> </span><span class="number">1.5</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="punctuation">).</span><span class="name">animate</span><span class="punctuation">(</span><span class="name">CurvedAnimation</span><span class="punctuation">(</span><span class="nl">parent:</span><span class="w"> </span><span class="name">controller</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">curve:</span><span class="w"> </span><span class="name">Curves</span><span class="punctuation">.</span><span class="name">easeOutBack</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">Container</span><span class="punctuation">(</span><span class="nl">width:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">height:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">green</span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <h3>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<h3>
        3. Rotation Animation
       </h3>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Rotation Animation
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         RotationAnimation
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        AnimationController controller;
-        <span class="function">
-         RotationAnimation
-        </span>
-        ({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .controller});
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">RotationAnimation</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">AnimationController</span><span class="w"> </span><span class="name">controller</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        RotationTransition(
-        turns: Tween&lt;
-        <span class="keyword">
-         double
-        </span>
-        &gt;(begin:
-        <span class="number">
-         0
-        </span>
-        , end:
-        <span class="number">
-         1
-        </span>
-        )
-            .
-        <span class="function">
-         animate
-        </span>
-        (controller),
-        child: Container(
-          width:
-        <span class="number">
-         100
-        </span>
-        ,
-          height:
-        <span class="number">
-         100
-        </span>
-        ,
-          color: Colors.orange,
-        ),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="name">RotationAnimation</span><span class="punctuation">({</span><span class="keyword">required</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">controller</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">RotationTransition</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">turns:</span><span class="w"> </span><span class="name">Tween</span><span class="operator">&lt;</span><span class="keyword">double</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="nl">begin:</span><span class="w"> </span><span class="number">0</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">end:</span><span class="w"> </span><span class="number">1</span><span class="punctuation">).</span><span class="name">animate</span><span class="punctuation">(</span><span class="name">controller</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="name">Container</span><span class="punctuation">(</span><span class="nl">width:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">height:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">orange</span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <h3>
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<h3>
        4. Animated List
       </h3>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         AnimatedList Example
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         AnimatedListWidget
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    _AnimatedListWidgetState
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _AnimatedListWidgetState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _AnimatedListWidgetState
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;AnimatedListWidget&gt; {
-        <span class="keyword">
-         final
-        </span>
-        GlobalKey&lt;AnimatedListState&gt; _listKey = GlobalKey&lt;AnimatedListState&gt;();
-        <span class="keyword">
-         final
-        </span>
-        List&lt;String&gt; _items = [];
-        <span class="keyword">
-         int
-        </span>
-        _counter =
-        <span class="number">
-         0
-        </span>
-        ;
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         _addItem
-        </span>
-        () {
-      _counter++;
-      _items.
-        <span class="function">
-         insert
-        </span>
-        (
-        <span class="number">
-         0
-        </span>
-        ,
-        <span class="string">
-         'Item $_counter'
-        </span>
-        );
-      _listKey.currentState?.
-        <span class="function">
-         insertItem
-        </span>
-        (
-        <span class="number">
-         0
-        </span>
-        );
-    }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         _removeItem
-        </span>
-        (
-        <span class="keyword">
-         int
-        </span>
-        index) {
-      _items.
-        <span class="function">
-         removeAt
-        </span>
-        (index);
-      _listKey.currentState?.
-        <span class="function">
-         removeItem
-        </span>
-        (
-        index,
-        (context, animation) {
-        <span class="keyword">
-         return
-        </span>
-        SizeTransition(
-            sizeFactor: animation,
-            child: Card(child: ListTile(title: Text(
-        <span class="string">
-         'Removing...'
-        </span>
-        ))),
-          );
-        },
-        duration: Duration(milliseconds:
-        <span class="number">
-         300
-        </span>
-        ),
-      );
-    }
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">AnimatedListWidget</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">_AnimatedListWidgetState</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_AnimatedListWidgetState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Column(
-        children: [
-          ElevatedButton(
-            onPressed: _addItem,
-            child: Text(
-        <span class="string">
-         'Add Item'
-        </span>
-        ),
-          ),
-          Expanded(
-            child: AnimatedList(
-              key: _listKey,
-              initialItemCount: _items.
-        <span class="function">
-         length
-        </span>
-        ,
-              itemBuilder: (context, index, animation) {
-        <span class="keyword">
-         return
-        </span>
-        SizeTransition(
-                  sizeFactor: animation,
-                  child: ListTile(
-                    title: Text(_items[index]),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () =&gt; _removeItem(index),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">_AnimatedListWidgetState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">AnimatedListWidget</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">GlobalKey</span><span class="operator">&lt;</span><span class="name">AnimatedListState</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_listKey</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">GlobalKey</span><span class="operator">&lt;</span><span class="name">AnimatedListState</span><span class="operator">&gt;</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_items</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="punctuation">[];</span>
+
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="name">_counter</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="number">0</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">_addItem</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_counter</span><span class="operator">++</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="name">_items</span><span class="punctuation">.</span><span class="name">insert</span><span class="punctuation">(</span><span class="number">0</span><span class="punctuation">,</span><span class="w"> </span><span class="string">'Item </span><span class="si">$</span><span class="name">_counter</span><span class="string">'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="name">_listKey</span><span class="punctuation">.</span><span class="name">currentState</span><span class="operator">?</span><span class="punctuation">.</span><span class="name">insertItem</span><span class="punctuation">(</span><span class="number">0</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">_removeItem</span><span class="punctuation">(</span><span class="keyword">int</span><span class="w"> </span><span class="name">index</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_items</span><span class="punctuation">.</span><span class="name">removeAt</span><span class="punctuation">(</span><span class="name">index</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="name">_listKey</span><span class="punctuation">.</span><span class="name">currentState</span><span class="operator">?</span><span class="punctuation">.</span><span class="name">removeItem</span><span class="punctuation">(</span><span class="name">index</span><span class="punctuation">,</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">animation</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">SizeTransition</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">sizeFactor:</span><span class="w"> </span><span class="name">animation</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Card</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">ListTile</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Removing...'</span><span class="punctuation">))),</span>
+<span class="w">      </span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">},</span><span class="w"> </span><span class="nl">duration:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">milliseconds:</span><span class="w"> </span><span class="number">300</span><span class="punctuation">));</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">        </span><span class="name">ElevatedButton</span><span class="punctuation">(</span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_addItem</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Add Item'</span><span class="punctuation">)),</span>
+<span class="w">        </span><span class="name">Expanded</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">AnimatedList</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">key:</span><span class="w"> </span><span class="name">_listKey</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">initialItemCount:</span><span class="w"> </span><span class="name">_items</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">itemBuilder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">index</span><span class="punctuation">,</span><span class="w"> </span><span class="name">animation</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="keyword">return</span><span class="w"> </span><span class="name">SizeTransition</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">sizeFactor:</span><span class="w"> </span><span class="name">animation</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">child:</span><span class="w"> </span><span class="name">ListTile</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="name">_items</span><span class="punctuation">[</span><span class="name">index</span><span class="punctuation">]),</span>
+<span class="w">                  </span><span class="nl">trailing:</span><span class="w"> </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">delete</span><span class="punctuation">),</span>
+<span class="w">                    </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_removeItem</span><span class="punctuation">(</span><span class="name">index</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">);</span>
+<span class="w">            </span><span class="punctuation">},</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">],</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 6: STEP-BY-STEP IMPLEMENTATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Step-by-Step Implementation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Follow these steps to implement animations in your Flutter app:
       </p>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Choose your approach
          </strong>
          – Implicit for simple animations, Explicit for custom control
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Create AnimationController
          </strong>
          – Add
@@ -2480,24 +1626,24 @@
          </code>
          to your state
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Define Tweens
          </strong>
          – Map 0.0-1.0 to your desired values
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Apply curves
          </strong>
          – Use
@@ -2506,24 +1652,24 @@
          </code>
          for non-linear motion
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Use AnimatedBuilder or built-in transitions
          </strong>
          – Rebuild only the animated parts
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          6.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Control the animation
          </strong>
          – Call
@@ -2538,14 +1684,14 @@
          <code>
           repeat()
          </code>
-        </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+</div>
+<div class="step-item">
+<span class="step-number">
          7.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Dispose
          </strong>
          – Always call
@@ -2554,35 +1700,35 @@
          </code>
          on controllers
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Forgetting to dispose AnimationController
        </div>
-       <p>
+<p>
         Not disposing
         <code>
          AnimationController
         </code>
         causes memory leaks and performance issues.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Always dispose
        </div>
-       <p>
+<p>
         Always call
         <code>
          _controller.dispose()
@@ -2593,24 +1739,24 @@
         </code>
         method of your State.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Using setState in animation listeners
        </div>
-       <p>
+<p>
         Calling
         <code>
          setState()
         </code>
         in animation listeners rebuilds too much and hurts performance.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use AnimatedBuilder
        </div>
-       <p>
+<p>
         Use
         <code>
          AnimatedBuilder
@@ -2621,47 +1767,47 @@
         </code>
         to rebuild only the animated parts.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Hardcoding durations
        </div>
-       <p>
+<p>
         Hardcoding animation durations makes it harder to adjust for different devices and preferences.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use theme or constants
        </div>
-       <p>
+<p>
         Define animation durations in a central place or use Theme data for consistent timing.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 4: Over-animating
        </div>
-       <p>
+<p>
         Adding animations everywhere can make the app feel slow and overwhelming.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use animations purposefully
        </div>
-       <p>
+<p>
         Use animations to guide attention, provide feedback, and communicate state changes — not just for decoration.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
-       <strong>
+<p>
+<strong>
         Animations
        </strong>
        are essential for creating polished, intuitive Flutter apps.
@@ -2700,124 +1846,124 @@
        </strong>
        .
       </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module6-topic1-custom-widgets.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module6-topic1-custom-widgets.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Custom Widgets
       </a>
-      <a class="btn btn-primary btn-sm" href="module6-topic3-hero-animations.html">
+<a class="btn btn-primary btn-sm" href="module6-topic3-hero-animations.html">
        Next: Hero Animations
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="../module6-advanced-flutter.html">
+</li>
+<li>
+<a href="../module6-advanced-flutter.html">
          Module 6
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
          Flutter Animation Docs
         </a>
-       </li>
-       <li>
-        <a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://docs.flutter.dev/ui/animations" rel="noopener" target="_blank">
          Animation Guide
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
          Flutter GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/ui/animations" style="color: var(--text-muted);" target="_blank">
        Flutter Official Documentation
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -2931,7 +2077,7 @@
       }
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -3006,25 +2152,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -3081,5 +2210,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>

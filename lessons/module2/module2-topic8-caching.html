@@ -1,27 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<head>
+<script id="theme-layout-fix">
+    (function() {
+      try {
+        // 1. Theme Fix
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // 2. Sidebar Layout Fix
+        // Pre-allocate space for the sidebar to prevent content overlap
+        if (window.innerWidth >= 1025) {
+          var savedCollapse = localStorage.getItem('sidebar_collapsed');
+          // Default to collapsed (60px)
+          var isCollapsed = savedCollapse === 'true' || savedCollapse === null;
+          var sidebarWidth = isCollapsed ? '60px' : '360px';
+          
+          // Force CSS variable on root immediately
+          document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Caching – Module 2 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn how to implement caching in Flutter. Master cache managers, local storage, offline-first patterns, and efficient data persistence." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn how to implement caching in Flutter. Master cache managers, local storage, offline-first patterns, and efficient data persistence." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
@@ -414,7 +440,6 @@
       }
     }
 /* High default limit for fully expanded blocks */
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
@@ -434,25 +459,6 @@
     transition: opacity 0.3s ease;
 }
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
@@ -463,25 +469,18 @@
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
 /* ===== AUTOMATED EXPAND/COLLAPSE & ENHANCEMENTS ===== */
 .code-block {
     position: relative !important;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     max-height: 6000px; /* High default limit for fully expanded blocks */
 }
-
 /* Collapsed state with clean layout limits */
 .code-block.collapsed {
     max-height: 170px !important;
     overflow: hidden !important;
 }
-
 /* Elegant visual fade out wash indicating content continues below */
 .code-block.collapsed::after {
     content: '';
@@ -495,45 +494,18 @@
     z-index: 4;
     transition: opacity 0.3s ease;
 }
-
 /* Style for the modern Expand/Collapse Trigger Button */
-.toggle-expand-btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 5.2rem; /* Positions flawlessly to the left of the copy button */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Inter', sans-serif;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1.4;
-}
-
 .toggle-expand-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: var(--primary-light, #8B5CF6);
 }
-
 /* Ultra-responsive micro adjustments */
 @media (max-width: 520px) {
     .code-block .code-label {
         display: none !important; /* Prevents text colliding on mobile viewports */
     }
-    .toggle-expand-btn {
-        right: 4.8rem;
-    }
 }
-
-
     /* ===== FIXED CODE BLOCK OVERRIDES ===== */
     .code-block {
         position: relative !important;
@@ -551,16 +523,6 @@
         font-size: var(--font-xs) !important;
         color: rgba(255, 255, 255, 0.6) !important;
     }
-    .toggle-expand-btn {
-        position: absolute !important;
-        top: 0.5rem !important;
-        right: 5.5rem !important; /* Positioned clearly left of copy button */
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 0.25rem 0.6rem !important;
-        border-radius: 4px !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-    }
     .copy-btn {
         position: absolute !important;
         top: 0.5rem !important;
@@ -576,9 +538,8 @@
         color: #ffffff !important;
     }
   </style>
-  <style id="dynamic-code-block-styles">
-   /* ===== UTILITY STYLES FOR CODE BLOCKS ===== */
-    .code-block {
+<style id="dynamic-code-block-styles">
+   .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
       max-height: 4000px; /* Safe upper bound to accommodate long scripts */
@@ -588,49 +549,11 @@
       max-height: 105px !important; /* Vertically shrinks block, showing label and top line */
       padding-bottom: 0.5rem !important;
     }
-    .collapse-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 6.2rem; /* Positioned carefully to the left of the copy button */
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .collapse-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
     /* Fallback styles for copy button if completely absent from stylesheet */
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.75rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 0.25rem 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      line-height: 1.4;
-    }
     .copy-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -641,144 +564,144 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="../module2-state-management.html">
+<a href="../module2-state-management.html">
         Module 2
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 8
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-globe">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-globe">
+</i>
        Module 2
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 8
       </div>
-      <h1>
+<h1>
        Caching
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Storing data locally for faster access, reduced network usage, and offline support.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://pub.dev/packages/cache_manager" target="_blank">
-        <i class="fas fa-box">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://pub.dev/packages/cache_manager" target="_blank">
+<i class="fas fa-box">
+</i>
         cache_manager package
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHAT IS CACHING ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS CACHING ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         What Is Caching?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
-       <strong>
+<span class="divider-line">
+</span>
+</div>
+<p>
+<strong>
         Caching
        </strong>
        is the process of storing copies of data in a local storage layer
@@ -792,116 +715,116 @@
        </strong>
        . It's essential for:
       </p>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          Performance
         </strong>
         – Faster data access (reading from disk or memory is faster than network)
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Bandwidth
         </strong>
         – Reduces data usage and API calls
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Offline support
         </strong>
         – Users can access data without an internet connection
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          User experience
         </strong>
         – No loading spinners for cached content
        </li>
-      </ul>
-      <div class="concept-card success">
-       <h4>
+</ul>
+<div class="concept-card success">
+<h4>
         🎯 The Caching Hierarchy
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           Memory Cache
          </strong>
          – Fastest, but cleared when app restarts
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Disk Cache
          </strong>
          – Slower than memory, but persists across app restarts
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Network
          </strong>
          – Slowest, but always fresh
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: CACHING STRATEGIES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 2: CACHING STRATEGIES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Caching Strategies
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        There are three main caching strategies used in Flutter apps:
       </p>
-      <div class="caching-strategies-grid">
-       <div class="caching-strategy-item" style="border-left: 3px solid #3B82F6;">
-        <div class="strategy-icon">
+<div class="caching-strategies-grid">
+<div class="caching-strategy-item" style="border-left: 3px solid #3B82F6;">
+<div class="strategy-icon">
          📦
         </div>
-        <div class="strategy-name">
+<div class="strategy-name">
          Memory Cache
         </div>
-        <div class="strategy-desc">
+<div class="strategy-desc">
          Store data in RAM for fast access
         </div>
-       </div>
-       <div class="caching-strategy-item" style="border-left: 3px solid #10B981;">
-        <div class="strategy-icon">
+</div>
+<div class="caching-strategy-item" style="border-left: 3px solid #10B981;">
+<div class="strategy-icon">
          💾
         </div>
-        <div class="strategy-name">
+<div class="strategy-name">
          Disk Cache
         </div>
-        <div class="strategy-desc">
+<div class="strategy-desc">
          Persist data to storage (SharedPreferences, Hive, SQLite)
         </div>
-       </div>
-       <div class="caching-strategy-item" style="border-left: 3px solid #F59E0B;">
-        <div class="strategy-icon">
+</div>
+<div class="caching-strategy-item" style="border-left: 3px solid #F59E0B;">
+<div class="strategy-icon">
          🔄
         </div>
-        <div class="strategy-name">
+<div class="strategy-name">
          Network Cache
         </div>
-        <div class="strategy-desc">
+<div class="strategy-desc">
          Use HTTP caching headers (ETag, Cache-Control)
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 3: SIMPLE MEMORY CACHE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 3: SIMPLE MEMORY CACHE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Simple Memory Cache
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        A memory cache stores data in a
        <code>
         Map
@@ -912,739 +835,315 @@
        </code>
        object. It's fast but cleared when the app restarts.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/cache/memory_cache.dart – Simple Memory Cache
        </span>
-       <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MemoryCache
-        </span>
-        &lt;K, V&gt; {
-        <span class="keyword">
-         final
-        </span>
-        Map&lt;K, V&gt; _cache = {};
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        maxSize;
-        <span class="function">
-         MemoryCache
-        </span>
-        ({
-        <span class="keyword">
-         this
-        </span>
-        .maxSize =
-        <span class="number">
-         100
-        </span>
-        });
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         put
-        </span>
-        (K key, V value) {
-        <span class="keyword">
-         if
-        </span>
-        (_cache.length &gt;= maxSize) {
-        <span class="comment">
-         // Simple LRU: remove the first entry
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        firstKey = _cache.keys.first;
-        _cache.remove(firstKey);
-      }
-      _cache[key] = value;
-    }
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">MemoryCache</span><span class="operator">&lt;</span><span class="name">K</span><span class="punctuation">,</span><span class="w"> </span><span class="name">V</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="name">K</span><span class="punctuation">,</span><span class="w"> </span><span class="name">V</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_cache</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="punctuation">{};</span>
 
-    V?
-        <span class="function">
-         get
-        </span>
-        (K key) {
-        <span class="keyword">
-         return
-        </span>
-        _cache[key];
-    }
-        <span class="keyword">
-         bool
-        </span>
-        <span class="function">
-         containsKey
-        </span>
-        (K key) {
-        <span class="keyword">
-         return
-        </span>
-        _cache.containsKey(key);
-    }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         remove
-        </span>
-        (K key) {
-      _cache.remove(key);
-    }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         clear
-        </span>
-        () {
-      _cache.clear();
-    }
-        <span class="keyword">
-         int
-        </span>
-        <span class="function">
-         get
-        </span>
-        size =&gt; _cache.length;
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">int</span><span class="w"> </span><span class="name">maxSize</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">MemoryCache</span><span class="punctuation">({</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">maxSize</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="number">100</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">put</span><span class="punctuation">(</span><span class="name">K</span><span class="w"> </span><span class="name">key</span><span class="punctuation">,</span><span class="w"> </span><span class="name">V</span><span class="w"> </span><span class="name">value</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">length</span><span class="w"> </span><span class="operator">&gt;=</span><span class="w"> </span><span class="name">maxSize</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// Simple LRU: remove the first entry</span>
+
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">firstKey</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">keys</span><span class="punctuation">.</span><span class="name">first</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">remove</span><span class="punctuation">(</span><span class="name">firstKey</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">    </span><span class="name">_cache</span><span class="punctuation">[</span><span class="name">key</span><span class="punctuation">]</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">value</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">V</span><span class="operator">?</span><span class="w"> </span><span class="keyword">get</span><span class="punctuation">(</span><span class="name">K</span><span class="w"> </span><span class="name">key</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">_cache</span><span class="punctuation">[</span><span class="name">key</span><span class="punctuation">];</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">bool</span><span class="w"> </span><span class="name">containsKey</span><span class="punctuation">(</span><span class="name">K</span><span class="w"> </span><span class="name">key</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">containsKey</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">remove</span><span class="punctuation">(</span><span class="name">K</span><span class="w"> </span><span class="name">key</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">remove</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">clear</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">clear</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">int</span><span class="w"> </span><span class="keyword">get</span><span class="w"> </span><span class="name">size</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/cache/album_cache.dart – Using the Cache
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'memory_cache.dart'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         AlbumCache
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        MemoryCache&lt;String, Map&lt;String, dynamic&gt;&gt; _cache = MemoryCache();
-        <span class="comment">
-         // Cache key with a timeout
-        </span>
-        <span class="keyword">
-         static
-        </span>
-        <span class="keyword">
-         const
-        </span>
-        Duration cacheDuration = Duration(minutes:
-        <span class="number">
-         5
-        </span>
-        );
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         put
-        </span>
-        (String id, Map&lt;String, dynamic&gt; album) {
-      _cache.put(id, album);
-    }
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'memory_cache.dart'</span><span class="punctuation">;</span>
 
-    Map&lt;String, dynamic&gt;?
-        <span class="function">
-         get
-        </span>
-        (String id) {
-        <span class="keyword">
-         return
-        </span>
-        _cache.get(id);
-    }
-        <span class="keyword">
-         bool
-        </span>
-        <span class="function">
-         has
-        </span>
-        (String id) {
-        <span class="keyword">
-         return
-        </span>
-        _cache.containsKey(id);
-    }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         clear
-        </span>
-        () {
-      _cache.clear();
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">AlbumCache</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">MemoryCache</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">_cache</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">MemoryCache</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="comment">// Cache key with a timeout</span>
+
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="keyword">const</span><span class="w"> </span><span class="name">Duration</span><span class="w"> </span><span class="name">cacheDuration</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">minutes:</span><span class="w"> </span><span class="number">5</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">put</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">,</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">album</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">put</span><span class="punctuation">(</span><span class="name">id</span><span class="punctuation">,</span><span class="w"> </span><span class="name">album</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;?</span><span class="w"> </span><span class="keyword">get</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">_cache</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span><span class="name">id</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">bool</span><span class="w"> </span><span class="name">has</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">id</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">containsKey</span><span class="punctuation">(</span><span class="name">id</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">clear</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_cache</span><span class="punctuation">.</span><span class="name">clear</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: CACHE_MANAGER PACKAGE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 4: CACHE_MANAGER PACKAGE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         cache_manager Package
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        The
        <a href="https://pub.dev/packages/cache_manager" style="color: var(--primary);" target="_blank">
         cache_manager
        </a>
        package provides a comprehensive caching solution with disk persistence and HTTP caching support.
       </p>
-      <div class="concept-card info">
-       <h4>
+<div class="concept-card info">
+<h4>
         📦 cache_manager Features
        </h4>
-       <ul>
-        <li>
-         <strong>
+<ul>
+<li>
+<strong>
           Disk caching
          </strong>
          – Persist data to local storage
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           HTTP caching
          </strong>
          – Respects Cache-Control headers
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Customizable
          </strong>
          – Configure cache duration and size
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Stream support
          </strong>
          – Works with images and files
         </li>
-        <li>
-         <strong>
+<li>
+<strong>
           Offline-first
          </strong>
          – Serve cached data when offline
         </li>
-       </ul>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+</ul>
+</div>
+<div class="code-block collapsed"><span class="code-label">
         pubspec.yaml – Add dependency
        </span>
-       <code>
+<code>
         dependencies:
-    flutter_cache_manager: ^3.4.0
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+    flutter_cache_manager: ^3.4.0</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/cache/cache_service.dart – Cache Manager Setup
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter_cache_manager/flutter_cache_manager.dart'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         CustomCacheManager
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        BaseCacheManager {
-        <span class="keyword">
-         static
-        </span>
-        <span class="keyword">
-         const
-        </span>
-        String key =
-        <span class="string">
-         'customCache'
-        </span>
-        ;
-        <span class="keyword">
-         static
-        </span>
-        CustomCacheManager? _instance;
-        <span class="function">
-         CustomCacheManager
-        </span>
-        ._()
-        :
-        <span class="keyword">
-         super
-        </span>
-        (
-            key,
-            maxAgeCacheObject: Duration(days:
-        <span class="number">
-         7
-        </span>
-        ),
-            maxNrOfCacheObjects:
-        <span class="number">
-         100
-        </span>
-        ,
-            repo: CacheObjectRepository(),
-          );
-        <span class="keyword">
-         static
-        </span>
-        CustomCacheManager
-        <span class="function">
-         get
-        </span>
-        instance {
-      _instance ??= CustomCacheManager._();
-        <span class="keyword">
-         return
-        </span>
-        _instance!;
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter_cache_manager/flutter_cache_manager.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">CustomCacheManager</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">BaseCacheManager</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="keyword">const</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">key</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'customCache'</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="name">CustomCacheManager</span><span class="operator">?</span><span class="w"> </span><span class="name">_instance</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">CustomCacheManager</span><span class="punctuation">.</span><span class="name">_</span><span class="punctuation">()</span>
+<span class="w">    </span><span class="operator">:</span><span class="w"> </span><span class="keyword">super</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="name">key</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">maxAgeCacheObject:</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">days:</span><span class="w"> </span><span class="number">7</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">maxNrOfCacheObjects:</span><span class="w"> </span><span class="number">100</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">repo:</span><span class="w"> </span><span class="name">CacheObjectRepository</span><span class="punctuation">(),</span>
+<span class="w">      </span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="name">CustomCacheManager</span><span class="w"> </span><span class="keyword">get</span><span class="w"> </span><span class="name">instance</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">_instance</span><span class="w"> </span><span class="operator">??=</span><span class="w"> </span><span class="name">CustomCacheManager</span><span class="punctuation">.</span><span class="name">_</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">_instance</span><span class="operator">!</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         lib/services/api_service.dart – Using Cache Manager
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:http/http.dart'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        http;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         '../cache/cache_service.dart'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ApiService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        http.Client client;
-        <span class="keyword">
-         final
-        </span>
-        CustomCacheManager cacheManager;
-        <span class="function">
-         ApiService
-        </span>
-        ({
-      http.Client? client,
-      CustomCacheManager? cacheManager,
-    })  : client = client ?? http.Client(),
-          cacheManager = cacheManager ?? CustomCacheManager.instance;
-        <span class="comment">
-         // Method 1: Using cache for GET requests
-        </span>
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Map&lt;String, dynamic&gt;&gt;
-        <span class="function">
-         fetchDataWithCache
-        </span>
-        (String url) async {
-        <span class="comment">
-         // Check cache first
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        cachedFile = await cacheManager.getFileFromCache(url);
-        <span class="keyword">
-         if
-        </span>
-        (cachedFile !=
-        <span class="keyword">
-         null
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        content = await cachedFile.file.readAsString();
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(content)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-      }
-        <span class="comment">
-         // Fetch from network if not cached
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        response = await client.get(
-        Uri.parse(url),
-        headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-      );
-        <span class="keyword">
-         if
-        </span>
-        (response.statusCode ==
-        <span class="number">
-         200
-        </span>
-        ) {
-        <span class="comment">
-         // Save to cache
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        cacheManager.putFile(
-          url,
-          response.bodyBytes,
-          key: url,
-        );
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(response.body)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-      }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="keyword">
-         throw
-        </span>
-        Exception(
-        <span class="string">
-         'Failed to fetch data: ${response.statusCode}'
-        </span>
-        );
-      }
-    }
-        <span class="comment">
-         // Method 2: Get data (with offline support)
-        </span>
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Map&lt;String, dynamic&gt;&gt;
-        <span class="function">
-         fetchDataWithOfflineSupport
-        </span>
-        (String url) async {
-        <span class="keyword">
-         try
-        </span>
-        {
-        <span class="comment">
-         // Try network first
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        response = await client.get(
-          Uri.parse(url),
-          headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-        );
-        <span class="keyword">
-         if
-        </span>
-        (response.statusCode ==
-        <span class="number">
-         200
-        </span>
-        ) {
-        <span class="comment">
-         // Update cache with fresh data
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        cacheManager.putFile(
-            url,
-            response.bodyBytes,
-            key: url,
-          );
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(response.body)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-        }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="comment">
-         // If network fails, try cache
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        cachedFile = await cacheManager.getFileFromCache(url);
-        <span class="keyword">
-         if
-        </span>
-        (cachedFile !=
-        <span class="keyword">
-         null
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        content = await cachedFile.file.readAsString();
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(content)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-          }
-        <span class="keyword">
-         throw
-        </span>
-        Exception(
-        <span class="string">
-         'No data available offline'
-        </span>
-        );
-        }
-      }
-        <span class="keyword">
-         catch
-        </span>
-        (e) {
-        <span class="comment">
-         // If network fails, fall back to cache
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        cachedFile = await cacheManager.getFileFromCache(url);
-        <span class="keyword">
-         if
-        </span>
-        (cachedFile !=
-        <span class="keyword">
-         null
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        content = await cachedFile.file.readAsString();
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(content)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-        }
-        <span class="keyword">
-         throw
-        </span>
-        Exception(
-        <span class="string">
-         'Network error and no cached data available'
-        </span>
-        );
-      }
-    }
-        <span class="comment">
-         // Clear cache
-        </span>
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         clearCache
-        </span>
-        () async {
-        <span class="keyword">
-         await
-        </span>
-        cacheManager.emptyCache();
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:http/http.dart'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">http</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'../cache/cache_service.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">ApiService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="w"> </span><span class="name">client</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">CustomCacheManager</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">ApiService</span><span class="punctuation">({</span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="operator">?</span><span class="w"> </span><span class="name">client</span><span class="punctuation">,</span><span class="w"> </span><span class="name">CustomCacheManager</span><span class="operator">?</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">})</span>
+<span class="w">    </span><span class="operator">:</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="punctuation">(),</span>
+<span class="w">      </span><span class="name">cacheManager</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">cacheManager</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">CustomCacheManager</span><span class="punctuation">.</span><span class="name">instance</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="comment">// Method 1: Using cache for GET requests</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">fetchDataWithCache</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">url</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="comment">// Check cache first</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">cachedFile</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">.</span><span class="name">getFileFromCache</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">cachedFile</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">content</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">cachedFile</span><span class="punctuation">.</span><span class="name">file</span><span class="punctuation">.</span><span class="name">readAsString</span><span class="punctuation">();</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">content</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span>
+
+<span class="w">    </span><span class="comment">// Fetch from network if not cached</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">    </span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">200</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// Save to cache</span>
+
+<span class="w">      </span><span class="keyword">await</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">.</span><span class="name">putFile</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">,</span><span class="w"> </span><span class="name">response</span><span class="punctuation">.</span><span class="name">bodyBytes</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">key:</span><span class="w"> </span><span class="name">url</span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">Exception</span><span class="punctuation">(</span><span class="string">'Failed to fetch data: </span><span class="si">${</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="si">}</span><span class="string">'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Method 2: Get data (with offline support)</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">fetchDataWithOfflineSupport</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">url</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">try</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// Try network first</span>
+
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">      </span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">200</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="comment">// Update cache with fresh data</span>
+
+<span class="w">        </span><span class="keyword">await</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">.</span><span class="name">putFile</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">,</span><span class="w"> </span><span class="name">response</span><span class="punctuation">.</span><span class="name">bodyBytes</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">key:</span><span class="w"> </span><span class="name">url</span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="comment">// If network fails, try cache</span>
+
+<span class="w">        </span><span class="keyword">final</span><span class="w"> </span><span class="name">cachedFile</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">.</span><span class="name">getFileFromCache</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">);</span>
+
+<span class="w">        </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">cachedFile</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">          </span><span class="keyword">final</span><span class="w"> </span><span class="name">content</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">cachedFile</span><span class="punctuation">.</span><span class="name">file</span><span class="punctuation">.</span><span class="name">readAsString</span><span class="punctuation">();</span>
+
+<span class="w">          </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">content</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">        </span><span class="punctuation">}</span>
+
+<span class="w">        </span><span class="keyword">throw</span><span class="w"> </span><span class="name">Exception</span><span class="punctuation">(</span><span class="string">'No data available offline'</span><span class="punctuation">);</span>
+<span class="w">      </span><span class="punctuation">}</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">catch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">e</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// If network fails, fall back to cache</span>
+
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">cachedFile</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">.</span><span class="name">getFileFromCache</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">cachedFile</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">final</span><span class="w"> </span><span class="name">content</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">cachedFile</span><span class="punctuation">.</span><span class="name">file</span><span class="punctuation">.</span><span class="name">readAsString</span><span class="punctuation">();</span>
+
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">content</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">Exception</span><span class="punctuation">(</span><span class="string">'Network error and no cached data available'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Clear cache</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">clearCache</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">cacheManager</span><span class="punctuation">.</span><span class="name">emptyCache</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 5: OFFLINE-FIRST STRATEGY ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 5: OFFLINE-FIRST STRATEGY ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Offline-First Strategy
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        An
        <strong>
         offline-first
@@ -1652,1180 +1151,457 @@
        strategy ensures your app works even without an internet connection
             by serving cached data when the network is unavailable.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/services/offline_service.dart – Offline-First Service
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:connectivity_plus/connectivity_plus.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:http/http.dart'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        http;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:shared_preferences/shared_preferences.dart'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         OfflineService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        http.Client client;
-        <span class="keyword">
-         final
-        </span>
-        String cacheKeyPrefix =
-        <span class="string">
-         'cached_data_'
-        </span>
-        ;
-        <span class="function">
-         OfflineService
-        </span>
-        ({http.Client? client}) : client = client ?? http.Client();
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Map&lt;String, dynamic&gt;&gt;
-        <span class="function">
-         fetchData
-        </span>
-        (String url) async {
-        <span class="keyword">
-         final
-        </span>
-        connectivityResult = await Connectivity().checkConnectivity();
-        <span class="comment">
-         // If we have internet, fetch fresh data
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (connectivityResult != ConnectivityResult.none) {
-        <span class="keyword">
-         return
-        </span>
-        _fetchFromNetwork(url);
-      }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="comment">
-         // If no internet, try to load from cache
-        </span>
-        <span class="keyword">
-         return
-        </span>
-        _loadFromCache(url);
-      }
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Map&lt;String, dynamic&gt;&gt;
-        <span class="function">
-         _fetchFromNetwork
-        </span>
-        (String url) async {
-        <span class="keyword">
-         final
-        </span>
-        response = await client.get(
-        Uri.parse(url),
-        headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-      );
-        <span class="keyword">
-         if
-        </span>
-        (response.statusCode ==
-        <span class="number">
-         200
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        data = jsonDecode(response.body)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-        <span class="comment">
-         // Save to cache for offline use
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        _saveToCache(url, data);
-        <span class="keyword">
-         return
-        </span>
-        data;
-      }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="comment">
-         // If network returns error, fall back to cache
-        </span>
-        <span class="keyword">
-         return
-        </span>
-        _loadFromCache(url);
-      }
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Map&lt;String, dynamic&gt;&gt;
-        <span class="function">
-         _loadFromCache
-        </span>
-        (String url) async {
-        <span class="keyword">
-         final
-        </span>
-        prefs = await SharedPreferences.getInstance();
-        <span class="keyword">
-         final
-        </span>
-        cacheKey =
-        <span class="string">
-         '$cacheKeyPrefix$url'
-        </span>
-        ;
-        <span class="keyword">
-         final
-        </span>
-        cachedData = prefs.getString(cacheKey);
-        <span class="keyword">
-         if
-        </span>
-        (cachedData !=
-        <span class="keyword">
-         null
-        </span>
-        ) {
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(cachedData)
-        <span class="keyword">
-         as
-        </span>
-        Map&lt;String, dynamic&gt;;
-      }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="keyword">
-         throw
-        </span>
-        Exception(
-        <span class="string">
-         'No cached data available'
-        </span>
-        );
-      }
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         _saveToCache
-        </span>
-        (String url, Map&lt;String, dynamic&gt; data) async {
-        <span class="keyword">
-         final
-        </span>
-        prefs = await SharedPreferences.getInstance();
-        <span class="keyword">
-         final
-        </span>
-        cacheKey =
-        <span class="string">
-         '$cacheKeyPrefix$url'
-        </span>
-        ;
-        <span class="keyword">
-         await
-        </span>
-        prefs.setString(cacheKey, jsonEncode(data));
-    }
-        <span class="comment">
-         // Clear all cached data
-        </span>
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         clearCache
-        </span>
-        () async {
-        <span class="keyword">
-         final
-        </span>
-        prefs = await SharedPreferences.getInstance();
-        <span class="keyword">
-         final
-        </span>
-        keys = prefs.getKeys().where((key) =&gt; key.startsWith(cacheKeyPrefix));
-        <span class="keyword">
-         for
-        </span>
-        (
-        <span class="keyword">
-         var
-        </span>
-        key
-        <span class="keyword">
-         in
-        </span>
-        keys) {
-        <span class="keyword">
-         await
-        </span>
-        prefs.remove(key);
-      }
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:connectivity_plus/connectivity_plus.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:http/http.dart'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">http</span><span class="punctuation">;</span>
+
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:shared_preferences/shared_preferences.dart'</span><span class="punctuation">;</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">OfflineService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="w"> </span><span class="name">client</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">cacheKeyPrefix</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'cached_data_'</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">OfflineService</span><span class="punctuation">({</span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="operator">?</span><span class="w"> </span><span class="name">client</span><span class="punctuation">})</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">fetchData</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">url</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">connectivityResult</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">Connectivity</span><span class="punctuation">().</span><span class="name">checkConnectivity</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="comment">// If we have internet, fetch fresh data</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">connectivityResult</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="name">ConnectivityResult</span><span class="punctuation">.</span><span class="name">none</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">_fetchFromNetwork</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// If no internet, try to load from cache</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">_loadFromCache</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">_fetchFromNetwork</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">url</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">    </span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">200</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">data</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+
+<span class="w">      </span><span class="comment">// Save to cache for offline use</span>
+
+<span class="w">      </span><span class="keyword">await</span><span class="w"> </span><span class="name">_saveToCache</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">,</span><span class="w"> </span><span class="name">data</span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">data</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// If network returns error, fall back to cache</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">_loadFromCache</span><span class="punctuation">(</span><span class="name">url</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">_loadFromCache</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">url</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">prefs</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">SharedPreferences</span><span class="punctuation">.</span><span class="name">getInstance</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">cacheKey</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'</span><span class="si">$</span><span class="name">cacheKeyPrefix</span><span class="si">$</span><span class="name">url</span><span class="string">'</span><span class="punctuation">;</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">cachedData</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">getString</span><span class="punctuation">(</span><span class="name">cacheKey</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">cachedData</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">cachedData</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">Exception</span><span class="punctuation">(</span><span class="string">'No cached data available'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_saveToCache</span><span class="punctuation">(</span><span class="keyword">String</span><span class="w"> </span><span class="name">url</span><span class="punctuation">,</span><span class="w"> </span><span class="name">Map</span><span class="operator">&lt;</span><span class="keyword">String</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">data</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">prefs</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">SharedPreferences</span><span class="punctuation">.</span><span class="name">getInstance</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">cacheKey</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'</span><span class="si">$</span><span class="name">cacheKeyPrefix</span><span class="si">$</span><span class="name">url</span><span class="string">'</span><span class="punctuation">;</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">setString</span><span class="punctuation">(</span><span class="name">cacheKey</span><span class="punctuation">,</span><span class="w"> </span><span class="name">jsonEncode</span><span class="punctuation">(</span><span class="name">data</span><span class="punctuation">));</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="comment">// Clear all cached data</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">clearCache</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">prefs</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">SharedPreferences</span><span class="punctuation">.</span><span class="name">getInstance</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">keys</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">getKeys</span><span class="punctuation">().</span><span class="name">where</span><span class="punctuation">((</span><span class="name">key</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">key</span><span class="punctuation">.</span><span class="name">startsWith</span><span class="punctuation">(</span><span class="name">cacheKeyPrefix</span><span class="punctuation">));</span>
+
+<span class="w">    </span><span class="keyword">for</span><span class="w"> </span><span class="punctuation">(</span><span class="keyword">var</span><span class="w"> </span><span class="name">key</span><span class="w"> </span><span class="keyword">in</span><span class="w"> </span><span class="name">keys</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">await</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">remove</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+<div class="code-block collapsed"><span class="code-label">
         pubspec.yaml – Add connectivity package
        </span>
-       <code>
+<code>
         dependencies:
     connectivity_plus: ^5.0.0
-    shared_preferences: ^2.2.0
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+    shared_preferences: ^2.2.0</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: COMPLETE EXAMPLE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 6: COMPLETE EXAMPLE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Complete Example: Cached Posts App
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here's a complete app that uses caching to display posts with offline support.
       </p>
-      <div class="code-block collapsed">
-       <span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         lib/main.dart – Complete Cached App
        </span>
-       <code>
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:flutter/material.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:http/http.dart'
-        </span>
-        <span class="keyword">
-         as
-        </span>
-        http;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'package:shared_preferences/shared_preferences.dart'
-        </span>
-        ;
-        <span class="keyword">
-         import
-        </span>
-        <span class="string">
-         'dart:convert'
-        </span>
-        ;
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         CachedPostService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        http.Client client;
-        <span class="keyword">
-         final
-        </span>
-        String cacheKey =
-        <span class="string">
-         'cached_posts'
-        </span>
-        ;
-        <span class="keyword">
-         static
-        </span>
-        <span class="keyword">
-         const
-        </span>
-        Duration cacheDuration = Duration(minutes:
-        <span class="number">
-         10
-        </span>
-        );
-        <span class="function">
-         CachedPostService
-        </span>
-        ({http.Client? client}) : client = client ?? http.Client();
-        <span class="keyword">
-         Future
-        </span>
-        &lt;List&lt;dynamic&gt;&gt;
-        <span class="function">
-         getPosts
-        </span>
-        () async {
-        <span class="keyword">
-         final
-        </span>
-        prefs = await SharedPreferences.getInstance();
-        <span class="comment">
-         // Check cache first
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        cachedData = prefs.getString(cacheKey);
-        <span class="keyword">
-         final
-        </span>
-        cacheTime = prefs.getInt(
-        <span class="string">
-         '${cacheKey}_time'
-        </span>
-        );
-        <span class="comment">
-         // If cache exists and is not expired, return it
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (cachedData !=
-        <span class="keyword">
-         null
-        </span>
-        &amp;&amp; cacheTime !=
-        <span class="keyword">
-         null
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        elapsed = DateTime.now().millisecondsSinceEpoch - cacheTime;
-        <span class="keyword">
-         if
-        </span>
-        (elapsed &lt; cacheDuration.inMilliseconds) {
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(cachedData)
-        <span class="keyword">
-         as
-        </span>
-        List&lt;dynamic&gt;;
-        }
-      }
-        <span class="comment">
-         // Cache expired or doesn't exist, fetch from network
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        response = await client.get(
-        Uri.parse(
-        <span class="string">
-         'https://jsonplaceholder.typicode.com/posts'
-        </span>
-        ),
-        headers: {
-        <span class="string">
-         'Accept'
-        </span>
-        :
-        <span class="string">
-         'application/json'
-        </span>
-        },
-      );
-        <span class="keyword">
-         if
-        </span>
-        (response.statusCode ==
-        <span class="number">
-         200
-        </span>
-        ) {
-        <span class="keyword">
-         final
-        </span>
-        data = jsonDecode(response.body)
-        <span class="keyword">
-         as
-        </span>
-        List&lt;dynamic&gt;;
-        <span class="comment">
-         // Save to cache
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        prefs.setString(cacheKey, jsonEncode(data));
-        <span class="keyword">
-         await
-        </span>
-        prefs.setInt(
-        <span class="string">
-         '${cacheKey}_time'
-        </span>
-        , DateTime.now().millisecondsSinceEpoch);
-        <span class="keyword">
-         return
-        </span>
-        data;
-      }
-        <span class="keyword">
-         else
-        </span>
-        {
-        <span class="comment">
-         // If network fails, try to return stale cache
-        </span>
-        <span class="keyword">
-         if
-        </span>
-        (cachedData !=
-        <span class="keyword">
-         null
-        </span>
-        ) {
-        <span class="keyword">
-         return
-        </span>
-        jsonDecode(cachedData)
-        <span class="keyword">
-         as
-        </span>
-        List&lt;dynamic&gt;;
-        }
-        <span class="keyword">
-         throw
-        </span>
-        Exception(
-        <span class="string">
-         'Failed to load posts and no cache available'
-        </span>
-        );
-      }
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         clearCache
-        </span>
-        () async {
-        <span class="keyword">
-         final
-        </span>
-        prefs = await SharedPreferences.getInstance();
-        <span class="keyword">
-         await
-        </span>
-        prefs.remove(cacheKey);
-        <span class="keyword">
-         await
-        </span>
-        prefs.remove(
-        <span class="string">
-         '${cacheKey}_time'
-        </span>
-        );
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         refreshCache
-        </span>
-        () async {
-        <span class="comment">
-         // Force refresh by clearing cache and fetching
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        clearCache();
-        <span class="keyword">
-         await
-        </span>
-        getPosts();
-    }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         PostsScreen
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatefulWidget {
-    @override
-    State&lt;PostsScreen&gt;
-        <span class="function">
-         createState
-        </span>
-        () =&gt; _PostsScreenState();
-  }
-        <span class="keyword">
-         class
-        </span>
-        _PostsScreenState
-        <span class="keyword">
-         extends
-        </span>
-        State&lt;PostsScreen&gt; {
-        <span class="keyword">
-         final
-        </span>
-        CachedPostService _service = CachedPostService();
-    List&lt;dynamic&gt; _posts = [];
-        <span class="keyword">
-         bool
-        </span>
-        _isLoading =
-        <span class="keyword">
-         true
-        </span>
-        ;
-        <span class="keyword">
-         bool
-        </span>
-        _hasError =
-        <span class="keyword">
-         false
-        </span>
-        ;
-    String? _errorMessage;
-        <span class="keyword">
-         bool
-        </span>
-        _isFromCache =
-        <span class="keyword">
-         false
-        </span>
-        ;
+<code><div class="highlight"><pre><span></span><span class="keyword">import</span><span class="w"> </span><span class="string">'package:flutter/material.dart'</span><span class="punctuation">;</span>
 
-    @override
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         initState
-        </span>
-        () {
-        <span class="keyword">
-         super
-        </span>
-        .initState();
-      _loadPosts();
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         _loadPosts
-        </span>
-        () async {
-      setState(() {
-        _isLoading =
-        <span class="keyword">
-         true
-        </span>
-        ;
-        _hasError =
-        <span class="keyword">
-         false
-        </span>
-        ;
-        _errorMessage =
-        <span class="keyword">
-         null
-        </span>
-        ;
-      });
-        <span class="keyword">
-         try
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        posts = await _service.getPosts();
-        setState(() {
-          _posts = posts;
-          _isLoading =
-        <span class="keyword">
-         false
-        </span>
-        ;
-        <span class="comment">
-         // In a real app, you'd detect if data came from cache
-        </span>
-        _isFromCache =
-        <span class="keyword">
-         true
-        </span>
-        ;
-        });
-      }
-        <span class="keyword">
-         catch
-        </span>
-        (e) {
-        setState(() {
-          _isLoading =
-        <span class="keyword">
-         false
-        </span>
-        ;
-          _hasError =
-        <span class="keyword">
-         true
-        </span>
-        ;
-          _errorMessage = e.toString();
-        });
-      }
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         _refresh
-        </span>
-        () async {
-        <span class="keyword">
-         await
-        </span>
-        _service.refreshCache();
-        <span class="keyword">
-         await
-        </span>
-        _loadPosts();
-    }
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         _clearCache
-        </span>
-        () async {
-        <span class="keyword">
-         await
-        </span>
-        _service.clearCache();
-        <span class="keyword">
-         await
-        </span>
-        _loadPosts();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(
-        <span class="string">
-         'Cache cleared'
-        </span>
-        )),
-      );
-    }
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:http/http.dart'</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">http</span><span class="punctuation">;</span>
 
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(
-          title: Text(
-        <span class="string">
-         '📦 Cached Posts'
-        </span>
-        ),
-          centerTitle:
-        <span class="keyword">
-         true
-        </span>
-        ,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: _refresh,
-              tooltip:
-        <span class="string">
-         'Refresh'
-        </span>
-        ,
-            ),
-            IconButton(
-              icon: Icon(Icons.delete_sweep),
-              onPressed: _clearCache,
-              tooltip:
-        <span class="string">
-         'Clear Cache'
-        </span>
-        ,
-            ),
-          ],
-        ),
-        body: _buildContent(),
-      );
-    }
+<span class="keyword">import</span><span class="w"> </span><span class="string">'package:shared_preferences/shared_preferences.dart'</span><span class="punctuation">;</span>
 
-    Widget
-        <span class="function">
-         _buildContent
-        </span>
-        () {
-        <span class="keyword">
-         if
-        </span>
-        (_isLoading) {
-        <span class="keyword">
-         return
-        </span>
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-              Text(
-        <span class="string">
-         'Loading posts...'
-        </span>
-        ),
-              Text(
-        <span class="string">
-         'Checking cache...'
-        </span>
-        ,
-                style: TextStyle(color: Colors.grey.shade400),
-              ),
-            ],
-          ),
-        );
-      }
-        <span class="keyword">
-         if
-        </span>
-        (_hasError) {
-        <span class="keyword">
-         return
-        </span>
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error, size:
-        <span class="number">
-         64
-        </span>
-        , color: Colors.red),
-              SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-              Text(
-        <span class="string">
-         'Unable to load posts'
-        </span>
-        ,
-                style: TextStyle(fontSize:
-        <span class="number">
-         18
-        </span>
-        , fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height:
-        <span class="number">
-         8
-        </span>
-        ),
-              Text(
-                _errorMessage ??
-        <span class="string">
-         'An error occurred'
-        </span>
-        ,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey.shade600),
-              ),
-              SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-              ElevatedButton(
-                onPressed: _loadPosts,
-                child: Text(
-        <span class="string">
-         'Retry'
-        </span>
-        ),
-              ),
-            ],
-          ),
-        );
-      }
-        <span class="keyword">
-         return
-        </span>
-        Column(
-        children: [
-        <span class="comment">
-         // Cache status indicator
-        </span>
-        Container(
-            padding: EdgeInsets.symmetric(vertical:
-        <span class="number">
-         8
-        </span>
-        ),
-            color: _isFromCache
-                ? Colors.green.shade50
-                : Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  _isFromCache ? Icons.check_circle : Icons.cloud,
-                  size:
-        <span class="number">
-         16
-        </span>
-        ,
-                  color: _isFromCache ? Colors.green : Colors.blue,
-                ),
-                SizedBox(width:
-        <span class="number">
-         4
-        </span>
-        ),
-                Text(
-                  _isFromCache
-                      ?
-        <span class="string">
-         '${_posts.length} posts (cached)'
-        </span>
-        :
-        <span class="string">
-         '${_posts.length} posts'
-        </span>
-        ,
-                  style: TextStyle(
-                    fontSize:
-        <span class="number">
-         12
-        </span>
-        ,
-                    color: _isFromCache ? Colors.green.shade700 : Colors.grey.shade600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _posts.length,
-              itemBuilder: (context, index) {
-        <span class="keyword">
-         final
-        </span>
-        post = _posts[index];
-        <span class="keyword">
-         return
-        </span>
-        Card(
-                  margin: EdgeInsets.symmetric(horizontal:
-        <span class="number">
-         16
-        </span>
-        , vertical:
-        <span class="number">
-         4
-        </span>
-        ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: Text((index +
-        <span class="number">
-         1
-        </span>
-        ).toString()),
-                    ),
-                    title: Text(
-                      post[
-        <span class="string">
-         'title'
-        </span>
-        ] ??
-        <span class="string">
-         'No title'
-        </span>
-        ,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    subtitle: Text(
-                      post[
-        <span class="string">
-         'body'
-        </span>
-        ] ??
-        <span class="string">
-         'No body'
-        </span>
-        ,
-                      maxLines:
-        <span class="number">
-         2
-        </span>
-        ,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      );
-    }
-  }
-        <span class="keyword">
-         void
-        </span>
-        <span class="function">
-         main
-        </span>
-        () =&gt; runApp(
-        <span class="function">
-         MyApp
-        </span>
-        ());
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         MyApp
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        MaterialApp(
-        title:
-        <span class="string">
-         'Cached Posts'
-        </span>
-        ,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3:
-        <span class="keyword">
-         true
-        </span>
-        ,
-        ),
-        home: PostsScreen(),
-      );
-    }
-  }
-       </code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">import</span><span class="w"> </span><span class="string">'dart:convert'</span><span class="punctuation">;</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">CachedPostService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="w"> </span><span class="name">client</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="w"> </span><span class="name">cacheKey</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="string">'cached_posts'</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">static</span><span class="w"> </span><span class="keyword">const</span><span class="w"> </span><span class="name">Duration</span><span class="w"> </span><span class="name">cacheDuration</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">Duration</span><span class="punctuation">(</span><span class="nl">minutes:</span><span class="w"> </span><span class="number">10</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="name">CachedPostService</span><span class="punctuation">({</span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="operator">?</span><span class="w"> </span><span class="name">client</span><span class="punctuation">})</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">client</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="name">http</span><span class="punctuation">.</span><span class="name">Client</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;&gt;</span><span class="w"> </span><span class="name">getPosts</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">prefs</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">SharedPreferences</span><span class="punctuation">.</span><span class="name">getInstance</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="comment">// Check cache first</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">cachedData</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">getString</span><span class="punctuation">(</span><span class="name">cacheKey</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">cacheTime</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">getInt</span><span class="punctuation">(</span><span class="string">'</span><span class="si">${</span><span class="name">cacheKey</span><span class="si">}</span><span class="string">_time'</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="comment">// If cache exists and is not expired, return it</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">cachedData</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="operator">&amp;&amp;</span><span class="w"> </span><span class="name">cacheTime</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">elapsed</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">DateTime</span><span class="punctuation">.</span><span class="name">now</span><span class="punctuation">().</span><span class="name">millisecondsSinceEpoch</span><span class="w"> </span><span class="operator">-</span><span class="w"> </span><span class="name">cacheTime</span><span class="punctuation">;</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">elapsed</span><span class="w"> </span><span class="operator">&lt;</span><span class="w"> </span><span class="name">cacheDuration</span><span class="punctuation">.</span><span class="name">inMilliseconds</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">cachedData</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+<span class="w">    </span><span class="punctuation">}</span>
+
+<span class="w">    </span><span class="comment">// Cache expired or doesn't exist, fetch from network</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">response</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">client</span><span class="punctuation">.</span><span class="keyword">get</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="name">Uri</span><span class="punctuation">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="string">'https://jsonplaceholder.typicode.com/posts'</span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">headers:</span><span class="w"> </span><span class="punctuation">{</span><span class="string">'Accept'</span><span class="operator">:</span><span class="w"> </span><span class="string">'application/json'</span><span class="punctuation">},</span>
+<span class="w">    </span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">statusCode</span><span class="w"> </span><span class="operator">==</span><span class="w"> </span><span class="number">200</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">data</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">response</span><span class="punctuation">.</span><span class="name">body</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+
+<span class="w">      </span><span class="comment">// Save to cache</span>
+
+<span class="w">      </span><span class="keyword">await</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">setString</span><span class="punctuation">(</span><span class="name">cacheKey</span><span class="punctuation">,</span><span class="w"> </span><span class="name">jsonEncode</span><span class="punctuation">(</span><span class="name">data</span><span class="punctuation">));</span>
+
+<span class="w">      </span><span class="keyword">await</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">setInt</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="string">'</span><span class="si">${</span><span class="name">cacheKey</span><span class="si">}</span><span class="string">_time'</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="name">DateTime</span><span class="punctuation">.</span><span class="name">now</span><span class="punctuation">().</span><span class="name">millisecondsSinceEpoch</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="punctuation">);</span>
+
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">data</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">else</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="comment">// If network fails, try to return stale cache</span>
+
+<span class="w">      </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">cachedData</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="keyword">return</span><span class="w"> </span><span class="name">jsonDecode</span><span class="punctuation">(</span><span class="name">cachedData</span><span class="punctuation">)</span><span class="w"> </span><span class="keyword">as</span><span class="w"> </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">}</span>
+
+<span class="w">      </span><span class="keyword">throw</span><span class="w"> </span><span class="name">Exception</span><span class="punctuation">(</span><span class="string">'Failed to load posts and no cache available'</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">clearCache</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">prefs</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">SharedPreferences</span><span class="punctuation">.</span><span class="name">getInstance</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">remove</span><span class="punctuation">(</span><span class="name">cacheKey</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">prefs</span><span class="punctuation">.</span><span class="name">remove</span><span class="punctuation">(</span><span class="string">'</span><span class="si">${</span><span class="name">cacheKey</span><span class="si">}</span><span class="string">_time'</span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">refreshCache</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="comment">// Force refresh by clearing cache and fetching</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">clearCache</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">getPosts</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">PostsScreen</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatefulWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">PostsScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">createState</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">_PostsScreenState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">_PostsScreenState</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">State</span><span class="operator">&lt;</span><span class="name">PostsScreen</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">CachedPostService</span><span class="w"> </span><span class="name">_service</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">CachedPostService</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="name">List</span><span class="operator">&lt;</span><span class="keyword">dynamic</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_posts</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="punctuation">[];</span>
+
+<span class="w">  </span><span class="keyword">bool</span><span class="w"> </span><span class="name">_isLoading</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">bool</span><span class="w"> </span><span class="name">_hasError</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">;</span>
+<span class="w">  </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">_errorMessage</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">bool</span><span class="w"> </span><span class="name">_isFromCache</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="keyword">void</span><span class="w"> </span><span class="name">initState</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">super</span><span class="punctuation">.</span><span class="name">initState</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">_loadPosts</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_loadPosts</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="name">_isLoading</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="name">_hasError</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="name">_errorMessage</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">;</span>
+<span class="w">    </span><span class="punctuation">});</span>
+
+<span class="w">    </span><span class="keyword">try</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">posts</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">getPosts</span><span class="punctuation">();</span>
+<span class="w">      </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="name">_posts</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">posts</span><span class="punctuation">;</span>
+<span class="w">        </span><span class="name">_isLoading</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">;</span>
+
+<span class="w">        </span><span class="comment">// In a real app, you'd detect if data came from cache</span>
+
+<span class="w">        </span><span class="name">_isFromCache</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">;</span>
+<span class="w">      </span><span class="punctuation">});</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">catch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">e</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="name">setState</span><span class="punctuation">(()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">        </span><span class="name">_isLoading</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">;</span>
+<span class="w">        </span><span class="name">_hasError</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">;</span>
+<span class="w">        </span><span class="name">_errorMessage</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">e</span><span class="punctuation">.</span><span class="name">toString</span><span class="punctuation">();</span>
+<span class="w">      </span><span class="punctuation">});</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_refresh</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">refreshCache</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">_loadPosts</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">_clearCache</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">_service</span><span class="punctuation">.</span><span class="name">clearCache</span><span class="punctuation">();</span>
+
+<span class="w">    </span><span class="keyword">await</span><span class="w"> </span><span class="name">_loadPosts</span><span class="punctuation">();</span>
+<span class="w">    </span><span class="name">ScaffoldMessenger</span><span class="punctuation">.</span><span class="name">of</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="name">context</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">).</span><span class="name">showSnackBar</span><span class="punctuation">(</span><span class="name">SnackBar</span><span class="punctuation">(</span><span class="nl">content:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Cache cleared'</span><span class="punctuation">)));</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'📦 Cached Posts'</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">centerTitle:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">,</span>
+<span class="w">        </span><span class="nl">actions:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">          </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">refresh</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_refresh</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">tooltip:</span><span class="w"> </span><span class="string">'Refresh'</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="name">IconButton</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">icon:</span><span class="w"> </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">delete_sweep</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_clearCache</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">tooltip:</span><span class="w"> </span><span class="string">'Clear Cache'</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">],</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">_buildContent</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">_buildContent</span><span class="punctuation">()</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_isLoading</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">            </span><span class="name">CircularProgressIndicator</span><span class="punctuation">(),</span>
+<span class="w">            </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Loading posts...'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="string">'Checking cache...'</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade400</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">          </span><span class="punctuation">],</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+
+<span class="w">    </span><span class="keyword">if</span><span class="w"> </span><span class="punctuation">(</span><span class="name">_hasError</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">Center</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">child:</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">            </span><span class="name">Icon</span><span class="punctuation">(</span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">error</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">size:</span><span class="w"> </span><span class="number">64</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">red</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="string">'Unable to load posts'</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">18</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">fontWeight:</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">bold</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="name">_errorMessage</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="string">'An error occurred'</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">textAlign:</span><span class="w"> </span><span class="name">TextAlign</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span><span class="nl">color:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade600</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">height:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="name">ElevatedButton</span><span class="punctuation">(</span><span class="nl">onPressed:</span><span class="w"> </span><span class="name">_loadPosts</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Retry'</span><span class="punctuation">)),</span>
+<span class="w">          </span><span class="punctuation">],</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Column</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">        </span><span class="comment">// Cache status indicator</span>
+<span class="w">        </span><span class="name">Container</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">padding:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">vertical:</span><span class="w"> </span><span class="number">8</span><span class="punctuation">),</span>
+<span class="w">          </span><span class="nl">color:</span><span class="w"> </span><span class="name">_isFromCache</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">green</span><span class="punctuation">.</span><span class="name">shade50</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">transparent</span><span class="punctuation">,</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">Row</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">mainAxisAlignment:</span><span class="w"> </span><span class="name">MainAxisAlignment</span><span class="punctuation">.</span><span class="name">center</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">children:</span><span class="w"> </span><span class="punctuation">[</span>
+<span class="w">              </span><span class="name">Icon</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="name">_isFromCache</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">check_circle</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">Icons</span><span class="punctuation">.</span><span class="name">cloud</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">size:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">color:</span><span class="w"> </span><span class="name">_isFromCache</span><span class="w"> </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">green</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">blue</span><span class="punctuation">,</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="name">SizedBox</span><span class="punctuation">(</span><span class="nl">width:</span><span class="w"> </span><span class="number">4</span><span class="punctuation">),</span>
+<span class="w">              </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="name">_isFromCache</span>
+<span class="w">                    </span><span class="operator">?</span><span class="w"> </span><span class="string">'</span><span class="si">${</span><span class="name">_posts</span><span class="punctuation">.</span><span class="name">length</span><span class="si">}</span><span class="string"> posts (cached)'</span>
+<span class="w">                    </span><span class="operator">:</span><span class="w"> </span><span class="string">'</span><span class="si">${</span><span class="name">_posts</span><span class="punctuation">.</span><span class="name">length</span><span class="si">}</span><span class="string"> posts'</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">fontSize:</span><span class="w"> </span><span class="number">12</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="nl">color:</span><span class="w"> </span><span class="name">_isFromCache</span>
+<span class="w">                      </span><span class="operator">?</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">green</span><span class="punctuation">.</span><span class="name">shade700</span>
+<span class="w">                      </span><span class="operator">:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">grey</span><span class="punctuation">.</span><span class="name">shade600</span><span class="punctuation">,</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">],</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="name">Expanded</span><span class="punctuation">(</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="name">ListView</span><span class="punctuation">.</span><span class="name">builder</span><span class="punctuation">(</span>
+<span class="w">            </span><span class="nl">itemCount:</span><span class="w"> </span><span class="name">_posts</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">,</span>
+<span class="w">            </span><span class="nl">itemBuilder:</span><span class="w"> </span><span class="punctuation">(</span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">index</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">              </span><span class="keyword">final</span><span class="w"> </span><span class="name">post</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">_posts</span><span class="punctuation">[</span><span class="name">index</span><span class="punctuation">];</span>
+
+<span class="w">              </span><span class="keyword">return</span><span class="w"> </span><span class="name">Card</span><span class="punctuation">(</span>
+<span class="w">                </span><span class="nl">margin:</span><span class="w"> </span><span class="name">EdgeInsets</span><span class="punctuation">.</span><span class="name">symmetric</span><span class="punctuation">(</span><span class="nl">horizontal:</span><span class="w"> </span><span class="number">16</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">vertical:</span><span class="w"> </span><span class="number">4</span><span class="punctuation">),</span>
+<span class="w">                </span><span class="nl">child:</span><span class="w"> </span><span class="name">ListTile</span><span class="punctuation">(</span>
+<span class="w">                  </span><span class="nl">leading:</span><span class="w"> </span><span class="name">CircleAvatar</span><span class="punctuation">(</span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">((</span><span class="name">index</span><span class="w"> </span><span class="operator">+</span><span class="w"> </span><span class="number">1</span><span class="punctuation">).</span><span class="name">toString</span><span class="punctuation">())),</span>
+<span class="w">                  </span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="name">post</span><span class="punctuation">[</span><span class="string">'title'</span><span class="punctuation">]</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="string">'No title'</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="nl">style:</span><span class="w"> </span><span class="name">TextStyle</span><span class="punctuation">(</span><span class="nl">fontWeight:</span><span class="w"> </span><span class="name">FontWeight</span><span class="punctuation">.</span><span class="name">w600</span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">                  </span><span class="nl">subtitle:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span>
+<span class="w">                    </span><span class="name">post</span><span class="punctuation">[</span><span class="string">'body'</span><span class="punctuation">]</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="string">'No body'</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="nl">maxLines:</span><span class="w"> </span><span class="number">2</span><span class="punctuation">,</span>
+<span class="w">                    </span><span class="nl">overflow:</span><span class="w"> </span><span class="name">TextOverflow</span><span class="punctuation">.</span><span class="name">ellipsis</span><span class="punctuation">,</span>
+<span class="w">                  </span><span class="punctuation">),</span>
+<span class="w">                </span><span class="punctuation">),</span>
+<span class="w">              </span><span class="punctuation">);</span>
+<span class="w">            </span><span class="punctuation">},</span>
+<span class="w">          </span><span class="punctuation">),</span>
+<span class="w">        </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="punctuation">],</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">void</span><span class="w"> </span><span class="name">main</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">runApp</span><span class="punctuation">(</span><span class="name">MyApp</span><span class="punctuation">());</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">MyApp</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StatelessWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">MaterialApp</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">title:</span><span class="w"> </span><span class="string">'Cached Posts'</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">theme:</span><span class="w"> </span><span class="name">ThemeData</span><span class="punctuation">(</span>
+<span class="w">        </span><span class="nl">colorScheme:</span><span class="w"> </span><span class="name">ColorScheme</span><span class="punctuation">.</span><span class="name">fromSeed</span><span class="punctuation">(</span><span class="nl">seedColor:</span><span class="w"> </span><span class="name">Colors</span><span class="punctuation">.</span><span class="name">deepPurple</span><span class="punctuation">),</span>
+<span class="w">        </span><span class="nl">useMaterial3:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="punctuation">),</span>
+<span class="w">      </span><span class="nl">home:</span><span class="w"> </span><span class="name">PostsScreen</span><span class="punctuation">(),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-       <button class="toggle-expand-btn">
-        <i class="fas fa-expand">
-        </i>
-        Expand
-       </button>
-       <button class="collapse-btn">
-        <i class="fas fa-chevron-up">
-        </i>
-        Collapse
-       </button>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: STEP-BY-STEP EXPLANATION ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
+        </button></div>
+</div>
+<!-- ===== SECTION 7: STEP-BY-STEP EXPLANATION ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Step-by-Step Explanation
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<span class="divider-line">
+</span>
+</div>
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Choose a caching strategy
          </strong>
          – Decide between memory cache, disk cache, or both.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Implement the cache layer
          </strong>
          – Use
@@ -2843,181 +1619,181 @@
          </code>
          for disk caching.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Check cache before making network requests
          </strong>
          – If data is cached and valid, return it immediately.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Save responses to cache
          </strong>
          – After a successful network request, save the data to cache.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Handle offline scenarios
          </strong>
          – Fall back to cache when the network is unavailable.
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          6.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Provide cache management
          </strong>
          – Allow users to refresh or clear the cache.
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 8: BEST PRACTICES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 8: BEST PRACTICES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Caching Best Practices
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="concept-card success">
-       <h4>
+<span class="divider-line">
+</span>
+</div>
+<div class="concept-card success">
+<h4>
         ✅ Do's
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          Cache data that is frequently accessed and doesn't change often
         </li>
-        <li>
+<li>
          Set appropriate cache expiration times (TTL)
         </li>
-        <li>
+<li>
          Handle offline scenarios gracefully
         </li>
-        <li>
+<li>
          Provide a way to refresh or clear the cache
         </li>
-        <li>
+<li>
          Use
          <code>
           cache_manager
          </code>
          for HTTP caching
         </li>
-        <li>
+<li>
          Store cache keys consistently
         </li>
-        <li>
+<li>
          Show cache status to users (e.g., "Cached" badge)
         </li>
-       </ul>
-      </div>
-      <div class="concept-card error">
-       <h4>
+</ul>
+</div>
+<div class="concept-card error">
+<h4>
         ❌ Don'ts
        </h4>
-       <ul>
-        <li>
+<ul>
+<li>
          Don't cache sensitive data without encryption
         </li>
-        <li>
+<li>
          Don't cache indefinitely (always set a TTL)
         </li>
-        <li>
+<li>
          Don't ignore cache expiration
         </li>
-        <li>
+<li>
          Don't cache large files without size limits
         </li>
-        <li>
+<li>
          Don't forget to clear cache when logging out
         </li>
-       </ul>
-      </div>
-     </div>
-     <!-- ===== SECTION 9: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</ul>
+</div>
+</div>
+<!-- ===== SECTION 9: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Not setting cache expiration
        </div>
-       <p>
+<p>
         Without a TTL (Time To Live), cached data can become stale and show outdated information.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Set a cache duration
        </div>
-       <p>
+<p>
         Always set a reasonable expiration time based on how often the data changes.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Caching everything
        </div>
-       <p>
+<p>
         Not all data should be cached. Only cache frequently accessed, static, or semi-static data.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Cache selectively
        </div>
-       <p>
+<p>
         Cache data that provides value when offline. Avoid caching user-specific or sensitive data.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Not handling cache read errors
        </div>
-       <p>
+<p>
         If cached data is corrupted or malformed, the app should fall back gracefully.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Handle cache errors
        </div>
-       <p>
+<p>
         Use try-catch when reading from cache and fall back to network requests if it fails.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
+<p>
        Caching is essential for
        <strong>
         performance
@@ -3043,135 +1819,135 @@
        <strong>
         Always set expiration times and handle cache read errors gracefully.
        </strong>
-      </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a class="btn btn-outline btn-sm" href="module2-topic7-search.html">
-       <i class="fas fa-arrow-left">
-       </i>
+</p>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a class="btn btn-outline btn-sm" href="module2-topic7-search.html">
+<i class="fas fa-arrow-left">
+</i>
        Previous: Search
       </a>
-      <a class="btn btn-primary btn-sm" href="../module2-state-management.html">
-       <i class="fas fa-check">
-       </i>
+<a class="btn btn-primary btn-sm" href="../module2-state-management.html">
+<i class="fas fa-check">
+</i>
        Module 2 Complete!
       </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="../module2-state-management.html">
+</li>
+<li>
+<a href="../module2-state-management.html">
          Module 2
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://flutter.dev" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://flutter.dev" rel="noopener" target="_blank">
          Flutter Official
         </a>
-       </li>
-       <li>
-        <a href="https://dart.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://dart.dev" rel="noopener" target="_blank">
          Dart Language
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev" rel="noopener" target="_blank">
          pub.dev
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev/packages/cache_manager" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev/packages/cache_manager" rel="noopener" target="_blank">
          cache_manager
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter" rel="noopener" target="_blank">
          GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/FlutterDev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://pub.dev/packages/cache_manager" style="color: var(--text-muted);" target="_blank">
        cache_manager package
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -3227,7 +2003,7 @@
       });
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -3302,25 +2078,8 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
-      // --- Collapse & Expand Engine ---
-      const collapseButtons = document.querySelectorAll('.collapse-btn');
-      collapseButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const codeBlock = btn.closest('.code-block');
-          if (!codeBlock) return;
-          
-          const isCollapsed = codeBlock.classList.toggle('collapsed');
-          if (isCollapsed) {
-            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand';
-          } else {
-            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse';
-          }
-        });
-      });
-
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
       copyButtons.forEach(function(btn) {
@@ -3377,5 +2136,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>
