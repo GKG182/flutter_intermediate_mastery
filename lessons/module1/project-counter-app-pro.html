@@ -506,7 +506,7 @@
    .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
-      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      max-height: none; /* Safe upper bound to accommodate long scripts */
       overflow: hidden;
     }
     .code-block.collapsed {
@@ -760,475 +760,166 @@
       <span class="divider-line">
       </span>
      </div>
-     <div class="code-block collapsed">
+          <div class="code-block collapsed">
       <span class="code-label" style="background: #1e1e2e; padding: 0 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
        lib/main.dart – Complete Counter App
       </span>
       <code>
-       <span class="keyword">
-        import
-       </span>
-       <span class="string">
-        'package:flutter/material.dart'
-       </span>
-       ;
-       <span class="keyword">
-        import
-       </span>
-       <span class="string">
-        'package:flutter_riverpod/flutter_riverpod.dart'
-       </span>
-       ;
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 1. PROVIDERS
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // Counter state provider
-       </span>
-       <span class="keyword">
-        final
-       </span>
-       counterProvider = StateProvider&lt;int&gt;((ref) =&gt;
-       <span class="number">
-        0
-       </span>
-       );
-       <span class="comment">
-        // Step size provider
-       </span>
-       <span class="keyword">
-        final
-       </span>
-       stepProvider = StateProvider&lt;int&gt;((ref) =&gt;
-       <span class="number">
-        1
-       </span>
-       );
-       <span class="comment">
-        // History provider (list of last 5 values)
-       </span>
-       <span class="keyword">
-        final
-       </span>
-       historyProvider = StateProvider&lt;List&lt;int&gt;&gt;((ref) =&gt; []);
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 2. NOTIFIER CLASS WITH BUSINESS LOGIC
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        CounterNotifier
-       </span>
-       {
-       <span class="keyword">
-        final
-       </span>
-       WidgetRef ref;
+<span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;
+<span class="keyword">import</span> <span class="string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
 
-  CounterNotifier(
-       <span class="keyword">
-        this
-       </span>
-       .ref);
-       <span class="comment">
-        // Constants
-       </span>
-       <span class="keyword">
-        static
-       </span>
-       <span class="keyword">
-        const
-       </span>
-       <span class="keyword">
-        int
-       </span>
-       minValue =
-       <span class="number">
-        0
-       </span>
-       ;
-       <span class="keyword">
-        static
-       </span>
-       <span class="keyword">
-        const
-       </span>
-       <span class="keyword">
-        int
-       </span>
-       maxValue =
-       <span class="number">
-        100
-       </span>
-       ;
-       <span class="keyword">
-        static
-       </span>
-       <span class="keyword">
-        const
-       </span>
-       <span class="keyword">
-        int
-       </span>
-       maxHistory =
-       <span class="number">
-        5
-       </span>
-       ;
-       <span class="comment">
-        // Increment
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        increment
-       </span>
-       () {
-       <span class="keyword">
-        final
-       </span>
-       current = ref.read(counterProvider);
-       <span class="keyword">
-        final
-       </span>
-       step = ref.read(stepProvider);
-       <span class="keyword">
-        if
-       </span>
-       (current + step &lt;= maxValue) {
-       <span class="keyword">
-        final
-       </span>
-       newValue = current + step;
+<span class="comment">// ==========================================</span>
+<span class="comment">// 1. PROVIDERS</span>
+<span class="comment">// ==========================================</span>
+
+<span class="comment">// Counter state provider</span>
+<span class="keyword">final</span> counterProvider = StateProvider&lt;int&gt;((ref) => <span class="number">0</span>);
+
+<span class="comment">// Step size provider</span>
+<span class="keyword">final</span> stepProvider = StateProvider&lt;int&gt;((ref) => <span class="number">1</span>);
+
+<span class="comment">// History provider (list of last 5 values)</span>
+<span class="keyword">final</span> historyProvider = StateProvider&lt;List&lt;int&gt;&gt;((ref) => []);
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 2. NOTIFIER CLASS WITH BUSINESS LOGIC</span>
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">class</span> <span class="function">CounterNotifier</span> {
+  <span class="keyword">final</span> WidgetRef ref;
+
+  CounterNotifier(<span class="keyword">this</span>.ref);
+
+  <span class="comment">// Constants</span>
+  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> minValue = <span class="number">0</span>;
+  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> maxValue = <span class="number">100</span>;
+  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> maxHistory = <span class="number">5</span>;
+
+  <span class="comment">// Increment</span>
+  <span class="keyword">void</span> <span class="function">increment</span>() {
+    <span class="keyword">final</span> current = ref.read(counterProvider);
+    <span class="keyword">final</span> step = ref.read(stepProvider);
+    <span class="keyword">if</span> (current + step <= maxValue) {
+      <span class="keyword">final</span> newValue = current + step;
       ref.read(counterProvider.notifier).state = newValue;
       _addToHistory(newValue);
     }
   }
-       <span class="comment">
-        // Decrement
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        decrement
-       </span>
-       () {
-       <span class="keyword">
-        final
-       </span>
-       current = ref.read(counterProvider);
-       <span class="keyword">
-        final
-       </span>
-       step = ref.read(stepProvider);
-       <span class="keyword">
-        if
-       </span>
-       (current - step &gt;= minValue) {
-       <span class="keyword">
-        final
-       </span>
-       newValue = current - step;
+
+  <span class="comment">// Decrement</span>
+  <span class="keyword">void</span> <span class="function">decrement</span>() {
+    <span class="keyword">final</span> current = ref.read(counterProvider);
+    <span class="keyword">final</span> step = ref.read(stepProvider);
+    <span class="keyword">if</span> (current - step >= minValue) {
+      <span class="keyword">final</span> newValue = current - step;
       ref.read(counterProvider.notifier).state = newValue;
       _addToHistory(newValue);
     }
   }
-       <span class="comment">
-        // Reset
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        reset
-       </span>
-       () {
-    ref.read(counterProvider.notifier).state =
-       <span class="number">
-        0
-       </span>
-       ;
-    _addToHistory(
-       <span class="number">
-        0
-       </span>
-       );
+
+  <span class="comment">// Reset</span>
+  <span class="keyword">void</span> <span class="function">reset</span>() {
+    ref.read(counterProvider.notifier).state = <span class="number">0</span>;
+    _addToHistory(<span class="number">0</span>);
   }
-       <span class="comment">
-        // Set step
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        setStep
-       </span>
-       (
-       <span class="keyword">
-        int
-       </span>
-       step) {
+
+  <span class="comment">// Set step</span>
+  <span class="keyword">void</span> <span class="function">setStep</span>(<span class="keyword">int</span> step) {
     ref.read(stepProvider.notifier).state = step;
   }
-       <span class="comment">
-        // Add to history
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        _addToHistory
-       </span>
-       (
-       <span class="keyword">
-        int
-       </span>
-       value) {
-       <span class="keyword">
-        final
-       </span>
-       history = ref.read(historyProvider);
-       <span class="keyword">
-        final
-       </span>
-       newHistory = [value, ...history];
-       <span class="keyword">
-        if
-       </span>
-       (newHistory.length &gt; maxHistory) {
+
+  <span class="comment">// Add to history</span>
+  <span class="keyword">void</span> <span class="function">_addToHistory</span>(<span class="keyword">int</span> value) {
+    <span class="keyword">final</span> history = ref.read(historyProvider);
+    <span class="keyword">final</span> newHistory = [value, ...history];
+    <span class="keyword">if</span> (newHistory.length > maxHistory) {
       newHistory.removeLast();
     }
     ref.read(historyProvider.notifier).state = newHistory;
   }
-       <span class="comment">
-        // Get progress percentage
-       </span>
-       <span class="keyword">
-        double
-       </span>
-       <span class="function">
-        getProgress
-       </span>
-       (
-       <span class="keyword">
-        int
-       </span>
-       value) {
-       <span class="keyword">
-        return
-       </span>
-       value / maxValue;
+
+  <span class="comment">// Get progress percentage</span>
+  <span class="keyword">double</span> <span class="function">getProgress</span>(<span class="keyword">int</span> value) {
+    <span class="keyword">return</span> value / maxValue;
   }
 }
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="comment">
-        // 3. UI WIDGETS
-       </span>
-       <span class="comment">
-        // ==========================================
-       </span>
-       <span class="keyword">
-        void
-       </span>
-       <span class="function">
-        main
-       </span>
-       () {
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 3. UI WIDGETS</span>
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">void</span> <span class="function">main</span>() {
   runApp(
     ProviderScope(
       child: MyApp(),
     ),
   );
 }
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        MyApp
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       StatelessWidget {
+
+<span class="keyword">class</span> <span class="function">MyApp</span> <span class="keyword">extends</span> StatelessWidget {
   @override
-  Widget
-       <span class="function">
-        build
-       </span>
-       (BuildContext context) {
-       <span class="keyword">
-        return
-       </span>
-       MaterialApp(
-      title:
-       <span class="string">
-        'Counter App Pro'
-       </span>
-       ,
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">return</span> MaterialApp(
+      title: <span class="string">'Counter App Pro'</span>,
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        useMaterial3:
-       <span class="keyword">
-        true
-       </span>
-       ,
+        useMaterial3: <span class="keyword">true</span>,
       ),
       home: CounterScreen(),
     );
   }
 }
-       <span class="keyword">
-        class
-       </span>
-       <span class="function">
-        CounterScreen
-       </span>
-       <span class="keyword">
-        extends
-       </span>
-       ConsumerWidget {
+
+<span class="keyword">class</span> <span class="function">CounterScreen</span> <span class="keyword">extends</span> ConsumerWidget {
   @override
-  Widget
-       <span class="function">
-        build
-       </span>
-       (BuildContext context, WidgetRef ref) {
-       <span class="keyword">
-        final
-       </span>
-       counter = ref.watch(counterProvider);
-       <span class="keyword">
-        final
-       </span>
-       step = ref.watch(stepProvider);
-       <span class="keyword">
-        final
-       </span>
-       history = ref.watch(historyProvider);
-       <span class="keyword">
-        final
-       </span>
-       notifier = CounterNotifier(ref);
-       <span class="keyword">
-        return
-       </span>
-       Scaffold(
+  Widget <span class="function">build</span>(BuildContext context, WidgetRef ref) {
+    <span class="keyword">final</span> counter = ref.watch(counterProvider);
+    <span class="keyword">final</span> step = ref.watch(stepProvider);
+    <span class="keyword">final</span> history = ref.watch(historyProvider);
+    <span class="keyword">final</span> notifier = CounterNotifier(ref);
+
+    <span class="keyword">return</span> Scaffold(
       appBar: AppBar(
-        title: Text(
-       <span class="string">
-        'Counter App Pro'
-       </span>
-       ),
-        centerTitle:
-       <span class="keyword">
-        true
-       </span>
-       ,
-        elevation:
-       <span class="number">
-        0
-       </span>
-       ,
+        title: Text(<span class="string">'Counter App Pro'</span>),
+        centerTitle: <span class="keyword">true</span>,
+        elevation: <span class="number">0</span>,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(
-       <span class="number">
-        24
-       </span>
-       ),
+        padding: EdgeInsets.all(<span class="number">24</span>),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-       <span class="comment">
-        // Counter Display
-       </span>
-       Container(
-              padding: EdgeInsets.all(
-       <span class="number">
-        32
-       </span>
-       ),
+            <span class="comment">// Counter Display</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">32</span>),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.purple.shade400, Colors.purple.shade700],
                 ),
-                borderRadius: BorderRadius.circular(
-       <span class="number">
-        16
-       </span>
-       ),
+                borderRadius: BorderRadius.circular(<span class="number">16</span>),
               ),
               child: Column(
                 children: [
                   Text(
-       <span class="string">
-        '$counter'
-       </span>
-       ,
+                    <span class="string">'$counter'</span>,
                     style: TextStyle(
-                      fontSize:
-       <span class="number">
-        72
-       </span>
-       ,
+                      fontSize: <span class="number">72</span>,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height:
-       <span class="number">
-        8
-       </span>
-       ),
+                  SizedBox(height: <span class="number">8</span>),
                   Text(
-       <span class="string">
-        'Min: ${CounterNotifier.minValue}  |  Max: ${CounterNotifier.maxValue}'
-       </span>
-       ,
-                    style: TextStyle(color: Colors.white70, fontSize:
-       <span class="number">
-        14
-       </span>
-       ),
+                    <span class="string">'Min: ${CounterNotifier.minValue}  |  Max: ${CounterNotifier.maxValue}'</span>,
+                    style: TextStyle(color: Colors.white70, fontSize: <span class="number">14</span>),
                   ),
-                  SizedBox(height:
-       <span class="number">
-        12
-       </span>
-       ),
-       <span class="comment">
-        // Progress Bar
-       </span>
-       ClipRRect(
-                    borderRadius: BorderRadius.circular(
-       <span class="number">
-        8
-       </span>
-       ),
+                  SizedBox(height: <span class="number">12</span>),
+                  <span class="comment">// Progress Bar</span>
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(<span class="number">8</span>),
                     child: LinearProgressIndicator(
                       value: notifier.getProgress(counter),
-                      minHeight:
-       <span class="number">
-        8
-       </span>
-       ,
+                      minHeight: <span class="number">8</span>,
                       backgroundColor: Colors.white24,
                       valueColor: AlwaysStoppedAnimation&lt;Color&gt;(Colors.white),
                     ),
@@ -1236,257 +927,108 @@
                 ],
               ),
             ),
-
-            SizedBox(height:
-       <span class="number">
-        24
-       </span>
-       ),
-       <span class="comment">
-        // Step Selector
-       </span>
-       Text(
-       <span class="string">
-        'Step Size: $step'
-       </span>
-       ,
-              style: TextStyle(fontSize:
-       <span class="number">
-        16
-       </span>
-       , fontWeight: FontWeight.w600),
+            SizedBox(height: <span class="number">24</span>),
+            <span class="comment">// Step Selector</span>
+            Text(
+              <span class="string">'Step Size: $step'</span>,
+              style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.w600),
             ),
-            SizedBox(height:
-       <span class="number">
-        8
-       </span>
-       ),
+            SizedBox(height: <span class="number">8</span>),
             Row(
               children: [
-                _StepButton(label:
-       <span class="string">
-        '1'
-       </span>
-       , value:
-       <span class="number">
-        1
-       </span>
-       , current: step, onTap: notifier.setStep),
-                _StepButton(label:
-       <span class="string">
-        '5'
-       </span>
-       , value:
-       <span class="number">
-        5
-       </span>
-       , current: step, onTap: notifier.setStep),
-                _StepButton(label:
-       <span class="string">
-        '10'
-       </span>
-       , value:
-       <span class="number">
-        10
-       </span>
-       , current: step, onTap: notifier.setStep),
+                _StepButton(label: <span class="string">'1'</span>, value: <span class="number">1</span>, current: step, onTap: notifier.setStep),
+                _StepButton(label: <span class="string">'5'</span>, value: <span class="number">5</span>, current: step, onTap: notifier.setStep),
+                _StepButton(label: <span class="string">'10'</span>, value: <span class="number">10</span>, current: step, onTap: notifier.setStep),
               ],
             ),
-
-            SizedBox(height:
-       <span class="number">
-        24
-       </span>
-       ),
-       <span class="comment">
-        // Control Buttons
-       </span>
-       Row(
+            SizedBox(height: <span class="number">24</span>),
+            <span class="comment">// Control Buttons</span>
+            Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: notifier.decrement,
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical:
-       <span class="number">
-        16
-       </span>
-       ),
+                      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
                       backgroundColor: Colors.red.shade400,
                     ),
-                    child: Icon(Icons.remove, size:
-       <span class="number">
-        32
-       </span>
-       ),
+                    child: Icon(Icons.remove, size: <span class="number">32</span>),
                   ),
                 ),
-                SizedBox(width:
-       <span class="number">
-        12
-       </span>
-       ),
+                SizedBox(width: <span class="number">12</span>),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: notifier.reset,
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical:
-       <span class="number">
-        16
-       </span>
-       ),
+                      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
                       backgroundColor: Colors.grey.shade600,
                     ),
-                    child: Icon(Icons.refresh, size:
-       <span class="number">
-        28
-       </span>
-       ),
+                    child: Icon(Icons.refresh, size: <span class="number">28</span>),
                   ),
                 ),
-                SizedBox(width:
-       <span class="number">
-        12
-       </span>
-       ),
+                SizedBox(width: <span class="number">12</span>),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: notifier.increment,
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical:
-       <span class="number">
-        16
-       </span>
-       ),
+                      padding: EdgeInsets.symmetric(vertical: <span class="number">16</span>),
                       backgroundColor: Colors.green.shade400,
                     ),
-                    child: Icon(Icons.add, size:
-       <span class="number">
-        32
-       </span>
-       ),
+                    child: Icon(Icons.add, size: <span class="number">32</span>),
                   ),
                 ),
               ],
             ),
-
-            SizedBox(height:
-       <span class="number">
-        24
-       </span>
-       ),
-       <span class="comment">
-        // History
-       </span>
-       <text( <span="" class="string">
-        '📊 History',
-              style: TextStyle(fontSize:
-        <span class="number">
-         16
-        </span>
-        , fontWeight: FontWeight.w600),
+            SizedBox(height: <span class="number">24</span>),
+            <span class="comment">// History</span>
+            Text(
+              <span class="string">'📊 History'</span>,
+              style: TextStyle(fontSize: <span class="number">16</span>, fontWeight: FontWeight.w600),
             ),
-            SizedBox(height:
-        <span class="number">
-         8
-        </span>
-        ),
+            SizedBox(height: <span class="number">8</span>),
             Container(
-              padding: EdgeInsets.all(
-        <span class="number">
-         12
-        </span>
-        ),
+              padding: EdgeInsets.all(<span class="number">12</span>),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(
-        <span class="number">
-         8
-        </span>
-        ),
+                borderRadius: BorderRadius.circular(<span class="number">8</span>),
               ),
               child: history.isEmpty
                   ? Text(
-        <span class="string">
-         'No history yet'
-        </span>
-        ,
+                      <span class="string">'No history yet'</span>,
                       style: TextStyle(color: Colors.grey.shade500),
                     )
                   : Wrap(
-                      spacing:
-        <span class="number">
-         8
-        </span>
-        ,
-                      runSpacing:
-        <span class="number">
-         4
-        </span>
-        ,
+                      spacing: <span class="number">8</span>,
+                      runSpacing: <span class="number">4</span>,
                       children: history.map((value) {
-        <span class="keyword">
-         return
-        </span>
-        Chip(
-                          label: Text(
-        <span class="string">
-         '$value'
-        </span>
-        ),
+                        <span class="keyword">return</span> Chip(
+                          label: Text(<span class="string">'$value'</span>),
                           backgroundColor: Colors.purple.shade50,
                         );
                       }).toList(),
                     ),
             ),
-
-            SizedBox(height:
-        <span class="number">
-         16
-        </span>
-        ),
-        <span class="comment">
-         // Status Info
-        </span>
-        Container(
-              padding: EdgeInsets.all(
-        <span class="number">
-         12
-        </span>
-        ),
+            SizedBox(height: <span class="number">16</span>),
+            <span class="comment">// Status Info</span>
+            Container(
+              padding: EdgeInsets.all(<span class="number">12</span>),
               decoration: BoxDecoration(
                 color: Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(
-        <span class="number">
-         8
-        </span>
-        ),
+                borderRadius: BorderRadius.circular(<span class="number">8</span>),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _StatusItem(
-                    label:
-        <span class="string">
-         'Current'
-        </span>
-        ,
+                    label: <span class="string">'Current'</span>,
                     value: counter.toString(),
                   ),
                   _StatusItem(
-                    label:
-        <span class="string">
-         'Step'
-        </span>
-        ,
+                    label: <span class="string">'Step'</span>,
                     value: step.toString(),
                   ),
                   _StatusItem(
-                    label:
-        <span class="string">
-         'History'
-        </span>
-        ,
+                    label: <span class="string">'History'</span>,
                     value: history.length.toString(),
                   ),
                 ],
@@ -1498,122 +1040,36 @@
     );
   }
 }
-        <span class="comment">
-         // ==========================================
-        </span>
-        <span class="comment">
-         // 4. HELPER WIDGETS
-        </span>
-        <span class="comment">
-         // ==========================================
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _StepButton
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        String label;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        value;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         int
-        </span>
-        current;
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         void
-        </span>
-        Function(
-        <span class="keyword">
-         int
-        </span>
-        ) onTap;
-        <span class="keyword">
-         const
-        </span>
-        _StepButton({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .label,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .value,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .current,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .onTap,
+
+<span class="comment">// ==========================================</span>
+<span class="comment">// 4. HELPER WIDGETS</span>
+<span class="comment">// ==========================================</span>
+
+<span class="keyword">class</span> <span class="function">_StepButton</span> <span class="keyword">extends</span> StatelessWidget {
+  <span class="keyword">final</span> String label;
+  <span class="keyword">final</span> <span class="keyword">int</span> value;
+  <span class="keyword">final</span> <span class="keyword">int</span> current;
+  <span class="keyword">final</span> <span class="keyword">void</span> Function(<span class="keyword">int</span>) onTap;
+
+  <span class="keyword">const</span> _StepButton({
+    <span class="keyword">required</span> <span class="keyword">this</span>.label,
+    <span class="keyword">required</span> <span class="keyword">this</span>.value,
+    <span class="keyword">required</span> <span class="keyword">this</span>.current,
+    <span class="keyword">required</span> <span class="keyword">this</span>.onTap,
   });
 
   @override
-  Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         final
-        </span>
-        isSelected = value == current;
-        <span class="keyword">
-         return
-        </span>
-        Expanded(
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">final</span> isSelected = value == current;
+    <span class="keyword">return</span> Expanded(
       child: GestureDetector(
-        onTap: () =&gt; onTap(value),
+        onTap: () => onTap(value),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical:
-        <span class="number">
-         12
-        </span>
-        ),
-          margin: EdgeInsets.only(right:
-        <span class="number">
-         8
-        </span>
-        ),
+          padding: EdgeInsets.symmetric(vertical: <span class="number">12</span>),
+          margin: EdgeInsets.only(right: <span class="number">8</span>),
           decoration: BoxDecoration(
             color: isSelected ? Colors.purple : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(
-        <span class="number">
-         8
-        </span>
-        ),
+            borderRadius: BorderRadius.circular(<span class="number">8</span>),
           ),
           child: Text(
             label,
@@ -1628,83 +1084,41 @@
     );
   }
 }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         _StatusItem
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StatelessWidget {
-        <span class="keyword">
-         final
-        </span>
-        String label;
-        <span class="keyword">
-         final
-        </span>
-        String value;
-        <span class="keyword">
-         const
-        </span>
-        _StatusItem({
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .label,
-        <span class="keyword">
-         required
-        </span>
-        <span class="keyword">
-         this
-        </span>
-        .value});
+
+<span class="keyword">class</span> <span class="function">_StatusItem</span> <span class="keyword">extends</span> StatelessWidget {
+  <span class="keyword">final</span> String label;
+  <span class="keyword">final</span> String value;
+
+  <span class="keyword">const</span> _StatusItem({
+    <span class="keyword">required</span> <span class="keyword">this</span>.label,
+    <span class="keyword">required</span> <span class="keyword">this</span>.value,
+  });
 
   @override
-  Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context) {
-        <span class="keyword">
-         return
-        </span>
-        Column(
+  Widget <span class="function">build</span>(BuildContext context) {
+    <span class="keyword">return</span> Column(
       children: [
         Text(
           value,
-          style: TextStyle(fontSize:
-        <span class="number">
-         20
-        </span>
-        , fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: <span class="number">20</span>, fontWeight: FontWeight.bold),
         ),
         Text(
           label,
-          style: TextStyle(fontSize:
-        <span class="number">
-         12
-        </span>
-        , color: Colors.grey.shade600),
+          style: TextStyle(fontSize: <span class="number">12</span>, color: Colors.grey.shade600),
         ),
       ],
     );
   }
 }
-       </text(></code>
+</code>
       <button class="copy-btn">
-       <i class="fas fa-copy">
-       </i>
+       <i class="fas fa-copy"></i>
        Copy
       </button>
-        <button class="toggle-expand-btn">
-            <i class="fas fa-expand"></i> Expand
-        </button></div>
+      <button class="toggle-expand-btn">
+        <i class="fas fa-expand"></i> Expand
+      </button>
+    </div>
      <!-- ===== EXPLANATION ===== -->
      <div class="section-divider">
       <span class="divider-label">

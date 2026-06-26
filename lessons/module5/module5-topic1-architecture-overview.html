@@ -1,8 +1,9 @@
 <!-- /lessons/module5/module5-topic1-architecture-overview.html -->
 <!DOCTYPE html>
+
 <html lang="en">
- <head>
-  <script id="theme-layout-fix">
+<head>
+<script id="theme-layout-fix">
     (function() {
       try {
         // 1. Theme Fix
@@ -27,28 +28,27 @@
       } catch (e) {}
     })();
   </script>
-
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
    Architecture Overview – Module 5 | Flutter Intermediate Mastery
   </title>
-  <!-- SEO -->
-  <meta content="Learn about app architecture principles for Flutter. Understand MVVM, separation of concerns, and how to structure scalable Flutter applications." name="description"/>
-  <!-- CSS -->
-  <link href="../../styles/main.css" rel="stylesheet"/>
-  <link href="../../styles/components.css" rel="stylesheet"/>
-  <link href="../../styles/utilities.css" rel="stylesheet"/>
-  <link href="../../styles/dark_mode.css" rel="stylesheet"/>
-  <link href="../../styles/animations.css" rel="stylesheet"/>
-  <link href="../../styles/sidebar.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
+<!-- SEO -->
+<meta content="Learn about app architecture principles for Flutter. Understand MVVM, separation of concerns, and how to structure scalable Flutter applications." name="description"/>
+<!-- CSS -->
+<link href="../../styles/main.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/utilities.css" rel="stylesheet"/>
+<link href="../../styles/dark_mode.css" rel="stylesheet"/>
+<link href="../../styles/animations.css" rel="stylesheet"/>
+<link href="../../styles/sidebar.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
    /* ===== LESSON-SPECIFIC STYLES ===== */
     .lesson-nav {
       display: flex;
@@ -553,11 +553,11 @@
     }
 }
   </style>
-  <style id="dynamic-code-block-styles">
+<style id="dynamic-code-block-styles">
    .code-block {
       position: relative;
       transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
-      max-height: 4000px; /* Safe upper bound to accommodate long scripts */
+      max-height: none; /* Safe upper bound to accommodate long scripts */
       overflow: hidden;
     }
     .code-block.collapsed {
@@ -579,459 +579,351 @@
       color: #10B981;
     }
   </style>
-  <link href="../../assets/download.png" rel="icon"/>
- </head>
- <body>
-  <!-- ===== SIDEBAR ===== -->
-  <div id="sidebarContainer">
-  </div>
-  <!-- ===== HEADER ===== -->
-  <header class="header-nav">
-   <div class="container nav-container">
-    <a class="logo" href="../../index.html">
-     <span class="logo-text">
+<link href="../../assets/download.png" rel="icon"/>
+</head>
+<body>
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebarContainer">
+</div>
+<!-- ===== HEADER ===== -->
+<header class="header-nav">
+<div class="container nav-container">
+<a class="logo" href="../../index.html">
+<span class="logo-text">
       Flutter Intermediate
      </span>
-    </a>
-    <ul class="nav-links">
-     <li>
-      <a class="nav-link" href="../../index.html">
+</a>
+<ul class="nav-links">
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-    <div class="nav-actions">
-     <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
-      <span class="theme-icon">
+</li>
+</ul>
+<div class="nav-actions">
+<button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle">
+<span class="theme-icon">
        🌙
       </span>
-     </button>
-     <button aria-label="Menu" class="menu-toggle" id="menu-toggle">
-      <span class="hamburger">
-      </span>
-     </button>
-    </div>
-   </div>
-   <div class="mobile-menu" id="mobile-menu">
-    <ul>
-     <li>
-      <a class="nav-link" href="../../index.html">
+</button>
+<button aria-label="Menu" class="menu-toggle" id="menu-toggle">
+<span class="hamburger">
+</span>
+</button>
+</div>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<ul>
+<li>
+<a class="nav-link" href="../../index.html">
        Home
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../roadmap.html">
+</li>
+<li>
+<a class="nav-link" href="../../roadmap.html">
        Roadmap
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../quiz.html">
+</li>
+<li>
+<a class="nav-link" href="../../quiz.html">
        Quiz
       </a>
-     </li>
-     <li>
-      <a class="nav-link" href="../../challenges.html">
+</li>
+<li>
+<a class="nav-link" href="../../challenges.html">
        Challenges
       </a>
-     </li>
-    </ul>
-   </div>
-  </header>
-  <!-- ===== MARK COMPLETE BUTTON ===== -->
-  <button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
-   <i class="fas fa-check-circle">
-   </i>
+</li>
+</ul>
+</div>
+</header>
+<!-- ===== MARK COMPLETE BUTTON ===== -->
+<button aria-label="Mark this lesson as complete" class="mark-complete-btn" id="markCompleteBtn">
+<i class="fas fa-check-circle">
+</i>
    Mark Complete
   </button>
-  <!-- ===== LESSON CONTENT ===== -->
-  <main>
-   <section class="page-section">
-    <div class="container">
-     <!-- Lesson Navigation -->
-     <div class="lesson-nav">
-      <div class="breadcrumb">
-       <a href="../../index.html">
+<!-- ===== LESSON CONTENT ===== -->
+<main>
+<section class="page-section">
+<div class="container">
+<!-- Lesson Navigation -->
+<div class="lesson-nav">
+<div class="breadcrumb">
+<a href="../../index.html">
         Home
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <a href="module5-topic1-architecture-overview.html">
+<a href="module5-topic1-architecture-overview.html">
         Module 5
        </a>
-       <span style="color: var(--text-muted);">
+<span style="color: var(--text-muted);">
         /
        </span>
-       <span style="color: var(--text-secondary);">
+<span style="color: var(--text-secondary);">
         Topic 1
        </span>
-      </div>
-      <span class="module-badge">
-       <i class="fas fa-archway">
-       </i>
+</div>
+<span class="module-badge">
+<i class="fas fa-archway">
+</i>
        Module 5
       </span>
-     </div>
-     <!-- Topic Header -->
-     <div class="topic-header">
-      <div class="topic-number">
+</div>
+<!-- Topic Header -->
+<div class="topic-header">
+<div class="topic-number">
        Topic 1
       </div>
-      <h1>
+<h1>
        Architecture Overview
       </h1>
-      <p class="topic-subtitle">
+<p class="topic-subtitle">
        Understanding the foundation of building scalable, maintainable Flutter applications.
       </p>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-       <a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
-        <i class="fas fa-globe">
-        </i>
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+<a class="doc-badge" href="https://docs.flutter.dev/app-architecture" target="_blank">
+<i class="fas fa-globe">
+</i>
         Flutter Architecture Guide
        </a>
-       <a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
-        <i class="fas fa-box">
-        </i>
+<a class="doc-badge" href="https://pub.dev/packages/get_it" target="_blank">
+<i class="fas fa-box">
+</i>
         GetIt Package
        </a>
-      </div>
-     </div>
-     <!-- ===== SECTION 1: WHAT IS APP ARCHITECTURE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 1: WHAT IS APP ARCHITECTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         What Is App Architecture?
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
-       <strong>
+<span class="divider-line">
+</span>
+</div>
+<p>
+<strong>
         App architecture
        </strong>
        refers to how we structure, organize, and design our applications
             to scale as project requirements and teams grow. It's the blueprint that defines how different
             parts of your app interact with each other.
       </p>
-      <div class="concept-card info">
-       <h4>
+<div class="concept-card info">
+<h4>
         💡 Key Insight
        </h4>
-       <p>
+<p>
         Architecture is not about picking the "right" tools or patterns—it's about making
         <strong>
          intentional decisions
         </strong>
         that lead to maintainable, testable, and scalable code.
        </p>
-      </div>
-      <h3>
+</div>
+<h3>
        Why Architecture Matters
       </h3>
-      <p>
+<p>
        Without intentional architecture, Flutter apps often become difficult to maintain as they grow.
       </p>
-      <div class="features-grid">
-       <div class="feature-item" style="border-left: 3px solid #10B981;">
-        <div class="feature-icon">
+<div class="features-grid">
+<div class="feature-item" style="border-left: 3px solid #10B981;">
+<div class="feature-icon">
          🔧
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Maintainability
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Easier to modify, update, and fix issues over time
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #3B82F6;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #3B82F6;">
+<div class="feature-icon">
          📈
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Scalability
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Allows more people to contribute with minimal code conflicts
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #8B5CF6;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #8B5CF6;">
+<div class="feature-icon">
          🧪
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Testability
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Simpler classes with well-defined inputs and outputs
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #F59E0B;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #F59E0B;">
+<div class="feature-icon">
          🧠
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Lower Cognitive Load
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          New developers are productive faster, code reviews are easier
         </div>
-       </div>
-       <div class="feature-item" style="border-left: 3px solid #EF4444;">
-        <div class="feature-icon">
+</div>
+<div class="feature-item" style="border-left: 3px solid #EF4444;">
+<div class="feature-icon">
          👥
         </div>
-        <div class="feature-name">
+<div class="feature-name">
          Better UX
         </div>
-        <div class="feature-desc">
+<div class="feature-desc">
          Features ship faster and with fewer bugs
         </div>
-       </div>
-      </div>
-     </div>
-     <!-- ===== SECTION 2: COMMON ARCHITECTURAL PRINCIPLES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+</div>
+<!-- ===== SECTION 2: COMMON ARCHITECTURAL PRINCIPLES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Architectural Principles
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <h3>
+<span class="divider-line">
+</span>
+</div>
+<h3>
        Separation of Concerns
       </h3>
-      <p>
+<p>
        This principle states that a software system should be divided into distinct sections,
             each addressing a separate concern. In Flutter apps, this typically means separating:
       </p>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          UI/Presentation
         </strong>
         – What the user sees and interacts with
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Business Logic
         </strong>
         – The rules and operations of your app
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Data Access
         </strong>
         – How your app stores and retrieves data
        </li>
-      </ul>
-      <h3>
+</ul>
+<h3>
        Single Responsibility Principle
       </h3>
-      <p>
+<p>
        Every class, module, or function should have only one reason to change. This makes your
             code easier to understand, test, and maintain.
       </p>
-      <h3>
+<h3>
        Dependency Inversion
       </h3>
-      <p>
+<p>
        High-level modules should not depend on low-level modules. Both should depend on
             abstractions (interfaces). This reduces coupling and makes your code more flexible.
       </p>
-      <div class="code-block collapsed"><span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Bad: Tight Coupling
        </span>
-        <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         WeatherService
-        </span>
-        {
-        <span class="comment">
-         // Direct dependency on a concrete implementation
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        ApiClient apiClient =
-        <span class="function">
-         ApiClient
-        </span>
-        ();
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Weather&gt;
-        <span class="function">
-         getWeather
-        </span>
-        () async {
-        <span class="keyword">
-         return
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        apiClient.
-        <span class="function">
-         fetchWeather
-        </span>
-        ();
-    }
-  }</code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">WeatherService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="comment">// Direct dependency on a concrete implementation</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">ApiClient</span><span class="w"> </span><span class="name">apiClient</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ApiClient</span><span class="punctuation">();</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Weather</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">getWeather</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">apiClient</span><span class="punctuation">.</span><span class="name">fetchWeather</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-        <button class="toggle-expand-btn">
-            <i class="fas fa-expand"></i> Expand
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
         </button></div>
-      <div class="code-block collapsed"><span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Good: Dependency Inversion
        </span>
-        <code>
-        <span class="keyword">
-         abstract
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         WeatherDataSource
-        </span>
-        {
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Weather&gt;
-        <span class="function">
-         fetchWeather
-        </span>
-        ();
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         ApiWeatherDataSource
-        </span>
-        <span class="keyword">
-         implements
-        </span>
-        WeatherDataSource {
-        <span class="keyword">
-         final
-        </span>
-        ApiClient apiClient;
-        <span class="function">
-         ApiWeatherDataSource
-        </span>
-        (
-        <span class="keyword">
-         this
-        </span>
-        .apiClient);
+<code><div class="highlight"><pre><span></span><span class="keyword">abstract</span><span class="w"> </span><span class="keyword">class</span><span class="w"> </span><span class="class">WeatherDataSource</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Weather</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">fetchWeather</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
 
-    @override
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Weather&gt;
-        <span class="function">
-         fetchWeather
-        </span>
-        () async {
-        <span class="keyword">
-         return
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        apiClient.
-        <span class="function">
-         fetchWeather
-        </span>
-        ();
-    }
-  }
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         WeatherService
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        WeatherDataSource dataSource;
-        <span class="function">
-         WeatherService
-        </span>
-        (
-        <span class="keyword">
-         this
-        </span>
-        .dataSource);
-        <span class="keyword">
-         Future
-        </span>
-        &lt;Weather&gt;
-        <span class="function">
-         getWeather
-        </span>
-        () async {
-        <span class="keyword">
-         return
-        </span>
-        <span class="keyword">
-         await
-        </span>
-        dataSource.
-        <span class="function">
-         fetchWeather
-        </span>
-        ();
-    }
-  }</code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">ApiWeatherDataSource</span><span class="w"> </span><span class="keyword">implements</span><span class="w"> </span><span class="name">WeatherDataSource</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">ApiClient</span><span class="w"> </span><span class="name">apiClient</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">ApiWeatherDataSource</span><span class="punctuation">(</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">apiClient</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Weather</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">fetchWeather</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">apiClient</span><span class="punctuation">.</span><span class="name">fetchWeather</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">WeatherService</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">WeatherDataSource</span><span class="w"> </span><span class="name">dataSource</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">WeatherService</span><span class="punctuation">(</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">dataSource</span><span class="punctuation">);</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="name">Weather</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">getWeather</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">dataSource</span><span class="punctuation">.</span><span class="name">fetchWeather</span><span class="punctuation">();</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-        <button class="toggle-expand-btn">
-            <i class="fas fa-expand"></i> Expand
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
         </button></div>
-     </div>
-     <!-- ===== SECTION 3: FLUTTER'S RECOMMENDED ARCHITECTURE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+<!-- ===== SECTION 3: FLUTTER'S RECOMMENDED ARCHITECTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Flutter's Recommended Architecture
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        The Flutter team recommends an architecture that follows
        <strong>
         MVVM
@@ -1039,126 +931,126 @@
        (Model-View-ViewModel)
             principles with a clear separation of concerns. Here's the high-level structure:
       </p>
-      <div class="architecture-layer">
-       <div class="layer-title">
+<div class="architecture-layer">
+<div class="layer-title">
         🎨 Presentation Layer
        </div>
-       <div class="layer-desc">
+<div class="layer-desc">
         Widgets (UI components) that display data and capture user input
        </div>
-       <div class="layer-components">
-        <span>
+<div class="layer-components">
+<span>
          Widgets
         </span>
-        <span>
+<span>
          Screens
         </span>
-        <span>
+<span>
          Dialogs
         </span>
-        <span>
+<span>
          Pages
         </span>
-       </div>
-      </div>
-      <div class="layer-arrow">
-       <i class="fas fa-arrow-down">
-       </i>
-      </div>
-      <div class="architecture-layer" style="border-left-color: #8B5CF6;">
-       <div class="layer-title">
+</div>
+</div>
+<div class="layer-arrow">
+<i class="fas fa-arrow-down">
+</i>
+</div>
+<div class="architecture-layer" style="border-left-color: #8B5CF6;">
+<div class="layer-title">
         🧠 Business Logic Layer
        </div>
-       <div class="layer-desc">
+<div class="layer-desc">
         ViewModels, BLoCs, or Providers that handle app logic and state
        </div>
-       <div class="layer-components">
-        <span>
+<div class="layer-components">
+<span>
          ViewModels
         </span>
-        <span>
+<span>
          BLoCs
         </span>
-        <span>
+<span>
          Services
         </span>
-        <span>
+<span>
          UseCases
         </span>
-       </div>
-      </div>
-      <div class="layer-arrow">
-       <i class="fas fa-arrow-down">
-       </i>
-      </div>
-      <div class="architecture-layer" style="border-left-color: #10B981;">
-       <div class="layer-title">
+</div>
+</div>
+<div class="layer-arrow">
+<i class="fas fa-arrow-down">
+</i>
+</div>
+<div class="architecture-layer" style="border-left-color: #10B981;">
+<div class="layer-title">
         📊 Data Layer
        </div>
-       <div class="layer-desc">
+<div class="layer-desc">
         Repositories, data sources, and models that manage data
        </div>
-       <div class="layer-components">
-        <span>
+<div class="layer-components">
+<span>
          Repositories
         </span>
-        <span>
+<span>
          API Clients
         </span>
-        <span>
+<span>
          Local Storage
         </span>
-        <span>
+<span>
          DTOs
         </span>
-       </div>
-      </div>
-      <h3>
+</div>
+</div>
+<h3>
        Key Components
       </h3>
-      <ul>
-       <li>
-        <strong>
+<ul>
+<li>
+<strong>
          View (Widgets)
         </strong>
         – Renders UI and sends user events to ViewModels
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          ViewModel (State Management)
         </strong>
         – Holds state, processes events, and updates the View
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Repository
         </strong>
         – Provides a clean API for data access, abstracts data sources
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Data Sources
         </strong>
         – Handle specific data operations (API calls, database queries)
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Models
         </strong>
         – Define the structure of your data
        </li>
-       <li>
-        <strong>
+<li>
+<strong>
          Services
         </strong>
         – Handle business operations, coordinate between repositories
        </li>
-      </ul>
-      <div class="concept-card warning">
-       <h4>
+</ul>
+<div class="concept-card warning">
+<h4>
         ⚠️ Important
        </h4>
-       <p>
+<p>
         This architecture is flexible—you don't have to implement every layer exactly as shown.
               The goal is to maintain
         <strong>
@@ -1166,18 +1058,18 @@
         </strong>
         and clear responsibilities.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 4: MVVM WITH STATE MANAGEMENT ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 4: MVVM WITH STATE MANAGEMENT ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         MVVM with State Management
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        The Flutter team recommends using
        <strong>
         MVVM
@@ -1185,331 +1077,118 @@
        (Model-View-ViewModel) pattern with
             your preferred state management solution. Here's how it works:
       </p>
-      <div class="code-block collapsed"><span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         ViewModel with Riverpod
        </span>
-        <code>
-        <span class="comment">
-         // 1. Define the ViewModel (State Notifier)
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         WeatherViewModel
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        StateNotifier&lt;WeatherState&gt; {
-        <span class="keyword">
-         final
-        </span>
-        WeatherService weatherService;
-        <span class="function">
-         WeatherViewModel
-        </span>
-        (
-        <span class="keyword">
-         this
-        </span>
-        .weatherService) :
-        <span class="keyword">
-         super
-        </span>
-        (WeatherState.
-        <span class="function">
-         initial
-        </span>
-        ());
-        <span class="keyword">
-         Future
-        </span>
-        &lt;
-        <span class="keyword">
-         void
-        </span>
-        &gt;
-        <span class="function">
-         loadWeather
-        </span>
-        () async {
-      state = state.
-        <span class="function">
-         copyWith
-        </span>
-        (isLoading:
-        <span class="keyword">
-         true
-        </span>
-        );
-        <span class="keyword">
-         try
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        weather =
-        <span class="keyword">
-         await
-        </span>
-        weatherService.
-        <span class="function">
-         getWeather
-        </span>
-        ();
-        state = state.
-        <span class="function">
-         copyWith
-        </span>
-        (
-          isLoading:
-        <span class="keyword">
-         false
-        </span>
-        ,
-          weather: weather,
-          error:
-        <span class="keyword">
-         null
-        </span>
-        ,
-        );
-      }
-        <span class="keyword">
-         catch
-        </span>
-        (e) {
-        state = state.
-        <span class="function">
-         copyWith
-        </span>
-        (
-          isLoading:
-        <span class="keyword">
-         false
-        </span>
-        ,
-          error: e.
-        <span class="function">
-         toString
-        </span>
-        (),
-        );
-      }
-    }
-  }
-        <span class="comment">
-         // 2. Define the State
-        </span>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         WeatherState
-        </span>
-        {
-        <span class="keyword">
-         final
-        </span>
-        <span class="keyword">
-         bool
-        </span>
-        isLoading;
-        <span class="keyword">
-         final
-        </span>
-        Weather? weather;
-        <span class="keyword">
-         final
-        </span>
-        String? error;
-        <span class="function">
-         WeatherState
-        </span>
-        ({
-        <span class="keyword">
-         this
-        </span>
-        .isLoading =
-        <span class="keyword">
-         false
-        </span>
-        ,
-        <span class="keyword">
-         this
-        </span>
-        .weather,
-        <span class="keyword">
-         this
-        </span>
-        .error});
+<code><div class="highlight"><pre><span></span><span class="comment">// 1. Define the ViewModel (State Notifier)</span>
 
-    WeatherState
-        <span class="function">
-         copyWith
-        </span>
-        ({
-        <span class="keyword">
-         bool
-        </span>
-        ? isLoading, Weather? weather, String? error}) {
-        <span class="keyword">
-         return
-        </span>
-        WeatherState(
-        isLoading: isLoading ??
-        <span class="keyword">
-         this
-        </span>
-        .isLoading,
-        weather: weather ??
-        <span class="keyword">
-         this
-        </span>
-        .weather,
-        error: error ??
-        <span class="keyword">
-         this
-        </span>
-        .error,
-      );
-    }
-        <span class="keyword">
-         factory
-        </span>
-        WeatherState.
-        <span class="function">
-         initial
-        </span>
-        () =&gt; WeatherState();
-  }
-        <span class="comment">
-         // 3. Create Provider
-        </span>
-        <span class="keyword">
-         final
-        </span>
-        weatherViewModelProvider = StateNotifierProvider&lt;WeatherViewModel, WeatherState&gt;((ref) {
-        <span class="keyword">
-         return
-        </span>
-        WeatherViewModel(ref.
-        <span class="function">
-         watch
-        </span>
-        (weatherServiceProvider));
-  });</code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<span class="keyword">class</span><span class="w"> </span><span class="class">WeatherViewModel</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">StateNotifier</span><span class="operator">&lt;</span><span class="name">WeatherState</span><span class="operator">&gt;</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">WeatherService</span><span class="w"> </span><span class="name">weatherService</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">WeatherViewModel</span><span class="punctuation">(</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">weatherService</span><span class="punctuation">)</span><span class="w"> </span><span class="operator">:</span><span class="w"> </span><span class="keyword">super</span><span class="punctuation">(</span><span class="name">WeatherState</span><span class="punctuation">.</span><span class="name">initial</span><span class="punctuation">());</span>
+
+<span class="w">  </span><span class="name">Future</span><span class="operator">&lt;</span><span class="keyword">void</span><span class="operator">&gt;</span><span class="w"> </span><span class="name">loadWeather</span><span class="punctuation">()</span><span class="w"> </span><span class="keyword">async</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">isLoading:</span><span class="w"> </span><span class="kc">true</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">try</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">final</span><span class="w"> </span><span class="name">weather</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="keyword">await</span><span class="w"> </span><span class="name">weatherService</span><span class="punctuation">.</span><span class="name">getWeather</span><span class="punctuation">();</span>
+<span class="w">      </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">isLoading:</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">weather:</span><span class="w"> </span><span class="name">weather</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">error:</span><span class="w"> </span><span class="kc">null</span><span class="punctuation">);</span>
+<span class="w">    </span><span class="punctuation">}</span><span class="w"> </span><span class="keyword">catch</span><span class="w"> </span><span class="punctuation">(</span><span class="name">e</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">copyWith</span><span class="punctuation">(</span><span class="nl">isLoading:</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">,</span><span class="w"> </span><span class="nl">error:</span><span class="w"> </span><span class="name">e</span><span class="punctuation">.</span><span class="name">toString</span><span class="punctuation">());</span>
+<span class="w">    </span><span class="punctuation">}</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// 2. Define the State</span>
+
+<span class="keyword">class</span><span class="w"> </span><span class="class">WeatherState</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">bool</span><span class="w"> </span><span class="name">isLoading</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="name">Weather</span><span class="operator">?</span><span class="w"> </span><span class="name">weather</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="keyword">final</span><span class="w"> </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">error</span><span class="punctuation">;</span>
+
+<span class="w">  </span><span class="name">WeatherState</span><span class="punctuation">({</span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">isLoading</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="kc">false</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">weather</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">error</span><span class="punctuation">});</span>
+
+<span class="w">  </span><span class="name">WeatherState</span><span class="w"> </span><span class="name">copyWith</span><span class="punctuation">({</span><span class="keyword">bool</span><span class="operator">?</span><span class="w"> </span><span class="name">isLoading</span><span class="punctuation">,</span><span class="w"> </span><span class="name">Weather</span><span class="operator">?</span><span class="w"> </span><span class="name">weather</span><span class="punctuation">,</span><span class="w"> </span><span class="keyword">String</span><span class="operator">?</span><span class="w"> </span><span class="name">error</span><span class="punctuation">})</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">WeatherState</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">isLoading:</span><span class="w"> </span><span class="name">isLoading</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">isLoading</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">weather:</span><span class="w"> </span><span class="name">weather</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">weather</span><span class="punctuation">,</span>
+<span class="w">      </span><span class="nl">error:</span><span class="w"> </span><span class="name">error</span><span class="w"> </span><span class="operator">??</span><span class="w"> </span><span class="keyword">this</span><span class="punctuation">.</span><span class="name">error</span><span class="punctuation">,</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+
+<span class="w">  </span><span class="keyword">factory</span><span class="w"> </span><span class="name">WeatherState</span><span class="punctuation">.</span><span class="name">initial</span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">WeatherState</span><span class="punctuation">();</span>
+<span class="punctuation">}</span>
+
+<span class="comment">// 3. Create Provider</span>
+
+<span class="keyword">final</span><span class="w"> </span><span class="name">weatherViewModelProvider</span><span class="w"> </span><span class="operator">=</span>
+<span class="w">    </span><span class="name">StateNotifierProvider</span><span class="operator">&lt;</span><span class="name">WeatherViewModel</span><span class="punctuation">,</span><span class="w"> </span><span class="name">WeatherState</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">      </span><span class="keyword">return</span><span class="w"> </span><span class="name">WeatherViewModel</span><span class="punctuation">(</span><span class="name">ref</span><span class="punctuation">.</span><span class="name">watch</span><span class="punctuation">(</span><span class="name">weatherServiceProvider</span><span class="punctuation">));</span>
+<span class="w">    </span><span class="punctuation">});</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-        <button class="toggle-expand-btn">
-            <i class="fas fa-expand"></i> Expand
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
         </button></div>
-      <div class="code-block collapsed"><span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         View (UI Component)
        </span>
-        <code>
-        <span class="keyword">
-         class
-        </span>
-        <span class="function">
-         WeatherPage
-        </span>
-        <span class="keyword">
-         extends
-        </span>
-        ConsumerWidget {
-    @override
-    Widget
-        <span class="function">
-         build
-        </span>
-        (BuildContext context, WidgetRef ref) {
-        <span class="keyword">
-         final
-        </span>
-        state = ref.
-        <span class="function">
-         watch
-        </span>
-        (weatherViewModelProvider);
-        <span class="keyword">
-         final
-        </span>
-        viewModel = ref.
-        <span class="function">
-         read
-        </span>
-        (weatherViewModelProvider.notifier);
-        <span class="keyword">
-         return
-        </span>
-        Scaffold(
-        appBar: AppBar(title: Text(
-        <span class="string">
-         'Weather'
-        </span>
-        )),
-        body: state.isLoading
-            ? CircularProgressIndicator()
-            : state.error !=
-        <span class="keyword">
-         null
-        </span>
-        ? Text(
-        <span class="string">
-         'Error: ${state.error}'
-        </span>
-        )
-                : state.weather !=
-        <span class="keyword">
-         null
-        </span>
-        ? WeatherDisplay(weather: state.weather!)
-                    : ElevatedButton(
-                        onPressed: () =&gt; viewModel.
-        <span class="function">
-         loadWeather
-        </span>
-        (),
-                        child: Text(
-        <span class="string">
-         'Load Weather'
-        </span>
-        ),
-                      ),
-      );
-    }
-  }</code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<code><div class="highlight"><pre><span></span><span class="keyword">class</span><span class="w"> </span><span class="class">WeatherPage</span><span class="w"> </span><span class="keyword">extends</span><span class="w"> </span><span class="name">ConsumerWidget</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="name">Widget</span><span class="w"> </span><span class="name">build</span><span class="punctuation">(</span><span class="name">BuildContext</span><span class="w"> </span><span class="name">context</span><span class="punctuation">,</span><span class="w"> </span><span class="name">WidgetRef</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">)</span><span class="w"> </span><span class="punctuation">{</span>
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">state</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">watch</span><span class="punctuation">(</span><span class="name">weatherViewModelProvider</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">final</span><span class="w"> </span><span class="name">viewModel</span><span class="w"> </span><span class="operator">=</span><span class="w"> </span><span class="name">ref</span><span class="punctuation">.</span><span class="name">read</span><span class="punctuation">(</span><span class="name">weatherViewModelProvider</span><span class="punctuation">.</span><span class="name">notifier</span><span class="punctuation">);</span>
+
+<span class="w">    </span><span class="keyword">return</span><span class="w"> </span><span class="name">Scaffold</span><span class="punctuation">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="name">AppBar</span><span class="punctuation">(</span><span class="nl">title:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Weather'</span><span class="punctuation">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">isLoading</span>
+<span class="w">          </span><span class="operator">?</span><span class="w"> </span><span class="name">CircularProgressIndicator</span><span class="punctuation">()</span>
+<span class="w">          </span><span class="operator">:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">error</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">          </span><span class="operator">?</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Error: </span><span class="si">${</span><span class="name">state</span><span class="punctuation">.</span><span class="name">error</span><span class="si">}</span><span class="string">'</span><span class="punctuation">)</span>
+<span class="w">          </span><span class="operator">:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">weather</span><span class="w"> </span><span class="operator">!=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">          </span><span class="operator">?</span><span class="w"> </span><span class="name">WeatherDisplay</span><span class="punctuation">(</span><span class="nl">weather:</span><span class="w"> </span><span class="name">state</span><span class="punctuation">.</span><span class="name">weather</span><span class="operator">!</span><span class="punctuation">)</span>
+<span class="w">          </span><span class="operator">:</span><span class="w"> </span><span class="name">ElevatedButton</span><span class="punctuation">(</span>
+<span class="w">              </span><span class="nl">onPressed:</span><span class="w"> </span><span class="punctuation">()</span><span class="w"> </span><span class="operator">=&gt;</span><span class="w"> </span><span class="name">viewModel</span><span class="punctuation">.</span><span class="name">loadWeather</span><span class="punctuation">(),</span>
+<span class="w">              </span><span class="nl">child:</span><span class="w"> </span><span class="name">Text</span><span class="punctuation">(</span><span class="string">'Load Weather'</span><span class="punctuation">),</span>
+<span class="w">            </span><span class="punctuation">),</span>
+<span class="w">    </span><span class="punctuation">);</span>
+<span class="w">  </span><span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre></div>
+</code>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-        <button class="toggle-expand-btn">
-            <i class="fas fa-expand"></i> Expand
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
         </button></div>
-     </div>
-     <!-- ===== SECTION 5: PRACTICAL DIRECTORY STRUCTURE ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+<!-- ===== SECTION 5: PRACTICAL DIRECTORY STRUCTURE ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Practical Directory Structure
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here's how you might organize a Flutter app following these architectural principles:
       </p>
-      <div class="code-block collapsed"><span class="code-label">
+<div class="code-block collapsed"><span class="code-label">
         Project Structure
        </span>
-        <code>
+<code>
         lib/
   ├── main.dart
   ├── presentation/
@@ -1551,173 +1230,173 @@
       │   └── weather_repository_impl.dart
       └── models/
           └── weather_dto.dart</code>
-       <button class="copy-btn">
-        <i class="fas fa-copy">
-        </i>
+<button class="copy-btn">
+<i class="fas fa-copy">
+</i>
         Copy
        </button>
-        <button class="toggle-expand-btn">
-            <i class="fas fa-expand"></i> Expand
+<button class="toggle-expand-btn">
+<i class="fas fa-expand"></i> Expand
         </button></div>
-      <div class="concept-card success">
-       <h4>
+<div class="concept-card success">
+<h4>
         ✅ Key Insight
        </h4>
-       <p>
+<p>
         This structure separates concerns at the folder level. Each layer has a clear responsibility,
               making it easy for teams to work in parallel and maintain the codebase over time.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 6: GETTING STARTED ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 6: GETTING STARTED ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Getting Started with Architecture
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <p>
+<span class="divider-line">
+</span>
+</div>
+<p>
        Here are practical steps to start implementing good architecture in your Flutter apps:
       </p>
-      <div class="step-grid">
-       <div class="step-item">
-        <span class="step-number">
+<div class="step-grid">
+<div class="step-item">
+<span class="step-number">
          1.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Start Simple
          </strong>
          – Begin with a basic separation between UI and business logic
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          2.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Introduce ViewModels
          </strong>
          – Move state management logic out of widgets
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          3.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Add Repositories
          </strong>
          – Abstract data access behind clean interfaces
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          4.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Use Dependency Injection
          </strong>
          – Make dependencies explicit and testable
         </div>
-       </div>
-       <div class="step-item">
-        <span class="step-number">
+</div>
+<div class="step-item">
+<span class="step-number">
          5.
         </span>
-        <div class="step-text">
-         <strong>
+<div class="step-text">
+<strong>
           Refactor Incrementally
          </strong>
          – Improve architecture as your app grows
         </div>
-       </div>
-      </div>
-      <div class="concept-card info">
-       <h4>
+</div>
+</div>
+<div class="concept-card info">
+<h4>
         💡 Pro Tip
        </h4>
-       <p>
+<p>
         Don't try to implement perfect architecture from day one. Start with a reasonable structure
               and refine it as you learn more about your app's requirements and team dynamics.
        </p>
-      </div>
-     </div>
-     <!-- ===== SECTION 7: COMMON MISTAKES ===== -->
-     <div class="topic-section">
-      <div class="section-divider">
-       <span class="divider-label">
+</div>
+</div>
+<!-- ===== SECTION 7: COMMON MISTAKES ===== -->
+<div class="topic-section">
+<div class="section-divider">
+<span class="divider-label">
         Common Mistakes
        </span>
-       <span class="divider-line">
-       </span>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+<span class="divider-line">
+</span>
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 1: Over-engineering from the start
        </div>
-       <p>
+<p>
         Adding too many layers and patterns before you understand the requirements leads to
               unnecessary complexity and slower development.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Start simple, refactor as needed
        </div>
-       <p>
+<p>
         Begin with a minimal architecture that separates UI from business logic, then add
               complexity only when the codebase demands it.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 2: Tight coupling between layers
        </div>
-       <p>
+<p>
         When UI components directly depend on data sources, changing one requires changing the other.
               This breaks the Single Responsibility Principle.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Use dependency injection and abstractions
        </div>
-       <p>
+<p>
         Each layer should depend on abstractions, not concrete implementations. This makes
               your code flexible and testable.
        </p>
-      </div>
-      <div class="mistake-box">
-       <div class="mistake-title">
+</div>
+<div class="mistake-box">
+<div class="mistake-title">
         ❌ Mistake 3: Neglecting testability
        </div>
-       <p>
+<p>
         If your architecture makes it hard to write tests, you'll skip testing and end up
               with a buggy, fragile codebase.
        </p>
-      </div>
-      <div class="good-box">
-       <div class="good-title">
+</div>
+<div class="good-box">
+<div class="good-title">
         ✅ Correct: Design for testability
        </div>
-       <p>
+<p>
         Write your code so that you can easily mock dependencies and test each component in
               isolation. This leads to higher quality software.
        </p>
-      </div>
-     </div>
-     <!-- ===== KEY TAKEAWAY ===== -->
-     <div class="key-takeaway">
-      <h3>
+</div>
+</div>
+<!-- ===== KEY TAKEAWAY ===== -->
+<div class="key-takeaway">
+<h3>
        🎯 Key Takeaway
       </h3>
-      <p>
+<p>
        Good app architecture is about
        <strong>
         intentional design decisions
@@ -1731,124 +1410,124 @@
        </strong>
        .
       </p>
-     </div>
-     <!-- ===== NAVIGATION BUTTONS ===== -->
-     <div class="nav-buttons">
-      <a btn="" btn-outline="" btn-sm"="" href="module5-topic1-architecture-overview.html class=">
-       <i class="fas fa-arrow-left">
-       </i>
+</div>
+<!-- ===== NAVIGATION BUTTONS ===== -->
+<div class="nav-buttons">
+<a btn="" btn-outline="" btn-sm"="" href="module5-topic1-architecture-overview.html class=">
+<i class="fas fa-arrow-left">
+</i>
        Back to Module 5
       </a>
-      <a class="btn btn-primary btn-sm" href="module5-topic2-repository-pattern.html">
+<a class="btn btn-primary btn-sm" href="module5-topic2-repository-pattern.html">
        Next: Repository Pattern
        <i class="fas fa-arrow-right">
-       </i>
-      </a>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-   <div class="container">
-    <div class="footer-grid">
-     <div class="footer-brand">
-      <div class="company-brand">
-       <img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
-       <span class="nekoverse-text">
+</i>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="company-brand">
+<img alt="NekoVerse Logo" class="nekoverse-logo-img" height="40" src="../../assets/download.png" width="40"/>
+<span class="nekoverse-text">
         NekoVerse
        </span>
-      </div>
-      <p class="company-tagline">
+</div>
+<p class="company-tagline">
        Building cross-platform educational experiences.
       </p>
-      <a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
+<a class="cross-link" href="https://learn-dart.pages.dev/" target="_blank">
        Take our Dart Course →
       </a>
-     </div>
-     <div class="footer-links">
-      <h4>
+</div>
+<div class="footer-links">
+<h4>
        Course
       </h4>
-      <ul>
-       <li>
-        <a href="../../roadmap.html">
+<ul>
+<li>
+<a href="../../roadmap.html">
          Curriculum
         </a>
-       </li>
-       <li>
-        <a href="module5-topic1-architecture-overview.html">
+</li>
+<li>
+<a href="module5-topic1-architecture-overview.html">
          Module 5
         </a>
-       </li>
-       <li>
-        <a href="../../roadmap.html">
+</li>
+<li>
+<a href="../../roadmap.html">
          Projects
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Resources
       </h4>
-      <ul>
-       <li>
-        <a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://docs.flutter.dev/app-architecture" rel="noopener" target="_blank">
          Flutter Architecture
         </a>
-       </li>
-       <li>
-        <a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://pub.dev/packages/get_it" rel="noopener" target="_blank">
          GetIt Package
         </a>
-       </li>
-      </ul>
-     </div>
-     <div class="footer-links">
-      <h4>
+</li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>
        Community
       </h4>
-      <ul>
-       <li>
-        <a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
+<ul>
+<li>
+<a href="https://github.com/flutter/flutter" rel="noopener" target="_blank">
          Flutter GitHub
         </a>
-       </li>
-       <li>
-        <a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://twitter.com/flutterdev" rel="noopener" target="_blank">
          Twitter
         </a>
-       </li>
-       <li>
-        <a href="https://discord.gg/flutter" rel="noopener" target="_blank">
+</li>
+<li>
+<a href="https://discord.gg/flutter" rel="noopener" target="_blank">
          Discord
         </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="footer-bottom">
-     <p>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>
       © 2024 NekoVerse. FlutterMastery is an unofficial educational resource.
      </p>
-     <div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
+<div style="margin-top: 0.5rem; font-size: var(--font-xs); color: var(--text-muted);">
       Based on
       <a href="https://docs.flutter.dev/app-architecture" style="color: var(--text-muted);" target="_blank">
        Flutter Official Architecture Guide
       </a>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script src="../../js/theme.js">
-  </script>
-  <script src="../../js/navigation.js">
-  </script>
-  <script src="../../js/sidebar.js">
-  </script>
-  <script>
+</div>
+</div>
+</div>
+</footer>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="../../js/theme.js">
+</script>
+<script src="../../js/navigation.js">
+</script>
+<script src="../../js/sidebar.js">
+</script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
       // Load sidebar
       fetch('../../components/sidebar.html')
@@ -1962,7 +1641,7 @@
       }
     });
   </script>
-  <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     // 1. Initialize and bind Expand/Collapse Functionality
     document.querySelectorAll('.toggle-expand-btn').forEach(function(btn) {
@@ -2037,7 +1716,7 @@
     }
 });
   </script>
-  <script id="dynamic-code-block-engine">
+<script id="dynamic-code-block-engine">
    document.addEventListener('DOMContentLoaded', function() {
       // --- Universal Copy Engine ---
       const copyButtons = document.querySelectorAll('.copy-btn');
@@ -2095,5 +1774,5 @@
       }
     });
   </script>
- </body>
+</body>
 </html>
